@@ -195,6 +195,7 @@ public:
 typedef SerializableVectorType<tlp::Color, ColorType, true> ColorVectorType;
 typedef SerializableVectorType<tlp::Coord, PointType, true> CoordVectorType;
 
+DECL_STORED_STRUCT(tlp::ColorType::RealType)
 DECL_STORED_STRUCT(tlp::EdgeSetType::RealType)
 DECL_STORED_STRUCT(std::set<tlp::node>)
 DECL_STORED_STRUCT(tlp::DoubleVectorType::RealType)

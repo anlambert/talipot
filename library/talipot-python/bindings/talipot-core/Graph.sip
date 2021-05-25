@@ -3807,7 +3807,7 @@ meta node and other nodes in the graph.
   if (sipCpp->existProperty(*a0)) {
     sipRes = sipConvertFromType(sipCpp->getProperty(*a0), sipFindType("tlp::PropertyInterface"), NULL);
   } else {
-    sipRes = sipConvertFromNewType(new tlp::PropertyProxy(sipCpp, *a0), sipFindType("tlp::PropertyProxy"), NULL);
+    sipRes = sipConvertFromNewType(new PropertyProxy(sipCpp, *a0), sipFindType("PropertyProxy"), NULL);
   }
 %End
 

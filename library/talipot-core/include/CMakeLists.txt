@@ -86,6 +86,7 @@ INSTALL(
         talipot/FontAwesomeConstants.h
         talipot/MaterialDesignIconsConstants.h
         talipot/IndexElement.h
+        talipot/PropertyProxy.h
   DESTINATION ${TalipotIncludeInstallDir}/talipot/)
 
 INSTALL(
