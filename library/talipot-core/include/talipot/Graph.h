@@ -27,6 +27,7 @@
 #include <talipot/Node.h>
 #include <talipot/Edge.h>
 #include <talipot/Observable.h>
+#include <talipot/PropertyProxy.h>
 
 namespace tlp {
 
@@ -1975,6 +1976,10 @@ public:
    * size, etc
    */
   void openMetaNode(node n, bool updateProperties = true);
+
+  PropertyProxy operator[](const std::string &propertyName) {
+    return PropertyProxy(this, propertyName);
+  }
 
 protected:
   virtual DataSet &getNonConstAttributes() = 0;

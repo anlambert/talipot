@@ -20,8 +20,6 @@
 
 %ModuleHeaderCode
 
-namespace tlp {
-
 class PropertyProxy {
 
 public:
@@ -156,114 +154,112 @@ private:
 
 };
 
-}
-
 %End
 
 
 %ModuleCode
 
-tlp::PropertyProxy::PropertyProxy(tlp::Graph *graph, const std::string &propertyName) :
+PropertyProxy::PropertyProxy(tlp::Graph *graph, const std::string &propertyName) :
   _graph(graph), _propertyName(propertyName), _property(NULL) {}
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, bool val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, bool val) {
   _property = _graph->getBooleanProperty(_propertyName);
   static_cast<tlp::BooleanProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, int val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, int val) {
   _property = _graph->getIntegerProperty(_propertyName);
   static_cast<tlp::IntegerProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, double val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, double val) {
   _property = _graph->getDoubleProperty(_propertyName);
   static_cast<tlp::DoubleProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, const std::string &val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, const std::string &val) {
   _property = _graph->getStringProperty(_propertyName);
   static_cast<tlp::StringProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, const tlp::Coord &val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, const tlp::Coord &val) {
   _property = _graph->getLayoutProperty(_propertyName);
   static_cast<tlp::LayoutProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, const tlp::Size &val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, const tlp::Size &val) {
   _property = _graph->getSizeProperty(_propertyName);
   static_cast<tlp::SizeProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, const tlp::Color &val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, const tlp::Color &val) {
   _property = _graph->getColorProperty(_propertyName);
   static_cast<tlp::ColorProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<bool> &val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<bool> &val) {
   if (val.empty()) return;
   _property = _graph->getBooleanVectorProperty(_propertyName);
   static_cast<tlp::BooleanVectorProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<int> &val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<int> &val) {
   if (val.empty()) return;
   _property = _graph->getIntegerVectorProperty(_propertyName);
   static_cast<tlp::IntegerVectorProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<double> &val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<double> &val) {
   if (val.empty()) return;
   _property = _graph->getDoubleVectorProperty(_propertyName);
   static_cast<tlp::DoubleVectorProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<std::string> &val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<std::string> &val) {
   if (val.empty()) return;
   _property = _graph->getStringVectorProperty(_propertyName);
   static_cast<tlp::StringVectorProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<tlp::Coord> &val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<tlp::Coord> &val) {
   if (val.empty()) return;
   _property = _graph->getCoordVectorProperty(_propertyName);
   static_cast<tlp::CoordVectorProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<tlp::Size> &val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<tlp::Size> &val) {
   if (val.empty()) return;
   _property = _graph->getSizeVectorProperty(_propertyName);
   static_cast<tlp::SizeVectorProperty*>(_property)->setNodeValue(n, reinterpret_cast<const std::vector<tlp::Size> &>(val));
 }
 
-void tlp::PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<tlp::Color> &val) {
+void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<tlp::Color> &val) {
   if (val.empty()) return;
   _property = _graph->getColorVectorProperty(_propertyName);
   static_cast<tlp::ColorVectorProperty*>(_property)->setNodeValue(n, val);
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, bool val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, bool val) {
   _property = _graph->getBooleanProperty(_propertyName);
   static_cast<tlp::BooleanProperty*>(_property)->setEdgeValue(e, val);
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, int val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, int val) {
   _property = _graph->getIntegerProperty(_propertyName);
   static_cast<tlp::IntegerProperty*>(_property)->setEdgeValue(e, val);
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, double val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, double val) {
   _property = _graph->getDoubleProperty(_propertyName);
   static_cast<tlp::DoubleProperty*>(_property)->setEdgeValue(e, val);
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, const std::string &val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, const std::string &val) {
   _property = _graph->getStringProperty(_propertyName);
   static_cast<tlp::StringProperty*>(_property)->setEdgeValue(e, val);
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<tlp::Coord> &val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<tlp::Coord> &val) {
   if (val.empty()) return;
   if (_property && dynamic_cast<tlp::CoordVectorProperty *>(_property)) {
     static_cast<tlp::CoordVectorProperty*>(_property)->setEdgeValue(e, val);
@@ -274,150 +270,150 @@ void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<tlp:
 
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, const tlp::Size &val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, const tlp::Size &val) {
   _property = _graph->getSizeProperty(_propertyName);
   static_cast<tlp::SizeProperty*>(_property)->setEdgeValue(e, val);
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, const tlp::Color &val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, const tlp::Color &val) {
   _property = _graph->getColorProperty(_propertyName);
   static_cast<tlp::ColorProperty*>(_property)->setEdgeValue(e, val);
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<bool> &val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<bool> &val) {
   if (val.empty()) return;
   _property = _graph->getBooleanVectorProperty(_propertyName);
   static_cast<tlp::BooleanVectorProperty*>(_property)->setEdgeValue(e, val);
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<int> &val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<int> &val) {
   if (val.empty()) return;
   _property = _graph->getIntegerVectorProperty(_propertyName);
   static_cast<tlp::IntegerVectorProperty*>(_property)->setEdgeValue(e, val);
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<double> &val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<double> &val) {
   if (val.empty()) return;
   _property = _graph->getDoubleVectorProperty(_propertyName);
   static_cast<tlp::DoubleVectorProperty*>(_property)->setEdgeValue(e, val);
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<std::string> &val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<std::string> &val) {
   if (val.empty()) return;
   _property = _graph->getStringVectorProperty(_propertyName);
   static_cast<tlp::StringVectorProperty*>(_property)->setEdgeValue(e, val);
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<tlp::Size> &val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<tlp::Size> &val) {
   if (val.empty()) return;
   _property = _graph->getSizeVectorProperty(_propertyName);
   static_cast<tlp::SizeVectorProperty*>(_property)->setEdgeValue(e, reinterpret_cast<const std::vector<tlp::Size> &>(val));
 }
 
-void tlp::PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<tlp::Color> &val) {
+void PropertyProxy::setEdgeValue(const tlp::edge &e, const std::vector<tlp::Color> &val) {
   if (val.empty()) return;
   _property = _graph->getColorVectorProperty(_propertyName);
   static_cast<tlp::ColorVectorProperty*>(_property)->setEdgeValue(e, val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(bool val) {
+void PropertyProxy::setAllNodeValue(bool val) {
   _property = _graph->getBooleanProperty(_propertyName);
   static_cast<tlp::BooleanProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(int val) {
+void PropertyProxy::setAllNodeValue(int val) {
   _property = _graph->getIntegerProperty(_propertyName);
   static_cast<tlp::IntegerProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(double val) {
+void PropertyProxy::setAllNodeValue(double val) {
   _property = _graph->getDoubleProperty(_propertyName);
   static_cast<tlp::DoubleProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(const std::string &val) {
+void PropertyProxy::setAllNodeValue(const std::string &val) {
   _property = _graph->getStringProperty(_propertyName);
   static_cast<tlp::StringProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(const tlp::Coord &val) {
+void PropertyProxy::setAllNodeValue(const tlp::Coord &val) {
   _property = _graph->getLayoutProperty(_propertyName);
   static_cast<tlp::LayoutProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(const tlp::Size &val) {
+void PropertyProxy::setAllNodeValue(const tlp::Size &val) {
   _property = _graph->getSizeProperty(_propertyName);
   static_cast<tlp::SizeProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(const tlp::Color &val) {
+void PropertyProxy::setAllNodeValue(const tlp::Color &val) {
   _property = _graph->getColorProperty(_propertyName);
   static_cast<tlp::ColorProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(const std::vector<bool> &val) {
+void PropertyProxy::setAllNodeValue(const std::vector<bool> &val) {
   if (val.empty()) return;
   _property = _graph->getBooleanVectorProperty(_propertyName);
   static_cast<tlp::BooleanVectorProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(const std::vector<int> &val) {
+void PropertyProxy::setAllNodeValue(const std::vector<int> &val) {
   if (val.empty()) return;
   _property = _graph->getIntegerVectorProperty(_propertyName);
   static_cast<tlp::IntegerVectorProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(const std::vector<double> &val) {
+void PropertyProxy::setAllNodeValue(const std::vector<double> &val) {
   if (val.empty()) return;
   _property = _graph->getDoubleVectorProperty(_propertyName);
   static_cast<tlp::DoubleVectorProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(const std::vector<std::string> &val) {
+void PropertyProxy::setAllNodeValue(const std::vector<std::string> &val) {
   if (val.empty()) return;
   _property = _graph->getStringVectorProperty(_propertyName);
   static_cast<tlp::StringVectorProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(const std::vector<tlp::Coord> &val) {
+void PropertyProxy::setAllNodeValue(const std::vector<tlp::Coord> &val) {
   if (val.empty()) return;
   _property = _graph->getCoordVectorProperty(_propertyName);
   static_cast<tlp::CoordVectorProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllNodeValue(const std::vector<tlp::Size> &val) {
+void PropertyProxy::setAllNodeValue(const std::vector<tlp::Size> &val) {
   if (val.empty()) return;
   _property = _graph->getSizeVectorProperty(_propertyName);
   static_cast<tlp::SizeVectorProperty*>(_property)->setAllNodeValue(reinterpret_cast<const std::vector<tlp::Size> &>(val));
 }
 
-void tlp::PropertyProxy::setAllNodeValue(const std::vector<tlp::Color> &val) {
+void PropertyProxy::setAllNodeValue(const std::vector<tlp::Color> &val) {
   if (val.empty()) return;
   _property = _graph->getColorVectorProperty(_propertyName);
   static_cast<tlp::ColorVectorProperty*>(_property)->setAllNodeValue(val);
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(bool val) {
+void PropertyProxy::setAllEdgeValue(bool val) {
   _property = _graph->getBooleanProperty(_propertyName);
   static_cast<tlp::BooleanProperty*>(_property)->setAllEdgeValue(val);
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(int val) {
+void PropertyProxy::setAllEdgeValue(int val) {
   _property = _graph->getIntegerProperty(_propertyName);
   static_cast<tlp::IntegerProperty*>(_property)->setAllEdgeValue(val);
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(double val) {
+void PropertyProxy::setAllEdgeValue(double val) {
   _property = _graph->getDoubleProperty(_propertyName);
   static_cast<tlp::DoubleProperty*>(_property)->setAllEdgeValue(val);
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(const std::string &val) {
+void PropertyProxy::setAllEdgeValue(const std::string &val) {
   _property = _graph->getStringProperty(_propertyName);
   static_cast<tlp::StringProperty*>(_property)->setAllEdgeValue(val);
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(const std::vector<tlp::Coord> &val) {
+void PropertyProxy::setAllEdgeValue(const std::vector<tlp::Coord> &val) {
   if (val.empty()) return;
   if (_property && dynamic_cast<tlp::CoordVectorProperty *>(_property)) {
     static_cast<tlp::CoordVectorProperty*>(_property)->setAllEdgeValue(val);
@@ -427,55 +423,53 @@ void tlp::PropertyProxy::setAllEdgeValue(const std::vector<tlp::Coord> &val) {
   }
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(const tlp::Size &val) {
+void PropertyProxy::setAllEdgeValue(const tlp::Size &val) {
   _property = _graph->getSizeProperty(_propertyName);
   static_cast<tlp::SizeProperty*>(_property)->setAllEdgeValue(val);
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(const tlp::Color &val) {
+void PropertyProxy::setAllEdgeValue(const tlp::Color &val) {
   _property = _graph->getColorProperty(_propertyName);
   static_cast<tlp::ColorProperty*>(_property)->setAllEdgeValue(val);
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(const std::vector<bool> &val) {
+void PropertyProxy::setAllEdgeValue(const std::vector<bool> &val) {
   if (val.empty()) return;
   _property = _graph->getBooleanVectorProperty(_propertyName);
   static_cast<tlp::BooleanVectorProperty*>(_property)->setAllEdgeValue(val);
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(const std::vector<int> &val) {
+void PropertyProxy::setAllEdgeValue(const std::vector<int> &val) {
   if (val.empty()) return;
   _property = _graph->getIntegerVectorProperty(_propertyName);
   static_cast<tlp::IntegerVectorProperty*>(_property)->setAllEdgeValue(val);
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(const std::vector<double> &val) {
+void PropertyProxy::setAllEdgeValue(const std::vector<double> &val) {
   if (val.empty()) return;
   _property = _graph->getDoubleVectorProperty(_propertyName);
   static_cast<tlp::DoubleVectorProperty*>(_property)->setAllEdgeValue(val);
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(const std::vector<std::string> &val) {
+void PropertyProxy::setAllEdgeValue(const std::vector<std::string> &val) {
   if (val.empty()) return;
   _property = _graph->getStringVectorProperty(_propertyName);
   static_cast<tlp::StringVectorProperty*>(_property)->setAllEdgeValue(val);
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(const std::vector<tlp::Size> &val) {
+void PropertyProxy::setAllEdgeValue(const std::vector<tlp::Size> &val) {
   if (val.empty()) return;
   _property = _graph->getSizeVectorProperty(_propertyName);
   static_cast<tlp::SizeVectorProperty*>(_property)->setAllEdgeValue(reinterpret_cast<const std::vector<tlp::Size> &>(val));
 }
 
-void tlp::PropertyProxy::setAllEdgeValue(const std::vector<tlp::Color> &val) {
+void PropertyProxy::setAllEdgeValue(const std::vector<tlp::Color> &val) {
   if (val.empty()) return;
   _property = _graph->getColorVectorProperty(_propertyName);
   static_cast<tlp::ColorVectorProperty*>(_property)->setAllEdgeValue(val);
 }
 
 %End
-
-namespace tlp {
 
 class PropertyProxy /Abstract/ {
 
@@ -990,4 +984,3 @@ void setAllNodeValue(SIP_PYOBJECT val);
 
 };
 
-};
