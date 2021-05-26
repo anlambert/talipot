@@ -6,7 +6,7 @@
 yum -y install epel-release ccache
 
 # install talipot-core wheel deps
-yum -y install zlib-devel libzstd-devel yajl-devel qhull-devel graphviz-devel
+yum -y install zlib-devel libzstd-devel yajl-devel qhull-devel graphviz-devel libgit2-devel
 
 # required to build upstream python cffi from pip
 yum -y install libffi-devel

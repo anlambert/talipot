@@ -51,6 +51,7 @@ jobs:
           yajl
           zstd
           graphviz
+          libgit2
           python${{ env.PYTHON_VERSION_NO_DOT }}
           pkgconfig
           cppunit

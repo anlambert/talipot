@@ -24,6 +24,7 @@ sudo port -N install \
   yajl \
   zstd \
   graphviz \
+  libgit2 \
   python${PYTHON_VERSION_NO_DOT} \
   pkgconfig \
   cppunit

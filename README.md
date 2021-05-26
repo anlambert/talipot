@@ -68,6 +68,7 @@ The following dependencies are required to build Talipot:
   * [Fontconfig](https://www.freedesktop.org/wiki/Software/fontconfig/)
   * [zlib](https://zlib.net)
   * [zstd](https://github.com/facebook/zstd)
+  * [libgit2](https://libgit2.org/)
   * [Qt](https://www.qt.io) >= 5.7.0
   * [OpenGL](https://www.opengl.org) >= 2.0
   * [GLEW](https://github.com/nigels-com/glew) >= 1.4
