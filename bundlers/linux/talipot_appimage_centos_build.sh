@@ -37,7 +37,7 @@ fi
 
 
 # install talipot deps
-yum -y install zlib-devel libzstd-devel qhull-devel yajl-devel graphviz-devel binutils-devel
+yum -y install zlib-devel libzstd-devel qhull-devel yajl-devel graphviz-devel libgit2-devel binutils-devel
 yum -y install freetype-devel fontconfig-devel glew-devel fribidi-devel
 yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg quazip-qt5-devel qt5-qtwebkit-devel
 

@@ -31,7 +31,7 @@ git pull
 call bootstrap-vcpkg.bat
 
 rem install talipot core build dependencies
-vcpkg install --triplet x64-windows zlib zstd qhull yajl cppunit
+vcpkg install --triplet x64-windows zlib zstd qhull yajl libgit2 cppunit
 
 rem get, compile and install graphviz
 cd C:/talipot_dependencies

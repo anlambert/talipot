@@ -19,6 +19,7 @@ jobs:
           ninja-build
           libqhull-dev
           libyajl-dev
+          libgit2-dev
           libgraphviz-dev
           libpython3-dev
           libcppunit-dev

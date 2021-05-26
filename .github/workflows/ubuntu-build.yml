@@ -34,6 +34,7 @@ jobs:
           libcppunit-dev
           binutils-dev
           libzstd-dev
+          libgit2-dev
           qt5-default
           libqt5webkit5-dev
           libquazip5-dev
