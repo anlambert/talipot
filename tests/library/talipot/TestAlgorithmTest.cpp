@@ -67,7 +67,7 @@ void TestAlgorithmTest::testSimple() {
   CPPUNIT_ASSERT(!SimpleTest::isSimple(graph));
   auto [loops, parallelEdges] = SimpleTest::getLoopsAndParallelEdges(graph);
   CPPUNIT_ASSERT(parallelEdges.size() == 1);
-  CPPUNIT_ASSERT(loops.size() == 0);
+  CPPUNIT_ASSERT(loops.empty());
   CPPUNIT_ASSERT(parallelEdges[0] == e || parallelEdges[0] == e3);
 
   // directed tests

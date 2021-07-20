@@ -97,7 +97,7 @@ void QuadTreeBundle::recQuad(const node a, const node b, const node c, const nod
   const Coord &cA = layout->getNodeValue(a);
   const Coord &cC = layout->getNodeValue(c);
 
-  //  if (input.size() == 0) { // && (cA - cC).norm() < (minSize/splitRatio)) {
+  //  if (input.empty()) { // && (cA - cC).norm() < (minSize/splitRatio)) {
   //    //node n = graph->addNode();
   //    //      resultNode.push_back(n);
   //    //layout->setNodeValue(n, (cA + cC) / 2.0);
@@ -112,7 +112,7 @@ void QuadTreeBundle::recQuad(const node a, const node b, const node c, const nod
   //    return;
   //  }
 
-  if ((input.size() == 0) && (cA - cC).norm() < (minSize / splitRatio)) {
+  if ((input.empty()) && (cA - cC).norm() < (minSize / splitRatio)) {
     node n = graph->addNode();
     layout->setNodeValue(n, (cA + cC) / 2.0f);
     return;
