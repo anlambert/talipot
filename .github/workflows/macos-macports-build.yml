@@ -5,7 +5,7 @@ jobs:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     env:
-      CLANG_VERSION: 11
+      CLANG_VERSION: 12
       PYTHON_VERSION: 3.9
     strategy:
       fail-fast: false

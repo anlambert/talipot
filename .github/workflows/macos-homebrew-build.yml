@@ -53,6 +53,7 @@ jobs:
           -DCMAKE_INSTALL_PREFIX=$PWD/install
           -DCMAKE_C_COMPILER=/usr/local/opt/llvm/bin/clang
           -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm/bin/clang++
+          -DCMAKE_RANLIB=/usr/bin/ranlib
           -DPYTHON_EXECUTABLE=/usr/local/bin/python3
           -DTALIPOT_BUILD_CORE_ONLY=ON
           -DTALIPOT_BUILD_TESTS=ON
