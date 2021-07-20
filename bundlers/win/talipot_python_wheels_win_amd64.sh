@@ -2,27 +2,32 @@
 
 # Script to build and upload Talipot Python wheels on AppVeyor
 
-# Abort script on first error
-set -e
-
 JSON=$(curl -s https://test.pypi.org/pypi/talipot/json)
 LAST_VERSION=$(echo $JSON | python -c "
 import sys, json
 print(json.load(sys.stdin)['info']['version'])" 2>/dev/null)
-DEV_VERSION=$(echo $LAST_VERSION | cut -f4 -d '.' | sed 's/dev//')
-echo last wheel dev version = $LAST_VERSION
+if [ $? -ne 0 ]
+then
+  DEV_VERSION=1
+else
+  DEV_VERSION=$(echo $LAST_VERSION | cut -f4 -d '.' | sed 's/dev//')
+  echo last wheel dev version = $LAST_VERSION
 
-# check if dev wheel version needs to be incremented
-VERSION_INCREMENT=$(echo $JSON | python -c "
+  # check if dev wheel version needs to be incremented
+  VERSION_INCREMENT=$(echo $JSON | python -c "
 import sys, json
 releases = json.load(sys.stdin)['releases']['$LAST_VERSION']
 print(any(['win_amd64' in r['filename'] for r in releases]))")
 
-if [ "$VERSION_INCREMENT" == "True" ]
-then
-  let DEV_VERSION+=1
+  if [ "$VERSION_INCREMENT" == "True" ]
+  then
+    let DEV_VERSION+=1
+  fi
 fi
 echo current wheel dev version = $DEV_VERSION
+
+# Abort script on first error
+set -e
 
 # Install build tools and dependencies
 pacman --noconfirm -S --needed \
@@ -48,7 +53,7 @@ do
     -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/build/install \
     -DTALIPOT_BUILD_DOC=OFF \
     -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON \
-    -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=dev${DEV_VERSION} \
+    -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a1.dev${DEV_VERSION} \
     -DPYTHON_EXECUTABLE=/c/Python$pyVersion-x64/python.exe \
     -DTALIPOT_USE_CCACHE=ON ..
   make -j4 test-wheel

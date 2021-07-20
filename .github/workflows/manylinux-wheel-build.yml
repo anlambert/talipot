@@ -28,24 +28,6 @@ jobs:
           -v ~/ccache:/ccache
           --name ccache
           ${DOCKER_IMAGE}
-      - name: Get new wheel dev version
-        id: get-wheel-dev-version
-        run: |
-          JSON=$(curl -s 'https://test.pypi.org/pypi/talipot/json')
-          LAST_VERSION=$(echo $JSON | python -c "
-          import sys, json
-          print(json.load(sys.stdin)['info']['version'])" 2>/dev/null)
-          DEV_VERSION=$(echo $LAST_VERSION | cut -f4 -d '.' | sed 's/dev//')
-          VERSION_INCREMENT=$(echo $JSON | python -c "
-          import sys, json
-          releases = json.load(sys.stdin)['releases']['$LAST_VERSION']
-          print(any(['manylinux' in r['filename'] for r in releases]))")
-          if [ "$VERSION_INCREMENT" == "True" ]
-          then
-            let DEV_VERSION+=1
-          fi
-          echo "::set-output name=version::$DEV_VERSION"
-        shell: bash
       - name: Build and upload Talipot Python wheel
         run: sudo docker run
           -e CCACHE_DIR=/ccache
@@ -53,8 +35,7 @@ jobs:
           -v `pwd`:/talipot:rw
           ${DOCKER_IMAGE}
           /bin/bash -c
-          "bash -xe /talipot/bundlers/linux/talipot_python_wheels_manylinux_build.sh
-          dev${{ steps.get-wheel-dev-version.outputs.version }}
+          "bash -x /talipot/bundlers/linux/talipot_python_wheels_manylinux_build.sh
           ${{ secrets.TEST_PYPI_API_TOKEN }}
           ${{ github.ref }}"
       - name: Install pip

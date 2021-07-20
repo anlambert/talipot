@@ -3,8 +3,6 @@
 # This script is only intended to be run in a pypa/manylinux2014
 # docker image (based on CentOS 7)
 
-TALIPOT_PYTHON_TEST_WHEEL_SUFFIX=$1
-
 yum -y install epel-release ccache
 
 # install talipot-core wheel deps
@@ -16,6 +14,30 @@ yum -y install libffi-devel
 # ensure python library from based system is present, even if we do
 # not link to it, as cmake will fail to find PythonLibs otherwise
 yum -y install python36-devel
+
+JSON=$(curl -s 'https://test.pypi.org/pypi/talipot/json')
+LAST_VERSION=$(echo $JSON | python3 -c "
+import sys, json
+print(json.load(sys.stdin)['info']['version'])" 2>/dev/null)
+if [ $? -ne 0 ]
+then
+  DEV_VERSION=1
+else
+  DEV_VERSION=$(echo $LAST_VERSION | cut -f4 -d '.' | sed 's/dev//')
+  VERSION_INCREMENT=$(echo $JSON | python -c "
+import sys, json
+releases = json.load(sys.stdin)['releases']['$LAST_VERSION']
+print(any(['manylinux' in r['filename'] for r in releases]))")
+  if [ "$VERSION_INCREMENT" == "True" ]
+  then
+    let DEV_VERSION+=1
+  fi
+fi
+
+echo current wheel dev version = $DEV_VERSION
+
+# abort script on first error
+set -e
 
 # get talipot source dir
 if [ -d /talipot ]
@@ -35,7 +57,7 @@ index-servers=
 [testpypi]
 repository: https://test.pypi.org/legacy/
 username: __token__
-password: $2
+password: $1
 EOF
 
 # build talipot
@@ -59,11 +81,11 @@ do
         -DCMAKE_INSTALL_PREFIX=/tmp/talipot_install \
         -DPYTHON_EXECUTABLE=${CPYBIN}/python \
         -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON \
-        -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=${TALIPOT_PYTHON_TEST_WHEEL_SUFFIX} \
+        -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a1.dev$DEV_VERSION \
         -DTALIPOT_BUILD_DOC=OFF \
         -DTALIPOT_USE_CCACHE=ON
   make -j4
-  if [ -n "$TALIPOT_PYTHON_TEST_WHEEL_SUFFIX" ]
+  if [ -n "$DEV_VERSION" ]
   then
     make test-wheel
   else
@@ -90,9 +112,9 @@ print('Talipot %s successfully imported in Python %s' %
   popd
 done
 
-if [ -n "$TALIPOT_PYTHON_TEST_WHEEL_SUFFIX" ]
+if [ -n "$DEV_VERSION" ]
 then
-  if [ "$3" == "refs/heads/master" ]
+  if [ "$2" == "refs/heads/master" ]
   then
     make test-wheel-upload
   fi

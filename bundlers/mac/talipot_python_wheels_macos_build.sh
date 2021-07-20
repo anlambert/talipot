@@ -2,35 +2,41 @@
 
 # Script to build and upload Talipot Python wheels for MacOS on AppVeyor
 
-# abort script on first error
-set -e
-
 # get last uploaded dev wheel version
 JSON=$(curl -s 'https://test.pypi.org/pypi/talipot/json')
 LAST_VERSION=$(echo $JSON | python -c "
 import sys, json
 print(json.load(sys.stdin)['info']['version'])" 2>/dev/null)
-echo last wheel dev version = $LAST_VERSION
 
-# check if dev wheel version needs to be incremented
-VERSION_INCREMENT=$(echo $JSON | python -c "
+if [ $? -ne 0 ]
+then
+  DEV_VERSION=1
+else
+  echo last wheel dev version = $LAST_VERSION
+
+  # check if dev wheel version needs to be incremented
+  VERSION_INCREMENT=$(echo $JSON | python -c "
 import sys, json
 releases = json.load(sys.stdin)['releases']['$LAST_VERSION']
 print(any(['macosx' in r['filename'] for r in releases]))")
-DEV_VERSION=$(echo $LAST_VERSION | cut -f4 -d '.' | sed 's/dev//')
+  DEV_VERSION=$(echo $LAST_VERSION | cut -f4 -d '.' | sed 's/dev//')
 
-if [ "$VERSION_INCREMENT" == "True" ]
-then
-  let DEV_VERSION+=1
+  if [ "$VERSION_INCREMENT" == "True" ]
+  then
+    let DEV_VERSION+=1
+  fi
 fi
 echo current wheel dev version = $DEV_VERSION
+
+# abort script on first error
+set -e
 
 # install MacPorts
 curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
 source ./macports-ci install
 source ./macports-ci ccache
 
-CLANG_VERSION=11
+CLANG_VERSION=12
 
 # install build tools and dependencies
 sudo port -N install \
@@ -68,7 +74,7 @@ do
     -DCMAKE_C_COMPILER=/opt/local/bin/clang-mp-${CLANG_VERSION} \
     -DCMAKE_CXX_COMPILER=/opt/local/bin/clang++-mp-${CLANG_VERSION} \
     -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON \
-    -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=dev$DEV_VERSION \
+    -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a1.dev$DEV_VERSION \
     -DPYTHON_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/$py3Version/bin/python3 \
     -DTALIPOT_USE_CCACHE=ON \
     -DTALIPOT_BUILD_CORE_ONLY=ON \
