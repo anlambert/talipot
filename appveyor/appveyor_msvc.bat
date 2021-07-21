@@ -10,6 +10,9 @@ rem thanks to the use of clcache.
 set /a TALIPOT_BUILD_CORE_ONLY = %APPVEYOR_JOB_NUMBER% %% 2
 echo TALIPOT_BUILD_CORE_ONLY=%TALIPOT_BUILD_CORE_ONLY%
 
+rem save start time
+set starttime=%time%
+
 rem let's compile clcache in order to speedup incremental builds
 cd C:/
 set PATH=C:/Python39-x64;C:/Python39-x64/Scripts;%PATH%
@@ -79,6 +82,25 @@ goto talipot_build
 
 
 :talipot_build
+
+rem compute time elapsed since script started
+set endtime=%time%
+for /f "tokens=1-4 delims=:.," %%a in ("%starttime%") do (
+   set /a "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100")
+)
+for /f "tokens=1-4 delims=:.," %%a in ("%endtime%") do (
+   set /a "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
+)
+set /a elapsed=end-start
+set /a hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100),^
+  rest%%=60*100, ss=rest/100, cc=rest%%100
+
+rem if more than 30 minutes elapsed, it means vcpkg dependencies got recompiled
+rem and that talipot build will likely fail due to the 1 hour timeout on appveyor
+rem so exit without error in order to put those dependencies in cache and avoid
+rem recompiling them on next build
+if %mm% gtr 30 exit /b 0
+
 rem we are good to go, let's compile and install Talipot now
 cd %APPVEYOR_BUILD_FOLDER%
 md build && cd build
