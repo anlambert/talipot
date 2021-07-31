@@ -69,6 +69,45 @@ QuickAccessBarImpl::QuickAccessBarImpl(QGraphicsItem *quickAccessBarItem,
   _ui->edgeBorderColorButton->setDialogTitle("Choose the default color for the border of edges");
   _ui->labelColorButton->setDialogTitle("Choose the default color for the label of nodes or edges");
 
+  connect(_ui->backgroundColorButton, &ColorButton::colorChanged, this,
+          &QuickAccessBarImpl::setBackgroundColor);
+  connect(_ui->colorInterpolationToggle, &QPushButton::clicked, this,
+          &QuickAccessBarImpl::setColorInterpolation);
+  connect(_ui->sizeInterpolationToggle, &QPushButton::clicked, this,
+          &QuickAccessBarImpl::setSizeInterpolation);
+  connect(_ui->labelColorButton, &ColorButton::colorChanged, this,
+          &QuickAccessBarImpl::setLabelColor);
+  connect(_ui->nodesColorCaptionButton, &QPushButton::clicked, this,
+          &QuickAccessBarImpl::showHideNodesColorCaption);
+  connect(_ui->nodesSizeCaptionButton, &QPushButton::clicked, this,
+          &QuickAccessBarImpl::showHideNodesSizeCaption);
+  connect(_ui->edgesColorCaptionButton, &QPushButton::clicked, this,
+          &QuickAccessBarImpl::showHideEdgesColorCaption);
+  connect(_ui->edgesSizeCaptionButton, &QPushButton::clicked, this,
+          &QuickAccessBarImpl::showHideEdgesSizeCaption);
+  connect(_ui->showEdgesToggle, &QPushButton::clicked, this, &QuickAccessBarImpl::setEdgesVisible);
+  connect(_ui->showLabelsToggle, &QPushButton::clicked, this,
+          &QuickAccessBarImpl::setLabelsVisible);
+  connect(_ui->labelsScaledToggle, &QPushButton::clicked, this,
+          &QuickAccessBarImpl::setLabelsScaled);
+  connect(_ui->fontButton, &QPushButton::clicked, this, &QuickAccessBarImpl::selectFont);
+  connect(_ui->screenshotButton, &QPushButton::clicked, this, &QuickAccessBarImpl::takeSnapshot);
+  connect(_ui->nodeColorButton, &ColorButton::colorChanged, this,
+          &QuickAccessBarImpl::setNodeColor);
+  connect(_ui->edgeColorButton, &ColorButton::colorChanged, this,
+          &QuickAccessBarImpl::setEdgeColor);
+  connect(_ui->nodeBorderColorButton, &ColorButton::colorChanged, this,
+          &QuickAccessBarImpl::setNodeBorderColor);
+  connect(_ui->edgeBorderColorButton, &ColorButton::colorChanged, this,
+          &QuickAccessBarImpl::setEdgeBorderColor);
+  connect(_ui->nodeShapeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setNodeShape);
+  connect(_ui->edgeShapeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setEdgeShape);
+  connect(_ui->nodeSizeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setNodeSize);
+  connect(_ui->edgeSizeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setEdgeSize);
+  connect(_ui->labelPositionButton, &QPushButton::clicked, this,
+          QOverload<>::of(&QuickAccessBarImpl::setNodeLabelPosition));
+  connect(_ui->showNodesToggle, &QPushButton::clicked, this, &QuickAccessBarImpl::setNodesVisible);
+
   if (buttons.testFlag(ALLBUTTONS)) {
     return;
   }
@@ -164,45 +203,6 @@ QuickAccessBarImpl::QuickAccessBarImpl(QGraphicsItem *quickAccessBarItem,
   if (!buttons.testFlag(SHOWNODES)) {
     _ui->showNodesToggle->hide();
   }
-
-  connect(_ui->backgroundColorButton, &ColorButton::colorChanged, this,
-          &QuickAccessBarImpl::setBackgroundColor);
-  connect(_ui->colorInterpolationToggle, &QPushButton::clicked, this,
-          &QuickAccessBarImpl::setColorInterpolation);
-  connect(_ui->sizeInterpolationToggle, &QPushButton::clicked, this,
-          &QuickAccessBarImpl::setSizeInterpolation);
-  connect(_ui->labelColorButton, &ColorButton::colorChanged, this,
-          &QuickAccessBarImpl::setLabelColor);
-  connect(_ui->nodesColorCaptionButton, &QPushButton::clicked, this,
-          &QuickAccessBarImpl::showHideNodesColorCaption);
-  connect(_ui->nodesSizeCaptionButton, &QPushButton::clicked, this,
-          &QuickAccessBarImpl::showHideNodesSizeCaption);
-  connect(_ui->edgesColorCaptionButton, &QPushButton::clicked, this,
-          &QuickAccessBarImpl::showHideEdgesColorCaption);
-  connect(_ui->edgesSizeCaptionButton, &QPushButton::clicked, this,
-          &QuickAccessBarImpl::showHideEdgesSizeCaption);
-  connect(_ui->showEdgesToggle, &QPushButton::clicked, this, &QuickAccessBarImpl::setEdgesVisible);
-  connect(_ui->showLabelsToggle, &QPushButton::clicked, this,
-          &QuickAccessBarImpl::setLabelsVisible);
-  connect(_ui->labelsScaledToggle, &QPushButton::clicked, this,
-          &QuickAccessBarImpl::setLabelsScaled);
-  connect(_ui->fontButton, &QPushButton::clicked, this, &QuickAccessBarImpl::selectFont);
-  connect(_ui->screenshotButton, &QPushButton::clicked, this, &QuickAccessBarImpl::takeSnapshot);
-  connect(_ui->nodeColorButton, &ColorButton::colorChanged, this,
-          &QuickAccessBarImpl::setNodeColor);
-  connect(_ui->edgeColorButton, &ColorButton::colorChanged, this,
-          &QuickAccessBarImpl::setEdgeColor);
-  connect(_ui->nodeBorderColorButton, &ColorButton::colorChanged, this,
-          &QuickAccessBarImpl::setNodeBorderColor);
-  connect(_ui->edgeBorderColorButton, &ColorButton::colorChanged, this,
-          &QuickAccessBarImpl::setEdgeBorderColor);
-  connect(_ui->nodeShapeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setNodeShape);
-  connect(_ui->edgeShapeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setEdgeShape);
-  connect(_ui->nodeSizeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setNodeSize);
-  connect(_ui->edgeSizeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setEdgeSize);
-  connect(_ui->labelPositionButton, &QPushButton::clicked, this,
-          QOverload<>::of(&QuickAccessBarImpl::setNodeLabelPosition));
-  connect(_ui->showNodesToggle, &QPushButton::clicked, this, &QuickAccessBarImpl::setNodesVisible);
 }
 
 void QuickAccessBarImpl::addButtonAtEnd(QAbstractButton *button) {
