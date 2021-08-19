@@ -3,11 +3,12 @@ IF(PYTHONLIBS_FOUND)
 
     IF(WIN32)
       TALIPOT_SET_CXX_FLAGS("-DDLL_TALIPOT_PYTHON")
-    ELSE(WIN32)
-      IF(APPLE)
-        TALIPOT_SET_CXX_FLAGS("-Wno-deprecated-declarations")
-      ENDIF(APPLE)
     ENDIF(WIN32)
+
+    IF(CMAKE_COMPILER_IS_GNUCXX OR CLANG)
+      # silent warning about deprecated but required PyEval_ReleaseLock call
+      TALIPOT_SET_CXX_FLAGS("-Wno-deprecated-declarations")
+    ENDIF(CMAKE_COMPILER_IS_GNUCXX OR CLANG)
 
     INCLUDE_DIRECTORIES(BEFORE ${SIP_INCLUDE_DIR})
     INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIR} ${PYTHON_INCLUDE_PATH}
