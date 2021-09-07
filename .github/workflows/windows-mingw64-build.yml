@@ -42,7 +42,7 @@ jobs:
       - name: Get ccache directory
         id: get-cccache-dir
         run: |
-          echo "::set-output name=ccache-dir::$(ccache -s | grep "cache directory" | awk '{print $3}')"
+          echo "::set-output name=ccache-dir::$(ccache -sv | grep "Cache directory" | awk '{print $3}')"
       - name: Cache files
         uses: actions/cache@v2
         with:
