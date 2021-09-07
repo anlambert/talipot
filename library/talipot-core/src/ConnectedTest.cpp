@@ -31,11 +31,10 @@ static uint connectedTest(const Graph *const graph, node n, NodeVectorProperty<b
     nodesToVisit.pop_front();
     // loop on all neighbours
     for (auto neighbour : graph->getInOutNodes(r)) {
-      uint neighPos = graph->nodePos(neighbour);
       // check if neighbour has been visited
-      if (!visited[neighPos]) {
+      if (!visited[neighbour]) {
         // mark neighbour as already visited
-        visited[neighPos] = true;
+        visited[neighbour] = true;
         // push it for further deeper exploration
         nodesToVisit.push_back(neighbour);
         ++count;
