@@ -149,7 +149,6 @@ void TestAlgorithmTest::testFreeTree() {
 }
 //==========================================================
 void TestAlgorithmTest::testTree() {
-  graph->clear();
   node n1 = graph->addNode();
   node n2 = graph->addNode();
   node n3 = graph->addNode();
@@ -187,8 +186,6 @@ void TestAlgorithmTest::testTree() {
 }
 //==========================================================
 void TestAlgorithmTest::testAcyclic() {
-  // TODO check this test, as it was not executed for some time
-  graph->clear();
   node n1 = graph->addNode();
   node n2 = graph->addNode();
   node n3 = graph->addNode();
@@ -212,7 +209,6 @@ void TestAlgorithmTest::testAcyclic() {
 }
 //==========================================================
 void TestAlgorithmTest::testConnected() {
-  graph->clear();
   node n1 = graph->addNode();
   node n2 = graph->addNode();
   node n3 = graph->addNode();
@@ -310,6 +306,35 @@ void TestAlgorithmTest::testBiconnected() {
   }
 }
 //==========================================================
-void TestAlgorithmTest::testTriconnected() {
-  tlp::warning() << __FUNCTION__ << " : not implemented" << endl;
+void TestAlgorithmTest::testBridges() {
+  // graph examples are taken from https://www.geeksforgeeks.org/bridge-in-a-graph/
+  vector<node> nodes = graph->addNodes(5);
+  vector<edge> edges = graph->addEdges({{nodes[0], nodes[1]},
+                                        {nodes[1], nodes[2]},
+                                        {nodes[2], nodes[0]},
+                                        {nodes[0], nodes[3]},
+                                        {nodes[3], nodes[4]}});
+  vector<edge> bridges = ConnectedTest::computeBridges(graph);
+  sort(bridges.begin(), bridges.end());
+  CPPUNIT_ASSERT_EQUAL(vector({edges[3], edges.back()}), bridges);
+
+  graph->clear();
+  nodes = graph->addNodes(7);
+  edges = graph->addEdges({{nodes[0], nodes[1]},
+                           {nodes[1], nodes[2]},
+                           {nodes[2], nodes[0]},
+                           {nodes[1], nodes[3]},
+                           {nodes[3], nodes[5]},
+                           {nodes[5], nodes[4]},
+                           {nodes[4], nodes[1]},
+                           {nodes[1], nodes[6]}});
+  bridges = ConnectedTest::computeBridges(graph);
+  CPPUNIT_ASSERT_EQUAL(vector({edges.back()}), bridges);
+
+  graph->clear();
+  nodes = graph->addNodes(4);
+  edges = graph->addEdges({{nodes[0], nodes[1]}, {nodes[1], nodes[2]}, {nodes[2], nodes[3]}});
+  bridges = ConnectedTest::computeBridges(graph);
+  sort(bridges.begin(), bridges.end());
+  CPPUNIT_ASSERT_EQUAL(edges, bridges);
 }

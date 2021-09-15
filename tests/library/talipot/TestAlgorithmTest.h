@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2021  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,7 +28,7 @@ class TestAlgorithmTest : public CppUnit::TestFixture {
   CPPUNIT_TEST(testAcyclic);
   CPPUNIT_TEST(testConnected);
   CPPUNIT_TEST(testBiconnected);
-  CPPUNIT_TEST(testTriconnected);
+  CPPUNIT_TEST(testBridges);
   CPPUNIT_TEST_SUITE_END();
 
 private:
@@ -43,7 +43,7 @@ public:
   void testAcyclic();
   void testConnected();
   void testBiconnected();
-  void testTriconnected();
+  void testBridges();
 };
 
 #endif // TEST_ALGORITHM_TEST_H

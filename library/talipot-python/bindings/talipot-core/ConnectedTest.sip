@@ -79,6 +79,24 @@ Computes the sets of connected components. Returns a list of connected component
 :rtype: list of list of :class:`tlp.node`
 %End
 
+
+//===========================================================================================
+
+  static std::vector<tlp::edge> computeBridges(tlp::Graph *graph) ;
+%Docstring
+tlp.ConnectedTest.computeBridges(graph)
+
+Computes the bridges of a graph.
+
+A bridge is defined as an edge which, when removed, makes the graph disconnected
+(or more precisely, increases the number of connected components in the graph).
+
+:param graph: the graph on which to compute bridges
+:type graph: :class:`tlp.Graph`
+:rtype: list of :class:`tlp.edge`
+%End
+
+
 private :
 
   ConnectedTest();

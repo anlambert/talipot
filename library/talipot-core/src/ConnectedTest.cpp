@@ -166,3 +166,43 @@ void ConnectedTest::connect(const tlp::Graph *const graph, vector<node> &toLink)
     }
   });
 }
+
+// algorithm implementation adapted from https://cp-algorithms.com/graph/bridge-searching.html
+vector<edge> ConnectedTest::computeBridges(const Graph *graph) {
+  NodeVectorProperty<bool> visited(graph);
+  NodeVectorProperty<int> tin(graph), low(graph);
+  int timer = 0;
+  vector<edge> bridges;
+
+  function<void(node, node)> dfsBridges = [&](node n, node p) {
+    visited[n] = true;
+    tin[n] = low[n] = timer++;
+    for (edge e : graph->incidence(n)) {
+      node m = graph->opposite(e, n);
+      if (m == p) {
+        continue;
+      }
+      if (visited[m]) {
+        low[n] = min(low[n], tin[m]);
+      } else {
+        dfsBridges(m, n);
+        low[n] = min(low[n], low[m]);
+        if (low[m] > tin[n]) {
+          bridges.push_back(e);
+        }
+      }
+    }
+  };
+
+  visited.setAll(false);
+  tin.setAll(-1);
+  low.setAll(-1);
+
+  for (auto n : graph->nodes()) {
+    if (!visited[n]) {
+      dfsBridges(n, node());
+    }
+  }
+
+  return bridges;
+}

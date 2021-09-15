@@ -66,6 +66,17 @@ public:
    **/
   static std::vector<std::vector<node>> computeConnectedComponents(const Graph *graph);
 
+  /**
+   * @brief Computes the bridges of a graph.
+   *
+   * A bridge is defined as an edge which, when removed, makes the graph disconnected
+   * (or more precisely, increases the number of connected components in the graph).
+   *
+   * @param graph The graph on which to compute bridges
+   * @return The bridges that were found as a vector of edges.
+   **/
+  static std::vector<tlp::edge> computeBridges(const Graph *graph);
+
 private:
   /**
    * @brief Makes the graph connected.
