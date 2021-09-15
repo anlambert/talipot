@@ -80,3 +80,13 @@ TALIPOT_ADD_PLUGIN(
   ${LibTalipotCoreName}
   INSTALL_DIR
   ${TalipotPluginsInstallDir})
+# ------------------------------------------------------------------------------
+TALIPOT_ADD_PLUGIN(
+  NAME
+  BridgesSelection
+  SRCS
+  BridgesSelection.cpp
+  LINKS
+  ${LibTalipotCoreName}
+  INSTALL_DIR
+  ${TalipotPluginsInstallDir})
