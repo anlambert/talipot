@@ -72,18 +72,26 @@ static bool talipotCanOpenFile(const QString &path) {
   return false;
 }
 
-static void logMsgToStdErr(const QString &msg) {
+static void logMsgToStdStream(const QString &msg, QtMsgType type) {
   if (msg.startsWith("[Python")) {
     // remove quotes around message added by Qt
     QString msgClean = msg.mid(14).mid(2, msg.length() - 17);
 
     if (msg.startsWith("[PythonStdOut]")) {
+#ifndef NDEBUG
       std::cout << QStringToTlpString(msgClean) << std::endl;
+#endif
     } else {
       std::cerr << QStringToTlpString(msgClean) << std::endl;
     }
   } else {
-    std::cerr << QStringToTlpString(msg) << std::endl;
+    if (type == QtCriticalMsg) {
+      std::cerr << QStringToTlpString(msg) << std::endl;
+    } else {
+#ifndef NDEBUG
+      std::cout << QStringToTlpString(msg) << std::endl;
+#endif
+    }
   }
 }
 
@@ -97,7 +105,7 @@ static void talipotLogger(QtMsgType type, const QMessageLogContext &context, con
       return;
     }
   }
-  logMsgToStdErr(msg);
+  logMsgToStdStream(msg, type);
   TalipotMainWindow::instance().log(type, context, msg);
 }
 
