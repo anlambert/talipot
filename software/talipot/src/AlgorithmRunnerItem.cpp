@@ -42,13 +42,9 @@ AlgorithmRunnerItem::AlgorithmRunnerItem(QString pluginName, QWidget *parent)
   // split pluginName after the second word if needed
   QStringList words = pluginName.split(' ');
   _ui->playButton->setText(pluginName);
-  QString tooltip(QString("Apply <b>") + pluginName + "</b>");
+
   // initialize parameters only if needed
   _ui->parameters->setVisible(false);
-
-  if (plugin.inputRequired()) {
-    tooltip += " with current settings";
-  }
 
   if (!plugin.getParameters().empty()) {
     _ui->parameters->setItemDelegate(new ItemDelegate(_ui->parameters));
@@ -56,17 +52,9 @@ AlgorithmRunnerItem::AlgorithmRunnerItem(QString pluginName, QWidget *parent)
     _ui->settingsButton->setVisible(false);
   }
 
-  std::string info = plugin.info();
+  QString tooltip = tlpStringToQString(plugin.info());
 
-  // show info in tooltip only if it contains more than one word
-  if (info.find(' ') != std::string::npos) {
-    _ui->playButton->setToolTip(
-        QString("<table><tr><td>%1:</td></tr><tr><td><i>%2</i></td></tr></table>")
-            .arg(tooltip)
-            .arg(tlp::tlpStringToQString(info)));
-  } else {
-    _ui->playButton->setToolTip(tooltip);
-  }
+  _ui->playButton->setToolTip(QString("<table><tr><td><i>%1</i></td></tr></table>").arg(tooltip));
 
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
 
