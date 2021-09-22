@@ -308,14 +308,13 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
       # TALIPOT_CXX_THREADS can be set to force the use of the cxx threads
       # regardless the OpenMP availability
       IF(NOT TALIPOT_CXX_THREADS)
-        IF(APPLE AND CLANG)
+        IF(CLANG)
           EXECUTE_PROCESS(COMMAND ${CMAKE_CXX_COMPILER} --version
                           OUTPUT_VARIABLE CLANG_VERSION)
           STRING(FIND "${CLANG_VERSION}" "Apple" APPLE_POS)
           STRING(COMPARE EQUAL "${APPLE_POS}" "-1" LLVM_LIBOMP)
-          # When using LLVM clang on MacOS (from Homebrew or MacPorts), some
-          # extra setup might be required in order to detect and use OpenMP
-          # through the libomp runtime
+          # When using LLVM clang , some extra setup is required in order to
+          # detect and use OpenMP through the libomp runtime
           IF(LLVM_LIBOMP)
             TALIPOT_SET_CACHE_VAR(OpenMP_C_FLAGS "-fopenmp=libomp" FALSE FALSE)
             TALIPOT_SET_CACHE_VAR(OpenMP_C_LIB_NAMES "libomp" FALSE FALSE)
@@ -334,7 +333,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
             TALIPOT_SET_CACHE_VAR(CMAKE_SHARED_LINKER_FLAGS
                                   "-L${LLVM_COMPILER_DIR}/../lib" TRUE TRUE)
           ENDIF(LLVM_LIBOMP)
-        ENDIF(APPLE AND CLANG)
+        ENDIF(CLANG)
         FIND_PACKAGE(OpenMP)
         IF(OPENMP_FOUND)
           SET(CMAKE_CXX_FLAGS_RELEASE
