@@ -419,11 +419,12 @@ void StackWalkerMinGW::printCallStack(std::ostream &os, uint maxDepth) {
 
     if (func) {
       int status;
-      const char *toDemangle = (std::string("_") + std::string(func)).c_str();
-      char *realName = abi::__cxa_demangle(toDemangle, 0, 0, &status);
+      std::string toDemangle = "_" + std::string(func);
+      char *realName = abi::__cxa_demangle(toDemangle.c_str(), 0, 0, &status);
 
-      if (status == 0)
+      if (status == 0) {
         func = realName;
+      }
 
     }
 
