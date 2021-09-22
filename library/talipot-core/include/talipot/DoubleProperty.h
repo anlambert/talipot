@@ -38,7 +38,7 @@ class TLP_SCOPE DoubleProperty : public DoubleMinMaxProperty {
 public:
   DoubleProperty(Graph *, const std::string &n = "");
 
-  void clone_handler(AbstractProperty<DoubleType, DoubleType, NumericProperty> &) override;
+  void clone_handler(const AbstractProperty<DoubleType, DoubleType, NumericProperty> &) override;
 
   PropertyInterface *clonePrototype(Graph *, const std::string &) const override;
   static const std::string propertyTypename;
@@ -90,9 +90,11 @@ public:
     return getEdgeMax(g);
   }
 
-  void nodesUniformQuantification(uint) override;
+  void nodesUniformQuantification(uint)
+  override;
 
-  void edgesUniformQuantification(uint) override;
+  void edgesUniformQuantification(uint)
+  override;
 
   NumericProperty *copyProperty(Graph *g) override {
     auto *newProp = new DoubleProperty(g);

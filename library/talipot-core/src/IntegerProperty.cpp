@@ -26,9 +26,9 @@ IntegerProperty::IntegerProperty(Graph *g, const std::string &n)
     : IntegerMinMaxProperty(g, n, -INT_MAX, INT_MAX, -INT_MAX, INT_MAX) {}
 //====================================================================
 void IntegerProperty::clone_handler(
-    AbstractProperty<tlp::IntegerType, tlp::IntegerType, tlp::NumericProperty> &proxyC) {
+    const AbstractProperty<tlp::IntegerType, tlp::IntegerType, tlp::NumericProperty> &proxyC) {
   if (typeid(this) == typeid(&proxyC)) {
-    auto *proxy = static_cast<IntegerProperty *>(&proxyC);
+    auto *proxy = static_cast<const IntegerProperty *>(&proxyC);
     _minMaxNode = proxy->_minMaxNode;
     _minMaxEdge = proxy->_minMaxEdge;
   }

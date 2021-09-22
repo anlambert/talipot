@@ -292,7 +292,7 @@ public:
   void updateEdgeValue(edge e, StoredType<LineType::RealType>::ConstReference newValue) override;
 
 protected:
-  void clone_handler(AbstractProperty<PointType, LineType> &) override;
+  void clone_handler(const AbstractProperty<PointType, LineType> &) override;
   std::pair<Coord, Coord> computeMinMaxNode(const Graph *sg) override;
 
 private:

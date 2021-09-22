@@ -81,9 +81,11 @@ public:
     return getEdgeMax(g);
   }
 
-  void nodesUniformQuantification(uint) override;
+  void nodesUniformQuantification(uint)
+  override;
 
-  void edgesUniformQuantification(uint) override;
+  void edgesUniformQuantification(uint)
+  override;
 
   NumericProperty *copyProperty(Graph *g) override {
     auto *newProp = new IntegerProperty(g);
@@ -93,7 +95,7 @@ public:
   }
 
 protected:
-  void clone_handler(AbstractProperty<IntegerType, IntegerType, NumericProperty> &) override;
+  void clone_handler(const AbstractProperty<IntegerType, IntegerType, NumericProperty> &) override;
 
 private:
   // override Observable::treatEvent

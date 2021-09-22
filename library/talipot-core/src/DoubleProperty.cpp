@@ -281,8 +281,8 @@ void DoubleProperty::edgesUniformQuantification(uint k) {
 }
 //====================================================================
 void DoubleProperty::clone_handler(
-    AbstractProperty<DoubleType, DoubleType, tlp::NumericProperty> &proxyC) {
-  auto *proxy = static_cast<DoubleProperty *>(&proxyC);
+    const AbstractProperty<DoubleType, DoubleType, tlp::NumericProperty> &proxyC) {
+  auto *proxy = static_cast<const DoubleProperty *>(&proxyC);
   _minMaxNode = proxy->_minMaxNode;
   _minMaxEdge = proxy->_minMaxEdge;
 }

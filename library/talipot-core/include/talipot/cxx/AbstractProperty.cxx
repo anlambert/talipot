@@ -28,6 +28,12 @@ tlp::AbstractProperty<NodeType, EdgeType, PropType>::AbstractProperty(tlp::Graph
 }
 //=============================================================
 template <class NodeType, class EdgeType, class PropType>
+tlp::AbstractProperty<NodeType, EdgeType, PropType>::AbstractProperty(
+    const tlp::AbstractProperty<NodeType, EdgeType, PropType> &p) {
+  *this = p;
+}
+//=============================================================
+template <class NodeType, class EdgeType, class PropType>
 REAL_TYPE(NodeType)
 tlp::AbstractProperty<NodeType, EdgeType, PropType>::getNodeDefaultValue() const {
   return nodeDefaultValue;
@@ -389,7 +395,7 @@ bool tlp::AbstractProperty<NodeType, EdgeType, PropType>::readEdgeValue(std::ist
 template <typename NodeType, typename EdgeType, typename PropType>
 tlp::AbstractProperty<NodeType, EdgeType, PropType> &
 tlp::AbstractProperty<NodeType, EdgeType, PropType>::operator=(
-    tlp::AbstractProperty<NodeType, EdgeType, PropType> &prop) {
+    const tlp::AbstractProperty<NodeType, EdgeType, PropType> &prop) {
   if (this != &prop) {
     if (PropType::graph == nullptr) {
       PropType::graph = prop.PropType::graph;
@@ -726,7 +732,7 @@ void tlp::AbstractProperty<NodeType, EdgeType, PropType>::setMetaValueCalculator
 //============================================================
 template <typename NodeType, typename EdgeType, typename PropType>
 void tlp::AbstractProperty<NodeType, EdgeType, PropType>::clone_handler(
-    tlp::AbstractProperty<NodeType, EdgeType, PropType> &) {}
+    const tlp::AbstractProperty<NodeType, EdgeType, PropType> &) {}
 //============================================================
 
 //============================================================

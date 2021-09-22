@@ -387,9 +387,9 @@ void LayoutProperty::perfectAspectRatio(const Graph *subgraph) {
 }
 
 //=================================================================================
-void LayoutProperty::clone_handler(AbstractProperty<tlp::PointType, tlp::LineType> &proxyC) {
+void LayoutProperty::clone_handler(const AbstractProperty<tlp::PointType, tlp::LineType> &proxyC) {
   if (typeid(this) == typeid(&proxyC)) {
-    auto *proxy = static_cast<LayoutProperty *>(&proxyC);
+    auto *proxy = static_cast<const LayoutProperty *>(&proxyC);
     _minMaxNode = proxy->_minMaxNode;
   }
 }
