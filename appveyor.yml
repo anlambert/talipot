@@ -8,17 +8,14 @@ environment:
     #   MSYS2_ARCH: x86_64
     #   MSYSTEM: MINGW64
     #   BUILD_WHEELS: "false"
-
     # # Windows MSYS2 GCC complete build
     # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     #   MSYS2_ARCH: x86_64
     #   MSYSTEM: MINGW64
     #   BUILD_WHEELS: "false"
-
     # # MacOS core build
     # - APPVEYOR_BUILD_WORKER_IMAGE: macos
     #   BUILD_WHEELS: "false"
-
     # # MacOS complete build
     # - APPVEYOR_BUILD_WORKER_IMAGE: macos
     #   BUILD_WHEELS: "false"
@@ -29,14 +26,12 @@ environment:
       MSVC_ARCH: x64
       QT5_DIR: C:/Qt/5.15/msvc2019_64
       PYTHON_EXECUTABLE: C:/Python39-x64/python.exe
-
     # Windows MSVC complete build
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CMAKE_VS_GENERATOR: Visual Studio 16 2019
       MSVC_ARCH: x64
       QT5_DIR: C:/Qt/5.15/msvc2019_64
       PYTHON_EXECUTABLE: C:/Python39-x64/python.exe
-
     # Windows MSYS2 GCC Python wheels build
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       MSYS2_ARCH: x86_64
@@ -52,18 +47,18 @@ environment:
           sxXIe/QPXpqPeAjbwdrcJ7QmL2vIllXthlGgryWyg62ZE6kIy
           Dy+jye9nWLq
 
-    # MacOS Python wheels build
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos
-      BUILD_WHEELS: "true"
-      TWINE_REPOSITORY: https://test.pypi.org/legacy/
-      TWINE_USERNAME: __token__
-      TWINE_PASSWORD:
-        secure: 69gKUYg72j5gedVBM/dWr+0D2rTf/IxMcQ0mBVxat0e9P4Mkv
-          ubhOsDIHKSOtnUc9WN3ns1Z8KLbESG/wvmVs4kaWQzLDcopID
-          1obaaNl2bt9E2GliNcbAgEiHEHp7dj+nVkGw0ur32Yi4F2OJN
-          dg57bgn2mRZWfK+3qBUPIhzaH5PqJ7FW4qKADpiANyHs+8EES
-          sxXIe/QPXpqPeAjbwdrcJ7QmL2vIllXthlGgryWyg62ZE6kIy
-          Dy+jye9nWLq
+    # # MacOS Python wheels build
+    # - APPVEYOR_BUILD_WORKER_IMAGE: macos
+    #   BUILD_WHEELS: "true"
+    #   TWINE_REPOSITORY: https://test.pypi.org/legacy/
+    #   TWINE_USERNAME: __token__
+    #   TWINE_PASSWORD:
+    #     secure: 69gKUYg72j5gedVBM/dWr+0D2rTf/IxMcQ0mBVxat0e9P4Mkv
+    #       ubhOsDIHKSOtnUc9WN3ns1Z8KLbESG/wvmVs4kaWQzLDcopID
+    #       1obaaNl2bt9E2GliNcbAgEiHEHp7dj+nVkGw0ur32Yi4F2OJN
+    #       dg57bgn2mRZWfK+3qBUPIhzaH5PqJ7FW4qKADpiANyHs+8EES
+    #       sxXIe/QPXpqPeAjbwdrcJ7QmL2vIllXthlGgryWyg62ZE6kIy
+    #       Dy+jye9nWLq
 
 # build jobs configuration according to OS
 for:
