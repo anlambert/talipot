@@ -38,7 +38,7 @@ jobs:
             ${{ matrix.config.os }}-ccache-
       - name: Install MacPorts
         run: |
-          curl -LO https://raw.githubusercontent.com/anlambert/macports-ci/master/macports-ci
+          curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
           source ./macports-ci install
           source ./macports-ci ccache
       - name: Install Talipot build dependencies
