@@ -47,7 +47,7 @@ Billboard::Billboard(const tlp::PluginContext *context) : NoShaderGlyph(context)
 //========================================================
 Billboard::~Billboard() = default;
 //========================================================
-void Billboard::draw(node n, float) {
+void Billboard::draw(node n, float lod) {
   static GlRect rect(Coord(0, 0, 0), 1., 1., Color(0, 0, 0, 255), Color(0, 0, 0, 255));
 
   rect.setFillColor(glGraphInputData->getElementColor()->getNodeValue(n));
@@ -78,7 +78,22 @@ void Billboard::draw(node n, float) {
   }
 
   // draw rect in the screen plane
-  Glyph::drawRectInScreenPlane(rect, sz, false);
+  float mdlM[16];
+  glGetFloatv(GL_MODELVIEW_MATRIX, mdlM);
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
+  float nx = sz.getW();
+  float ny = sz.getH();
+  float nz = sz.getD();
+  mdlM[0] = nx;
+  mdlM[5] = ny;
+  mdlM[10] = nz;
+  mdlM[1] = mdlM[2] = 0.0f;
+  mdlM[4] = mdlM[6] = 0.0f;
+  mdlM[8] = mdlM[9] = 0.0f;
+  glLoadMatrixf(mdlM);
+  rect.draw(lod, nullptr);
+  glPopMatrix();
 }
 //========================================================
 Coord Billboard::getAnchor(const Coord &v) const {

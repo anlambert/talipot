@@ -32,11 +32,5 @@ GLYPH(Billboard billboard.cpp)
 GLYPH(Cylinder cylinder.cpp)
 GLYPH(Diamond diamond.cpp)
 GLYPH(Cross cross.cpp)
-GLYPH(GlowSphere glowsphere.cpp)
-GLYPH(ShadowedSphere shadowedsphere.cpp)
 GLYPH(Star star.cpp)
 GLYPH(FontIcon fonticon.cpp)
-
-INSTALL(FILES radialGradientTexture.png bottomShadowTexture.png
-              leftBottomShadowTexture.png rightBottomShadowTexture.png
-        DESTINATION ${TalipotBitmapInstallDir})

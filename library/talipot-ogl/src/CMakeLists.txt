@@ -1,6 +1,5 @@
 SET(talipot-ogl_LIB_SRCS
     AbstractGlCurve.cpp
-    AroundTexturedSphere.cpp
     Camera.cpp
     CubeOutLined.cpp
     Curves.cpp

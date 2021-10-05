@@ -83,11 +83,6 @@ public:
     return true;
   }
 
-  /**
-   * draw a preconfigured GlRect in the screen plane
-   */
-  static void drawRectInScreenPlane(GlRect &rect, const Size &size, bool disableMasks);
-
   GlGraphInputData *glGraphInputData;
 
 protected:
