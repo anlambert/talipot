@@ -20,9 +20,8 @@
 using namespace std;
 using namespace tlp;
 
-void AroundTexturedSphere::getIncludeBoundingBox(BoundingBox &boundingBox, node) {
-  boundingBox[0] = Coord(-0.35f, -0.35f, -0.35f);
-  boundingBox[1] = Coord(0.35f, 0.35f, 0.35f);
+BoundingBox AroundTexturedSphere::getIncludeBoundingBox(node) {
+  return {{-0.35f, -0.35f, -0.35f}, {0.35f, 0.35f, 0.35f}};
 }
 
 void AroundTexturedSphere::drawGlyph(const Color &glyphColor, const Size &glyphSize,

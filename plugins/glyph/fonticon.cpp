@@ -131,7 +131,7 @@ public:
 
     float size = 20;
 
-    err = FT_Set_Char_Size(face, int(size * HRES), 0, DPI *HRES, DPI *HRES);
+    err = FT_Set_Char_Size(face, int(size * HRES), 0, DPI * HRES, DPI * HRES);
 
     if (err) {
       return;
@@ -298,8 +298,8 @@ public:
     drawIcon(getNodeFontIcon(n), nodeColor, nodeBorderColor, nodeBorderWidth, nodeTexture);
   }
 
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node n) override {
-    boundingBox = getNodeFontIcon(n).getBoundingBox();
+  BoundingBox getIncludeBoundingBox(node n) override {
+    return getNodeFontIcon(n).getBoundingBox();
   }
 
 private:

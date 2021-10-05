@@ -54,7 +54,8 @@ public:
                    NodeShape::Circle)
   Circle(const tlp::PluginContext *context = nullptr);
   ~Circle() override;
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node) override;
+  BoundingBox getIncludeBoundingBox(node)
+  override;
   void draw(node n, float lod) override;
 };
 
@@ -64,9 +65,8 @@ Circle::Circle(const tlp::PluginContext *context) : Glyph(context) {}
 
 Circle::~Circle() = default;
 
-void Circle::getIncludeBoundingBox(BoundingBox &boundingBox, node) {
-  boundingBox[0] = Coord(-0.35f, -0.35f, 0);
-  boundingBox[1] = Coord(0.35f, 0.35f, 0);
+BoundingBox Circle::getIncludeBoundingBox(node) {
+  return {{-0.35f, -0.35f, 0}, {0.35f, 0.35f, 0}};
 }
 void Circle::draw(node n, float lod) {
   string textureName = glGraphInputData->getElementTexture()->getNodeValue(n);

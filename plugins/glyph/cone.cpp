@@ -120,7 +120,8 @@ public:
                    NodeShape::Cone)
   Cone(const tlp::PluginContext *context = nullptr);
   ~Cone() override;
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node) override;
+  BoundingBox getIncludeBoundingBox(node)
+  override;
   void draw(node n, float lod) override;
   Coord getAnchor(const Coord &vector) const override;
 };
@@ -128,9 +129,8 @@ PLUGIN(Cone)
 
 Cone::Cone(const tlp::PluginContext *context) : NoShaderGlyph(context) {}
 Cone::~Cone() = default;
-void Cone::getIncludeBoundingBox(BoundingBox &boundingBox, node) {
-  boundingBox[0] = Coord(-0.25, -0.25, 0);
-  boundingBox[1] = Coord(0.25, 0.25, 0.5);
+BoundingBox Cone::getIncludeBoundingBox(node) {
+  return {{-0.25, -0.25, 0}, {0.25, 0.25, 0.5}};
 }
 void Cone::draw(node n, float) {
 

@@ -28,7 +28,8 @@ public:
                    NodeShape::Triangle)
   Triangle(const tlp::PluginContext *context = nullptr);
   ~Triangle() override;
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node) override;
+  BoundingBox getIncludeBoundingBox(node)
+  override;
   void draw(node n, float lod) override;
 };
 
@@ -39,9 +40,8 @@ Triangle::Triangle(const tlp::PluginContext *context) : Glyph(context) {}
 //=====================================================
 Triangle::~Triangle() = default;
 //=====================================================
-void Triangle::getIncludeBoundingBox(BoundingBox &boundingBox, node) {
-  boundingBox[0] = Coord(-0.25, -0.5, 0);
-  boundingBox[1] = Coord(0.25, 0, 0);
+BoundingBox Triangle::getIncludeBoundingBox(node) {
+  return {{-0.25, -0.5, 0}, {0.25, 0, 0}};
 }
 //=====================================================
 void Triangle::draw(node n, float lod) {

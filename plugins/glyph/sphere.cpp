@@ -44,7 +44,8 @@ public:
                    NodeShape::Sphere)
   Sphere(const tlp::PluginContext *context = nullptr);
   ~Sphere() override;
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node) override;
+  BoundingBox getIncludeBoundingBox(node)
+  override;
   void draw(node n, float lod) override;
 };
 
@@ -55,9 +56,8 @@ Sphere::Sphere(const tlp::PluginContext *context) : NoShaderGlyph(context) {}
 
 Sphere::~Sphere() = default;
 
-void Sphere::getIncludeBoundingBox(BoundingBox &boundingBox, node) {
-  boundingBox[0] = Coord(-0.35f, -0.35f, -0.35f);
-  boundingBox[1] = Coord(0.35f, 0.35f, 0.35f);
+BoundingBox Sphere::getIncludeBoundingBox(node) {
+  return {{-0.35f, -0.35f, -0.35f}, {0.35f, 0.35f, 0.35f}};
 }
 
 void Sphere::draw(node n, float) {

@@ -208,8 +208,7 @@ void GlNode::drawLabel(OcclusionTest *test, const GlGraphInputData *data, float 
 
   int labelPos = data->getElementLabelPosition()->getNodeValue(n);
 
-  BoundingBox includeBB;
-  data->glyphManager->getGlyph(glyph)->getTextBoundingBox(includeBB, n);
+  BoundingBox includeBB = data->glyphManager->getGlyph(glyph)->getTextBoundingBox(n);
   Coord centerBB = includeBB.center();
   Vec3f sizeBB = includeBB[1] - includeBB[0];
 

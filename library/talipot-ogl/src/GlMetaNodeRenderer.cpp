@@ -84,9 +84,9 @@ void GlMetaNodeRenderer::render(node n, float, Camera *camera) {
 
   GlNode glNode(n, metaGraph);
 
-  BoundingBox includeBB;
-  _inputData->glyphManager->getGlyph(_inputData->getElementShape()->getNodeValue(n))
-      ->getIncludeBoundingBox(includeBB, n);
+  BoundingBox includeBB =
+      _inputData->glyphManager->getGlyph(_inputData->getElementShape()->getNodeValue(n))
+          ->getIncludeBoundingBox(n);
   BoundingBox bbTmp = glNode.getBoundingBox(_inputData);
   BoundingBox bb(bbTmp.center() - Coord((bbTmp.width() / 2.f) * (includeBB[0][0] * -2.f),
                                         (bbTmp.height() / 2.f) * (includeBB[0][1] * -2.f),

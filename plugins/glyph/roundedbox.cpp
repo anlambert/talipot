@@ -179,7 +179,8 @@ public:
   ~RoundedBox() override = default;
   void draw(node n, float lod) override;
   Coord getAnchor(const Coord &vector) const override;
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node) override;
+  BoundingBox getIncludeBoundingBox(node)
+  override;
 
 private:
   GlPolygon *createRoundedRect(const Size &size);
@@ -205,8 +206,10 @@ RoundedBox::RoundedBox(const tlp::PluginContext *context) : Glyph(context) {
   maxIncludeBBSquare = -minIncludeBBSquare;
 }
 
-void RoundedBox::getIncludeBoundingBox(BoundingBox &boundingBox, node n) {
+BoundingBox RoundedBox::getIncludeBoundingBox(node n) {
   const Size &size = glGraphInputData->getElementSize()->getNodeValue(n);
+
+  BoundingBox boundingBox;
 
   if (size[0] == size[1]) {
     boundingBox[0] = minIncludeBBSquare;
@@ -219,6 +222,8 @@ void RoundedBox::getIncludeBoundingBox(BoundingBox &boundingBox, node n) {
                                  Coord(-0.5 + radius, -0.5 + radius));
     boundingBox[1] = -boundingBox[0];
   }
+
+  return boundingBox;
 }
 
 GlPolygon *RoundedBox::createRoundedRect(const Size &size) {

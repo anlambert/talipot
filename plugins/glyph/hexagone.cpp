@@ -54,7 +54,8 @@ public:
                    NodeShape::Hexagon)
   Hexagon(const tlp::PluginContext *context = nullptr);
   ~Hexagon() override;
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node) override;
+  BoundingBox getIncludeBoundingBox(node)
+  override;
   void draw(node n, float lod) override;
 };
 
@@ -64,9 +65,8 @@ Hexagon::Hexagon(const tlp::PluginContext *context) : Glyph(context) {}
 
 Hexagon::~Hexagon() = default;
 
-void Hexagon::getIncludeBoundingBox(BoundingBox &boundingBox, node) {
-  boundingBox[0] = Coord(-0.35f, -0.35f, 0);
-  boundingBox[1] = Coord(0.35f, 0.35f, 0);
+BoundingBox Hexagon::getIncludeBoundingBox(node) {
+  return {{-0.35f, -0.35f, 0}, {0.35f, 0.35f, 0}};
 }
 
 void Hexagon::draw(node n, float lod) {

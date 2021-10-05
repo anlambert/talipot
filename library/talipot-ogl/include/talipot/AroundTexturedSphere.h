@@ -33,7 +33,8 @@ public:
   AroundTexturedSphere(const tlp::PluginContext *context = nullptr,
                        const std::string &aroundTextureFile = "", unsigned char alphaVal = 255)
       : NoShaderGlyph(context), textureFile(aroundTextureFile), alpha(alphaVal) {}
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node) override;
+  BoundingBox getIncludeBoundingBox(node)
+  override;
   void draw(node n, float) override;
   static void drawGlyph(const Color &glyphColor, const Size &glyphSize, const string &texture,
                         const string &texturePath, const string &aroundTextureFile,

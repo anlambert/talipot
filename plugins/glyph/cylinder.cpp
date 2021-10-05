@@ -161,7 +161,8 @@ public:
                    NodeShape::Cylinder)
   Cylinder(const tlp::PluginContext *context = nullptr);
   ~Cylinder() override;
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node) override;
+  BoundingBox getIncludeBoundingBox(node)
+  override;
   void draw(node n, float lod) override;
   Coord getAnchor(const Coord &vector) const override;
 };
@@ -172,9 +173,8 @@ Cylinder::Cylinder(const tlp::PluginContext *context) : NoShaderGlyph(context) {
 
 Cylinder::~Cylinder() = default;
 
-void Cylinder::getIncludeBoundingBox(BoundingBox &boundingBox, node) {
-  boundingBox[0] = Coord(-0.35f, -0.35f, 0);
-  boundingBox[1] = Coord(0.35f, 0.35f, 1);
+BoundingBox Cylinder::getIncludeBoundingBox(node) {
+  return {{-0.35f, -0.35f, 0}, {0.35f, 0.35f, 1}};
 }
 
 void Cylinder::draw(node n, float) {
@@ -231,7 +231,8 @@ public:
                    "1.0", NodeShape::HalfCylinder)
   HalfCylinder(const tlp::PluginContext *context = nullptr);
   ~HalfCylinder() override;
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node) override;
+  BoundingBox getIncludeBoundingBox(node)
+  override;
   void draw(node n, float lod) override;
   Coord getAnchor(const Coord &vector) const override;
 
@@ -244,9 +245,8 @@ HalfCylinder::HalfCylinder(const tlp::PluginContext *context) : NoShaderGlyph(co
 //=================================================================================================
 HalfCylinder::~HalfCylinder() = default;
 //=====================================================
-void HalfCylinder::getIncludeBoundingBox(BoundingBox &boundingBox, node) {
-  boundingBox[0] = Coord(-0.35f, -0.35f, 0);
-  boundingBox[1] = Coord(0.35f, 0.35f, 1);
+BoundingBox HalfCylinder::getIncludeBoundingBox(node) {
+  return {{-0.35f, -0.35f, 0}, {0.35f, 0.35f, 1}};
 }
 //=================================================================================================
 void HalfCylinder::draw(node n, float) {

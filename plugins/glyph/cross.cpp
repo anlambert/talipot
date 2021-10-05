@@ -72,7 +72,8 @@ public:
                    NodeShape::Cross)
   Cross(const tlp::PluginContext *context = nullptr);
   ~Cross() override;
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node) override;
+  BoundingBox getIncludeBoundingBox(node)
+  override;
   void draw(node n, float lod) override;
   Coord getAnchor(const Coord &vector) const override;
 };
@@ -94,9 +95,8 @@ Cross::Cross(const tlp::PluginContext *context) : Glyph(context) {
   initCross();
 }
 Cross::~Cross() = default;
-void Cross::getIncludeBoundingBox(BoundingBox &boundingBox, node) {
-  boundingBox[0] = Coord(-0.5, -0.5, 0);
-  boundingBox[1] = Coord(0.5, 0.5, 0);
+BoundingBox Cross::getIncludeBoundingBox(node) {
+  return {{-0.5, -0.5, 0}, {0.5, 0.5, 0}};
 }
 void Cross::draw(node n, float lod) {
   string textureName = glGraphInputData->getElementTexture()->getNodeValue(n);

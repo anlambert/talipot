@@ -55,9 +55,9 @@ public:
     return "";
   }
 
-  virtual void getIncludeBoundingBox(BoundingBox &boundingBox, node);
+  virtual BoundingBox getIncludeBoundingBox(node n);
 
-  virtual void getTextBoundingBox(BoundingBox &boundingBox, node n);
+  virtual BoundingBox getTextBoundingBox(node n);
 
   virtual void draw(node, float) = 0;
   /*

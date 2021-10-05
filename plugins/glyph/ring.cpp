@@ -161,7 +161,8 @@ public:
                    NodeShape::Ring)
   Ring(const tlp::PluginContext *context = nullptr);
   ~Ring() override;
-  void getIncludeBoundingBox(BoundingBox &boundingBox, node) override;
+  BoundingBox getIncludeBoundingBox(node)
+  override;
   virtual string getName() {
     return string("Ring");
   }
@@ -170,9 +171,8 @@ public:
 PLUGIN(Ring)
 Ring::Ring(const tlp::PluginContext *context) : Glyph(context) {}
 Ring::~Ring() = default;
-void Ring::getIncludeBoundingBox(BoundingBox &boundingBox, node) {
-  boundingBox[0] = Coord(-0.35f, -0.35f, 0);
-  boundingBox[1] = Coord(0.35f, 0.35f, 0);
+BoundingBox Ring::getIncludeBoundingBox(node) {
+  return {{-0.35f, -0.35f, 0}, {0.35f, 0.35f, 0}};
 }
 void Ring::draw(node n, float lod) {
   drawGlyph(glGraphInputData->getElementColor()->getNodeValue(n),

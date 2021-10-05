@@ -27,14 +27,13 @@ Glyph::Glyph(const tlp::PluginContext *context) : glGraphInputData(nullptr) {
 Glyph::~Glyph() = default;
 
 //=============================================
-void Glyph::getIncludeBoundingBox(BoundingBox &boundingBox, node) {
-  boundingBox[0] = Coord(-0.5, -0.5, -0.5);
-  boundingBox[1] = Coord(0.5, 0.5, 0.5);
+BoundingBox Glyph::getIncludeBoundingBox(node) {
+  return {{-0.5, -0.5, -0.5}, {0.5, 0.5, 0.5}};
 }
 
 //=============================================
-void Glyph::getTextBoundingBox(BoundingBox &boundingBox, node n) {
-  getIncludeBoundingBox(boundingBox, n);
+BoundingBox Glyph::getTextBoundingBox(node n) {
+  return getIncludeBoundingBox(n);
 }
 
 //=============================================
