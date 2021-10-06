@@ -112,3 +112,12 @@ jobs:
         with:
           name: Talipot macOS bundles
           path: ./build/Talipot*.dmg
+      - name: Upload Talipot bundle to dev-latest prerelease
+        if: github.ref == 'refs/tags/dev-latest'
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          name: Talipot development build
+          prerelease: true
+          artifacts: ./build/Talipot*.dmg
+          token: ${{ secrets.GITHUB_TOKEN }}

@@ -77,3 +77,12 @@ jobs:
         with:
           name: Talipot NSIS installers
           path: ./build/Talipot*.exe
+      - name: Upload Talipot bundle to dev-latest prerelease
+        if: github.ref == 'refs/tags/dev-latest'
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          name: Talipot development build
+          prerelease: true
+          artifacts: ./build/Talipot*.exe
+          token: ${{ secrets.GITHUB_TOKEN }}
