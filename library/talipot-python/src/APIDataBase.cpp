@@ -79,10 +79,6 @@ void APIDataBase::addApiEntry(const QString &apiEnt) {
   QString apiEntry(apiEnt);
   int pos = apiEntry.indexOf('.');
 
-  if (apiEntry.contains(QRegularExpression("^_talipotgui.*\\..+"))) {
-    apiEntry = apiEntry.mid(pos + 1);
-  }
-
   if (apiEntry.contains(QRegularExpression("^_talipot.*\\..+"))) {
     apiEntry = apiEntry.mid(pos + 1);
   }

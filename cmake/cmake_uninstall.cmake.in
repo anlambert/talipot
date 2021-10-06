@@ -26,24 +26,27 @@ ENDFOREACH(file)
 
 # remove talipot dedicated folders
 EXECUTE_PROCESS(
-    COMMAND @CMAKE_COMMAND@ -E remove_directory "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@/talipot"
-    COMMAND @CMAKE_COMMAND@ -E remove_directory "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@/talipot"
-    COMMAND @CMAKE_COMMAND@ -E remove_directory "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@/cmake/Talipot"
-    COMMAND @CMAKE_COMMAND@ -E remove_directory "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DATADIR@/talipot"
-    COMMAND @CMAKE_COMMAND@ -E remove_directory "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DOCDIR@"
-    COMMAND @CMAKE_COMMAND@ -E remove_directory "@TalipotPythonModulesInstallDir@/talipot"
-    COMMAND @CMAKE_COMMAND@ -E remove_directory "@TalipotPythonModulesInstallDir@/talipotgui"
-    OUTPUT_QUIET ERROR_QUIET
-)
+  COMMAND @CMAKE_COMMAND@ -E remove_directory
+          "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@/talipot"
+  COMMAND @CMAKE_COMMAND@ -E remove_directory
+          "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@/talipot"
+  COMMAND @CMAKE_COMMAND@ -E remove_directory
+          "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@/cmake/Talipot"
+  COMMAND @CMAKE_COMMAND@ -E remove_directory
+          "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DATADIR@/talipot"
+  COMMAND @CMAKE_COMMAND@ -E remove_directory
+          "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DOCDIR@"
+  COMMAND @CMAKE_COMMAND@ -E remove_directory
+          "@TalipotPythonModulesInstallDir@/talipot"
+  OUTPUT_QUIET ERROR_QUIET)
 
 # also remove desktop file and file associations on Linux
 IF(NOT WIN32 AND NOT APPLE)
   EXECUTE_PROCESS(
-    COMMAND
-      update-desktop-database
-      "@DESKTOP_CONFIG_INSTALL_PREFIX@/share/applications" OUTPUT_QUIET
-      ERROR_QUIET)
+    COMMAND update-desktop-database
+            "@DESKTOP_CONFIG_INSTALL_PREFIX@/share/applications" OUTPUT_QUIET
+                                                                 ERROR_QUIET)
   EXECUTE_PROCESS(
     COMMAND update-mime-database "@DESKTOP_CONFIG_INSTALL_PREFIX@/share/mime"
-            OUTPUT_QUIET ERROR_QUIET)
+    OUTPUT_QUIET ERROR_QUIET)
 ENDIF(NOT WIN32 AND NOT APPLE)

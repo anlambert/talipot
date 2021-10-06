@@ -1,4 +1,4 @@
-# Copyright (C) 2019-2020  The Talipot developers
+# Copyright (C) 2019-2021  The Talipot developers
 #
 # Talipot is a fork of Tulip, created by David Auber
 # and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,18 +49,6 @@ class H3LayoutHelper(tlp.Algorithm):
             h = self.graph['viewSize'][n][1]
             s = min(w, h)
             self.graph['viewSize'][n] = (s, s, s)
-
-        try:
-            from talipotgui import tlpgui
-            for v in tlpgui.getViewsOfGraph(self.graph):
-                if isinstance(v, tlpgui.NodeLinkDiagramView):
-                    rp = v.getRenderingParameters()
-                    rp.setEdge3D(True)
-                    rp.setViewArrow(True)
-                    rp.setLabelsAreBillboarded(True)
-                    v.setRenderingParameters(rp)
-        except Exception:
-            pass
 
         return True
 

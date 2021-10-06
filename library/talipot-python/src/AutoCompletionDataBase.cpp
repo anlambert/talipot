@@ -1316,7 +1316,6 @@ QSet<QString> AutoCompletionDataBase::getAllDictForType(const QString &type, con
   QVector<QString> baseTypes = PythonInterpreter::instance().getBaseTypesForType(type);
 
   for (auto baseType : baseTypes) {
-    baseType.replace("_talipotgui", "tlpgui");
     baseType.replace("_talipot", "tlp");
 
     if (baseType != type) {
@@ -1486,7 +1485,6 @@ AutoCompletionDataBase::getParamTypesForMethodOrFunction(const QString &type,
   QVector<QString> baseTypes = PythonInterpreter::instance().getBaseTypesForType(type);
 
   for (auto baseType : baseTypes) {
-    baseType.replace("_talipotgui", "tlpgui");
     baseType.replace("_talipot", "tlp");
 
     if (baseType != type) {

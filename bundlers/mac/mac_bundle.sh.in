@@ -79,8 +79,7 @@ mv bin/talipot MacOS/Talipot
 # run macdeployqt with Talipot Python dynamic modules (not processed by macdeployqt as
 # they are suffixed by .so instead of .dylib)
 ${QT_BINARY_DIR}/macdeployqt ${DEST_DIR}/application/Talipot.app \
-    -executable=${DEST_DIR}/application/Talipot.app/Contents/lib/talipot/python/talipot/native/_talipot.so \
-    -executable=${DEST_DIR}/application/Talipot.app/Contents/lib/talipot/python/talipotgui/native/_talipotgui.so
+    -executable=${DEST_DIR}/application/Talipot.app/Contents/lib/talipot/python/talipot/native/_talipot.so
 
 mv MacOS/Talipot bin/talipot
 # rename

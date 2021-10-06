@@ -496,8 +496,6 @@ PythonIDE::PythonIDE(QWidget *parent)
   APIDataBase::instance().loadApiFile(tlpStringToQString(tlp::TalipotShareDir) +
                                       "/apiFiles/Python-" +
                                       PythonInterpreter::instance().getPythonVersionStr() + ".api");
-  APIDataBase::instance().loadApiFile(tlpStringToQString(tlp::TalipotShareDir) +
-                                      "/apiFiles/talipotgui.api");
 }
 
 PythonIDE::~PythonIDE() {

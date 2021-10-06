@@ -28,7 +28,6 @@ Contents
    pythonplugins
    talipotpluginsdocumentation
    talipotreference
-   talipotguireference
    talipotpluginsreference
 
 Indices and tables

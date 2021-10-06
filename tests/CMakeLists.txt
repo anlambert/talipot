@@ -94,7 +94,6 @@ else:
       ${CMAKE_CURRENT_SOURCE_DIR}
       ${CMAKE_SOURCE_DIR}/library/talipot-python/modules/
       ${TALIPOT_PYTHON_ROOT_FOLDER}
-      ${TALIPOTGUI_PYTHON_ROOT_FOLDER}
       ${CMAKE_BINARY_DIR}/thirdparty/sip-${SIP_VERSION_STR}/siplib)
   IF(WIN32)
     STRING(REPLACE "\\;" ";" PYTHONPATH "${PYTHONPATH}")

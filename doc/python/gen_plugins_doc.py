@@ -20,7 +20,6 @@ tlp.loadTalipotPluginsFromDir('%s/plugins/sizes' % talipot_build_dir)
 tlp.loadTalipotPluginsFromDir('%s/plugins/string' % talipot_build_dir)
 tlp.loadTalipotPluginsFromDir('%s/plugins/test' % talipot_build_dir)
 tlp.loadTalipotPluginsFromDir(os.environ['TALIPOT_PYTHON_PLUGINS_DIR'])
-tlp.loadTalipotPluginsFromDir(os.environ['TalipotGUI_PYTHON_PLUGINS_DIR'])
 
 f = open('talipotpluginsdocumentation.rst', 'w', encoding='utf-8')
 
@@ -165,12 +164,6 @@ description of the input and output parameters for each plugin is given.
 To learn how to call all these algorithms in Python, you can refer to the
 :ref:`Applying an algorithm on a graph <applyGraphAlgorithm>` section.
 The plugins documentation is ordered according to their type.
-
-.. warning:: If you use the Talipot Python bindings through the classical Python
-             interpreter, some plugins (Color Mapping, Convolution Clustering,
-             File System Directory, GEXF, SVG Export, Website) require the
-             :mod:`talipotgui` module to be imported before they can be called
-             as they use Qt under the hood.
 """ + '\n', file=f)
 
 pluginsNames = tlp.PluginsManager.availablePlugins()

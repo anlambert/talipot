@@ -18,7 +18,6 @@ This manual aims to quickly introduce the following features:
    graphvisualattributes
    graphalgorithms
    graphobservation
-   creatingvisualizations
 
 
 

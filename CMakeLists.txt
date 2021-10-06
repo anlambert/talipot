@@ -143,7 +143,6 @@ SET(LibTalipotPythonName "talipot-python-${TalipotMMVersion}")
 SET(LibTalipotOGDFName "talipot-ogdf-${TalipotMMVersion}")
 SET(LibStlPythonBindingsName "stl-python-bindings")
 SET(LibTalipotCorePythonBindingsName "talipot-core-python-bindings")
-SET(LibTalipotGUIPythonBindingsName "talipot-gui-python-bindings")
 SET(TalipotLibs ${LibTalipotCoreName} ${LibTalipotOGLName} ${LibTalipotGUIName}
                 ${LibTalipotOGDFName})
 
@@ -177,12 +176,7 @@ SET(TALIPOT_PYTHON_ROOT_FOLDER
     ${CMAKE_BINARY_DIR}/library/talipot-python/bindings/talipot-core/talipot_module
 )
 SET(TALIPOT_PYTHON_FOLDER ${TALIPOT_PYTHON_ROOT_FOLDER}/talipot)
-SET(TALIPOTGUI_PYTHON_ROOT_FOLDER
-    ${CMAKE_BINARY_DIR}/library/talipot-python/bindings/talipot-gui/talipotgui_module
-)
-SET(TALIPOTGUI_PYTHON_FOLDER ${TALIPOTGUI_PYTHON_ROOT_FOLDER}/talipotgui)
 SET(TALIPOT_PYTHON_NATIVE_FOLDER ${TALIPOT_PYTHON_FOLDER}/native)
-SET(TALIPOTGUI_PYTHON_NATIVE_FOLDER ${TALIPOTGUI_PYTHON_FOLDER}/native)
 SET(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET
     OFF
     CACHE

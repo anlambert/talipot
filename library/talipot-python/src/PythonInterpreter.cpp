@@ -302,7 +302,6 @@ PythonInterpreter::PythonInterpreter()
       runString("site.main()");
 #endif
       runString("from talipot import tlp");
-      runString("from talipotgui import tlpgui");
 
       // When importing the talipot module, Talipot Python plugins and
       // startup scripts will be possibly loaded and other Python modules can be loaded as a side
