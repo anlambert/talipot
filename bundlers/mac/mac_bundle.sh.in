@@ -109,6 +109,7 @@ echo 'Generating DMG'
 cd "${DEST_DIR}"
 sh "${SRC_DIR}/make_dmg.sh" ${APP_NAME} "@TalipotVersion@" "${DEST_DIR}/application"
 
-# rename dmg if needed
-echo "${APP_NAME}-@TalipotVersion@-macOS-@MACOS_VERSION@.dmg has been correctly generated in ${DEST_DIR}"
-mv ${APP_NAME}-@TalipotVersion@.dmg ${APP_NAME}-@TalipotVersion@-macOS-@MACOS_VERSION@.dmg
+# rename dmg
+MACOS_VERSION=$(echo @MACOS_VERSION@ | sed 's/11.*/11/')
+echo "${APP_NAME}-@TalipotVersion@-macOS-${MACOS_VERSION}.dmg has been successfully generated in ${DEST_DIR}"
+mv ${APP_NAME}-@TalipotVersion@.dmg ${APP_NAME}-@TalipotVersion@-macOS-${MACOS_VERSION}.dmg
