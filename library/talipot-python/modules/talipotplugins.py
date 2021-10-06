@@ -1,4 +1,4 @@
-# Copyright (C) 2019-2020  The Talipot developers
+# Copyright (C) 2019-2021  The Talipot developers
 #
 # Talipot is a fork of Tulip, created by David Auber
 # and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,8 +16,6 @@ import atexit
 import sys
 import traceback
 from imp import reload # noqa
-
-from talipot import tlp
 
 pluginFactory = {}
 pluginModules = {}
@@ -56,6 +54,7 @@ def reloadTalipotPythonPlugins():
 
 
 def removePlugin(pluginName):
+    from talipot import tlp
     if tlp.PluginsManager.pluginExists(pluginName):
         tlp.PluginsManager.removePlugin(pluginName)
 
@@ -73,6 +72,7 @@ atexit.register(destroyPlugins)
 
 
 def initFactory(self):
+    from talipot import tlp
     tlp.FactoryInterface.__init__(self)
     self.registerPlugin()
 
@@ -86,6 +86,7 @@ def runPlugin(plugin):
             plugin.pluginProgress.setError(traceback.format_exc())
         # Case where the plugin execution has not been launched through the
         # Talipot GUI, so print the stack trace to stderr
+        from talipot import tlp
         if type(plugin.pluginProgress) == tlp.SimplePluginProgress:
             sys.stdout.write(('There was an error when running Python plugin '
                               'named "%s". See stack trace below.\n') %
@@ -103,6 +104,7 @@ def importGraph(plugin):
             plugin.pluginProgress.setError(traceback.format_exc())
         # Case where the plugin execution has not been launched through
         # the Talipot GUI, so print the stack trace to stderr
+        from talipot import tlp
         if type(plugin.pluginProgress) == tlp.SimplePluginProgress:
             sys.stdout.write(('There was an error when running Python plugin '
                               'named "%s". See stack trace below.\n') %
@@ -120,6 +122,7 @@ def exportGraph(plugin, os):
             plugin.pluginProgress.setError(traceback.format_exc())
         # Case where the plugin execution has not been launched through
         # the Talipot GUI, so print the stack trace to stderr
+        from talipot import tlp
         if type(plugin.pluginProgress) == tlp.SimplePluginProgress:
             sys.stdout.write(('There was an error when running Python plugin '
                               'named "%s". See stack trace below.\n') %
@@ -147,6 +150,7 @@ def createPlugin(context, pluginModule, pluginClassName, pluginName,
     plugin.date = lambda: date
     plugin.info = lambda: info
     plugin.release = lambda: release
+    from talipot import tlp
     plugin.talipotRelease = lambda: tlp.getRelease()
     plugin.programmingLanguage = lambda: 'Python'
     return plugin
@@ -187,6 +191,7 @@ def registerPluginOfGroup(pluginClassName, pluginName, author, date, info,
         if testMode:
             return
         pluginModules[pluginName] = pluginModule
+        from talipot import tlp
         pluginFactory[pluginName] = type(
             '%sFactory' % pluginClassName, (tlp.FactoryInterface,),
             {
