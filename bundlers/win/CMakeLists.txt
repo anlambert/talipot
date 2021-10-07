@@ -7,9 +7,9 @@ ELSE()
 ENDIF()
 
 IF(MSVC)
-  SET(SUFFIX "_msvc")
+  SET(SUFFIX "msvc")
 ELSE(MSVC)
-  SET(SUFFIX "_mingw")
+  SET(SUFFIX "mingw")
 ENDIF(MSVC)
 
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/Talipot.nsi.in
