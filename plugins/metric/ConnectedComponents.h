@@ -11,8 +11,8 @@
  *
  */
 
-#ifndef CONNECTED_COMPONENT_H
-#define CONNECTED_COMPONENT_H
+#ifndef CONNECTED_COMPONENTS_H
+#define CONNECTED_COMPONENTS_H
 
 #include <talipot/DoubleProperty.h>
 #include <talipot/PropertyAlgorithm.h>
@@ -25,15 +25,15 @@
  *  connected component they have the same value else they have a different value.
  *
  */
-class ConnectedComponent : public tlp::DoubleAlgorithm {
+class ConnectedComponents : public tlp::DoubleAlgorithm {
 public:
-  PLUGININFORMATION("Connected Component", "David Auber", "01/07/2002",
+  PLUGININFORMATION("Connected Components", "David Auber", "01/07/2002",
                     "Implements a decomposition in connected components. \
                     This algorithm assigns to each node a value defined as following: if two nodes are in the same \
                     connected component they have the same value else they have a different value. Edges get the value of their source node.",
                     "1.0", "Component")
-  ConnectedComponent(const tlp::PluginContext *context);
+  ConnectedComponents(const tlp::PluginContext *context);
   bool run() override;
 };
 
-#endif // CONNECTED_COMPONENT_H
+#endif // CONNECTED_COMPONENTS_H

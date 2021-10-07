@@ -261,7 +261,7 @@ static constexpr std::string_view paramHelp[] = {
 BubblePack::BubblePack(const tlp::PluginContext *context) : LayoutAlgorithm(context) {
   addInParameter<bool>("complexity", paramHelp[0].data(), "true");
   addInParameter<SizeProperty>("node size", paramHelp[1].data(), "viewSize");
-  addDependency("Connected Component Packing", "1.0");
+  addDependency("Connected Components Packing", "1.0");
 }
 
 BubblePack::~BubblePack() = default;
@@ -294,7 +294,7 @@ bool BubblePack::run() {
     LayoutProperty tmpLayout(graph);
     DataSet tmpdataSet;
     tmpdataSet.set("coordinates", result);
-    graph->applyPropertyAlgorithm("Connected Component Packing", &tmpLayout, err, &tmpdataSet,
+    graph->applyPropertyAlgorithm("Connected Components Packing", &tmpLayout, err, &tmpdataSet,
                                   pluginProgress);
     *result = tmpLayout;
     return true;

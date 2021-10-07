@@ -11,17 +11,17 @@
  *
  */
 
-#include "StrongComponent.h"
+#include "StrongComponents.h"
 
-PLUGIN(StrongComponent)
+PLUGIN(StrongComponents)
 
 using namespace std;
 using namespace tlp;
 
-int StrongComponent::attachNumerotation(tlp::node n, std::unordered_map<tlp::node, bool> &visited,
-                                        std::unordered_map<tlp::node, bool> &finished,
-                                        std::unordered_map<tlp::node, int> &minAttach, int &id,
-                                        std::stack<tlp::node> &renum, int &curComponent) {
+int StrongComponents::attachNumerotation(tlp::node n, std::unordered_map<tlp::node, bool> &visited,
+                                         std::unordered_map<tlp::node, bool> &finished,
+                                         std::unordered_map<tlp::node, int> &minAttach, int &id,
+                                         std::stack<tlp::node> &renum, int &curComponent) {
   if (visited[n]) {
     return minAttach[n];
   }
@@ -64,11 +64,9 @@ int StrongComponent::attachNumerotation(tlp::node n, std::unordered_map<tlp::nod
   return res;
 }
 
-StrongComponent::StrongComponent(const tlp::PluginContext *context) : DoubleAlgorithm(context) {}
+StrongComponents::StrongComponents(const tlp::PluginContext *context) : DoubleAlgorithm(context) {}
 
-StrongComponent::~StrongComponent() = default;
-
-bool StrongComponent::run() {
+bool StrongComponents::run() {
   std::unordered_map<node, bool> visited(graph->numberOfNodes());
   std::unordered_map<node, bool> finished(graph->numberOfNodes());
   stack<node> renum;

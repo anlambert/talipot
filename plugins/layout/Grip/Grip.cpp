@@ -26,7 +26,7 @@ Grip::Grip(const tlp::PluginContext *context)
     : LayoutAlgorithm(context), misf(nullptr), edgeLength(0), level(0), currentGraph(nullptr),
       _dim(0) {
   addInParameter<bool>("3D layout", paramHelp[0].data(), "false");
-  addDependency("Connected Component Packing", "1.0");
+  addDependency("Connected Components Packing", "1.0");
 }
 Grip::~Grip() = default;
 
@@ -127,7 +127,7 @@ bool Grip::run() {
     DataSet tmp;
     tmp.set("coordinates", result);
     LayoutProperty layout(graph);
-    graph->applyPropertyAlgorithm("Connected Component Packing", &layout, err, &tmp);
+    graph->applyPropertyAlgorithm("Connected Components Packing", &layout, err, &tmp);
 
     for (auto n : graph->nodes()) {
       result->setNodeValue(n, layout.getNodeValue(n));

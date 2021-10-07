@@ -13,14 +13,14 @@
 
 #include <talipot/DrawingTools.h>
 
-#include "ConnectedComponentPacking.h"
+#include "ConnectedComponentsPacking.h"
 #include "rectanglePackingFonctions.h"
 #include "DatasetTools.h"
 
 using namespace std;
 using namespace tlp;
 
-PLUGIN(ConnectedComponentPacking)
+PLUGIN(ConnectedComponentsPacking)
 
 const float spacing = 8;
 #define COMPLEXITY "auto;n5;n4logn;n4;n3logn;n3;n2logn;n2;nlogn;n;"
@@ -36,7 +36,7 @@ static constexpr std::string_view paramHelp[] = {
     "Complexity of the algorithm.<br> n is the number of connected components in the graph."};
 
 //====================================================================
-ConnectedComponentPacking::ConnectedComponentPacking(const tlp::PluginContext *context)
+ConnectedComponentsPacking::ConnectedComponentsPacking(const tlp::PluginContext *context)
     : LayoutAlgorithm(context) {
   addInParameter<LayoutProperty>("coordinates", paramHelp[0].data(), "viewLayout");
   addNodeSizePropertyParameter(this);
@@ -47,7 +47,7 @@ ConnectedComponentPacking::ConnectedComponentPacking(const tlp::PluginContext *c
       "<b>n3</b> <br> <b>n2logn</b> <br> <b>n2</b> <br> <b>nlogn</b> <br> <b>n</b>");
 }
 //====================================================================
-bool ConnectedComponentPacking::run() {
+bool ConnectedComponentsPacking::run() {
 
   LayoutProperty *layout = nullptr;
   SizeProperty *size = nullptr;

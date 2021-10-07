@@ -43,9 +43,9 @@ TALIPOT_ADD_PLUGIN(
 # ------------------------------------------------------------------------------
 TALIPOT_ADD_PLUGIN(
   NAME
-  BiconnectedComponent
+  BiconnectedComponents
   SRCS
-  BiconnectedComponent.cpp
+  BiconnectedComponents.cpp
   LINKS
   ${LibTalipotCoreName}
   INSTALL_DIR
@@ -53,9 +53,9 @@ TALIPOT_ADD_PLUGIN(
 # ------------------------------------------------------------------------------
 TALIPOT_ADD_PLUGIN(
   NAME
-  ConnectedComponent
+  ConnectedComponents
   SRCS
-  ConnectedComponent.cpp
+  ConnectedComponents.cpp
   LINKS
   ${LibTalipotCoreName}
   INSTALL_DIR
@@ -63,9 +63,9 @@ TALIPOT_ADD_PLUGIN(
 # ------------------------------------------------------------------------------
 TALIPOT_ADD_PLUGIN(
   NAME
-  StrongComponent
+  StrongComponents
   SRCS
-  StrongComponent.cpp
+  StrongComponents.cpp
   LINKS
   ${LibTalipotCoreName}
   INSTALL_DIR

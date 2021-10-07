@@ -29,15 +29,15 @@ TALIPOT_ADD_PLUGIN(
   INSTALL_DIR
   ${TalipotPluginsInstallDir})
 # ------------------------------------------------------------------------------
-SET(ConnectedComponentPacking_SRCS
-    ConnectedComponentPacking.cpp Number.cpp RectanglePacking.cpp
+SET(ConnectedComponentsPacking_SRCS
+    ConnectedComponentsPacking.cpp Number.cpp RectanglePacking.cpp
     rectanglePackingFonctions.cpp RectangleRelativePositionList.cpp)
 
 TALIPOT_ADD_PLUGIN(
   NAME
-  ConnectedComponentPacking
+  ConnectedComponentsPacking
   SRCS
-  ${ConnectedComponentPacking_SRCS}
+  ${ConnectedComponentsPacking_SRCS}
   LINKS
   ${LayoutUtilsLibraryName}
   ${LibTalipotCoreName}

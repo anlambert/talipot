@@ -11,17 +11,17 @@
  *
  */
 
-#include "ConnectedComponent.h"
+#include "ConnectedComponents.h"
 #include <talipot/ConnectedTest.h>
 
-PLUGIN(ConnectedComponent)
+PLUGIN(ConnectedComponents)
 
 using namespace tlp;
 
-ConnectedComponent::ConnectedComponent(const tlp::PluginContext *context)
+ConnectedComponents::ConnectedComponents(const tlp::PluginContext *context)
     : DoubleAlgorithm(context) {}
 //======================================================
-bool ConnectedComponent::run() {
+bool ConnectedComponents::run() {
   auto components = ConnectedTest::computeConnectedComponents(graph);
 
   // assign the index of each component as value for its nodes

@@ -51,7 +51,7 @@ MixedModel::MixedModel(const tlp::PluginContext *context) : LayoutAlgorithm(cont
   addInParameter<float>("y node-node spacing", paramHelp[1].data(), "2");
   addInParameter<float>("x node-node and edge-node spacing", paramHelp[2].data(), "2");
   addOutParameter<IntegerProperty>("shape property", paramHelp[3].data(), "viewShape");
-  addDependency("Connected Component Packing", "1.0");
+  addDependency("Connected Components Packing", "1.0");
 }
 //====================================================
 MixedModel::~MixedModel() = default;
@@ -282,7 +282,8 @@ bool MixedModel::run() {
     string err;
     DataSet tmp;
     tmp.set("coordinates", result);
-    graph->applyPropertyAlgorithm("Connected Component Packing", result, err, &tmp, pluginProgress);
+    graph->applyPropertyAlgorithm("Connected Components Packing", result, err, &tmp,
+                                  pluginProgress);
     if (pluginProgress->state() != TLP_CONTINUE) {
       return pluginProgress->state() != TLP_CANCEL;
     }

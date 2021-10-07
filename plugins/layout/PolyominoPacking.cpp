@@ -63,7 +63,7 @@ class PolyominoPacking : public tlp::LayoutAlgorithm {
 
 public:
   PLUGININFORMATION(
-      "Connected Component Packing (Polyomino)", "Antoine Lambert", "05/05/11",
+      "Connected Components Packing (Polyomino)", "Antoine Lambert", "05/05/11",
       "Implements the connected component packing algorithm published as:<br/>"
       "<b>Disconnected Graph Layout and the Polyomino Packing Approach</b>, Freivalds Karlis, "
       "Dogrusoz Ugur and Kikusts Paulis, "

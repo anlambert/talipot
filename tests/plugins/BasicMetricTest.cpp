@@ -62,7 +62,7 @@ void BasicMetricTest::testBetweennessCentrality() {
 }
 //==========================================================
 void BasicMetricTest::testBiconnectedComponent() {
-  bool result = computeProperty<DoubleProperty>("Biconnected Component");
+  bool result = computeProperty<DoubleProperty>("Biconnected Components");
   CPPUNIT_ASSERT(result);
 }
 //==========================================================
@@ -72,7 +72,7 @@ void BasicMetricTest::testClusterMetric() {
 }
 //==========================================================
 void BasicMetricTest::testConnectedComponent() {
-  bool result = computeProperty<DoubleProperty>("Connected Component");
+  bool result = computeProperty<DoubleProperty>("Connected Components");
   CPPUNIT_ASSERT(result);
 }
 //==========================================================
@@ -142,7 +142,7 @@ void BasicMetricTest::testStrengthMetric() {
 }
 //==========================================================
 void BasicMetricTest::testStrongComponent() {
-  bool result = computeProperty<DoubleProperty>("Strongly Connected Component");
+  bool result = computeProperty<DoubleProperty>("Strongly Connected Components");
   CPPUNIT_ASSERT(result);
 }
 //==========================================================

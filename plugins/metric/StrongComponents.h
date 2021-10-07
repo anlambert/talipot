@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2021  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -11,8 +11,8 @@
  *
  */
 
-#ifndef STRONG_COMPONENT_H
-#define STRONG_COMPONENT_H
+#ifndef STRONG_COMPONENTS_H
+#define STRONG_COMPONENTS_H
 
 #include <stack>
 #include <unordered_map>
@@ -31,12 +31,11 @@ struct NodeInfo {
  *  different value.
  *
  */
-class StrongComponent : public tlp::DoubleAlgorithm {
+class StrongComponents : public tlp::DoubleAlgorithm {
 public:
-  PLUGININFORMATION("Strongly Connected Component", "David Auber", "12/06/2001",
+  PLUGININFORMATION("Strongly Connected Components", "David Auber", "12/06/2001",
                     "Implements a strongly connected components decomposition.", "1.0", "Component")
-  StrongComponent(const tlp::PluginContext *context);
-  ~StrongComponent() override;
+  StrongComponents(const tlp::PluginContext *context);
   bool run() override;
 
 private:
@@ -46,4 +45,4 @@ private:
                          int &);
 };
 
-#endif // STRONG_COMPONENT_H
+#endif // STRONG_COMPONENTS_H

@@ -32,7 +32,7 @@
  *  tests if it is planar or not. If not, it computes a planar subgraphs, which is
  *  a maximal planar "sub-map". Then an area aware version of Gutwenger and Mutzel 's
  *  algorithm is used, and if the connected component was not planar, it adds the
- *  "unplanar" edges in 3D. Finally, it uses the Connected Component Packing plugin
+ *  "unplanar" edges in 3D. Finally, it uses the Connected Components Packing plugin
  *  of Tulip Software to pack the connected components.\n
  *
  */
