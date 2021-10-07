@@ -16,21 +16,22 @@
 
 PLUGIN(ConnectedComponents)
 
+using namespace std;
 using namespace tlp;
 
 ConnectedComponents::ConnectedComponents(const tlp::PluginContext *context)
     : DoubleAlgorithm(context) {}
 //======================================================
 bool ConnectedComponents::run() {
-  auto components = ConnectedTest::computeConnectedComponents(graph);
+  vector<vector<node>> components = ConnectedTest::computeConnectedComponents(graph);
 
   // assign the index of each component as value for its nodes
-  for (unsigned curComponent = 0; curComponent < components.size(); ++curComponent) {
-    std::vector<node> &component = components[curComponent];
-
+  uint curComponent = 0;
+  for (const auto &component : components) {
     for (auto n : component) {
       result->setNodeValue(n, curComponent);
     }
+    ++curComponent;
   }
 
   // propagate nodes computed value to edges
