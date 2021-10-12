@@ -566,9 +566,9 @@ tlp::MutableContainer<TYPE, INDEX_TYPE>::get(const INDEX_TYPE i, bool &notDefaul
       notDefault = false;
       return StoredType<TYPE>::get(defaultValue);
     } else {
-      typename StoredType<TYPE>::Value val = (*vData)[i - minIndex];
-      notDefault = val != defaultValue;
-      return StoredType<TYPE>::get(val);
+      typename StoredType<TYPE>::Reference val = StoredType<TYPE>::get((*vData)[i - minIndex]);
+      notDefault = val != StoredType<TYPE>::get(defaultValue);
+      return val;
     }
 
   case HASH: {

@@ -24,7 +24,7 @@ struct StoredType {
   // the type of the stored value
   typedef TYPE Value;
   // the type of the returned value
-  typedef TYPE Reference;
+  typedef TYPE &Reference;
   // the type of a returned const value
   typedef TYPE ConstReference;
   // indicates if a pointer to the value is stored
