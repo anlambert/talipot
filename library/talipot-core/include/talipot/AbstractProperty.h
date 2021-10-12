@@ -30,6 +30,12 @@ namespace tlp {
 
 class GraphView;
 
+template <class NodeType, class EdgeType, class PropType>
+class PropertyNodeValueWrapper;
+
+template <class NodeType, class EdgeType, class PropType>
+class PropertyEdgeValueWrapper;
+
 //==============================================================
 
 /**
@@ -291,6 +297,22 @@ public:
                                   tlp::Iterator<edge> *itE, Graph *);
   };
 
+  TYPE_CONST_REFERENCE(NodeType) operator[](node n) const {
+    return getNodeValue(n);
+  }
+
+  PropertyNodeValueWrapper<NodeType, EdgeType, PropType> operator[](node n) {
+    return PropertyNodeValueWrapper(this, n);
+  }
+
+  TYPE_CONST_REFERENCE(EdgeType) operator[](edge e) const {
+    return getEdgeValue(e);
+  }
+
+  PropertyEdgeValueWrapper<NodeType, EdgeType, PropType> operator[](edge e) {
+    return PropertyEdgeValueWrapper(this, e);
+  }
+
 protected:
   //=================================================================================
   /// Enable to clone part of sub_class
@@ -410,7 +432,10 @@ public:
    **/
   void resizeEdgeValue(const edge e, size_t size, REAL_TYPE(EltType) elt = EltType::defaultValue());
 };
+
 }
+
+#include "PropertyValueWrappers.h"
 
 #ifdef DLL_TALIPOT
 #include "cxx/AbstractProperty.cxx"

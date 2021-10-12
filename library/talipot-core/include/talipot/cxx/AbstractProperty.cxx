@@ -734,7 +734,6 @@ template <typename NodeType, typename EdgeType, typename PropType>
 void tlp::AbstractProperty<NodeType, EdgeType, PropType>::clone_handler(
     const tlp::AbstractProperty<NodeType, EdgeType, PropType> &) {}
 //============================================================
-
 //============================================================
 template <typename VecType, typename EltType, typename PropType>
 tlp::AbstractVectorProperty<VecType, EltType, PropType>::AbstractVectorProperty(

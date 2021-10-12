@@ -56,6 +56,7 @@ INSTALL(
         talipot/PropertyAlgorithm.h
         talipot/PropertyInterface.h
         talipot/PropertyTypes.h
+        talipot/PropertyValueWrappers.h
         talipot/Rectangle.h
         talipot/SimplePluginProgress.h
         talipot/SimpleTest.h
