@@ -252,9 +252,9 @@ unsigned int PropertyProxy::numberOfNonDefaultValuatedEdges(const Graph *g) cons
   PropertyValueWrapper::operator TYPE_CONST_REFERENCE(PROP_TYPE##Type)() const { \
     auto *prop = _graph->get##PROP_TYPE##Property(_propertyName);                \
     if (_n.isValid()) {                                                          \
-      return prop->getNodeValue(_n);                                             \
+      return (*prop)[_n];                                                        \
     } else {                                                                     \
-      return prop->getEdgeValue(_e);                                             \
+      return (*prop)[_e];                                                        \
     }                                                                            \
   }
 
@@ -311,13 +311,13 @@ PropertyValueWrapper &PropertyValueWrapper::operator=(TYPE_CONST_REFERENCE(LineT
 
 PropertyValueWrapper::operator TYPE_CONST_REFERENCE(LineType)() const {
   if (_n.isValid()) {
-    return _graph->getCoordVectorProperty(_propertyName)->getNodeValue(_n);
+    return (*_graph->getCoordVectorProperty(_propertyName))[_n];
   } else {
     if (_graph->existProperty(_propertyName) &&
         _graph->getProperty(_propertyName)->getTypename() == LayoutProperty::propertyTypename) {
-      return _graph->getLayoutProperty(_propertyName)->getEdgeValue(_e);
+      return (*_graph->getLayoutProperty(_propertyName))[_e];
     } else {
-      return _graph->getCoordVectorProperty(_propertyName)->getEdgeValue(_e);
+      return (*_graph->getCoordVectorProperty(_propertyName))[_e];
     }
   }
 }
@@ -333,9 +333,10 @@ PropertyValueWrapper &PropertyValueWrapper::operator=(TYPE_CONST_REFERENCE(Point
 PropertyValueWrapper::operator TYPE_CONST_REFERENCE(PointType)() const {
   auto *prop = _graph->getLayoutProperty(_propertyName);
   if (_n.isValid()) {
-    return prop->getNodeValue(_n);
+    return (*prop)[_n];
   } else {
-    static REAL_TYPE(PointType) p;
+    static REAL_TYPE(PointType)
+    p;
     return p;
   }
 }

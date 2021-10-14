@@ -752,14 +752,14 @@ std::pair<tlp::Coord, tlp::Coord> LayoutProperty::computeMinMaxNode(const Graph 
   tlp::Coord minT = {FLT_MAX, FLT_MAX, FLT_MAX};
 
   for (auto itn : sg->nodes()) {
-    const Coord &tmpCoord = this->getNodeValue(itn);
+    const Coord &tmpCoord = (*this)[itn];
     maxV(maxT, tmpCoord);
     minV(minT, tmpCoord);
   }
 
   if (static_cast<LayoutProperty *>(this)->nbBendedEdges > 0) {
     for (auto ite : sg->edges()) {
-      const LineType::RealType &value = this->getEdgeValue(ite);
+      const vector<Coord> &value = (*this)[ite];
 
       for (const auto &coord : value) {
         maxV(maxT, coord);
@@ -787,7 +787,7 @@ std::pair<tlp::Coord, tlp::Coord> LayoutProperty::computeMinMaxNode(const Graph 
 void LayoutProperty::updateEdgeValue(tlp::edge e,
                                      StoredType<LineType::RealType>::ConstReference newValue) {
 
-  const std::vector<Coord> &oldV = this->getEdgeValue(e);
+  const std::vector<Coord> &oldV = (*this)[e];
 
   if (newValue == oldV) {
     return;

@@ -64,7 +64,7 @@ tlp::Iterator<tlp::node> *tlp::AbstractProperty<NodeType, EdgeType, PropType>::g
     TYPE_CONST_REFERENCE(NodeType) val, const Graph *sg) const {
   if (val == nodeDefaultValue) {
     return filterIterator(sg == nullptr ? PropType::graph->nodes() : sg->nodes(),
-                          [&, val](node n) { return this->getNodeValue(n) == val; });
+                          [&, val](node n) { return (*this)[n] == val; });
   } else {
     return filterIterator(nodeProperties.findAll(val), [&, sg](node n) {
       if (PropType::name.empty()) {
@@ -83,7 +83,7 @@ tlp::Iterator<tlp::edge> *tlp::AbstractProperty<NodeType, EdgeType, PropType>::g
     TYPE_CONST_REFERENCE(EdgeType) val, const Graph *sg) const {
   if (val == edgeDefaultValue) {
     return filterIterator(sg == nullptr ? PropType::graph->edges() : sg->edges(),
-                          [&, val](edge e) { return this->getEdgeValue(e) == val; });
+                          [&, val](edge e) { return (*this)[e] == val; });
   } else {
     return filterIterator(edgeProperties.findAll(val), [&, sg](edge e) {
       if (PropType::name.empty()) {
@@ -406,24 +406,24 @@ tlp::AbstractProperty<NodeType, EdgeType, PropType>::operator=(
       setAllEdgeValue(prop.getEdgeDefaultValue());
 
       for (auto itn : prop.getNonDefaultValuatedNodes()) {
-        setNodeValue(itn, prop.getNodeValue(itn));
+        setNodeValue(itn, prop[itn]);
       }
 
       for (auto ite : prop.getNonDefaultValuatedEdges()) {
-        setEdgeValue(ite, prop.getEdgeValue(ite));
+        setEdgeValue(ite, prop[ite]);
       }
 
     } else {
       //==============================================================*
       for (auto n : PropType::graph->nodes()) {
         if (prop.PropType::graph->isElement(n)) {
-          setNodeValue(n, prop.getNodeValue(n));
+          setNodeValue(n, prop[n]);
         }
       }
 
       for (auto e : PropType::graph->edges()) {
         if (prop.PropType::graph->isElement(e)) {
-          setEdgeValue(e, prop.getEdgeValue(e));
+          setEdgeValue(e, prop[e]);
         }
       }
     }

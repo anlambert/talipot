@@ -452,7 +452,7 @@ bool GraphAbstract::isMetaEdge(const edge e) const {
 //=========================================================================
 Graph *GraphAbstract::getNodeMetaInfo(const node n) const {
   if (metaGraphProperty) {
-    return metaGraphProperty->getNodeValue(n);
+    return (*metaGraphProperty)[n];
   }
 
   return nullptr;

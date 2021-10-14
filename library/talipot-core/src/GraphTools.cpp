@@ -77,8 +77,8 @@ void makeProperDag(Graph *graph, list<node> &addedNodes,
   for (uint i = 0; i < nbEdges; ++i) {
     edge e = edges[i];
     auto [src, tgt] = graph->ends(e);
-    uint fLevel = dLevel.getNodeValue(src);
-    uint sLevel = dLevel.getNodeValue(tgt);
+    uint fLevel = dLevel[src];
+    uint sLevel = dLevel[tgt];
     int delta = sLevel - fLevel;
 
     if (delta > 1) {
@@ -272,7 +272,7 @@ void selectSpanningForest(Graph *graph, BooleanProperty *selectionProperty,
     for (uint i = 0; i < nbNodes; ++i) {
       node n = nodes[i];
 
-      if (selectionProperty->getNodeValue(n)) {
+      if ((*selectionProperty)[n]) {
         fifo.push_back(n);
         nodeFlag[i] = true;
       }
@@ -388,10 +388,10 @@ void selectSpanningTree(Graph *graph, BooleanProperty *selection, PluginProgress
 
     for (auto e : graph->incidence(root)) {
 
-      if (!selection->getEdgeValue(e)) {
+      if (!(*selection)[e]) {
         node neighbour = graph->opposite(e, root);
 
-        if (!selection->getNodeValue(neighbour)) {
+        if (!(*selection)[neighbour]) {
           selection->setNodeValue(neighbour, true);
           roots.push_back(neighbour);
           nbNodes++;
@@ -735,7 +735,7 @@ unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selection, bool
   for (auto e : selection->getEdgesEqualTo(true, graph)) {
     const auto &[src, tgt] = graph->ends(e);
 
-    if (!selection->getNodeValue(src)) {
+    if (!(*selection)[src]) {
 #ifndef NDEBUG
       tlp::debug() << "[Make selection a graph] node #" << src.id << " source of edge #" << e.id
                    << " automatically added to selection.";
@@ -749,7 +749,7 @@ unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selection, bool
       }
     }
 
-    if (!selection->getNodeValue(tgt)) {
+    if (!(*selection)[tgt]) {
 #ifndef NDEBUG
       tlp::debug() << "[Make selection a graph] node #" << tgt << " target of edge #" << e.id
                    << " automatically added to selection.";
@@ -798,7 +798,7 @@ bool selectShortestPaths(const Graph *const graph, node src, node tgt, ShortestP
     eWeights.setAll(SMALLEST_WEIGHT);
   } else {
     auto fn = [&](edge e, uint i) {
-      double val(weights->getEdgeValue(e));
+      double val = (*weights)[e];
 
       eWeights[i] = val ? val : SMALLEST_WEIGHT;
     };

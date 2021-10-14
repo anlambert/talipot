@@ -446,7 +446,7 @@ void tlp::removeFromGraph(Graph *ioG, BooleanProperty *inSel) {
 
   // get edges
   for (auto e : ioG->edges()) {
-    if (inSel->getEdgeValue(e)) {
+    if ((*inSel)[e]) {
       // selected edge -> remove it !
       edgeA.push_back(e);
     } else {
@@ -460,7 +460,7 @@ void tlp::removeFromGraph(Graph *ioG, BooleanProperty *inSel) {
   vector<node> nodeA;
   // get nodes
   for (auto n : ioG->nodes()) {
-    if (inSel->getNodeValue(n)) {
+    if ((*inSel)[n]) {
       // selected node -> remove it !
       nodeA.push_back(n);
     }
@@ -1017,7 +1017,7 @@ static void buildMapping(Iterator<node> *it, MutableContainer<node> &mapping,
       mapping.set(n.id, from);
     }
 
-    Graph *meta = metaInfo->getNodeValue(n);
+    Graph *meta = (*metaInfo)[n];
 
     if (meta != nullptr) {
       buildMapping(meta->getNodes(), mapping, metaInfo, mapping.get(n.id));
@@ -1026,17 +1026,17 @@ static void buildMapping(Iterator<node> *it, MutableContainer<node> &mapping,
 }
 //====================================================================================
 void updatePropertiesUngroup(Graph *graph, node metanode, GraphProperty *clusterInfo) {
-  if (clusterInfo->getNodeValue(metanode) == nullptr) {
+  if ((*clusterInfo)[metanode] == nullptr) {
     return; // The metanode is not a metanode.
   }
 
   LayoutProperty *graphLayout = graph->getLayoutProperty(layoutProperty);
   SizeProperty *graphSize = graph->getSizeProperty(sizeProperty);
   DoubleProperty *graphRot = graph->getDoubleProperty(rotationProperty);
-  const Size &size = graphSize->getNodeValue(metanode);
-  const Coord &pos = graphLayout->getNodeValue(metanode);
-  double rot = graphRot->getNodeValue(metanode);
-  Graph *cluster = clusterInfo->getNodeValue(metanode);
+  const Size &size = (*graphSize)[metanode];
+  const Coord &pos = (*graphLayout)[metanode];
+  double rot = (*graphRot)[metanode];
+  Graph *cluster = (*clusterInfo)[metanode];
   LayoutProperty *clusterLayout = cluster->getLayoutProperty(layoutProperty);
   SizeProperty *clusterSize = cluster->getSizeProperty(sizeProperty);
   DoubleProperty *clusterRot = cluster->getDoubleProperty(rotationProperty);
@@ -1069,20 +1069,20 @@ void updatePropertiesUngroup(Graph *graph, node metanode, GraphProperty *cluster
   }
 
   clusterLayout->translate(-box.center(), cluster);
-  clusterLayout->rotateZ(graphRot->getNodeValue(metanode), cluster);
+  clusterLayout->rotateZ((*graphRot)[metanode], cluster);
   clusterLayout->scale(Coord(scale, scale, size[2] / depth), cluster);
   clusterLayout->translate(pos, cluster);
   clusterSize->scale(Size(scale, scale, size[2] / depth), cluster);
 
   for (auto n : cluster->nodes()) {
-    graphLayout->setNodeValue(n, clusterLayout->getNodeValue(n));
-    graphSize->setNodeValue(n, clusterSize->getNodeValue(n));
-    graphRot->setNodeValue(n, clusterRot->getNodeValue(n) + rot);
+    graphLayout->setNodeValue(n, (*clusterLayout)[n]);
+    graphSize->setNodeValue(n, (*clusterSize)[n]);
+    graphRot->setNodeValue(n, (*clusterRot)[n] + rot);
   }
 
   for (auto e : cluster->edges()) {
-    graphLayout->setEdgeValue(e, clusterLayout->getEdgeValue(e));
-    graphSize->setEdgeValue(e, clusterSize->getEdgeValue(e));
+    graphLayout->setEdgeValue(e, (*clusterLayout)[e]);
+    graphSize->setEdgeValue(e, (*clusterSize)[e]);
   }
 
   // propagate all cluster local properties
@@ -1280,8 +1280,7 @@ node Graph::createMetaNode(Graph *subGraph, bool multiEdges, bool edgeDelAll) {
 
         edges[src].insert(tgt);
 
-        if (((metaInfo->getNodeValue(src) != nullptr) ||
-             (metaInfo->getNodeValue(tgt) != nullptr)) &&
+        if ((((*metaInfo)[src] != nullptr) || ((*metaInfo)[tgt] != nullptr)) &&
             existEdge(src, tgt).isValid()) {
           toDelete = NEED_TODEL;
           delEdge(e, edgeDelAll);
@@ -1316,8 +1315,7 @@ node Graph::createMetaNode(Graph *subGraph, bool multiEdges, bool edgeDelAll) {
         edges[tgt].insert(src);
 
         if (toDelete == CHECK_TODEL) {
-          toDelete = ((metaInfo->getNodeValue(src) != nullptr) ||
-                      (metaInfo->getNodeValue(tgt) != nullptr)) &&
+          toDelete = (((*metaInfo)[src] != nullptr) || ((*metaInfo)[tgt] != nullptr)) &&
                      existEdge(src, tgt).isValid();
         }
 
@@ -1347,7 +1345,7 @@ static void mapSubGraphNodes(Graph *sg, node metaNode, MutableContainer<node> &m
                              GraphProperty *metaInfo) {
   for (auto n : sg->nodes()) {
     mappingM.set(n.id, metaNode);
-    Graph *ssg = metaInfo->getNodeValue(n);
+    Graph *ssg = (*metaInfo)[n];
 
     if (ssg) {
       mapSubGraphNodes(ssg, metaNode, mappingM, metaInfo);
@@ -1363,7 +1361,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
   }
 
   GraphProperty *metaInfo = static_cast<GraphAbstract *>(getRoot())->getMetaGraphProperty();
-  Graph *metaGraph = metaInfo->getNodeValue(metaNode);
+  Graph *metaGraph = (*metaInfo)[metaNode];
 
   if (metaGraph == nullptr) {
     return;
@@ -1381,7 +1379,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
       node n = nodes[i];
       addNode(n);
       mappingM.set(n.id, n);
-      Graph *sg = metaInfo->getNodeValue(n);
+      Graph *sg = (*metaInfo)[n];
 
       if (sg) {
         // map all nodes or embedded nodes
@@ -1418,7 +1416,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
     // and their sub nodes
     for (auto mn : super->getInOutNodes(metaNode)) {
       mappingM.set(mn.id, mn);
-      Graph *mnGraph = metaInfo->getNodeValue(mn);
+      Graph *mnGraph = (*metaInfo)[mn];
 
       if (mnGraph != nullptr) {
         for (auto mnn : mnGraph->nodes()) {
@@ -1429,7 +1427,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
 
     for (auto metaEdge : super->incidence(metaNode)) {
 
-      Color metaColor = graphColors->getEdgeValue(metaEdge);
+      Color metaColor = (*graphColors)[metaEdge];
       std::unordered_map<node, std::unordered_map<node, set<edge>>> newMetaEdges;
 
       for (auto e : getEdgeMetaInfo(metaEdge)) {
@@ -1497,7 +1495,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
     std::unordered_map<node, Color> metaEdgeToColor;
 
     for (auto metaEdge : super->incidence(metaNode)) {
-      metaEdgeToColor[opposite(metaEdge, metaNode)] = graphColors->getEdgeValue(metaEdge);
+      metaEdgeToColor[opposite(metaEdge, metaNode)] = (*graphColors)[metaEdge];
     }
 
     // Remove the metagraph from the hierarchy and remove the metanode
@@ -1533,7 +1531,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
         }
       }
 
-      if (metaInfo->getNodeValue(src) == nullptr && metaInfo->getNodeValue(tgt) == nullptr) {
+      if ((*metaInfo)[src] == nullptr && (*metaInfo)[tgt] == nullptr) {
         addEdge(e);
         continue;
       }

@@ -190,7 +190,7 @@ void tlp::dagLevel(const Graph *graph, tlp::NodeVectorProperty<uint> &level) {
   while (!fifo.empty()) {
     node current = fifo.front();
     fifo.pop_front();
-    uint curLevel = level.getNodeValue(current) + 1;
+    uint curLevel = level[current] + 1;
     for (auto child : graph->getOutNodes(current)) {
       uint childPos = graph->nodePos(child);
       uint childLevel = totreat[childPos];

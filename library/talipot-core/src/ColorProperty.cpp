@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2021  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,7 +29,7 @@ public:
   void computeMetaValue(AbstractColorProperty *color, edge mE, Iterator<edge> *itE,
                         Graph *) override {
     // meta edge color is the color of the first underlying edge
-    color->setEdgeValue(mE, color->getEdgeValue(itE->next()));
+    color->setEdgeValue(mE, (*color)[itE->next()]);
     delete itE;
   }
 };

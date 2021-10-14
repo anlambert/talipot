@@ -35,7 +35,7 @@ public:
     DoubleProperty *metric = sg->getDoubleProperty("viewMetric");
 
     for (auto itn : sg->nodes()) {
-      double value = metric->getNodeValue(itn);
+      double value = (*metric)[itn];
 
       if (value > vMax) {
         vMax = value;
@@ -44,7 +44,7 @@ public:
     }
 
     if (viewMetricMaxNode.isValid()) {
-      label->setNodeValue(mN, label->getNodeValue(viewMetricMaxNode));
+      label->setNodeValue(mN, (*label)[viewMetricMaxNode]);
     }
   }
 };

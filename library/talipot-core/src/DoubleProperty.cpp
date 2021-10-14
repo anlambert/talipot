@@ -50,7 +50,7 @@ static void computeNodeAvgValue(
   uint nbNodes = 0;
   for (auto n : sg->nodes()) {
     ++nbNodes;
-    value += metric->getNodeValue(n);
+    value += (*metric)[n];
   }
 
   if (nbNodes) {
@@ -66,7 +66,7 @@ static void computeEdgeAvgValue(
 
   for (auto e : itE) {
     ++nbEdges;
-    value += metric->getEdgeValue(e);
+    value += (*metric)[e];
   }
 
   if (nbEdges) {
@@ -91,7 +91,7 @@ static void computeNodeSumValue(
 
   double value = 0;
   for (auto n : sg->nodes()) {
-    value += metric->getNodeValue(n);
+    value += (*metric)[n];
   }
   metric->setNodeValue(mN, value);
 }
@@ -102,7 +102,7 @@ static void computeEdgeSumValue(
   double value = 0;
 
   for (auto e : itE) {
-    value += metric->getEdgeValue(e);
+    value += (*metric)[e];
   }
 
   metric->setEdgeValue(mE, value);
@@ -125,7 +125,7 @@ static void computeNodeMaxValue(
 
   double value = -DBL_MAX;
   for (auto n : sg->nodes()) {
-    double nVal = metric->getNodeValue(n);
+    double nVal = (*metric)[n];
 
     if (nVal > value) {
       value = nVal;
@@ -140,7 +140,7 @@ static void computeEdgeMaxValue(
   double value = -DBL_MAX;
 
   for (auto e : itE) {
-    double eVal = metric->getEdgeValue(e);
+    double eVal = (*metric)[e];
 
     if (eVal > value) {
       value = eVal;
@@ -167,7 +167,7 @@ static void computeNodeMinValue(
 
   double value = DBL_MAX;
   for (auto n : sg->nodes()) {
-    double nVal = metric->getNodeValue(n);
+    double nVal = (*metric)[n];
 
     if (nVal < value) {
       value = nVal;
@@ -182,7 +182,7 @@ static void computeEdgeMinValue(
   double value = DBL_MAX;
 
   for (auto e : itE) {
-    double eVal = metric->getEdgeValue(e);
+    double eVal = (*metric)[e];
 
     if (eVal < value) {
       value = eVal;

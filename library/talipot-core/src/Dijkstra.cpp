@@ -66,7 +66,7 @@ Dijkstra::Dijkstra(const Graph *const graph, node src, const EdgeVectorProperty<
     for (auto e : getIncidentEdgesIterator(graph, u.n, direction)) {
       node v = graph->opposite(e, u.n);
       auto *dEle = mapDik[v];
-      double eWeight = weights.getEdgeValue(e);
+      double eWeight = weights[e];
       assert(eWeight > 0);
 
       if (fabs((u.dist + eWeight) - dEle->dist) < 1E-9) { // path of the same length
@@ -116,7 +116,7 @@ bool Dijkstra::searchPath(node n, BooleanProperty *result) {
         continue; // edge does not belong to the shortest path
       }
 
-      if (result->getEdgeValue(e)) {
+      if ((*result)[e]) {
         continue; // edge already treated
       }
 
@@ -152,7 +152,7 @@ void Dijkstra::internalSearchPaths(node n, BooleanProperty *result) {
       continue;
     }
 
-    if (result->getEdgeValue(e)) {
+    if ((*result)[e]) {
       continue;
     }
 
@@ -163,7 +163,7 @@ void Dijkstra::internalSearchPaths(node n, BooleanProperty *result) {
     }
 
     result->setEdgeValue(e, true);
-    if (!result->getNodeValue(tgt)) {
+    if (!(*result)[tgt]) {
       internalSearchPaths(tgt, result);
     }
   }
@@ -171,7 +171,7 @@ void Dijkstra::internalSearchPaths(node n, BooleanProperty *result) {
 //========================================
 bool Dijkstra::searchPaths(node n, BooleanProperty *result) {
   internalSearchPaths(n, result);
-  if (!result->getNodeValue(src)) {
+  if (!(*result)[src]) {
     result->setAllNodeValue(false);
     result->setAllEdgeValue(false);
     return false;

@@ -329,7 +329,7 @@ public:
 
           // for GraphProperty we must ensure the reindexing
           // of embedded edges
-          const set<edge> &edges = static_cast<GraphProperty *>(prop)->getEdgeValue(e);
+          const set<edge> &edges = (*static_cast<GraphProperty *>(prop))[e];
           set<edge> rEdges;
 
           for (auto ee : edges) {

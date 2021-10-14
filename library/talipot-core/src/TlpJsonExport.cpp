@@ -275,7 +275,7 @@ public:
 
             // for GraphProperty we must ensure the reindexing
             // of embedded edges
-            const set<edge> &edges = static_cast<GraphProperty *>(property)->getEdgeValue(e);
+            const set<edge> &edges = (*static_cast<GraphProperty *>(property))[e];
             set<edge> rEdges;
             for (auto ee : edges) {
               edge rEdge = edge(graph->edgePos(ee));
