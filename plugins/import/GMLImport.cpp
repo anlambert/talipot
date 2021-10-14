@@ -70,7 +70,7 @@ struct GMLGraphBuilder : public GMLTrue {
 
     return false;
   }
-  bool setNodeValue(int nodeId, const string &propertyName, const double &value) {
+  bool setNodeValue(int nodeId, const string &propertyName, double value) {
     if (_graph->isElement(nodeIndex[nodeId])) {
       _graph->getLocalDoubleProperty(propertyName)->setNodeValue(nodeIndex[nodeId], value);
       return true;

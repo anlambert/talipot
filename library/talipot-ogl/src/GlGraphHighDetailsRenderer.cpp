@@ -27,9 +27,9 @@ namespace tlp {
  */
 struct EntityWithDistance {
 
-  EntityWithDistance(const double &dist, EntityLODUnit *entity)
+  EntityWithDistance(double dist, EntityLODUnit *entity)
       : distance(dist), entity(entity), isComplexEntity(false), isNode(false) {}
-  EntityWithDistance(const double &dist, GraphElementLODUnit *entity, bool isNode)
+  EntityWithDistance(double dist, GraphElementLODUnit *entity, bool isNode)
       : distance(dist), entity(entity), isComplexEntity(true), isNode(isNode) {}
 
   double distance;

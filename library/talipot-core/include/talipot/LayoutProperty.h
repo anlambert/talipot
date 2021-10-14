@@ -119,7 +119,7 @@ public:
    * @param alpha an angle in degrees
    * @param subgraph If not null, only rotates the layout of that subgraph
    **/
-  void rotateX(const double &alpha, const Graph *subgraph = nullptr);
+  void rotateX(double alpha, const Graph *subgraph = nullptr);
 
   /**
    * Rotates the layout around the Y-axis according to an angle in degrees.
@@ -127,7 +127,7 @@ public:
    * @param alpha an angle in degrees
    * @param subgraph If not null, only rotates the layout of that subgraph
    **/
-  void rotateY(const double &alpha, const Graph *subgraph = nullptr);
+  void rotateY(double alpha, const Graph *subgraph = nullptr);
 
   /**
    * Rotates the layout around the Z-axis according to an angle in degrees.
@@ -135,7 +135,7 @@ public:
    * @param alpha an angle in degrees
    * @param subgraph If not null, only rotates the layout of that subgraph
    **/
-  void rotateZ(const double &alpha, const Graph *subgraph = nullptr);
+  void rotateZ(double alpha, const Graph *subgraph = nullptr);
 
   /**
    * Rotates the layout around the X-axis of the nodes and edges provided
@@ -147,7 +147,7 @@ public:
    *
    * @warning The iterators are deleted after their use
    **/
-  void rotateX(const double &alpha, Iterator<node> *itNodes, Iterator<edge> *itEdges);
+  void rotateX(double alpha, Iterator<node> *itNodes, Iterator<edge> *itEdges);
 
   /**
    * Rotates the layout around the Y-axis of the nodes and edges provided
@@ -159,7 +159,7 @@ public:
    *
    * @warning The iterators are deleted after their use
    **/
-  void rotateY(const double &alpha, Iterator<node> *itNodes, Iterator<edge> *itEdges);
+  void rotateY(double alpha, Iterator<node> *itNodes, Iterator<edge> *itEdges);
 
   /**
    * Rotates the layout around the Z-axis of the nodes and edges provided through
@@ -171,7 +171,7 @@ public:
    *
    * @warning The iterators are deleted after their use
    **/
-  void rotateZ(const double &alpha, Iterator<node> *itNodes, Iterator<edge> *itEdges);
+  void rotateZ(double alpha, Iterator<node> *itNodes, Iterator<edge> *itEdges);
 
   /**
    * Centers the layout, meaning translating it in order that
@@ -297,7 +297,7 @@ protected:
 
 private:
   void resetBoundingBox();
-  void rotate(const double &alpha, int rot, Iterator<node> *, Iterator<edge> *);
+  void rotate(double alpha, int rot, Iterator<node> *, Iterator<edge> *);
   // override Observable::treatEvent
   void treatEvent(const Event &) override;
 

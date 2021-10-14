@@ -163,7 +163,7 @@ Scales the layout of the nodes and edges provided through iterators according to
 
 //===========================================================================================
 
-  void rotateX(const double &alpha, const tlp::Graph *subgraph=NULL);
+  void rotateX(double alpha, const tlp::Graph *subgraph=NULL);
 %Docstring
 tlp.LayoutProperty.rotateX(alpha, subgraph=None)
 
@@ -193,7 +193,7 @@ Rotates the layout around the X-axis according to an angle in degrees.
 
 //===========================================================================================
 
-        void rotateY(const double &alpha, const tlp::Graph *subgraph=NULL);
+        void rotateY(double alpha, const tlp::Graph *subgraph=NULL);
 %Docstring
 tlp.LayoutProperty.rotateY(alpha, subgraph=None)
 
@@ -223,7 +223,7 @@ Rotates the layout around the Y-axis according to an angle in degrees.
 
 //===========================================================================================
 
-  void rotateZ(const double &alpha, const tlp::Graph *subgraph=NULL);
+  void rotateZ(double alpha, const tlp::Graph *subgraph=NULL);
 %Docstring
 tlp.LayoutProperty.rotateZ(alpha, subgraph=None)
 
@@ -253,7 +253,7 @@ Rotates the layout around the Z-axis according to an angle in degrees.
 
 //===========================================================================================
 
-  void rotateX(const double &alpha, tlp::Iterator<tlp::node> *itNodes /TypeHint="Iterator[tlp.node]"/, tlp::Iterator<tlp::edge> *itEdges /TypeHint="Iterator[tlp.edge]"/);
+  void rotateX(double alpha, tlp::Iterator<tlp::node> *itNodes /TypeHint="Iterator[tlp.node]"/, tlp::Iterator<tlp::edge> *itEdges /TypeHint="Iterator[tlp.edge]"/);
 %Docstring
 tlp.LayoutProperty.rotateX(alpha, itNodes, itEdges)
 
@@ -269,7 +269,7 @@ Rotates the layout around the X-axis of the nodes and edges provided through ite
 
 //===========================================================================================
 
-  void rotateY(const double &alpha, tlp::Iterator<tlp::node> *itNodes /TypeHint="Iterator[tlp.node]"/, tlp::Iterator<tlp::edge> *itEdges /TypeHint="Iterator[tlp.edge]"/);
+  void rotateY(double alpha, tlp::Iterator<tlp::node> *itNodes /TypeHint="Iterator[tlp.node]"/, tlp::Iterator<tlp::edge> *itEdges /TypeHint="Iterator[tlp.edge]"/);
 %Docstring
 tlp.LayoutProperty.rotateY(alpha, itNodes, itEdges)
 
@@ -285,7 +285,7 @@ Rotates the layout around the Y-axis of the nodes and edges provided through ite
 
 //===========================================================================================
 
-  void rotateZ(const double &alpha, tlp::Iterator<tlp::node> *itNodes /TypeHint="Iterator[tlp.node]"/, tlp::Iterator<tlp::edge> *itEdges /TypeHint="Iterator[tlp.edge]"/);
+  void rotateZ(double alpha, tlp::Iterator<tlp::node> *itNodes /TypeHint="Iterator[tlp.node]"/, tlp::Iterator<tlp::edge> *itEdges /TypeHint="Iterator[tlp.edge]"/);
 %Docstring
 tlp.LayoutProperty.rotateZ(alpha, itNodes, itEdges)
 

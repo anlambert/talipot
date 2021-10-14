@@ -76,11 +76,11 @@ inline int getValue(const int &value) {
   return value;
 }
 
-inline double copyValue(const double &value) {
+inline double copyValue(double value) {
   return value;
 }
 
-inline double getValue(const double &value) {
+inline double getValue(double value) {
   return value;
 }
 

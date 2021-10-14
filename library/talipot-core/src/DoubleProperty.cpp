@@ -140,7 +140,7 @@ static void computeEdgeMaxValue(
   double value = -DBL_MAX;
 
   for (auto e : itE) {
-    const double &eVal = metric->getEdgeValue(e);
+    double eVal = metric->getEdgeValue(e);
 
     if (eVal > value) {
       value = eVal;
@@ -182,7 +182,7 @@ static void computeEdgeMinValue(
   double value = DBL_MAX;
 
   for (auto e : itE) {
-    const double &eVal = metric->getEdgeValue(e);
+    double eVal = metric->getEdgeValue(e);
 
     if (eVal < value) {
       value = eVal;

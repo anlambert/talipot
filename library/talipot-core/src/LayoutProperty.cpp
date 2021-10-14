@@ -113,8 +113,7 @@ static void rotateVector(Coord &vec, double alpha, int rot) {
   }
 }
 //=================================================================================
-void LayoutProperty::rotate(const double &alpha, int rot, Iterator<node> *itN,
-                            Iterator<edge> *itE) {
+void LayoutProperty::rotate(double alpha, int rot, Iterator<node> *itN, Iterator<edge> *itE) {
   Observable::holdObservers();
 
   if (itN) {
@@ -140,19 +139,19 @@ void LayoutProperty::rotate(const double &alpha, int rot, Iterator<node> *itN,
   Observable::unholdObservers();
 }
 //=================================================================================
-void LayoutProperty::rotateX(const double &alpha, Iterator<node> *itN, Iterator<edge> *itE) {
+void LayoutProperty::rotateX(double alpha, Iterator<node> *itN, Iterator<edge> *itE) {
   rotate(alpha, X_ROT, itN, itE);
 }
 //=================================================================================
-void LayoutProperty::rotateY(const double &alpha, Iterator<node> *itN, Iterator<edge> *itE) {
+void LayoutProperty::rotateY(double alpha, Iterator<node> *itN, Iterator<edge> *itE) {
   rotate(alpha, Y_ROT, itN, itE);
 }
 //=================================================================================
-void LayoutProperty::rotateZ(const double &alpha, Iterator<node> *itN, Iterator<edge> *itE) {
+void LayoutProperty::rotateZ(double alpha, Iterator<node> *itN, Iterator<edge> *itE) {
   rotate(alpha, Z_ROT, itN, itE);
 }
 //=================================================================================
-void LayoutProperty::rotateX(const double &alpha, const Graph *sg) {
+void LayoutProperty::rotateX(double alpha, const Graph *sg) {
   if (sg == nullptr) {
     sg = graph;
   }
@@ -166,7 +165,7 @@ void LayoutProperty::rotateX(const double &alpha, const Graph *sg) {
   rotateX(alpha, sg->getNodes(), sg->getEdges());
 }
 //=================================================================================
-void LayoutProperty::rotateY(const double &alpha, const Graph *sg) {
+void LayoutProperty::rotateY(double alpha, const Graph *sg) {
   if (sg == nullptr) {
     sg = graph;
   }
@@ -180,7 +179,7 @@ void LayoutProperty::rotateY(const double &alpha, const Graph *sg) {
   rotateY(alpha, sg->getNodes(), sg->getEdges());
 }
 //=================================================================================
-void LayoutProperty::rotateZ(const double &alpha, const Graph *sg) {
+void LayoutProperty::rotateZ(double alpha, const Graph *sg) {
   if (sg == nullptr) {
     sg = graph;
   }
