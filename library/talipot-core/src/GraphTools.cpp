@@ -93,7 +93,7 @@ void makeProperDag(Graph *graph, list<node> &addedNodes,
         edge e = graph->addEdge(n1, n2);
 
         if (edgeLength) {
-          edgeLength->setEdgeValue(e, delta - 2);
+          (*edgeLength)[e] = delta - 2;
         }
 
         dLevel[n2] = sLevel - 1;
@@ -289,7 +289,7 @@ void selectSpanningForest(Graph *graph, BooleanProperty *selectionProperty,
 
   // select all nodes
   for (auto n : graph->nodes()) {
-    selectionProperty->setNodeValue(n, true);
+    (*selectionProperty)[n] = true;
   }
 
   bool ok = true;
@@ -380,7 +380,7 @@ void selectSpanningTree(Graph *graph, BooleanProperty *selection, PluginProgress
   uint nbNodes = 1, edgeCount = 0;
   vector<node> roots;
   uint i = 0;
-  selection->setNodeValue(root, true);
+  (*selection)[root] = true;
   roots.push_back(root);
 
   while (nbNodes != size) {
@@ -392,10 +392,10 @@ void selectSpanningTree(Graph *graph, BooleanProperty *selection, PluginProgress
         node neighbour = graph->opposite(e, root);
 
         if (!(*selection)[neighbour]) {
-          selection->setNodeValue(neighbour, true);
+          (*selection)[neighbour] = true;
           roots.push_back(neighbour);
           nbNodes++;
-          selection->setEdgeValue(e, true);
+          (*selection)[e] = true;
 
           if (pluginProgress) {
             pluginProgress->setComment("Computing spanning tree...");
@@ -439,7 +439,7 @@ void selectMinimumSpanningTree(Graph *graph, BooleanProperty *selection,
   const vector<node> &nodes = graph->nodes();
 
   for (auto node : nodes) {
-    selection->setNodeValue(node, true);
+    (*selection)[node] = true;
   }
 
   selection->setAllEdgeValue(false);
@@ -471,7 +471,7 @@ void selectMinimumSpanningTree(Graph *graph, BooleanProperty *selection,
       }
     }
 
-    selection->setEdgeValue(cur, true);
+    (*selection)[cur] = true;
 
     if (pluginProgress) {
       pluginProgress->setComment("Computing minimum spanning tree...");
@@ -740,7 +740,7 @@ unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selection, bool
       tlp::debug() << "[Make selection a graph] node #" << src.id << " source of edge #" << e.id
                    << " automatically added to selection.";
 #endif
-      selection->setNodeValue(src, true);
+      (*selection)[src] = true;
       added++;
 
       if (test) {
@@ -754,7 +754,7 @@ unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selection, bool
       tlp::debug() << "[Make selection a graph] node #" << tgt << " target of edge #" << e.id
                    << " automatically added to selection.";
 #endif
-      selection->setNodeValue(tgt, true);
+      (*selection)[tgt] = true;
       added++;
 
       if (test) {

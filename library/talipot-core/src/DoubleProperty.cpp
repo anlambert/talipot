@@ -54,7 +54,7 @@ static void computeNodeAvgValue(
   }
 
   if (nbNodes) {
-    metric->setNodeValue(mN, value / nbNodes);
+    (*metric)[mN] = value / nbNodes;
   }
 }
 
@@ -70,7 +70,7 @@ static void computeEdgeAvgValue(
   }
 
   if (nbEdges) {
-    metric->setEdgeValue(mE, value / nbEdges);
+    (*metric)[mE] = value / nbEdges;
   }
 }
 
@@ -93,7 +93,7 @@ static void computeNodeSumValue(
   for (auto n : sg->nodes()) {
     value += (*metric)[n];
   }
-  metric->setNodeValue(mN, value);
+  (*metric)[mN] = value;
 }
 
 static void computeEdgeSumValue(
@@ -105,7 +105,7 @@ static void computeEdgeSumValue(
     value += (*metric)[e];
   }
 
-  metric->setEdgeValue(mE, value);
+  (*metric)[mE] = value;
 }
 
 // max values
@@ -131,7 +131,7 @@ static void computeNodeMaxValue(
       value = nVal;
     }
   }
-  metric->setNodeValue(mN, value);
+  (*metric)[mN] = value;
 }
 
 static void computeEdgeMaxValue(
@@ -147,7 +147,7 @@ static void computeEdgeMaxValue(
     }
   }
 
-  metric->setEdgeValue(mE, value);
+  (*metric)[mE] = value;
 }
 
 // min values
@@ -173,7 +173,7 @@ static void computeNodeMinValue(
       value = nVal;
     }
   }
-  metric->setNodeValue(mN, value);
+  (*metric)[mN] = value;
 }
 
 static void computeEdgeMinValue(
@@ -189,7 +189,7 @@ static void computeEdgeMinValue(
     }
   }
 
-  metric->setEdgeValue(mE, value);
+  (*metric)[mE] = value;
 }
 
 // 2 arrays to hold the predefined functions
@@ -240,7 +240,7 @@ public:
   void computeMetaValue(AbstractProperty<DoubleType, DoubleType, NumericProperty> *width, node mN,
                         Graph *, Graph *) override {
     // meta node border width is 1
-    width->setNodeValue(mN, 1);
+    (*width)[mN] = 1;
   }
 };
 

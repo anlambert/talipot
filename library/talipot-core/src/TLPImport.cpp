@@ -327,7 +327,7 @@ struct TLPGraphBuilder : public TLPTrue {
           return false;
         }
 
-        gProp->setNodeValue(n, result ? clusterIndex[result] : nullptr);
+        (*gProp)[n] = result ? clusterIndex[result] : nullptr;
         return true;
       }
     }
@@ -368,7 +368,7 @@ struct TLPGraphBuilder : public TLPTrue {
         bool result = EdgeSetType::fromString(v, value);
 
         if (result) {
-          gProp->setEdgeValue(e, v);
+          (*gProp)[e] = v;
         } else {
           std::stringstream ess;
           ess << "invalid edge value for property " << propertyName;

@@ -49,7 +49,7 @@ public:
         tlp::GraphProperty *prop = graph->getGraphProperty(name);
 
         for (const auto &[nodeId, value] : graphValues) {
-          prop->setNodeValue(tlp::node(nodeId), _clusterIndex[value]);
+          (*prop)[tlp::node(nodeId)] = _clusterIndex[value];
         }
       }
     }
@@ -393,7 +393,7 @@ public:
             if (_currentProperty->getTypename() == GraphProperty::propertyTypename) {
               set<edge> edges;
               EdgeSetType::fromString(edges, value);
-              static_cast<GraphProperty *>(_currentProperty)->setEdgeValue(e, edges);
+              (*static_cast<GraphProperty *>(_currentProperty))[e] = edges;
             } else {
               _currentProperty->setEdgeStringValue(e, value);
             }

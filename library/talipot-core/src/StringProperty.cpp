@@ -44,7 +44,7 @@ public:
     }
 
     if (viewMetricMaxNode.isValid()) {
-      label->setNodeValue(mN, (*label)[viewMetricMaxNode]);
+      (*label)[mN] = (*label)[viewMetricMaxNode];
     }
   }
 };

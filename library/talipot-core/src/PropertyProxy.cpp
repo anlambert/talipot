@@ -241,9 +241,9 @@ unsigned int PropertyProxy::numberOfNonDefaultValuatedEdges(const Graph *g) cons
                                                             val) {                            \
     auto *prop = _graph->get##PROP_TYPE##Property(_propertyName);                             \
     if (_n.isValid()) {                                                                       \
-      prop->setNodeValue(_n, val);                                                            \
+      (*prop)[_n] = val;                                                                      \
     } else if (_e.isValid()) {                                                                \
-      prop->setEdgeValue(_e, val);                                                            \
+      (*prop)[_e] = val;                                                                      \
     }                                                                                         \
     return *this;                                                                             \
   }
@@ -280,16 +280,16 @@ PropertyValueWrapper &PropertyValueWrapper::operator=(TYPE_CONST_REFERENCE(Integ
   if (_n.isValid()) {
     if (_graph->existProperty(_propertyName) &&
         _graph->getProperty(_propertyName)->getTypename() == DoubleProperty::propertyTypename) {
-      _graph->getDoubleProperty(_propertyName)->setNodeValue(_n, val);
+      (*_graph->getDoubleProperty(_propertyName))[_n] = val;
     } else {
-      _graph->getIntegerProperty(_propertyName)->setNodeValue(_n, val);
+      (*_graph->getIntegerProperty(_propertyName))[_n] = val;
     }
   } else if (_e.isValid()) {
     if (_graph->existProperty(_propertyName) &&
         _graph->getProperty(_propertyName)->getTypename() == DoubleProperty::propertyTypename) {
-      _graph->getDoubleProperty(_propertyName)->setEdgeValue(_e, val);
+      (*_graph->getDoubleProperty(_propertyName))[_e] = val;
     } else {
-      _graph->getIntegerProperty(_propertyName)->setEdgeValue(_e, val);
+      (*_graph->getIntegerProperty(_propertyName))[_e] = val;
     }
   }
   return *this;
@@ -297,13 +297,13 @@ PropertyValueWrapper &PropertyValueWrapper::operator=(TYPE_CONST_REFERENCE(Integ
 
 PropertyValueWrapper &PropertyValueWrapper::operator=(TYPE_CONST_REFERENCE(LineType) val) {
   if (_n.isValid()) {
-    _graph->getCoordVectorProperty(_propertyName)->setNodeValue(_n, val);
+    (*_graph->getCoordVectorProperty(_propertyName))[_n] = val;
   } else if (_e.isValid()) {
     if (_graph->existProperty(_propertyName) &&
         _graph->getProperty(_propertyName)->getTypename() == LayoutProperty::propertyTypename) {
-      _graph->getLayoutProperty(_propertyName)->setEdgeValue(_e, val);
+      (*_graph->getLayoutProperty(_propertyName))[_e] = val;
     } else {
-      _graph->getCoordVectorProperty(_propertyName)->setEdgeValue(_e, val);
+      (*_graph->getCoordVectorProperty(_propertyName))[_e] = val;
     }
   }
   return *this;
@@ -325,7 +325,7 @@ PropertyValueWrapper::operator TYPE_CONST_REFERENCE(LineType)() const {
 PropertyValueWrapper &PropertyValueWrapper::operator=(TYPE_CONST_REFERENCE(PointType) val) {
   auto *prop = _graph->getLayoutProperty(_propertyName);
   if (_n.isValid()) {
-    prop->setNodeValue(_n, val);
+    (*prop)[_n] = val;
   }
   return *this;
 }

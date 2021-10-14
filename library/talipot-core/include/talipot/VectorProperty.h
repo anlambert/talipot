@@ -118,7 +118,7 @@ public:
     uint nbNodes = nodes.size();
 
     for (uint i = 0; i < nbNodes; ++i) {
-      prop->setNodeValue(nodes[i], (*this)[i]);
+      (*prop)[nodes[i]] = (*this)[i];
     }
   }
 };
@@ -222,7 +222,7 @@ public:
     uint nbNodes = nodes.size();
 
     for (uint i = 0; i < nbNodes; ++i) {
-      prop->setNodeValue(nodes[i], (*this)[i]);
+      (*prop)[nodes[i]] = (*this)[i];
     }
   }
 };
@@ -331,7 +331,7 @@ public:
     uint nbEdges = edges.size();
 
     for (uint i = 0; i < nbEdges; ++i) {
-      prop->setEdgeValue(edges[i], (*this)[i]);
+      (*prop)[edges[i]] = (*this)[i];
     }
   }
 };
@@ -431,7 +431,7 @@ public:
     uint nbEdges = edges.size();
 
     for (uint i = 0; i < nbEdges; ++i) {
-      prop->setEdgeValue(edges[i], (*this)[i]);
+      (*prop)[edges[i]] = (*this)[i];
     }
   }
 };

@@ -109,7 +109,7 @@ bool Dijkstra::searchPath(node n, BooleanProperty *result) {
   bool ok = true;
 
   while (ok) {
-    result->setNodeValue(n, true);
+    (*result)[n] = true;
     ok = false;
     for (auto e : graph->incidence(n)) {
       if (!usedEdges.get(e.id)) {
@@ -127,7 +127,7 @@ bool Dijkstra::searchPath(node n, BooleanProperty *result) {
       }
 
       n = tgt;
-      result->setEdgeValue(e, true);
+      (*result)[e] = true;
       ok = true;
       break;
     }
@@ -146,7 +146,7 @@ bool Dijkstra::searchPath(node n, BooleanProperty *result) {
 }
 //=======================================================================
 void Dijkstra::internalSearchPaths(node n, BooleanProperty *result) {
-  result->setNodeValue(n, true);
+  (*result)[n] = true;
   for (auto e : graph->incidence(n)) {
     if (!usedEdges.get(e.id)) {
       continue;
@@ -162,7 +162,7 @@ void Dijkstra::internalSearchPaths(node n, BooleanProperty *result) {
       continue;
     }
 
-    result->setEdgeValue(e, true);
+    (*result)[e] = true;
     if (!(*result)[tgt]) {
       internalSearchPaths(tgt, result);
     }

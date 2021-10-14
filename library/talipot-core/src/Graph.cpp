@@ -452,8 +452,8 @@ void tlp::removeFromGraph(Graph *ioG, BooleanProperty *inSel) {
     } else {
       // unselected edge -> don't remove node ends !
       const auto &[src, tgt] = ioG->ends(e);
-      inSel->setNodeValue(src, false);
-      inSel->setNodeValue(tgt, false);
+      (*inSel)[src] = false;
+      (*inSel)[tgt] = false;
     }
   }
 
@@ -484,8 +484,8 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
   if (inSel) {
     for (auto e : inSel->getNonDefaultValuatedEdges(inG)) {
       const auto &[src, tgt] = inG->ends(e);
-      inSel->setNodeValue(src, true);
-      inSel->setNodeValue(tgt, true);
+      (*inSel)[src] = true;
+      (*inSel)[tgt] = true;
     }
   }
 
@@ -533,7 +533,7 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
 
     // select added node
     if (outSel) {
-      outSel->setNodeValue(nOut, true);
+      (*outSel)[nOut] = true;
     }
 
     // add to translation tab
@@ -564,7 +564,7 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
 
     // select added edge
     if (outSel) {
-      outSel->setEdgeValue(eOut, true);
+      (*outSel)[eOut] = true;
     }
 
     // copy edge properties
@@ -1075,14 +1075,14 @@ void updatePropertiesUngroup(Graph *graph, node metanode, GraphProperty *cluster
   clusterSize->scale(Size(scale, scale, size[2] / depth), cluster);
 
   for (auto n : cluster->nodes()) {
-    graphLayout->setNodeValue(n, (*clusterLayout)[n]);
-    graphSize->setNodeValue(n, (*clusterSize)[n]);
-    graphRot->setNodeValue(n, (*clusterRot)[n] + rot);
+    (*graphLayout)[n] = (*clusterLayout)[n];
+    (*graphSize)[n] = (*clusterSize)[n];
+    (*graphRot)[n] = (*clusterRot)[n] + rot;
   }
 
   for (auto e : cluster->edges()) {
-    graphLayout->setEdgeValue(e, (*clusterLayout)[e]);
-    graphSize->setEdgeValue(e, (*clusterSize)[e]);
+    (*graphLayout)[e] = (*clusterLayout)[e];
+    (*graphSize)[e] = (*clusterSize)[e];
   }
 
   // propagate all cluster local properties
@@ -1222,7 +1222,7 @@ node Graph::createMetaNode(Graph *subGraph, bool multiEdges, bool edgeDelAll) {
 
   GraphProperty *metaInfo = static_cast<GraphAbstract *>(getRoot())->getMetaGraphProperty();
   node metaNode = addNode();
-  metaInfo->setNodeValue(metaNode, subGraph);
+  (*metaInfo)[metaNode] = subGraph;
   Observable::holdObservers();
 
   // updateGroupLayout(this, subGraph, metaNode);
@@ -1328,7 +1328,7 @@ node Graph::createMetaNode(Graph *subGraph, bool multiEdges, bool edgeDelAll) {
 
   // update metaInfo of new meta edges
   for (const auto &[mE, edges] : subEdges) {
-    metaInfo->setEdgeValue(mE, edges);
+    (*metaInfo)[mE] = edges;
     // compute meta edge values
     for (PropertyInterface *property : getObjectProperties()) {
       property->computeMetaValue(mE, getEdgeMetaInfo(mE), this);
@@ -1436,7 +1436,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
         if (isElement(src)) {
           if (isElement(tgt) && isElement(metaEdge)) {
             addEdge(e);
-            graphColors->setEdgeValue(e, metaColor);
+            (*graphColors)[e] = metaColor;
           } else if (src != metaNode) {
             node tgt2 = mappingM.get(tgt.id);
 
@@ -1473,7 +1473,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
           }
 
           edge mE = graph->addEdge(src, tgt);
-          metaInfo->setEdgeValue(mE, edges);
+          (*metaInfo)[mE] = edges;
           // compute meta edge values
           for (PropertyInterface *property : graph->getObjectProperties()) {
             property->computeMetaValue(mE, getEdgeMetaInfo(mE), graph);
@@ -1541,7 +1541,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
 
         if (!existEdge(src, tgt).isValid()) {
           edge addedEdge = addEdge(src, tgt);
-          graphColors->setEdgeValue(addedEdge, edgeColor);
+          (*graphColors)[addedEdge] = edgeColor;
         } else {
           tlp::error() << __PRETTY_FUNCTION__ << ": bug exist edge 1" << std::endl;
         }
@@ -1585,7 +1585,7 @@ void Graph::createMetaNodes(Iterator<Graph *> *itS, Graph *quotientGraph, vector
         // Create one metanode for each subgraph(cluster)
         node metaN = quotientGraph->addNode();
         metaNodes.push_back(metaN);
-        metaInfo->setNodeValue(metaN, its);
+        (*metaInfo)[metaN] = its;
         // compute meta node values
         for (PropertyInterface *property : quotientGraph->getObjectProperties()) {
           property->computeMetaValue(metaN, its, quotientGraph);
@@ -1637,7 +1637,7 @@ void Graph::createMetaNodes(Iterator<Graph *> *itS, Graph *quotientGraph, vector
   }
   // set viewMetaGraph for added meta edges
   for (const auto &[mE, edges] : eMapping) {
-    metaInfo->setEdgeValue(mE, edges);
+    (*metaInfo)[mE] = edges;
     // compute meta edge values
     for (auto *prop : quotientGraph->getObjectProperties()) {
       prop->computeMetaValue(mE, getRoot()->getEdgeMetaInfo(mE), quotientGraph);

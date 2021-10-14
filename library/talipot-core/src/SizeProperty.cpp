@@ -32,7 +32,7 @@ public:
     }
 
     if (sg->isEmpty()) {
-      prop->setNodeValue(mN, Size(1, 1, 1));
+      (*prop)[mN] = Size(1, 1, 1);
       return;
     }
 
@@ -42,12 +42,11 @@ public:
                                                 sg->getSizeProperty("viewSize"),
                                                 sg->getDoubleProperty("viewRotation"));
 
-      prop->setNodeValue(mN, Size(box.width(), box.height(), box.depth()));
+      (*prop)[mN] = Size(box.width(), box.height(), box.depth());
     } else {
       // between the min and max computed values for other size properties
-      prop->setNodeValue(mN, (static_cast<SizeProperty *>(prop)->getMax(sg) +
-                              static_cast<SizeProperty *>(prop)->getMin(sg)) /
-                                 2.0f);
+      auto *sizeProp = static_cast<SizeProperty *>(prop);
+      (*prop)[mN] = (sizeProp->getMax(sg) + sizeProp->getMin(sg)) / 2.0f;
     }
   }
 };

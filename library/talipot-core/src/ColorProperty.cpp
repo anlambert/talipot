@@ -23,13 +23,13 @@ class ViewColorCalculator : public AbstractColorProperty::MetaValueCalculator {
 public:
   void computeMetaValue(AbstractColorProperty *color, node mN, Graph *, Graph *) override {
     // meta node color is half opaque white
-    color->setNodeValue(mN, Color(255, 255, 255, 127));
+    (*color)[mN] = Color(255, 255, 255, 127);
   }
 
   void computeMetaValue(AbstractColorProperty *color, edge mE, Iterator<edge> *itE,
                         Graph *) override {
     // meta edge color is the color of the first underlying edge
-    color->setEdgeValue(mE, (*color)[itE->next()]);
+    (*color)[mE] = (*color)[itE->next()];
     delete itE;
   }
 };

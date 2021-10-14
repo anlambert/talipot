@@ -38,20 +38,19 @@ public:
       return;
     }
 
+    auto *layoutProp = static_cast<LayoutProperty *>(layout);
     switch (sg->numberOfNodes()) {
     case 0:
-      layout->setNodeValue(mN, Coord(0, 0, 0));
+      (*layout)[mN] = Coord(0, 0, 0);
       return;
 
     case 1:
-      layout->setNodeValue(mN, static_cast<LayoutProperty *>(layout)->getMax(sg));
+      (*layout)[mN] = layoutProp->getMax(sg);
       return;
 
     default:
       // between the min and max computed values
-      layout->setNodeValue(mN, (static_cast<LayoutProperty *>(layout)->getMax(sg) +
-                                static_cast<LayoutProperty *>(layout)->getMin(sg)) /
-                                   2.0f);
+      (*layout)[mN] = (layoutProp->getMax(sg) + layoutProp->getMin(sg)) / 2.0f;
     }
   }
 };

@@ -755,7 +755,7 @@ bool tlp::AbstractVectorProperty<VecType, EltType, PropType>::setNodeStringValue
     return false;
   }
 
-  this->setNodeValue(n, v);
+  (*this)[n] = v;
   return true;
 }
 //============================================================
@@ -769,7 +769,7 @@ bool tlp::AbstractVectorProperty<VecType, EltType, PropType>::setNodeStringValue
     return false;
   }
 
-  this->setNodeValue(n, v);
+  (*this)[n] = v;
   return true;
 }
 //============================================================
@@ -781,7 +781,7 @@ bool tlp::AbstractVectorProperty<VecType, EltType, PropType>::setEdgeStringValue
     return false;
   }
 
-  this->setEdgeValue(e, v);
+  (*this)[e] = v;
   return true;
 }
 //============================================================
@@ -795,7 +795,7 @@ bool tlp::AbstractVectorProperty<VecType, EltType, PropType>::setEdgeStringValue
     return false;
   }
 
-  this->setEdgeValue(e, v);
+  (*this)[e] = v;
   return true;
 }
 //============================================================

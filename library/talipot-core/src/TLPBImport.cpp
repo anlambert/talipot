@@ -437,7 +437,7 @@ bool TLPBImport::importGraph() {
                 value.replace(pos, TulipBitmapDirSym.size(), TalipotBitmapDir);
               }
 
-              static_cast<StringProperty *>(prop)->setNodeValue(n, value);
+              (*static_cast<StringProperty *>(prop))[n] = value;
             } else {
               // read and set node value
               if (!prop->readNodeValue(*inputData.is, n)) {
@@ -510,13 +510,13 @@ bool TLPBImport::importGraph() {
                   value.replace(pos, TulipBitmapDirSym.size(), TalipotBitmapDir);
                 }
 
-                static_cast<StringProperty *>(prop)->setEdgeValue(e, value);
+                (*static_cast<StringProperty *>(prop))[e] = value;
               } else
 
-                  // read and set edge value
-                  if (!prop->readEdgeValue(vs, e)) {
-                return false;
-              }
+                // read and set edge value
+                if (!prop->readEdgeValue(vs, e)) {
+                  return false;
+                }
             }
 
             numValues -= valuesToRead;
