@@ -510,7 +510,8 @@ IF(WIN32)
         ERROR_VARIABLE DLLTOOL_ERROR)
       IF(DLLTOOL_ERROR)
         MESSAGE(
-          "${import_library} is not a valid import library (likely a copy of the associated dll). Please provide a valid one in order to determine the dll the application depends to."
+          "${import_library} is not a valid import library (likely a copy of the associated dll). \
+Please provide a valid one in order to determine the dll the application depends to."
         )
       ELSE(DLLTOOL_ERROR)
         STRING(REPLACE "\n" "" ${dll_name} ${DLL_FILENAME})
