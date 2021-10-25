@@ -97,7 +97,7 @@ bool ConnectedComponentsPacking::run() {
     uint nbNodes = nodes.size();
 
     for (uint j = 0; j < nbNodes; ++j) {
-      for (auto e : graph->getInOutEdges(nodes[j])) {
+      for (auto e : graph->incidence(nodes[j])) {
         if (!visited.get(e.id)) {
           visited.set(e.id, true);
           edges.push_back(e);

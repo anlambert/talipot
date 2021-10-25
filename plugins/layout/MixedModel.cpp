@@ -502,7 +502,7 @@ void MixedModel::assignInOutPoints() { // on considère qu'il n'y a pas d'arc do
 
       tmp.clear();
 
-      for (auto e : carte->getInOutEdges(v)) {
+      for (auto e : carte->incidence(v)) {
         const auto &[src, tgt] = carte->ends(e);
 
         node n = (src == v) ? tgt : src;

@@ -94,7 +94,7 @@ bool TriconnectedTest::isTriconnected(Graph *graph) {
 
     tmp->addNode(n);
 
-    for (auto e : graph->getInOutEdges(n)) {
+    for (auto e : graph->incidence(n)) {
       tmp->addEdge(e);
     }
   }

@@ -102,14 +102,14 @@ bool HierarchicalClustering::run() {
         if (splitRes.getNodeValue(nit)) {
           sel2.setNodeValue(nit, false);
 
-          for (auto ite : graph->getInOutEdges(nit)) {
+          for (auto ite : graph->incidence(nit)) {
             sel2.setEdgeValue(ite, false);
           }
 
         } else {
           sel1.setNodeValue(nit, false);
 
-          for (auto ite : graph->getInOutEdges(nit)) {
+          for (auto ite : graph->incidence(nit)) {
             sel1.setEdgeValue(ite, false);
           }
         }

@@ -153,7 +153,7 @@ void tlp::clusteringCoefficient(const Graph *graph, tlp::NodeVectorProperty<doub
     auto ite = reachables.end();
 
     for (const auto &[itn, reachable] : reachables) {
-      for (auto e : graph->getInOutEdges(itn)) {
+      for (auto e : graph->incidence(itn)) {
         auto [eSrc, eTgt] = graph->ends(e);
 
         if ((reachables.find(eSrc) != ite) && (reachables.find(eTgt) != ite)) {
@@ -260,7 +260,7 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EDGE_
       case UNDIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
           double nWeight = 0.0;
-          for (auto e : graph->getInOutEdges(n)) {
+          for (auto e : graph->incidence(n)) {
             nWeight += weights->getEdgeDoubleValue(e);
           }
           deg[i] = nWeight;
@@ -313,7 +313,7 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EDGE_
       case UNDIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
           double nWeight = 0.0;
-          for (auto e : graph->getInOutEdges(n)) {
+          for (auto e : graph->incidence(n)) {
             nWeight += weights->getEdgeDoubleValue(e);
           }
           deg[i] = nWeight * normalization;

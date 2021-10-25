@@ -67,7 +67,7 @@ EdgeMapIterator::EdgeMapIterator(const Graph *sg, edge source, node target) {
   treat = 0;
   pos = 0;
 
-  for (auto e : sg->getInOutEdges(target)) {
+  for (auto e : sg->incidence(target)) {
     if (e == source) {
       pos = treat + 1;
     }

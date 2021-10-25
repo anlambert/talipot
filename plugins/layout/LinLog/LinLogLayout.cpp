@@ -92,7 +92,7 @@ void LinLogLayout::initEnergyFactors() {
   for (auto u : graph->nodes()) {
     double u_weight = linLogWeight.getNodeValue(u);
     repuSum += u_weight;
-    for (auto e : graph->getInOutEdges(u)) {
+    for (auto e : graph->incidence(u)) {
       double edgeweight = linLogWeight.getEdgeValue(e);
       attrSum += edgeweight;
     }
@@ -202,7 +202,7 @@ double LinLogLayout::getRepulsionEnergy(node u, OctTree *tree) {
 double LinLogLayout::getAttractionEnergy(node u) {
   double energy = 0.0;
   const Coord &u_layout = layoutResult->getNodeValue(u);
-  for (auto e : graph->getInOutEdges(u)) {
+  for (auto e : graph->incidence(u)) {
     node v = graph->opposite(e, u);
     double dist = getDist(u_layout, layoutResult->getNodeValue(v));
     double edgeweight = linLogWeight.getEdgeValue(e);
@@ -354,7 +354,7 @@ double LinLogLayout::addAttractionDir(node u, double *dir) {
 
   const Coord &position = layoutResult->getNodeValue(u);
 
-  for (auto e : graph->getInOutEdges(u)) {
+  for (auto e : graph->incidence(u)) {
     node v = graph->opposite(e, u);
     const Coord &position2 = layoutResult->getNodeValue(v);
     double dist = getDist(position, position2);
@@ -807,7 +807,7 @@ void LinLogLayout::initWeights() {
 
     for (auto u : graph->nodes()) {
       double weight = 0.0;
-      for (auto e : graph->getInOutEdges(u)) {
+      for (auto e : graph->incidence(u)) {
         weight += linLogWeight.getEdgeValue(e);
       }
 

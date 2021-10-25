@@ -116,7 +116,7 @@ int biconnectedComponents(const Graph &graph, MutableContainer<int> &compnum) {
       dfsnum.set(v.id, ++count1);
       bool is_isolated = true;
 
-      for (auto e : graph.getInOutEdges(v)) {
+      for (auto e : graph.incidence(v)) {
         if (graph.opposite(e, v) != v) {
           is_isolated = false;
           break;

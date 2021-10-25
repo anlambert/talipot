@@ -511,7 +511,7 @@ public:
           }
 
           // replace n by mn
-          for (auto e : graph->getInOutEdges(n)) {
+          for (auto e : graph->incidence(n)) {
             const auto &[src, tgt] = graph->ends(e);
 
             if (src == n) {

@@ -157,7 +157,7 @@ double StrengthMetric::getNodeValue(const tlp::node n) {
 
   double res = 0;
 
-  for (auto ite : graph->getInOutEdges(n)) {
+  for (auto ite : graph->incidence(n)) {
     res += result->getEdgeValue(ite);
   }
 

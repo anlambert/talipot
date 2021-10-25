@@ -138,7 +138,7 @@ bool EqualValueClustering::computeClusters(NumericProperty *prop, bool onNodes, 
         while (!nodesToVisit.empty()) {
           node curNode = nodesToVisit.front();
           nodesToVisit.pop_front();
-          for (auto curEdge : graph->getInOutEdges(curNode)) {
+          for (auto curEdge : graph->incidence(curNode)) {
             node neighbour = graph->opposite(curEdge, curNode);
 
             if (neighbour == curNode) {
@@ -243,7 +243,7 @@ bool EqualValueClustering::computeClusters(NumericProperty *prop, bool onNodes, 
         while (!nodesToVisit.empty()) {
           node curNode = nodesToVisit.front();
           nodesToVisit.pop_front();
-          for (auto curEdge : graph->getInOutEdges(curNode)) {
+          for (auto curEdge : graph->incidence(curNode)) {
             // check if the edge has not been visited AND
             // if it has the same value
             if (!visited.get(curEdge.id) && curValue == prop->getEdgeDoubleValue(curEdge)) {
@@ -346,7 +346,7 @@ bool EqualValueClustering::computeClusters(PropertyInterface *prop, bool onNodes
         while (!nodesToVisit.empty()) {
           node curNode = nodesToVisit.front();
           nodesToVisit.pop_front();
-          for (auto curEdge : graph->getInOutEdges(curNode)) {
+          for (auto curEdge : graph->incidence(curNode)) {
             node neighbour = graph->opposite(curEdge, curNode);
 
             if (neighbour == curNode) {
@@ -449,7 +449,7 @@ bool EqualValueClustering::computeClusters(PropertyInterface *prop, bool onNodes
         while (!nodesToVisit.empty()) {
           node curNode = nodesToVisit.front();
           nodesToVisit.pop_front();
-          for (auto curEdge : graph->getInOutEdges(curNode)) {
+          for (auto curEdge : graph->incidence(curNode)) {
             // check if the edge has not been visited AND
             // if it has the same value
             if (!visited.get(curEdge.id) && curValue == prop->getEdgeStringValue(curEdge)) {

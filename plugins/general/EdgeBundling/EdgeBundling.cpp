@@ -541,7 +541,7 @@ bool EdgeBundling::run() {
           }
 
           // for each edge of n compute the shortest paths in the grid
-          for (auto e : vertexCoverGraph->getInOutEdges(n)) {
+          for (auto e : vertexCoverGraph->incidence(n)) {
             node n2 = graph->opposite(e, n);
 
             if (optimizationLevel < 3 || forceEdgeTest) {
@@ -576,7 +576,7 @@ bool EdgeBundling::run() {
           }
 
           // for each edge of n compute the shortest paths in the grid
-          for (auto e : vertexCoverGraph->getInOutEdges(n)) {
+          for (auto e : vertexCoverGraph->incidence(n)) {
             if (optimizationLevel < 3 || forceEdgeTest) {
               bool stop = false;
               // when we are not using colration edge can be treated two times

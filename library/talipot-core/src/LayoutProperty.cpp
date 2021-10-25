@@ -477,7 +477,7 @@ void LayoutProperty::computeEmbedding(const node n, Graph *sg) {
   list<pCE> adjCoord;
   // Extract all adjacent edges, the bends are taken
   // into account.
-  for (auto ite : sg->getInOutEdges(n)) {
+  for (auto ite : sg->incidence(n)) {
     if (!getEdgeValue(ite).empty()) {
       if (sg->source(ite) == n) {
         adjCoord.push_back(pCE(getEdgeValue(ite).front(), ite));
@@ -537,7 +537,7 @@ vector<double> LayoutProperty::angularResolutions(const node n, const Graph *sg)
   list<Coord> adjCoord;
   // Extract all adjacent edges, the bends are taken
   // into account.
-  for (auto ite : sg->getInOutEdges(n)) {
+  for (auto ite : sg->incidence(n)) {
     if (!getEdgeValue(ite).empty()) {
       if (sg->source(ite) == n) {
         adjCoord.push_back(getEdgeValue(ite).front());

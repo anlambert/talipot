@@ -111,9 +111,7 @@ bool Dijkstra::searchPath(node n, BooleanProperty *result) {
   while (ok) {
     result->setNodeValue(n, true);
     ok = false;
-    Iterator<edge> *it = graph->getInOutEdges(n);
-    while (it->hasNext()) {
-      edge e = it->next();
+    for (auto e : graph->incidence(n)) {
       if (!usedEdges.get(e.id)) {
         continue; // edge does not belong to the shortest path
       }
@@ -133,7 +131,6 @@ bool Dijkstra::searchPath(node n, BooleanProperty *result) {
       ok = true;
       break;
     }
-    delete it;
   }
 
   if (n != src) {
@@ -150,7 +147,7 @@ bool Dijkstra::searchPath(node n, BooleanProperty *result) {
 //=======================================================================
 void Dijkstra::internalSearchPaths(node n, BooleanProperty *result) {
   result->setNodeValue(n, true);
-  for (auto e : graph->getInOutEdges(n)) {
+  for (auto e : graph->incidence(n)) {
     if (!usedEdges.get(e.id)) {
       continue;
     }
@@ -189,7 +186,7 @@ bool Dijkstra::ancestors(unordered_map<node, std::list<node>> &result) {
   result[src].push_back(src);
   for (auto n : graph->getNodes()) {
     if (n != src) {
-      for (auto e : graph->getInOutEdges(n)) {
+      for (auto e : graph->incidence(n)) {
         node tgt = graph->opposite(e, n);
         if (usedEdges.get(e.id) && nodeDistance[tgt] < nodeDistance[n]) {
           result[n].push_back(tgt);

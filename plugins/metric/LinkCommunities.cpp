@@ -143,7 +143,7 @@ bool LinkCommunities::run() {
 
   for (auto n : graph->nodes()) {
     std::set<double> around;
-    for (auto e : graph->getInOutEdges(n)) {
+    for (auto e : graph->incidence(n)) {
       double val = result->getEdgeValue(e);
 
       if (val) {
@@ -166,7 +166,7 @@ void LinkCommunities::createDualGraph(const std::vector<edge> &edges) {
     node dn = dual->addNode();
     const auto &[src, tgt] = graph->ends(edges[i]);
 
-    for (auto ee : graph->getInOutEdges(src)) {
+    for (auto ee : graph->incidence(src)) {
       uint eePos = graph->edgePos(ee);
 
       if (eePos < i) {
@@ -176,7 +176,7 @@ void LinkCommunities::createDualGraph(const std::vector<edge> &edges) {
         }
       }
     }
-    for (auto ee : graph->getInOutEdges(tgt)) {
+    for (auto ee : graph->incidence(tgt)) {
       uint eePos = graph->edgePos(ee);
 
       if (eePos < i) {
@@ -300,7 +300,7 @@ double LinkCommunities::getWeightedSimilarity(tlp::edge ee, const std::vector<ed
     a11 += val * val;
   }
 
-  for (auto e : graph->getInOutEdges(n2)) {
+  for (auto e : graph->incidence(n2)) {
     double val = metric->getEdgeDoubleValue(e);
     a2 += val;
     a22 += val * val;

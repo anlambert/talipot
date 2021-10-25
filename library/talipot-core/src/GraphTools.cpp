@@ -386,7 +386,7 @@ void selectSpanningTree(Graph *graph, BooleanProperty *selection, PluginProgress
   while (nbNodes != size) {
     root = roots[i];
 
-    for (auto e : graph->getInOutEdges(root)) {
+    for (auto e : graph->incidence(root)) {
 
       if (!selection->getEdgeValue(e)) {
         node neighbour = graph->opposite(e, root);

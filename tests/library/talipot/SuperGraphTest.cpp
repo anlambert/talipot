@@ -264,7 +264,7 @@ void SuperGraphTest::testAddDel() {
 
   for (uint i = 0; i < NB_ADD; ++i) {
 
-    for (auto e : graph->getInOutEdges(nodes[i])) {
+    for (auto e : graph->incidence(nodes[i])) {
       CPPUNIT_ASSERT(graph->isElement(e));
     }
 

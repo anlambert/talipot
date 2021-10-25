@@ -97,7 +97,7 @@ edge PlanarConMap::addEdgeMap(const node v, const node w, Face f, const edge e1,
   // Compute the cycle around v
   vector<edge> v_order(deg(v));
   uint cpt = 0;
-  for (auto e_order : getInOutEdges(v)) {
+  for (auto e_order : incidence(v)) {
     if (e_order == e) {
       continue;
     }
@@ -116,7 +116,7 @@ edge PlanarConMap::addEdgeMap(const node v, const node w, Face f, const edge e1,
   // Compute the cycle around w
   vector<edge> v_order2(deg(w));
   cpt = 0;
-  for (auto e_order : getInOutEdges(w)) {
+  for (auto e_order : incidence(w)) {
     if (e_order == e) {
       continue;
     }
@@ -680,7 +680,7 @@ Face PlanarConMap::splitFace(Face f, const node v, const node w, node n) {
 
   if (!n.isValid()) {
 
-    for (auto e : getInOutEdges(v)) {
+    for (auto e : incidence(v)) {
 
       if (edgesFaces[e][0] == f || edgesFaces[e][1] == f) {
         n = opposite(e, v);
@@ -978,7 +978,7 @@ ostream &operator<<(ostream &os, PlanarConMap *sp) {
     os << "node " << n.id << " : ";
     os << "(edge : ";
 
-    for (auto e : sp->getInOutEdges(n)) {
+    for (auto e : sp->incidence(n)) {
       os << e.id << " ";
     }
 

@@ -156,7 +156,7 @@ Coord GEMLayout::computeForces(uint v, float shake, float gravity, bool testPlac
   }
 
   // attractive forces
-  for (auto e : graph->getInOutEdges(vNode)) {
+  for (auto e : graph->incidence(vNode)) {
     node uNode = graph->opposite(e, vNode);
 
     if (uNode == vNode) {

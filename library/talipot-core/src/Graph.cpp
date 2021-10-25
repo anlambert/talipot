@@ -1249,7 +1249,7 @@ node Graph::createMetaNode(Graph *subGraph, bool multiEdges, bool edgeDelAll) {
   std::unordered_map<edge, set<edge>> subEdges;
 
   for (auto n : subGraph->nodes()) {
-    for (auto e : getSuperGraph()->getInOutEdges(n)) {
+    for (auto e : getSuperGraph()->incidence(n)) {
       auto [src, tgt] = ends(e);
       uint toDelete = isElement(src);
 
@@ -1496,7 +1496,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
 
     std::unordered_map<node, Color> metaEdgeToColor;
 
-    for (auto metaEdge : super->getInOutEdges(metaNode)) {
+    for (auto metaEdge : super->incidence(metaNode)) {
       metaEdgeToColor[opposite(metaEdge, metaNode)] = graphColors->getEdgeValue(metaEdge);
     }
 
