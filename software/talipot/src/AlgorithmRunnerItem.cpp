@@ -38,13 +38,12 @@ AlgorithmRunnerItem::AlgorithmRunnerItem(QString pluginName, QWidget *parent)
   connect(_ui->favoriteCheck, &QAbstractButton::toggled, this, &AlgorithmRunnerItem::favorized);
   _ui->settingsButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Cog, QColor("#5c8ec8")));
   _ui->playButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Play, QColor(Qt::green)));
-  const Plugin &plugin = PluginsManager::pluginInformation(QStringToTlpString(pluginName));
-  // split pluginName after the second word if needed
-  QStringList words = pluginName.split(' ');
-  _ui->playButton->setText(pluginName);
+  _ui->playButton->setText(pluginName.replace("&", "&&"));
 
   // initialize parameters only if needed
   _ui->parameters->setVisible(false);
+
+  const Plugin &plugin = PluginsManager::pluginInformation(QStringToTlpString(name()));
 
   if (!plugin.getParameters().empty()) {
     _ui->parameters->setItemDelegate(new ItemDelegate(_ui->parameters));
@@ -641,5 +640,5 @@ void AlgorithmRunnerItem::initModel() {
 void AlgorithmRunnerItem::elideAlgorithmButtonText(int containerWidth) {
   int maxWidth = int(0.5 * containerWidth);
   auto fm = fontMetrics();
-  _ui->playButton->setText(fm.elidedText(name(), Qt::ElideMiddle, maxWidth));
+  _ui->playButton->setText(fm.elidedText(name().replace("&", "&&"), Qt::ElideMiddle, maxWidth));
 }
