@@ -568,7 +568,7 @@ void MouseSelectionEditor::mMouseRotate(double newX, double newY, GlWidget *glWi
 
     if (mode == COORD_AND_SIZE || mode == SIZE) {
       for (auto n : _selection->getNodesEqualTo(true, _graph)) {
-        double rotation = _rotation->getNodeValue(n);
+        double rotation = (*_rotation)[n];
         _rotation->setNodeValue(n, rotation - degAngle);
       }
     }
@@ -636,31 +636,34 @@ void MouseSelectionEditor::mAlign(EditOperation operation, GlWidget *) {
 
     float valueMin = -FLT_MAX, valueMax = FLT_MAX;
 
+    const Coord &coord = (*_layout)[n];
+    const Size &size = (*_sizes)[n];
+
     switch (operation) {
     case ALIGN_TOP:
-      valueMax = _layout->getNodeValue(n)[1] + _sizes->getNodeValue(n)[1] / 2.;
+      valueMax = coord[1] + size[1] / 2.;
       break;
 
     case ALIGN_BOTTOM:
-      valueMin = _layout->getNodeValue(n)[1] - _sizes->getNodeValue(n)[1] / 2.;
+      valueMin = coord[1] - size[1] / 2.;
       break;
 
     case ALIGN_HORIZONTALLY:
-      valueMax = _layout->getNodeValue(n)[1] + _sizes->getNodeValue(n)[1] / 2.;
-      valueMin = _layout->getNodeValue(n)[1] - _sizes->getNodeValue(n)[1] / 2.;
+      valueMax = coord[1] + size[1] / 2.;
+      valueMin = coord[1] - size[1] / 2.;
       break;
 
     case ALIGN_LEFT:
-      valueMin = _layout->getNodeValue(n)[0] - _sizes->getNodeValue(n)[0] / 2.;
+      valueMin = coord[0] - size[0] / 2.;
       break;
 
     case ALIGN_RIGHT:
-      valueMax = _layout->getNodeValue(n)[0] + _sizes->getNodeValue(n)[0] / 2.;
+      valueMax = coord[0] + size[0] / 2.;
       break;
 
     case ALIGN_VERTICALLY:
-      valueMax = _layout->getNodeValue(n)[0] - _sizes->getNodeValue(n)[0] / 2.;
-      valueMin = _layout->getNodeValue(n)[0] + _sizes->getNodeValue(n)[0] / 2.;
+      valueMax = coord[0] - size[0] / 2.;
+      valueMin = coord[0] + size[0] / 2.;
       break;
 
     case STRETCH_X:
@@ -725,15 +728,16 @@ void MouseSelectionEditor::mAlign(EditOperation operation, GlWidget *) {
   }
 
   for (auto n : _selection->getNodesEqualTo(true, _graph)) {
-    Coord old = _layout->getNodeValue(n);
+    Coord old = (*_layout)[n];
+    const Size &size = (*_sizes)[n];
 
     switch (operation) {
     case ALIGN_TOP:
-      old[1] = max - _sizes->getNodeValue(n)[1] / 2.;
+      old[1] = max - size[1] / 2.;
       break;
 
     case ALIGN_BOTTOM:
-      old[1] = min + _sizes->getNodeValue(n)[1] / 2.;
+      old[1] = min + size[1] / 2.;
       break;
 
     case ALIGN_HORIZONTALLY:
@@ -741,11 +745,11 @@ void MouseSelectionEditor::mAlign(EditOperation operation, GlWidget *) {
       break;
 
     case ALIGN_LEFT:
-      old[0] = min + _sizes->getNodeValue(n)[0] / 2.;
+      old[0] = min + size[0] / 2.;
       break;
 
     case ALIGN_RIGHT:
-      old[0] = max - _sizes->getNodeValue(n)[0] / 2.;
+      old[0] = max - size[0] / 2.;
       break;
 
     case ALIGN_VERTICALLY:

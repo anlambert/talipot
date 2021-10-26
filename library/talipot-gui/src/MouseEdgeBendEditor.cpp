@@ -486,7 +486,7 @@ bool MouseEdgeBendEditor::haveSelection(GlWidget *glWidget) {
 
   if (!multipleSelection) {
     for (auto n : _graph->nodes()) {
-      if (_selection->getNodeValue(n)) {
+      if ((*_selection)[n]) {
         if (hasSelection) {
           hasSelection = false;
           break;
@@ -559,8 +559,8 @@ bool MouseEdgeBendEditor::computeBendsCircles(GlWidget *glWidget) {
 
   if (edgeSelected) {
     coordinates = _layout->getEdgeValue(mEdge);
-    start = _layout->getNodeValue(_graph->source(mEdge));
-    end = _layout->getNodeValue(_graph->target(mEdge));
+    start = (*_layout)[_graph->source(mEdge)];
+    end = (*_layout)[_graph->target(mEdge)];
 
     computeSrcTgtEntities(glWidget);
     circlesComposite->addGlEntity(&targetTriangle, "targetTriangle");
@@ -581,9 +581,9 @@ bool MouseEdgeBendEditor::computeBendsCircles(GlWidget *glWidget) {
   } else {
     int complexPolygonGlyphId = GlyphManager::glyphId("2D - Complex Polygon", false);
 
-    if (complexPolygonGlyphId && (_shape->getNodeValue(mNode) == complexPolygonGlyphId)) {
+    if (complexPolygonGlyphId && ((*_shape)[mNode] == complexPolygonGlyphId)) {
       if (_coordsVectorProperty) {
-        const vector<Coord> &baseCoordinates = _coordsVectorProperty->getNodeValue(mNode);
+        const vector<Coord> &baseCoordinates = (*_coordsVectorProperty)[mNode];
         vector<Coord> coordinatesWithRotation;
 
         Coord min, max;
@@ -608,16 +608,16 @@ bool MouseEdgeBendEditor::computeBendsCircles(GlWidget *glWidget) {
           }
         }
 
-        Size nodeSize = _sizes->getNodeValue(mNode);
-        double rotation = _rotation->getNodeValue(mNode) * M_PI / 180;
+        const Size &nodeSize = (*_sizes)[mNode];
+        double rotation = (*_rotation)[mNode] * M_PI / 180;
 
         for (const auto &coord : baseCoordinates) {
           Coord tmp = {((coord[0] - min[0]) / (max[0] - min[0])) * nodeSize[0] - nodeSize[0] / 2.f,
                        ((coord[1] - min[1]) / (max[1] - min[1])) * nodeSize[1] - nodeSize[1] / 2.f};
-          coordinatesWithRotation.push_back(_layout->getNodeValue(mNode) +
+          coordinatesWithRotation.push_back((*_layout)[mNode] +
                                             Coord(tmp[0] * cos(rotation) - tmp[1] * sin(rotation),
                                                   tmp[0] * sin(rotation) + tmp[1] * cos(rotation)));
-          coordinates.push_back(_layout->getNodeValue(mNode) + tmp);
+          coordinates.push_back((*_layout)[mNode] + tmp);
         }
 
         for (const auto &coord : coordinatesWithRotation) {

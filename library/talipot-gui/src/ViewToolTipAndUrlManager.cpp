@@ -48,8 +48,7 @@ void ViewToolTipAndUrlManager::fillContextMenu(QMenu *menu, node n) {
 
   Graph *graph = _view->graph();
 
-  _contextMenuUrl =
-      dynamic_cast<StringProperty *>(graph->getProperty(_urlPropName))->getNodeValue(n);
+  _contextMenuUrl = (*static_cast<StringProperty *>(graph->getProperty(_urlPropName)))[n];
 
   if (_contextMenuUrl.empty()) {
     return;
@@ -68,8 +67,7 @@ void ViewToolTipAndUrlManager::fillContextMenu(QMenu *menu, edge e) {
 
   Graph *graph = _view->graph();
 
-  _contextMenuUrl =
-      dynamic_cast<StringProperty *>(graph->getProperty(_urlPropName))->getEdgeValue(e);
+  _contextMenuUrl = (*static_cast<StringProperty *>(graph->getProperty(_urlPropName)))[e];
   if (_contextMenuUrl.empty()) {
     return;
   }
@@ -183,7 +181,7 @@ bool ViewToolTipAndUrlManager::eventFilter(QObject *, QEvent *event) {
   // get the property holding the urls associated to graph elements
   StringProperty *urlProp = _urlPropName.empty()
                                 ? nullptr
-                                : dynamic_cast<StringProperty *>(graph->getProperty(_urlPropName));
+                                : static_cast<StringProperty *>(graph->getProperty(_urlPropName));
 
   if (event->type() == QEvent::ToolTip && (_tooltips || urlProp != nullptr)) {
     auto *he = static_cast<QHelpEvent *>(event);
@@ -195,14 +193,14 @@ bool ViewToolTipAndUrlManager::eventFilter(QObject *, QEvent *event) {
 
       if (tmpNode.isValid()) {
         if (urlProp) {
-          _url = urlProp->getNodeValue(tmpNode);
+          _url = (*urlProp)[tmpNode];
         }
         if (_tooltips) {
           ttip = NodesGraphModel::getNodeTooltip(graph, tmpNode);
         }
       } else if (tmpEdge.isValid()) {
         if (urlProp) {
-          _url = urlProp->getEdgeValue(tmpEdge);
+          _url = (*urlProp)[tmpEdge];
         }
         if (_tooltips) {
           ttip = EdgesGraphModel::getEdgeTooltip(graph, tmpEdge);

@@ -561,11 +561,11 @@ void NodeLinkDiagramView::addRemoveItemToSelection(bool pushGraph, bool toggleSe
 
   // selection add/remove graph item
   if (isNode) {
-    elementSelected->setNodeValue(
-        node(itemId), toggleSelection ? !elementSelected->getNodeValue(node(itemId)) : selectValue);
+    node n(itemId);
+    elementSelected->setNodeValue(n, toggleSelection ? !(*elementSelected)[n] : selectValue);
   } else {
-    elementSelected->setEdgeValue(
-        edge(itemId), toggleSelection ? !elementSelected->getEdgeValue(edge(itemId)) : selectValue);
+    edge e(itemId);
+    elementSelected->setEdgeValue(e, toggleSelection ? !(*elementSelected)[e] : selectValue);
   }
 }
 
@@ -585,8 +585,8 @@ void NodeLinkDiagramView::addRemoveInNodesToSelection(bool pushGraph, bool toggl
   MutableContainer<bool> inNodes;
   for (auto neigh : graph()->getInNodes(node(itemId))) {
     if (!inNodes.get(neigh.id)) {
-      elementSelected->setNodeValue(neigh, toggleSelection ? !elementSelected->getNodeValue(neigh)
-                                                           : selectValue);
+      elementSelected->setNodeValue(neigh,
+                                    toggleSelection ? !(*elementSelected)[neigh] : selectValue);
       inNodes.set(neigh.id, true);
     }
   }
@@ -608,8 +608,8 @@ void NodeLinkDiagramView::addRemoveOutNodesToSelection(bool pushGraph, bool togg
   MutableContainer<bool> outNodes;
   for (auto neigh : graph()->getOutNodes(node(itemId))) {
     if (!outNodes.get(neigh.id)) {
-      elementSelected->setNodeValue(neigh, toggleSelection ? !elementSelected->getNodeValue(neigh)
-                                                           : selectValue);
+      elementSelected->setNodeValue(neigh,
+                                    toggleSelection ? !(*elementSelected)[neigh] : selectValue);
       outNodes.set(neigh.id, true);
     }
   }
@@ -629,8 +629,7 @@ void NodeLinkDiagramView::addRemoveInEdgesToSelection(bool pushGraph, bool toggl
   }
 
   for (auto e : graph()->getInEdges(node(itemId))) {
-    elementSelected->setEdgeValue(e, toggleSelection ? !elementSelected->getEdgeValue(e)
-                                                     : selectValue);
+    elementSelected->setEdgeValue(e, toggleSelection ? !(*elementSelected)[e] : selectValue);
   }
 }
 
@@ -648,8 +647,7 @@ void NodeLinkDiagramView::addRemoveOutEdgesToSelection(bool pushGraph, bool togg
   }
 
   for (auto e : graph()->getOutEdges(node(itemId))) {
-    elementSelected->setEdgeValue(e, toggleSelection ? !elementSelected->getEdgeValue(e)
-                                                     : selectValue);
+    elementSelected->setEdgeValue(e, toggleSelection ? !(*elementSelected)[e] : selectValue);
   }
 }
 
@@ -679,12 +677,10 @@ void NodeLinkDiagramView::addRemoveExtremitiesToSelection(bool pushGraph, bool t
 
   node src = graph()->source(edge(itemId));
   node tgt = graph()->target(edge(itemId));
-  elementSelected->setNodeValue(src, toggleSelection ? !elementSelected->getNodeValue(src)
-                                                     : selectValue);
+  elementSelected->setNodeValue(src, toggleSelection ? !(*elementSelected)[src] : selectValue);
 
   if (src != tgt) {
-    elementSelected->setNodeValue(tgt, toggleSelection ? !elementSelected->getNodeValue(tgt)
-                                                       : selectValue);
+    elementSelected->setNodeValue(tgt, toggleSelection ? !(*elementSelected)[tgt] : selectValue);
   }
 }
 
@@ -841,8 +837,9 @@ void NodeLinkDiagramView::editSize() {
 
 const Camera &NodeLinkDiagramView::goInsideItem(node meta) {
   Graph *metaGraph = graph()->getNodeMetaInfo(meta);
-  Size size = glWidget()->inputData()->sizes()->getNodeValue(meta);
-  Coord coord = glWidget()->inputData()->layout()->getNodeValue(meta);
+  auto *inputData = glWidget()->inputData();
+  const Size &size = (*inputData->sizes())[meta];
+  const Coord &coord = (*inputData->layout())[meta];
   BoundingBox bb;
   bb.expand(coord - size / 2.f);
   bb.expand(coord + size / 2.f);

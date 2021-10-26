@@ -108,7 +108,7 @@ static void writeTextureFilesInProject(const QList<tlp::Graph *> &graphs, tlp::P
 
     // Process the non default valuated nodes in the viewTexture property
     for (auto n : viewTexture->getNonDefaultValuatedNodes()) {
-      copyTextureFileInProject(tlpStringToQString(viewTexture->getNodeValue(n)), project,
+      copyTextureFileInProject(tlpStringToQString((*viewTexture)[n]), project,
                                projectTexturesFolders, projectTexturesFiles);
     }
 
@@ -118,7 +118,7 @@ static void writeTextureFilesInProject(const QList<tlp::Graph *> &graphs, tlp::P
 
     // Process the non default valuated nodes in the viewTexture property
     for (auto e : viewTexture->getNonDefaultValuatedEdges()) {
-      copyTextureFileInProject(tlpStringToQString(viewTexture->getEdgeValue(e)), project,
+      copyTextureFileInProject(tlpStringToQString((*viewTexture)[e]), project,
                                projectTexturesFolders, projectTexturesFiles);
     }
   }
@@ -161,7 +161,7 @@ static void restoreTextureFilesFromProject(tlp::Graph *g, tlp::Project *project,
   QMap<node, QString> nonDefaultValuatedNodes;
 
   for (auto n : viewTexture->getNonDefaultValuatedNodes()) {
-    nonDefaultValuatedNodes[n] = tlpStringToQString(viewTexture->getNodeValue(n));
+    nonDefaultValuatedNodes[n] = tlpStringToQString((*viewTexture)[n]);
   }
 
   // Generate a MD5 sum from the absolute texture file path
@@ -216,7 +216,7 @@ static void restoreTextureFilesFromProject(tlp::Graph *g, tlp::Project *project,
   QMap<edge, QString> nonDefaultValuatedEdges;
 
   for (auto e : viewTexture->getNonDefaultValuatedEdges()) {
-    nonDefaultValuatedEdges[e] = tlpStringToQString(viewTexture->getEdgeValue(e));
+    nonDefaultValuatedEdges[e] = tlpStringToQString((*viewTexture)[e]);
   }
 
   // Generate a MD5 sum from the absolute texture file path
@@ -305,7 +305,7 @@ static void writeFontFilesInProject(const QList<tlp::Graph *> &graphs, tlp::Proj
 
     // Process the non default valuated nodes in the viewFont property
     for (auto n : viewFont->getNonDefaultValuatedNodes()) {
-      copyFontFileInProject(viewFont->getNodeValue(n), project, projectFontFiles);
+      copyFontFileInProject((*viewFont)[n], project, projectFontFiles);
     }
 
     // Process the viewFont default edge value
@@ -313,7 +313,7 @@ static void writeFontFilesInProject(const QList<tlp::Graph *> &graphs, tlp::Proj
 
     // Process the non default valuated nodes in the viewFont property
     for (auto e : viewFont->getNonDefaultValuatedEdges()) {
-      copyFontFileInProject(viewFont->getEdgeValue(e), project, projectFontFiles);
+      copyFontFileInProject((*viewFont)[e], project, projectFontFiles);
     }
   }
 }
@@ -803,9 +803,9 @@ void GraphHierarchiesModel::treatEvent(const Event &e) {
     string texture;
     auto *viewTexture = static_cast<StringProperty *>(pe->getProperty());
     if (pe->getType() == PropertyEvent::TLP_AFTER_SET_NODE_VALUE) {
-      texture = viewTexture->getNodeValue(pe->getNode());
+      texture = (*viewTexture)[pe->getNode()];
     } else if (pe->getType() == PropertyEvent::TLP_AFTER_SET_EDGE_VALUE) {
-      texture = viewTexture->getEdgeValue(pe->getEdge());
+      texture = (*viewTexture)[pe->getEdge()];
     } else if (pe->getType() == PropertyEvent::TLP_AFTER_SET_ALL_NODE_VALUE) {
       texture = viewTexture->getNodeDefaultValue();
     } else if (pe->getType() == PropertyEvent::TLP_AFTER_SET_ALL_EDGE_VALUE) {

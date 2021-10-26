@@ -50,7 +50,7 @@ bool MouseEdgeBuilder::eventFilter(QObject *widget, QEvent *e) {
           _started = true;
           initObserver(_graph);
           _source = node(selectedEntity.getGraphElementId());
-          _curPos = _startPos = mLayout->getNodeValue(_source);
+          _curPos = _startPos = (*mLayout)[_source];
           return true;
         }
 
@@ -183,7 +183,7 @@ void MouseEdgeBuilder::treatEvent(const Event &evt) {
 
     if (propertyEvent && propertyEvent->getType() == PropertyEvent::TLP_AFTER_SET_NODE_VALUE &&
         propertyEvent->getNode() == _source && propertyEvent->getProperty() == _layoutProperty) {
-      _startPos = _layoutProperty->getNodeValue(_source);
+      _startPos = (*_layoutProperty)[_source];
     }
   }
 }

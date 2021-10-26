@@ -314,8 +314,8 @@ public:
                                 const float &color)
       : tlp::QtGlSceneZoomAndPanAnimator(glWidget, boundingBox), view(view), graph(graph), n(n),
         alphaEnd(color) {
-    tlp::ColorProperty *colorProp = graph->getColorProperty("viewColor");
-    alphaBegin = colorProp->getNodeValue(n)[3];
+    const Color &nodeColor = (*graph->getColorProperty("viewColor"))[n];
+    alphaBegin = nodeColor[3];
   }
 
 protected:
@@ -333,7 +333,7 @@ void MyQtGlSceneZoomAndPanAnimator::zoomAndPanAnimStepSlot(int animationStep) {
   int nbAnimationSteps = animationDurationMsec / 40 + 1;
   float decAlpha = (alphaEnd - alphaBegin) / nbAnimationSteps;
   ColorProperty *colorProp = graph->getColorProperty("viewColor");
-  Color color = colorProp->getNodeValue(n);
+  Color color = (*colorProp)[n];
   color[3] = alphaBegin + decAlpha * animationStep;
   colorProp->setNodeValue(n, color);
   QtGlSceneZoomAndPanAnimator::zoomAndPanAnimationStep(animationStep);
@@ -398,8 +398,9 @@ bool MouseNKeysNavigator::eventFilter(QObject *widget, QEvent *e) {
         Observable::holdObservers();
 
         ColorProperty *colorProp = oldGraph->getColorProperty("viewColor");
-        float alphaOrigin = colorProp->getNodeValue(n)[3];
-        Color color = colorProp->getNodeValue(n);
+        Color color = (*colorProp)[n];
+        float alphaOrigin = color[3];
+
         color[3] = 0;
         colorProp->setNodeValue(n, color);
 
