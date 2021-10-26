@@ -9,8 +9,7 @@ SET(LIB_SRCS
     PathFinderComponent.cpp
     PathFinderConfigurationWidget.cpp
     PathFinderTools.cpp
-    PathFinding/PathAlgorithm.cpp
-    PathFinding/DFS/DFS.cpp
+    PathAlgorithm.cpp
     highlighters/EnclosingCircleHighlighter.cpp
     highlighters/PathHighlighter.cpp
     highlighters/ZoomAndPanHighlighter.cpp)

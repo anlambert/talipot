@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2021  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,10 +36,9 @@ public:
   enum EdgeOrientation { Directed, Undirected, Reversed };
 
   /**
-   * A path algorithm can look for only one (shortest) path, all the shortest paths or all the
-   * paths.
+   * A path algorithm can look for only one (shortest) path or all the shortest paths.
    */
-  enum PathType { OneShortest, AllShortest, AllPaths };
+  enum PathType { OneShortest, AllShortest };
 
   /**
    * Compute a path between two nodes.
@@ -50,16 +49,14 @@ public:
    * @param result Nodes and edges located in the path will be set to true in a resulting boolean
    * property.
    * @param weights The edges weights
-   * @param tolerance (only when all paths are selected) The length tolerance factor.
-   * @return
+   * @return a boolean indicating if at least one path has been found
    *
    * @see PathType
    * @see EdgeOrientation
-   * @see DFS
    */
   static bool computePath(tlp::Graph *graph, PathType pathType, EdgeOrientation edgesOrientation,
                           tlp::node src, tlp::node tgt, tlp::BooleanProperty *result,
-                          tlp::DoubleProperty *weights = nullptr, double tolerance = DBL_MAX);
+                          tlp::DoubleProperty *weights = nullptr);
 };
 }
 #endif // PATH_ALGORITHM_H

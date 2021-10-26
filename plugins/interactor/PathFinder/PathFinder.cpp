@@ -38,15 +38,13 @@ PLUGIN(PathFinder)
 PathFinder::PathFinder(const tlp::PluginContext *)
     : GLInteractorComposite(interactorIcon(InteractorType::PathFinding),
                             "Select the path(s) between two nodes"),
-      weightMetric(NO_METRIC), selectAllPaths(false), edgeOrientation(DEFAULT_ORIENTATION),
-      pathsTypes(DEFAULT_PATHS_TYPE), toleranceActivated(DEFAULT_TOLERANCE_ACTIVATION),
-      tolerance(DEFAULT_TOLERANCE), _configurationWidget(nullptr), highlightersListWidget(nullptr),
+      weightMetric(NO_METRIC), edgeOrientation(DEFAULT_ORIENTATION), pathsTypes(DEFAULT_PATHS_TYPE),
+      _configurationWidget(nullptr), highlightersListWidget(nullptr),
       configureHighlighterBtn(nullptr) {
 
   edgeOrientationLabels[PathAlgorithm::Directed] = "Consider edges as directed";
   edgeOrientationLabels[PathAlgorithm::Undirected] = "Consider edges as undirected";
   edgeOrientationLabels[PathAlgorithm::Reversed] = "Consider edges as reversed";
-  pathsTypesLabels[PathAlgorithm::AllPaths] = "Select all paths";
   pathsTypesLabels[PathAlgorithm::AllShortest] = "Select all shortest paths";
   pathsTypesLabels[PathAlgorithm::OneShortest] = "Select one of the shortest paths";
 }
@@ -75,17 +73,17 @@ void PathFinder::construct() {
 
   Graph *g = view()->graph();
 
-  _configurationWidget->addweightComboItem(NO_METRIC);
+  _configurationWidget->addWeightComboItem(NO_METRIC);
   for (const string &s : g->getProperties()) {
     if (g->getProperty(s)->getTypename() == "double") {
-      _configurationWidget->addweightComboItem(s.c_str());
+      _configurationWidget->addWeightComboItem(s.c_str());
     }
   }
   _configurationWidget->setCurrentweightComboIndex(
       _configurationWidget->weightComboFindText(weightMetric.c_str()));
 
   for (const auto &it : edgeOrientationLabels) {
-    _configurationWidget->addedgeOrientationComboItem(it.second.c_str());
+    _configurationWidget->addEdgeOrientationComboItem(it.second.c_str());
   }
 
   _configurationWidget->setCurrentedgeOrientationComboIndex(
@@ -93,13 +91,10 @@ void PathFinder::construct() {
           edgeOrientationLabels[edgeOrientation].c_str()));
 
   for (const auto &it : pathsTypesLabels) {
-    _configurationWidget->addpathsTypeComboItem(it.second.c_str());
+    _configurationWidget->addPathsTypeComboItem(it.second.c_str());
   }
 
   setPathsType(pathsTypesLabels[pathsTypes].c_str());
-
-  _configurationWidget->toleranceChecked(toleranceActivated);
-  _configurationWidget->setToleranceSpinValue(tolerance);
 
   highlightersListWidget = new StringsListSelectionWidget(
       _configurationWidget, StringsListSelectionWidget::SIMPLE_LIST, 0);
@@ -118,7 +113,7 @@ void PathFinder::construct() {
     _configurationWidget->highlightersLabelDisabled(true);
   }
 
-  _configurationWidget->addbottomWidget(highlightersListWidget);
+  _configurationWidget->addBottomWidget(highlightersListWidget);
   configureHighlighterBtn = new QPushButton("Configure", _configurationWidget);
   auto *hlLayout = highlightersListWidget->findChild<QHBoxLayout *>("horizontalLayout_2");
 
@@ -134,10 +129,6 @@ void PathFinder::construct() {
           &PathFinder::setEdgeOrientation);
   connect(_configurationWidget, &PathFinderConfigurationWidget::setPathsType, this,
           &PathFinder::setPathsType);
-  connect(_configurationWidget, &PathFinderConfigurationWidget::activateTolerance, this,
-          &PathFinder::activateTolerance);
-  connect(_configurationWidget, &PathFinderConfigurationWidget::setTolerance, this,
-          &PathFinder::setTolerance);
 }
 
 QWidget *PathFinder::configurationWidget() const {
@@ -158,37 +149,15 @@ void PathFinder::setEdgeOrientation(const QString &metric) {
   }
 }
 
-void PathFinder::setSelectAllPaths(bool s) {
-  selectAllPaths = s;
-}
-
 void PathFinder::setPathsType(const QString &pathType) {
-  string cmp = QStringToTlpString(pathType);
+  string pathTypeStr = QStringToTlpString(pathType);
 
   for (const auto &it : pathsTypesLabels) {
-    if (it.second == cmp) {
+    if (it.second == pathTypeStr) {
       pathsTypes = it.first;
+      break;
     }
   }
-
-  bool disabled(pathsTypes != PathAlgorithm::AllPaths);
-  _configurationWidget->toleranceDisabled(disabled);
-}
-
-double PathFinder::getTolerance() const {
-  if (!toleranceActivated) {
-    return DBL_MAX;
-  }
-
-  return tolerance / 100;
-}
-
-void PathFinder::setTolerance(int i) {
-  tolerance = i;
-}
-
-void PathFinder::activateTolerance(bool activated) {
-  toleranceActivated = activated;
 }
 
 vector<string> PathFinder::getActiveHighlighters() {

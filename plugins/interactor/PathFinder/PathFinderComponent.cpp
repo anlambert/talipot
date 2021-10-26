@@ -138,9 +138,8 @@ void PathFinderComponent::selectPath(GlWidget *glWidget, Graph *graph) {
       }
     }
 
-    bool pathFound =
-        PathAlgorithm::computePath(graph, parent->getPathsType(), parent->getEdgeOrientation(), src,
-                                   tgt, selection, weights, parent->getTolerance());
+    bool pathFound = PathAlgorithm::computePath(
+        graph, parent->getPathsType(), parent->getEdgeOrientation(), src, tgt, selection, weights);
     Observable::unholdObservers();
 
     if (!pathFound) {

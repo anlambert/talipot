@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2021  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,25 +36,21 @@ PathFinderConfigurationWidget::PathFinderConfigurationWidget(QWidget *parent)
   connect(_ui->pathsTypeCombo, QOverload<const QString &>::of(&QComboBox::activated), this,
           &PathFinderConfigurationWidget::setPathsType);
 #endif
-  connect(_ui->toleranceCheck, &QAbstractButton::clicked, this,
-          &PathFinderConfigurationWidget::activateTolerance);
-  connect(_ui->toleranceSpin, QOverload<int>::of(&QSpinBox::valueChanged), this,
-          &PathFinderConfigurationWidget::setTolerance);
 }
 
 PathFinderConfigurationWidget::~PathFinderConfigurationWidget() {
   delete _ui;
 }
 
-void PathFinderConfigurationWidget::addweightComboItem(const QString &s) {
+void PathFinderConfigurationWidget::addWeightComboItem(const QString &s) {
   _ui->weightCombo->addItem(s);
 }
 
-void PathFinderConfigurationWidget::addedgeOrientationComboItem(const QString &s) {
+void PathFinderConfigurationWidget::addEdgeOrientationComboItem(const QString &s) {
   _ui->edgeOrientationCombo->addItem(s);
 }
 
-void PathFinderConfigurationWidget::addpathsTypeComboItem(const QString &s) {
+void PathFinderConfigurationWidget::addPathsTypeComboItem(const QString &s) {
   _ui->pathsTypeCombo->addItem(s);
 }
 
@@ -74,25 +70,10 @@ int PathFinderConfigurationWidget::edgeOrientationComboFindText(const QString &t
   return _ui->edgeOrientationCombo->findText(text);
 }
 
-void PathFinderConfigurationWidget::toleranceChecked(const bool checked) {
-  _ui->toleranceCheck->setChecked(checked);
-}
-
-void PathFinderConfigurationWidget::setToleranceSpinValue(const int val) {
-  _ui->toleranceSpin->setValue(val);
-}
-
 void PathFinderConfigurationWidget::highlightersLabelDisabled(const bool disable) {
   _ui->highlightersLabel->setDisabled(disable);
 }
 
-void PathFinderConfigurationWidget::addbottomWidget(QWidget *w) {
+void PathFinderConfigurationWidget::addBottomWidget(QWidget *w) {
   _ui->bottomArea->addWidget(w, 0, Qt::AlignLeft);
-}
-
-void PathFinderConfigurationWidget::toleranceDisabled(const bool disabled) {
-  _ui->toleranceCheck->setDisabled(disabled);
-  _ui->toleranceSpin->setDisabled(disabled);
-  _ui->toleranceLabel->setDisabled(disabled);
-  _ui->tolerancePercentLabel->setDisabled(disabled);
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2021  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -34,25 +34,19 @@ public:
   PathFinderConfigurationWidget(QWidget *parent = nullptr);
   ~PathFinderConfigurationWidget() override;
 
-  void addweightComboItem(const QString &s);
+  void addWeightComboItem(const QString &s);
   void setCurrentweightComboIndex(const int i);
   int weightComboFindText(const QString &text) const;
-  void addedgeOrientationComboItem(const QString &s);
+  void addEdgeOrientationComboItem(const QString &s);
   void setCurrentedgeOrientationComboIndex(const int i);
   int edgeOrientationComboFindText(const QString &text) const;
-  void addpathsTypeComboItem(const QString &s);
-  void toleranceChecked(const bool checked);
-  void setToleranceSpinValue(const int val);
+  void addPathsTypeComboItem(const QString &s);
   void highlightersLabelDisabled(const bool disable);
-  void addbottomWidget(QWidget *w);
-  void toleranceDisabled(const bool disabled);
-
+  void addBottomWidget(QWidget *w);
 signals:
+  void setPathsType(const QString &);
   void setWeightMetric(const QString &);
   void setEdgeOrientation(const QString &);
-  void setPathsType(const QString &);
-  void activateTolerance(bool);
-  void setTolerance(int);
 };
 }
 #endif // PATH_FINDER_CONFIGURATION_WIDGET_H

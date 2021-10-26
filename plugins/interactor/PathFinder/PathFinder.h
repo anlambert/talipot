@@ -17,13 +17,11 @@
 #include <talipot/GLInteractor.h>
 
 #include "../../utils/StandardInteractorPriority.h"
-#include "PathFinding/PathAlgorithm.h"
+#include "PathAlgorithm.h"
 
 #define NO_METRIC "None"
 #define DEFAULT_ORIENTATION PathAlgorithm::Undirected
 #define DEFAULT_PATHS_TYPE PathAlgorithm::OneShortest
-#define DEFAULT_TOLERANCE 100
-#define DEFAULT_TOLERANCE_ACTIVATION false
 
 class QPushButton;
 
@@ -40,14 +38,12 @@ class BooleanProperty;
  *
  * This plug-in offers several possibilities to highlight different kinds of paths between two nodes
  * in a graph.
- * You can thus display one or several shortest paths between two selected nodes, or you can even
- * extend to non-shortest paths
- * with length limitations.
+ * You can thus display one or several shortest paths between two selected nodes.
  */
 class PathFinder : public tlp::GLInteractorComposite {
   Q_OBJECT
 public:
-  PLUGININFORMATION("PathFinder", "Tulip Team", "03/24/2010", "Path finding interactor", "1.0",
+  PLUGININFORMATION("PathFinder", "Tulip Team", "03/24/2010", "Path finding interactor", "1.1",
                     "Information")
 
   PathFinder(const tlp::PluginContext *);
@@ -63,13 +59,6 @@ public:
    */
   std::string getWeightMetricName() const {
     return weightMetric;
-  }
-
-  /**
-   * @return true if the user chose not to select only one path
-   */
-  bool isSelectAllPaths() const {
-    return selectAllPaths;
   }
 
   /**
@@ -89,11 +78,6 @@ public:
   }
 
   /**
-   * @return The length tolerance factor when the user doesn't want only the shortest path.
-   */
-  double getTolerance() const;
-
-  /**
    * @return The active path highlighters
    */
   std::vector<std::string> getActiveHighlighters();
@@ -111,23 +95,18 @@ public:
   bool isCompatible(const std::string &viewName) const override;
 
 public slots:
-  void setSelectAllPaths(bool s);
+
   void setEdgeOrientation(const QString &orientation);
   void setPathsType(const QString &pathType);
   void setWeightMetric(const QString &metric);
-  void setTolerance(int i);
-  void activateTolerance(bool activated);
   void configureHighlighterButtonPressed();
 
 private:
   PathFinderComponent *getPathFinderComponent();
 
   std::string weightMetric;
-  bool selectAllPaths;
   PathAlgorithm::EdgeOrientation edgeOrientation;
   PathAlgorithm::PathType pathsTypes;
-  bool toleranceActivated;
-  double tolerance;
 
   // Used for GUI interaction.
   std::map<PathAlgorithm::EdgeOrientation, std::string> edgeOrientationLabels;
