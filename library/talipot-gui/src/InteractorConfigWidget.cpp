@@ -60,6 +60,9 @@ bool InteractorConfigWidget::setWidgets(Interactor *interactor) {
   } else {
     if (docWidget) {
       _ui->scrollAreaDoc->setWidget(docWidget);
+      _ui->tabWidget->setCurrentIndex(0);
+    } else {
+      _ui->tabWidget->setCurrentIndex(1);
     }
     _ui->tabWidget->setTabEnabled(0, docWidget != nullptr);
 
