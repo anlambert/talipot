@@ -200,6 +200,6 @@ void MouseEdgeBuilder::addLink(const node &source, const node &target) {
 
   LayoutProperty *mLayout = glWidget->inputData()->layout();
   edge newEdge = g->addEdge(source, target);
-  mLayout->setEdgeValue(newEdge, bends());
+  (*mLayout)[newEdge] = bends();
   _bends.clear();
 }

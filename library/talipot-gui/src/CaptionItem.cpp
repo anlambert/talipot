@@ -349,13 +349,13 @@ void CaptionItem::applyNewFilter(float begin, float end) {
       if ((*_metricProperty)[nit] < beginMetric || (*_metricProperty)[nit] > endMetric) {
         tmp[3] = 25;
         borderTmp[3] = 25;
-        _colorProperty->setNodeValue(nit, tmp);
-        borderColorProperty->setNodeValue(nit, borderTmp);
+        (*_colorProperty)[nit] = tmp;
+        (*borderColorProperty)[nit] = borderTmp;
       } else {
         tmp[3] = 255;
         borderTmp[3] = 255;
-        _colorProperty->setNodeValue(nit, tmp);
-        borderColorProperty->setNodeValue(nit, borderTmp);
+        (*_colorProperty)[nit] = tmp;
+        (*borderColorProperty)[nit] = borderTmp;
       }
     }
 
@@ -374,13 +374,13 @@ void CaptionItem::applyNewFilter(float begin, float end) {
       if ((*_metricProperty)[e] < beginMetric || (*_metricProperty)[e] > endMetric) {
         tmp[3] = 25;
         borderTmp[3] = 25;
-        _colorProperty->setEdgeValue(e, tmp);
-        borderColorProperty->setEdgeValue(e, borderTmp);
+        (*_colorProperty)[e] = tmp;
+        (*borderColorProperty)[e] = borderTmp;
       } else {
         tmp[3] = 255;
         borderTmp[3] = 255;
-        _colorProperty->setEdgeValue(e, tmp);
-        borderColorProperty->setEdgeValue(e, borderTmp);
+        (*_colorProperty)[e] = tmp;
+        (*borderColorProperty)[e] = borderTmp;
       }
     }
   }

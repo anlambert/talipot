@@ -569,7 +569,7 @@ void MouseSelectionEditor::mMouseRotate(double newX, double newY, GlWidget *glWi
     if (mode == COORD_AND_SIZE || mode == SIZE) {
       for (auto n : _selection->getNodesEqualTo(true, _graph)) {
         double rotation = (*_rotation)[n];
-        _rotation->setNodeValue(n, rotation - degAngle);
+        (*_rotation)[n] = rotation - degAngle;
       }
     }
 
@@ -767,7 +767,7 @@ void MouseSelectionEditor::mAlign(EditOperation operation, GlWidget *) {
       break;
     }
 
-    _layout->setNodeValue(n, old);
+    (*_layout)[n] = old;
   }
 
   Observable::unholdObservers();

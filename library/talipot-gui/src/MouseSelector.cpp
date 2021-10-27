@@ -168,7 +168,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
                   needPush = false;
                 }
 
-                selection->setNodeValue(n, !result);
+                (*selection)[n] = !result;
               }
             }
 
@@ -186,7 +186,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
                   needPush = false;
                 }
 
-                selection->setEdgeValue(e, !result);
+                (*selection)[e] = !result;
               }
             }
 
@@ -219,14 +219,14 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
         if (_mode == EdgesAndNodes || _mode == NodesOnly) {
           for (const auto &entity : tmpSetNode) {
             node n(entity.getGraphElementId());
-            selection->setNodeValue(n, revertSelection ? !(*selection)[n] : boolVal);
+            (*selection)[n] = revertSelection ? !(*selection)[n] : boolVal;
           }
         }
 
         if (_mode == EdgesAndNodes || _mode == EdgesOnly) {
           for (const auto &entity : tmpSetEdge) {
             edge e(entity.getGraphElementId());
-            selection->setEdgeValue(e, revertSelection ? !(*selection)[e] : boolVal);
+            (*selection)[e] = revertSelection ? !(*selection)[e] : boolVal;
           }
         }
       }

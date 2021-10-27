@@ -198,11 +198,11 @@ static void restoreTextureFilesFromProject(tlp::Graph *g, tlp::Project *project,
     // If the original texture file is not present in the computer but is present in the project
     // change the texture path for the node in the viewTexture property
     if (!fileInfo.exists() && project->exists(textureProjectFile)) {
-      viewTexture->setNodeValue(n, QStringToTlpString(project->toAbsolutePath(textureProjectFile)));
+      (*viewTexture)[n] = QStringToTlpString(project->toAbsolutePath(textureProjectFile));
     } else if (fileInfo.exists()) {
-      viewTexture->setNodeValue(n, QStringToTlpString(fileInfo.absoluteFilePath()));
+      (*viewTexture)[n] = QStringToTlpString(fileInfo.absoluteFilePath());
     } else if (textureFile.startsWith("http")) {
-      viewTexture->setNodeValue(n, QStringToTlpString(textureFile));
+      (*viewTexture)[n] = QStringToTlpString(textureFile);
     }
   }
 
@@ -253,11 +253,11 @@ static void restoreTextureFilesFromProject(tlp::Graph *g, tlp::Project *project,
     // If the original texture file is not present in the computer but is present in the project
     // change the texture path for the edge in the viewTexture property
     if (!fileInfo.exists() && project->exists(textureProjectFile)) {
-      viewTexture->setEdgeValue(e, QStringToTlpString(project->toAbsolutePath(textureProjectFile)));
+      (*viewTexture)[e] = QStringToTlpString(project->toAbsolutePath(textureProjectFile));
     } else if (fileInfo.exists()) {
-      viewTexture->setEdgeValue(e, QStringToTlpString(fileInfo.absoluteFilePath()));
+      (*viewTexture)[e] = QStringToTlpString(fileInfo.absoluteFilePath());
     } else if (textureFile.startsWith("http")) {
-      viewTexture->setEdgeValue(e, QStringToTlpString(textureFile));
+      (*viewTexture)[e] = QStringToTlpString(textureFile);
     }
   }
 }

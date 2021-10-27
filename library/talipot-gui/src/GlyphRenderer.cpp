@@ -50,7 +50,7 @@ QPixmap GlyphRenderer::render(int glyphId, const QColor &backgroundColor) {
       for (const string &glyphName : PluginsManager::availablePlugins<Glyph>()) {
         auto glId = GlyphManager::glyphId(glyphName);
         // Create the glyph preview
-        graph->getIntegerProperty("viewShape")->setNodeValue(node, glId);
+        (*graph->getIntegerProperty("viewShape"))[node] = glId;
         renderer.renderScene(false, true);
         QString glKey = QString::number(glId) + backgroundColor.name();
         previews[glKey] = QPixmap::fromImage(renderer.getImage());
@@ -82,10 +82,10 @@ QPixmap EdgeExtremityGlyphRenderer::render(int glyphId, const QColor &background
       inputData.sizes()->setAllEdgeValue(Size(0.125f, 0.125f, 0.125f));
       inputData.colors()->setAllNodeValue(QColorToColor(tlp::backgroundColor()));
       inputData.borderColors()->setAllNodeValue(QColorToColor(tlp::backgroundColor()));
-      inputData.colors()->setAllEdgeValue(Color(192, 192, 192));
+      inputData.borderColors()->setAllEdgeValue(Color(192, 192, 192));
       inputData.borderColors()->setAllEdgeValue(QColorToColor(textColor()));
-      inputData.layout()->setNodeValue(n1, Coord(0, 0, 0));
-      inputData.layout()->setNodeValue(n2, Coord(0.3f, 0, 0));
+      (*inputData.layout())[n1] = Coord(0, 0, 0);
+      (*inputData.layout())[n2] = Coord(0.3f, 0, 0);
       vector<Coord> bends;
       bends.push_back(Coord(0.01f, 0, 0));
       inputData.layout()->setAllEdgeValue(bends);
@@ -109,7 +109,7 @@ QPixmap EdgeExtremityGlyphRenderer::render(int glyphId, const QColor &background
         const Plugin &info = PluginsManager::pluginInformation(glyphName);
         int glId = info.id();
         // Create the glyph preview
-        graph->getIntegerProperty("viewTgtAnchorShape")->setEdgeValue(e, glId);
+        (*graph->getIntegerProperty("viewTgtAnchorShape"))[e] = glId;
         renderer.renderScene(true);
         QString glKey = QString::number(glId) + backgroundColor.name();
         previews[glKey] = QPixmap::fromImage(renderer.getImage());

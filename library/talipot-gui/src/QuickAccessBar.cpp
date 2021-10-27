@@ -395,8 +395,8 @@ void QuickAccessBarImpl::setLabelColor(const QColor &c) {
   Color color = QColorToColor(c);
 
   for (auto n : selected->getNonDefaultValuatedNodes(_mainView->graph())) {
-    labelColors->setNodeValue(n, color);
-    labelBorderColors->setNodeValue(n, color);
+    (*labelColors)[n] = color;
+    (*labelBorderColors)[n] = color;
     hasSelected = true;
   }
 
@@ -406,8 +406,8 @@ void QuickAccessBarImpl::setLabelColor(const QColor &c) {
   }
 
   for (auto e : selected->getNonDefaultValuatedEdges(_mainView->graph())) {
-    labelColors->setEdgeValue(e, color);
-    labelBorderColors->setEdgeValue(e, color);
+    (*labelColors)[e] = color;
+    (*labelBorderColors)[e] = color;
     hasSelected = true;
   }
 
@@ -431,7 +431,7 @@ void QuickAccessBarImpl::setAllColorValues(uint eltType, ColorProperty *prop, co
 
   if (eltType == NODE) {
     for (auto n : selected->getNonDefaultValuatedNodes(_mainView->graph())) {
-      prop->setNodeValue(n, color);
+      (*prop)[n] = color;
       hasSelected = true;
     }
 
@@ -440,7 +440,7 @@ void QuickAccessBarImpl::setAllColorValues(uint eltType, ColorProperty *prop, co
     }
   } else {
     for (auto e : selected->getNonDefaultValuatedEdges(_mainView->graph())) {
-      prop->setEdgeValue(e, color);
+      (*prop)[e] = color;
       hasSelected = true;
     }
 

@@ -355,9 +355,9 @@ void MouseEdgeBendEditor::mMouseTranslate(int newX, int newY, GlWidget *glWidget
 
     Observable::holdObservers();
     if (edgeSelected) {
-      _layout->setEdgeValue(mEdge, coordinates);
+      (*_layout)[mEdge] = coordinates;
     } else {
-      _coordsVectorProperty->setNodeValue(mNode, coordinates);
+      (*_coordsVectorProperty)[mNode] = coordinates;
     }
     Observable::unholdObservers();
   }
@@ -393,9 +393,9 @@ void MouseEdgeBendEditor::mMouseDelete() {
     _graph->push();
 
     if (edgeSelected) {
-      _layout->setEdgeValue(mEdge, coordinates);
+      (*_layout)[mEdge] = coordinates;
     } else {
-      _coordsVectorProperty->setNodeValue(mNode, coordinates);
+      (*_coordsVectorProperty)[mNode] = coordinates;
     }
 
     Observable::unholdObservers();
@@ -454,10 +454,10 @@ void MouseEdgeBendEditor::mMouseCreate(int x, int y, GlWidget *glWidget) {
   _graph->push();
 
   if (edgeSelected) {
-    _layout->setEdgeValue(mEdge, coordinates);
+    (*_layout)[mEdge] = coordinates;
   } else {
     if (_coordsVectorProperty) {
-      _coordsVectorProperty->setNodeValue(mNode, coordinates);
+      (*_coordsVectorProperty)[mNode] = coordinates;
     }
   }
 
@@ -471,7 +471,7 @@ bool MouseEdgeBendEditor::haveSelection(GlWidget *glWidget) {
   bool multipleSelection = false;
 
   for (auto e : _graph->edges()) {
-    if (_selection->getEdgeValue(e)) {
+    if ((*_selection)[e]) {
       if (hasSelection) {
         hasSelection = false;
         multipleSelection = true;
@@ -558,7 +558,7 @@ bool MouseEdgeBendEditor::computeBendsCircles(GlWidget *glWidget) {
   }
 
   if (edgeSelected) {
-    coordinates = _layout->getEdgeValue(mEdge);
+    coordinates = (*_layout)[mEdge];
     start = (*_layout)[_graph->source(mEdge)];
     end = (*_layout)[_graph->target(mEdge)];
 
