@@ -5,20 +5,13 @@ INCLUDE_DIRECTORIES(
   ${TalipotCoreInclude} ${TalipotOGLInclude} ${TalipotGUIInclude})
 
 SET(LIB_SRCS
-    PathFinder.cpp
-    PathFinderComponent.cpp
-    PathFinderConfigurationWidget.cpp
-    PathFinderTools.cpp
-    PathAlgorithm.cpp
-    highlighters/EnclosingCircleHighlighter.cpp
-    highlighters/PathHighlighter.cpp
-    highlighters/ZoomAndPanHighlighter.cpp)
+    PathFinder.cpp PathFinderComponent.cpp PathFinderConfigurationWidget.cpp
+    PathFinderTools.cpp PathAlgorithm.cpp)
 
 QT_WRAP_UI(LIB_UI_HEADERS designer/EnclosingCircleConfiguration.ui
            designer/PathFinderConfiguration.ui)
 
-QT_WRAP_CPP(LIB_MOC_SRCS PathFinderConfigurationWidget.h PathFinder.h
-            highlighters/EnclosingCircleHighlighter.h)
+QT_WRAP_CPP(LIB_MOC_SRCS PathFinderConfigurationWidget.h PathFinder.h)
 
 TALIPOT_ADD_PLUGIN(
   NAME

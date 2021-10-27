@@ -14,13 +14,10 @@
 #include "PathFinder.h"
 
 #include <talipot/MouseInteractors.h>
-#include <talipot/StringsListSelectionWidget.h>
 #include <talipot/NodeLinkDiagramView.h>
 
 #include "PathFinderComponent.h"
 #include "PathFinderConfigurationWidget.h"
-#include "highlighters/EnclosingCircleHighlighter.h"
-#include "highlighters/ZoomAndPanHighlighter.h"
 
 #include "../../utils/InteractorIcons.h"
 
@@ -39,8 +36,7 @@ PathFinder::PathFinder(const tlp::PluginContext *)
     : GLInteractorComposite(interactorIcon(InteractorType::PathFinding),
                             "Select the path(s) between two nodes"),
       weightMetric(NO_METRIC), edgeOrientation(DEFAULT_ORIENTATION), pathsTypes(DEFAULT_PATHS_TYPE),
-      _configurationWidget(nullptr), highlightersListWidget(nullptr),
-      configureHighlighterBtn(nullptr) {
+      _configurationWidget(nullptr) {
 
   edgeOrientationLabels[PathAlgorithm::Directed] = "Consider edges as directed";
   edgeOrientationLabels[PathAlgorithm::Undirected] = "Consider edges as undirected";
@@ -64,9 +60,6 @@ void PathFinder::construct() {
 
   push_back(new MousePanNZoomNavigator);
   auto *component = new PathFinderComponent(this);
-  // installing path highlighters on the component
-  component->addHighlighter(new EnclosingCircleHighlighter);
-  component->addHighlighter(new ZoomAndPanHighlighter);
   push_back(component);
 
   _configurationWidget = new PathFinderConfigurationWidget();
@@ -96,33 +89,6 @@ void PathFinder::construct() {
 
   setPathsType(pathsTypesLabels[pathsTypes].c_str());
 
-  highlightersListWidget = new StringsListSelectionWidget(
-      _configurationWidget, StringsListSelectionWidget::SIMPLE_LIST, 0);
-  vector<string> activeList, inactiveList;
-  QSet<PathHighlighter *> highlighters(getPathFinderComponent()->getHighlighters());
-
-  for (auto *h : highlighters) {
-    inactiveList.push_back(h->getName());
-  }
-
-  highlightersListWidget->setSelectedStringsList(activeList);
-  highlightersListWidget->setUnselectedStringsList(inactiveList);
-
-  if (activeList.empty() && inactiveList.empty()) {
-    highlightersListWidget->setDisabled(true);
-    _configurationWidget->highlightersLabelDisabled(true);
-  }
-
-  _configurationWidget->addBottomWidget(highlightersListWidget);
-  configureHighlighterBtn = new QPushButton("Configure", _configurationWidget);
-  auto *hlLayout = highlightersListWidget->findChild<QHBoxLayout *>("horizontalLayout_2");
-
-  if (hlLayout) {
-    hlLayout->addWidget(configureHighlighterBtn);
-  }
-
-  connect(configureHighlighterBtn, &QAbstractButton::clicked, this,
-          &PathFinder::configureHighlighterButtonPressed);
   connect(_configurationWidget, &PathFinderConfigurationWidget::setWeightMetric, this,
           &PathFinder::setWeightMetric);
   connect(_configurationWidget, &PathFinderConfigurationWidget::setEdgeOrientation, this,
@@ -157,82 +123,6 @@ void PathFinder::setPathsType(const QString &pathType) {
       pathsTypes = it.first;
       break;
     }
-  }
-}
-
-vector<string> PathFinder::getActiveHighlighters() {
-  return highlightersListWidget->getSelectedStringsList();
-}
-
-vector<string> PathFinder::getInactiveHighlighters() {
-  return highlightersListWidget->getUnselectedStringsList();
-}
-
-vector<string> PathFinder::getHighlighters() {
-  if (highlightersListWidget) {
-    return highlightersListWidget->getCompleteStringsList();
-  }
-
-  return vector<string>();
-}
-
-void PathFinder::configureHighlighterButtonPressed() {
-  /*
-   * Each highlighter has it's own configuration widget.
-   * We build a QDialog and integrate this widget into it to display highlighter-specific
-   * configuration to the user.
-   */
-  QListWidget *listWidget =
-      static_cast<QListWidget *>(highlightersListWidget->findChild<QListWidget *>("listWidget"));
-
-  QList<QListWidgetItem *> lst = listWidget->selectedItems();
-  string text;
-
-  for (auto *item : lst) {
-    text = QStringToTlpString(item->text());
-  }
-
-  QSet<PathHighlighter *> highlighters(getPathFinderComponent()->getHighlighters());
-  PathHighlighter *hler = nullptr;
-
-  for (auto *h : highlighters) {
-    if (h->getName() == text) {
-      hler = h;
-      break;
-    }
-  }
-
-  if (hler == nullptr) {
-    QMessageBox::warning(nullptr, "Nothing selected", "No highlighter selected");
-    return;
-  }
-
-  if (hler->isConfigurable()) {
-    auto *dialog = new QDialog;
-    auto *verticalLayout = new QVBoxLayout(dialog);
-    verticalLayout->setObjectName("verticalLayout");
-    auto *mainLayout = new QVBoxLayout();
-    mainLayout->setObjectName("mainLayout");
-
-    verticalLayout->addLayout(mainLayout);
-
-    auto *buttonBox = new QDialogButtonBox(dialog);
-    buttonBox->setObjectName("buttonBox");
-    buttonBox->setOrientation(Qt::Horizontal);
-    buttonBox->setStandardButtons(QDialogButtonBox::Ok);
-
-    verticalLayout->addWidget(buttonBox);
-
-    connect(buttonBox, &QDialogButtonBox::accepted, dialog, &QDialog::accept);
-    connect(buttonBox, &QDialogButtonBox::rejected, dialog, &QDialog::reject);
-
-    mainLayout->addWidget(hler->getConfigurationWidget());
-    dialog->setWindowTitle(tlpStringToQString(hler->getName()));
-    dialog->exec();
-    delete dialog;
-  } else {
-    QMessageBox::warning(nullptr, tlpStringToQString(hler->getName()),
-                         "No configuration available for this highlighter");
   }
 }
 

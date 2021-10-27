@@ -16,7 +16,6 @@
 #include <talipot/GlGraph.h>
 #include <talipot/GlView.h>
 
-#include "highlighters/PathHighlighter.h"
 #include "PathFinder.h"
 
 #include <QApplication>
@@ -29,9 +28,7 @@ using namespace tlp;
 PathFinderComponent::PathFinderComponent(PathFinder *parent)
     : parent(parent), graphPopable(false) {}
 
-PathFinderComponent::~PathFinderComponent() {
-  qDeleteAll(highlighters);
-}
+PathFinderComponent::~PathFinderComponent() = default;
 
 bool PathFinderComponent::eventFilter(QObject *obj, QEvent *event) {
   auto *qMouseEv = static_cast<QMouseEvent *>(event);
@@ -148,64 +145,10 @@ void PathFinderComponent::selectPath(GlWidget *glWidget, Graph *graph) {
       selection->setNodeValue(src, true);
       QMessageBox::warning(nullptr, "Path finder",
                            "A path between the selected nodes cannot be found.");
-
-    } else {
-      // A path has been found: highlight it
-      runHighlighters(glWidget, selection, src, tgt);
     }
   } else if (src.isValid()) {
     selection->setNodeValue(src, true);
   }
-}
-
-void PathFinderComponent::runHighlighters(GlWidget *glWidget, BooleanProperty *selection, node src,
-                                          node tgt) {
-  glWidget->getScene()->getGlGraph()->getGraph()->push(true);
-  graphPopable = true;
-  vector<string> activeHighlighters(parent->getActiveHighlighters());
-
-  for (const auto &h : activeHighlighters) {
-    PathHighlighter *hler = findHighlighter(h);
-
-    if (hler) {
-      hler->highlight(parent, glWidget, selection, src, tgt);
-    }
-  }
-}
-
-void PathFinderComponent::clearHighlighters(GlWidget *glWidget) {
-  if (graphPopable && glWidget->getScene()->getGlGraph()->getGraph()->canPop()) {
-    glWidget->getScene()->getGlGraph()->getGraph()->pop(false);
-    graphPopable = false;
-  }
-
-  vector<string> activeHighlighters(parent->getHighlighters());
-
-  for (const auto &h : activeHighlighters) {
-    PathHighlighter *hler = findHighlighter(h);
-
-    if (hler) {
-      hler->clear();
-    }
-  }
-}
-
-PathHighlighter *PathFinderComponent::findHighlighter(const string &name) {
-  for (auto *p : highlighters) {
-    if (p->getName() == name) {
-      return p;
-    }
-  }
-
-  return nullptr;
-}
-
-void PathFinderComponent::addHighlighter(PathHighlighter *highlighter) {
-  highlighters.insert(highlighter);
-}
-
-QSet<PathHighlighter *> PathFinderComponent::getHighlighters() {
-  return highlighters;
 }
 
 void PathFinderComponent::clear() {

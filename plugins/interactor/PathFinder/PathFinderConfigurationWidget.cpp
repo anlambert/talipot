@@ -69,11 +69,3 @@ void PathFinderConfigurationWidget::setCurrentedgeOrientationComboIndex(const in
 int PathFinderConfigurationWidget::edgeOrientationComboFindText(const QString &text) const {
   return _ui->edgeOrientationCombo->findText(text);
 }
-
-void PathFinderConfigurationWidget::highlightersLabelDisabled(const bool disable) {
-  _ui->highlightersLabel->setDisabled(disable);
-}
-
-void PathFinderConfigurationWidget::addBottomWidget(QWidget *w) {
-  _ui->bottomArea->addWidget(w, 0, Qt::AlignLeft);
-}

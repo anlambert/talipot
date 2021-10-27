@@ -27,10 +27,8 @@ class QPushButton;
 
 namespace tlp {
 class PathFinderComponent;
-class PathHighlighter;
 class PathFinderConfigurationWidget;
 
-class StringsListSelectionWidget;
 class BooleanProperty;
 
 /** \file
@@ -77,21 +75,6 @@ public:
     return pathsTypes;
   }
 
-  /**
-   * @return The active path highlighters
-   */
-  std::vector<std::string> getActiveHighlighters();
-
-  /**
-   * @return The inactive path highlighters
-   */
-  std::vector<std::string> getInactiveHighlighters();
-
-  /**
-   * @return All the installed path highlighters
-   */
-  std::vector<std::string> getHighlighters();
-
   bool isCompatible(const std::string &viewName) const override;
 
 public slots:
@@ -99,7 +82,6 @@ public slots:
   void setEdgeOrientation(const QString &orientation);
   void setPathsType(const QString &pathType);
   void setWeightMetric(const QString &metric);
-  void configureHighlighterButtonPressed();
 
 private:
   PathFinderComponent *getPathFinderComponent();
@@ -114,8 +96,6 @@ private:
 
   // GUI elements.
   PathFinderConfigurationWidget *_configurationWidget;
-  tlp::StringsListSelectionWidget *highlightersListWidget;
-  QPushButton *configureHighlighterBtn;
 };
 }
 #endif // PATH_FINDER_H

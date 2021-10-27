@@ -41,8 +41,6 @@ public:
   void setCurrentedgeOrientationComboIndex(const int i);
   int edgeOrientationComboFindText(const QString &text) const;
   void addPathsTypeComboItem(const QString &s);
-  void highlightersLabelDisabled(const bool disable);
-  void addBottomWidget(QWidget *w);
 signals:
   void setPathsType(const QString &);
   void setWeightMetric(const QString &);
