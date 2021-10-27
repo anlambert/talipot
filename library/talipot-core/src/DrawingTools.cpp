@@ -35,55 +35,67 @@ static void rotate(Coord &vec, double alpha) {
  * @todo take edge size into account
  * @todo create unit test to automatically check that function
  */
-static void computeGraphPoints(const std::vector<node> &nodes, const std::vector<edge> &edges,
-                               const LayoutProperty *layout, const SizeProperty *size,
-                               const DoubleProperty *rotation, const BooleanProperty *selection,
-                               std::vector<Coord> &gPoints) {
+static std::vector<Coord> computeGraphPoints(const Graph *graph, const std::vector<node> &nodes,
+                                             const std::vector<edge> &edges,
+                                             const LayoutProperty *layout, const SizeProperty *size,
+                                             const DoubleProperty *rotation,
+                                             const BooleanProperty *selection) {
+  std::set<node> processedNodes;
+  std::vector<Coord> gPoints;
   for (auto n : nodes) {
-    if ((selection == nullptr) || selection->getNodeValue(n)) {
+    if (!selection || selection->getNodeValue(n)) {
       const Size &nSize = size->getNodeValue(n);
-      Coord point = layout->getNodeValue(n);
+      const Coord &point = layout->getNodeValue(n);
       double rot = rotation->getNodeValue(n);
-      vector<Coord> points(4);
-      points[0].set(nSize[0] / 2., nSize[1] / 2., nSize[2] / 2.);
-      points[1].set(-nSize[0] / 2., -nSize[1] / 2., -nSize[2] / 2.);
-      points[2].set(+nSize[0] / 2., -nSize[1] / 2., -nSize[2] / 2.);
-      points[3].set(-nSize[0] / 2., +nSize[1] / 2., +nSize[2] / 2.);
+      vector<Coord> points = {{nSize[0] / 2, nSize[1] / 2, nSize[2] / 2},
+                              {-nSize[0] / 2, -nSize[1] / 2, -nSize[2] / 2},
+                              {nSize[0] / 2, -nSize[1] / 2, -nSize[2] / 2},
+                              {-nSize[0] / 2, nSize[1] / 2, nSize[2] / 2}};
 
       for (uint i = 0; i < 4; ++i) {
         if (rot) {
           rotate(points[i], rot);
         }
-
         gPoints.push_back(points[i] + point);
       }
+
+      processedNodes.insert(n);
     }
   }
 
-  if (layout->hasNonDefaultValuatedEdges()) {
-    for (auto e : edges) {
-      if ((selection == nullptr) || selection->getEdgeValue(e)) {
-        for (const Coord &coord : layout->getEdgeValue(e)) {
-          gPoints.push_back(coord);
-        }
+  for (auto e : edges) {
+    if (!selection || selection->getEdgeValue(e)) {
+      const auto &[src, tgt] = graph->ends(e);
+      if (processedNodes.find(src) == processedNodes.end()) {
+        gPoints.push_back(layout->getNodeValue(src));
+        processedNodes.insert(src);
+      }
+      for (const Coord &coord : layout->getEdgeValue(e)) {
+        gPoints.push_back(coord);
+      }
+      if (processedNodes.find(tgt) == processedNodes.end()) {
+        gPoints.push_back(layout->getNodeValue(tgt));
+        processedNodes.insert(tgt);
       }
     }
   }
+  return gPoints;
 }
 
 //===========================================================================
 BoundingBox tlp::computeBoundingBox(const Graph *graph, const LayoutProperty *layout,
                                     const SizeProperty *size, const DoubleProperty *rotation,
                                     const BooleanProperty *selection) {
-  return computeBoundingBox(graph->nodes(), graph->edges(), layout, size, rotation, selection);
+  return computeBoundingBox(graph, graph->nodes(), graph->edges(), layout, size, rotation,
+                            selection);
 }
 //===========================================================================
-BoundingBox tlp::computeBoundingBox(const std::vector<node> &nodes, const std::vector<edge> &edges,
-                                    const LayoutProperty *layout, const SizeProperty *size,
-                                    const DoubleProperty *rotation,
+BoundingBox tlp::computeBoundingBox(const Graph *graph, const std::vector<node> &nodes,
+                                    const std::vector<edge> &edges, const LayoutProperty *layout,
+                                    const SizeProperty *size, const DoubleProperty *rotation,
                                     const BooleanProperty *selection) {
-  std::vector<Coord> gPoints;
-  computeGraphPoints(nodes, edges, layout, size, rotation, selection, gPoints);
+  std::vector<Coord> gPoints =
+      computeGraphPoints(graph, nodes, edges, layout, size, rotation, selection);
   BoundingBox bbox;
   for (const Coord &point : gPoints) {
     bbox.expand(point);
@@ -166,8 +178,8 @@ std::vector<Coord> tlp::computeConvexHull(const Graph *graph, const LayoutProper
                                           const SizeProperty *size, const DoubleProperty *rotation,
                                           const BooleanProperty *selection) {
 
-  std::vector<Coord> gPoints;
-  computeGraphPoints(graph->nodes(), graph->edges(), layout, size, rotation, selection, gPoints);
+  std::vector<Coord> gPoints =
+      computeGraphPoints(graph, graph->nodes(), graph->edges(), layout, size, rotation, selection);
   return computeConvexHull(gPoints);
 }
 

@@ -168,7 +168,7 @@ bool PolyominoPacking::run() {
       }
     }
 
-    BoundingBox ccBB = tlp::computeBoundingBox(ccNodes, ccEdges, layout, size, rotation);
+    BoundingBox ccBB = tlp::computeBoundingBox(graph, ccNodes, ccEdges, layout, size, rotation);
     polyominos.push_back(Polyomino(&ccNodes, ccBB));
 
     if (pluginProgress &&

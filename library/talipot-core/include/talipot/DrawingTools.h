@@ -53,7 +53,7 @@ TLP_SCOPE BoundingBox computeBoundingBox(const Graph *graph, const LayoutPropert
  * nodes z-rotations and sizes of elements.
  *
  */
-TLP_SCOPE BoundingBox computeBoundingBox(const std::vector<node> &nodes,
+TLP_SCOPE BoundingBox computeBoundingBox(const Graph *graph, const std::vector<node> &nodes,
                                          const std::vector<edge> &edges,
                                          const LayoutProperty *layout, const SizeProperty *size,
                                          const DoubleProperty *rotation,

@@ -105,7 +105,7 @@ bool ConnectedComponentsPacking::run() {
       }
     }
 
-    BoundingBox tmp = tlp::computeBoundingBox(nodes, edges, layout, size, rotation);
+    BoundingBox tmp = tlp::computeBoundingBox(graph, nodes, edges, layout, size, rotation);
     Rectangle<float> &tmpRec = rectangles[i];
     tmpRec[1][0] = tmp[1][0] + spacing;
     tmpRec[1][1] = tmp[1][1] + spacing;

@@ -122,20 +122,17 @@ void OGDFLayoutPluginBase::callOGDFLayoutAlgorithm(ogdf::GraphAttributes &gAttri
 
 void OGDFLayoutPluginBase::transposeLayoutVertically() {
 
-  const vector<node> &nodes = graph->nodes();
-  const vector<edge> &edges = graph->edges();
-
-  BoundingBox graphBB = computeBoundingBox(nodes, edges, result, graph->getSizeProperty("viewSize"),
+  BoundingBox graphBB = computeBoundingBox(graph, result, graph->getSizeProperty("viewSize"),
                                            graph->getDoubleProperty("viewRotation"));
   float midY = (graphBB[0][1] + graphBB[1][1]) / 2.f;
 
-  for (auto n : nodes) {
+  for (auto n : graph->nodes()) {
     Coord nodeCoord = result->getNodeValue(n);
     nodeCoord[1] = midY - (nodeCoord[1] - midY);
     result->setNodeValue(n, nodeCoord);
   }
 
-  for (auto e : edges) {
+  for (auto e : graph->edges()) {
     std::vector<Coord> bends = result->getEdgeValue(e);
 
     if (bends.size()) {
