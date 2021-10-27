@@ -182,8 +182,7 @@ public:
    * bounding box.
    * @param duration the animation duration in msecs
    */
-  void zoomAndPanAnimation(const tlp::BoundingBox &boundingBox,
-                           const double duration = 1000.) const;
+  void zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const double duration = 1000) const;
 
 public slots:
   /**

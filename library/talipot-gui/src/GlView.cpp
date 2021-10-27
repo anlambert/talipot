@@ -17,6 +17,7 @@
 #include <QGraphicsView>
 #include <QPushButton>
 
+#include <talipot/DrawingTools.h>
 #include <talipot/GlWidgetGraphicsItem.h>
 #include <talipot/SceneConfigWidget.h>
 #include <talipot/SceneLayersConfigWidget.h>
@@ -363,6 +364,29 @@ void GlView::undoCallback() {
 void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
   _viewActionsManager->fillContextMenu(menu);
 
+  auto *inputData = getGlWidget()->getGlGraphInputData();
+  auto *selection = inputData->getElementSelected();
+
+  if (selection && (selection->hasNonDefaultValuatedNodes(graph()) ||
+                    selection->hasNonDefaultValuatedEdges(graph()))) {
+    QAction *znpOnSelection = menu->addAction("Zoom and pan on selection");
+    znpOnSelection->setToolTip(
+        "Perform a zoom and pan animation to center the view on selected graph elements");
+    connect(znpOnSelection, &QAction::triggered, [this, selection, inputData]() {
+      auto boundingBox =
+          computeBoundingBox(graph(), inputData->getElementLayout(), inputData->getElementSize(),
+                             inputData->getElementRotation(), selection);
+      zoomAndPanAnimation(boundingBox);
+    });
+  }
+
+  QAction *znpCenterView = menu->addAction("Zoom and pan on centered view");
+  znpCenterView->setToolTip("Perform a zoom and pan animation to center the view");
+  connect(znpCenterView, &QAction::triggered, [this]() {
+    BoundingBox boundingBox;
+    zoomAndPanAnimation(boundingBox);
+  });
+
   QAction *viewOrtho = menu->addAction("Use orthogonal projection");
   viewOrtho->setToolTip("Enable to switch between true perspective and orthogonal");
   viewOrtho->setCheckable(true);
@@ -464,7 +488,7 @@ bool GlView::pickNodeEdge(const int x, const int y, node &n, edge &e, bool pickN
 
 void GlView::zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const double duration) const {
   BoundingBox bb;
-  if (bb.isValid()) {
+  if (boundingBox.isValid()) {
     bb = boundingBox;
   } else {
     auto *scene = getGlWidget()->getScene();
