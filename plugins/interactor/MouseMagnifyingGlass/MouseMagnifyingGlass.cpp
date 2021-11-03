@@ -273,7 +273,7 @@ void MouseMagnifyingGlassInteractorComponent::viewChanged(View *view) {
   }
 
   auto *glView = dynamic_cast<GlView *>(view);
-  glWidget = glView->getGlWidget();
+  glWidget = glView->glWidget();
   radius = glWidget->screenToViewport(glWidget->width()) / 4;
   camera = &glWidget->scene()->getLayer("Main")->getCamera();
 

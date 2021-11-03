@@ -137,7 +137,7 @@ void FisheyeInteractorComponent::viewChanged(View *view) {
   }
 
   auto *glView = static_cast<GlView *>(view);
-  GlWidget *glWidget = glView->getGlWidget();
+  GlWidget *glWidget = glView->glWidget();
 
   if (!glWidget->hasMouseTracking()) {
     glWidget->setMouseTracking(true);

@@ -77,7 +77,7 @@ void NodeLinkDiagramView::updateGrid() {
   gridData.get<bool>("Y grid", only);
   gridData.get<bool>("Z grid", onZ);
 
-  GlGraphInputData *inputData = getGlWidget()->inputData();
+  GlGraphInputData *inputData = glWidget()->inputData();
   BoundingBox graphBB =
       computeBoundingBox(graph(), inputData->layout(), inputData->sizes(), inputData->rotations());
   Coord bottomLeft = Coord(graphBB[0] - margins);
@@ -95,7 +95,7 @@ void NodeLinkDiagramView::updateGrid() {
   displays[2] = onZ;
 
   _grid = new GlGrid(bottomLeft, topRight, gridSize, gridColor, displays);
-  getGlWidget()->scene()->getLayer("Main")->addGlEntity(_grid, "Node Link Diagram Component grid");
+  glWidget()->scene()->getLayer("Main")->addGlEntity(_grid, "Node Link Diagram Component grid");
 }
 
 void NodeLinkDiagramView::draw() {
@@ -126,7 +126,7 @@ void NodeLinkDiagramView::setState(const tlp::DataSet &data) {
 
   bool keepSPOV = false;
   data.get<bool>("keepScenePointOfViewOnSubgraphChanging", keepSPOV);
-  getGlWidget()->setKeepScenePointOfViewOnSubgraphChanging(keepSPOV);
+  glWidget()->setKeepScenePointOfViewOnSubgraphChanging(keepSPOV);
 
   if (!data.empty()) {
     createScene(graph(), data);
@@ -139,13 +139,13 @@ void NodeLinkDiagramView::setState(const tlp::DataSet &data) {
 }
 
 void NodeLinkDiagramView::graphChanged(tlp::Graph *graph) {
-  GlGraph *composite = getGlWidget()->scene()->getGlGraph();
+  GlGraph *composite = glWidget()->scene()->getGlGraph();
   Graph *oldGraph = composite ? composite->getGraph() : nullptr;
   loadGraphOnScene(graph);
   registerTriggers();
 
   if (oldGraph == nullptr || graph == nullptr || (oldGraph->getRoot() != graph->getRoot()) ||
-      !getGlWidget()->keepScenePointOfViewOnSubgraphChanging()) {
+      !glWidget()->keepScenePointOfViewOnSubgraphChanging()) {
     centerView();
   }
 
@@ -156,7 +156,7 @@ void NodeLinkDiagramView::graphChanged(tlp::Graph *graph) {
 tlp::DataSet NodeLinkDiagramView::state() const {
   DataSet data = sceneData();
   data.set("keepScenePointOfViewOnSubgraphChanging",
-           getGlWidget()->keepScenePointOfViewOnSubgraphChanging());
+           glWidget()->keepScenePointOfViewOnSubgraphChanging());
 
   return data;
 }
@@ -175,7 +175,7 @@ void NodeLinkDiagramView::createScene(Graph *graph, DataSet dataSet) {
     manager = nullptr;
   }
 
-  GlScene *scene = getGlWidget()->scene();
+  GlScene *scene = glWidget()->scene();
   scene->clearLayersList();
 
   std::string sceneInput;
@@ -242,11 +242,11 @@ void NodeLinkDiagramView::createScene(Graph *graph, DataSet dataSet) {
     manager->setData(hullsSet);
   }
 
-  // getGlWidget()->emitGraphChanged();
+  // glWidget()->emitGraphChanged();
 }
 //==================================================
 DataSet NodeLinkDiagramView::sceneData() const {
-  GlScene *scene = getGlWidget()->scene();
+  GlScene *scene = glWidget()->scene();
   DataSet outDataSet = GlView::state();
   outDataSet.set("Display", scene->getGlGraph()->getRenderingParameters().getParameters());
   std::string out;
@@ -268,7 +268,7 @@ DataSet NodeLinkDiagramView::sceneData() const {
 }
 //==================================================
 void NodeLinkDiagramView::loadGraphOnScene(Graph *graph) {
-  GlScene *scene = getGlWidget()->scene();
+  GlScene *scene = glWidget()->scene();
 
   if (!scene->getLayer("Main")) {
     createScene(graph, DataSet());
@@ -309,7 +309,7 @@ void NodeLinkDiagramView::loadGraphOnScene(Graph *graph) {
   scene->getLayer("Main")->addGlEntity(glGraph, "graph");
 
   delete oldGlGraph;
-  getGlWidget()->emitGraphChanged();
+  glWidget()->emitGraphChanged();
 }
 
 void NodeLinkDiagramView::registerTriggers() {
@@ -319,8 +319,8 @@ void NodeLinkDiagramView::registerTriggers() {
     return;
   }
 
-  addRedrawTrigger(getGlWidget()->scene()->getGlGraph()->getGraph());
-  std::set<tlp::PropertyInterface *> properties = getGlWidget()->inputData()->properties();
+  addRedrawTrigger(glWidget()->scene()->getGlGraph()->getGraph());
+  std::set<tlp::PropertyInterface *> properties = glWidget()->inputData()->properties();
 
   for (auto *p : properties) {
     addRedrawTrigger(p);
@@ -328,7 +328,7 @@ void NodeLinkDiagramView::registerTriggers() {
 }
 
 void NodeLinkDiagramView::setZOrdering(bool f) {
-  getGlWidget()->renderingParameters().setElementZOrdered(f);
+  glWidget()->renderingParameters().setElementZOrdered(f);
   centerView();
 }
 
@@ -354,7 +354,7 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
   // Check if a node/edge is under the mouse pointer
   bool result;
   SelectedEntity entity;
-  result = getGlWidget()->pickNodesEdges(point.x(), point.y(), entity);
+  result = glWidget()->pickNodesEdges(point.x(), point.y(), entity);
 
   if (result) {
     menu->addSeparator();
@@ -526,7 +526,7 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
     action->setToolTip(
         "The graph elements are displayed according the ordering of their z coordinate");
     action->setCheckable(true);
-    action->setChecked(getGlWidget()->renderingParameters().isElementZOrdered());
+    action->setChecked(glWidget()->renderingParameters().isElementZOrdered());
     connect(action, &QAction::triggered, this, &NodeLinkDiagramView::setZOrdering);
     action = menu->addAction("Grid display parameters", [this] { showGridControl(); });
     action->setToolTip("Display the grid setup wizard");
@@ -790,9 +790,9 @@ void NodeLinkDiagramView::deleteItem() {
 }
 
 void NodeLinkDiagramView::editValue(PropertyInterface *pi) {
-  ItemDelegate tid(getGlWidget());
-  QVariant val = ItemDelegate::showEditorDialog(isNode ? NODE : EDGE, pi, graph(), &tid,
-                                                getGlWidget(), itemId);
+  ItemDelegate tid(glWidget());
+  QVariant val =
+      ItemDelegate::showEditorDialog(isNode ? NODE : EDGE, pi, graph(), &tid, glWidget(), itemId);
 
   // Check if edition has been cancelled
   if (!val.isValid()) {
@@ -811,36 +811,36 @@ void NodeLinkDiagramView::editValue(PropertyInterface *pi) {
 }
 
 void NodeLinkDiagramView::editColor() {
-  editValue(getGlWidget()->inputData()->colors());
+  editValue(glWidget()->inputData()->colors());
 }
 
 void NodeLinkDiagramView::editLabel() {
-  editValue(getGlWidget()->inputData()->labels());
+  editValue(glWidget()->inputData()->labels());
 }
 
 void NodeLinkDiagramView::editShape() {
-  editValue(getGlWidget()->inputData()->shapes());
+  editValue(glWidget()->inputData()->shapes());
 }
 
 void NodeLinkDiagramView::editSize() {
-  editValue(getGlWidget()->inputData()->sizes());
+  editValue(glWidget()->inputData()->sizes());
 }
 
 const Camera &NodeLinkDiagramView::goInsideItem(node meta) {
   Graph *metaGraph = graph()->getNodeMetaInfo(meta);
-  Size size = getGlWidget()->inputData()->sizes()->getNodeValue(meta);
-  Coord coord = getGlWidget()->inputData()->layout()->getNodeValue(meta);
+  Size size = glWidget()->inputData()->sizes()->getNodeValue(meta);
+  Coord coord = glWidget()->inputData()->layout()->getNodeValue(meta);
   BoundingBox bb;
   bb.expand(coord - size / 2.f);
   bb.expand(coord + size / 2.f);
-  QtGlSceneZoomAndPanAnimator zoomAnPan(getGlWidget(), bb);
+  QtGlSceneZoomAndPanAnimator zoomAnPan(glWidget(), bb);
   zoomAnPan.animateZoomAndPan();
   loadGraphOnScene(metaGraph);
   registerTriggers();
   emit graphSet(metaGraph);
   centerView();
   draw();
-  return getGlWidget()->scene()->getLayer("Main")->getCamera();
+  return glWidget()->scene()->getLayer("Main")->getCamera();
 }
 
 void NodeLinkDiagramView::goInsideItem() {
@@ -860,7 +860,7 @@ void NodeLinkDiagramView::useHulls(bool hasHulls) {
   _hasHulls = hasHulls;
 
   if (_hasHulls) {
-    GlScene *scene = getGlWidget()->scene();
+    GlScene *scene = glWidget()->scene();
 
     manager = new GlCompositeHierarchyManager(
         scene->getGlGraph()->getInputData()->graph(), scene->getLayer("Main"), "Hulls",

@@ -156,7 +156,7 @@ void NeighborhoodHighlighter::viewChanged(View *view) {
   }
 
   auto *glView = static_cast<GlView *>(view);
-  glWidget = glView->getGlWidget();
+  glWidget = glView->glWidget();
 }
 
 bool NeighborhoodHighlighter::eventFilter(QObject *, QEvent *e) {

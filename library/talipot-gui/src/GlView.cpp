@@ -151,7 +151,7 @@ void GlView::setupWidget() {
   _viewActionsManager = new ViewActionsManager(this, _glWidget, false);
 }
 
-GlWidget *GlView::getGlWidget() const {
+GlWidget *GlView::glWidget() const {
   return _glWidget;
 }
 
@@ -160,7 +160,7 @@ void GlView::centerView(bool graphChanged) {
   float gvWidth = graphicsView()->width();
   // we apply a zoom factor to preserve a 50 px margin width
   // to ensure the scene will not be drawn under the configuration tabs title
-  getGlWidget()->centerScene(graphChanged, (gvWidth - 50) / gvWidth);
+  glWidget()->centerScene(graphChanged, (gvWidth - 50) / gvWidth);
 
   if (_overviewItem && _overviewItem->isVisible()) {
     drawOverview(graphChanged);
@@ -231,7 +231,7 @@ bool GlView::overviewVisible() const {
 }
 
 void GlView::setViewOrtho(bool viewOrtho) {
-  getGlWidget()->scene()->setViewOrtho(viewOrtho);
+  glWidget()->scene()->setViewOrtho(viewOrtho);
   _glWidget->draw(false);
 }
 
@@ -357,14 +357,14 @@ void GlView::undoCallback() {
   float gvWidth = graphicsView()->width();
   // we apply a zoom factor to preserve a 50 px margin width
   // to ensure the scene will not be drawn under the configuration tabs title
-  getGlWidget()->centerScene(true, (gvWidth - 50) / gvWidth);
+  glWidget()->centerScene(true, (gvWidth - 50) / gvWidth);
   draw();
 }
 
 void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
   _viewActionsManager->fillContextMenu(menu);
 
-  auto *inputData = getGlWidget()->inputData();
+  auto *inputData = glWidget()->inputData();
   auto *selection = inputData->selection();
 
   if (selection && (selection->hasNonDefaultValuatedNodes(graph()) ||
@@ -468,8 +468,7 @@ bool GlView::getNodeOrEdgeAtViewportPos(GlWidget *glw, int x, int y, node &n, ed
 bool GlView::pickNodeEdge(const int x, const int y, node &n, edge &e, bool pickNode,
                           bool pickEdge) const {
   SelectedEntity selectedEntity;
-  bool foundEntity =
-      getGlWidget()->pickNodesEdges(x, y, selectedEntity, nullptr, pickNode, pickEdge);
+  bool foundEntity = glWidget()->pickNodesEdges(x, y, selectedEntity, nullptr, pickNode, pickEdge);
   n = node();
   e = edge();
   if (foundEntity) {
@@ -490,12 +489,12 @@ void GlView::zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const doub
   if (boundingBox.isValid()) {
     bb = boundingBox;
   } else {
-    auto *scene = getGlWidget()->scene();
+    auto *scene = glWidget()->scene();
     GlGraphInputData *inputData = scene->getGlGraph()->getInputData();
     GlBoundingBoxSceneVisitor bbVisitor(inputData);
     scene->getLayer("Main")->acceptVisitor(&bbVisitor);
     bb = bbVisitor.getBoundingBox();
   }
-  QtGlSceneZoomAndPanAnimator zoomAnPan(getGlWidget(), bb, duration);
+  QtGlSceneZoomAndPanAnimator zoomAnPan(glWidget(), bb, duration);
   zoomAnPan.animateZoomAndPan();
 }

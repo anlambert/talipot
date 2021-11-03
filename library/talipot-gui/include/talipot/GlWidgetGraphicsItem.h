@@ -37,8 +37,8 @@ public:
     this->_redrawNeeded = redrawNeeded;
   }
 
-  tlp::GlWidget *getGlWidget() {
-    return glWidget;
+  tlp::GlWidget *glWidget() {
+    return _glWidget;
   }
 
   void setGlWidget(tlp::GlWidget *);
@@ -69,7 +69,7 @@ protected slots:
   void glWidgetRedraw(GlWidget *);
 
 private:
-  tlp::GlWidget *glWidget;
+  tlp::GlWidget *_glWidget;
   bool _redrawNeeded;
   bool _graphChanged;
   int width, height;

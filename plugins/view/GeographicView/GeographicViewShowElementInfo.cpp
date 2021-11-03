@@ -107,7 +107,7 @@ GeographicViewShowElementInfo::~GeographicViewShowElementInfo() {
 }
 
 void GeographicViewShowElementInfo::clear() {
-  static_cast<GeographicView *>(view())->getGeographicViewGraphicsView()->getGlWidget()->setCursor(
+  static_cast<GeographicView *>(view())->getGeographicViewGraphicsView()->glWidget()->setCursor(
       QCursor());
   _informationWidgetItem->setVisible(false);
 }
@@ -140,9 +140,9 @@ bool GeographicViewShowElementInfo::eventFilter(QObject *widget, QEvent *e) {
 
     if (e->type() == QEvent::MouseMove) {
       if (pick(qMouseEv->pos().x(), qMouseEv->pos().y(), selectedEntity)) {
-        geoView->getGeographicViewGraphicsView()->getGlWidget()->setCursor(Qt::WhatsThisCursor);
+        geoView->getGeographicViewGraphicsView()->glWidget()->setCursor(Qt::WhatsThisCursor);
       } else {
-        geoView->getGeographicViewGraphicsView()->getGlWidget()->setCursor(QCursor());
+        geoView->getGeographicViewGraphicsView()->glWidget()->setCursor(QCursor());
       }
 
       return false;
@@ -253,15 +253,14 @@ bool GeographicViewShowElementInfo::eventFilter(QObject *widget, QEvent *e) {
 bool GeographicViewShowElementInfo::pick(int x, int y, SelectedEntity &selectedEntity) {
   auto *geoView = static_cast<GeographicView *>(view());
 
-  if (geoView->getGeographicViewGraphicsView()->getGlWidget()->pickNodesEdges(x, y,
-                                                                              selectedEntity)) {
+  if (geoView->getGeographicViewGraphicsView()->glWidget()->pickNodesEdges(x, y, selectedEntity)) {
     return true;
   }
 
   vector<SelectedEntity> selectedEntities;
 
-  if (geoView->getGeographicViewGraphicsView()->getGlWidget()->pickGlEntities(x, y,
-                                                                              selectedEntities)) {
+  if (geoView->getGeographicViewGraphicsView()->glWidget()->pickGlEntities(x, y,
+                                                                           selectedEntities)) {
     selectedEntity = selectedEntities[0];
     return true;
   }

@@ -87,7 +87,7 @@ bool ParallelCoordsAxisSwapper::eventFilter(QObject *widget, QEvent *e) {
       initialSelectedAxisRotAngle = selectedAxis->getRotationAngle();
       selectedAxis->setRotationAngle(0.0f);
       initialSelectedAxisCoord = selectedAxis->getBaseCoord();
-      parallelView->getGlWidget()->draw();
+      parallelView->glWidget()->draw();
     }
 
     return true;

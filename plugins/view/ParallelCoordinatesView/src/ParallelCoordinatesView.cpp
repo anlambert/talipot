@@ -99,7 +99,7 @@ void ParallelCoordinatesView::toggleInteractors(bool activate) {
 }
 
 void ParallelCoordinatesView::initGlWidget() {
-  GlScene *scene = getGlWidget()->scene();
+  GlScene *scene = glWidget()->scene();
 
   if (!mainLayer) {
     mainLayer = new GlLayer("Main");
@@ -119,7 +119,7 @@ void ParallelCoordinatesView::initGlWidget() {
   param.setDisplayNodes(true);
   param.setViewNodeLabel(false);
   param.setFontsType(2);
-  getGlWidget()->setMouseTracking(true);
+  glWidget()->setMouseTracking(true);
 }
 
 QList<QWidget *> ParallelCoordinatesView::configurationWidgets() const {
@@ -132,7 +132,7 @@ void ParallelCoordinatesView::setState(const DataSet &dataSet) {
     initGlWidget();
     buildContextMenu();
     setOverviewVisible(true);
-    getGlWidget()->installEventFilter(this);
+    glWidget()->installEventFilter(this);
 
     dataConfigWidget = new ViewGraphPropertiesSelectionWidget();
     drawConfigWidget = new ParallelCoordsDrawConfigWidget();
@@ -301,7 +301,7 @@ void ParallelCoordinatesView::setState(const DataSet &dataSet) {
     if (dataSet.exists("scene")) {
       string sceneXML;
       dataSet.get("scene", sceneXML);
-      getGlWidget()->scene()->setWithXML(sceneXML, nullptr);
+      glWidget()->scene()->setWithXML(sceneXML, nullptr);
       dontCenterViewAfterConfLoaded = true;
     }
 
@@ -326,7 +326,7 @@ DataSet ParallelCoordinatesView::state() const {
   DataSet dataSet = GlView::state();
 
   string sceneOut;
-  getGlWidget()->scene()->getXMLOnlyForCameras(sceneOut);
+  glWidget()->scene()->getXMLOnlyForCameras(sceneOut);
   dataSet.set("scene", sceneOut);
 
   vector<string> selectedProperties = graphProxy->getSelectedProperties();
@@ -355,8 +355,8 @@ DataSet ParallelCoordinatesView::state() const {
               drawConfigWidget->getUnhighlightedEltsColorsAlphaValue());
   dataSet.set("layoutType", int(getLayoutType()));
   dataSet.set("linesType", int(getLinesType()));
-  dataSet.set("lastViewWindowWidth", getGlWidget()->width());
-  dataSet.set("lastViewWindowHeight", getGlWidget()->height());
+  dataSet.set("lastViewWindowWidth", glWidget()->width());
+  dataSet.set("lastViewWindowHeight", glWidget()->height());
 
   if (needQuickAccessBar) {
     dataSet.set("quickAccessBarVisible", quickAccessBarVisible());
@@ -375,7 +375,7 @@ void ParallelCoordinatesView::graphChanged(tlp::Graph *) {
 
 void ParallelCoordinatesView::updateWithoutProgressBar() {
   if (parallelCoordsDrawing) {
-    parallelCoordsDrawing->update(getGlWidget(), true);
+    parallelCoordsDrawing->update(glWidget(), true);
   }
 }
 
@@ -383,17 +383,17 @@ void ParallelCoordinatesView::updateWithProgressBar() {
   if (parallelCoordsDrawing) {
     setOverviewVisible(false);
     toggleGraphView(glGraph, false);
-    parallelCoordsDrawing->update(getGlWidget());
+    parallelCoordsDrawing->update(glWidget());
     toggleGraphView(glGraph, true);
     centerView();
-    getGlWidget()->draw();
+    glWidget()->draw();
     setOverviewVisible(true);
   }
 }
 
 void ParallelCoordinatesView::addEmptyViewLabel() {
   Color backgroundColor = drawConfigWidget->getBackgroundColor();
-  getGlWidget()->scene()->setBackgroundColor(backgroundColor);
+  glWidget()->scene()->setBackgroundColor(backgroundColor);
 
   Color foregroundColor;
   int bgV = backgroundColor.getV();
@@ -449,8 +449,8 @@ void ParallelCoordinatesView::draw() {
       if (quickAccessBarVisible()) {
         _quickAccessBar->setEnabled(false);
       }
-      getGlWidget()->scene()->centerScene();
-      getGlWidget()->draw();
+      glWidget()->scene()->centerScene();
+      glWidget()->draw();
       return;
     } else {
       removeEmptyViewLabel();
@@ -474,12 +474,12 @@ void ParallelCoordinatesView::draw() {
 
       center = false;
     } else {
-      getGlWidget()->draw();
+      glWidget()->draw();
     }
 
     lastNbSelectedProperties = graphProxy->getNumberOfSelectedProperties();
   } else {
-    getGlWidget()->draw();
+    glWidget()->draw();
   }
 
   needDraw = false;
@@ -487,7 +487,7 @@ void ParallelCoordinatesView::draw() {
 
 void ParallelCoordinatesView::refresh() {
   if (!needDraw) {
-    getGlWidget()->redraw();
+    glWidget()->redraw();
   } else {
     draw();
   }
@@ -700,7 +700,7 @@ void ParallelCoordinatesView::setupAndDrawView() {
   }
 
   if (graph()) {
-    GlScene *scene = getGlWidget()->scene();
+    GlScene *scene = glWidget()->scene();
     graphProxy->setSelectedProperties(dataConfigWidget->getSelectedGraphProperties());
     graphProxy->setDataLocation(dataConfigWidget->getDataLocation());
     scene->setBackgroundColor(drawConfigWidget->getBackgroundColor());
@@ -763,7 +763,7 @@ bool ParallelCoordinatesView::mapGlEntitiesInRegionToData(std::set<uint> &mapped
 
   mappedData.clear();
 
-  bool result = getGlWidget()->pickGlEntities(x, y, width, height, selectedEntities, mainLayer);
+  bool result = glWidget()->pickGlEntities(x, y, width, height, selectedEntities, mainLayer);
 
   if (result) {
     for (const auto &ite : selectedEntities) {
@@ -776,7 +776,7 @@ bool ParallelCoordinatesView::mapGlEntitiesInRegionToData(std::set<uint> &mapped
     }
   }
 
-  getGlWidget()->pickNodesEdges(x, y, width, height, selectedAxisPoints, dummy, mainLayer);
+  glWidget()->pickNodesEdges(x, y, width, height, selectedAxisPoints, dummy, mainLayer);
 
   for (const auto &entity : selectedAxisPoints) {
     node n(entity.getComplexEntityId());
@@ -905,7 +905,7 @@ void ParallelCoordinatesView::resetHighlightedElements() {
 
 ParallelAxis *ParallelCoordinatesView::getAxisUnderPointer(const int x, const int y) const {
   vector<ParallelAxis *> allAxis = parallelCoordsDrawing->getAllAxis();
-  axisSelectionLayer->setSharedCamera(&getGlWidget()->scene()->getLayer("Main")->getCamera());
+  axisSelectionLayer->setSharedCamera(&glWidget()->scene()->getLayer("Main")->getCamera());
   axisSelectionLayer->getComposite()->reset(false);
 
   for (auto *axis : allAxis) {
@@ -914,7 +914,7 @@ ParallelAxis *ParallelCoordinatesView::getAxisUnderPointer(const int x, const in
 
   vector<SelectedEntity> pickedEntities;
 
-  if (getGlWidget()->pickGlEntities(x, y, pickedEntities, axisSelectionLayer)) {
+  if (glWidget()->pickGlEntities(x, y, pickedEntities, axisSelectionLayer)) {
     return dynamic_cast<ParallelAxis *>(pickedEntities[0].getEntity());
   }
 

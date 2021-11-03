@@ -65,16 +65,16 @@ void GeographicView::setupUi() {
           &GeographicView::computeGeoLayout);
 
   sceneConfigurationWidget = new SceneConfigWidget();
-  sceneConfigurationWidget->setGlWidget(geoViewGraphicsView->getGlWidget());
+  sceneConfigurationWidget->setGlWidget(geoViewGraphicsView->glWidget());
 
   sceneLayersConfigurationWidget = new SceneLayersConfigWidget();
-  sceneLayersConfigurationWidget->setGlWidget(geoViewGraphicsView->getGlWidget());
+  sceneLayersConfigurationWidget->setGlWidget(geoViewGraphicsView->glWidget());
 
   centerViewAction = new QAction("Center view", this);
   connect(centerViewAction, &QAction::triggered, [this] { centerView(); });
 
-  activateTooltipAndUrlManager(geoViewGraphicsView->getGlWidget());
-  _viewActionsManager = new ViewActionsManager(this, geoViewGraphicsView->getGlWidget(), true);
+  activateTooltipAndUrlManager(geoViewGraphicsView->glWidget());
+  _viewActionsManager = new ViewActionsManager(this, geoViewGraphicsView->glWidget(), true);
 }
 
 void GeographicView::viewTypeChanged(int idx) {
@@ -126,8 +126,8 @@ void GeographicView::setState(const DataSet &dataSet) {
 
   viewTypeChanged(viewTypeName.c_str());
 
-  sceneLayersConfigurationWidget->setGlWidget(geoViewGraphicsView->getGlWidget());
-  sceneConfigurationWidget->setGlWidget(geoViewGraphicsView->getGlWidget());
+  sceneLayersConfigurationWidget->setGlWidget(geoViewGraphicsView->glWidget());
+  sceneConfigurationWidget->setGlWidget(geoViewGraphicsView->glWidget());
 
   registerTriggers();
 
@@ -147,7 +147,7 @@ void GeographicView::setState(const DataSet &dataSet) {
     computeGeoLayout();
   }
 
-  GlGraph *glGraph = geoViewGraphicsView->getGlWidget()->scene()->getGlGraph();
+  GlGraph *glGraph = geoViewGraphicsView->glWidget()->scene()->getGlGraph();
   GlGraphRenderingParameters &rp = glGraph->getRenderingParameters();
 
   if (dataSet.exists("renderingParameters")) {
@@ -194,7 +194,7 @@ DataSet GeographicView::state() const {
   dataSet.set("mapCenterLongitude", mapCenter.second);
   dataSet.set("mapZoom", geoViewGraphicsView->getLeafletMapsPage()->getCurrentMapZoom());
   dataSet.set("renderingParameters",
-              geoViewGraphicsView->getGlWidget()->renderingParameters().getParameters());
+              geoViewGraphicsView->glWidget()->renderingParameters().getParameters());
 
   saveStoredPolyInformation(dataSet);
 
@@ -285,7 +285,7 @@ void GeographicView::applySettings() {
 }
 
 void GeographicView::updateSharedProperties() {
-  GlGraphInputData *inputData = geoViewGraphicsView->getGlWidget()->inputData();
+  GlGraphInputData *inputData = geoViewGraphicsView->glWidget()->inputData();
 
   if (useSharedLayoutProperty != geoViewConfigWidget->useSharedLayoutProperty()) {
     useSharedLayoutProperty = geoViewConfigWidget->useSharedLayoutProperty();
@@ -389,8 +389,8 @@ void GeographicView::registerTriggers() {
     return;
   }
 
-  addRedrawTrigger(geoViewGraphicsView->getGlWidget()->scene()->getGlGraph()->getGraph());
-  auto properties = geoViewGraphicsView->getGlWidget()->inputData()->properties();
+  addRedrawTrigger(geoViewGraphicsView->glWidget()->scene()->getGlGraph()->getGraph());
+  auto properties = geoViewGraphicsView->glWidget()->inputData()->properties();
 
   for (auto *p : properties) {
     addRedrawTrigger(p);
@@ -462,11 +462,11 @@ LeafletMaps *GeographicView::getLeafletMap() {
 }
 
 bool GeographicView::getNodeOrEdgeAtViewportPos(int x, int y, node &n, edge &e) const {
-  return GlView::getNodeOrEdgeAtViewportPos(geoViewGraphicsView->getGlWidget(), x, y, n, e);
+  return GlView::getNodeOrEdgeAtViewportPos(geoViewGraphicsView->glWidget(), x, y, n, e);
 }
 
 void GeographicView::currentInteractorChanged(tlp::Interactor *i) {
-  i->install(geoViewGraphicsView->getGlWidget());
+  i->install(geoViewGraphicsView->glWidget());
 }
 
 void GeographicView::mapToPolygon() {

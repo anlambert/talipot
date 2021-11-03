@@ -67,7 +67,7 @@ SOMView::~SOMView() {
   delete graphLayoutProperty;
   delete properties;
 
-  if (previewWidget && previewWidget == getGlWidget()) {
+  if (previewWidget && previewWidget == glWidget()) {
     delete mapWidget;
   } else {
     delete previewWidget;
@@ -489,11 +489,11 @@ void SOMView::draw() {
     addEmptyViewLabel();
   }
 
-  getGlWidget()->draw(true);
+  glWidget()->draw(true);
 }
 
 void SOMView::refresh() {
-  getGlWidget()->redraw();
+  glWidget()->redraw();
 }
 
 void SOMView::buildSOMMap() {
@@ -721,7 +721,7 @@ void SOMView::addPropertyToSelection(const string &propertyName) {
     selection = propertyName;
     // mainWidget->currentPropertyNameLabel->setText(QString::fromStdString(propertyName));
     refreshSOMMap();
-    getGlWidget()->scene()->centerScene();
+    glWidget()->scene()->centerScene();
 
     auto it = propertyToPreviews.find(propertyName);
     assert(it != propertyToPreviews.end() && it->second);
@@ -812,7 +812,7 @@ bool SOMView::eventFilter(QObject *obj, QEvent *event) {
       if (me->button() == Qt::LeftButton) {
         vector<SOMPreviewComposite *> properties;
         Coord screenCoords = Coord(me->pos().x(), me->pos().y());
-        Coord viewportCoords = getGlWidget()->screenToViewport(screenCoords);
+        Coord viewportCoords = glWidget()->screenToViewport(screenCoords);
         getPreviewsAtViewportCoord(viewportCoords.x(), viewportCoords.y(), properties);
 
         if (!properties.empty()) {
@@ -827,7 +827,7 @@ bool SOMView::eventFilter(QObject *obj, QEvent *event) {
       auto *he = static_cast<QHelpEvent *>(event);
       vector<SOMPreviewComposite *> properties;
       Coord screenCoords = Coord(he->pos().x(), he->pos().y(), 0.0f);
-      Coord viewportCoords = getGlWidget()->screenToViewport(screenCoords);
+      Coord viewportCoords = glWidget()->screenToViewport(screenCoords);
       getPreviewsAtViewportCoord(viewportCoords.x(), viewportCoords.y(), properties);
 
       if (!properties.empty()) {

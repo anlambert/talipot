@@ -671,17 +671,17 @@ void HistogramMetricMapping::initInteractor() {
   }
 
   if (colorScaleConfigDialog == nullptr) {
-    colorScaleConfigDialog = new ColorScaleConfigDialog(*colorScale, histoView->getGlWidget());
+    colorScaleConfigDialog = new ColorScaleConfigDialog(*colorScale, histoView->glWidget());
     dialogColorScale = *colorScale = colorScaleConfigDialog->getColorScale();
     colorScale->setColorMapTransparency(200);
   }
 
   if (sizeScaleConfigDialog == nullptr) {
-    sizeScaleConfigDialog = new SizeScaleConfigDialog(histoView->getGlWidget());
+    sizeScaleConfigDialog = new SizeScaleConfigDialog(histoView->glWidget());
   }
 
   if (glyphScaleConfigDialog == nullptr) {
-    glyphScaleConfigDialog = new GlyphScaleConfigDialog(histoView->getGlWidget());
+    glyphScaleConfigDialog = new GlyphScaleConfigDialog(histoView->glWidget());
   }
 
   histoXAxis = histoView->getDetailedHistogram()->getXAxis();

@@ -153,5 +153,5 @@ void PathFinderComponent::selectPath(GlWidget *glWidget, Graph *graph) {
 
 void PathFinderComponent::clear() {
   auto *glView = static_cast<GlView *>(view());
-  glView->getGlWidget()->setCursor(QCursor());
+  glView->glWidget()->setCursor(QCursor());
 }

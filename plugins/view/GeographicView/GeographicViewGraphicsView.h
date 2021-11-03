@@ -57,8 +57,8 @@ public:
 
   void centerView();
 
-  GlWidget *getGlWidget() {
-    return glWidget;
+  GlWidget *glWidget() {
+    return _glWidget;
   }
 
   LeafletMaps *getLeafletMapsPage() const {
@@ -141,7 +141,7 @@ private:
   bool geocodingActive;
   bool cancelGeocoding;
 
-  GlWidget *glWidget;
+  GlWidget *_glWidget;
   GlWidgetGraphicsItem *glWidgetItem;
   QComboBox *viewTypeComboBox;
   QPushButton *zoomOutButton;

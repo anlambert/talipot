@@ -86,7 +86,7 @@ public:
 
   GlView(bool needTooltipAndUrlManager = false);
   ~GlView() override;
-  tlp::GlWidget *getGlWidget() const;
+  tlp::GlWidget *glWidget() const;
   QList<QWidget *> configurationWidgets() const override;
   bool overviewVisible() const;
   bool quickAccessBarVisible() const;
@@ -123,7 +123,7 @@ public:
    * @param z rotation around Z axis in degree
    */
   void rotateCamera(int x, int y, int z) const {
-    getGlWidget()->scene()->rotateCamera(x, y, z);
+    glWidget()->scene()->rotateCamera(x, y, z);
   }
 
   /**
@@ -133,21 +133,21 @@ public:
    * @param z offset along the Z axis
    */
   void translateCamera(int x, int y, int z) const {
-    getGlWidget()->scene()->translateCamera(x, y, z);
+    glWidget()->scene()->translateCamera(x, y, z);
   }
 
   /**
    * @brief Return the 3D world position for the given view position
    */
   Coord viewToWorld(const Coord &vpos) const {
-    return getGlWidget()->scene()->getGraphCamera().viewportTo3DWorld(vpos);
+    return glWidget()->scene()->getGraphCamera().viewportTo3DWorld(vpos);
   }
 
   /**
    * @brief Return the view position for the given 3D position
    */
   Coord worldToView(const Coord &wpos) const {
-    return getGlWidget()->scene()->getGraphCamera().worldTo2DViewport(wpos);
+    return glWidget()->scene()->getGraphCamera().worldTo2DViewport(wpos);
   }
 
   /**
@@ -155,7 +155,7 @@ public:
    * @param step of zoom
    */
   void zoomXY(int step, const int x, const int y) const {
-    getGlWidget()->scene()->zoomXY(step, x, y);
+    glWidget()->scene()->zoomXY(step, x, y);
   }
 
   /**
@@ -163,7 +163,7 @@ public:
    * @param step of zoom
    */
   void zoom(int step) const {
-    getGlWidget()->scene()->zoom(step);
+    glWidget()->scene()->zoom(step);
   }
 
   /**
@@ -171,7 +171,7 @@ public:
    * @param factor of zoom
    */
   void zoomFactor(float factor) const {
-    getGlWidget()->scene()->zoomFactor(factor);
+    glWidget()->scene()->zoomFactor(factor);
   }
 
   /**
