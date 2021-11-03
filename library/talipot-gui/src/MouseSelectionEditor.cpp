@@ -80,7 +80,7 @@ MouseSelectionEditor::~MouseSelectionEditor() = default;
 //========================================================================================
 void MouseSelectionEditor::clear() {
   if (glWidget != nullptr) {
-    glWidget->getScene()->removeLayer(layer, false);
+    glWidget->scene()->removeLayer(layer, false);
     delete layer;
     layer = nullptr;
 
@@ -371,13 +371,13 @@ bool MouseSelectionEditor::compute(GlWidget *glWidget) {
   if (computeFFD(glWidget)) {
     if (!layer) {
       layer = new GlLayer("selectionEditorLayer", true);
-      layer->setCamera(new Camera(glWidget->getScene(), false));
+      layer->setCamera(new Camera(glWidget->scene(), false));
       composite = new GlComposite(false);
       layer->addGlEntity(composite, "selectionComposite");
     }
 
     bool layerInScene = false;
-    const auto &layersList = glWidget->getScene()->getLayersList();
+    const auto &layersList = glWidget->scene()->getLayersList();
 
     for (const auto &it : layersList) {
       if (it.second == layer) {
@@ -387,7 +387,7 @@ bool MouseSelectionEditor::compute(GlWidget *glWidget) {
     }
 
     if (!layerInScene) {
-      glWidget->getScene()->addExistingLayerAfter(layer, "Main");
+      glWidget->scene()->addExistingLayerAfter(layer, "Main");
     }
 
     composite->addGlEntity(&centerRect, "CenterRectangle");
@@ -426,7 +426,7 @@ bool MouseSelectionEditor::compute(GlWidget *glWidget) {
     return true;
   } else {
     if (layer) {
-      glWidget->getScene()->removeLayer(layer, true);
+      glWidget->scene()->removeLayer(layer, true);
       layer = nullptr;
     }
 
@@ -454,7 +454,7 @@ void MouseSelectionEditor::undoEdition() {
 //========================================================================================
 void MouseSelectionEditor::stopEdition() {
   if (layer) {
-    glWidget->getScene()->removeLayer(layer, true);
+    glWidget->scene()->removeLayer(layer, true);
     layer = nullptr;
   }
 
@@ -462,7 +462,7 @@ void MouseSelectionEditor::stopEdition() {
 }
 //========================================================================================
 void MouseSelectionEditor::initProxies(GlWidget *glWidget) {
-  GlGraphInputData *inputData = glWidget->getGlGraphInputData();
+  GlGraphInputData *inputData = glWidget->inputData();
   _graph = inputData->graph();
   _layout = inputData->layout();
   _selection = inputData->selection();
@@ -475,8 +475,8 @@ void MouseSelectionEditor::mMouseTranslate(double newX, double newY, GlWidget *g
   initProxies(glWidget);
   Coord v0;
   Coord v1 = Coord(editPosition[0] - newX, -(editPosition[1] - newY));
-  v0 = glWidget->getScene()->getGraphCamera().viewportTo3DWorld(v0);
-  v1 = glWidget->getScene()->getGraphCamera().viewportTo3DWorld(glWidget->screenToViewport(v1));
+  v0 = glWidget->scene()->getGraphCamera().viewportTo3DWorld(v0);
+  v1 = glWidget->scene()->getGraphCamera().viewportTo3DWorld(glWidget->screenToViewport(v1));
   v1 -= v0;
   _layout->translate(v1, _selection->getNodesEqualTo(true, _graph),
                      _selection->getEdgesEqualTo(true, _graph));
@@ -770,7 +770,7 @@ void MouseSelectionEditor::mAlign(EditOperation operation, GlWidget *) {
 }
 //========================================================================================
 bool MouseSelectionEditor::computeFFD(GlWidget *glWidget) {
-  if (!glWidget->getScene()->getGlGraph() || !glWidget->getGlGraphInputData()->graph()) {
+  if (!glWidget->scene()->getGlGraph() || !glWidget->inputData()->graph()) {
     return false;
   }
 
@@ -793,7 +793,7 @@ bool MouseSelectionEditor::computeFFD(GlWidget *glWidget) {
   Coord bbsize = boundingBox[1] - boundingBox[0];
   // v1
   Coord tmp = boundingBox[0];
-  tmp = glWidget->getScene()->getGraphCamera().worldTo2DViewport(tmp);
+  tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
   min2D = tmp;
   max2D = tmp;
 
@@ -801,7 +801,7 @@ bool MouseSelectionEditor::computeFFD(GlWidget *glWidget) {
   for (uint i = 0; i < 3; ++i) {
     tmp = boundingBox[0];
     tmp[i] += bbsize[i];
-    tmp = glWidget->getScene()->getGraphCamera().worldTo2DViewport(tmp);
+    tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
     min2D = minVector(tmp, min2D);
     max2D = maxVector(tmp, max2D);
   }
@@ -810,33 +810,33 @@ bool MouseSelectionEditor::computeFFD(GlWidget *glWidget) {
   tmp = boundingBox[0];
   tmp[0] += bbsize[0];
   tmp[1] += bbsize[1];
-  tmp = glWidget->getScene()->getGraphCamera().worldTo2DViewport(tmp);
+  tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
   min2D = minVector(tmp, min2D);
   max2D = maxVector(tmp, max2D);
   // v6
   tmp = Coord(boundingBox[0]);
   tmp[0] += bbsize[0];
   tmp[2] += bbsize[2];
-  tmp = glWidget->getScene()->getGraphCamera().worldTo2DViewport(tmp);
+  tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
   min2D = minVector(tmp, min2D);
   max2D = maxVector(tmp, max2D);
   // v7
   tmp = boundingBox[0];
   tmp[1] += bbsize[1];
   tmp[2] += bbsize[2];
-  tmp = glWidget->getScene()->getGraphCamera().worldTo2DViewport(tmp);
+  tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
   min2D = minVector(tmp, min2D);
   max2D = maxVector(tmp, max2D);
   // v8
   tmp = boundingBox[0];
   tmp += bbsize;
-  tmp = glWidget->getScene()->getGraphCamera().worldTo2DViewport(tmp);
+  tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
   min2D = minVector(tmp, min2D);
   max2D = maxVector(tmp, max2D);
 
   ffdCenter = boundingBox.center();
 
-  Coord tmpCenter = glWidget->getScene()->getGraphCamera().worldTo2DViewport(ffdCenter);
+  Coord tmpCenter = glWidget->scene()->getGraphCamera().worldTo2DViewport(ffdCenter);
 
   int x = int(max2D[0] - min2D[0]) / 2 + 1; // (+1) because selection use glLineWidth=3 thus
   int y = int(max2D[1] - min2D[1]) / 2 + 1; // the rectangle can be too small.

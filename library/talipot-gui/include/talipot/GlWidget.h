@@ -37,7 +37,7 @@ class GlCompositeHierarchyManager;
  *
  * To use this class you have to :
  *   - create a GlWidget
- *   - get the GlScene with getScene() function
+ *   - get the GlScene with scene() function
  *   - add GlLayer and GlEntity to this scene
  *   - call centerScene() to compute a good GlCamera
  *   - see the result
@@ -90,13 +90,13 @@ public:
    * @see GlScene::createLayer(const std::string &name)
    * @see GlLayer::addGlEntity(GlEntity *entity,const std::string& name)
    */
-  GlScene *getScene() {
-    return &scene;
+  GlScene *scene() {
+    return &_scene;
   }
 
-  GlGraphRenderingParameters &getGlGraphRenderingParameters();
+  GlGraphRenderingParameters &renderingParameters();
 
-  GlGraphInputData *getGlGraphInputData() const;
+  GlGraphInputData *inputData() const;
 
   /** @brief Select nodes and edges in a region of the screen
    *
@@ -274,7 +274,7 @@ private:
   void createFramebuffers(int width, int height);
   void deleteFramebuffers();
 
-  GlScene scene;
+  GlScene _scene;
   QRegion _visibleArea;
   View *view;
   int widthStored;
@@ -307,8 +307,8 @@ public slots:
    *needed) and draw the view.
    * Same thing than
    * @code
-   * getScene()->centerScene();
-   * getScene()->zoomFactor();
+   * scene()->centerScene();
+   * scene()->zoomFactor();
    * draw();
    * @endcode
    **/

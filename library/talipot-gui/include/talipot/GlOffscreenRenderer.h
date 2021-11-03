@@ -70,8 +70,8 @@ public:
   uint getViewportHeight();
   bool frameBufferOk() const;
 
-  GlScene *getScene() {
-    return &scene;
+  GlScene *scene() {
+    return &_scene;
   }
   void setZoomFactor(double zoomFactor) {
     this->zoomFactor = zoomFactor;
@@ -135,7 +135,7 @@ private:
 
   uint vPWidth, vPHeight;
   QOpenGLFramebufferObject *glFrameBuf, *glFrameBuf2;
-  GlScene scene;
+  GlScene _scene;
   GlLayer *mainLayer;
   uint entitiesCpt;
   double zoomFactor;

@@ -40,13 +40,13 @@ MouseEdgeBendEditor::~MouseEdgeBendEditor() = default;
 //========================================================================================
 void MouseEdgeBendEditor::clear() {
   if (glWidget != nullptr) {
-    glWidget->getScene()->removeLayer(layer, false);
+    glWidget->scene()->removeLayer(layer, false);
 
     delete layer;
     layer = nullptr;
     circlesComposite = nullptr;
 
-    glWidget->getScene()->getGraphLayer()->deleteGlEntity("edgeEntity");
+    glWidget->scene()->getGraphLayer()->deleteGlEntity("edgeEntity");
     delete edgeEntity;
     edgeEntity = nullptr;
 
@@ -148,14 +148,14 @@ bool MouseEdgeBendEditor::eventFilter(QObject *widget, QEvent *e) {
       _operation != NONE_OP) {
     auto *glWidget = static_cast<GlWidget *>(widget);
 
-    Camera &camera = glWidget->getScene()->getGraphCamera();
+    Camera &camera = glWidget->scene()->getGraphCamera();
 
     if (selectedEntity == "targetTriangle") {
       SelectedEntity selectedEntity;
 
       if (glWidget->pickNodesEdges(qMouseEv->pos().x(), qMouseEv->pos().y(), selectedEntity) &&
           selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED) {
-        const auto &[src, tgt] = glWidget->getScene()->getGlGraph()->getGraph()->ends(mEdge);
+        const auto &[src, tgt] = glWidget->scene()->getGlGraph()->getGraph()->ends(mEdge);
         _graph->setEnds(mEdge, src, node(selectedEntity.getComplexEntityId()));
         glWidget->setCursor(QCursor(Qt::PointingHandCursor));
         glWidget->redraw();
@@ -170,7 +170,7 @@ bool MouseEdgeBendEditor::eventFilter(QObject *widget, QEvent *e) {
 
       if (glWidget->pickNodesEdges(qMouseEv->pos().x(), qMouseEv->pos().y(), selectedEntity) &&
           selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED) {
-        const auto &[src, tgt] = glWidget->getScene()->getGlGraph()->getGraph()->ends(mEdge);
+        const auto &[src, tgt] = glWidget->scene()->getGlGraph()->getGraph()->ends(mEdge);
         _graph->setEnds(mEdge, node(selectedEntity.getComplexEntityId()), tgt);
         glWidget->setCursor(QCursor(Qt::PointingHandCursor));
         glWidget->redraw();
@@ -266,7 +266,7 @@ bool MouseEdgeBendEditor::compute(GlWidget *glWidget) {
 
     if (!layer) {
       layer = new GlLayer("edgeBendEditorLayer", true);
-      layer->setCamera(new Camera(glWidget->getScene(), false));
+      layer->setCamera(new Camera(glWidget->scene(), false));
 
       if (!circlesComposite) {
         circlesComposite = new GlComposite(false);
@@ -276,7 +276,7 @@ bool MouseEdgeBendEditor::compute(GlWidget *glWidget) {
     }
 
     bool layerInScene = false;
-    const auto &layersList = glWidget->getScene()->getLayersList();
+    const auto &layersList = glWidget->scene()->getLayersList();
 
     for (const auto &it : layersList) {
       if (it.second == layer) {
@@ -286,7 +286,7 @@ bool MouseEdgeBendEditor::compute(GlWidget *glWidget) {
     }
 
     if (!layerInScene) {
-      glWidget->getScene()->addExistingLayerAfter(layer, "Main");
+      glWidget->scene()->addExistingLayerAfter(layer, "Main");
     }
 
     this->glWidget = glWidget;
@@ -303,7 +303,7 @@ bool MouseEdgeBendEditor::draw(GlWidget *) {
 }
 //========================================================================================
 void MouseEdgeBendEditor::initProxies(GlWidget *glWidget) {
-  GlGraphInputData *inputData = glWidget->getGlGraphInputData();
+  GlGraphInputData *inputData = glWidget->inputData();
   _graph = inputData->graph();
   _layout = inputData->layout();
   _selection = inputData->selection();
@@ -324,8 +324,8 @@ bool MouseEdgeBendEditor::belong(const Coord &u, const Coord &v, const Coord &p,
   float w = glWidget->screenToViewport(glWidget->width());
   float h = glWidget->screenToViewport(glWidget->height());
   Coord m = {w, h}, n = {w, h};
-  m -= glWidget->getScene()->getGraphCamera().worldTo2DViewport(u);
-  n -= glWidget->getScene()->getGraphCamera().worldTo2DViewport(v);
+  m -= glWidget->scene()->getGraphCamera().worldTo2DViewport(u);
+  n -= glWidget->scene()->getGraphCamera().worldTo2DViewport(v);
   double mnDist = m.dist(n);
   double mpDist = m.dist(p);
   double pnDist = p.dist(n);
@@ -335,7 +335,7 @@ bool MouseEdgeBendEditor::belong(const Coord &u, const Coord &v, const Coord &p,
 void MouseEdgeBendEditor::mMouseTranslate(int newX, int newY, GlWidget *glWidget) {
   initProxies(glWidget);
 
-  Camera &camera = glWidget->getScene()->getGraphCamera();
+  Camera &camera = glWidget->scene()->getGraphCamera();
 
   int i;
   if (selectedEntity == "targetTriangle") {
@@ -406,7 +406,7 @@ void MouseEdgeBendEditor::mMouseCreate(int x, int y, GlWidget *glWidget) {
   Coord viewportClick =
       Coord(glWidget->screenToViewport(glWidget->width() - x), glWidget->screenToViewport(y));
 
-  Coord worldLocation = glWidget->getScene()->getGraphCamera().viewportTo3DWorld(viewportClick);
+  Coord worldLocation = glWidget->scene()->getGraphCamera().viewportTo3DWorld(viewportClick);
 
   if (coordinates.empty()) {
     coordinates.push_back(worldLocation);
@@ -520,7 +520,7 @@ void MouseEdgeBendEditor::computeSrcTgtEntities(GlWidget *glWidget) {
     }
   }
 
-  Camera &camera = glWidget->getScene()->getGraphCamera();
+  Camera &camera = glWidget->scene()->getGraphCamera();
 
   if (selectedEntity != "targetTriangle") {
     Coord tmp = camera.worldTo2DViewport(end);
@@ -553,7 +553,7 @@ bool MouseEdgeBendEditor::computeBendsCircles(GlWidget *glWidget) {
   bool hasSelection = haveSelection(glWidget);
 
   if (!hasSelection) {
-    glWidget->getScene()->getGraphLayer()->deleteGlEntity("edgeEntity");
+    glWidget->scene()->getGraphLayer()->deleteGlEntity("edgeEntity");
     return false;
   }
 
@@ -568,7 +568,7 @@ bool MouseEdgeBendEditor::computeBendsCircles(GlWidget *glWidget) {
 
     // Bends circles
     for (const auto &coord : coordinates) {
-      basicCircle.set(glWidget->getScene()->getGraphCamera().worldTo2DViewport(coord), 5, 0.);
+      basicCircle.set(glWidget->scene()->getGraphCamera().worldTo2DViewport(coord), 5, 0.);
       circles.push_back(basicCircle);
     }
 
@@ -577,7 +577,7 @@ bool MouseEdgeBendEditor::computeBendsCircles(GlWidget *glWidget) {
     }
 
     edgeEntity->setCoordinates(start, end, coordinates);
-    glWidget->getScene()->getGraphLayer()->addGlEntity(edgeEntity, "edgeEntity");
+    glWidget->scene()->getGraphLayer()->addGlEntity(edgeEntity, "edgeEntity");
   } else {
     int complexPolygonGlyphId = GlyphManager::glyphId("2D - Complex Polygon", false);
 
@@ -621,7 +621,7 @@ bool MouseEdgeBendEditor::computeBendsCircles(GlWidget *glWidget) {
         }
 
         for (const auto &coord : coordinatesWithRotation) {
-          basicCircle.set(glWidget->getScene()->getGraphCamera().worldTo2DViewport(coord), 5, 0.);
+          basicCircle.set(glWidget->scene()->getGraphCamera().worldTo2DViewport(coord), 5, 0.);
           circles.push_back(basicCircle);
         }
       }

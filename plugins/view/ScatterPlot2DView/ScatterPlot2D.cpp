@@ -170,7 +170,7 @@ void ScatterPlot2D::generateOverview(GlWidget *glWidget, LayoutProperty *reverse
   glOffscreenRenderer.setViewPortSize(size, size);
   glOffscreenRenderer.clearScene();
 
-  GlScene *scene = glOffscreenRenderer.getScene();
+  GlScene *scene = glOffscreenRenderer.scene();
 
   if (mapBackgroundColorToCoeff) {
     GlLayer *backgroundLayer = scene->getLayer("Background");

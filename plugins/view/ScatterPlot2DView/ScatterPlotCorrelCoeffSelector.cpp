@@ -206,8 +206,8 @@ ScatterPlotCorrelCoeffSelector::~ScatterPlotCorrelCoeffSelector() = default;
 bool ScatterPlotCorrelCoeffSelector::eventFilter(QObject *obj, QEvent *e) {
   auto *glWidget = static_cast<GlWidget *>(obj);
 
-  Camera &camera = glWidget->getScene()->getLayer("Main")->getCamera();
-  Graph *graph = glWidget->getGlGraphInputData()->graph();
+  Camera &camera = glWidget->scene()->getLayer("Main")->getCamera();
+  Graph *graph = glWidget->inputData()->graph();
   BooleanProperty *viewSelection = graph->getBooleanProperty("viewSelection");
 
   if (!glWidget->hasMouseTracking()) {
@@ -385,7 +385,7 @@ bool ScatterPlotCorrelCoeffSelector::eventFilter(QObject *obj, QEvent *e) {
 }
 
 bool ScatterPlotCorrelCoeffSelector::draw(GlWidget *glWidget) {
-  Camera &camera = glWidget->getScene()->getLayer("Main")->getCamera();
+  Camera &camera = glWidget->scene()->getLayer("Main")->getCamera();
 
   glDisable(GL_STENCIL_TEST);
   glEnable(GL_BLEND);
@@ -414,7 +414,7 @@ bool ScatterPlotCorrelCoeffSelector::draw(GlWidget *glWidget) {
 
   Camera camera2D(camera.getScene(), false);
 
-  Color backgroundColor = glWidget->getScene()->getBackgroundColor();
+  Color backgroundColor = glWidget->scene()->getBackgroundColor();
   Color foregroundColor;
   int bgV = backgroundColor.getV();
 
@@ -498,8 +498,8 @@ void ScatterPlotCorrelCoeffSelector::getPolygonAndPointUnderPointerIfAny(
 void ScatterPlotCorrelCoeffSelector::mapPolygonColorToCorrelCoeffOfData(
     GlEditableComplexPolygon *polygon, GlWidget *glWidget) {
 
-  Graph *graph = glWidget->getGlGraphInputData()->graph();
-  Camera &camera = glWidget->getScene()->getLayer("Main")->getCamera();
+  Graph *graph = glWidget->inputData()->graph();
+  Camera &camera = glWidget->scene()->getLayer("Main")->getCamera();
 
   BoundingBox polygonSceneBB = polygon->getBoundingBox();
   BoundingBox polygonScrBB;
@@ -531,7 +531,7 @@ void ScatterPlotCorrelCoeffSelector::mapPolygonColorToCorrelCoeffOfData(
 
     for (const auto &tmpNode : tmpNodes) {
       glNode.n = node(tmpNode.getComplexEntityId());
-      BoundingBox nodeBB(glNode.getBoundingBox(glWidget->getGlGraphInputData()));
+      BoundingBox nodeBB(glNode.getBoundingBox(glWidget->inputData()));
       float dx = nodeBB[1][0] - nodeBB[0][0];
       float dy = nodeBB[1][1] - nodeBB[0][1];
       float dz = nodeBB[1][2] - nodeBB[0][2];

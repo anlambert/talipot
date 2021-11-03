@@ -64,7 +64,7 @@ bool ParallelCoordsAxisSpacer::eventFilter(QObject *widget, QEvent *e) {
       x = glWidget->width() - me->pos().x();
       y = me->pos().y();
       Coord screenCoords = Coord(x, y);
-      Coord sceneCoords = glWidget->getScene()->getLayer("Main")->getCamera().viewportTo3DWorld(
+      Coord sceneCoords = glWidget->scene()->getLayer("Main")->getCamera().viewportTo3DWorld(
           glWidget->screenToViewport(screenCoords));
 
       if (parallelView->getLayoutType() == ParallelCoordinatesDrawing::CIRCULAR) {
@@ -136,7 +136,7 @@ bool ParallelCoordsAxisSpacer::eventFilter(QObject *widget, QEvent *e) {
 
 bool ParallelCoordsAxisSpacer::draw(GlWidget *glWidget) {
   if (selectedAxis != nullptr) {
-    glWidget->getScene()->getLayer("Main")->getCamera().initGl();
+    glWidget->scene()->getLayer("Main")->getCamera().initGl();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     Array<Coord, 4> axisBP(selectedAxis->getBoundingPolygonCoords());

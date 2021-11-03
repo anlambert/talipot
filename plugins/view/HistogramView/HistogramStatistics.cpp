@@ -23,7 +23,7 @@ using namespace std;
 // return f(g(x), h(x))
 template <class F, class G, class H>
 auto compose_fn(F f, G g, H h) {
-  return [f, g, h](auto &&... args) {
+  return [f, g, h](auto &&...args) {
     return f(g(forward<decltype(args)>(args)...), h(forward<decltype(args)>(args)...));
   };
 }
@@ -467,7 +467,7 @@ void HistogramStatistics::computeAndDrawInteractor() {
 
 bool HistogramStatistics::draw(GlWidget *glWidget) {
 
-  Camera &camera = glWidget->getScene()->getLayer("Main")->getCamera();
+  Camera &camera = glWidget->scene()->getLayer("Main")->getCamera();
   camera.initGl();
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

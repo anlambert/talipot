@@ -48,7 +48,7 @@ bool MouseNodeBuilder::eventFilter(QObject *widget, QEvent *e) {
           return true;
         }
 
-        GlGraphInputData *inputData = glWidget->getGlGraphInputData();
+        GlGraphInputData *inputData = glWidget->inputData();
         Graph *_graph = inputData->graph();
         LayoutProperty *mLayout = inputData->layout();
         // allow to undo
@@ -58,12 +58,12 @@ bool MouseNodeBuilder::eventFilter(QObject *widget, QEvent *e) {
         newNode = _graph->addNode();
         Coord point =
             Coord(glWidget->width() - float(qMouseEv->pos().x()), float(qMouseEv->pos().y()));
-        point = glWidget->getScene()->getGraphCamera().viewportTo3DWorld(
+        point = glWidget->scene()->getGraphCamera().viewportTo3DWorld(
             glWidget->screenToViewport(point));
 
         // This code is here to block z coordinate to 0 when we are in "2D mode"
-        Coord cameraDirection = glWidget->getScene()->getGraphCamera().getEyes() -
-                                glWidget->getScene()->getGraphCamera().getCenter();
+        Coord cameraDirection = glWidget->scene()->getGraphCamera().getEyes() -
+                                glWidget->scene()->getGraphCamera().getCenter();
 
         if (cameraDirection[0] == 0 && cameraDirection[1] == 0) {
           point[2] = 0;

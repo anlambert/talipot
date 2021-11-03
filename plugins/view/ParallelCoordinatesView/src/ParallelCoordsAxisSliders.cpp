@@ -248,7 +248,7 @@ bool ParallelCoordsAxisSliders::eventFilter(QObject *widget, QEvent *e) {
     return false;
   }
 
-  selectionLayer->setSharedCamera(&glWidget->getScene()->getLayer("Main")->getCamera());
+  selectionLayer->setSharedCamera(&glWidget->scene()->getLayer("Main")->getCamera());
 
   initOrUpdateSliders();
 
@@ -261,7 +261,7 @@ bool ParallelCoordsAxisSliders::eventFilter(QObject *widget, QEvent *e) {
     float x = glWidget->width() - me->pos().x();
     float y = me->pos().y();
     Coord screenCoords = {x, y};
-    Coord sceneCoords = glWidget->getScene()->getLayer("Main")->getCamera().viewportTo3DWorld(
+    Coord sceneCoords = glWidget->scene()->getLayer("Main")->getCamera().viewportTo3DWorld(
         glWidget->screenToViewport(screenCoords));
 
     if (!axisSliderDragStarted && !slidersRangeDragStarted) {
@@ -487,7 +487,7 @@ void ParallelCoordsAxisSliders::updateOtherAxisSliders() {
 
 bool ParallelCoordsAxisSliders::draw(GlWidget *glWidget) {
 
-  Camera &camera = glWidget->getScene()->getLayer("Main")->getCamera();
+  Camera &camera = glWidget->scene()->getLayer("Main")->getCamera();
   camera.initGl();
 
   for (const auto &it : axisSlidersMap) {

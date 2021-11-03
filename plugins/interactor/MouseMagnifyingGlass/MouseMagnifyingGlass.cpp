@@ -159,7 +159,7 @@ void MouseMagnifyingGlassInteractorComponent::generateMagnifyingGlassTexture(
     }
   }
 
-  const Vec4i viewport = glWidget->getScene()->getViewport();
+  const Vec4i viewport = glWidget->scene()->getViewport();
 
   // get the magnifying glass bounding box in screen space
   BoundingBox boundingBox;
@@ -197,7 +197,7 @@ void MouseMagnifyingGlassInteractorComponent::generateMagnifyingGlassTexture(
   glPushMatrix();
 
   // resize the viewport to the size of fbo and render the scene into this last one
-  GlScene *scene = glWidget->getScene();
+  GlScene *scene = glWidget->scene();
   scene->setViewport(0, 0, fboSize, fboSize);
   fbo->bind();
   Color color = scene->getBackgroundColor();
@@ -248,7 +248,7 @@ bool MouseMagnifyingGlassInteractorComponent::draw(GlWidget *glWidget) {
   glTranslatef(boxCenterScr.getX(), boxCenterScr.getY(), 0);
 
   Color outlineColor;
-  int bgV = glWidget->getScene()->getBackgroundColor().getV();
+  int bgV = glWidget->scene()->getBackgroundColor().getV();
 
   if (bgV < 128) {
     outlineColor = Color(255, 255, 255);
@@ -275,7 +275,7 @@ void MouseMagnifyingGlassInteractorComponent::viewChanged(View *view) {
   auto *glView = dynamic_cast<GlView *>(view);
   glWidget = glView->getGlWidget();
   radius = glWidget->screenToViewport(glWidget->width()) / 4;
-  camera = &glWidget->getScene()->getLayer("Main")->getCamera();
+  camera = &glWidget->scene()->getLayer("Main")->getCamera();
 
   if (!glWidget->hasMouseTracking()) {
     glWidget->setMouseTracking(true);

@@ -786,13 +786,13 @@ bool HistogramMetricMapping::eventFilter(QObject *widget, QEvent *e) {
     float x = glWidget->width() - me->pos().x();
     float y = me->pos().y();
     Coord screenCoords = {x, y};
-    Coord sceneCoords = glWidget->getScene()->getGraphCamera().viewportTo3DWorld(
+    Coord sceneCoords = glWidget->scene()->getGraphCamera().viewportTo3DWorld(
         glWidget->screenToViewport(screenCoords));
 
     if (!curveDragStarted) {
       Coord *anchor = curve->getCurveAnchorAtPointIfAny(
           glWidget->screenToViewport(Coord(me->pos().x(), glWidget->height() - me->pos().y(), 0)),
-          &glWidget->getScene()->getLayer("Main")->getCamera());
+          &glWidget->scene()->getLayer("Main")->getCamera());
       bool pointerColorScale = pointerUnderScale(sceneCoords);
 
       if (selectedAnchor != nullptr) {
@@ -829,7 +829,7 @@ bool HistogramMetricMapping::eventFilter(QObject *widget, QEvent *e) {
       float x = glWidget->width() - me->pos().x();
       float y = me->pos().y();
       Coord screenCoords = {x, y};
-      Coord sceneCoords = glWidget->getScene()->getGraphCamera().viewportTo3DWorld(
+      Coord sceneCoords = glWidget->scene()->getGraphCamera().viewportTo3DWorld(
           glWidget->screenToViewport(screenCoords));
 
       if (curve->pointBelong(sceneCoords)) {
@@ -885,7 +885,7 @@ bool HistogramMetricMapping::eventFilter(QObject *widget, QEvent *e) {
     float x = glWidget->width() - cme->pos().x();
     float y = cme->pos().y();
     Coord screenCoords = {x, y};
-    Coord sceneCoords = glWidget->getScene()->getGraphCamera().viewportTo3DWorld(
+    Coord sceneCoords = glWidget->scene()->getGraphCamera().viewportTo3DWorld(
         glWidget->screenToViewport(screenCoords));
 
     if (pointerUnderScale(sceneCoords)) {
@@ -957,7 +957,7 @@ bool HistogramMetricMapping::eventFilter(QObject *widget, QEvent *e) {
 
 bool HistogramMetricMapping::draw(GlWidget *glWidget) {
   if (curve != nullptr) {
-    Camera &camera = glWidget->getScene()->getLayer("Main")->getCamera();
+    Camera &camera = glWidget->scene()->getLayer("Main")->getCamera();
     camera.initGl();
     float xStart = 0, yEnd = 0;
     glEnable(GL_BLEND);

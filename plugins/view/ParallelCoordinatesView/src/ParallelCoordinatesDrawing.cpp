@@ -74,9 +74,9 @@ void ParallelCoordinatesDrawing::createAxis(GlWidget *glWidget, GlProgressBar *p
   if (progressBar) {
     progressBar->setComment("Creating parallel axes ...");
     progressBar->progress(0, selectedProperties.size());
-    glWidget->getScene()->centerScene();
-    float glWidth = glWidget->getScene()->getBoundingBox().width();
-    glWidget->getScene()->zoomFactor((glWidth - 50) / glWidth);
+    glWidget->scene()->centerScene();
+    float glWidth = glWidget->scene()->getBoundingBox().width();
+    glWidget->scene()->zoomFactor((glWidth - 50) / glWidth);
     glWidget->draw();
     // needed to display progressBar
     QApplication::processEvents();
@@ -254,7 +254,7 @@ void ParallelCoordinatesDrawing::plotAllData(GlWidget *glWidget, GlProgressBar *
         color.setA(linesColorAlphaValue);
       }
     } else {
-      color = glWidget->getGlGraphRenderingParameters().getSelectionColor();
+      color = glWidget->renderingParameters().getSelectionColor();
     }
 
     plotData(dataId, color);

@@ -35,7 +35,7 @@ bool ParallelCoordsGlEntitiesSelector::eventFilter(QObject *widget, QEvent *e) {
         w = 0;
         h = 0;
         started = true;
-        graph = glWidget->getGlGraphInputData()->graph();
+        graph = glWidget->inputData()->graph();
       }
 
       return true;

@@ -164,8 +164,8 @@ bool NeighborhoodHighlighter::eventFilter(QObject *, QEvent *e) {
   checkIfGraphHasChanged();
 
   if (originalGraph == nullptr) {
-    originalGraph = glWidget->getScene()->getGlGraph()->getGraph();
-    originalGlGraph = glWidget->getScene()->getGlGraph();
+    originalGraph = glWidget->scene()->getGlGraph()->getGraph();
+    originalGlGraph = glWidget->scene()->getGlGraph();
 
     if (!glWidget->hasMouseTracking()) {
       glWidget->setMouseTracking(true);
@@ -345,7 +345,7 @@ node NeighborhoodHighlighter::selectNodeInOriginalGraph(GlWidget *glWidget, int 
   node n;
   glWidget->makeCurrent();
   vector<SelectedEntity> selectedElements;
-  glWidget->getScene()->selectEntities(
+  glWidget->scene()->selectEntities(
       static_cast<RenderingEntitiesFlag>(RenderingNodes | RenderingWithoutRemove),
       glWidget->screenToViewport(x - 1), glWidget->screenToViewport(y - 1),
       glWidget->screenToViewport(3), glWidget->screenToViewport(3), nullptr, selectedElements);
@@ -359,7 +359,7 @@ node NeighborhoodHighlighter::selectNodeInOriginalGraph(GlWidget *glWidget, int 
 
 bool NeighborhoodHighlighter::selectInAugmentedDisplayGraph(const int x, const int y,
                                                             SelectedEntity &selectedEntity) {
-  GlLayer *l = glWidget->getScene()->getLayer("Main");
+  GlLayer *l = glWidget->scene()->getLayer("Main");
   GlGraph *glGraph = static_cast<GlGraph *>(l->findGlEntity("graph"));
   l->deleteGlEntity("graph");
   l->addGlEntity(glNeighborhoodGraph, "graph");
@@ -615,13 +615,13 @@ float NeighborhoodHighlighter::computeNeighborhoodGraphRadius(
 }
 
 void NeighborhoodHighlighter::checkIfGraphHasChanged() {
-  if (glWidget->getScene()->getGlGraph()->getGraph() != originalGraph) {
+  if (glWidget->scene()->getGlGraph()->getGraph() != originalGraph) {
     neighborhoodGraphCentralNode = node();
     centralNodeLocked = false;
     circleLayoutSet = false;
     cleanupNeighborhoodGraph();
-    originalGraph = glWidget->getScene()->getGlGraph()->getGraph();
-    originalGlGraph = glWidget->getScene()->getGlGraph();
+    originalGraph = glWidget->scene()->getGlGraph()->getGraph();
+    originalGlGraph = glWidget->scene()->getGlGraph();
   }
 }
 
@@ -631,7 +631,7 @@ bool NeighborhoodHighlighter::draw(GlWidget *glWidget) {
 
   if (neighborhoodGraphCentralNode.isValid() && glNeighborhoodGraph != nullptr) {
 
-    Camera *camera = &(glWidget->getScene()->getLayer("Main")->getCamera());
+    Camera *camera = &(glWidget->scene()->getLayer("Main")->getCamera());
     camera->initGl();
 
     glLineWidth(1.0);
@@ -656,7 +656,7 @@ bool NeighborhoodHighlighter::draw(GlWidget *glWidget) {
                     true, 0.0, 60);
     circle.draw(0, nullptr);
 
-    GlGraphRenderingParameters renderingParameters = glWidget->getGlGraphRenderingParameters();
+    GlGraphRenderingParameters renderingParameters = glWidget->renderingParameters();
     renderingParameters.setNodesStencil(1);
     renderingParameters.setNodesLabelStencil(1);
     renderingParameters.setDisplayEdges(configWidget->isdisplayEdgesCBChecked());

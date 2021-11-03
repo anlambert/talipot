@@ -64,14 +64,13 @@ void SceneConfigWidget::resetChanges() {
 
   _ui->scrollArea->setEnabled(_glWidget != nullptr);
 
-  if (_glWidget == nullptr || _glWidget->getScene()->getGlGraph() == nullptr ||
-      _glWidget->getScene()->getGlGraph()->getGraph() == nullptr) {
+  if (_glWidget == nullptr || _glWidget->scene()->getGlGraph() == nullptr ||
+      _glWidget->scene()->getGlGraph()->getGraph() == nullptr) {
     return;
   }
 
-  Graph *graph = _glWidget->getScene()->getGlGraph()->getGraph();
-  const GlGraphRenderingParameters &renderingParameters =
-      _glWidget->getGlGraphRenderingParameters();
+  Graph *graph = _glWidget->scene()->getGlGraph()->getGraph();
+  const GlGraphRenderingParameters &renderingParameters = _glWidget->renderingParameters();
 
   // NODES
   delete _ui->labelsOrderingCombo->model();
@@ -103,11 +102,11 @@ void SceneConfigWidget::resetChanges() {
   _ui->edgesFrontCheck->setChecked(renderingParameters.isEdgeFrontDisplay());
 
   // COLORS
-  _ui->backgroundColorButton->setColor(_glWidget->getScene()->getBackgroundColor());
+  _ui->backgroundColorButton->setColor(_glWidget->scene()->getBackgroundColor());
   _ui->selectionColorButton->setColor(renderingParameters.getSelectionColor());
 
   // PROJECTION
-  if (_glWidget->getScene()->isViewOrtho()) {
+  if (_glWidget->scene()->isViewOrtho()) {
     _ui->orthoRadioButton->setChecked(true);
   } else {
     _ui->centralRadioButton->setChecked(true);
@@ -144,11 +143,11 @@ bool SceneConfigWidget::eventFilter(QObject *obj, QEvent *ev) {
 }
 
 void SceneConfigWidget::applySettings() {
-  if (_resetting || !_glWidget->getScene()->getGlGraph()) {
+  if (_resetting || !_glWidget->scene()->getGlGraph()) {
     return;
   }
 
-  GlGraphRenderingParameters &renderingParameters = _glWidget->getGlGraphRenderingParameters();
+  GlGraphRenderingParameters &renderingParameters = _glWidget->renderingParameters();
 
   // NODES
   if (_ui->labelsOrderingCombo->currentIndex() == 0) {
@@ -180,10 +179,10 @@ void SceneConfigWidget::applySettings() {
 
   // COLORS
   renderingParameters.setSelectionColor(_ui->selectionColorButton->talipotColor());
-  _glWidget->getScene()->setBackgroundColor(_ui->backgroundColorButton->talipotColor());
+  _glWidget->scene()->setBackgroundColor(_ui->backgroundColorButton->talipotColor());
 
   // PROJECTION
-  _glWidget->getScene()->setViewOrtho(_ui->orthoRadioButton->isChecked());
+  _glWidget->scene()->setViewOrtho(_ui->orthoRadioButton->isChecked());
 
   // GRAPH CHANGINS
   _glWidget->setKeepScenePointOfViewOnSubgraphChanging(_ui->keepSceneRadioButton->isChecked());

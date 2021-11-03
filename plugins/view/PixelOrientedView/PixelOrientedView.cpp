@@ -77,11 +77,11 @@ QList<QWidget *> PixelOrientedView::configurationWidgets() const {
 }
 
 void PixelOrientedView::initGlWidget() {
-  mainLayer = getGlWidget()->getScene()->getLayer("Main");
+  mainLayer = getGlWidget()->scene()->getLayer("Main");
 
   if (mainLayer == nullptr) {
     mainLayer = new GlLayer("Main");
-    getGlWidget()->getScene()->addExistingLayer(mainLayer);
+    getGlWidget()->scene()->addExistingLayer(mainLayer);
   }
 
   if (mainLayer->findGlEntity("graph")) {
@@ -433,7 +433,7 @@ void PixelOrientedView::destroyData() {
 
 void PixelOrientedView::addEmptyViewLabel() {
   Color backgroundColor = {optionsWidget->getBackgroundColor()};
-  getGlWidget()->getScene()->setBackgroundColor(backgroundColor);
+  getGlWidget()->scene()->setBackgroundColor(backgroundColor);
 
   Color textColor = getTextColor();
 
@@ -475,7 +475,7 @@ void PixelOrientedView::generatePixelOverview(PixelOrientedOverview *pixelOvervi
 
 void PixelOrientedView::draw() {
   GlWidget *glw = getGlWidget();
-  GlScene *scene = glw->getScene();
+  GlScene *scene = glw->scene();
 
   if (pixelOrientedGraph != nullptr) {
     scene->setBackgroundColor(optionsWidget->getBackgroundColor());
@@ -578,18 +578,18 @@ Color PixelOrientedView::getTextColor() const {
 void PixelOrientedView::centerView(bool) {
   if (!getGlWidget()->isVisible()) {
     if (lastViewWindowWidth != 0 && lastViewWindowHeight != 0) {
-      getGlWidget()->getScene()->adjustSceneToSize(lastViewWindowWidth, lastViewWindowHeight);
+      getGlWidget()->scene()->adjustSceneToSize(lastViewWindowWidth, lastViewWindowHeight);
     } else {
-      getGlWidget()->getScene()->centerScene();
+      getGlWidget()->scene()->centerScene();
     }
   } else {
-    getGlWidget()->getScene()->adjustSceneToSize(getGlWidget()->width(), getGlWidget()->height());
+    getGlWidget()->scene()->adjustSceneToSize(getGlWidget()->width(), getGlWidget()->height());
   }
 
   // we apply a zoom factor to preserve a 50 px margin height
   // to ensure the scene will not be drawn under the configuration tabs title
   float glHeight = graphicsView()->width();
-  getGlWidget()->getScene()->zoomFactor((glHeight - 50) / glHeight);
+  getGlWidget()->scene()->zoomFactor((glHeight - 50) / glHeight);
   getGlWidget()->draw();
 }
 
@@ -604,7 +604,7 @@ void PixelOrientedView::updateOverviews(const bool updateAll) {
 
   uint nbOverviews = selectedGraphProperties.size();
   unsigned currentStep = 0;
-  Camera &cam = getGlWidget()->getScene()->getGraphCamera();
+  Camera &cam = getGlWidget()->scene()->getGraphCamera();
   double sceneRadiusBak = cam.getSceneRadius();
   double zoomFactorBak = cam.getZoomFactor();
   Coord eyesBak = cam.getEyes();
@@ -688,11 +688,11 @@ QuickAccessBar *PixelOrientedView::getQuickAccessBarImpl() {
 void PixelOrientedView::switchFromSmallMultiplesToDetailView(PixelOrientedOverview *pixelOverview) {
 
   if (smallMultiplesView) {
-    sceneRadiusBak = getGlWidget()->getScene()->getGraphCamera().getSceneRadius();
-    zoomFactorBak = getGlWidget()->getScene()->getGraphCamera().getZoomFactor();
-    eyesBak = getGlWidget()->getScene()->getGraphCamera().getEyes();
-    centerBak = getGlWidget()->getScene()->getGraphCamera().getCenter();
-    upBak = getGlWidget()->getScene()->getGraphCamera().getUp();
+    sceneRadiusBak = getGlWidget()->scene()->getGraphCamera().getSceneRadius();
+    zoomFactorBak = getGlWidget()->scene()->getGraphCamera().getZoomFactor();
+    eyesBak = getGlWidget()->scene()->getGraphCamera().getEyes();
+    centerBak = getGlWidget()->scene()->getGraphCamera().getCenter();
+    upBak = getGlWidget()->scene()->getGraphCamera().getUp();
   }
 
   mainLayer->deleteGlEntity(overviewsComposite);
@@ -736,11 +736,11 @@ void PixelOrientedView::switchFromDetailViewToSmallMultiples() {
   setGraphView(glGraph, false);
   mainLayer->deleteGlEntity(detailViewLabel);
   mainLayer->addGlEntity(overviewsComposite, "overviews composite");
-  getGlWidget()->getScene()->getGraphCamera().setSceneRadius(sceneRadiusBak);
-  getGlWidget()->getScene()->getGraphCamera().setZoomFactor(zoomFactorBak);
-  getGlWidget()->getScene()->getGraphCamera().setEyes(eyesBak);
-  getGlWidget()->getScene()->getGraphCamera().setCenter(centerBak);
-  getGlWidget()->getScene()->getGraphCamera().setUp(upBak);
+  getGlWidget()->scene()->getGraphCamera().setSceneRadius(sceneRadiusBak);
+  getGlWidget()->scene()->getGraphCamera().setZoomFactor(zoomFactorBak);
+  getGlWidget()->scene()->getGraphCamera().setEyes(eyesBak);
+  getGlWidget()->scene()->getGraphCamera().setCenter(centerBak);
+  getGlWidget()->scene()->getGraphCamera().setUp(upBak);
   smallMultiplesView = true;
   toggleInteractors(false);
   detailOverview = nullptr;

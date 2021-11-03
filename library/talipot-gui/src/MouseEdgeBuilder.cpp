@@ -36,7 +36,7 @@ bool MouseEdgeBuilder::eventFilter(QObject *widget, QEvent *e) {
     auto *qMouseEv = static_cast<QMouseEvent *>(e);
 
     SelectedEntity selectedEntity;
-    GlGraphInputData *inputData = glWidget->getGlGraphInputData();
+    GlGraphInputData *inputData = glWidget->inputData();
     Graph *_graph = inputData->graph();
 
     LayoutProperty *mLayout = inputData->layout();
@@ -73,7 +73,7 @@ bool MouseEdgeBuilder::eventFilter(QObject *widget, QEvent *e) {
         } else {
           Coord point = {glWidget->width() - float(qMouseEv->pos().x()),
                          float(qMouseEv->pos().y())};
-          _bends.push_back(glWidget->getScene()->getGraphCamera().viewportTo3DWorld(
+          _bends.push_back(glWidget->scene()->getGraphCamera().viewportTo3DWorld(
               glWidget->screenToViewport(point)));
           glWidget->redraw();
         }
@@ -118,8 +118,8 @@ bool MouseEdgeBuilder::eventFilter(QObject *widget, QEvent *e) {
       }
 
       Coord point = Coord(glWidget->width() - qMouseEv->pos().x(), qMouseEv->pos().y());
-      point = glWidget->getScene()->getGraphCamera().viewportTo3DWorld(
-          glWidget->screenToViewport(point));
+      point =
+          glWidget->scene()->getGraphCamera().viewportTo3DWorld(glWidget->screenToViewport(point));
       _curPos.set(point[0], point[1], point[2]);
       glWidget->redraw();
     }
@@ -136,7 +136,7 @@ bool MouseEdgeBuilder::draw(GlWidget *glWidget) {
   }
 
   glDisable(GL_STENCIL_TEST);
-  glWidget->getScene()->getGraphCamera().initGl();
+  glWidget->scene()->getGraphCamera().initGl();
   vector<Coord> lineVertices;
   lineVertices.push_back(_startPos);
   lineVertices.insert(lineVertices.end(), _bends.begin(), _bends.end());
@@ -197,9 +197,9 @@ void MouseEdgeBuilder::clear() {
 
 void MouseEdgeBuilder::addLink(const node &source, const node &target) {
   assert(glWidget);
-  Graph *g = glWidget->getGlGraphInputData()->graph();
+  Graph *g = glWidget->inputData()->graph();
 
-  LayoutProperty *mLayout = glWidget->getGlGraphInputData()->layout();
+  LayoutProperty *mLayout = glWidget->inputData()->layout();
   edge newEdge = g->addEdge(source, target);
   mLayout->setEdgeValue(newEdge, bends());
   _bends.clear();

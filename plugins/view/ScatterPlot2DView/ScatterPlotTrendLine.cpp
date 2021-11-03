@@ -77,7 +77,7 @@ bool ScatterPlotTrendLine::draw(GlWidget *glWidget) {
   float yStart = a * xStart + b;
   float yEnd = a * xEnd + b;
 
-  Camera &camera = glWidget->getScene()->getLayer("Main")->getCamera();
+  Camera &camera = glWidget->scene()->getLayer("Main")->getCamera();
   camera.initGl();
 
   GlLine trendLine;
@@ -104,7 +104,7 @@ bool ScatterPlotTrendLine::draw(GlWidget *glWidget) {
   ostringstream oss;
   oss << "y = " << a << " * x + " << b;
   lineEquationLabel.setText(oss.str());
-  lineEquationLabel.draw(0, &glWidget->getScene()->getLayer("Main")->getCamera());
+  lineEquationLabel.draw(0, &glWidget->scene()->getLayer("Main")->getCamera());
 
   return true;
 }

@@ -147,7 +147,7 @@ void GeographicView::setState(const DataSet &dataSet) {
     computeGeoLayout();
   }
 
-  GlGraph *glGraph = geoViewGraphicsView->getGlWidget()->getScene()->getGlGraph();
+  GlGraph *glGraph = geoViewGraphicsView->getGlWidget()->scene()->getGlGraph();
   GlGraphRenderingParameters &rp = glGraph->getRenderingParameters();
 
   if (dataSet.exists("renderingParameters")) {
@@ -194,7 +194,7 @@ DataSet GeographicView::state() const {
   dataSet.set("mapCenterLongitude", mapCenter.second);
   dataSet.set("mapZoom", geoViewGraphicsView->getLeafletMapsPage()->getCurrentMapZoom());
   dataSet.set("renderingParameters",
-              geoViewGraphicsView->getGlWidget()->getGlGraphRenderingParameters().getParameters());
+              geoViewGraphicsView->getGlWidget()->renderingParameters().getParameters());
 
   saveStoredPolyInformation(dataSet);
 
@@ -285,7 +285,7 @@ void GeographicView::applySettings() {
 }
 
 void GeographicView::updateSharedProperties() {
-  GlGraphInputData *inputData = geoViewGraphicsView->getGlWidget()->getGlGraphInputData();
+  GlGraphInputData *inputData = geoViewGraphicsView->getGlWidget()->inputData();
 
   if (useSharedLayoutProperty != geoViewConfigWidget->useSharedLayoutProperty()) {
     useSharedLayoutProperty = geoViewConfigWidget->useSharedLayoutProperty();
@@ -389,8 +389,8 @@ void GeographicView::registerTriggers() {
     return;
   }
 
-  addRedrawTrigger(geoViewGraphicsView->getGlWidget()->getScene()->getGlGraph()->getGraph());
-  auto properties = geoViewGraphicsView->getGlWidget()->getGlGraphInputData()->properties();
+  addRedrawTrigger(geoViewGraphicsView->getGlWidget()->scene()->getGlGraph()->getGraph());
+  auto properties = geoViewGraphicsView->getGlWidget()->inputData()->properties();
 
   for (auto *p : properties) {
     addRedrawTrigger(p);

@@ -41,7 +41,7 @@ bool GlWidget::inRendering = false;
 
 //==================================================
 GlWidget::GlWidget(QWidget *parent, View *view)
-    : QOpenGLWidget(parent), scene(new GlQuadTreeLODCalculator), view(view), widthStored(0),
+    : QOpenGLWidget(parent), _scene(new GlQuadTreeLODCalculator), view(view), widthStored(0),
       heightStored(0), glFrameBuf(nullptr), glFrameBuf2(nullptr),
       keepPointOfViewOnSubgraphChanging(false),
       sceneTextureId("scene" + to_string(reinterpret_cast<uintptr_t>(this))) {
@@ -58,7 +58,7 @@ GlWidget::GlWidget(QWidget *parent, View *view)
   format.setOption(QSurfaceFormat::DebugContext);
 #endif
   setFormat(format);
-  getScene()->setViewOrtho(Settings::isViewOrtho());
+  scene()->setViewOrtho(Settings::isViewOrtho());
   OpenGlConfigManager::initExtensions();
   QOpenGLWidget::doneCurrent();
 }
@@ -141,7 +141,7 @@ void GlWidget::render(RenderingOptions options, bool checkVisibility) {
 
       // render the graph in the antialiased framebuffer.
       glFrameBuf->bind();
-      scene.draw();
+      _scene.draw();
       glFrameBuf->release();
 
       // copy rendered scene in a texture/QImage compatible framebuffer
@@ -152,7 +152,7 @@ void GlWidget::render(RenderingOptions options, bool checkVisibility) {
       makeCurrent();
       glBindFramebuffer(GL_FRAMEBUFFER, drawFboId);
     } else {
-      scene.initGlParameters();
+      _scene.initGlParameters();
     }
 
     glDisable(GL_TEXTURE_2D);
@@ -162,12 +162,12 @@ void GlWidget::render(RenderingOptions options, bool checkVisibility) {
     glDisable(GL_LIGHTING);
 
     // draw rendered scene from texture
-    Camera camera2D(scene.getGraphCamera().getScene(), false);
-    camera2D.setScene(scene.getGraphCamera().getScene());
+    Camera camera2D(_scene.getGraphCamera().getScene(), false);
+    camera2D.setScene(_scene.getGraphCamera().getScene());
     camera2D.initGl();
     Gl2DRect rect(height, 0, 0, width, sceneTextureId);
     rect.draw(0, &camera2D);
-    scene.getGraphCamera().initGl();
+    _scene.getGraphCamera().initGl();
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -238,7 +238,7 @@ void GlWidget::resizeGL(int w, int h) {
 
   deleteFramebuffers();
 
-  scene.setViewport(0, 0, screenToViewport(width), screenToViewport(height));
+  _scene.setViewport(0, 0, screenToViewport(width), screenToViewport(height));
 
   emit glResized(w, h);
 }
@@ -248,7 +248,7 @@ void GlWidget::makeCurrent() {
     QOpenGLWidget::makeCurrent();
     int width = contentsRect().width();
     int height = contentsRect().height();
-    scene.setViewport(0, 0, screenToViewport(width), screenToViewport(height));
+    _scene.setViewport(0, 0, screenToViewport(width), screenToViewport(height));
   } else {
     GlOffscreenRenderer::instance().makeOpenGLContextCurrent();
   }
@@ -269,7 +269,7 @@ bool GlWidget::pickGlEntities(const int x, const int y, const int width, const i
   glFrameBuf->bind();
 #endif
 
-  bool pickedEntity = scene.selectEntities(
+  bool pickedEntity = _scene.selectEntities(
       static_cast<RenderingEntitiesFlag>(RenderingEntities | RenderingWithoutRemove),
       screenToViewport(x), screenToViewport(y), screenToViewport(width), screenToViewport(height),
       layer, pickedEntities);
@@ -296,14 +296,14 @@ void GlWidget::pickNodesEdges(const int x, const int y, const int width, const i
 #endif
 
   if (pickNodes) {
-    scene.selectEntities(
+    _scene.selectEntities(
         static_cast<RenderingEntitiesFlag>(RenderingNodes | RenderingWithoutRemove),
         screenToViewport(x), screenToViewport(y), screenToViewport(width), screenToViewport(height),
         layer, selectedNodes);
   }
 
   if (pickEdges) {
-    scene.selectEntities(
+    _scene.selectEntities(
         static_cast<RenderingEntitiesFlag>(RenderingEdges | RenderingWithoutRemove),
         screenToViewport(x), screenToViewport(y), screenToViewport(width), screenToViewport(height),
         layer, selectedEdges);
@@ -324,7 +324,7 @@ bool GlWidget::pickNodesEdges(const int x, const int y, SelectedEntity &selected
   bool elementPicked = false;
   vector<SelectedEntity> selectedEntities;
 
-  if (pickNodes && scene.selectEntities(
+  if (pickNodes && _scene.selectEntities(
                        static_cast<RenderingEntitiesFlag>(RenderingNodes | RenderingWithoutRemove),
                        screenToViewport(x - 1), screenToViewport(y - 1), screenToViewport(3),
                        screenToViewport(3), layer, selectedEntities)) {
@@ -333,7 +333,7 @@ bool GlWidget::pickNodesEdges(const int x, const int y, SelectedEntity &selected
   }
 
   if (!elementPicked && pickEdges &&
-      scene.selectEntities(
+      _scene.selectEntities(
           static_cast<RenderingEntitiesFlag>(RenderingEdges | RenderingWithoutRemove),
           screenToViewport(x - 1), screenToViewport(y - 1), screenToViewport(3),
           screenToViewport(3), layer, selectedEntities)) {
@@ -391,10 +391,10 @@ QImage GlWidget::createPicture(int width, int height, bool center, QImage::Forma
   if (frameBuf->isValid() && frameBuf2->isValid()) {
     frameBuf->bind();
 
-    int oldWidth = scene.getViewport()[2];
-    int oldHeight = scene.getViewport()[3];
+    int oldWidth = _scene.getViewport()[2];
+    int oldHeight = _scene.getViewport()[3];
     vector<Camera> oldCameras;
-    const vector<pair<string, GlLayer *>> &layersList = scene.getLayersList();
+    const vector<pair<string, GlLayer *>> &layersList = _scene.getLayersList();
 
     if (center) {
       for (const auto &it : layersList) {
@@ -404,14 +404,14 @@ QImage GlWidget::createPicture(int width, int height, bool center, QImage::Forma
       }
     }
 
-    scene.setViewport(0, 0, width, height);
+    _scene.setViewport(0, 0, width, height);
 
     if (center) {
-      scene.adjustSceneToSize(width, height);
+      _scene.adjustSceneToSize(width, height);
     }
 
     computeInteractors();
-    scene.draw();
+    _scene.draw();
     drawInteractors();
     frameBuf->release();
 
@@ -420,7 +420,7 @@ QImage GlWidget::createPicture(int width, int height, bool center, QImage::Forma
 
     resultImage = frameBuf2->toImage();
 
-    scene.setViewport(0, 0, oldWidth, oldHeight);
+    _scene.setViewport(0, 0, oldWidth, oldHeight);
 
     if (center) {
       int i = 0;
@@ -455,10 +455,10 @@ QImage GlWidget::createPicture(int width, int height, bool center, QImage::Forma
 
 void GlWidget::centerScene(bool graphChanged, float zf) {
   makeCurrent();
-  scene.centerScene();
+  _scene.centerScene();
 
   if (zf != 1) {
-    scene.zoomFactor(zf);
+    _scene.zoomFactor(zf);
   }
 
   draw(graphChanged);
@@ -476,11 +476,11 @@ bool GlWidget::keepScenePointOfViewOnSubgraphChanging() const {
   return keepPointOfViewOnSubgraphChanging;
 }
 
-GlGraphRenderingParameters &GlWidget::getGlGraphRenderingParameters() {
-  return scene.getGlGraph()->getRenderingParameters();
+GlGraphRenderingParameters &GlWidget::renderingParameters() {
+  return _scene.getGlGraph()->getRenderingParameters();
 }
 
-GlGraphInputData *GlWidget::getGlGraphInputData() const {
-  return scene.getGlGraph()->getInputData();
+GlGraphInputData *GlWidget::inputData() const {
+  return _scene.getGlGraph()->getInputData();
 }
 }

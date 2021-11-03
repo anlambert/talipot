@@ -6,7 +6,6 @@
 
 #include <QApplication>
 
-
 using namespace tlp;
 using namespace std;
 
@@ -126,13 +125,13 @@ int main(int argc, char **argv) {
   auto *mainWidget = new GlWidget(nullptr);
 
   // Adds a layer to the scene
-  GlLayer *mainLayer = mainWidget->getScene()->createLayer("Main");
+  GlLayer *mainLayer = mainWidget->scene()->createLayer("Main");
 
   // Adds the graph to this layer
   mainLayer->addGraph(g, "graph");
 
   // Sets some rendering parameters on the graph to visualize
-  setGraphRenderingParameters(mainWidget->getScene()->getGlGraph());
+  setGraphRenderingParameters(mainWidget->scene()->getGlGraph());
 
   // Display the widget
   mainWidget->show();

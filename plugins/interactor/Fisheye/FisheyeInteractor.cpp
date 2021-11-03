@@ -197,7 +197,7 @@ void FisheyeInteractorComponent::generateFisheyeTexture(GlWidget *glWidget) {
       _maxTextureSize = 4096;
     }
   }
-  GlScene *glScene = glWidget->getScene();
+  GlScene *glScene = glWidget->scene();
   Vec4i viewport = glScene->getViewport();
 
   float factor = 1;
@@ -222,7 +222,7 @@ void FisheyeInteractorComponent::generateFisheyeTexture(GlWidget *glWidget) {
     GlTextureManager::registerExternalTexture(_fboTextureId, _fbo2->texture());
   }
 
-  Camera *camera = &glWidget->getScene()->getGraphCamera();
+  Camera *camera = &glWidget->scene()->getGraphCamera();
   Camera camBackup = *camera;
 
   Coord bbMin = camera->viewportTo3DWorld(
@@ -267,7 +267,7 @@ bool FisheyeInteractorComponent::draw(GlWidget *glWidget) {
 
   if (_activateFisheye) {
 
-    GlScene *glScene = glWidget->getScene();
+    GlScene *glScene = glWidget->scene();
     Vec4i viewport = glScene->getViewport();
     float fisheyeHeight = _configWidget->getFisheyeHeight();
     float fisheyeRadius = _configWidget->getFisheyeRadius();

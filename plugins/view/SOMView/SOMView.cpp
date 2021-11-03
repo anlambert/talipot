@@ -122,11 +122,11 @@ void SOMView::initGlViews() {
   // Gl view initialisation
   // miniatures
 
-  GlLayer *mainLayer = previewWidget->getScene()->getLayer("Main");
+  GlLayer *mainLayer = previewWidget->scene()->getLayer("Main");
 
   if (mainLayer == nullptr) {
     mainLayer = new GlLayer("Main");
-    previewWidget->getScene()->addExistingLayer(mainLayer);
+    previewWidget->scene()->addExistingLayer(mainLayer);
   }
 
   // No graph to print
@@ -134,11 +134,11 @@ void SOMView::initGlViews() {
   mainLayer->addGlEntity(glGraph, "graph");
   // activate hover
 
-  mainLayer = mapWidget->getScene()->getLayer("Main");
+  mainLayer = mapWidget->scene()->getLayer("Main");
 
   if (mainLayer == nullptr) {
     mainLayer = new GlLayer("Main");
-    mapWidget->getScene()->addExistingLayer(mainLayer);
+    mapWidget->scene()->addExistingLayer(mainLayer);
   }
 
   glGraph = new GlGraph(tlp::newGraph());
@@ -234,19 +234,19 @@ void SOMView::setState(const DataSet &dataSet) {
 
 void SOMView::changeMapViewGraph(tlp::Graph *graph) {
 
-  GlScene *scene = mapWidget->getScene();
+  GlScene *scene = mapWidget->scene();
   scene->clearLayersList();
   auto *mainLayer = new GlLayer("Main");
   scene->addExistingLayer(mainLayer);
   auto *glGraph = new GlGraph(graph);
   mainLayer->addGlEntity(glGraph, "graph");
-  GlGraphRenderingParameters &p = mapWidget->getGlGraphRenderingParameters();
+  GlGraphRenderingParameters &p = mapWidget->renderingParameters();
   p.setDisplayEdges(false);
   p.setViewEdgeLabel(false);
   p.setViewMetaLabel(false);
   p.setViewNodeLabel(true);
   p.setFontsType(0);
-  glGraph = mapWidget->getScene()->getGlGraph();
+  glGraph = mapWidget->scene()->getGlGraph();
 
   if (graphLayoutProperty) {
     delete graphLayoutProperty;
@@ -358,12 +358,12 @@ void SOMView::drawPreviews() {
 
     propertyToPreviews[p] = SOMPrevComp;
 
-    previewWidget->getScene()->getLayer("Main")->addGlEntity(SOMPrevComp, p);
+    previewWidget->scene()->getLayer("Main")->addGlEntity(SOMPrevComp, p);
 
     ++pos;
   }
 
-  previewWidget->getScene()->centerScene();
+  previewWidget->scene()->centerScene();
 }
 
 void SOMView::clearPreviews() {
@@ -382,7 +382,7 @@ void SOMView::clearPreviews() {
   if (destruct) {
     main = nullptr;
   } else {
-    main = previewWidget->getScene()->getLayer("Main");
+    main = previewWidget->scene()->getLayer("Main");
   }
 
   if (main) {
@@ -483,7 +483,7 @@ void SOMView::drawPreviewWidget() {
 
 void SOMView::draw() {
   removeEmptyViewLabel();
-  previewWidget->getScene()->getLayer("Main");
+  previewWidget->scene()->getLayer("Main");
 
   if (properties->getSelectedProperties().empty()) {
     addEmptyViewLabel();
@@ -543,11 +543,11 @@ void SOMView::buildSOMMap() {
                               (scaleHeight + spacing) + ((somMaxHeight - somSize.getH()) / 2), 0),
                         somSize, som, nullptr);
 
-  GlLayer *somLayer = mapWidget->getScene()->getLayer("Main");
+  GlLayer *somLayer = mapWidget->scene()->getLayer("Main");
 
   if (!somLayer) {
     somLayer = new GlLayer("som");
-    mapWidget->getScene()->addExistingLayer(somLayer);
+    mapWidget->scene()->addExistingLayer(somLayer);
   }
 
   somLayer->addGlEntity(mapCompositeElements, "som");
@@ -564,7 +564,7 @@ void SOMView::cleanSOMMap() {
   if (destruct) {
     somLayer = nullptr;
   } else {
-    somLayer = mapWidget->getScene()->getLayer("Main");
+    somLayer = mapWidget->scene()->getLayer("Main");
   }
 
   if (somLayer) {
@@ -721,7 +721,7 @@ void SOMView::addPropertyToSelection(const string &propertyName) {
     selection = propertyName;
     // mainWidget->currentPropertyNameLabel->setText(QString::fromStdString(propertyName));
     refreshSOMMap();
-    getGlWidget()->getScene()->centerScene();
+    getGlWidget()->scene()->centerScene();
 
     auto it = propertyToPreviews.find(propertyName);
     assert(it != propertyToPreviews.end() && it->second);
@@ -774,8 +774,7 @@ vector<SOMPreviewComposite *> SOMView::getPreviews() {
 
 void SOMView::getPreviewsAtViewportCoord(int x, int y, std::vector<SOMPreviewComposite *> &result) {
   vector<SelectedEntity> selectedEntities;
-  previewWidget->getScene()->selectEntities(RenderingEntities, x, y, 0, 0, nullptr,
-                                            selectedEntities);
+  previewWidget->scene()->selectEntities(RenderingEntities, x, y, 0, 0, nullptr, selectedEntities);
 
   for (const auto &itEntities : selectedEntities) {
     for (const auto &itSOM : propertyToPreviews) {
@@ -1089,7 +1088,7 @@ void SOMView::switchToPreviewMode() {
 }
 
 void SOMView::copyToGlWidget(GlWidget *widget) {
-  widget->getScene()->centerScene();
+  widget->scene()->centerScene();
   assignNewGlWidget(widget, false);
 }
 
@@ -1101,7 +1100,7 @@ void SOMView::internalSwitchToDetailledMode(SOMPreviewComposite *preview, bool a
   assert(preview);
 
   if (animation) {
-    GlBoundingBoxSceneVisitor bbsv(previewWidget->getGlGraphInputData());
+    GlBoundingBoxSceneVisitor bbsv(previewWidget->inputData());
     preview->acceptVisitor(&bbsv);
     tlp::zoomOnScreenRegion(previewWidget, bbsv.getBoundingBox(), true,
                             properties->getAnimationDuration());
@@ -1119,7 +1118,7 @@ void SOMView::internalSwitchToPreviewMode(bool animation) {
 
   copyToGlWidget(previewWidget);
   previewWidget->draw();
-  GlBoundingBoxSceneVisitor bbsv(previewWidget->getGlGraphInputData());
+  GlBoundingBoxSceneVisitor bbsv(previewWidget->inputData());
 
   for (const auto &it : propertyToPreviews) {
     it.second->acceptVisitor(&bbsv);
@@ -1148,7 +1147,7 @@ void SOMView::dimensionUpdated() {
 }
 
 void SOMView::addEmptyViewLabel() {
-  GlLayer *mainLayer = previewWidget->getScene()->getLayer("Main");
+  GlLayer *mainLayer = previewWidget->scene()->getLayer("Main");
   auto *noDimsLabel = new GlLabel(Coord(0, 0, 0), Size(200, 100), Color(0, 0, 0));
   noDimsLabel->setText(ViewName::SOMViewName);
   auto *noDimsLabel1 = new GlLabel(Coord(0, -50, 0), Size(400, 100), Color(0, 0, 0));
@@ -1161,11 +1160,11 @@ void SOMView::addEmptyViewLabel() {
   BoundingBox bbox = noDimsLabel->getBoundingBox();
   bbox.expand(noDimsLabel2->getBoundingBox()[0]);
   bbox.expand(noDimsLabel2->getBoundingBox()[1]);
-  previewWidget->getScene()->centerScene();
+  previewWidget->scene()->centerScene();
 }
 
 void SOMView::removeEmptyViewLabel() {
-  GlLayer *mainLayer = previewWidget->getScene()->getLayer("Main");
+  GlLayer *mainLayer = previewWidget->scene()->getLayer("Main");
   GlEntity *noDimsLabel = mainLayer->findGlEntity("no dimensions label");
   GlEntity *noDimsLabel1 = mainLayer->findGlEntity("no dimensions label 1");
   GlEntity *noDimsLabel2 = mainLayer->findGlEntity("no dimensions label 2");

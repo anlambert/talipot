@@ -99,7 +99,7 @@ void ParallelCoordinatesView::toggleInteractors(bool activate) {
 }
 
 void ParallelCoordinatesView::initGlWidget() {
-  GlScene *scene = getGlWidget()->getScene();
+  GlScene *scene = getGlWidget()->scene();
 
   if (!mainLayer) {
     mainLayer = new GlLayer("Main");
@@ -301,7 +301,7 @@ void ParallelCoordinatesView::setState(const DataSet &dataSet) {
     if (dataSet.exists("scene")) {
       string sceneXML;
       dataSet.get("scene", sceneXML);
-      getGlWidget()->getScene()->setWithXML(sceneXML, nullptr);
+      getGlWidget()->scene()->setWithXML(sceneXML, nullptr);
       dontCenterViewAfterConfLoaded = true;
     }
 
@@ -326,7 +326,7 @@ DataSet ParallelCoordinatesView::state() const {
   DataSet dataSet = GlView::state();
 
   string sceneOut;
-  getGlWidget()->getScene()->getXMLOnlyForCameras(sceneOut);
+  getGlWidget()->scene()->getXMLOnlyForCameras(sceneOut);
   dataSet.set("scene", sceneOut);
 
   vector<string> selectedProperties = graphProxy->getSelectedProperties();
@@ -393,7 +393,7 @@ void ParallelCoordinatesView::updateWithProgressBar() {
 
 void ParallelCoordinatesView::addEmptyViewLabel() {
   Color backgroundColor = drawConfigWidget->getBackgroundColor();
-  getGlWidget()->getScene()->setBackgroundColor(backgroundColor);
+  getGlWidget()->scene()->setBackgroundColor(backgroundColor);
 
   Color foregroundColor;
   int bgV = backgroundColor.getV();
@@ -449,7 +449,7 @@ void ParallelCoordinatesView::draw() {
       if (quickAccessBarVisible()) {
         _quickAccessBar->setEnabled(false);
       }
-      getGlWidget()->getScene()->centerScene();
+      getGlWidget()->scene()->centerScene();
       getGlWidget()->draw();
       return;
     } else {
@@ -700,7 +700,7 @@ void ParallelCoordinatesView::setupAndDrawView() {
   }
 
   if (graph()) {
-    GlScene *scene = getGlWidget()->getScene();
+    GlScene *scene = getGlWidget()->scene();
     graphProxy->setSelectedProperties(dataConfigWidget->getSelectedGraphProperties());
     graphProxy->setDataLocation(dataConfigWidget->getDataLocation());
     scene->setBackgroundColor(drawConfigWidget->getBackgroundColor());
@@ -905,7 +905,7 @@ void ParallelCoordinatesView::resetHighlightedElements() {
 
 ParallelAxis *ParallelCoordinatesView::getAxisUnderPointer(const int x, const int y) const {
   vector<ParallelAxis *> allAxis = parallelCoordsDrawing->getAllAxis();
-  axisSelectionLayer->setSharedCamera(&getGlWidget()->getScene()->getLayer("Main")->getCamera());
+  axisSelectionLayer->setSharedCamera(&getGlWidget()->scene()->getLayer("Main")->getCamera());
   axisSelectionLayer->getComposite()->reset(false);
 
   for (auto *axis : allAxis) {

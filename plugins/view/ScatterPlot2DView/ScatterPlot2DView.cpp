@@ -77,11 +77,11 @@ ScatterPlot2DView::~ScatterPlot2DView() {
 }
 
 void ScatterPlot2DView::initGlWidget(Graph *) {
-  GlLayer *layer = getGlWidget()->getScene()->getLayer("Main");
+  GlLayer *layer = getGlWidget()->scene()->getLayer("Main");
 
   if (layer == nullptr) {
     layer = new GlLayer("Main");
-    getGlWidget()->getScene()->addExistingLayer(layer);
+    getGlWidget()->scene()->addExistingLayer(layer);
   }
 
   mainLayer = layer;
@@ -438,7 +438,7 @@ void ScatterPlot2DView::buildScatterPlotsMatrix() {
 
   dataLocation = propertiesSelectionWidget->getDataLocation();
   Color backgroundColor = optionsWidget->getBackgroundColor();
-  getGlWidget()->getScene()->setBackgroundColor(backgroundColor);
+  getGlWidget()->scene()->setBackgroundColor(backgroundColor);
 
   Color foregroundColor;
   int bgV = backgroundColor.getV();
@@ -574,7 +574,7 @@ void ScatterPlot2DView::buildScatterPlotsMatrix() {
 
 void ScatterPlot2DView::addEmptyViewLabel() {
   Color backgroundColor = optionsWidget->getBackgroundColor();
-  getGlWidget()->getScene()->setBackgroundColor(backgroundColor);
+  getGlWidget()->scene()->setBackgroundColor(backgroundColor);
 
   Color foregroundColor;
   int bgV = backgroundColor.getV();
@@ -614,7 +614,7 @@ void ScatterPlot2DView::removeEmptyViewLabel() {
 }
 
 void ScatterPlot2DView::viewConfigurationChanged() {
-  getGlWidget()->getScene()->setBackgroundColor(optionsWidget->getBackgroundColor());
+  getGlWidget()->scene()->setBackgroundColor(optionsWidget->getBackgroundColor());
   bool dataLocationChanged = propertiesSelectionWidget->getDataLocation() != dataLocation;
 
   if (dataLocationChanged) {
@@ -650,7 +650,7 @@ void ScatterPlot2DView::draw() {
     matrixUpdateNeeded = false;
     switchFromDetailViewToMatrixView();
     addEmptyViewLabel();
-    getGlWidget()->getScene()->centerScene();
+    getGlWidget()->scene()->centerScene();
     getGlWidget()->draw();
 
     if (quickAccessBarVisible()) {
@@ -699,18 +699,18 @@ void ScatterPlot2DView::draw() {
 void ScatterPlot2DView::centerView(bool) {
   if (!getGlWidget()->isVisible()) {
     if (lastViewWindowWidth != 0 && lastViewWindowHeight != 0) {
-      getGlWidget()->getScene()->adjustSceneToSize(lastViewWindowWidth, lastViewWindowHeight);
+      getGlWidget()->scene()->adjustSceneToSize(lastViewWindowWidth, lastViewWindowHeight);
     } else {
-      getGlWidget()->getScene()->centerScene();
+      getGlWidget()->scene()->centerScene();
     }
   } else {
-    getGlWidget()->getScene()->adjustSceneToSize(getGlWidget()->width(), getGlWidget()->height());
+    getGlWidget()->scene()->adjustSceneToSize(getGlWidget()->width(), getGlWidget()->height());
   }
 
   // we apply a zoom factor to preserve a 50 px margin width
   // to ensure the scene will not be drawn under the configuration tabs title
   float glWidth = graphicsView()->width();
-  getGlWidget()->getScene()->zoomFactor((glWidth - 50) / glWidth);
+  getGlWidget()->scene()->zoomFactor((glWidth - 50) / glWidth);
   getGlWidget()->draw();
   center = false;
 }
@@ -807,11 +807,11 @@ void ScatterPlot2DView::generateScatterPlots() {
   uint nbOverviews = (selectedGraphProperties.size() - 1) * selectedGraphProperties.size() / 2;
   unsigned currentStep = 0;
 
-  double sceneRadiusBak = getGlWidget()->getScene()->getGraphCamera().getSceneRadius();
-  double zoomFactorBak = getGlWidget()->getScene()->getGraphCamera().getZoomFactor();
-  Coord eyesBak = getGlWidget()->getScene()->getGraphCamera().getEyes();
-  Coord centerBak = getGlWidget()->getScene()->getGraphCamera().getCenter();
-  Coord upBak = getGlWidget()->getScene()->getGraphCamera().getUp();
+  double sceneRadiusBak = getGlWidget()->scene()->getGraphCamera().getSceneRadius();
+  double zoomFactorBak = getGlWidget()->scene()->getGraphCamera().getZoomFactor();
+  Coord eyesBak = getGlWidget()->scene()->getGraphCamera().getEyes();
+  Coord centerBak = getGlWidget()->scene()->getGraphCamera().getCenter();
+  Coord upBak = getGlWidget()->scene()->getGraphCamera().getUp();
 
   auto *progressBar = new GlProgressBar(Coord(0.0f, 0.0f, 0.0f), 600.0f, 100.0f,
                                         // use same green color as the highlighting one
@@ -867,11 +867,11 @@ void ScatterPlot2DView::generateScatterPlots() {
     mainLayer->addGlEntity(detailedScatterPlot->getGlGraph(), "graph");
   }
 
-  getGlWidget()->getScene()->getGraphCamera().setSceneRadius(sceneRadiusBak);
-  getGlWidget()->getScene()->getGraphCamera().setZoomFactor(zoomFactorBak);
-  getGlWidget()->getScene()->getGraphCamera().setEyes(eyesBak);
-  getGlWidget()->getScene()->getGraphCamera().setCenter(centerBak);
-  getGlWidget()->getScene()->getGraphCamera().setUp(upBak);
+  getGlWidget()->scene()->getGraphCamera().setSceneRadius(sceneRadiusBak);
+  getGlWidget()->scene()->getGraphCamera().setZoomFactor(zoomFactorBak);
+  getGlWidget()->scene()->getGraphCamera().setEyes(eyesBak);
+  getGlWidget()->scene()->getGraphCamera().setCenter(centerBak);
+  getGlWidget()->scene()->getGraphCamera().setUp(upBak);
 
   getGlWidget()->draw();
 }
@@ -883,11 +883,11 @@ void ScatterPlot2DView::generateScatterPlot(ScatterPlot2D *scatterPlot, GlWidget
 
 void ScatterPlot2DView::switchFromMatrixToDetailView(ScatterPlot2D *scatterPlot, bool recenter) {
 
-  sceneRadiusBak = getGlWidget()->getScene()->getGraphCamera().getSceneRadius();
-  zoomFactorBak = getGlWidget()->getScene()->getGraphCamera().getZoomFactor();
-  eyesBak = getGlWidget()->getScene()->getGraphCamera().getEyes();
-  centerBak = getGlWidget()->getScene()->getGraphCamera().getCenter();
-  upBak = getGlWidget()->getScene()->getGraphCamera().getUp();
+  sceneRadiusBak = getGlWidget()->scene()->getGraphCamera().getSceneRadius();
+  zoomFactorBak = getGlWidget()->scene()->getGraphCamera().getZoomFactor();
+  eyesBak = getGlWidget()->scene()->getGraphCamera().getEyes();
+  centerBak = getGlWidget()->scene()->getGraphCamera().getCenter();
+  upBak = getGlWidget()->scene()->getGraphCamera().getUp();
 
   mainLayer->deleteGlEntity(matrixComposite);
   GlQuantitativeAxis *xAxis = scatterPlot->getXAxis();
@@ -935,7 +935,7 @@ void ScatterPlot2DView::switchFromDetailViewToMatrixView() {
 
   mainLayer->addGlEntity(glGraph, "graph");
   mainLayer->addGlEntity(matrixComposite, "matrix composite");
-  GlScene *scene = getGlWidget()->getScene();
+  GlScene *scene = getGlWidget()->scene();
   Camera &cam = scene->getGraphCamera();
   cam.setSceneRadius(sceneRadiusBak);
   cam.setZoomFactor(zoomFactorBak);

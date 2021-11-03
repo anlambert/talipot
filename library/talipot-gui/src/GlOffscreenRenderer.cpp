@@ -45,9 +45,9 @@ GlOffscreenRenderer::GlOffscreenRenderer()
   foregroundLayer->setVisible(true);
   backgroundLayer->set2DMode();
   foregroundLayer->set2DMode();
-  scene.addExistingLayer(backgroundLayer);
-  scene.addExistingLayer(mainLayer);
-  scene.addExistingLayer(foregroundLayer);
+  _scene.addExistingLayer(backgroundLayer);
+  _scene.addExistingLayer(mainLayer);
+  _scene.addExistingLayer(foregroundLayer);
   antialiasedFbo = false;
 }
 
@@ -64,7 +64,7 @@ void GlOffscreenRenderer::setViewPortSize(const uint viewPortWidth, const uint v
 }
 
 void GlOffscreenRenderer::setSceneBackgroundColor(const Color &color) {
-  scene.setBackgroundColor(color);
+  _scene.setBackgroundColor(color);
 }
 
 uint GlOffscreenRenderer::getViewportWidth() {
@@ -100,7 +100,7 @@ void GlOffscreenRenderer::addGlGraphToScene(GlGraph *glGraph) {
 
 void GlOffscreenRenderer::clearScene(bool deleteGlEntities) {
   mainLayer->getComposite()->reset(deleteGlEntities);
-  const vector<pair<string, GlLayer *>> &layersList = scene.getLayersList();
+  const vector<pair<string, GlLayer *>> &layersList = _scene.getLayersList();
 
   for (const auto &[name, layer] : layersList) {
     if (layer != mainLayer) {
@@ -146,12 +146,12 @@ void GlOffscreenRenderer::renderScene(const bool centerScene, const bool antiali
 
   initFrameBuffers(antialiased);
 
-  scene.setViewport(0, 0, vPWidth, vPHeight);
+  _scene.setViewport(0, 0, vPWidth, vPHeight);
 
   glFrameBuf->bind();
 
   if (centerScene) {
-    scene.centerScene();
+    _scene.centerScene();
   }
 
   Camera &camera = mainLayer->getCamera();
@@ -167,7 +167,7 @@ void GlOffscreenRenderer::renderScene(const bool centerScene, const bool antiali
     camera.setZoomFactor(zoomFactor);
   }
 
-  scene.draw();
+  _scene.draw();
   glFrameBuf->release();
 
   if (antialiasedFbo) {

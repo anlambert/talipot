@@ -41,15 +41,15 @@ bool EditColorScaleInteractor::eventFilter(QObject *obj, QEvent *event) {
   if (event->type() == QEvent::MouseButtonDblClick) {
     auto *me = static_cast<QMouseEvent *>(event);
 
-    glWidget->getScene()->getGraphCamera().initGl();
+    glWidget->scene()->getGraphCamera().initGl();
     selectionLayer->set2DMode();
-    glWidget->getScene()->addExistingLayer(selectionLayer);
+    glWidget->scene()->addExistingLayer(selectionLayer);
     selectionLayer->getCamera().initGl();
     selectionLayer->addGlEntity(colorScale, "colorScale");
 
     std::vector<SelectedEntity> entities;
-    glWidget->getScene()->selectEntities(RenderingEntities, me->pos().x(), me->pos().y(), 2, 2,
-                                         selectionLayer, entities);
+    glWidget->scene()->selectEntities(RenderingEntities, me->pos().x(), me->pos().y(), 2, 2,
+                                      selectionLayer, entities);
     bool foundGlColorScale = false;
 
     if (!entities.empty()) {
@@ -70,7 +70,7 @@ bool EditColorScaleInteractor::eventFilter(QObject *obj, QEvent *event) {
 
     // Empty layer without destructing objects.
     selectionLayer->deleteGlEntity(colorScale);
-    glWidget->getScene()->removeLayer(selectionLayer, false);
+    glWidget->scene()->removeLayer(selectionLayer, false);
 
     return foundGlColorScale;
   }
@@ -113,9 +113,9 @@ bool EditColorScaleInteractor::draw(GlWidget *glWidget) {
     }
 
     if (colorScale->isVisible()) {
-      glWidget->getScene()->getGraphCamera().initGl();
-      Camera camera2D = Camera(glWidget->getScene(), false);
-      camera2D.setScene(glWidget->getScene());
+      glWidget->scene()->getGraphCamera().initGl();
+      Camera camera2D = Camera(glWidget->scene(), false);
+      camera2D.setScene(glWidget->scene());
       camera2D.initGl();
 
       for (const auto &it : colorScale->getGlEntities()) {

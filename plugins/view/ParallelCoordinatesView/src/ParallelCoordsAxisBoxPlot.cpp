@@ -378,7 +378,7 @@ bool ParallelCoordsAxisBoxPlot::eventFilter(QObject *widget, QEvent *e) {
     float x = glWidget->width() - me->pos().x();
     float y = me->pos().y();
     Coord screenCoords = {x, y};
-    Coord sceneCoords = glWidget->getScene()->getLayer("Main")->getCamera().viewportTo3DWorld(
+    Coord sceneCoords = glWidget->scene()->getLayer("Main")->getCamera().viewportTo3DWorld(
         glWidget->screenToViewport(screenCoords));
     selectedAxis = parallelView->getAxisUnderPointer(me->pos().x(), me->pos().y());
 
@@ -422,7 +422,7 @@ bool ParallelCoordsAxisBoxPlot::eventFilter(QObject *widget, QEvent *e) {
 
 bool ParallelCoordsAxisBoxPlot::draw(GlWidget *glWidget) {
 
-  Camera &camera = glWidget->getScene()->getLayer("Main")->getCamera();
+  Camera &camera = glWidget->scene()->getLayer("Main")->getCamera();
   camera.initGl();
 
   for (const auto &it : axisBoxPlotMap) {

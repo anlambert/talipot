@@ -292,9 +292,9 @@ bool ThresholdInteractor::draw(GlWidget *glWidget) {
   EditColorScaleInteractor::draw(glWidget);
 
   if (layer->isVisible()) {
-    glWidget->getScene()->getGraphCamera().initGl();
-    Camera camera2D(glWidget->getScene(), false);
-    camera2D.setScene(glWidget->getScene());
+    glWidget->scene()->getGraphCamera().initGl();
+    Camera camera2D(glWidget->scene(), false);
+    camera2D.setScene(glWidget->scene());
     camera2D.initGl();
     drawComposite(layer->getComposite(), 0, &camera2D);
   }
@@ -315,10 +315,10 @@ bool ThresholdInteractor::eventFilter(QObject *widget, QEvent *event) {
 
     // Update Camera for selection
     layer->set2DMode();
-    glWidget->getScene()->addExistingLayer(layer);
-    glWidget->getScene()->selectEntities(RenderingEntities, me->pos().x(), me->pos().y(), 0, 0,
-                                         layer, selectedEntities);
-    glWidget->getScene()->removeLayer(layer, false);
+    glWidget->scene()->addExistingLayer(layer);
+    glWidget->scene()->selectEntities(RenderingEntities, me->pos().x(), me->pos().y(), 0, 0, layer,
+                                      selectedEntities);
+    glWidget->scene()->removeLayer(layer, false);
 
     if (!selectedEntities.empty()) {
 
@@ -352,7 +352,7 @@ bool ThresholdInteractor::eventFilter(QObject *widget, QEvent *event) {
         startDrag = true;
         movingSlider->beginShift();
         XPosCursor = me->pos().x();
-        glWidget->getScene()->getGraphCamera().initGl();
+        glWidget->scene()->getGraphCamera().initGl();
 
         layer->setVisible(false);
         colorScale->setVisible(false);

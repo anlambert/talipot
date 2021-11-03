@@ -56,7 +56,7 @@ bool ParallelCoordsAxisSwapper::eventFilter(QObject *widget, QEvent *e) {
       x = glWidget->width() - me->pos().x();
       y = me->pos().y();
       Coord screenCoords = Coord(x, y);
-      Coord sceneCoords = glWidget->getScene()->getLayer("Main")->getCamera().viewportTo3DWorld(
+      Coord sceneCoords = glWidget->scene()->getLayer("Main")->getCamera().viewportTo3DWorld(
           glWidget->screenToViewport(screenCoords));
 
       if (parallelView->getLayoutType() == ParallelCoordinatesDrawing::CIRCULAR) {
@@ -124,7 +124,7 @@ bool ParallelCoordsAxisSwapper::draw(GlWidget *glWidget) {
 
   if (selectedAxis != nullptr) {
 
-    glWidget->getScene()->getLayer("Main")->getCamera().initGl();
+    glWidget->scene()->getLayer("Main")->getCamera().initGl();
 
     GlQuad *axisHighlightRect = nullptr;
     BoundingBox axisBB;
@@ -153,7 +153,7 @@ bool ParallelCoordsAxisSwapper::draw(GlWidget *glWidget) {
 
     if (dragStarted && mouseMove) {
       selectedAxis->disableTrickForSelection();
-      selectedAxis->draw(0, &glWidget->getScene()->getLayer("Main")->getCamera());
+      selectedAxis->draw(0, &glWidget->scene()->getLayer("Main")->getCamera());
       selectedAxis->enableTrickForSelection();
     }
 

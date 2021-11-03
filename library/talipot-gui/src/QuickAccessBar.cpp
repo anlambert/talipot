@@ -573,7 +573,7 @@ GlGraphInputData *QuickAccessBar::inputData() const {
 }
 
 GlScene *QuickAccessBar::scene() const {
-  return _mainView->getGlWidget()->getScene();
+  return _mainView->getGlWidget()->scene();
 }
 
 void QuickAccessBarImpl::selectFont() {

@@ -161,7 +161,7 @@ bool GeographicViewNavigator::eventFilter(QObject *widget, QEvent *e) {
 
     if (e->type() == QEvent::Wheel) {
       int numSteps = qWheelEv->angleDelta().y() / 120;
-      g->getScene()->zoomXY(numSteps, g->width() / 2., g->height() / 2.);
+      g->scene()->zoomXY(numSteps, g->width() / 2., g->height() / 2.);
       view()->draw();
       return true;
     }
@@ -184,7 +184,7 @@ bool GeographicViewNavigator::eventFilter(QObject *widget, QEvent *e) {
 
     if (e->type() == QEvent::MouseMove && inRotation) {
 
-      Camera &camera = g->getScene()->getGraphCamera();
+      Camera &camera = g->scene()->getGraphCamera();
       Coord c1 = camera.getEyes() - camera.getCenter();
       Coord c2 = camera.getEyes() - camera.getCenter() + camera.getUp();
       trans(c1, c2, -0.005 * (qMouseEv->pos().y() - y), -0.005 * (qMouseEv->pos().x() - x));
@@ -222,7 +222,7 @@ bool GeographicViewNavigator::eventFilter(QObject *widget, QEvent *e) {
         break;
       }
 
-      Camera &camera = g->getScene()->getGraphCamera();
+      Camera &camera = g->scene()->getGraphCamera();
       Coord c1 = camera.getEyes() - camera.getCenter();
       Coord c2 = camera.getEyes() - camera.getCenter() + camera.getUp();
       trans(c1, c2, angle1, angle2);

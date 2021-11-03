@@ -105,7 +105,7 @@ tlp::DataSet GlView::state() const {
 
 void GlView::drawOverview(bool generatePixmap) {
   if (_overviewItem == nullptr) {
-    _overviewItem = new GlOverviewGraphicsItem(this, *_glWidget->getScene());
+    _overviewItem = new GlOverviewGraphicsItem(this, *_glWidget->scene());
     addToScene(_overviewItem);
     generatePixmap = true;
     // used to set the overview at the right place
@@ -231,7 +231,7 @@ bool GlView::overviewVisible() const {
 }
 
 void GlView::setViewOrtho(bool viewOrtho) {
-  getGlWidget()->getScene()->setViewOrtho(viewOrtho);
+  getGlWidget()->scene()->setViewOrtho(viewOrtho);
   _glWidget->draw(false);
 }
 
@@ -364,7 +364,7 @@ void GlView::undoCallback() {
 void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
   _viewActionsManager->fillContextMenu(menu);
 
-  auto *inputData = getGlWidget()->getGlGraphInputData();
+  auto *inputData = getGlWidget()->inputData();
   auto *selection = inputData->selection();
 
   if (selection && (selection->hasNonDefaultValuatedNodes(graph()) ||
@@ -389,7 +389,7 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
   QAction *viewOrtho = menu->addAction("Use orthogonal projection");
   viewOrtho->setToolTip("Enable to switch between true perspective and orthogonal");
   viewOrtho->setCheckable(true);
-  viewOrtho->setChecked(_glWidget->getScene()->isViewOrtho());
+  viewOrtho->setChecked(_glWidget->scene()->isViewOrtho());
   connect(viewOrtho, &QAction::triggered, this, &GlView::setViewOrtho);
 
   menu->addSeparator();
@@ -490,7 +490,7 @@ void GlView::zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const doub
   if (boundingBox.isValid()) {
     bb = boundingBox;
   } else {
-    auto *scene = getGlWidget()->getScene();
+    auto *scene = getGlWidget()->scene();
     GlGraphInputData *inputData = scene->getGlGraph()->getInputData();
     GlBoundingBoxSceneVisitor bbVisitor(inputData);
     scene->getLayer("Main")->acceptVisitor(&bbVisitor);
