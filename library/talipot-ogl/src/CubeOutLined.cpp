@@ -45,15 +45,15 @@ CubeOutLined::CubeOutLined(tlp::PluginContext *context) : NoShaderGlyph(context)
 CubeOutLined::~CubeOutLined() = default;
 
 void CubeOutLined::draw(node n, float lod) {
-  string textureName = glGraphInputData->getElementTexture()->getNodeValue(n);
+  string textureName = glGraphInputData->textures()->getNodeValue(n);
 
   if (!textureName.empty()) {
-    textureName = glGraphInputData->parameters->getTexturePath() + textureName;
+    textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
   }
 
-  GlBox::draw(glGraphInputData->getElementColor()->getNodeValue(n),
-              glGraphInputData->getElementBorderColor()->getNodeValue(n),
-              glGraphInputData->getElementBorderWidth()->getNodeValue(n), textureName, lod);
+  GlBox::draw(glGraphInputData->colors()->getNodeValue(n),
+              glGraphInputData->borderColors()->getNodeValue(n),
+              glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod);
 }
 
 Coord CubeOutLined::getAnchor(const Coord &vector) const {

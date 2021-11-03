@@ -99,15 +99,15 @@ BoundingBox Cross::getIncludeBoundingBox(node) {
   return {{-0.5, -0.5, 0}, {0.5, 0.5, 0}};
 }
 void Cross::draw(node n, float lod) {
-  string textureName = glGraphInputData->getElementTexture()->getNodeValue(n);
+  string textureName = glGraphInputData->textures()->getNodeValue(n);
 
   if (!textureName.empty()) {
-    textureName = glGraphInputData->parameters->getTexturePath() + textureName;
+    textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
   }
 
-  drawCross(glGraphInputData->getElementColor()->getNodeValue(n),
-            glGraphInputData->getElementBorderColor()->getNodeValue(n),
-            glGraphInputData->getElementBorderWidth()->getNodeValue(n), textureName, lod);
+  drawCross(glGraphInputData->colors()->getNodeValue(n),
+            glGraphInputData->borderColors()->getNodeValue(n),
+            glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod);
 }
 Coord Cross::getAnchor(const Coord &v) const {
   float x = v.x(), y = v.y();
@@ -147,14 +147,14 @@ public:
   }
 
   void draw(edge e, node, const Color &glyphColor, const Color &borderColor, float lod) override {
-    string textureName = edgeExtGlGraphInputData->getElementTexture()->getEdgeValue(e);
+    string textureName = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
 
     if (!textureName.empty()) {
-      textureName = edgeExtGlGraphInputData->parameters->getTexturePath() + textureName;
+      textureName = edgeExtGlGraphInputData->renderingParameters()->getTexturePath() + textureName;
     }
 
-    drawCross(glyphColor, borderColor,
-              edgeExtGlGraphInputData->getElementBorderWidth()->getEdgeValue(e), textureName, lod);
+    drawCross(glyphColor, borderColor, edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e),
+              textureName, lod);
   }
 };
 PLUGIN(EECross)

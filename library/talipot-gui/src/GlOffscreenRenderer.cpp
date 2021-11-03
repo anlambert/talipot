@@ -93,7 +93,7 @@ void GlOffscreenRenderer::addGlGraphToScene(GlGraph *glGraph) {
     mainLayer->deleteGlEntity(oldComposite);
   }
 
-  GlVertexArrayManager *vertexArrayManager = glGraph->getInputData()->getGlVertexArrayManager();
+  GlVertexArrayManager *vertexArrayManager = glGraph->getInputData()->glVertexArrayManager();
   vertexArrayManager->setHaveToComputeAll(true);
   mainLayer->addGlEntity(glGraph, "graph");
 }

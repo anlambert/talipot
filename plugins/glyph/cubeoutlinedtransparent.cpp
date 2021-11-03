@@ -45,8 +45,8 @@ CubeOutLinedTransparent::CubeOutLinedTransparent(const tlp::PluginContext *conte
 CubeOutLinedTransparent::~CubeOutLinedTransparent() = default;
 
 void CubeOutLinedTransparent::draw(node n, float lod) {
-  GlBox::draw(Color(0, 0, 0, 0), glGraphInputData->getElementBorderColor()->getNodeValue(n),
-              glGraphInputData->getElementBorderWidth()->getNodeValue(n), "", lod);
+  GlBox::draw(Color(0, 0, 0, 0), glGraphInputData->borderColors()->getNodeValue(n),
+              glGraphInputData->borderWidths()->getNodeValue(n), "", lod);
 }
 
 Coord CubeOutLinedTransparent::getAnchor(const Coord &vector) const {
@@ -62,16 +62,15 @@ public:
   EECubeOutlinedTransparent(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
 
   void draw(edge e, node, const Color &fillColor, const Color &borderColor, float lod) override {
-    string textureName = edgeExtGlGraphInputData->getElementTexture()->getEdgeValue(e);
+    string textureName = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
 
     if (!textureName.empty()) {
-      textureName = edgeExtGlGraphInputData->parameters->getTexturePath() + textureName;
+      textureName = edgeExtGlGraphInputData->renderingParameters()->getTexturePath() + textureName;
     }
 
     glEnable(GL_LIGHTING);
-    GlBox::draw(fillColor, borderColor,
-                edgeExtGlGraphInputData->getElementBorderWidth()->getEdgeValue(e), textureName,
-                lod);
+    GlBox::draw(fillColor, borderColor, edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e),
+                textureName, lod);
     glDisable(GL_LIGHTING);
   }
 };

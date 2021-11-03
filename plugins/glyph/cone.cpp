@@ -134,11 +134,11 @@ BoundingBox Cone::getIncludeBoundingBox(node) {
 }
 void Cone::draw(node n, float) {
 
-  setMaterial(glGraphInputData->getElementColor()->getNodeValue(n));
-  string texFile = glGraphInputData->getElementTexture()->getNodeValue(n);
+  setMaterial(glGraphInputData->colors()->getNodeValue(n));
+  string texFile = glGraphInputData->textures()->getNodeValue(n);
 
   if (!texFile.empty()) {
-    string texturePath = glGraphInputData->parameters->getTexturePath();
+    string texturePath = glGraphInputData->renderingParameters()->getTexturePath();
     GlTextureManager::activateTexture(texturePath + texFile);
   }
 
@@ -191,10 +191,10 @@ public:
     glEnable(GL_LIGHTING);
     glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
     setMaterial(glyphColor);
-    string texFile = edgeExtGlGraphInputData->getElementTexture()->getEdgeValue(e);
+    string texFile = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
 
     if (!texFile.empty()) {
-      string texturePath = edgeExtGlGraphInputData->parameters->getTexturePath();
+      string texturePath = edgeExtGlGraphInputData->renderingParameters()->getTexturePath();
       GlTextureManager::activateTexture(texturePath + texFile);
     }
 

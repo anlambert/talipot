@@ -35,27 +35,26 @@ static bool isOpenGlOutOfMemory() {
 
 namespace tlp {
 GlVertexArrayManager::GlVertexArrayManager(GlGraphInputData *i)
-    : inputData(i), graph(inputData->getGraph()), layoutProperty(inputData->getElementLayout()),
-      sizeProperty(inputData->getElementSize()), shapeProperty(inputData->getElementShape()),
-      rotationProperty(inputData->getElementRotation()),
-      colorProperty(inputData->getElementColor()),
-      borderColorProperty(inputData->getElementBorderColor()),
-      borderWidthProperty(inputData->getElementBorderWidth()),
-      srcAnchorShapeProperty(inputData->getElementSrcAnchorShape()),
-      tgtAnchorShapeProperty(inputData->getElementTgtAnchorShape()),
-      srcAnchorSizeProperty(inputData->getElementSrcAnchorSize()),
-      tgtAnchorSizeProperty(inputData->getElementTgtAnchorSize()), graphObserverActivated(false),
+    : inputData(i), graph(inputData->graph()), layoutProperty(inputData->layout()),
+      sizeProperty(inputData->sizes()), shapeProperty(inputData->shapes()),
+      rotationProperty(inputData->rotations()), colorProperty(inputData->colors()),
+      borderColorProperty(inputData->borderColors()),
+      borderWidthProperty(inputData->borderWidths()),
+      srcAnchorShapeProperty(inputData->srcAnchorShapes()),
+      tgtAnchorShapeProperty(inputData->tgtAnchorShapes()),
+      srcAnchorSizeProperty(inputData->srcAnchorSizes()),
+      tgtAnchorSizeProperty(inputData->tgtAnchorSizes()), graphObserverActivated(false),
       layoutObserverActivated(false), colorObserverActivated(false), activated(true),
       isBegin(false), toComputeAll(true), toComputeLayout(true), toComputeColor(true),
       vectorLayoutSizeInit(false), vectorColorSizeInit(false), edgesModified(false),
-      colorInterpolate(inputData->parameters->isEdgeColorInterpolate()),
-      sizeInterpolate(inputData->parameters->isEdgeSizeInterpolate()),
-      viewArrow(inputData->parameters->isViewArrow()), pointsVerticesVBO(0), pointsColorsVBO(0),
-      linesVerticesVBO(0), linesColorsVBO(0), quadsVerticesVBO(0), quadsColorsVBO(0),
-      quadsOutlineColorsVBO(0), pointsVerticesUploaded(false), pointsColorsUploaded(false),
-      linesVerticesUploaded(false), linesColorsUploaded(false), quadsVerticesUploaded(false),
-      quadsColorsUploaded(false), quadsOutlineColorsUploaded(false), verticesUploadNeeded(true),
-      colorsUploadNeeded(true) {
+      colorInterpolate(inputData->renderingParameters()->isEdgeColorInterpolate()),
+      sizeInterpolate(inputData->renderingParameters()->isEdgeSizeInterpolate()),
+      viewArrow(inputData->renderingParameters()->isViewArrow()), pointsVerticesVBO(0),
+      pointsColorsVBO(0), linesVerticesVBO(0), linesColorsVBO(0), quadsVerticesVBO(0),
+      quadsColorsVBO(0), quadsOutlineColorsVBO(0), pointsVerticesUploaded(false),
+      pointsColorsUploaded(false), linesVerticesUploaded(false), linesColorsUploaded(false),
+      quadsVerticesUploaded(false), quadsColorsUploaded(false), quadsOutlineColorsUploaded(false),
+      verticesUploadNeeded(true), colorsUploadNeeded(true) {
   threadSafe = true;
 }
 
@@ -78,21 +77,21 @@ void GlVertexArrayManager::setInputData(GlGraphInputData *inputData) {
   clearObservers();
   this->inputData = inputData;
   // Update properties with new ones
-  layoutProperty = inputData->getElementLayout();
-  sizeProperty = inputData->getElementSize();
-  shapeProperty = inputData->getElementShape();
-  rotationProperty = inputData->getElementRotation();
-  colorProperty = inputData->getElementColor();
-  borderColorProperty = inputData->getElementBorderColor();
-  borderWidthProperty = inputData->getElementBorderWidth();
-  srcAnchorShapeProperty = inputData->getElementSrcAnchorShape();
-  tgtAnchorShapeProperty = inputData->getElementTgtAnchorShape();
-  srcAnchorSizeProperty = inputData->getElementSrcAnchorSize();
-  tgtAnchorSizeProperty = inputData->getElementTgtAnchorSize();
-  colorInterpolate = inputData->parameters->isEdgeColorInterpolate();
-  sizeInterpolate = inputData->parameters->isEdgeSizeInterpolate();
-  viewArrow = inputData->parameters->isViewArrow();
-  graph = inputData->getGraph();
+  layoutProperty = inputData->layout();
+  sizeProperty = inputData->sizes();
+  shapeProperty = inputData->shapes();
+  rotationProperty = inputData->rotations();
+  colorProperty = inputData->colors();
+  borderColorProperty = inputData->borderColors();
+  borderWidthProperty = inputData->borderWidths();
+  srcAnchorShapeProperty = inputData->srcAnchorShapes();
+  tgtAnchorShapeProperty = inputData->tgtAnchorShapes();
+  srcAnchorSizeProperty = inputData->srcAnchorSizes();
+  tgtAnchorSizeProperty = inputData->tgtAnchorSizes();
+  colorInterpolate = inputData->renderingParameters()->isEdgeColorInterpolate();
+  sizeInterpolate = inputData->renderingParameters()->isEdgeSizeInterpolate();
+  viewArrow = inputData->renderingParameters()->isViewArrow();
+  graph = inputData->graph();
   initObservers();
 }
 
@@ -103,147 +102,147 @@ bool GlVertexArrayManager::haveToCompute() {
     recompute = true;
   }
 
-  if (inputData->parameters->isEdgeColorInterpolate() != colorInterpolate) {
-    colorInterpolate = inputData->parameters->isEdgeColorInterpolate();
+  if (inputData->renderingParameters()->isEdgeColorInterpolate() != colorInterpolate) {
+    colorInterpolate = inputData->renderingParameters()->isEdgeColorInterpolate();
     clearColorData();
     recompute = true;
   }
 
-  if (inputData->parameters->isEdgeSizeInterpolate() != sizeInterpolate) {
-    sizeInterpolate = inputData->parameters->isEdgeSizeInterpolate();
+  if (inputData->renderingParameters()->isEdgeSizeInterpolate() != sizeInterpolate) {
+    sizeInterpolate = inputData->renderingParameters()->isEdgeSizeInterpolate();
     clearLayoutData();
     recompute = true;
   }
 
-  if (inputData->parameters->isViewArrow() != viewArrow) {
-    viewArrow = inputData->parameters->isViewArrow();
+  if (inputData->renderingParameters()->isViewArrow() != viewArrow) {
+    viewArrow = inputData->renderingParameters()->isViewArrow();
     clearLayoutData();
     recompute = true;
   }
 
   // The layout property in the input data has changed => need to recompute layout.
-  if (layoutProperty != inputData->getElementLayout()) {
+  if (layoutProperty != inputData->layout()) {
     if (layoutProperty && layoutObserverActivated) {
       layoutProperty->removeListener(this);
     }
 
-    layoutProperty = inputData->getElementLayout();
+    layoutProperty = inputData->layout();
     layoutProperty->addListener(this);
     clearLayoutData();
     recompute = true;
   }
 
   // Size property changed
-  if (sizeProperty != inputData->getElementSize()) {
+  if (sizeProperty != inputData->sizes()) {
     if (sizeProperty && layoutObserverActivated) {
       sizeProperty->removeListener(this);
     }
 
-    sizeProperty = inputData->getElementSize();
+    sizeProperty = inputData->sizes();
     sizeProperty->addListener(this);
     clearLayoutData();
     recompute = true;
   }
 
   // Shape property changed
-  if (shapeProperty != inputData->getElementShape()) {
+  if (shapeProperty != inputData->shapes()) {
     if (shapeProperty && layoutObserverActivated) {
       shapeProperty->removeListener(this);
     }
 
-    shapeProperty = inputData->getElementShape();
+    shapeProperty = inputData->shapes();
     shapeProperty->addListener(this);
     clearLayoutData();
     recompute = true;
   }
 
   // Rotation property changed
-  if (rotationProperty != inputData->getElementRotation()) {
+  if (rotationProperty != inputData->rotations()) {
     if (rotationProperty && layoutObserverActivated) {
       rotationProperty->removeListener(this);
     }
 
-    rotationProperty = inputData->getElementRotation();
+    rotationProperty = inputData->rotations();
     rotationProperty->addListener(this);
     clearLayoutData();
     recompute = true;
   }
 
   // Color property changed
-  if (colorProperty != inputData->getElementColor()) {
+  if (colorProperty != inputData->colors()) {
     if (colorProperty && colorObserverActivated) {
       colorProperty->removeListener(this);
     }
 
-    colorProperty = inputData->getElementColor();
+    colorProperty = inputData->colors();
     colorProperty->addListener(this);
     clearColorData();
     recompute = true;
   }
 
   // Color property changed
-  if (borderColorProperty != inputData->getElementBorderColor()) {
+  if (borderColorProperty != inputData->borderColors()) {
     if (borderColorProperty && colorObserverActivated) {
       borderColorProperty->removeListener(this);
     }
 
-    borderColorProperty = inputData->getElementBorderColor();
+    borderColorProperty = inputData->borderColors();
     borderColorProperty->addListener(this);
     clearColorData();
     recompute = true;
   }
 
   // Border width property changed
-  if (borderWidthProperty != inputData->getElementBorderWidth()) {
+  if (borderWidthProperty != inputData->borderWidths()) {
     if (borderWidthProperty && colorObserverActivated) {
       borderWidthProperty->removeListener(this);
     }
 
-    borderWidthProperty = inputData->getElementBorderWidth();
+    borderWidthProperty = inputData->borderWidths();
     borderWidthProperty->addListener(this);
     clearColorData();
     recompute = true;
   }
 
-  if (srcAnchorShapeProperty != inputData->getElementSrcAnchorShape()) {
+  if (srcAnchorShapeProperty != inputData->srcAnchorShapes()) {
     if (srcAnchorShapeProperty && layoutObserverActivated) {
       srcAnchorShapeProperty->removeListener(this);
     }
 
-    srcAnchorShapeProperty = inputData->getElementSrcAnchorShape();
+    srcAnchorShapeProperty = inputData->srcAnchorShapes();
     srcAnchorShapeProperty->addListener(this);
     clearLayoutData();
     recompute = true;
   }
 
-  if (tgtAnchorShapeProperty != inputData->getElementTgtAnchorShape()) {
+  if (tgtAnchorShapeProperty != inputData->tgtAnchorShapes()) {
     if (tgtAnchorShapeProperty && layoutObserverActivated) {
       tgtAnchorShapeProperty->removeListener(this);
     }
 
-    tgtAnchorShapeProperty = inputData->getElementTgtAnchorShape();
+    tgtAnchorShapeProperty = inputData->tgtAnchorShapes();
     tgtAnchorShapeProperty->addListener(this);
     clearLayoutData();
     recompute = true;
   }
 
-  if (srcAnchorSizeProperty != inputData->getElementSrcAnchorSize()) {
+  if (srcAnchorSizeProperty != inputData->srcAnchorSizes()) {
     if (srcAnchorSizeProperty && layoutObserverActivated) {
       srcAnchorSizeProperty->removeListener(this);
     }
 
-    srcAnchorSizeProperty = inputData->getElementSrcAnchorSize();
+    srcAnchorSizeProperty = inputData->srcAnchorSizes();
     srcAnchorSizeProperty->addListener(this);
     clearLayoutData();
     recompute = true;
   }
 
-  if (tgtAnchorSizeProperty != inputData->getElementTgtAnchorSize()) {
+  if (tgtAnchorSizeProperty != inputData->tgtAnchorSizes()) {
     if (tgtAnchorSizeProperty && layoutObserverActivated) {
       tgtAnchorSizeProperty->removeListener(this);
     }
 
-    tgtAnchorSizeProperty = inputData->getElementTgtAnchorSize();
+    tgtAnchorSizeProperty = inputData->tgtAnchorSizes();
     tgtAnchorSizeProperty->addListener(this);
     clearLayoutData();
     recompute = true;
@@ -285,11 +284,11 @@ inline void vector_set_size(std::vector<T> &v, uint sz) {
 
 void GlVertexArrayManager::reserveMemoryForGraphElts(uint nbNodes, uint nbEdges) {
   auto nbSelectedNodes =
-      inputData->getElementSelected()->numberOfNonDefaultValuatedNodes(inputData->getGraph());
+      inputData->selection()->numberOfNonDefaultValuatedNodes(inputData->graph());
   pointsNodesRenderingIndexArray.reserve(nbNodes - nbSelectedNodes);
   pointsNodesSelectedRenderingIndexArray.reserve(nbSelectedNodes);
   auto nbSelectedEdges =
-      inputData->getElementSelected()->numberOfNonDefaultValuatedEdges(inputData->getGraph());
+      inputData->selection()->numberOfNonDefaultValuatedEdges(inputData->graph());
   pointsEdgesRenderingIndexArray.reserve(nbEdges - nbSelectedEdges);
   pointsEdgesSelectedRenderingIndexArray.reserve(nbSelectedEdges);
 
@@ -427,7 +426,7 @@ void GlVertexArrayManager::endRendering() {
   glEnableClientState(GL_COLOR_ARRAY);
 
   // Edges point rendering
-  glStencilFunc(GL_LEQUAL, inputData->parameters->getEdgesStencil(), 0xFFFF);
+  glStencilFunc(GL_LEQUAL, inputData->renderingParameters()->getEdgesStencil(), 0xFFFF);
   glPointSize(2);
 
   if (!pointsEdgesRenderingIndexArray.empty()) {
@@ -454,7 +453,7 @@ void GlVertexArrayManager::endRendering() {
   }
 
   // Nodes point rendering
-  glStencilFunc(GL_LEQUAL, inputData->parameters->getNodesStencil(), 0xFFFF);
+  glStencilFunc(GL_LEQUAL, inputData->renderingParameters()->getNodesStencil(), 0xFFFF);
   glPointSize(4);
 
   if (!pointsNodesRenderingIndexArray.empty()) {
@@ -481,7 +480,7 @@ void GlVertexArrayManager::endRendering() {
   }
 
   // Edges polyline rendering
-  glStencilFunc(GL_LEQUAL, inputData->parameters->getEdgesStencil(), 0xFFFF);
+  glStencilFunc(GL_LEQUAL, inputData->renderingParameters()->getEdgesStencil(), 0xFFFF);
   glLineWidth(1.4f);
 
   if (!linesRenderingIndicesArray.empty()) {
@@ -516,7 +515,7 @@ void GlVertexArrayManager::endRendering() {
       glVertexPointer(3, GL_FLOAT, 0, VECTOR_DATA(quadsCoordsArray));
     }
 
-    if (!inputData->parameters->isEdgeColorInterpolate()) {
+    if (!inputData->renderingParameters()->isEdgeColorInterpolate()) {
       if (canUseVBO && quadsOutlineColorsUploaded) {
         glBindBuffer(GL_ARRAY_BUFFER, quadsOutlineColorsVBO);
         glColorPointer(4, GL_UNSIGNED_BYTE, 0, BUFFER_OFFSET(0));
@@ -556,11 +555,11 @@ void GlVertexArrayManager::endRendering() {
 
   //============ Selected graph elements rendering ============================
 
-  Color selectionColor = inputData->parameters->getSelectionColor();
+  Color selectionColor = inputData->renderingParameters()->getSelectionColor();
   glColor4ubv(reinterpret_cast<const GLubyte *>(&selectionColor));
 
   // Selected edges point rendering
-  glStencilFunc(GL_LEQUAL, inputData->parameters->getSelectedEdgesStencil(), 0xFFFF);
+  glStencilFunc(GL_LEQUAL, inputData->renderingParameters()->getSelectedEdgesStencil(), 0xFFFF);
   glPointSize(2);
 
   if (!pointsEdgesSelectedRenderingIndexArray.empty()) {
@@ -580,7 +579,7 @@ void GlVertexArrayManager::endRendering() {
   }
 
   // Selected nodes point rendering
-  glStencilFunc(GL_LEQUAL, inputData->parameters->getSelectedNodesStencil(), 0xFFFF);
+  glStencilFunc(GL_LEQUAL, inputData->renderingParameters()->getSelectedNodesStencil(), 0xFFFF);
   glPointSize(4);
 
   if (!pointsNodesSelectedRenderingIndexArray.empty()) {
@@ -600,7 +599,7 @@ void GlVertexArrayManager::endRendering() {
   }
 
   // Selected edges polyline rendering
-  glStencilFunc(GL_LEQUAL, inputData->parameters->getSelectedEdgesStencil(), 0xFFFF);
+  glStencilFunc(GL_LEQUAL, inputData->renderingParameters()->getSelectedEdgesStencil(), 0xFFFF);
   glLineWidth(4);
 
   if (!linesSelectedRenderingIndicesArray.empty()) {
@@ -822,7 +821,7 @@ void GlVertexArrayManager::activateQuadEdgeDisplay(GlEdge *glEdge, bool selected
     renderingIndicesArray.push_back(i + 3);
   }
 
-  auto borderWidth = float(inputData->getElementBorderWidth()->getEdgeValue(e));
+  auto borderWidth = float(inputData->borderWidths()->getEdgeValue(e));
 
   if (borderWidth > 0) {
     auto &outlineRenderingIndicesArray =

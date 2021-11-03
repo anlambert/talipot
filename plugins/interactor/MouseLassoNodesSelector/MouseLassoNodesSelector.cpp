@@ -212,7 +212,7 @@ bool MouseLassoNodesSelectorInteractorComponent::eventFilter(QObject *obj, QEven
   }
 
   camera = &glWidget->getScene()->getLayer("Main")->getCamera();
-  graph = glWidget->getGlGraphInputData()->getGraph();
+  graph = glWidget->getGlGraphInputData()->graph();
   viewSelection = graph->getBooleanProperty("viewSelection");
 
   currentPointerScreenCoord = Coord(me->pos().x(), glWidget->height() - me->pos().y());

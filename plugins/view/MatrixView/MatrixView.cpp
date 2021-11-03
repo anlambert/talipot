@@ -290,18 +290,18 @@ void MatrixView::initDisplayedGraph() {
 
   GlGraphInputData *inputData = getGlWidget()->getGlGraphInputData();
   _sourceToTargetProperties.clear();
-  _sourceToTargetProperties.insert(inputData->getElementColor()->getName());
-  _sourceToTargetProperties.insert(inputData->getElementShape()->getName());
-  _sourceToTargetProperties.insert(inputData->getElementLabel()->getName());
-  _sourceToTargetProperties.insert(inputData->getElementFont()->getName());
-  _sourceToTargetProperties.insert(inputData->getElementFontSize()->getName());
-  _sourceToTargetProperties.insert(inputData->getElementBorderWidth()->getName());
-  _sourceToTargetProperties.insert(inputData->getElementBorderColor()->getName());
-  _sourceToTargetProperties.insert(inputData->getElementLabelColor()->getName());
-  _sourceToTargetProperties.insert(inputData->getElementSelected()->getName());
-  _sourceToTargetProperties.insert(inputData->getElementTexture()->getName());
+  _sourceToTargetProperties.insert(inputData->colors()->getName());
+  _sourceToTargetProperties.insert(inputData->shapes()->getName());
+  _sourceToTargetProperties.insert(inputData->labels()->getName());
+  _sourceToTargetProperties.insert(inputData->fonts()->getName());
+  _sourceToTargetProperties.insert(inputData->fontSizes()->getName());
+  _sourceToTargetProperties.insert(inputData->borderWidths()->getName());
+  _sourceToTargetProperties.insert(inputData->borderColors()->getName());
+  _sourceToTargetProperties.insert(inputData->labelColors()->getName());
+  _sourceToTargetProperties.insert(inputData->selection()->getName());
+  _sourceToTargetProperties.insert(inputData->textures()->getName());
   set<string> targetToSourceProperties;
-  targetToSourceProperties.insert(inputData->getElementSelected()->getName());
+  targetToSourceProperties.insert(inputData->selection()->getName());
   _dispatcher = new PropertyValuesDispatcher(
       graph(), _matrixGraph, _sourceToTargetProperties, targetToSourceProperties,
       _graphEntitiesToDisplayedNodes, _displayedNodesAreNodes, _displayedNodesToGraphEntities,
@@ -334,8 +334,8 @@ void MatrixView::normalizeSizes(double maxVal) {
   }
 
   float maxWidth = FLT_MIN, maxHeight = FLT_MIN;
-  SizeProperty *originalSizes = getGlWidget()->getGlGraphInputData()->getElementSize();
-  SizeProperty *matrixSizes = getGlWidget()->getGlGraphInputData()->getElementSize();
+  SizeProperty *originalSizes = getGlWidget()->getGlGraphInputData()->sizes();
+  SizeProperty *matrixSizes = getGlWidget()->getGlGraphInputData()->sizes();
 
   for (auto n : graph()->nodes()) {
     const Size &s = originalSizes->getNodeValue(n);
@@ -402,7 +402,7 @@ void MatrixView::addEdge(tlp::Graph *g, const tlp::edge e) {
   _displayedEdgesToGraphEdges->setEdgeValue(dispEdge, e.id);
 
   ColorProperty *originalColors = graph()->getColorProperty("viewColor");
-  ColorProperty *colors = getGlWidget()->getGlGraphInputData()->getElementColor();
+  ColorProperty *colors = getGlWidget()->getGlGraphInputData()->colors();
 
   colors->setEdgeValue(dispEdge, originalColors->getEdgeValue(e));
 }
@@ -524,9 +524,9 @@ void MatrixView::updateLayout() {
   holdObservers();
   updateNodesOrder();
 
-  LayoutProperty *layout = getGlWidget()->getGlGraphInputData()->getElementLayout();
+  LayoutProperty *layout = getGlWidget()->getGlGraphInputData()->layout();
   Coord horiz = {1, 0, 0}, vert = {0, -1, 0};
-  IntegerProperty *position = getGlWidget()->getGlGraphInputData()->getElementLabelPosition();
+  IntegerProperty *position = getGlWidget()->getGlGraphInputData()->labelPositions();
 
   for (auto on : _orderedNodes) {
     const vector<int> &dispNodes = _graphEntitiesToDisplayedNodes->getNodeValue(node(on));
@@ -538,7 +538,7 @@ void MatrixView::updateLayout() {
     vert[1] -= 1;
   }
 
-  IntegerProperty *shapes = getGlWidget()->getGlGraphInputData()->getElementShape();
+  IntegerProperty *shapes = getGlWidget()->getGlGraphInputData()->shapes();
   int shape = GlyphManager::glyphId("2D - Square");
   for (auto e : graph()->edges()) {
     const auto &[src, tgt] = graph()->ends(e);

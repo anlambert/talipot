@@ -175,11 +175,11 @@ BoundingBox Ring::getIncludeBoundingBox(node) {
   return {{-0.35f, -0.35f, 0}, {0.35f, 0.35f, 0}};
 }
 void Ring::draw(node n, float lod) {
-  drawGlyph(glGraphInputData->getElementColor()->getNodeValue(n),
-            glGraphInputData->getElementTexture()->getNodeValue(n),
-            glGraphInputData->parameters->getTexturePath(),
-            glGraphInputData->getElementBorderWidth()->getNodeValue(n),
-            glGraphInputData->getElementBorderColor()->getNodeValue(n), lod);
+  drawGlyph(glGraphInputData->colors()->getNodeValue(n),
+            glGraphInputData->textures()->getNodeValue(n),
+            glGraphInputData->renderingParameters()->getTexturePath(),
+            glGraphInputData->borderWidths()->getNodeValue(n),
+            glGraphInputData->borderColors()->getNodeValue(n), lod);
 }
 
 class EERing : public EdgeExtremityGlyph {
@@ -191,9 +191,9 @@ public:
 
   void draw(edge e, node, const Color &glyphColor, const Color &borderColor, float lod) override {
     glDisable(GL_LIGHTING);
-    drawGlyph(glyphColor, edgeExtGlGraphInputData->getElementTexture()->getEdgeValue(e),
-              edgeExtGlGraphInputData->parameters->getTexturePath(),
-              edgeExtGlGraphInputData->getElementBorderWidth()->getEdgeValue(e), borderColor, lod);
+    drawGlyph(glyphColor, edgeExtGlGraphInputData->textures()->getEdgeValue(e),
+              edgeExtGlGraphInputData->renderingParameters()->getTexturePath(),
+              edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e), borderColor, lod);
   }
 };
 

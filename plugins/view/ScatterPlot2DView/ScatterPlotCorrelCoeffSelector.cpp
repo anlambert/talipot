@@ -207,7 +207,7 @@ bool ScatterPlotCorrelCoeffSelector::eventFilter(QObject *obj, QEvent *e) {
   auto *glWidget = static_cast<GlWidget *>(obj);
 
   Camera &camera = glWidget->getScene()->getLayer("Main")->getCamera();
-  Graph *graph = glWidget->getGlGraphInputData()->getGraph();
+  Graph *graph = glWidget->getGlGraphInputData()->graph();
   BooleanProperty *viewSelection = graph->getBooleanProperty("viewSelection");
 
   if (!glWidget->hasMouseTracking()) {
@@ -498,7 +498,7 @@ void ScatterPlotCorrelCoeffSelector::getPolygonAndPointUnderPointerIfAny(
 void ScatterPlotCorrelCoeffSelector::mapPolygonColorToCorrelCoeffOfData(
     GlEditableComplexPolygon *polygon, GlWidget *glWidget) {
 
-  Graph *graph = glWidget->getGlGraphInputData()->getGraph();
+  Graph *graph = glWidget->getGlGraphInputData()->graph();
   Camera &camera = glWidget->getScene()->getLayer("Main")->getCamera();
 
   BoundingBox polygonSceneBB = polygon->getBoundingBox();

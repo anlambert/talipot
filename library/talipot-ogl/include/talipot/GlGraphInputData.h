@@ -67,7 +67,6 @@ public:
     VIEW_SRCANCHORSIZE,    /**< size of source arrow edge extremity */
     VIEW_TGTANCHORSHAPE,   /**< shape of target arrow edge extremity */
     VIEW_TGTANCHORSIZE,    /**< size of target arrow edge extremity */
-    VIEW_ANIMATIONFRAME,   /**< animation frame */
     VIEW_ICON,             /**< icon name for the icon glyph*/
     VIEW_LABELROTATION,    /**< rotation apply on nodes labels */
     NB_PROPS               /** must be the last, give the number of enum props */
@@ -84,8 +83,12 @@ public:
   /**
    * Return the graph of this inputData
    */
-  Graph *getGraph() const {
-    return graph;
+  Graph *graph() const {
+    return _graph;
+  }
+
+  void setGraph(Graph *graph) {
+    _graph = graph;
   }
 
   void treatEvent(const Event &ev) override;
@@ -99,19 +102,27 @@ public:
   /**
    * Return metaNode renderer
    */
-  GlMetaNodeRenderer *getMetaNodeRenderer() const {
+  GlMetaNodeRenderer *metaNodeRenderer() const {
     return _metaNodeRenderer;
   }
 
   /**
    * Return glEdgeDisplayManager
    */
-  GlVertexArrayManager *getGlVertexArrayManager() const {
+  GlVertexArrayManager *glVertexArrayManager() const {
     return _glVertexArrayManager;
   }
 
-  GlGlyphRenderer *getGlGlyphRenderer() const {
+  GlGlyphRenderer *glGlyphRenderer() const {
     return _glGlyphRenderer;
+  }
+
+  GlyphManager *glyphManager() const {
+    return _glyphManager;
+  }
+
+  EdgeExtremityGlyphManager *extremityGlyphManager() const {
+    return _extremityGlyphManager;
   }
 
   /**
@@ -167,273 +178,261 @@ public:
   /**
    * Return a pointer on the property used to elementColor
    */
-  ColorProperty *getElementColor() const {
+  ColorProperty *colors() const {
     return getProperty<ColorProperty>(VIEW_COLOR);
   }
   /**
    * Set the pointer on the property used to elementColor
    */
-  void setElementColor(ColorProperty *property) {
+  void setColors(ColorProperty *property) {
     setProperty(VIEW_COLOR, property);
   }
   /**
    * Return a pointer on the property used to elementLabelColor
    */
-  ColorProperty *getElementLabelColor() const {
+  ColorProperty *labelColors() const {
     return getProperty<ColorProperty>(VIEW_LABELCOLOR);
   }
   /**
    * Set the pointer on the property used to elementLabelColor
    */
-  void setElementLabelColor(ColorProperty *property) {
+  void setLabelColors(ColorProperty *property) {
     setProperty(VIEW_LABELCOLOR, property);
   }
   /**
    * Return a pointer on the property used to elementLabelBorderColor
    */
-  ColorProperty *getElementLabelBorderColor() const {
+  ColorProperty *labelBorderColors() const {
     return getProperty<ColorProperty>(VIEW_LABELBORDERCOLOR);
   }
   /**
    * Set the pointer on the property used to elementLabelBorderColor
    */
-  void setElementLabelBorderColor(ColorProperty *property) {
+  void setLabelBorderColors(ColorProperty *property) {
     setProperty(VIEW_LABELBORDERCOLOR, property);
   }
   /**
    * Return a pointer on the property used to elementLabelBorderWidth
    */
-  DoubleProperty *getElementLabelBorderWidth() const {
+  DoubleProperty *labelBorderWidths() const {
     return getProperty<DoubleProperty>(VIEW_LABELBORDERWIDTH);
   }
   /**
    * Set the pointer on the property used to elementLabelBorderColor
    */
-  void setElementLabelBorderWidth(DoubleProperty *property) {
+  void setLabelBorderWidths(DoubleProperty *property) {
     setProperty(VIEW_LABELBORDERWIDTH, property);
   }
   /**
    * Return a pointer on the property used to elementSize
    */
-  SizeProperty *getElementSize() const {
+  SizeProperty *sizes() const {
     return getProperty<SizeProperty>(VIEW_SIZE);
   }
   /**
    * Set the pointer on the property used to elementSize
    */
-  void setElementSize(SizeProperty *property) {
+  void setSizes(SizeProperty *property) {
     setProperty(VIEW_SIZE, property);
   }
   /**
    * Return a pointer on the property used to elementLabelPosition
    */
-  IntegerProperty *getElementLabelPosition() const {
+  IntegerProperty *labelPositions() const {
     return getProperty<IntegerProperty>(VIEW_LABELPOSITION);
   }
   /**
    * Set the pointer on the property used to elementLabelPosition
    */
-  void setElementLabelPosition(IntegerProperty *property) {
+  void setLabelPositions(IntegerProperty *property) {
     setProperty(VIEW_LABELPOSITION, property);
   }
   /**
    * Return a pointer on the property used to elementShape
    */
-  IntegerProperty *getElementShape() const {
+  IntegerProperty *shapes() const {
     return getProperty<IntegerProperty>(VIEW_SHAPE);
   }
   /**
    * Set the pointer on the property used to elementShape
    */
-  void setElementShape(IntegerProperty *property) {
+  void setShapes(IntegerProperty *property) {
     setProperty(VIEW_SHAPE, property);
   }
   /**
    * Return a pointer on the property used to elementRotation
    */
-  DoubleProperty *getElementRotation() const {
+  DoubleProperty *rotations() const {
     return getProperty<DoubleProperty>(VIEW_ROTATION);
   }
   /**
    * Set the pointer on the property used to elementRotation
    */
-  void setElementRotation(DoubleProperty *property) {
+  void setRotations(DoubleProperty *property) {
     setProperty(VIEW_ROTATION, property);
   }
   /**
    * Return a pointer on the property used to elementLabelRotation
    */
-  DoubleProperty *getElementLabelRotation() const {
+  DoubleProperty *labelRotations() const {
     return getProperty<DoubleProperty>(VIEW_LABELROTATION);
   }
   /**
    * Set the pointer on the property used to elementLabelRotation
    */
-  void setElementLabelRotation(DoubleProperty *property) {
+  void setLabelRotations(DoubleProperty *property) {
     setProperty(VIEW_LABELROTATION, property);
   }
   /**
    * Return a pointer on the property used to elementSelected
    */
-  BooleanProperty *getElementSelected() const {
+  BooleanProperty *selection() const {
     return getProperty<BooleanProperty>(VIEW_SELECTED);
   }
   /**
    * Set the pointer on the property used to elementSelected
    */
-  void setElementSelected(BooleanProperty *property) {
+  void setSelection(BooleanProperty *property) {
     setProperty(VIEW_SELECTED, property);
   }
   /**
    * Return a pointer on the property used to elementFont
    */
-  StringProperty *getElementFont() const {
+  StringProperty *fonts() const {
     return getProperty<StringProperty>(VIEW_FONT);
   }
   /**
    * Set the pointer on the property used to elementFont
    */
-  void setElementFont(StringProperty *property) {
+  void setFonts(StringProperty *property) {
     setProperty(VIEW_FONT, property);
   }
   /**
    * Return a pointer on the property used to elementFontSize
    */
-  IntegerProperty *getElementFontSize() const {
+  IntegerProperty *fontSizes() const {
     return getProperty<IntegerProperty>(VIEW_FONTSIZE);
   }
   /**
    * Set the pointer on the property used to elementFontSize
    */
-  void setElementFontSize(IntegerProperty *property) {
+  void setFontSizes(IntegerProperty *property) {
     setProperty(VIEW_FONTSIZE, property);
   }
   /**
    * Return a pointer on the property used to elementLabel
    */
-  StringProperty *getElementLabel() const {
+  StringProperty *labels() const {
     return getProperty<StringProperty>(VIEW_LABEL);
   }
   /**
    * Set the pointer on the property used to elementLabel
    */
-  void setElementLabel(StringProperty *property) {
+  void setLabels(StringProperty *property) {
     setProperty(VIEW_LABEL, property);
   }
   /**
    * Return a pointer on the property used to elementLayout
    */
-  LayoutProperty *getElementLayout() const {
+  LayoutProperty *layout() const {
     return getProperty<LayoutProperty>(VIEW_LAYOUT);
   }
   /**
    * Set the pointer on the property used to elementLayout
    */
-  void setElementLayout(LayoutProperty *property) {
+  void setLayout(LayoutProperty *property) {
     setProperty(VIEW_LAYOUT, property);
   }
   /**
    * Return a pointer on the property used to elementTexture
    */
-  StringProperty *getElementTexture() const {
+  StringProperty *textures() const {
     return getProperty<StringProperty>(VIEW_TEXTURE);
   }
   /**
    * Set the pointer on the property used to elementTexture
    */
-  void setElementTexture(StringProperty *property) {
+  void setTextures(StringProperty *property) {
     setProperty(VIEW_TEXTURE, property);
   }
   /**
    * Return a pointer on the property used to elementBorderColor
    */
-  ColorProperty *getElementBorderColor() const {
+  ColorProperty *borderColors() const {
     return getProperty<ColorProperty>(VIEW_BORDERCOLOR);
   }
   /**
    * Set the pointer on the property used to elementBorderColor
    */
-  void setElementBorderColor(ColorProperty *property) {
+  void setBorderColors(ColorProperty *property) {
     setProperty(VIEW_BORDERCOLOR, property);
   }
   /**
    * Return a pointer on the property used to elementBorderWidth
    */
-  DoubleProperty *getElementBorderWidth() const {
+  DoubleProperty *borderWidths() const {
     return getProperty<DoubleProperty>(VIEW_BORDERWIDTH);
   }
   /**
    * Set the pointer on the property used to elementBorderWidth
    */
-  void setElementBorderWidth(DoubleProperty *property) {
+  void setBorderWidths(DoubleProperty *property) {
     setProperty(VIEW_BORDERWIDTH, property);
   }
   /**
    * Return a pointer on the property used to elementSrcAnchorShape
    */
-  IntegerProperty *getElementSrcAnchorShape() const {
+  IntegerProperty *srcAnchorShapes() const {
     return getProperty<IntegerProperty>(VIEW_SRCANCHORSHAPE);
   }
   /**
    * Set the pointer on the property used to elementSrcAnchorShape
    */
-  void setElementSrcAnchorShape(IntegerProperty *property) {
+  void setSrcAnchorShapes(IntegerProperty *property) {
     setProperty(VIEW_SRCANCHORSHAPE, property);
   }
   /**
    * Return a pointer on the property used to elementSrcAnchorSize
    */
-  SizeProperty *getElementSrcAnchorSize() const {
+  SizeProperty *srcAnchorSizes() const {
     return getProperty<SizeProperty>(VIEW_SRCANCHORSIZE);
   }
   /**
    * Set the pointer on the property used to elementSrcAnchorSize
    */
-  void setElementSrcAnchorSize(SizeProperty *property) {
+  void setSrcAnchorSizes(SizeProperty *property) {
     setProperty(VIEW_SRCANCHORSIZE, property);
   }
   /**
    * Return a pointer on the property used to elementTgtAnchorShape
    */
-  IntegerProperty *getElementTgtAnchorShape() const {
+  IntegerProperty *tgtAnchorShapes() const {
     return getProperty<IntegerProperty>(VIEW_TGTANCHORSHAPE);
   }
   /**
    * Set the pointer on the property used to elementTgtAnchorShape
    */
-  void setElementTgtAnchorShape(IntegerProperty *property) {
+  void setTgtAnchorShapes(IntegerProperty *property) {
     setProperty(VIEW_TGTANCHORSHAPE, property);
   }
   /**
    * Return a pointer on the property used to elementTgtAnchorSize
    */
-  SizeProperty *getElementTgtAnchorSize() const {
+  SizeProperty *tgtAnchorSizes() const {
     return getProperty<SizeProperty>(VIEW_TGTANCHORSIZE);
   }
   /**
    * Set the property name for elementSourceAnchorSize
    */
-  void setElementTgtAnchorSize(SizeProperty *property) {
+  void setTgtAnchorSizes(SizeProperty *property) {
     setProperty(VIEW_TGTANCHORSIZE, property);
-  }
-  /**
-   * Return a pointer on the property used to elementAnimationFrame
-   */
-  IntegerProperty *getElementAnimationFrame() const {
-    return getProperty<IntegerProperty>(VIEW_ANIMATIONFRAME);
-  }
-  /**
-   * Set the pointer on the property used to elementAnimationFrame
-   */
-  void setElementAnimationFrame(IntegerProperty *property) {
-    setProperty(VIEW_ANIMATIONFRAME, property);
   }
 
   /**
    * Return a pointer on the property used to elementIcon
    *
    */
-  StringProperty *getElementIcon() const {
+  StringProperty *icons() const {
     return getProperty<StringProperty>(VIEW_ICON);
   }
 
@@ -441,7 +440,7 @@ public:
    * Set the pointer on the property used to elementIcon
    *
    */
-  void setElementIcon(StringProperty *property) {
+  void setIcons(StringProperty *property) {
     setProperty(VIEW_ICON, property);
   }
 
@@ -459,7 +458,7 @@ public:
    * @return
    */
   GlGraphRenderingParameters *renderingParameters() const {
-    return parameters;
+    return _parameters;
   }
 
   /**
@@ -467,18 +466,17 @@ public:
    * @param newParameters
    */
   void setRenderingParameters(GlGraphRenderingParameters *newParameters) {
-    parameters = newParameters;
+    _parameters = newParameters;
   }
 
-public:
-  Graph *graph;
-
-  GlGraphRenderingParameters *parameters;
-
-  GlyphManager *glyphManager;
-  EdgeExtremityGlyphManager *extremityGlyphManager;
-
 protected:
+  Graph *_graph;
+
+  GlGraphRenderingParameters *_parameters;
+
+  GlyphManager *_glyphManager;
+  EdgeExtremityGlyphManager *_extremityGlyphManager;
+
   std::set<PropertyInterface *> _properties;
 
   PropertyInterface *_propertiesMap[NB_PROPS];

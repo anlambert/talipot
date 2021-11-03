@@ -134,8 +134,8 @@ void GlGraph::treatEvent(const Event &evt) {
   } else if (evt.type() == Event::TLP_DELETE) {
     auto *g = dynamic_cast<Graph *>(evt.sender());
 
-    if (g && inputData.getGraph() == g) {
-      inputData.graph = nullptr;
+    if (g && inputData.graph() == g) {
+      inputData.setGraph(nullptr);
     }
   } else {
     const auto *propertyEvent = dynamic_cast<const PropertyEvent *>(&evt);

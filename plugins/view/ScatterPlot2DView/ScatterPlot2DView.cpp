@@ -424,7 +424,7 @@ void ScatterPlot2DView::computeNodeSizes() {
   }
 
   GlGraphInputData *glGraphInputData = glGraph->getInputData();
-  glGraphInputData->setElementSize(scatterPlotSize);
+  glGraphInputData->setSizes(scatterPlotSize);
 }
 
 QuickAccessBar *ScatterPlot2DView::getQuickAccessBarImpl() {
@@ -748,7 +748,7 @@ void ScatterPlot2DView::destroyOverviewsIfNeeded() {
 
           if (!matrixView) {
             GlGraphInputData *glGraphInputData = glGraph->getInputData();
-            glGraphInputData->setElementLayout(scatterPlotGraph->getLayoutProperty("viewLayout"));
+            glGraphInputData->setLayout(scatterPlotGraph->getLayoutProperty("viewLayout"));
           }
         }
 

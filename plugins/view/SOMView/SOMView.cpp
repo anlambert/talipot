@@ -258,11 +258,11 @@ void SOMView::changeMapViewGraph(tlp::Graph *graph) {
 
   graphLayoutProperty = new LayoutProperty(graph);
   graphLayoutProperty->setAllNodeValue(Coord(0, 0, 0));
-  glGraph->getInputData()->setElementLayout(graphLayoutProperty);
+  glGraph->getInputData()->setLayout(graphLayoutProperty);
 
   graphSizeProperty = new SizeProperty(graph);
   graphSizeProperty->setAllNodeValue(Size(0, 0, 0));
-  glGraph->getInputData()->setElementSize(graphSizeProperty);
+  glGraph->getInputData()->setSizes(graphSizeProperty);
 }
 
 DataSet SOMView::state() const {

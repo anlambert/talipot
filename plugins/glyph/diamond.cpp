@@ -70,15 +70,15 @@ BoundingBox Diamond::getIncludeBoundingBox(node) {
 }
 
 void Diamond::draw(node n, float lod) {
-  string textureName = glGraphInputData->getElementTexture()->getNodeValue(n);
+  string textureName = glGraphInputData->textures()->getNodeValue(n);
 
   if (!textureName.empty()) {
-    textureName = glGraphInputData->parameters->getTexturePath() + textureName;
+    textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
   }
 
-  drawDiamond(glGraphInputData->getElementColor()->getNodeValue(n),
-              glGraphInputData->getElementBorderColor()->getNodeValue(n),
-              glGraphInputData->getElementBorderWidth()->getNodeValue(n), textureName, lod, true);
+  drawDiamond(glGraphInputData->colors()->getNodeValue(n),
+              glGraphInputData->borderColors()->getNodeValue(n),
+              glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod, true);
 }
 Coord Diamond::getAnchor(const Coord &v) const {
   float x = v.x(), y = v.y();
@@ -117,15 +117,14 @@ public:
   EEDiamond(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
 
   void draw(edge e, node, const Color &glyphColor, const Color &borderColor, float lod) override {
-    string textureName = edgeExtGlGraphInputData->getElementTexture()->getEdgeValue(e);
+    string textureName = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
 
     if (!textureName.empty()) {
-      textureName = edgeExtGlGraphInputData->parameters->getTexturePath() + textureName;
+      textureName = edgeExtGlGraphInputData->renderingParameters()->getTexturePath() + textureName;
     }
 
-    drawDiamond(glyphColor, borderColor,
-                edgeExtGlGraphInputData->getElementBorderWidth()->getEdgeValue(e), textureName, lod,
-                false);
+    drawDiamond(glyphColor, borderColor, edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e),
+                textureName, lod, false);
   }
 };
 

@@ -77,8 +77,8 @@ unique_ptr<GlBox> GlGlyphRenderer::_selectionBox;
 void GlGlyphRenderer::startRendering() {
   _nodeGlyphsToRender.clear();
   _edgeExtremityGlyphsToRender.clear();
-  _nodeGlyphsToRender.reserve(_inputData->getGraph()->numberOfNodes());
-  _edgeExtremityGlyphsToRender.reserve(_inputData->getGraph()->numberOfEdges());
+  _nodeGlyphsToRender.reserve(_inputData->graph()->numberOfNodes());
+  _edgeExtremityGlyphsToRender.reserve(_inputData->graph()->numberOfEdges());
 
   if (GlShaderProgram::shaderProgramsSupported() && _glyphShader.get() == nullptr) {
     _glyphShader.reset(new GlShaderProgram("glyph"));
@@ -121,15 +121,16 @@ void GlGlyphRenderer::endRendering() {
     _selectionBox->setOutlineSize(3);
   }
 
-  const Color &colorSelect = _inputData->parameters->getSelectionColor();
+  const Color &colorSelect = _inputData->renderingParameters()->getSelectionColor();
 
   _glyphShader->activate();
 
   for (const auto &glyphData : _nodeGlyphsToRender) {
     if (glyphData.selected) {
-      glStencilFunc(GL_LEQUAL, _inputData->parameters->getSelectedNodesStencil(), 0xFFFF);
+      glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getSelectedNodesStencil(),
+                    0xFFFF);
     } else {
-      glStencilFunc(GL_LEQUAL, _inputData->parameters->getNodesStencil(), 0xFFFF);
+      glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getNodesStencil(), 0xFFFF);
     }
 
     _glyphShader->setUniformVec3Float("pos", glyphData.nodePos);
@@ -138,7 +139,7 @@ void GlGlyphRenderer::endRendering() {
     _glyphShader->setUniformFloat("rotAngle", glyphData.nodeRot * M_PI / 180);
 
     if (glyphData.selected) {
-      _selectionBox->setStencil(_inputData->parameters->getSelectedNodesStencil() - 1);
+      _selectionBox->setStencil(_inputData->renderingParameters()->getSelectedNodesStencil() - 1);
       _selectionBox->setOutlineColor(colorSelect);
       _selectionBox->draw(10, nullptr);
     }
@@ -148,9 +149,10 @@ void GlGlyphRenderer::endRendering() {
 
   for (const auto &glyphData : _edgeExtremityGlyphsToRender) {
     if (glyphData.selected) {
-      glStencilFunc(GL_LEQUAL, _inputData->parameters->getSelectedEdgesStencil(), 0xFFFF);
+      glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getSelectedEdgesStencil(),
+                    0xFFFF);
     } else {
-      glStencilFunc(GL_LEQUAL, _inputData->parameters->getEdgesStencil(), 0xFFFF);
+      glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getEdgesStencil(), 0xFFFF);
     }
 
     Coord dir = glyphData.srcAnchor - glyphData.beginAnchor;

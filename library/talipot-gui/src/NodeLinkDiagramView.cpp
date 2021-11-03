@@ -79,8 +79,7 @@ void NodeLinkDiagramView::updateGrid() {
 
   GlGraphInputData *inputData = getGlWidget()->getGlGraphInputData();
   BoundingBox graphBB =
-      computeBoundingBox(graph(), inputData->getElementLayout(), inputData->getElementSize(),
-                         inputData->getElementRotation());
+      computeBoundingBox(graph(), inputData->layout(), inputData->sizes(), inputData->rotations());
   Coord bottomLeft = Coord(graphBB[0] - margins);
   Coord topRight = Coord(graphBB[1] + margins);
 
@@ -289,7 +288,7 @@ void NodeLinkDiagramView::loadGraphOnScene(Graph *graph) {
     return;
   }
 
-  GlMetaNodeRenderer *metaNodeRenderer = oldGlGraph->getInputData()->getMetaNodeRenderer();
+  GlMetaNodeRenderer *metaNodeRenderer = oldGlGraph->getInputData()->metaNodeRenderer();
   // prevent deletion of MetaNodeRenderer when deleting oldGlGraph
   oldGlGraph->getInputData()->setMetaNodeRenderer(nullptr, false);
   auto *glGraph = new GlGraph(graph);
@@ -299,13 +298,13 @@ void NodeLinkDiagramView::loadGraphOnScene(Graph *graph) {
 
   glGraph->getInputData()->setMetaNodeRenderer(metaNodeRenderer);
 
-  if (oldGlGraph->getInputData()->graph == graph) {
-    delete glGraph->getInputData()->getGlVertexArrayManager();
+  if (oldGlGraph->getInputData()->graph() == graph) {
+    delete glGraph->getInputData()->glVertexArrayManager();
     glGraph->getInputData()->setGlVertexArrayManager(
-        oldGlGraph->getInputData()->getGlVertexArrayManager());
+        oldGlGraph->getInputData()->glVertexArrayManager());
     // prevent deletion of GlVertexArrayManager when deleting oldGlGraph
     oldGlGraph->getInputData()->setGlVertexArrayManager(nullptr);
-    glGraph->getInputData()->getGlVertexArrayManager()->setInputData(glGraph->getInputData());
+    glGraph->getInputData()->glVertexArrayManager()->setInputData(glGraph->getInputData());
   }
 
   scene->getLayer("Main")->addGlEntity(glGraph, "graph");
@@ -814,25 +813,25 @@ void NodeLinkDiagramView::editValue(PropertyInterface *pi) {
 }
 
 void NodeLinkDiagramView::editColor() {
-  editValue(getGlWidget()->getGlGraphInputData()->getElementColor());
+  editValue(getGlWidget()->getGlGraphInputData()->colors());
 }
 
 void NodeLinkDiagramView::editLabel() {
-  editValue(getGlWidget()->getGlGraphInputData()->getElementLabel());
+  editValue(getGlWidget()->getGlGraphInputData()->labels());
 }
 
 void NodeLinkDiagramView::editShape() {
-  editValue(getGlWidget()->getGlGraphInputData()->getElementShape());
+  editValue(getGlWidget()->getGlGraphInputData()->shapes());
 }
 
 void NodeLinkDiagramView::editSize() {
-  editValue(getGlWidget()->getGlGraphInputData()->getElementSize());
+  editValue(getGlWidget()->getGlGraphInputData()->sizes());
 }
 
 const Camera &NodeLinkDiagramView::goInsideItem(node meta) {
   Graph *metaGraph = graph()->getNodeMetaInfo(meta);
-  Size size = getGlWidget()->getGlGraphInputData()->getElementSize()->getNodeValue(meta);
-  Coord coord = getGlWidget()->getGlGraphInputData()->getElementLayout()->getNodeValue(meta);
+  Size size = getGlWidget()->getGlGraphInputData()->sizes()->getNodeValue(meta);
+  Coord coord = getGlWidget()->getGlGraphInputData()->layout()->getNodeValue(meta);
   BoundingBox bb;
   bb.expand(coord - size / 2.f);
   bb.expand(coord + size / 2.f);
@@ -866,10 +865,9 @@ void NodeLinkDiagramView::useHulls(bool hasHulls) {
     GlScene *scene = getGlWidget()->getScene();
 
     manager = new GlCompositeHierarchyManager(
-        scene->getGlGraph()->getInputData()->getGraph(), scene->getLayer("Main"), "Hulls",
-        scene->getGlGraph()->getInputData()->getElementLayout(),
-        scene->getGlGraph()->getInputData()->getElementSize(),
-        scene->getGlGraph()->getInputData()->getElementRotation());
+        scene->getGlGraph()->getInputData()->graph(), scene->getLayer("Main"), "Hulls",
+        scene->getGlGraph()->getInputData()->layout(), scene->getGlGraph()->getInputData()->sizes(),
+        scene->getGlGraph()->getInputData()->rotations());
     // Now we remove and add GlGraph to be sure of the order (first Hulls and after
     // GlGraph)
     // This code doesn't affect the behavior of talipot but the tlp file is modified

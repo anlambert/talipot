@@ -71,13 +71,13 @@ ScatterPlot2D::ScatterPlot2D(Graph *graph, Graph *edgeGraph,
   if (dataLocation == NODE) {
     glGraph = new GlGraph(graph);
     GlGraphInputData *glGraphInputData = glGraph->getInputData();
-    glGraphInputData->setElementLayout(scatterLayout);
-    glGraphInputData->setElementSize(graph->getSizeProperty("viewSize"));
+    glGraphInputData->setLayout(scatterLayout);
+    glGraphInputData->setSizes(graph->getSizeProperty("viewSize"));
   } else {
     glGraph = new GlGraph(edgeAsNodeGraph);
     GlGraphInputData *glGraphInputData = glGraph->getInputData();
-    glGraphInputData->setElementLayout(scatterEdgeLayout);
-    glGraphInputData->setElementSize(edgeAsNodeGraph->getSizeProperty("viewSize"));
+    glGraphInputData->setLayout(scatterEdgeLayout);
+    glGraphInputData->setSizes(edgeAsNodeGraph->getSizeProperty("viewSize"));
   }
 
   setGraphView(glGraph, (dataLocation == NODE) ? displayEdges : false, displaylabels, scale);
@@ -117,13 +117,13 @@ void ScatterPlot2D::setDataLocation(const ElementType &dataLocation) {
     if (dataLocation == NODE) {
       glGraph = new GlGraph(graph);
       GlGraphInputData *glGraphInputData = glGraph->getInputData();
-      glGraphInputData->setElementLayout(scatterLayout);
-      glGraphInputData->setElementSize(graph->getSizeProperty("viewSize"));
+      glGraphInputData->setLayout(scatterLayout);
+      glGraphInputData->setSizes(graph->getSizeProperty("viewSize"));
     } else {
       glGraph = new GlGraph(edgeAsNodeGraph);
       GlGraphInputData *glGraphInputData = glGraph->getInputData();
-      glGraphInputData->setElementLayout(scatterEdgeLayout);
-      glGraphInputData->setElementSize(edgeAsNodeGraph->getSizeProperty("viewSize"));
+      glGraphInputData->setLayout(scatterEdgeLayout);
+      glGraphInputData->setSizes(edgeAsNodeGraph->getSizeProperty("viewSize"));
     }
   }
 

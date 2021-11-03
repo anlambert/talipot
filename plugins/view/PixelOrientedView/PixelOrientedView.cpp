@@ -86,7 +86,7 @@ void PixelOrientedView::initGlWidget() {
 
   if (mainLayer->findGlEntity("graph")) {
     GlGraph *lastGlGraph = static_cast<GlGraph *>(mainLayer->findGlEntity("graph"));
-    Graph *theGraph = lastGlGraph->getInputData()->getGraph();
+    Graph *theGraph = lastGlGraph->getInputData()->graph();
 
     if (theGraph) {
       theGraph->removeListener(lastGlGraph);
@@ -697,8 +697,8 @@ void PixelOrientedView::switchFromSmallMultiplesToDetailView(PixelOrientedOvervi
 
   mainLayer->deleteGlEntity(overviewsComposite);
   GlGraphInputData *inputData = glGraph->getInputData();
-  inputData->setElementLayout(pixelOverview->getPixelViewLayout());
-  inputData->setElementSize(pixelOverview->getPixelViewSize());
+  inputData->setLayout(pixelOverview->getPixelViewLayout());
+  inputData->setSizes(pixelOverview->getPixelViewSize());
 
   setGraphView(glGraph, true);
 
@@ -783,8 +783,8 @@ void PixelOrientedView::applySettings() {
     if (!smallMultiplesView) {
       mainLayer->deleteGlEntity(detailViewLabel);
       GlGraphInputData *inputData = glGraph->getInputData();
-      inputData->setElementLayout(detailOverview->getPixelViewLayout());
-      inputData->setElementSize(detailOverview->getPixelViewSize());
+      inputData->setLayout(detailOverview->getPixelViewLayout());
+      inputData->setSizes(detailOverview->getPixelViewSize());
       GlBoundingBoxSceneVisitor glBBSV(inputData);
       glGraph->acceptVisitor(&glBBSV);
       BoundingBox graphBoundingBox = glBBSV.getBoundingBox();

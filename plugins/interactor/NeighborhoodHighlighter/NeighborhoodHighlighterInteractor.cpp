@@ -431,8 +431,8 @@ void NeighborhoodHighlighter::buildNeighborhoodGraph(node n, Graph *g) {
 void NeighborhoodHighlighter::updateNeighborhoodGraphLayoutAndColors() {
   if (originalGlGraph != nullptr) {
     GlGraphInputData *originalInputData = originalGlGraph->getInputData();
-    LayoutProperty *origGraphLayout = originalInputData->getElementLayout();
-    ColorProperty *origGraphColors = originalInputData->getElementColor();
+    LayoutProperty *origGraphLayout = originalInputData->layout();
+    ColorProperty *origGraphColors = originalInputData->colors();
 
     for (auto n2 : neighborhoodGraph->nodes()) {
       neighborhoodGraphOriginalLayout->setNodeValue(n2, origGraphLayout->getNodeValue(n2));
@@ -453,31 +453,25 @@ void NeighborhoodHighlighter::updateGlNeighborhoodGraph() {
   GlGraphInputData *originalInputData = originalGlGraph->getInputData();
   glNeighborhoodGraph = new GlGraph(neighborhoodGraph);
   GlGraphInputData *glNeighborhoodGraphInputData = glNeighborhoodGraph->getInputData();
-  glNeighborhoodGraphInputData->setElementBorderColor(originalInputData->getElementBorderColor());
-  glNeighborhoodGraphInputData->setElementBorderWidth(originalInputData->getElementBorderWidth());
-  glNeighborhoodGraphInputData->setElementColor(neighborhoodGraphColors);
-  glNeighborhoodGraphInputData->setElementLabel(originalInputData->getElementLabel());
-  glNeighborhoodGraphInputData->setElementLabelColor(originalInputData->getElementLabelColor());
-  glNeighborhoodGraphInputData->setElementLabelBorderColor(
-      originalInputData->getElementLabelBorderColor());
-  glNeighborhoodGraphInputData->setElementLabelPosition(
-      originalInputData->getElementLabelPosition());
-  glNeighborhoodGraphInputData->setElementLayout(neighborhoodGraphLayout);
-  glNeighborhoodGraphInputData->setElementRotation(originalInputData->getElementRotation());
-  glNeighborhoodGraphInputData->setElementSelected(originalInputData->getElementSelected());
-  glNeighborhoodGraphInputData->setElementShape(originalInputData->getElementShape());
-  glNeighborhoodGraphInputData->setElementSize(originalInputData->getElementSize());
-  glNeighborhoodGraphInputData->setElementTexture(originalInputData->getElementTexture());
-  glNeighborhoodGraphInputData->setElementFont(originalInputData->getElementFont());
-  glNeighborhoodGraphInputData->setElementFontSize(originalInputData->getElementFontSize());
-  glNeighborhoodGraphInputData->setElementSrcAnchorShape(
-      originalInputData->getElementSrcAnchorShape());
-  glNeighborhoodGraphInputData->setElementSrcAnchorSize(
-      originalInputData->getElementSrcAnchorSize());
-  glNeighborhoodGraphInputData->setElementTgtAnchorShape(
-      originalInputData->getElementTgtAnchorShape());
-  glNeighborhoodGraphInputData->setElementTgtAnchorSize(
-      originalInputData->getElementTgtAnchorSize());
+  glNeighborhoodGraphInputData->setBorderColors(originalInputData->borderColors());
+  glNeighborhoodGraphInputData->setBorderWidths(originalInputData->borderWidths());
+  glNeighborhoodGraphInputData->setColors(neighborhoodGraphColors);
+  glNeighborhoodGraphInputData->setLabels(originalInputData->labels());
+  glNeighborhoodGraphInputData->setLabelColors(originalInputData->labelColors());
+  glNeighborhoodGraphInputData->setLabelBorderColors(originalInputData->labelBorderColors());
+  glNeighborhoodGraphInputData->setLabelPositions(originalInputData->labelPositions());
+  glNeighborhoodGraphInputData->setLayout(neighborhoodGraphLayout);
+  glNeighborhoodGraphInputData->setRotations(originalInputData->rotations());
+  glNeighborhoodGraphInputData->setSelection(originalInputData->selection());
+  glNeighborhoodGraphInputData->setShapes(originalInputData->shapes());
+  glNeighborhoodGraphInputData->setSizes(originalInputData->sizes());
+  glNeighborhoodGraphInputData->setTextures(originalInputData->textures());
+  glNeighborhoodGraphInputData->setFonts(originalInputData->fonts());
+  glNeighborhoodGraphInputData->setFontSizes(originalInputData->fontSizes());
+  glNeighborhoodGraphInputData->setSrcAnchorShapes(originalInputData->srcAnchorShapes());
+  glNeighborhoodGraphInputData->setSrcAnchorSizes(originalInputData->srcAnchorSizes());
+  glNeighborhoodGraphInputData->setTgtAnchorShapes(originalInputData->tgtAnchorShapes());
+  glNeighborhoodGraphInputData->setTgtAnchorSizes(originalInputData->tgtAnchorSizes());
 }
 
 void NeighborhoodHighlighter::updateNeighborhoodGraph() {
@@ -505,7 +499,7 @@ void NeighborhoodHighlighter::computeNeighborhoodGraphBoundingBoxes() {
 void NeighborhoodHighlighter::computeNeighborhoodGraphCircleLayout() {
 
   Size centralNodeSize =
-      originalGlGraph->getInputData()->getElementSize()->getNodeValue(neighborhoodGraphCentralNode);
+      originalGlGraph->getInputData()->sizes()->getNodeValue(neighborhoodGraphCentralNode);
   Coord centralNodeCoord = neighborhoodGraphLayout->getNodeValue(neighborhoodGraphCentralNode);
   neighborhoodGraphCircleLayout->setNodeValue(neighborhoodGraphCentralNode, centralNodeCoord);
 
@@ -529,7 +523,7 @@ void NeighborhoodHighlighter::computeNeighborhoodGraphCircleLayout() {
   for (size_t i = 0; i < neighborsNodes.size(); ++i) {
 
     Size neighborNodeSize =
-        originalGlGraph->getInputData()->getElementSize()->getNodeValue(neighborsNodes[i]);
+        originalGlGraph->getInputData()->sizes()->getNodeValue(neighborsNodes[i]);
     Coord neighborNodeCoord = neighborhoodGraphLayout->getNodeValue(neighborsNodes[i]);
     float edgeLength = centralNodeCoord.dist(neighborNodeCoord);
 
@@ -610,7 +604,7 @@ float NeighborhoodHighlighter::computeNeighborhoodGraphRadius(
   Coord centralNodeCoord = neighborhoodGraphLayoutProp->getNodeValue(neighborhoodGraphCentralNode);
   for (auto n : neighborhoodGraph->nodes()) {
     Coord nodeCoord = neighborhoodGraphLayoutProp->getNodeValue(n);
-    Size nodeSize = originalGlGraph->getInputData()->getElementSize()->getNodeValue(n);
+    Size nodeSize = originalGlGraph->getInputData()->sizes()->getNodeValue(n);
     float dist = centralNodeCoord.dist(nodeCoord) + nodeSize.getW();
 
     if (dist > radius) {

@@ -41,9 +41,9 @@ bool MouseBoxZoomer::eventFilter(QObject *widget, QEvent *e) {
         w = 0;
         h = 0;
         started = true;
-        graph = inputData->getGraph();
+        graph = inputData->graph();
       } else {
-        if (inputData->getGraph() != graph) {
+        if (inputData->graph() != graph) {
           graph = nullptr;
           started = false;
         }
@@ -66,7 +66,7 @@ bool MouseBoxZoomer::eventFilter(QObject *widget, QEvent *e) {
 
     if ((qMouseEv->buttons() & mButton) &&
         (kModifier == Qt::NoModifier || qMouseEv->modifiers() & kModifier)) {
-      if (inputData->getGraph() != graph) {
+      if (inputData->graph() != graph) {
         graph = nullptr;
         started = false;
       }
@@ -100,7 +100,7 @@ bool MouseBoxZoomer::eventFilter(QObject *widget, QEvent *e) {
 
     if ((qMouseEv->button() == mButton &&
          (kModifier == Qt::NoModifier || qMouseEv->modifiers() & kModifier))) {
-      if (inputData->getGraph() != graph) {
+      if (inputData->graph() != graph) {
         graph = nullptr;
         started = false;
       }
@@ -141,7 +141,7 @@ bool MouseBoxZoomer::draw(GlWidget *glw) {
     return false;
   }
 
-  if (glw->getGlGraphInputData()->getGraph() != graph) {
+  if (glw->getGlGraphInputData()->graph() != graph) {
     graph = nullptr;
     started = false;
   }

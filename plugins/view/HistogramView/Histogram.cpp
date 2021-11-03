@@ -72,12 +72,12 @@ Histogram::Histogram(Graph *graph, Graph *edgeGraph, std::unordered_map<edge, no
   if (dataLocation == NODE) {
     glGraph = new GlGraph(graph);
     GlGraphInputData *glGraphInputData = glGraph->getInputData();
-    glGraphInputData->setElementLayout(histogramLayout);
-    glGraphInputData->setElementSize(histogramSize);
+    glGraphInputData->setLayout(histogramLayout);
+    glGraphInputData->setSizes(histogramSize);
   } else {
     glGraph = new GlGraph(edgeAsNodeGraph);
     GlGraphInputData *glGraphInputData = glGraph->getInputData();
-    glGraphInputData->setElementLayout(histogramEdgeLayout);
+    glGraphInputData->setLayout(histogramEdgeLayout);
   }
 
   setGraphView(glGraph, (dataLocation == NODE) ? displayEdges : false);
@@ -106,12 +106,12 @@ void Histogram::setDataLocation(const ElementType &dataLocation) {
     if (dataLocation == NODE) {
       glGraph = new GlGraph(graph);
       GlGraphInputData *glGraphInputData = glGraph->getInputData();
-      glGraphInputData->setElementLayout(histogramLayout);
-      glGraphInputData->setElementSize(histogramSize);
+      glGraphInputData->setLayout(histogramLayout);
+      glGraphInputData->setSizes(histogramSize);
     } else {
       glGraph = new GlGraph(edgeAsNodeGraph);
       GlGraphInputData *glGraphInputData = glGraph->getInputData();
-      glGraphInputData->setElementLayout(histogramEdgeLayout);
+      glGraphInputData->setLayout(histogramEdgeLayout);
     }
   }
 

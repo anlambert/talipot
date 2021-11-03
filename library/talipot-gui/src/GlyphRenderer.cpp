@@ -34,10 +34,10 @@ QPixmap GlyphRenderer::render(int glyphId, const QColor &backgroundColor) {
       // need a block to ensure inputData
       // will be destroyed before graph
       GlGraphInputData inputData(graph, &parameters);
-      inputData.getElementSize()->setAllNodeValue(Size(1, 1, 1));
-      inputData.getElementColor()->setAllNodeValue(Color(192, 192, 192));
-      inputData.getElementBorderColor()->setAllNodeValue(QColorToColor(textColor()));
-      inputData.getElementBorderWidth()->setAllNodeValue(1);
+      inputData.sizes()->setAllNodeValue(Size(1, 1, 1));
+      inputData.colors()->setAllNodeValue(Color(192, 192, 192));
+      inputData.borderColors()->setAllNodeValue(QColorToColor(textColor()));
+      inputData.borderWidths()->setAllNodeValue(1);
 
       GlOffscreenRenderer &renderer = GlOffscreenRenderer::instance();
       renderer.setViewPortSize(16, 16);
@@ -78,20 +78,20 @@ QPixmap EdgeExtremityGlyphRenderer::render(int glyphId, const QColor &background
       // need a block to ensure inputData
       // will be destroyed before graph
       GlGraphInputData inputData(graph, &parameters);
-      inputData.getElementSize()->setAllNodeValue(Size(0.01f, 0.2f, 0.1f));
-      inputData.getElementSize()->setAllEdgeValue(Size(0.125f, 0.125f, 0.125f));
-      inputData.getElementColor()->setAllNodeValue(QColorToColor(tlp::backgroundColor()));
-      inputData.getElementBorderColor()->setAllNodeValue(QColorToColor(tlp::backgroundColor()));
-      inputData.getElementColor()->setAllEdgeValue(Color(192, 192, 192));
-      inputData.getElementBorderColor()->setAllEdgeValue(QColorToColor(textColor()));
-      inputData.getElementLayout()->setNodeValue(n1, Coord(0, 0, 0));
-      inputData.getElementLayout()->setNodeValue(n2, Coord(0.3f, 0, 0));
+      inputData.sizes()->setAllNodeValue(Size(0.01f, 0.2f, 0.1f));
+      inputData.sizes()->setAllEdgeValue(Size(0.125f, 0.125f, 0.125f));
+      inputData.colors()->setAllNodeValue(QColorToColor(tlp::backgroundColor()));
+      inputData.borderColors()->setAllNodeValue(QColorToColor(tlp::backgroundColor()));
+      inputData.colors()->setAllEdgeValue(Color(192, 192, 192));
+      inputData.borderColors()->setAllEdgeValue(QColorToColor(textColor()));
+      inputData.layout()->setNodeValue(n1, Coord(0, 0, 0));
+      inputData.layout()->setNodeValue(n2, Coord(0.3f, 0, 0));
       vector<Coord> bends;
       bends.push_back(Coord(0.01f, 0, 0));
-      inputData.getElementLayout()->setAllEdgeValue(bends);
+      inputData.layout()->setAllEdgeValue(bends);
 
-      inputData.getElementSrcAnchorShape()->setAllEdgeValue(EdgeExtremityShape::None);
-      inputData.getElementTgtAnchorSize()->setAllEdgeValue(Size(2, 2, 1));
+      inputData.srcAnchorShapes()->setAllEdgeValue(EdgeExtremityShape::None);
+      inputData.tgtAnchorSizes()->setAllEdgeValue(Size(2, 2, 1));
 
       GlOffscreenRenderer &renderer = GlOffscreenRenderer::instance();
       renderer.setViewPortSize(16, 16);

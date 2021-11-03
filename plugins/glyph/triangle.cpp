@@ -47,22 +47,22 @@ BoundingBox Triangle::getIncludeBoundingBox(node) {
 void Triangle::draw(node n, float lod) {
   GlTriangle triangle(Coord(0, 0, 0), Size(0.5, 0.5, 0));
 
-  triangle.setFillColor(glGraphInputData->getElementColor()->getNodeValue(n));
+  triangle.setFillColor(glGraphInputData->colors()->getNodeValue(n));
 
-  string texFile = glGraphInputData->getElementTexture()->getNodeValue(n);
+  string texFile = glGraphInputData->textures()->getNodeValue(n);
 
   if (!texFile.empty()) {
-    string texturePath = glGraphInputData->parameters->getTexturePath();
+    string texturePath = glGraphInputData->renderingParameters()->getTexturePath();
     triangle.setTextureName(texturePath + texFile);
   } else {
     triangle.setTextureName("");
   }
 
-  double lineWidth = glGraphInputData->getElementBorderWidth()->getNodeValue(n);
+  double lineWidth = glGraphInputData->borderWidths()->getNodeValue(n);
 
   if (lineWidth > 0) {
     triangle.setOutlineMode(true);
-    triangle.setOutlineColor(glGraphInputData->getElementBorderColor()->getNodeValue(n));
+    triangle.setOutlineColor(glGraphInputData->borderColors()->getNodeValue(n));
     triangle.setOutlineSize(lineWidth);
   } else {
     triangle.setOutlineMode(false);

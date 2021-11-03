@@ -70,15 +70,15 @@ BoundingBox Hexagon::getIncludeBoundingBox(node) {
 }
 
 void Hexagon::draw(node n, float lod) {
-  string textureName = glGraphInputData->getElementTexture()->getNodeValue(n);
+  string textureName = glGraphInputData->textures()->getNodeValue(n);
 
   if (!textureName.empty()) {
-    textureName = glGraphInputData->parameters->getTexturePath() + textureName;
+    textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
   }
 
-  drawHexagon(glGraphInputData->getElementColor()->getNodeValue(n),
-              glGraphInputData->getElementBorderColor()->getNodeValue(n),
-              glGraphInputData->getElementBorderWidth()->getNodeValue(n), textureName, lod, true);
+  drawHexagon(glGraphInputData->colors()->getNodeValue(n),
+              glGraphInputData->borderColors()->getNodeValue(n),
+              glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod, true);
 }
 
 class EEHexagon : public EdgeExtremityGlyph {
@@ -89,15 +89,14 @@ public:
   EEHexagon(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
 
   void draw(edge e, node, const Color &glyphColor, const Color &borderColor, float lod) override {
-    string textureName = edgeExtGlGraphInputData->getElementTexture()->getEdgeValue(e);
+    string textureName = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
 
     if (!textureName.empty()) {
-      textureName = edgeExtGlGraphInputData->parameters->getTexturePath() + textureName;
+      textureName = edgeExtGlGraphInputData->renderingParameters()->getTexturePath() + textureName;
     }
 
-    drawHexagon(glyphColor, borderColor,
-                edgeExtGlGraphInputData->getElementBorderWidth()->getEdgeValue(e), textureName, lod,
-                false);
+    drawHexagon(glyphColor, borderColor, edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e),
+                textureName, lod, false);
   }
 };
 

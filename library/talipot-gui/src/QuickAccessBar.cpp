@@ -383,14 +383,14 @@ void QuickAccessBarImpl::setSizeInterpolation(bool f) {
 
 void QuickAccessBarImpl::setLabelColor(const QColor &c) {
 
-  BooleanProperty *selected = inputData()->getElementSelected();
+  BooleanProperty *selected = inputData()->selection();
   bool hasSelected = false;
 
   _mainView->graph()->push();
 
   Observable::holdObservers();
-  ColorProperty *labelColors = inputData()->getElementLabelColor();
-  ColorProperty *labelBorderColors = inputData()->getElementLabelBorderColor();
+  ColorProperty *labelColors = inputData()->labelColors();
+  ColorProperty *labelBorderColors = inputData()->labelBorderColors();
 
   Color color = QColorToColor(c);
 
@@ -422,7 +422,7 @@ void QuickAccessBarImpl::setLabelColor(const QColor &c) {
 }
 
 void QuickAccessBarImpl::setAllColorValues(uint eltType, ColorProperty *prop, const Color &color) {
-  BooleanProperty *selected = inputData()->getElementSelected();
+  BooleanProperty *selected = inputData()->selection();
   bool hasSelected = false;
 
   _mainView->graph()->push();
@@ -455,19 +455,19 @@ void QuickAccessBarImpl::setAllColorValues(uint eltType, ColorProperty *prop, co
 }
 
 void QuickAccessBarImpl::setNodeColor(const QColor &c) {
-  setAllColorValues(NODE, inputData()->getElementColor(), QColorToColor(c));
+  setAllColorValues(NODE, inputData()->colors(), QColorToColor(c));
 }
 
 void QuickAccessBarImpl::setEdgeColor(const QColor &c) {
-  setAllColorValues(EDGE, inputData()->getElementColor(), QColorToColor(c));
+  setAllColorValues(EDGE, inputData()->colors(), QColorToColor(c));
 }
 
 void QuickAccessBarImpl::setNodeBorderColor(const QColor &c) {
-  setAllColorValues(NODE, inputData()->getElementBorderColor(), QColorToColor(c));
+  setAllColorValues(NODE, inputData()->borderColors(), QColorToColor(c));
 }
 
 void QuickAccessBarImpl::setEdgeBorderColor(const QColor &c) {
-  setAllColorValues(EDGE, inputData()->getElementBorderColor(), QColorToColor(c));
+  setAllColorValues(EDGE, inputData()->borderColors(), QColorToColor(c));
 }
 
 void QuickAccessBarImpl::setAllValues(uint eltType, PropertyInterface *prop) {
@@ -480,7 +480,7 @@ void QuickAccessBarImpl::setAllValues(uint eltType, PropertyInterface *prop) {
     return;
   }
 
-  BooleanProperty *selected = inputData()->getElementSelected();
+  BooleanProperty *selected = inputData()->selection();
   bool hasSelected = false;
 
   _mainView->graph()->push();
@@ -513,23 +513,23 @@ void QuickAccessBarImpl::setAllValues(uint eltType, PropertyInterface *prop) {
 }
 
 void QuickAccessBarImpl::setNodeShape() {
-  setAllValues(NODE, inputData()->getElementShape());
+  setAllValues(NODE, inputData()->shapes());
 }
 
 void QuickAccessBarImpl::setEdgeShape() {
-  setAllValues(EDGE, inputData()->getElementShape());
+  setAllValues(EDGE, inputData()->shapes());
 }
 
 void QuickAccessBarImpl::setNodeSize() {
-  setAllValues(NODE, inputData()->getElementSize());
+  setAllValues(NODE, inputData()->sizes());
 }
 
 void QuickAccessBarImpl::setEdgeSize() {
-  setAllValues(EDGE, inputData()->getElementSize());
+  setAllValues(EDGE, inputData()->sizes());
 }
 
 void QuickAccessBarImpl::setNodeLabelPosition() {
-  setAllValues(NODE, inputData()->getElementLabelPosition());
+  setAllValues(NODE, inputData()->labelPositions());
 }
 
 void QuickAccessBarImpl::setEdgesVisible(bool v) {
@@ -578,7 +578,7 @@ GlScene *QuickAccessBar::scene() const {
 
 void QuickAccessBarImpl::selectFont() {
   FontDialog dlg(_mainView->graphicsView()->window());
-  dlg.selectFont(Font::fromName(inputData()->getElementFont()->getNodeDefaultValue()));
+  dlg.selectFont(Font::fromName(inputData()->fonts()->getNodeDefaultValue()));
 
   if (dlg.exec() != QDialog::Accepted) {
     return;
@@ -588,10 +588,10 @@ void QuickAccessBarImpl::selectFont() {
 
   Observable::holdObservers();
 
-  inputData()->getElementFont()->setAllNodeValue(dlg.font().fontName(), _mainView->graph());
-  inputData()->getElementFont()->setAllEdgeValue(dlg.font().fontName(), _mainView->graph());
-  inputData()->getElementFontSize()->setAllNodeValue(dlg.fontSize(), _mainView->graph());
-  inputData()->getElementFontSize()->setAllEdgeValue(dlg.fontSize(), _mainView->graph());
+  inputData()->fonts()->setAllNodeValue(dlg.font().fontName(), _mainView->graph());
+  inputData()->fonts()->setAllEdgeValue(dlg.font().fontName(), _mainView->graph());
+  inputData()->fontSizes()->setAllNodeValue(dlg.fontSize(), _mainView->graph());
+  inputData()->fontSizes()->setAllEdgeValue(dlg.fontSize(), _mainView->graph());
 
   Observable::unholdObservers();
   _mainView->graph()->popIfNoUpdates();
@@ -600,7 +600,7 @@ void QuickAccessBarImpl::selectFont() {
 }
 
 void QuickAccessBarImpl::updateFontButtonStyle() {
-  std::string fontName = inputData()->getElementFont()->getNodeDefaultValue();
+  std::string fontName = inputData()->fonts()->getNodeDefaultValue();
   Font selectedFont = Font::fromName(fontName);
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
   QFontDatabase fontDb;

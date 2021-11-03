@@ -365,7 +365,7 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
   _viewActionsManager->fillContextMenu(menu);
 
   auto *inputData = getGlWidget()->getGlGraphInputData();
-  auto *selection = inputData->getElementSelected();
+  auto *selection = inputData->selection();
 
   if (selection && (selection->hasNonDefaultValuatedNodes(graph()) ||
                     selection->hasNonDefaultValuatedEdges(graph()))) {
@@ -373,9 +373,8 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
     znpOnSelection->setToolTip(
         "Perform a zoom and pan animation to center the view on selected graph elements");
     connect(znpOnSelection, &QAction::triggered, [this, selection, inputData]() {
-      auto boundingBox =
-          computeBoundingBox(graph(), inputData->getElementLayout(), inputData->getElementSize(),
-                             inputData->getElementRotation(), selection);
+      auto boundingBox = computeBoundingBox(graph(), inputData->layout(), inputData->sizes(),
+                                            inputData->rotations(), selection);
       zoomAndPanAnimation(boundingBox);
     });
   }

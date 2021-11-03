@@ -31,9 +31,9 @@ GlGraphLowDetailsRenderer::~GlGraphLowDetailsRenderer() {
 }
 //====================================================
 void GlGraphLowDetailsRenderer::initEdgesArray() {
-  Graph *graph = inputData->getGraph();
-  LayoutProperty *layout = inputData->getElementLayout();
-  ColorProperty *color = inputData->getElementColor();
+  Graph *graph = inputData->graph();
+  LayoutProperty *layout = inputData->layout();
+  ColorProperty *color = inputData->colors();
 
   size_t nbEdges = graph->numberOfEdges();
   size_t nbBends = 0;
@@ -87,10 +87,10 @@ void GlGraphLowDetailsRenderer::initEdgesArray() {
 }
 //====================================================
 void GlGraphLowDetailsRenderer::initNodesArray() {
-  Graph *graph = inputData->getGraph();
-  LayoutProperty *layout = inputData->getElementLayout();
-  ColorProperty *color = inputData->getElementColor();
-  SizeProperty *size = inputData->getElementSize();
+  Graph *graph = inputData->graph();
+  LayoutProperty *layout = inputData->layout();
+  ColorProperty *color = inputData->colors();
+  SizeProperty *size = inputData->sizes();
 
   size_t nbNodes = graph->numberOfNodes();
   quad_points.resize(nbNodes * 4);
@@ -178,15 +178,15 @@ void GlGraphLowDetailsRenderer::draw(float, Camera *) {
 }
 
 void GlGraphLowDetailsRenderer::addObservers() {
-  observedGraph = inputData->getGraph();
+  observedGraph = inputData->graph();
   observedGraph->addListener(this);
-  observedLayoutProperty = inputData->getElementLayout();
+  observedLayoutProperty = inputData->layout();
   observedLayoutProperty->addListener(this);
-  observedSizeProperty = inputData->getElementSize();
+  observedSizeProperty = inputData->sizes();
   observedSizeProperty->addListener(this);
-  observedSelectionProperty = inputData->getElementSelected();
+  observedSelectionProperty = inputData->selection();
   observedSelectionProperty->addListener(this);
-  observedColorProperty = inputData->getElementColor();
+  observedColorProperty = inputData->colors();
   observedColorProperty->addListener(this);
 }
 
@@ -218,10 +218,10 @@ void GlGraphLowDetailsRenderer::treatEvent(const Event &ev) {
     case GraphEvent::TLP_ADD_LOCAL_PROPERTY:
     case GraphEvent::TLP_BEFORE_DEL_LOCAL_PROPERTY: {
       const PropertyInterface *property =
-          inputData->getGraph()->getProperty(graphEvent->getPropertyName());
+          inputData->graph()->getProperty(graphEvent->getPropertyName());
 
-      if (property == inputData->getElementLayout() || property == inputData->getElementSize() ||
-          property == inputData->getElementColor() || property == inputData->getElementSelected()) {
+      if (property == inputData->layout() || property == inputData->sizes() ||
+          property == inputData->colors() || property == inputData->selection()) {
         buildVBO = true;
         updateObservers();
       }

@@ -49,7 +49,7 @@ GlArrow2DEdgeExtremity::~GlArrow2DEdgeExtremity() = default;
 void GlArrow2DEdgeExtremity::draw(edge e, node, const Color &glyphColor, const Color &borderColor,
                                   float lod) {
 
-  double width = edgeExtGlGraphInputData->getElementBorderWidth()->getEdgeValue(e);
+  double width = edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e);
 
   triangle->setFillColor(glyphColor);
   triangle->setOutlineSize(width);

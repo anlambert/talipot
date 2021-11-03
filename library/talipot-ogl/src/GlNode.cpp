@@ -30,12 +30,12 @@ namespace tlp {
 Singleton<GlLabel> GlNode::label;
 
 void GlNode::init(const GlGraphInputData *data) {
-  coord = data->getElementLayout()->getNodeValue(n);
-  glyph = data->getElementShape()->getNodeValue(n);
-  size = data->getElementSize()->getNodeValue(n);
-  rot = data->getElementRotation()->getNodeValue(n);
-  selected = data->getElementSelected()->getNodeValue(n);
-  labelRot = data->getElementLabelRotation()->getNodeValue(n);
+  coord = data->layout()->getNodeValue(n);
+  glyph = data->shapes()->getNodeValue(n);
+  size = data->sizes()->getNodeValue(n);
+  rot = data->rotations()->getNodeValue(n);
+  selected = data->selection()->getNodeValue(n);
+  labelRot = data->labelRotations()->getNodeValue(n);
 }
 
 BoundingBox GlNode::getBoundingBox(const GlGraphInputData *data) {
@@ -70,13 +70,13 @@ BoundingBox GlNode::getBoundingBox(const GlGraphInputData *data) {
 
 void GlNode::draw(float lod, const GlGraphInputData *data, Camera *camera) {
   init(data);
-  const Color &colorSelect2 = data->parameters->getSelectionColor();
+  const Color &colorSelect2 = data->renderingParameters()->getSelectionColor();
 
   glEnable(GL_CULL_FACE);
 
   // do not render metanode is lod is too low
-  if (data->getGraph()->isMetaNode(n) && lod >= LOD_MIN_TRESHOLD) {
-    data->getMetaNodeRenderer()->render(n, lod, camera);
+  if (data->graph()->isMetaNode(n) && lod >= LOD_MIN_TRESHOLD) {
+    data->metaNodeRenderer()->render(n, lod, camera);
   }
 
   // less than four pixel on screen, we use points instead of glyphs
@@ -85,14 +85,14 @@ void GlNode::draw(float lod, const GlGraphInputData *data, Camera *camera) {
       lod = 1;
     }
 
-    if (data->getGlVertexArrayManager()->renderingIsBegin()) {
-      data->getGlVertexArrayManager()->activatePointNodeDisplay(this, selected);
+    if (data->glVertexArrayManager()->renderingIsBegin()) {
+      data->glVertexArrayManager()->activatePointNodeDisplay(this, selected);
     } else {
       glDisable(GL_LIGHTING);
       setColor(selected ? colorSelect2
-                        : ((data->getElementBorderWidth()->getNodeValue(n) > 0)
-                               ? data->getElementBorderColor()->getNodeValue(n)
-                               : data->getElementColor()->getNodeValue(n)));
+                        : ((data->borderWidths()->getNodeValue(n) > 0)
+                               ? data->borderColors()->getNodeValue(n)
+                               : data->colors()->getNodeValue(n)));
       glPointSize(4);
       glBegin(GL_POINTS);
       glVertex3f(coord[0], coord[1], coord[2] + size[2] / 2.);
@@ -103,7 +103,7 @@ void GlNode::draw(float lod, const GlGraphInputData *data, Camera *camera) {
     return;
   }
 
-  if (!data->parameters->isDisplayNodes()) {
+  if (!data->renderingParameters()->isDisplayNodes()) {
     return;
   }
 
@@ -115,18 +115,18 @@ void GlNode::draw(float lod, const GlGraphInputData *data, Camera *camera) {
     nodeSize[2] = FLT_EPSILON;
   }
 
-  auto *glyphObj = data->glyphManager->getGlyph(glyph);
+  auto *glyphObj = data->glyphManager()->getGlyph(glyph);
   // Some glyphs can not benefit from the shader rendering optimization
   // due to the use of quadrics or modelview matrix modification or lighting effect
-  if (data->getGlGlyphRenderer()->renderingHasStarted() && glyphObj->shaderSupported()) {
-    data->getGlGlyphRenderer()->addNodeGlyphRendering(glyphObj, n, lod, coord, nodeSize, rot,
-                                                      selected);
+  if (data->glGlyphRenderer()->renderingHasStarted() && glyphObj->shaderSupported()) {
+    data->glGlyphRenderer()->addNodeGlyphRendering(glyphObj, n, lod, coord, nodeSize, rot,
+                                                   selected);
   } else {
 
     if (selected) {
-      glStencilFunc(GL_LEQUAL, data->parameters->getSelectedNodesStencil(), 0xFFFF);
+      glStencilFunc(GL_LEQUAL, data->renderingParameters()->getSelectedNodesStencil(), 0xFFFF);
     } else {
-      glStencilFunc(GL_LEQUAL, data->parameters->getNodesStencil(), 0xFFFF);
+      glStencilFunc(GL_LEQUAL, data->renderingParameters()->getNodesStencil(), 0xFFFF);
     }
 
     // draw a glyph or make recursive call for meta nodes
@@ -137,7 +137,7 @@ void GlNode::draw(float lod, const GlGraphInputData *data, Camera *camera) {
     glScalef(nodeSize[0], nodeSize[1], nodeSize[2]);
 
     if (selected) {
-      selectionBox.setStencil(data->parameters->getSelectedNodesStencil() - 1);
+      selectionBox.setStencil(data->renderingParameters()->getSelectedNodesStencil() - 1);
       selectionBox.setOutlineColor(colorSelect2);
       selectionBox.draw(10, nullptr);
     }
@@ -167,16 +167,16 @@ void GlNode::drawLabel(OcclusionTest *test, const GlGraphInputData *data, float 
                        Camera *camera) {
   init(data);
   // If glyph cannot render label: return
-  if (data->glyphManager->getGlyph(glyph)->renderLabel()) {
+  if (data->glyphManager()->getGlyph(glyph)->renderLabel()) {
     return;
   }
 
   // Color of the label : selected or not
-  const Color &fontColor = selected ? data->parameters->getSelectionColor()
-                                    : data->getElementLabelColor()->getNodeValue(n);
-  const Color &fontBorderColor = selected ? data->parameters->getSelectionColor()
-                                          : data->getElementLabelBorderColor()->getNodeValue(n);
-  float fontBorderWidth = data->getElementLabelBorderWidth()->getNodeValue(n);
+  const Color &fontColor = selected ? data->renderingParameters()->getSelectionColor()
+                                    : data->labelColors()->getNodeValue(n);
+  const Color &fontBorderColor = selected ? data->renderingParameters()->getSelectionColor()
+                                          : data->labelBorderColors()->getNodeValue(n);
+  float fontBorderWidth = data->labelBorderWidths()->getNodeValue(n);
 
   // If we have transparent label : return
   if (fontColor.getA() == 0 && (fontBorderColor.getA() == 0 || fontBorderWidth == 0)) {
@@ -184,19 +184,19 @@ void GlNode::drawLabel(OcclusionTest *test, const GlGraphInputData *data, float 
   }
 
   // Node text
-  const string &tmp = data->getElementLabel()->getNodeValue(n);
+  const string &tmp = data->labels()->getNodeValue(n);
 
   if (tmp.length() < 1) {
     return;
   }
 
   if (selected) {
-    label.instance().setStencil(data->parameters->getSelectedNodesStencil());
+    label.instance().setStencil(data->renderingParameters()->getSelectedNodesStencil());
   } else {
-    label.instance().setStencil(data->parameters->getNodesLabelStencil());
+    label.instance().setStencil(data->renderingParameters()->getNodesLabelStencil());
   }
 
-  int fontSize = data->getElementFontSize()->getNodeValue(n);
+  int fontSize = data->fontSizes()->getNodeValue(n);
 
   if (fontSize <= 0) {
     return;
@@ -206,14 +206,13 @@ void GlNode::drawLabel(OcclusionTest *test, const GlGraphInputData *data, float 
     fontSize += 2;
   }
 
-  int labelPos = data->getElementLabelPosition()->getNodeValue(n);
+  int labelPos = data->labelPositions()->getNodeValue(n);
 
-  BoundingBox includeBB = data->glyphManager->getGlyph(glyph)->getTextBoundingBox(n);
+  BoundingBox includeBB = data->glyphManager()->getGlyph(glyph)->getTextBoundingBox(n);
   Coord centerBB = includeBB.center();
   Vec3f sizeBB = includeBB[1] - includeBB[0];
 
-  label.instance().setFontNameSizeAndColor(data->getElementFont()->getNodeValue(n), fontSize,
-                                           fontColor);
+  label.instance().setFontNameSizeAndColor(data->fonts()->getNodeValue(n), fontSize, fontColor);
   label.instance().setOutlineColor(fontBorderColor);
   label.instance().setOutlineSize(fontBorderWidth);
   label.instance().setText(tmp);
@@ -222,16 +221,16 @@ void GlNode::drawLabel(OcclusionTest *test, const GlGraphInputData *data, float 
   label.instance().setSizeForOutAlign(Size(size[0], size[1], 0));
   label.instance().rotate(0, 0, labelRot);
   label.instance().setAlignment(labelPos);
-  label.instance().setScaleToSize(data->parameters->isLabelScaled());
+  label.instance().setScaleToSize(data->renderingParameters()->isLabelScaled());
   label.instance().setUseLODOptimisation(true, this->getBoundingBox(data));
-  label.instance().setLabelsDensity(data->parameters->getLabelsDensity());
-  label.instance().setUseMinMaxSize(!data->parameters->isLabelFixedFontSize());
-  label.instance().setMinSize(data->parameters->getMinSizeOfLabel());
-  label.instance().setMaxSize(data->parameters->getMaxSizeOfLabel());
+  label.instance().setLabelsDensity(data->renderingParameters()->getLabelsDensity());
+  label.instance().setUseMinMaxSize(!data->renderingParameters()->isLabelFixedFontSize());
+  label.instance().setMinSize(data->renderingParameters()->getMinSizeOfLabel());
+  label.instance().setMaxSize(data->renderingParameters()->getMaxSizeOfLabel());
   label.instance().setOcclusionTester(test);
-  label.instance().setBillboarded(data->parameters->getLabelsAreBillboarded());
+  label.instance().setBillboarded(data->renderingParameters()->getLabelsAreBillboarded());
 
-  if (includeBB[1][2] != 0 && !data->parameters->getLabelsAreBillboarded()) {
+  if (includeBB[1][2] != 0 && !data->renderingParameters()->getLabelsAreBillboarded()) {
     label.instance().setPosition(Coord(coord[0], coord[1], coord[2] + size[2] / 2.));
   } else {
     label.instance().setPosition(Coord(coord[0], coord[1], coord[2]));

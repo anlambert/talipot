@@ -61,9 +61,9 @@ BoundingBox Sphere::getIncludeBoundingBox(node) {
 }
 
 void Sphere::draw(node n, float) {
-  drawGlyph(glGraphInputData->getElementColor()->getNodeValue(n),
-            glGraphInputData->getElementTexture()->getNodeValue(n),
-            glGraphInputData->parameters->getTexturePath());
+  drawGlyph(glGraphInputData->colors()->getNodeValue(n),
+            glGraphInputData->textures()->getNodeValue(n),
+            glGraphInputData->renderingParameters()->getTexturePath());
 }
 
 class EESphere : public EdgeExtremityGlyph {
@@ -74,8 +74,8 @@ public:
   ~EESphere() override = default;
   void draw(edge e, node, const Color &glyphColor, const Color &, float) override {
     glEnable(GL_LIGHTING);
-    drawGlyph(glyphColor, edgeExtGlGraphInputData->getElementTexture()->getEdgeValue(e),
-              edgeExtGlGraphInputData->parameters->getTexturePath());
+    drawGlyph(glyphColor, edgeExtGlGraphInputData->textures()->getEdgeValue(e),
+              edgeExtGlGraphInputData->renderingParameters()->getTexturePath());
   }
 };
 

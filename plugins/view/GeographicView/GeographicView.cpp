@@ -317,7 +317,7 @@ void GeographicView::updateSharedProperties() {
     }
   }
 
-  inputData->getGlVertexArrayManager()->setHaveToComputeAll(true);
+  inputData->glVertexArrayManager()->setHaveToComputeAll(true);
 }
 
 void GeographicView::updatePoly(bool force) {

@@ -21,16 +21,16 @@
 namespace tlp {
 GlGraphInputData::GlGraphInputData(Graph *graph, GlGraphRenderingParameters *parameters,
                                    GlMetaNodeRenderer *renderer)
-    : graph(graph), parameters(parameters) {
+    : _graph(graph), _parameters(parameters) {
 
   reloadGraphProperties();
 
-  if (graph) {
-    graph->addListener(this);
+  if (_graph) {
+    _graph->addListener(this);
   }
 
-  glyphManager = new GlyphManager(this);
-  extremityGlyphManager = new EdgeExtremityGlyphManager(this);
+  _glyphManager = new GlyphManager(this);
+  _extremityGlyphManager = new EdgeExtremityGlyphManager(this);
 
   if (renderer) {
     _metaNodeRenderer = renderer;
@@ -55,30 +55,9 @@ GlGraphInputData::~GlGraphInputData() {
   delete _glVertexArrayManager;
   delete _metaNodeRenderer;
   delete _glGlyphRenderer;
-  delete glyphManager;
-  delete extremityGlyphManager;
+  delete _glyphManager;
+  delete _extremityGlyphManager;
 }
-
-// add this class to ensure proper deletion of the viewAnimationFrame property
-// as the property is referenced in other structure as View::_triggers
-// it must remain alive until graph destruction
-class GlViewAnimationFrameProperty : public IntegerProperty {
-public:
-  GlViewAnimationFrameProperty(Graph *g) : IntegerProperty(g, "viewAnimationFrame") {
-    _needGraphListener = true;
-    graph->addListener(this);
-  }
-  void treatEvent(const Event &evt) override {
-    auto *g = static_cast<Graph *>(evt.sender());
-
-    if (graph == g && evt.type() == Event::TLP_DELETE) {
-      delete this;
-    } else {
-      _needGraphListener = true;
-      IntegerMinMaxProperty::treatEvent(evt);
-    }
-  }
-};
 
 std::unordered_map<std::string, GlGraphInputData::PropertyName>
     GlGraphInputData::_propertiesNameMap;
@@ -105,58 +84,55 @@ void GlGraphInputData::reloadGraphProperties() {
     _propertiesNameMap["viewSrcAnchorSize"] = VIEW_SRCANCHORSIZE;
     _propertiesNameMap["viewTgtAnchorShape"] = VIEW_TGTANCHORSHAPE;
     _propertiesNameMap["viewTgtAnchorSize"] = VIEW_TGTANCHORSIZE;
-    _propertiesNameMap["viewAnimationFrame"] = VIEW_ANIMATIONFRAME;
     _propertiesNameMap["viewIcon"] = VIEW_ICON;
     _propertiesNameMap["viewLabelRotation"] = VIEW_LABELROTATION;
   }
 
-  if (graph) {
+  if (_graph) {
     _properties.clear();
-    _propertiesMap[VIEW_COLOR] = graph->getColorProperty("viewColor");
+    _propertiesMap[VIEW_COLOR] = _graph->getColorProperty("viewColor");
     _properties.insert(_propertiesMap[VIEW_COLOR]);
-    _propertiesMap[VIEW_LABELCOLOR] = graph->getColorProperty("viewLabelColor");
+    _propertiesMap[VIEW_LABELCOLOR] = _graph->getColorProperty("viewLabelColor");
     _properties.insert(_propertiesMap[VIEW_LABELCOLOR]);
-    _propertiesMap[VIEW_LABELBORDERCOLOR] = graph->getColorProperty("viewLabelBorderColor");
+    _propertiesMap[VIEW_LABELBORDERCOLOR] = _graph->getColorProperty("viewLabelBorderColor");
     _properties.insert(_propertiesMap[VIEW_LABELBORDERCOLOR]);
-    _propertiesMap[VIEW_LABELBORDERWIDTH] = graph->getDoubleProperty("viewLabelBorderWidth");
+    _propertiesMap[VIEW_LABELBORDERWIDTH] = _graph->getDoubleProperty("viewLabelBorderWidth");
     _properties.insert(_propertiesMap[VIEW_LABELBORDERWIDTH]);
-    _propertiesMap[VIEW_SIZE] = graph->getSizeProperty("viewSize");
+    _propertiesMap[VIEW_SIZE] = _graph->getSizeProperty("viewSize");
     _properties.insert(_propertiesMap[VIEW_SIZE]);
-    _propertiesMap[VIEW_LABEL] = graph->getStringProperty("viewLabel");
+    _propertiesMap[VIEW_LABEL] = _graph->getStringProperty("viewLabel");
     _properties.insert(_propertiesMap[VIEW_LABEL]);
-    _propertiesMap[VIEW_LABELPOSITION] = graph->getIntegerProperty("viewLabelPosition");
+    _propertiesMap[VIEW_LABELPOSITION] = _graph->getIntegerProperty("viewLabelPosition");
     _properties.insert(_propertiesMap[VIEW_LABELPOSITION]);
-    _propertiesMap[VIEW_SHAPE] = graph->getIntegerProperty("viewShape");
+    _propertiesMap[VIEW_SHAPE] = _graph->getIntegerProperty("viewShape");
     _properties.insert(_propertiesMap[VIEW_SHAPE]);
-    _propertiesMap[VIEW_ROTATION] = graph->getDoubleProperty("viewRotation");
+    _propertiesMap[VIEW_ROTATION] = _graph->getDoubleProperty("viewRotation");
     _properties.insert(_propertiesMap[VIEW_ROTATION]);
-    _propertiesMap[VIEW_SELECTED] = graph->getBooleanProperty("viewSelection");
+    _propertiesMap[VIEW_SELECTED] = _graph->getBooleanProperty("viewSelection");
     _properties.insert(_propertiesMap[VIEW_SELECTED]);
-    _propertiesMap[VIEW_FONT] = graph->getStringProperty("viewFont");
+    _propertiesMap[VIEW_FONT] = _graph->getStringProperty("viewFont");
     _properties.insert(_propertiesMap[VIEW_FONT]);
-    _propertiesMap[VIEW_FONTSIZE] = graph->getIntegerProperty("viewFontSize");
+    _propertiesMap[VIEW_FONTSIZE] = _graph->getIntegerProperty("viewFontSize");
     _properties.insert(_propertiesMap[VIEW_FONTSIZE]);
-    _propertiesMap[VIEW_TEXTURE] = graph->getStringProperty("viewTexture");
+    _propertiesMap[VIEW_TEXTURE] = _graph->getStringProperty("viewTexture");
     _properties.insert(_propertiesMap[VIEW_TEXTURE]);
-    _propertiesMap[VIEW_BORDERCOLOR] = graph->getColorProperty("viewBorderColor");
+    _propertiesMap[VIEW_BORDERCOLOR] = _graph->getColorProperty("viewBorderColor");
     _properties.insert(_propertiesMap[VIEW_BORDERCOLOR]);
-    _propertiesMap[VIEW_BORDERWIDTH] = graph->getDoubleProperty("viewBorderWidth");
+    _propertiesMap[VIEW_BORDERWIDTH] = _graph->getDoubleProperty("viewBorderWidth");
     _properties.insert(_propertiesMap[VIEW_BORDERWIDTH]);
-    _propertiesMap[VIEW_LAYOUT] = graph->getLayoutProperty("viewLayout");
+    _propertiesMap[VIEW_LAYOUT] = _graph->getLayoutProperty("viewLayout");
     _properties.insert(_propertiesMap[VIEW_LAYOUT]);
-    _propertiesMap[VIEW_SRCANCHORSHAPE] = graph->getIntegerProperty("viewSrcAnchorShape");
+    _propertiesMap[VIEW_SRCANCHORSHAPE] = _graph->getIntegerProperty("viewSrcAnchorShape");
     _properties.insert(_propertiesMap[VIEW_SRCANCHORSHAPE]);
-    _propertiesMap[VIEW_SRCANCHORSIZE] = graph->getSizeProperty("viewSrcAnchorSize");
+    _propertiesMap[VIEW_SRCANCHORSIZE] = _graph->getSizeProperty("viewSrcAnchorSize");
     _properties.insert(_propertiesMap[VIEW_SRCANCHORSIZE]);
-    _propertiesMap[VIEW_TGTANCHORSHAPE] = graph->getIntegerProperty("viewTgtAnchorShape");
+    _propertiesMap[VIEW_TGTANCHORSHAPE] = _graph->getIntegerProperty("viewTgtAnchorShape");
     _properties.insert(_propertiesMap[VIEW_TGTANCHORSHAPE]);
-    _propertiesMap[VIEW_TGTANCHORSIZE] = graph->getSizeProperty("viewTgtAnchorSize");
+    _propertiesMap[VIEW_TGTANCHORSIZE] = _graph->getSizeProperty("viewTgtAnchorSize");
     _properties.insert(_propertiesMap[VIEW_TGTANCHORSIZE]);
-    _propertiesMap[VIEW_ANIMATIONFRAME] = new GlViewAnimationFrameProperty(graph);
-    _properties.insert(_propertiesMap[VIEW_ANIMATIONFRAME]);
-    _propertiesMap[VIEW_ICON] = graph->getStringProperty("viewIcon");
+    _propertiesMap[VIEW_ICON] = _graph->getStringProperty("viewIcon");
     _properties.insert(_propertiesMap[VIEW_ICON]);
-    _propertiesMap[VIEW_LABELROTATION] = graph->getDoubleProperty("viewLabelRotation");
+    _propertiesMap[VIEW_LABELROTATION] = _graph->getDoubleProperty("viewLabelRotation");
     _properties.insert(_propertiesMap[VIEW_ICON]);
   }
 }
@@ -183,7 +159,7 @@ bool GlGraphInputData::installProperties(
   }
 
   if (result) {
-    getGlVertexArrayManager()->setHaveToComputeAll(true);
+    glVertexArrayManager()->setHaveToComputeAll(true);
   }
 
   return result;
@@ -202,7 +178,7 @@ void GlGraphInputData::treatEvent(const Event &ev) {
             _propertiesMap[_propertiesNameMap[graphEv->getPropertyName()]];
         _properties.erase(oldProperty);
         _propertiesMap[_propertiesNameMap[graphEv->getPropertyName()]] =
-            graph->getProperty(graphEv->getPropertyName());
+            _graph->getProperty(graphEv->getPropertyName());
         _properties.insert(_propertiesMap[_propertiesNameMap[graphEv->getPropertyName()]]);
       }
     }

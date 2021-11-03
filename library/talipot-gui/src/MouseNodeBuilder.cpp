@@ -49,8 +49,8 @@ bool MouseNodeBuilder::eventFilter(QObject *widget, QEvent *e) {
         }
 
         GlGraphInputData *inputData = glWidget->getGlGraphInputData();
-        Graph *_graph = inputData->getGraph();
-        LayoutProperty *mLayout = inputData->getElementLayout();
+        Graph *_graph = inputData->graph();
+        LayoutProperty *mLayout = inputData->layout();
         // allow to undo
         _graph->push();
         Observable::holdObservers();

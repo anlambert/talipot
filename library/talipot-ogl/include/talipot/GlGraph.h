@@ -89,7 +89,7 @@ public:
    * @brief Return the graph used by this GlGraph
    */
   Graph *getGraph() {
-    return inputData.getGraph();
+    return inputData.graph();
   }
 
   /**
@@ -113,7 +113,7 @@ public:
     if (nodesModified) {
       metaNodes.clear();
 
-      Graph *graph = inputData.getGraph();
+      Graph *graph = inputData.graph();
 
       for (auto n : graph->nodes()) {
         if (graph->getNodeMetaInfo(n)) {

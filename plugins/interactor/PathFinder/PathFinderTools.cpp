@@ -21,9 +21,8 @@ using namespace std;
 namespace tlp {
 // Computes the enclosing circle of the elements contained in a boolean property.
 Circlef getEnclosingCircle(GlGraphInputData *inputData, BooleanProperty *selection) {
-  BoundingBox bbox(computeBoundingBox(inputData->getGraph(), inputData->getElementLayout(),
-                                      inputData->getElementSize(), inputData->getElementRotation(),
-                                      selection));
+  BoundingBox bbox(computeBoundingBox(inputData->graph(), inputData->layout(), inputData->sizes(),
+                                      inputData->rotations(), selection));
   Coord center = bbox.center();
   float norm = (bbox[1] - bbox[0]).norm();
   Circlef result;
@@ -34,7 +33,7 @@ Circlef getEnclosingCircle(GlGraphInputData *inputData, BooleanProperty *selecti
 }
 
 bool getNodeEnclosingCircle(Circlef &circle, GlGraphInputData *inputData, node n) {
-  auto *selection = new BooleanProperty(inputData->getGraph());
+  auto *selection = new BooleanProperty(inputData->graph());
   selection->setAllNodeValue(false);
   selection->setNodeValue(n, true);
   circle = getEnclosingCircle(inputData, selection);
@@ -42,11 +41,11 @@ bool getNodeEnclosingCircle(Circlef &circle, GlGraphInputData *inputData, node n
 }
 
 bool getEdgeEnclosingCircle(Circlef &circle, GlGraphInputData *inputData, edge e) {
-  auto *selection = new BooleanProperty(inputData->getGraph());
+  auto *selection = new BooleanProperty(inputData->graph());
   selection->setAllEdgeValue(false);
   selection->setEdgeValue(e, true);
 
-  if (inputData->getElementLayout()->getEdgeValue(e).empty()) {
+  if (inputData->layout()->getEdgeValue(e).empty()) {
     return false;
   }
 

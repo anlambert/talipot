@@ -53,7 +53,7 @@ bool PathFinderComponent::eventFilter(QObject *obj, QEvent *event) {
     // double click will deselect all
     Observable::holdObservers();
 
-    BooleanProperty *selectionProperty = glw->getGlGraphInputData()->getElementSelected();
+    BooleanProperty *selectionProperty = glw->getGlGraphInputData()->selection();
     selectionProperty->setAllNodeValue(false);
     selectionProperty->setAllEdgeValue(false);
 
@@ -80,7 +80,7 @@ bool PathFinderComponent::eventFilter(QObject *obj, QEvent *event) {
       // if no source already exists
       Observable::holdObservers();
 
-      BooleanProperty *selectionProperty = glw->getGlGraphInputData()->getElementSelected();
+      BooleanProperty *selectionProperty = glw->getGlGraphInputData()->selection();
       selectionProperty->setAllNodeValue(false);
       selectionProperty->setAllEdgeValue(false);
       // select it
@@ -102,7 +102,7 @@ bool PathFinderComponent::eventFilter(QObject *obj, QEvent *event) {
     if (tgt.isValid()) {
       Observable::holdObservers();
 
-      BooleanProperty *selectionProperty = glw->getGlGraphInputData()->getElementSelected();
+      BooleanProperty *selectionProperty = glw->getGlGraphInputData()->selection();
       selectionProperty->setAllNodeValue(false);
       selectionProperty->setAllEdgeValue(false);
       selectPath(glw, glw->getScene()->getGlGraph()->getGraph());
@@ -120,7 +120,7 @@ bool PathFinderComponent::eventFilter(QObject *obj, QEvent *event) {
 void PathFinderComponent::selectPath(GlWidget *glWidget, Graph *graph) {
   GlGraphInputData *inputData = glWidget->getGlGraphInputData();
 
-  BooleanProperty *selection = inputData->getElementSelected();
+  BooleanProperty *selection = inputData->selection();
 
   if (src.isValid() && tgt.isValid()) { // We only select a path if source and target are valid
     Observable::holdObservers();

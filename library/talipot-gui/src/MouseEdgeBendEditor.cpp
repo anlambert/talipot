@@ -304,12 +304,12 @@ bool MouseEdgeBendEditor::draw(GlWidget *) {
 //========================================================================================
 void MouseEdgeBendEditor::initProxies(GlWidget *glWidget) {
   GlGraphInputData *inputData = glWidget->getGlGraphInputData();
-  _graph = inputData->getGraph();
-  _layout = inputData->getElementLayout();
-  _selection = inputData->getElementSelected();
-  _rotation = inputData->getElementRotation();
-  _sizes = inputData->getElementSize();
-  _shape = inputData->getElementShape();
+  _graph = inputData->graph();
+  _layout = inputData->layout();
+  _selection = inputData->selection();
+  _rotation = inputData->rotations();
+  _sizes = inputData->sizes();
+  _shape = inputData->shapes();
 
   if (_graph->existProperty("viewPolygonCoords")) {
     _coordsVectorProperty = _graph->getCoordVectorProperty("viewPolygonCoords");

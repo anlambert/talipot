@@ -874,19 +874,19 @@ void GeographicViewGraphicsView::setGeoLayout(LayoutProperty *property) {
   }
   geoLayout = property;
   geoLayout->addListener(this);
-  glWidget->getGlGraphInputData()->setElementLayout(geoLayout);
+  glWidget->getGlGraphInputData()->setLayout(geoLayout);
 }
 
 void GeographicViewGraphicsView::setGeoSizes(SizeProperty *property) {
   *property = *geoViewSize;
   geoViewSize = property;
-  glWidget->getGlGraphInputData()->setElementSize(geoViewSize);
+  glWidget->getGlGraphInputData()->setSizes(geoViewSize);
 }
 
 void GeographicViewGraphicsView::setGeoShape(IntegerProperty *property) {
   *property = *geoViewShape;
   geoViewShape = property;
-  glWidget->getGlGraphInputData()->setElementShape(geoViewShape);
+  glWidget->getGlGraphInputData()->setShapes(geoViewShape);
 }
 
 void GeographicViewGraphicsView::treatEvent(const Event &ev) {

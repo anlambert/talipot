@@ -124,12 +124,12 @@ BoundingBox Window::getTextBoundingBox(node) {
 }
 //=====================================================
 void Window::draw(node n, float lod) {
-  ColorProperty *color = glGraphInputData->getElementColor();
-  ColorProperty *colorBorder = glGraphInputData->getElementBorderColor();
-  string textureName = glGraphInputData->getElementTexture()->getNodeValue(n);
+  ColorProperty *color = glGraphInputData->colors();
+  ColorProperty *colorBorder = glGraphInputData->borderColors();
+  string textureName = glGraphInputData->textures()->getNodeValue(n);
 
   if (!textureName.empty()) {
-    textureName = glGraphInputData->parameters->getTexturePath() + textureName;
+    textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
   }
 
   _border.setColor(colorBorder->getNodeValue(n));

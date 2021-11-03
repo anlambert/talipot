@@ -90,9 +90,9 @@ public:
    * This function is used by the engine to get color of the node
    */
   Color getColor(GlGraphInputData *inputData) const {
-    return (inputData->getElementBorderWidth()->getNodeValue(n) > 0)
-               ? inputData->getElementBorderColor()->getNodeValue(n)
-               : inputData->getElementColor()->getNodeValue(n);
+    return (inputData->borderWidths()->getNodeValue(n) > 0)
+               ? inputData->borderColors()->getNodeValue(n)
+               : inputData->colors()->getNodeValue(n);
   }
 
   node n;

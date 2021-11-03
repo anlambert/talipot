@@ -50,18 +50,18 @@ struct entityWithDistanceCompare {
       Color e1Color, e2Color;
 
       if (e1.isNode) {
-        e1Color = inputData->getElementColor()->getNodeValue(
+        e1Color = inputData->colors()->getNodeValue(
             node(static_cast<GraphElementLODUnit *>(e1.entity)->id));
       } else {
-        e1Color = inputData->getElementColor()->getEdgeValue(
+        e1Color = inputData->colors()->getEdgeValue(
             edge(static_cast<GraphElementLODUnit *>(e1.entity)->id));
       }
 
       if (e2.isNode) {
-        e2Color = inputData->getElementColor()->getNodeValue(
+        e2Color = inputData->colors()->getNodeValue(
             node(static_cast<GraphElementLODUnit *>(e2.entity)->id));
       } else {
-        e2Color = inputData->getElementColor()->getEdgeValue(
+        e2Color = inputData->colors()->getEdgeValue(
             edge(static_cast<GraphElementLODUnit *>(e2.entity)->id));
       }
 
@@ -165,7 +165,7 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
     OpenGlConfigManager::deactivateAntiAliasing();
   }
 
-  Graph *graph = inputData->getGraph();
+  Graph *graph = inputData->graph();
 
   // If we don't init lod calculator : clone the scene one
   if (!lodCalculator) {
@@ -209,15 +209,15 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
 
   LayersLODVector &layersLODVector = lodCalculator->getResult();
 
-  auto *vertexArrayManager = inputData->getGlVertexArrayManager();
+  auto *vertexArrayManager = inputData->glVertexArrayManager();
   bool vertexArrayManagerActivated = vertexArrayManager->isActivated();
 
   if (vertexArrayManagerActivated) {
     // VertexArrayManager begin
     if (!selectionDrawActivate) {
-      // inputData->getGlVertexArrayManager()->activate(true);
+      // inputData->glVertexArrayManager()->activate(true);
       vertexArrayManager->beginRendering();
-      inputData->getGlGlyphRenderer()->startRendering();
+      inputData->glGlyphRenderer()->startRendering();
     } else {
       vertexArrayManager->activate(false);
     }
@@ -229,18 +229,19 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
     vertexArrayManager->setHaveToComputeAll(false);
   }
 
-  BooleanProperty *filteringProperty = inputData->parameters->getDisplayFilteringProperty();
-  NumericProperty *metric = inputData->parameters->getElementOrderingProperty();
-  bool displayNodes = inputData->parameters->isDisplayNodes();
-  bool displayMetaNodes = inputData->parameters->isDisplayMetaNodes();
-  bool displayMetaNodesLabel = inputData->parameters->isViewMetaLabel();
-  bool displayEdges = inputData->parameters->isDisplayEdges();
+  BooleanProperty *filteringProperty =
+      inputData->renderingParameters()->getDisplayFilteringProperty();
+  NumericProperty *metric = inputData->renderingParameters()->getElementOrderingProperty();
+  bool displayNodes = inputData->renderingParameters()->isDisplayNodes();
+  bool displayMetaNodes = inputData->renderingParameters()->isDisplayMetaNodes();
+  bool displayMetaNodesLabel = inputData->renderingParameters()->isViewMetaLabel();
+  bool displayEdges = inputData->renderingParameters()->isDisplayEdges();
 
   bool renderOnlyOneNode = !selectionDrawActivate &&
-                           !inputData->getElementLayout()->hasNonDefaultValuatedNodes() &&
-                           !inputData->getElementSize()->hasNonDefaultValuatedNodes();
+                           !inputData->layout()->hasNonDefaultValuatedNodes() &&
+                           !inputData->sizes()->hasNonDefaultValuatedNodes();
 
-  if (!inputData->parameters->isElementZOrdered()) {
+  if (!inputData->renderingParameters()->isElementZOrdered()) {
 
     vector<pair<node, float>> nodesMetricOrdered;
     vector<pair<edge, float>> edgesMetricOrdered;
@@ -413,7 +414,7 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
 
           // All opaque elements have been drawn, turn the depth buffer read-only
           // in order for a transparent object to not occlude another transparent object
-          if (inputData->getElementColor()->getNodeValue(node(entity->id)).getA() < 255) {
+          if (inputData->colors()->getNodeValue(node(entity->id)).getA() < 255) {
             glDepthMask(GL_FALSE);
           }
 
@@ -443,7 +444,7 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
 
         // All opaque elements have been drawn, turn the depth buffer read-only
         // in order for a transparent object to not occlude another transparent object
-        if (inputData->getElementColor()->getEdgeValue(edge(entity->id)).getA() < 255) {
+        if (inputData->colors()->getEdgeValue(edge(entity->id)).getA() < 255) {
           glDepthMask(GL_FALSE);
         }
 
@@ -470,9 +471,9 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
     if (vertexArrayManagerActivated) {
       if (inputData->renderingParameters()->isEdgeFrontDisplay()) {
         vertexArrayManager->endRendering();
-        inputData->getGlGlyphRenderer()->endRendering();
+        inputData->glGlyphRenderer()->endRendering();
       } else {
-        inputData->getGlGlyphRenderer()->endRendering();
+        inputData->glGlyphRenderer()->endRendering();
         vertexArrayManager->endRendering();
       }
     }
@@ -489,7 +490,7 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
   OcclusionTest occlusionTest;
   bool labelDensityAtZero = true;
 
-  if (inputData->parameters->getLabelsDensity() != -100) {
+  if (inputData->renderingParameters()->getLabelsDensity() != -100) {
     labelDensityAtZero = false;
   }
 
@@ -520,7 +521,7 @@ void GlGraphHighDetailsRenderer::selectEntities(Camera *camera, RenderingEntitie
   unordered_map<uint, SelectedEntity> idToEntity;
   uint id = 1;
 
-  uint size = inputData->getGraph()->numberOfNodes() + inputData->getGraph()->numberOfEdges();
+  uint size = inputData->graph()->numberOfNodes() + inputData->graph()->numberOfEdges();
 
   // Allocate memory to store the result of the selection
   vector<std::array<GLuint, 4>> selectBuf(size);
@@ -559,16 +560,17 @@ void GlGraphHighDetailsRenderer::initSelectionRendering(RenderingEntitiesFlag ty
 void GlGraphHighDetailsRenderer::drawLabelsForComplexEntities(bool drawSelected,
                                                               OcclusionTest *occlusionTest,
                                                               LayerLODUnit &layerLODUnit) {
-  Graph *graph = inputData->getGraph();
-  BooleanProperty *selectionProperty = inputData->getElementSelected();
-  bool viewOutScreenLabel = inputData->parameters->isViewOutScreenLabel();
-  NumericProperty *metric = inputData->parameters->getElementOrderingProperty();
-  BooleanProperty *filteringProperty = inputData->parameters->getDisplayFilteringProperty();
+  Graph *graph = inputData->graph();
+  BooleanProperty *selectionProperty = inputData->selection();
+  bool viewOutScreenLabel = inputData->renderingParameters()->isViewOutScreenLabel();
+  NumericProperty *metric = inputData->renderingParameters()->getElementOrderingProperty();
+  BooleanProperty *filteringProperty =
+      inputData->renderingParameters()->getDisplayFilteringProperty();
 
   // Draw Labels for Nodes
-  if (inputData->parameters->isViewNodeLabel() &&
-      ((!inputData->getElementLabel()->getNodeDefaultStringValue().empty()) ||
-       inputData->getElementLabel()->hasNonDefaultValuatedNodes())) {
+  if (inputData->renderingParameters()->isViewNodeLabel() &&
+      ((!inputData->labels()->getNodeDefaultStringValue().empty()) ||
+       inputData->labels()->hasNonDefaultValuatedNodes())) {
 
     vector<pair<node, float>> nodesMetricOrdered;
     for (auto &it : layerLODUnit.nodesLODVector) {
@@ -616,9 +618,9 @@ void GlGraphHighDetailsRenderer::drawLabelsForComplexEntities(bool drawSelected,
   }
 
   // Draw Labels for Edges
-  if (inputData->parameters->isViewEdgeLabel() &&
-      ((!inputData->getElementLabel()->getEdgeDefaultStringValue().empty()) ||
-       inputData->getElementLabel()->hasNonDefaultValuatedEdges())) {
+  if (inputData->renderingParameters()->isViewEdgeLabel() &&
+      ((!inputData->labels()->getEdgeDefaultStringValue().empty()) ||
+       inputData->labels()->hasNonDefaultValuatedEdges())) {
 
     vector<pair<edge, float>> edgesMetricOrdered;
     for (auto &it : layerLODUnit.edgesLODVector) {

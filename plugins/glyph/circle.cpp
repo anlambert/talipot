@@ -69,16 +69,15 @@ BoundingBox Circle::getIncludeBoundingBox(node) {
   return {{-0.35f, -0.35f, 0}, {0.35f, 0.35f, 0}};
 }
 void Circle::draw(node n, float lod) {
-  string textureName = glGraphInputData->getElementTexture()->getNodeValue(n);
+  string textureName = glGraphInputData->textures()->getNodeValue(n);
 
   if (!textureName.empty()) {
-    textureName = glGraphInputData->parameters->getTexturePath() + textureName;
+    textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
   }
 
-  drawCircle(Glyph::glGraphInputData->getElementColor()->getNodeValue(n),
-             Glyph::glGraphInputData->getElementBorderColor()->getNodeValue(n),
-             Glyph::glGraphInputData->getElementBorderWidth()->getNodeValue(n), textureName, lod,
-             true);
+  drawCircle(Glyph::glGraphInputData->colors()->getNodeValue(n),
+             Glyph::glGraphInputData->borderColors()->getNodeValue(n),
+             Glyph::glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod, true);
 }
 
 class EECircle : public EdgeExtremityGlyph {
@@ -87,15 +86,14 @@ public:
                    "Textured Circle for edge extremities", "1.1", EdgeExtremityShape::Circle)
   EECircle(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
   void draw(edge e, node, const Color &glyphColor, const Color &borderColor, float lod) override {
-    string textureName = edgeExtGlGraphInputData->getElementTexture()->getEdgeValue(e);
+    string textureName = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
 
     if (!textureName.empty()) {
-      textureName = edgeExtGlGraphInputData->parameters->getTexturePath() + textureName;
+      textureName = edgeExtGlGraphInputData->renderingParameters()->getTexturePath() + textureName;
     }
 
-    drawCircle(glyphColor, borderColor,
-               edgeExtGlGraphInputData->getElementBorderWidth()->getEdgeValue(e), textureName, lod,
-               false);
+    drawCircle(glyphColor, borderColor, edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e),
+               textureName, lod, false);
   }
 };
 

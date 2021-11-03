@@ -47,14 +47,14 @@ Cube::Cube(const tlp::PluginContext *context) : NoShaderGlyph(context) {}
 Cube::~Cube() = default;
 
 void Cube::draw(node n, float lod) {
-  string textureName = glGraphInputData->getElementTexture()->getNodeValue(n);
+  string textureName = glGraphInputData->textures()->getNodeValue(n);
   if (!textureName.empty()) {
-    textureName = textureName + glGraphInputData->parameters->getTexturePath();
+    textureName = textureName + glGraphInputData->renderingParameters()->getTexturePath();
   }
 
-  GlBox::draw(glGraphInputData->getElementColor()->getNodeValue(n),
-              glGraphInputData->getElementColor()->getNodeValue(n),
-              glGraphInputData->getElementBorderWidth()->getNodeValue(n), textureName, lod);
+  GlBox::draw(glGraphInputData->colors()->getNodeValue(n),
+              glGraphInputData->colors()->getNodeValue(n),
+              glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod);
 }
 Coord Cube::getAnchor(const Coord &vector) const {
   return GlBox::getAnchor(vector);
@@ -68,15 +68,14 @@ public:
   EECube(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
 
   void draw(edge e, node, const Color &glyphColor, const Color &borderColor, float lod) override {
-    string textureName = edgeExtGlGraphInputData->getElementTexture()->getEdgeValue(e);
+    string textureName = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
     if (!textureName.empty()) {
-      textureName = textureName + edgeExtGlGraphInputData->parameters->getTexturePath();
+      textureName = textureName + edgeExtGlGraphInputData->renderingParameters()->getTexturePath();
     }
 
     glEnable(GL_LIGHTING);
-    GlBox::draw(glyphColor, borderColor,
-                edgeExtGlGraphInputData->getElementBorderWidth()->getEdgeValue(e), textureName,
-                lod);
+    GlBox::draw(glyphColor, borderColor, edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e),
+                textureName, lod);
     glDisable(GL_LIGHTING);
   }
 };

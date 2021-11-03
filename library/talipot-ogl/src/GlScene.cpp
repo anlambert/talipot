@@ -168,7 +168,7 @@ void GlScene::draw() {
     }
 
     // Draw simple entities
-    if (getGlGraph() && !getGlGraph()->getInputData()->parameters->isElementZOrdered()) {
+    if (getGlGraph() && !getGlGraph()->getInputData()->renderingParameters()->isElementZOrdered()) {
       for (const auto &it : itLayer.entitiesLODVector) {
         if (it.lod < 0) {
           continue;

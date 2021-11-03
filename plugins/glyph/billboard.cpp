@@ -50,22 +50,22 @@ Billboard::~Billboard() = default;
 void Billboard::draw(node n, float lod) {
   static GlRect rect(Coord(0, 0, 0), 1., 1., Color(0, 0, 0, 255), Color(0, 0, 0, 255));
 
-  rect.setFillColor(glGraphInputData->getElementColor()->getNodeValue(n));
+  rect.setFillColor(glGraphInputData->colors()->getNodeValue(n));
 
-  string texFile = glGraphInputData->getElementTexture()->getNodeValue(n);
+  string texFile = glGraphInputData->textures()->getNodeValue(n);
 
   if (!texFile.empty()) {
-    string texturePath = glGraphInputData->parameters->getTexturePath();
+    string texturePath = glGraphInputData->renderingParameters()->getTexturePath();
     rect.setTextureName(texturePath + texFile);
   } else {
     rect.setTextureName("");
   }
 
-  double borderWidth = glGraphInputData->getElementBorderWidth()->getNodeValue(n);
+  double borderWidth = glGraphInputData->borderWidths()->getNodeValue(n);
 
   if (borderWidth > 0) {
     rect.setOutlineMode(true);
-    rect.setOutlineColor(glGraphInputData->getElementBorderColor()->getNodeValue(n));
+    rect.setOutlineColor(glGraphInputData->borderColors()->getNodeValue(n));
     rect.setOutlineSize(borderWidth);
   } else {
     rect.setOutlineMode(false);
@@ -73,8 +73,8 @@ void Billboard::draw(node n, float lod) {
 
   Size sz = {1};
 
-  if (glGraphInputData->getElementSize()) {
-    sz = glGraphInputData->getElementSize()->getNodeValue(n);
+  if (glGraphInputData->sizes()) {
+    sz = glGraphInputData->sizes()->getNodeValue(n);
   }
 
   // draw rect in the screen plane

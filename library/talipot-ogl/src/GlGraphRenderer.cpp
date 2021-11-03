@@ -24,7 +24,7 @@ GlGraphRenderer::GlGraphRenderer(const GlGraphInputData *inputData)
       selectionCurrentId(nullptr) {}
 
 void GlGraphRenderer::visitGraph(GlSceneVisitor *visitor, bool visitHiddenEntities) {
-  Graph *graph = inputData->getGraph();
+  Graph *graph = inputData->graph();
 
   if (!graph) {
     return;
@@ -32,11 +32,13 @@ void GlGraphRenderer::visitGraph(GlSceneVisitor *visitor, bool visitHiddenEntiti
 
   uint nbNodes = graph->numberOfNodes();
   uint nbEdges = graph->numberOfEdges();
-  if (!visitHiddenEntities && !inputData->parameters->isViewMetaLabel()) {
-    if (!inputData->parameters->isDisplayNodes() && !inputData->parameters->isViewNodeLabel()) {
+  if (!visitHiddenEntities && !inputData->renderingParameters()->isViewMetaLabel()) {
+    if (!inputData->renderingParameters()->isDisplayNodes() &&
+        !inputData->renderingParameters()->isViewNodeLabel()) {
       nbNodes = 0;
     }
-    if (!inputData->parameters->isDisplayEdges() && !inputData->parameters->isViewEdgeLabel()) {
+    if (!inputData->renderingParameters()->isDisplayEdges() &&
+        !inputData->renderingParameters()->isViewEdgeLabel()) {
       nbEdges = 0;
     }
   }

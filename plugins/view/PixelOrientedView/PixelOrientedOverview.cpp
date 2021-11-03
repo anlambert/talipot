@@ -72,8 +72,8 @@ PixelOrientedOverview::PixelOrientedOverview(GraphDimension *data,
   glGraph = new GlGraph(graph);
   setGraphView(glGraph);
   GlGraphInputData *glGraphInputData = glGraph->getInputData();
-  glGraphInputData->setElementLayout(pixelLayout);
-  glGraphInputData->setElementSize(pixelSize);
+  glGraphInputData->setLayout(pixelLayout);
+  glGraphInputData->setSizes(pixelSize);
 
   frame = new GlRect(Coord(blCornerPos.getX() - 3, blCornerPos.getY() + height + 3),
                      Coord(blCornerPos.getX() + width + 3, blCornerPos.getY() - 3), Color(0, 0, 0),

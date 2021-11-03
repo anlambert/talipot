@@ -289,11 +289,11 @@ public:
   ~FontIconGlyph() override = default;
 
   void draw(node n, float) override {
-    const tlp::Color &nodeColor = glGraphInputData->getElementColor()->getNodeValue(n);
-    const tlp::Color &nodeBorderColor = glGraphInputData->getElementBorderColor()->getNodeValue(n);
-    float nodeBorderWidth = glGraphInputData->getElementBorderWidth()->getNodeValue(n);
-    const string &nodeTexture = glGraphInputData->parameters->getTexturePath() +
-                                glGraphInputData->getElementTexture()->getNodeValue(n);
+    const tlp::Color &nodeColor = glGraphInputData->colors()->getNodeValue(n);
+    const tlp::Color &nodeBorderColor = glGraphInputData->borderColors()->getNodeValue(n);
+    float nodeBorderWidth = glGraphInputData->borderWidths()->getNodeValue(n);
+    const string &nodeTexture = glGraphInputData->renderingParameters()->getTexturePath() +
+                                glGraphInputData->textures()->getNodeValue(n);
 
     drawIcon(getNodeFontIcon(n), nodeColor, nodeBorderColor, nodeBorderWidth, nodeTexture);
   }
@@ -304,7 +304,7 @@ public:
 
 private:
   FontIcon &getNodeFontIcon(node n) {
-    StringProperty *viewIcon = glGraphInputData->getElementIcon();
+    StringProperty *viewIcon = glGraphInputData->icons();
     const string &iconName = viewIcon->getNodeValue(n);
     return getFontIcon(iconName);
   }
@@ -321,16 +321,16 @@ public:
   EEFontIconGlyph(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
 
   void draw(edge e, node n, const Color &glyphColor, const Color &borderColor, float) override {
-    StringProperty *viewIcon = edgeExtGlGraphInputData->getElementIcon();
+    StringProperty *viewIcon = edgeExtGlGraphInputData->icons();
     const string &iconName = viewIcon->getEdgeValue(e);
 
-    string edgeTexture = edgeExtGlGraphInputData->parameters->getTexturePath() +
-                         edgeExtGlGraphInputData->getElementTexture()->getEdgeValue(e);
-    float borderWidth = edgeExtGlGraphInputData->getElementBorderWidth()->getEdgeValue(e);
+    string edgeTexture = edgeExtGlGraphInputData->renderingParameters()->getTexturePath() +
+                         edgeExtGlGraphInputData->textures()->getEdgeValue(e);
+    float borderWidth = edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e);
 
     // apply some rotation before rendering the icon in order
     // to visually encode the edge direction
-    if (edgeExtGlGraphInputData->getGraph()->source(e) == n) {
+    if (edgeExtGlGraphInputData->graph()->source(e) == n) {
       // anchor the bottom of the icon to the source node
       glRotatef(90.0f, 0.0f, 0.0f, 1.0f);
     } else {

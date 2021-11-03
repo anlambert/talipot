@@ -88,9 +88,8 @@ void GlQuadTreeLODCalculator::setInputData(const GlGraphInputData *newInputData)
 bool GlQuadTreeLODCalculator::needEntities() {
   if (inputData != nullptr) {
     // Checks if the properties in the GlGraphInputData have changed
-    if (layoutProperty != inputData->getElementLayout() ||
-        sizeProperty != inputData->getElementSize() ||
-        selectionProperty != inputData->getElementSelected()) {
+    if (layoutProperty != inputData->layout() || sizeProperty != inputData->sizes() ||
+        selectionProperty != inputData->selection()) {
       // Remove observers on old properties
       removeObservers();
       // Reinit properties and listen them
@@ -104,7 +103,7 @@ bool GlQuadTreeLODCalculator::needEntities() {
   // Check if quadtree need entities
   if (haveToCompute) {
     if (inputData) {
-      oldParameters = *inputData->parameters;
+      oldParameters = *inputData->renderingParameters();
     }
 
     return true;
@@ -124,7 +123,7 @@ bool GlQuadTreeLODCalculator::needEntities() {
         haveToCompute = true;
 
         if (inputData) {
-          oldParameters = *inputData->parameters;
+          oldParameters = *inputData->renderingParameters();
         }
 
         return true;
@@ -134,7 +133,7 @@ bool GlQuadTreeLODCalculator::needEntities() {
 
   if (inputData) {
     // Check visibility flags
-    GlGraphRenderingParameters *newParameters = inputData->parameters;
+    GlGraphRenderingParameters *newParameters = inputData->renderingParameters();
 
     if (oldParameters.isDisplayEdges() != newParameters->isDisplayEdges() ||
         oldParameters.isDisplayMetaNodes() != newParameters->isDisplayMetaNodes() ||
@@ -142,7 +141,7 @@ bool GlQuadTreeLODCalculator::needEntities() {
         oldParameters.isViewNodeLabel() != newParameters->isViewNodeLabel() ||
         oldParameters.isViewEdgeLabel() != newParameters->isViewEdgeLabel() ||
         oldParameters.isViewMetaLabel() != newParameters->isViewMetaLabel()) {
-      oldParameters = *inputData->parameters;
+      oldParameters = *inputData->renderingParameters();
       haveToCompute = true;
       return true;
     }
@@ -452,12 +451,12 @@ void GlQuadTreeLODCalculator::computeFor3DCamera(LayerLODUnit *layerLODUnit, con
   TLP_PARALLEL_SECTIONS(thrdF1, thrdF2, thrdF3);
   TLP_PARALLEL_MAP_INDICES(resNodes.size(), [&](uint i) {
     uint nId = resNodes[i];
-    GlNode glNode(node(nId), inputData->getGraph());
+    GlNode glNode(node(nId), inputData->graph());
     layerLODUnit->nodesLODVector[i].init(nId, glNode.getBoundingBox(inputData));
   });
   TLP_PARALLEL_MAP_INDICES(resEdges.size(), [&](uint i) {
     uint eId = resEdges[i];
-    GlEdge glEdge(edge(eId), inputData->getGraph());
+    GlEdge glEdge(edge(eId), inputData->graph());
     layerLODUnit->edgesLODVector[i].init(eId, glEdge.getBoundingBox(inputData));
   });
 
@@ -494,22 +493,22 @@ void GlQuadTreeLODCalculator::removeObservers() {
 
 void GlQuadTreeLODCalculator::addObservers() {
   if (inputData) {
-    currentGraph = inputData->getGraph();
+    currentGraph = inputData->graph();
     currentGraph->addListener(this);
 
-    layoutProperty = inputData->getElementLayout();
+    layoutProperty = inputData->layout();
 
     if (layoutProperty != nullptr) {
       layoutProperty->addListener(this);
     }
 
-    sizeProperty = inputData->getElementSize();
+    sizeProperty = inputData->sizes();
 
     if (sizeProperty != nullptr) {
       sizeProperty->addListener(this);
     }
 
-    selectionProperty = inputData->getElementSelected();
+    selectionProperty = inputData->selection();
 
     if (selectionProperty != nullptr) {
       selectionProperty->addListener(this);
@@ -522,8 +521,8 @@ void GlQuadTreeLODCalculator::addObservers() {
 }
 
 void GlQuadTreeLODCalculator::update(PropertyInterface *property) {
-  if (property == inputData->getElementLayout() || property == inputData->getElementSize() ||
-      property == inputData->getElementSelected()) {
+  if (property == inputData->layout() || property == inputData->sizes() ||
+      property == inputData->selection()) {
     setHaveToCompute();
   }
 }
@@ -547,9 +546,9 @@ void GlQuadTreeLODCalculator::treatEvent(const Event &ev) {
     case GraphEvent::TLP_ADD_LOCAL_PROPERTY:
     case GraphEvent::TLP_BEFORE_DEL_LOCAL_PROPERTY: {
       const PropertyInterface *property =
-          inputData->getGraph()->getProperty(graphEvent->getPropertyName());
+          inputData->graph()->getProperty(graphEvent->getPropertyName());
 
-      if (property == inputData->getElementLayout() || property == inputData->getElementSize()) {
+      if (property == inputData->layout() || property == inputData->sizes()) {
         setHaveToCompute();
         removeObservers();
         addObservers();

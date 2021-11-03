@@ -463,11 +463,11 @@ void MouseSelectionEditor::stopEdition() {
 //========================================================================================
 void MouseSelectionEditor::initProxies(GlWidget *glWidget) {
   GlGraphInputData *inputData = glWidget->getGlGraphInputData();
-  _graph = inputData->getGraph();
-  _layout = inputData->getElementLayout();
-  _selection = inputData->getElementSelected();
-  _rotation = inputData->getElementRotation();
-  _sizes = inputData->getElementSize();
+  _graph = inputData->graph();
+  _layout = inputData->layout();
+  _selection = inputData->selection();
+  _rotation = inputData->rotations();
+  _sizes = inputData->sizes();
 }
 //========================================================================================
 void MouseSelectionEditor::mMouseTranslate(double newX, double newY, GlWidget *glWidget) {
@@ -770,7 +770,7 @@ void MouseSelectionEditor::mAlign(EditOperation operation, GlWidget *) {
 }
 //========================================================================================
 bool MouseSelectionEditor::computeFFD(GlWidget *glWidget) {
-  if (!glWidget->getScene()->getGlGraph() || !glWidget->getGlGraphInputData()->getGraph()) {
+  if (!glWidget->getScene()->getGlGraph() || !glWidget->getGlGraphInputData()->graph()) {
     return false;
   }
 

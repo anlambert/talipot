@@ -140,7 +140,7 @@ bool MouseElementDeleter::eventFilter(QObject *widget, QEvent *e) {
     } else if (e->type() == QEvent::MouseButtonPress && qMouseEv->button() == Qt::LeftButton) {
       if (glWidget->pickNodesEdges(qMouseEv->pos().x(), qMouseEv->pos().y(), selectedEntity)) {
         Observable::holdObservers();
-        Graph *graph = glWidget->getGlGraphInputData()->getGraph();
+        Graph *graph = glWidget->getGlGraphInputData()->graph();
         // allow to undo
         graph->push();
         delElement(graph, selectedEntity);
@@ -357,7 +357,7 @@ bool MouseNKeysNavigator::eventFilter(QObject *widget, QEvent *e) {
   auto *qMouseEv = static_cast<QMouseEvent *>(e);
 
   if (e->type() == QEvent::MouseButtonDblClick && qMouseEv->button() == Qt::LeftButton) {
-    Graph *graph = glWidget->getGlGraphInputData()->getGraph();
+    Graph *graph = glWidget->getGlGraphInputData()->graph();
 
     if (qMouseEv->modifiers() != Qt::ControlModifier) {
       vector<SelectedEntity> tmpNodes;
