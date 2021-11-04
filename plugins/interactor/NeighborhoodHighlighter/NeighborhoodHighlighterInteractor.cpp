@@ -164,7 +164,7 @@ bool NeighborhoodHighlighter::eventFilter(QObject *, QEvent *e) {
   checkIfGraphHasChanged();
 
   if (originalGraph == nullptr) {
-    originalGraph = glWidget->scene()->glGraph()->getGraph();
+    originalGraph = glWidget->scene()->glGraph()->graph();
     originalGlGraph = glWidget->scene()->glGraph();
 
     if (!glWidget->hasMouseTracking()) {
@@ -430,7 +430,7 @@ void NeighborhoodHighlighter::buildNeighborhoodGraph(node n, Graph *g) {
 
 void NeighborhoodHighlighter::updateNeighborhoodGraphLayoutAndColors() {
   if (originalGlGraph != nullptr) {
-    GlGraphInputData *originalInputData = originalGlGraph->getInputData();
+    GlGraphInputData *originalInputData = originalGlGraph->inputData();
     LayoutProperty *origGraphLayout = originalInputData->layout();
     ColorProperty *origGraphColors = originalInputData->colors();
 
@@ -450,9 +450,9 @@ void NeighborhoodHighlighter::updateNeighborhoodGraphLayoutAndColors() {
 }
 
 void NeighborhoodHighlighter::updateGlNeighborhoodGraph() {
-  GlGraphInputData *originalInputData = originalGlGraph->getInputData();
+  GlGraphInputData *originalInputData = originalGlGraph->inputData();
   glNeighborhoodGraph = new GlGraph(neighborhoodGraph);
-  GlGraphInputData *glNeighborhoodGraphInputData = glNeighborhoodGraph->getInputData();
+  GlGraphInputData *glNeighborhoodGraphInputData = glNeighborhoodGraph->inputData();
   glNeighborhoodGraphInputData->setBorderColors(originalInputData->borderColors());
   glNeighborhoodGraphInputData->setBorderWidths(originalInputData->borderWidths());
   glNeighborhoodGraphInputData->setColors(neighborhoodGraphColors);
@@ -499,7 +499,7 @@ void NeighborhoodHighlighter::computeNeighborhoodGraphBoundingBoxes() {
 void NeighborhoodHighlighter::computeNeighborhoodGraphCircleLayout() {
 
   Size centralNodeSize =
-      originalGlGraph->getInputData()->sizes()->getNodeValue(neighborhoodGraphCentralNode);
+      originalGlGraph->inputData()->sizes()->getNodeValue(neighborhoodGraphCentralNode);
   Coord centralNodeCoord = neighborhoodGraphLayout->getNodeValue(neighborhoodGraphCentralNode);
   neighborhoodGraphCircleLayout->setNodeValue(neighborhoodGraphCentralNode, centralNodeCoord);
 
@@ -522,8 +522,7 @@ void NeighborhoodHighlighter::computeNeighborhoodGraphCircleLayout() {
 
   for (size_t i = 0; i < neighborsNodes.size(); ++i) {
 
-    Size neighborNodeSize =
-        originalGlGraph->getInputData()->sizes()->getNodeValue(neighborsNodes[i]);
+    Size neighborNodeSize = originalGlGraph->inputData()->sizes()->getNodeValue(neighborsNodes[i]);
     Coord neighborNodeCoord = neighborhoodGraphLayout->getNodeValue(neighborsNodes[i]);
     float edgeLength = centralNodeCoord.dist(neighborNodeCoord);
 
@@ -604,7 +603,7 @@ float NeighborhoodHighlighter::computeNeighborhoodGraphRadius(
   Coord centralNodeCoord = neighborhoodGraphLayoutProp->getNodeValue(neighborhoodGraphCentralNode);
   for (auto n : neighborhoodGraph->nodes()) {
     Coord nodeCoord = neighborhoodGraphLayoutProp->getNodeValue(n);
-    Size nodeSize = originalGlGraph->getInputData()->sizes()->getNodeValue(n);
+    Size nodeSize = originalGlGraph->inputData()->sizes()->getNodeValue(n);
     float dist = centralNodeCoord.dist(nodeCoord) + nodeSize.getW();
 
     if (dist > radius) {
@@ -615,12 +614,12 @@ float NeighborhoodHighlighter::computeNeighborhoodGraphRadius(
 }
 
 void NeighborhoodHighlighter::checkIfGraphHasChanged() {
-  if (glWidget->scene()->glGraph()->getGraph() != originalGraph) {
+  if (glWidget->scene()->glGraph()->graph() != originalGraph) {
     neighborhoodGraphCentralNode = node();
     centralNodeLocked = false;
     circleLayoutSet = false;
     cleanupNeighborhoodGraph();
-    originalGraph = glWidget->scene()->glGraph()->getGraph();
+    originalGraph = glWidget->scene()->glGraph()->graph();
     originalGlGraph = glWidget->scene()->glGraph();
   }
 }

@@ -99,7 +99,7 @@ QPixmap EdgeExtremityGlyphRenderer::render(int glyphId, const QColor &background
       renderer.setSceneBackgroundColor(QColorToColor(backgroundColor));
       renderer.addGraphToScene(graph);
       GlGraphRenderingParameters &renderingParamerters =
-          renderer.scene()->glGraph()->getRenderingParameters();
+          renderer.scene()->glGraph()->renderingParameters();
       renderingParamerters.setEdgeColorInterpolate(false);
       renderingParamerters.setEdgeSizeInterpolate(false);
       renderingParamerters.setViewArrow(true);

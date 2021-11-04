@@ -36,7 +36,7 @@ class GlGraphRenderer;
  * To visualize graph you have to create a new GlGraph and add it to a GlLayer of a GlScene
  * After that you can change some visualize parameters throw GlGraphRenderingParameters class
  * @see GlGraphRenderingParameters
- * @see getRenderingParameters()
+ * @see renderingParameters()
  *
  * To render the graph in OpenGL, GlGraph use a GlGraphRenderer. So if you want to change
  * the system to render the graph, you have to create a new GlGraphRender
@@ -71,8 +71,8 @@ public:
    * @brief Return a copy of rendering parameters used for rendering
    *
    */
-  const GlGraphRenderingParameters &getRenderingParameters() const;
-  GlGraphRenderingParameters &getRenderingParameters();
+  const GlGraphRenderingParameters &renderingParameters() const;
+  GlGraphRenderingParameters &renderingParameters();
   /**
    * @brief Set the rendering parameters used for rendering
    */
@@ -83,13 +83,13 @@ public:
    *
    * In GlGraphInputData you have properties used to render the graph
    */
-  GlGraphInputData *getInputData() const;
+  GlGraphInputData *inputData() const;
 
   /**
    * @brief Return the graph used by this GlGraph
    */
-  Graph *getGraph() {
-    return inputData.graph();
+  Graph *graph() {
+    return _inputData.graph();
   }
 
   /**
@@ -113,7 +113,7 @@ public:
     if (nodesModified) {
       metaNodes.clear();
 
-      Graph *graph = inputData.graph();
+      Graph *graph = _inputData.graph();
 
       for (auto n : graph->nodes()) {
         if (graph->getNodeMetaInfo(n)) {
@@ -150,7 +150,7 @@ protected:
   void treatEvent(const Event &evt) override;
 
   GlGraphRenderingParameters parameters;
-  GlGraphInputData inputData;
+  GlGraphInputData _inputData;
   Graph *rootGraph;
 
   GlGraphRenderer *graphRenderer;

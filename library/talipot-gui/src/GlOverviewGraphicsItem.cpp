@@ -182,12 +182,12 @@ void GlOverviewGraphicsItem::draw(bool generatePixmap) {
   }
 
   if (generatePixmap) {
-    bool edgesLabels = baseScene.glGraph()->getRenderingParameters().isViewEdgeLabel();
-    bool nodesLabels = baseScene.glGraph()->getRenderingParameters().isViewNodeLabel();
-    bool metaNodesLabels = baseScene.glGraph()->getRenderingParameters().isViewMetaLabel();
-    baseScene.glGraph()->getRenderingParameters().setViewEdgeLabel(false);
-    baseScene.glGraph()->getRenderingParameters().setViewNodeLabel(false);
-    baseScene.glGraph()->getRenderingParameters().setViewMetaLabel(false);
+    bool edgesLabels = baseScene.glGraph()->renderingParameters().isViewEdgeLabel();
+    bool nodesLabels = baseScene.glGraph()->renderingParameters().isViewNodeLabel();
+    bool metaNodesLabels = baseScene.glGraph()->renderingParameters().isViewMetaLabel();
+    baseScene.glGraph()->renderingParameters().setViewEdgeLabel(false);
+    baseScene.glGraph()->renderingParameters().setViewNodeLabel(false);
+    baseScene.glGraph()->renderingParameters().setViewMetaLabel(false);
 
     vector<bool> layersVisibility;
 
@@ -220,7 +220,7 @@ void GlOverviewGraphicsItem::draw(bool generatePixmap) {
       ++itTmp;
     }
 
-    GlGraphRenderingParameters &param = baseScene.glGraph()->getRenderingParameters();
+    GlGraphRenderingParameters &param = baseScene.glGraph()->renderingParameters();
     param.setViewEdgeLabel(edgesLabels);
     param.setViewNodeLabel(nodesLabels);
     param.setViewMetaLabel(metaNodesLabels);

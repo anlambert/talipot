@@ -30,7 +30,7 @@ void GlMetaNodeRenderer::setInputData(GlGraphInputData *inputData) {
   _inputData = inputData;
 }
 
-GlGraphInputData *GlMetaNodeRenderer::getInputData() const {
+GlGraphInputData *GlMetaNodeRenderer::inputData() const {
   return _inputData;
 }
 
@@ -70,7 +70,7 @@ void GlMetaNodeRenderer::render(node n, float, Camera *camera) {
   int metaLabelStencil = _inputData->renderingParameters()->getMetaNodesLabelStencil();
   scene->glGraph()->setRenderingParameters(*(_inputData->renderingParameters()));
 
-  auto &renderingParameters = scene->glGraph()->getRenderingParameters();
+  auto &renderingParameters = scene->glGraph()->renderingParameters();
   renderingParameters.setDisplayNodes(viewMeta);
   renderingParameters.setDisplayEdges(viewMeta);
   renderingParameters.setViewEdgeLabel(viewMetaLabels);

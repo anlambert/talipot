@@ -26,7 +26,7 @@
 using namespace std;
 
 static void setGraphView(tlp::GlGraph *glGraph, bool displayNodes) {
-  tlp::GlGraphRenderingParameters &param = glGraph->getRenderingParameters();
+  tlp::GlGraphRenderingParameters &param = glGraph->renderingParameters();
   param.setAntialiasing(true);
   param.setViewNodeLabel(true);
   param.setFontsType(2);
@@ -86,7 +86,7 @@ void PixelOrientedView::initGlWidget() {
 
   if (mainLayer->findGlEntity("graph")) {
     GlGraph *lastGlGraph = static_cast<GlGraph *>(mainLayer->findGlEntity("graph"));
-    Graph *theGraph = lastGlGraph->getInputData()->graph();
+    Graph *theGraph = lastGlGraph->inputData()->graph();
 
     if (theGraph) {
       theGraph->removeListener(lastGlGraph);
@@ -696,7 +696,7 @@ void PixelOrientedView::switchFromSmallMultiplesToDetailView(PixelOrientedOvervi
   }
 
   mainLayer->deleteGlEntity(overviewsComposite);
-  GlGraphInputData *inputData = glGraph->getInputData();
+  GlGraphInputData *inputData = glGraph->inputData();
   inputData->setLayout(pixelOverview->getPixelViewLayout());
   inputData->setSizes(pixelOverview->getPixelViewSize());
 
@@ -782,7 +782,7 @@ void PixelOrientedView::applySettings() {
 
     if (!smallMultiplesView) {
       mainLayer->deleteGlEntity(detailViewLabel);
-      GlGraphInputData *inputData = glGraph->getInputData();
+      GlGraphInputData *inputData = glGraph->inputData();
       inputData->setLayout(detailOverview->getPixelViewLayout());
       inputData->setSizes(detailOverview->getPixelViewSize());
       GlBoundingBoxSceneVisitor glBBSV(inputData);

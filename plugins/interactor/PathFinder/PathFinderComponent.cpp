@@ -105,7 +105,7 @@ bool PathFinderComponent::eventFilter(QObject *obj, QEvent *event) {
       BooleanProperty *selectionProperty = glw->inputData()->selection();
       selectionProperty->setAllNodeValue(false);
       selectionProperty->setAllEdgeValue(false);
-      selectPath(glw, glw->scene()->glGraph()->getGraph());
+      selectPath(glw, glw->scene()->glGraph()->graph());
 
       Observable::unholdObservers();
 

@@ -490,7 +490,7 @@ void GlView::zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const doub
     bb = boundingBox;
   } else {
     auto *scene = glWidget()->scene();
-    GlGraphInputData *inputData = scene->glGraph()->getInputData();
+    GlGraphInputData *inputData = scene->glGraph()->inputData();
     GlBoundingBoxSceneVisitor bbVisitor(inputData);
     scene->getLayer("Main")->acceptVisitor(&bbVisitor);
     bb = bbVisitor.getBoundingBox();

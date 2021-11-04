@@ -30,7 +30,7 @@ std::string getStringFromNumber(T number) {
 }
 
 static void setGraphView(tlp::GlGraph *glGraph) {
-  tlp::GlGraphRenderingParameters &param = glGraph->getRenderingParameters();
+  tlp::GlGraphRenderingParameters &param = glGraph->renderingParameters();
   param.setAntialiasing(true);
   param.setViewNodeLabel(false);
   param.setFontsType(2);
@@ -71,7 +71,7 @@ PixelOrientedOverview::PixelOrientedOverview(GraphDimension *data,
   pixelSize = new SizeProperty(graph);
   glGraph = new GlGraph(graph);
   setGraphView(glGraph);
-  GlGraphInputData *glGraphInputData = glGraph->getInputData();
+  GlGraphInputData *glGraphInputData = glGraph->inputData();
   glGraphInputData->setLayout(pixelLayout);
   glGraphInputData->setSizes(pixelSize);
 

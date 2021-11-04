@@ -423,7 +423,7 @@ void ScatterPlot2DView::computeNodeSizes() {
     scatterPlotSize->setNodeValue(n, adjustedNodeSize);
   }
 
-  GlGraphInputData *glGraphInputData = glGraph->getInputData();
+  GlGraphInputData *glGraphInputData = glGraph->inputData();
   glGraphInputData->setSizes(scatterPlotSize);
 }
 
@@ -747,7 +747,7 @@ void ScatterPlot2DView::destroyOverviewsIfNeeded() {
           detailedScatterPlot = nullptr;
 
           if (!matrixView) {
-            GlGraphInputData *glGraphInputData = glGraph->getInputData();
+            GlGraphInputData *glGraphInputData = glGraph->inputData();
             glGraphInputData->setLayout(scatterPlotGraph->getLayoutProperty("viewLayout"));
           }
         }

@@ -155,7 +155,7 @@ bool MouseEdgeBendEditor::eventFilter(QObject *widget, QEvent *e) {
 
       if (glWidget->pickNodesEdges(qMouseEv->pos().x(), qMouseEv->pos().y(), selectedEntity) &&
           selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED) {
-        const auto &[src, tgt] = glWidget->scene()->glGraph()->getGraph()->ends(mEdge);
+        const auto &[src, tgt] = glWidget->scene()->glGraph()->graph()->ends(mEdge);
         _graph->setEnds(mEdge, src, node(selectedEntity.getGraphElementId()));
         glWidget->setCursor(QCursor(Qt::PointingHandCursor));
         glWidget->redraw();
@@ -170,7 +170,7 @@ bool MouseEdgeBendEditor::eventFilter(QObject *widget, QEvent *e) {
 
       if (glWidget->pickNodesEdges(qMouseEv->pos().x(), qMouseEv->pos().y(), selectedEntity) &&
           selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED) {
-        const auto &[src, tgt] = glWidget->scene()->glGraph()->getGraph()->ends(mEdge);
+        const auto &[src, tgt] = glWidget->scene()->glGraph()->graph()->ends(mEdge);
         _graph->setEnds(mEdge, node(selectedEntity.getGraphElementId()), tgt);
         glWidget->setCursor(QCursor(Qt::PointingHandCursor));
         glWidget->redraw();

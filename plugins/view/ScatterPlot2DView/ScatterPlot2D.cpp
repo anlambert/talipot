@@ -40,7 +40,7 @@ namespace tlp {
 int ScatterPlot2D::overviewCpt(0);
 
 static void setGraphView(GlGraph *glGraph, bool displayEdges, bool nodelabel, bool scale) {
-  GlGraphRenderingParameters &param = glGraph->getRenderingParameters();
+  GlGraphRenderingParameters &param = glGraph->renderingParameters();
   param.setAntialiasing(true);
   param.setViewNodeLabel(nodelabel);
   param.setFontsType(2);
@@ -70,12 +70,12 @@ ScatterPlot2D::ScatterPlot2D(Graph *graph, Graph *edgeGraph,
 
   if (dataLocation == NODE) {
     _glGraph = new GlGraph(graph);
-    GlGraphInputData *glGraphInputData = _glGraph->getInputData();
+    GlGraphInputData *glGraphInputData = _glGraph->inputData();
     glGraphInputData->setLayout(scatterLayout);
     glGraphInputData->setSizes(graph->getSizeProperty("viewSize"));
   } else {
     _glGraph = new GlGraph(edgeAsNodeGraph);
-    GlGraphInputData *glGraphInputData = _glGraph->getInputData();
+    GlGraphInputData *glGraphInputData = _glGraph->inputData();
     glGraphInputData->setLayout(scatterEdgeLayout);
     glGraphInputData->setSizes(edgeAsNodeGraph->getSizeProperty("viewSize"));
   }
@@ -116,12 +116,12 @@ void ScatterPlot2D::setDataLocation(const ElementType &dataLocation) {
 
     if (dataLocation == NODE) {
       _glGraph = new GlGraph(graph);
-      GlGraphInputData *glGraphInputData = _glGraph->getInputData();
+      GlGraphInputData *glGraphInputData = _glGraph->inputData();
       glGraphInputData->setLayout(scatterLayout);
       glGraphInputData->setSizes(graph->getSizeProperty("viewSize"));
     } else {
       _glGraph = new GlGraph(edgeAsNodeGraph);
-      GlGraphInputData *glGraphInputData = _glGraph->getInputData();
+      GlGraphInputData *glGraphInputData = _glGraph->inputData();
       glGraphInputData->setLayout(scatterEdgeLayout);
       glGraphInputData->setSizes(edgeAsNodeGraph->getSizeProperty("viewSize"));
     }
@@ -303,7 +303,7 @@ void ScatterPlot2D::createAxis() {
 }
 
 void ScatterPlot2D::computeScatterPlotLayout(GlWidget *glWidget, LayoutProperty *reverseLayout) {
-  Graph *_graph = _glGraph->getGraph();
+  Graph *_graph = _glGraph->graph();
   double sumxiyi = 0.0, sumxi = 0.0, sumyi = 0.0, sumxi2 = 0.0, sumyi2 = 0.0;
   uint nbGraphNodes = _graph->numberOfNodes();
 

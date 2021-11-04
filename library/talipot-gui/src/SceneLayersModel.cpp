@@ -186,7 +186,7 @@ QVariant SceneLayersModel::data(const QModelIndex &index, int role) const {
 
   if (GRAPH_COMPOSITE_IDS.contains(index.internalId())) {
     quint32 id = index.internalId();
-    const GlGraphRenderingParameters &parameters = _scene->glGraph()->getRenderingParameters();
+    const GlGraphRenderingParameters &parameters = _scene->glGraph()->renderingParameters();
     QString display;
     int stencil = NO_STENCIL;
     bool visible = false;
@@ -298,7 +298,7 @@ bool SceneLayersModel::setData(const QModelIndex &index, const QVariant &value, 
 
   if (GRAPH_COMPOSITE_IDS.contains(index.internalId())) {
     quint32 id = index.internalId();
-    GlGraphRenderingParameters &parameters = _scene->glGraph()->getRenderingParameters();
+    GlGraphRenderingParameters &parameters = _scene->glGraph()->renderingParameters();
 
     if (index.column() == 1) {
       bool visible = value.value<int>() == int(Qt::Checked);

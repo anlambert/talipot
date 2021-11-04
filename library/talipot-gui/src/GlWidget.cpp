@@ -477,10 +477,10 @@ bool GlWidget::keepScenePointOfViewOnSubgraphChanging() const {
 }
 
 GlGraphRenderingParameters &GlWidget::renderingParameters() {
-  return _scene.glGraph()->getRenderingParameters();
+  return _scene.glGraph()->renderingParameters();
 }
 
 GlGraphInputData *GlWidget::inputData() const {
-  return _scene.glGraph()->getInputData();
+  return _scene.glGraph()->inputData();
 }
 }

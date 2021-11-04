@@ -22,9 +22,9 @@ using namespace std;
 namespace tlp {
 
 GlGraph::GlGraph(Graph *graph, GlGraphRenderer *graphRenderer)
-    : inputData(graph, &parameters), graphRenderer(graphRenderer), nodesModified(true) {
+    : _inputData(graph, &parameters), graphRenderer(graphRenderer), nodesModified(true) {
   if (graphRenderer == nullptr) {
-    this->graphRenderer = new GlGraphHighDetailsRenderer(&inputData);
+    this->graphRenderer = new GlGraphHighDetailsRenderer(&_inputData);
   }
 
   if (!graph) {
@@ -43,8 +43,8 @@ GlGraph::GlGraph(Graph *graph, GlGraphRenderer *graphRenderer)
 }
 
 GlGraph::GlGraph(Graph *graph, GlScene *scene)
-    : inputData(graph, &parameters), nodesModified(true) {
-  this->graphRenderer = new GlGraphHighDetailsRenderer(&inputData, scene);
+    : _inputData(graph, &parameters), nodesModified(true) {
+  this->graphRenderer = new GlGraphHighDetailsRenderer(&_inputData, scene);
 
   if (!graph) {
     rootGraph = nullptr;
@@ -66,7 +66,7 @@ GlGraph::~GlGraph() {
 }
 
 void GlGraph::acceptVisitor(GlSceneVisitor *visitor) {
-  GlBoundingBoxSceneVisitor bbVisitor(&inputData);
+  GlBoundingBoxSceneVisitor bbVisitor(&_inputData);
   graphRenderer->visitGraph(&bbVisitor);
   boundingBox = bbVisitor.getBoundingBox();
 
@@ -89,7 +89,7 @@ void GlGraph::selectEntities(Camera *camera, RenderingEntitiesFlag type, int x, 
   graphRenderer->selectEntities(camera, type, x, y, w, h, selectedEntities);
 }
 //===================================================================
-const GlGraphRenderingParameters &GlGraph::getRenderingParameters() const {
+const GlGraphRenderingParameters &GlGraph::renderingParameters() const {
   return parameters;
 }
 //===================================================================
@@ -97,12 +97,12 @@ void GlGraph::setRenderingParameters(const GlGraphRenderingParameters &parameter
   parameters = parameter;
 }
 //===================================================================
-GlGraphRenderingParameters &GlGraph::getRenderingParameters() {
+GlGraphRenderingParameters &GlGraph::renderingParameters() {
   return parameters;
 }
 //===================================================================
-GlGraphInputData *GlGraph::getInputData() const {
-  return const_cast<GlGraphInputData *>(&inputData);
+GlGraphInputData *GlGraph::inputData() const {
+  return const_cast<GlGraphInputData *>(&_inputData);
 }
 //====================================================
 void GlGraph::getXML(string &outString) {
@@ -134,8 +134,8 @@ void GlGraph::treatEvent(const Event &evt) {
   } else if (evt.type() == Event::TLP_DELETE) {
     auto *g = dynamic_cast<Graph *>(evt.sender());
 
-    if (g && inputData.graph() == g) {
-      inputData.setGraph(nullptr);
+    if (g && _inputData.graph() == g) {
+      _inputData.setGraph(nullptr);
     }
   } else {
     const auto *propertyEvent = dynamic_cast<const PropertyEvent *>(&evt);
@@ -150,7 +150,7 @@ void GlGraph::setRenderer(tlp::GlGraphRenderer *renderer) {
   delete graphRenderer;
 
   if (renderer == nullptr) {
-    graphRenderer = new GlGraphHighDetailsRenderer(&inputData);
+    graphRenderer = new GlGraphHighDetailsRenderer(&_inputData);
   } else {
     graphRenderer = renderer;
   }

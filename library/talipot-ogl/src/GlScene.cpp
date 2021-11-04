@@ -168,7 +168,7 @@ void GlScene::draw() {
     }
 
     // Draw simple entities
-    if (_glGraph && !_glGraph->getInputData()->renderingParameters()->isElementZOrdered()) {
+    if (_glGraph && !_glGraph->inputData()->renderingParameters()->isElementZOrdered()) {
       for (const auto &it : itLayer.entitiesLODVector) {
         if (it.lod < 0) {
           continue;
@@ -179,7 +179,7 @@ void GlScene::draw() {
       }
     } else {
 
-      entityWithDistanceCompare::inputData = _glGraph->getInputData();
+      entityWithDistanceCompare::inputData = _glGraph->inputData();
       multiset<EntityWithDistance, entityWithDistanceCompare> entitiesSet;
       Coord camPos = camera->getEyes();
       BoundingBox bb;
@@ -455,7 +455,7 @@ void GlScene::computeAdjustSceneToSize(int width, int height, Coord *center, Coo
   GlBoundingBoxSceneVisitor *visitor;
 
   if (_glGraph) {
-    visitor = new GlBoundingBoxSceneVisitor(_glGraph->getInputData());
+    visitor = new GlBoundingBoxSceneVisitor(_glGraph->inputData());
   } else {
     visitor = new GlBoundingBoxSceneVisitor(nullptr);
   }

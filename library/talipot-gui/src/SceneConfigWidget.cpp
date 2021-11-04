@@ -65,11 +65,11 @@ void SceneConfigWidget::resetChanges() {
   _ui->scrollArea->setEnabled(_glWidget != nullptr);
 
   if (_glWidget == nullptr || _glWidget->scene()->glGraph() == nullptr ||
-      _glWidget->scene()->glGraph()->getGraph() == nullptr) {
+      _glWidget->scene()->glGraph()->graph() == nullptr) {
     return;
   }
 
-  Graph *graph = _glWidget->scene()->glGraph()->getGraph();
+  Graph *graph = _glWidget->scene()->glGraph()->graph();
   const GlGraphRenderingParameters &renderingParameters = _glWidget->renderingParameters();
 
   // NODES

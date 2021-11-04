@@ -34,7 +34,7 @@ const vector<string> propertiesTypesFilter(propertiesTypes, propertiesTypes + nb
 namespace tlp {
 
 static void toggleGraphView(GlGraph *glGraph, bool displayNodes) {
-  GlGraphRenderingParameters &param = glGraph->getRenderingParameters();
+  GlGraphRenderingParameters &param = glGraph->renderingParameters();
   param.setAntialiasing(true);
   param.setNodesStencil(2);
   param.setNodesLabelStencil(2);
@@ -110,7 +110,7 @@ void ParallelCoordinatesView::initGlWidget() {
   glGraph = new GlGraph(axisPointsGraph);
   mainLayer->addGlEntity(glGraph, "graph");
   axisSelectionLayer = new GlLayer("Axis selection layer");
-  GlGraphRenderingParameters &param = scene->glGraph()->getRenderingParameters();
+  GlGraphRenderingParameters &param = scene->glGraph()->renderingParameters();
   param.setAntialiasing(true);
   param.setNodesStencil(2);
   param.setNodesLabelStencil(1);
@@ -714,8 +714,7 @@ void ParallelCoordinatesView::setupAndDrawView() {
     parallelCoordsDrawing->setLayoutType(getLayoutType());
     parallelCoordsDrawing->setLinesType(getLinesType());
     parallelCoordsDrawing->setLinesThickness(getLinesThickness());
-    scene->glGraph()->getRenderingParameters().setViewNodeLabel(
-        drawConfigWidget->displayNodeLabels());
+    scene->glGraph()->renderingParameters().setViewNodeLabel(drawConfigWidget->displayNodeLabels());
 
     if (graphProxy->getUnhighlightedEltsColorAlphaValue() !=
         drawConfigWidget->getUnhighlightedEltsColorsAlphaValue()) {

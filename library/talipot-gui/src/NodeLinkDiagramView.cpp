@@ -139,8 +139,8 @@ void NodeLinkDiagramView::setState(const tlp::DataSet &data) {
 }
 
 void NodeLinkDiagramView::graphChanged(tlp::Graph *graph) {
-  GlGraph *composite = glWidget()->scene()->glGraph();
-  Graph *oldGraph = composite ? composite->getGraph() : nullptr;
+  GlGraph *glGraph = glWidget()->scene()->glGraph();
+  Graph *oldGraph = glGraph ? glGraph->graph() : nullptr;
   loadGraphOnScene(graph);
   registerTriggers();
 
@@ -200,7 +200,7 @@ void NodeLinkDiagramView::createScene(Graph *graph, DataSet dataSet) {
     scene->addExistingLayer(foregroundLayer);
     auto *glGraph = new GlGraph(graph, scene);
     scene->getLayer("Main")->addGlEntity(glGraph, "graph");
-    initRenderingParameters(glGraph->getRenderingParameters());
+    initRenderingParameters(glGraph->renderingParameters());
     scene->centerScene();
   } else {
     size_t pos = sceneInput.find("TalipotBitmapDir/");
@@ -223,7 +223,7 @@ void NodeLinkDiagramView::createScene(Graph *graph, DataSet dataSet) {
   if (dataSet.exists("Display")) {
     DataSet renderingParameters;
     dataSet.get("Display", renderingParameters);
-    GlGraphRenderingParameters &rp = scene->glGraph()->getRenderingParameters();
+    GlGraphRenderingParameters &rp = scene->glGraph()->renderingParameters();
     rp.setParameters(renderingParameters);
 
     string s;
@@ -248,7 +248,7 @@ void NodeLinkDiagramView::createScene(Graph *graph, DataSet dataSet) {
 DataSet NodeLinkDiagramView::sceneData() const {
   GlScene *scene = glWidget()->scene();
   DataSet outDataSet = GlView::state();
-  outDataSet.set("Display", scene->glGraph()->getRenderingParameters().getParameters());
+  outDataSet.set("Display", scene->glGraph()->renderingParameters().getParameters());
   std::string out;
   scene->getXML(out);
   size_t pos = out.find(TalipotBitmapDir);
@@ -287,23 +287,22 @@ void NodeLinkDiagramView::loadGraphOnScene(Graph *graph) {
     return;
   }
 
-  GlMetaNodeRenderer *metaNodeRenderer = oldGlGraph->getInputData()->metaNodeRenderer();
+  GlMetaNodeRenderer *metaNodeRenderer = oldGlGraph->inputData()->metaNodeRenderer();
   // prevent deletion of MetaNodeRenderer when deleting oldGlGraph
-  oldGlGraph->getInputData()->setMetaNodeRenderer(nullptr, false);
+  oldGlGraph->inputData()->setMetaNodeRenderer(nullptr, false);
   auto *glGraph = new GlGraph(graph);
-  glGraph->setRenderingParameters(oldGlGraph->getRenderingParameters());
+  glGraph->setRenderingParameters(oldGlGraph->renderingParameters());
 
-  metaNodeRenderer->setInputData(glGraph->getInputData());
+  metaNodeRenderer->setInputData(glGraph->inputData());
 
-  glGraph->getInputData()->setMetaNodeRenderer(metaNodeRenderer);
+  glGraph->inputData()->setMetaNodeRenderer(metaNodeRenderer);
 
-  if (oldGlGraph->getInputData()->graph() == graph) {
-    delete glGraph->getInputData()->glVertexArrayManager();
-    glGraph->getInputData()->setGlVertexArrayManager(
-        oldGlGraph->getInputData()->glVertexArrayManager());
+  if (oldGlGraph->inputData()->graph() == graph) {
+    delete glGraph->inputData()->glVertexArrayManager();
+    glGraph->inputData()->setGlVertexArrayManager(oldGlGraph->inputData()->glVertexArrayManager());
     // prevent deletion of GlVertexArrayManager when deleting oldGlGraph
-    oldGlGraph->getInputData()->setGlVertexArrayManager(nullptr);
-    glGraph->getInputData()->glVertexArrayManager()->setInputData(glGraph->getInputData());
+    oldGlGraph->inputData()->setGlVertexArrayManager(nullptr);
+    glGraph->inputData()->glVertexArrayManager()->setInputData(glGraph->inputData());
   }
 
   scene->getLayer("Main")->addGlEntity(glGraph, "graph");
@@ -319,7 +318,7 @@ void NodeLinkDiagramView::registerTriggers() {
     return;
   }
 
-  addRedrawTrigger(glWidget()->scene()->glGraph()->getGraph());
+  addRedrawTrigger(glWidget()->scene()->glGraph()->graph());
   std::set<tlp::PropertyInterface *> properties = glWidget()->inputData()->properties();
 
   for (auto *p : properties) {
@@ -863,9 +862,9 @@ void NodeLinkDiagramView::useHulls(bool hasHulls) {
     GlScene *scene = glWidget()->scene();
 
     manager = new GlCompositeHierarchyManager(
-        scene->glGraph()->getInputData()->graph(), scene->getLayer("Main"), "Hulls",
-        scene->glGraph()->getInputData()->layout(), scene->glGraph()->getInputData()->sizes(),
-        scene->glGraph()->getInputData()->rotations());
+        scene->glGraph()->inputData()->graph(), scene->getLayer("Main"), "Hulls",
+        scene->glGraph()->inputData()->layout(), scene->glGraph()->inputData()->sizes(),
+        scene->glGraph()->inputData()->rotations());
     // Now we remove and add GlGraph to be sure of the order (first Hulls and after
     // GlGraph)
     // This code doesn't affect the behavior of talipot but the tlp file is modified

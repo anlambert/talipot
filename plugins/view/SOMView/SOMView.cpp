@@ -144,7 +144,7 @@ void SOMView::initGlViews() {
   glGraph = new GlGraph(tlp::newGraph());
   mainLayer->addGlEntity(glGraph, "graph");
 
-  GlGraphRenderingParameters &renderingParameters = glGraph->getRenderingParameters();
+  GlGraphRenderingParameters &renderingParameters = glGraph->renderingParameters();
   renderingParameters.setFontsType(0);
 
   // map
@@ -258,11 +258,11 @@ void SOMView::changeMapViewGraph(tlp::Graph *graph) {
 
   graphLayoutProperty = new LayoutProperty(graph);
   graphLayoutProperty->setAllNodeValue(Coord(0, 0, 0));
-  glGraph->getInputData()->setLayout(graphLayoutProperty);
+  glGraph->inputData()->setLayout(graphLayoutProperty);
 
   graphSizeProperty = new SizeProperty(graph);
   graphSizeProperty->setAllNodeValue(Size(0, 0, 0));
-  glGraph->getInputData()->setSizes(graphSizeProperty);
+  glGraph->inputData()->setSizes(graphSizeProperty);
 }
 
 DataSet SOMView::state() const {

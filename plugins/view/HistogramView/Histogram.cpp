@@ -36,7 +36,7 @@ std::string getStringFromNumber(T number, uint precision = 5) {
 namespace tlp {
 
 static void setGraphView(GlGraph *glGraph, bool displayEdges) {
-  GlGraphRenderingParameters &param = glGraph->getRenderingParameters();
+  GlGraphRenderingParameters &param = glGraph->renderingParameters();
   param.setAntialiasing(true);
   param.setViewNodeLabel(true);
   param.setFontsType(2);
@@ -71,12 +71,12 @@ Histogram::Histogram(Graph *graph, Graph *edgeGraph, std::unordered_map<edge, no
 
   if (dataLocation == NODE) {
     _glGraph = new GlGraph(graph);
-    GlGraphInputData *glGraphInputData = _glGraph->getInputData();
+    GlGraphInputData *glGraphInputData = _glGraph->inputData();
     glGraphInputData->setLayout(histogramLayout);
     glGraphInputData->setSizes(histogramSize);
   } else {
     _glGraph = new GlGraph(edgeAsNodeGraph);
-    GlGraphInputData *glGraphInputData = _glGraph->getInputData();
+    GlGraphInputData *glGraphInputData = _glGraph->inputData();
     glGraphInputData->setLayout(histogramEdgeLayout);
   }
 
@@ -105,12 +105,12 @@ void Histogram::setDataLocation(const ElementType &dataLocation) {
 
     if (dataLocation == NODE) {
       _glGraph = new GlGraph(graph);
-      GlGraphInputData *glGraphInputData = _glGraph->getInputData();
+      GlGraphInputData *glGraphInputData = _glGraph->inputData();
       glGraphInputData->setLayout(histogramLayout);
       glGraphInputData->setSizes(histogramSize);
     } else {
       _glGraph = new GlGraph(edgeAsNodeGraph);
-      GlGraphInputData *glGraphInputData = _glGraph->getInputData();
+      GlGraphInputData *glGraphInputData = _glGraph->inputData();
       glGraphInputData->setLayout(histogramEdgeLayout);
     }
   }

@@ -81,7 +81,7 @@ void setTreeVisualProperties(Graph *tree) {
 
 // That function sets some rendering parameters on the graph to visualize
 void setGraphRenderingParameters(GlGraph *glGraph) {
-  GlGraphRenderingParameters &renderingParameters = glGraph->getRenderingParameters();
+  GlGraphRenderingParameters &renderingParameters = glGraph->renderingParameters();
   // Activate the display of edge extremities (arrows by default)
   renderingParameters.setViewArrow(true);
   // No color interpolation for the edges
