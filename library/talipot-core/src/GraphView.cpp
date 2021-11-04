@@ -30,13 +30,13 @@ GraphView::GraphView(Graph *superGraph, BooleanProperty *filter, uint sgId)
     return;
   }
 
-  for (auto n : filterIterator(stlIterator(superGraph->nodes()),
-                               [filter](node n) { return filter->getNodeValue(n); })) {
+  for (auto n :
+       filterIterator(superGraph->nodes(), [filter](node n) { return filter->getNodeValue(n); })) {
     addNode(n);
   }
 
-  for (auto e : filterIterator(stlIterator(superGraph->edges()),
-                               [filter](edge e) { return filter->getEdgeValue(e); })) {
+  for (auto e :
+       filterIterator(superGraph->edges(), [filter](edge e) { return filter->getEdgeValue(e); })) {
     addEdge(e);
   }
 }
