@@ -151,10 +151,10 @@ bool MouseShowElementInfo::eventFilter(QObject *widget, QEvent *e) {
             _model = new QSortFilterProxyModel(tableView());
             _model->setFilterRole(GraphEdgeElementModel::PropertyNameRole);
             _model->setSourceModel(
-                buildModel(eltType, selectedEntity.getComplexEntityId(), tableView()));
+                buildModel(eltType, selectedEntity.getGraphElementId(), tableView()));
             showVisualProp(_show);
             tableView()->setModel(_model);
-            title->setText(elementName(eltType, selectedEntity.getComplexEntityId()));
+            title->setText(elementName(eltType, selectedEntity.getGraphElementId()));
 
             QPoint position = qMouseEv->pos();
 

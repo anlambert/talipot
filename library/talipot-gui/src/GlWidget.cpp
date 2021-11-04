@@ -162,12 +162,12 @@ void GlWidget::render(RenderingOptions options, bool checkVisibility) {
     glDisable(GL_LIGHTING);
 
     // draw rendered scene from texture
-    Camera camera2D(_scene.getGraphCamera().getScene(), false);
-    camera2D.setScene(_scene.getGraphCamera().getScene());
+    Camera camera2D(_scene.graphCamera().getScene(), false);
+    camera2D.setScene(_scene.graphCamera().getScene());
     camera2D.initGl();
     Gl2DRect rect(height, 0, 0, width, sceneTextureId);
     rect.draw(0, &camera2D);
-    _scene.getGraphCamera().initGl();
+    _scene.graphCamera().initGl();
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -477,10 +477,10 @@ bool GlWidget::keepScenePointOfViewOnSubgraphChanging() const {
 }
 
 GlGraphRenderingParameters &GlWidget::renderingParameters() {
-  return _scene.getGlGraph()->getRenderingParameters();
+  return _scene.glGraph()->getRenderingParameters();
 }
 
 GlGraphInputData *GlWidget::inputData() const {
-  return _scene.getGlGraph()->getInputData();
+  return _scene.glGraph()->getInputData();
 }
 }

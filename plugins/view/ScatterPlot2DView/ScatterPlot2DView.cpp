@@ -807,11 +807,11 @@ void ScatterPlot2DView::generateScatterPlots() {
   uint nbOverviews = (selectedGraphProperties.size() - 1) * selectedGraphProperties.size() / 2;
   unsigned currentStep = 0;
 
-  double sceneRadiusBak = glWidget()->scene()->getGraphCamera().getSceneRadius();
-  double zoomFactorBak = glWidget()->scene()->getGraphCamera().getZoomFactor();
-  Coord eyesBak = glWidget()->scene()->getGraphCamera().getEyes();
-  Coord centerBak = glWidget()->scene()->getGraphCamera().getCenter();
-  Coord upBak = glWidget()->scene()->getGraphCamera().getUp();
+  double sceneRadiusBak = glWidget()->scene()->graphCamera().getSceneRadius();
+  double zoomFactorBak = glWidget()->scene()->graphCamera().getZoomFactor();
+  Coord eyesBak = glWidget()->scene()->graphCamera().getEyes();
+  Coord centerBak = glWidget()->scene()->graphCamera().getCenter();
+  Coord upBak = glWidget()->scene()->graphCamera().getUp();
 
   auto *progressBar = new GlProgressBar(Coord(0.0f, 0.0f, 0.0f), 600.0f, 100.0f,
                                         // use same green color as the highlighting one
@@ -864,14 +864,14 @@ void ScatterPlot2DView::generateScatterPlots() {
       mainLayer->addGlEntity(coeffLabel, "coeffLabel");
     }
 
-    mainLayer->addGlEntity(detailedScatterPlot->getGlGraph(), "graph");
+    mainLayer->addGlEntity(detailedScatterPlot->glGraph(), "graph");
   }
 
-  glWidget()->scene()->getGraphCamera().setSceneRadius(sceneRadiusBak);
-  glWidget()->scene()->getGraphCamera().setZoomFactor(zoomFactorBak);
-  glWidget()->scene()->getGraphCamera().setEyes(eyesBak);
-  glWidget()->scene()->getGraphCamera().setCenter(centerBak);
-  glWidget()->scene()->getGraphCamera().setUp(upBak);
+  glWidget()->scene()->graphCamera().setSceneRadius(sceneRadiusBak);
+  glWidget()->scene()->graphCamera().setZoomFactor(zoomFactorBak);
+  glWidget()->scene()->graphCamera().setEyes(eyesBak);
+  glWidget()->scene()->graphCamera().setCenter(centerBak);
+  glWidget()->scene()->graphCamera().setUp(upBak);
 
   glWidget()->draw();
 }
@@ -883,11 +883,11 @@ void ScatterPlot2DView::generateScatterPlot(ScatterPlot2D *scatterPlot, GlWidget
 
 void ScatterPlot2DView::switchFromMatrixToDetailView(ScatterPlot2D *scatterPlot, bool recenter) {
 
-  sceneRadiusBak = glWidget()->scene()->getGraphCamera().getSceneRadius();
-  zoomFactorBak = glWidget()->scene()->getGraphCamera().getZoomFactor();
-  eyesBak = glWidget()->scene()->getGraphCamera().getEyes();
-  centerBak = glWidget()->scene()->getGraphCamera().getCenter();
-  upBak = glWidget()->scene()->getGraphCamera().getUp();
+  sceneRadiusBak = glWidget()->scene()->graphCamera().getSceneRadius();
+  zoomFactorBak = glWidget()->scene()->graphCamera().getZoomFactor();
+  eyesBak = glWidget()->scene()->graphCamera().getEyes();
+  centerBak = glWidget()->scene()->graphCamera().getCenter();
+  upBak = glWidget()->scene()->graphCamera().getUp();
 
   mainLayer->deleteGlEntity(matrixComposite);
   GlQuantitativeAxis *xAxis = scatterPlot->getXAxis();
@@ -903,7 +903,7 @@ void ScatterPlot2DView::switchFromMatrixToDetailView(ScatterPlot2D *scatterPlot,
   oss << "correlation coefficient = " << scatterPlot->getCorrelationCoefficient();
   coeffLabel->setText(oss.str());
   mainLayer->addGlEntity(coeffLabel, "coeffLabel");
-  mainLayer->addGlEntity(scatterPlot->getGlGraph(), "graph");
+  mainLayer->addGlEntity(scatterPlot->glGraph(), "graph");
   toggleInteractors(true);
   matrixView = false;
   detailedScatterPlot = scatterPlot;
@@ -936,7 +936,7 @@ void ScatterPlot2DView::switchFromDetailViewToMatrixView() {
   mainLayer->addGlEntity(glGraph, "graph");
   mainLayer->addGlEntity(matrixComposite, "matrix composite");
   GlScene *scene = glWidget()->scene();
-  Camera &cam = scene->getGraphCamera();
+  Camera &cam = scene->graphCamera();
   cam.setSceneRadius(sceneRadiusBak);
   cam.setZoomFactor(zoomFactorBak);
   cam.setEyes(eyesBak);

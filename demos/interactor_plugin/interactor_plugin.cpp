@@ -101,7 +101,7 @@ public:
             else
               text += "edge ";
 
-            text += " id : " + QString::number(selectedEntity.getComplexEntityId());
+            text += " id : " + QString::number(selectedEntity.getGraphElementId());
 
             /*
             - Update QLabel with new text

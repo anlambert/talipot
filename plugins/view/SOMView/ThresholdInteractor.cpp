@@ -292,7 +292,7 @@ bool ThresholdInteractor::draw(GlWidget *glWidget) {
   EditColorScaleInteractor::draw(glWidget);
 
   if (layer->isVisible()) {
-    glWidget->scene()->getGraphCamera().initGl();
+    glWidget->scene()->graphCamera().initGl();
     Camera camera2D(glWidget->scene(), false);
     camera2D.setScene(glWidget->scene());
     camera2D.initGl();
@@ -352,7 +352,7 @@ bool ThresholdInteractor::eventFilter(QObject *widget, QEvent *event) {
         startDrag = true;
         movingSlider->beginShift();
         XPosCursor = me->pos().x();
-        glWidget->scene()->getGraphCamera().initGl();
+        glWidget->scene()->graphCamera().initGl();
 
         layer->setVisible(false);
         colorScale->setVisible(false);

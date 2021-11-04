@@ -120,7 +120,7 @@ void MouseLassoNodesSelectorInteractorComponent::selectGraphElementsUnderPolygon
     bool needPush = true;
 
     for (const auto &tmpNode : tmpNodes) {
-      glNode.n = node(tmpNode.getComplexEntityId());
+      glNode.n = node(tmpNode.getGraphElementId());
       BoundingBox nodeBB(glNode.getBoundingBox(glWidget->inputData()));
       float dx = nodeBB[1][0] - nodeBB[0][0];
       float dy = nodeBB[1][1] - nodeBB[0][1];
@@ -181,8 +181,8 @@ void MouseLassoNodesSelectorInteractorComponent::selectGraphElementsUnderPolygon
           needPush = false;
         }
 
-        viewSelection->setNodeValue(node(tmpNode.getComplexEntityId()), true);
-        selectedNodes.push_back(node(tmpNode.getComplexEntityId()));
+        viewSelection->setNodeValue(node(tmpNode.getGraphElementId()), true);
+        selectedNodes.push_back(node(tmpNode.getGraphElementId()));
       }
     }
 
@@ -242,8 +242,8 @@ bool MouseLassoNodesSelectorInteractorComponent::eventFilter(QObject *obj, QEven
         bool result = glWidget->pickNodesEdges(me->pos().x(), me->pos().y(), selectedEntity);
 
         if (result && selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED) {
-          bool sel = viewSelection->getNodeValue(node(selectedEntity.getComplexEntityId()));
-          viewSelection->setNodeValue(node(selectedEntity.getComplexEntityId()), !sel);
+          bool sel = viewSelection->getNodeValue(node(selectedEntity.getGraphElementId()));
+          viewSelection->setNodeValue(node(selectedEntity.getGraphElementId()), !sel);
         }
 
         Observable::unholdObservers();

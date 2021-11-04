@@ -64,12 +64,12 @@ void SceneConfigWidget::resetChanges() {
 
   _ui->scrollArea->setEnabled(_glWidget != nullptr);
 
-  if (_glWidget == nullptr || _glWidget->scene()->getGlGraph() == nullptr ||
-      _glWidget->scene()->getGlGraph()->getGraph() == nullptr) {
+  if (_glWidget == nullptr || _glWidget->scene()->glGraph() == nullptr ||
+      _glWidget->scene()->glGraph()->getGraph() == nullptr) {
     return;
   }
 
-  Graph *graph = _glWidget->scene()->getGlGraph()->getGraph();
+  Graph *graph = _glWidget->scene()->glGraph()->getGraph();
   const GlGraphRenderingParameters &renderingParameters = _glWidget->renderingParameters();
 
   // NODES
@@ -143,7 +143,7 @@ bool SceneConfigWidget::eventFilter(QObject *obj, QEvent *ev) {
 }
 
 void SceneConfigWidget::applySettings() {
-  if (_resetting || !_glWidget->scene()->getGlGraph()) {
+  if (_resetting || !_glWidget->scene()->glGraph()) {
     return;
   }
 

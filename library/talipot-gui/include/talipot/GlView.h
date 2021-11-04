@@ -140,14 +140,14 @@ public:
    * @brief Return the 3D world position for the given view position
    */
   Coord viewToWorld(const Coord &vpos) const {
-    return glWidget()->scene()->getGraphCamera().viewportTo3DWorld(vpos);
+    return glWidget()->scene()->graphCamera().viewportTo3DWorld(vpos);
   }
 
   /**
    * @brief Return the view position for the given 3D position
    */
   Coord worldToView(const Coord &wpos) const {
-    return glWidget()->scene()->getGraphCamera().worldTo2DViewport(wpos);
+    return glWidget()->scene()->graphCamera().worldTo2DViewport(wpos);
   }
 
   /**

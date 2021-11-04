@@ -246,7 +246,7 @@ void SOMView::changeMapViewGraph(tlp::Graph *graph) {
   p.setViewMetaLabel(false);
   p.setViewNodeLabel(true);
   p.setFontsType(0);
-  glGraph = mapWidget->scene()->getGlGraph();
+  glGraph = mapWidget->scene()->glGraph();
 
   if (graphLayoutProperty) {
     delete graphLayoutProperty;

@@ -530,7 +530,7 @@ void ScatterPlotCorrelCoeffSelector::mapPolygonColorToCorrelCoeffOfData(
     GlNode glNode;
 
     for (const auto &tmpNode : tmpNodes) {
-      glNode.n = node(tmpNode.getComplexEntityId());
+      glNode.n = node(tmpNode.getGraphElementId());
       BoundingBox nodeBB(glNode.getBoundingBox(glWidget->inputData()));
       float dx = nodeBB[1][0] - nodeBB[0][0];
       float dy = nodeBB[1][1] - nodeBB[0][1];
@@ -586,7 +586,7 @@ void ScatterPlotCorrelCoeffSelector::mapPolygonColorToCorrelCoeffOfData(
       quad.push_back(quad[0]);
 
       if (isPolygonAincludesInB(quad, polygonScr)) {
-        selectedNodes.push_back(node(tmpNode.getComplexEntityId()));
+        selectedNodes.push_back(node(tmpNode.getGraphElementId()));
       }
     }
   }

@@ -159,7 +159,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
           case SelectedEntity::NODE_SELECTED:
 
             if (_mode == EdgesAndNodes || _mode == NodesOnly) {
-              result = selection->getNodeValue(node(selectedEntity.getComplexEntityId()));
+              result = selection->getNodeValue(node(selectedEntity.getGraphElementId()));
 
               if (revertSelection || boolVal != result) {
                 if (needPush) {
@@ -167,7 +167,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
                   needPush = false;
                 }
 
-                selection->setNodeValue(node(selectedEntity.getComplexEntityId()), !result);
+                selection->setNodeValue(node(selectedEntity.getGraphElementId()), !result);
               }
             }
 
@@ -176,7 +176,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
           case SelectedEntity::EDGE_SELECTED:
 
             if (_mode == EdgesAndNodes || _mode == EdgesOnly) {
-              result = selection->getEdgeValue(edge(selectedEntity.getComplexEntityId()));
+              result = selection->getEdgeValue(edge(selectedEntity.getGraphElementId()));
 
               if (revertSelection || boolVal != result) {
                 if (needPush) {
@@ -184,7 +184,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
                   needPush = false;
                 }
 
-                selection->setEdgeValue(edge(selectedEntity.getComplexEntityId()), !result);
+                selection->setEdgeValue(edge(selectedEntity.getGraphElementId()), !result);
               }
             }
 
@@ -216,19 +216,19 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
 
         if (_mode == EdgesAndNodes || _mode == NodesOnly) {
           for (const auto &entity : tmpSetNode) {
-            selection->setNodeValue(
-                node(entity.getComplexEntityId()),
-                revertSelection ? !selection->getNodeValue(node(entity.getComplexEntityId()))
-                                : boolVal);
+            selection->setNodeValue(node(entity.getGraphElementId()),
+                                    revertSelection
+                                        ? !selection->getNodeValue(node(entity.getGraphElementId()))
+                                        : boolVal);
           }
         }
 
         if (_mode == EdgesAndNodes || _mode == EdgesOnly) {
           for (const auto &entity : tmpSetEdge) {
-            selection->setEdgeValue(
-                edge(entity.getComplexEntityId()),
-                revertSelection ? !selection->getEdgeValue(edge(entity.getComplexEntityId()))
-                                : boolVal);
+            selection->setEdgeValue(edge(entity.getGraphElementId()),
+                                    revertSelection
+                                        ? !selection->getEdgeValue(edge(entity.getGraphElementId()))
+                                        : boolVal);
           }
         }
       }

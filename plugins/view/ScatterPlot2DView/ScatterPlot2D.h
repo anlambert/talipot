@@ -118,8 +118,8 @@ public:
     return correlationCoeff;
   }
 
-  GlGraph *getGlGraph() const {
-    return glGraph;
+  GlGraph *glGraph() const {
+    return _glGraph;
   }
   void setDisplayGraphEdges(const bool displayGraphEdges) {
     displayEdges = displayGraphEdges;
@@ -151,7 +151,7 @@ private:
   Coord blCorner;
   uint size;
   Graph *graph;
-  GlGraph *glGraph;
+  GlGraph *_glGraph;
   LayoutProperty *scatterLayout, *scatterEdgeLayout;
   GlQuantitativeAxis *xAxis, *yAxis;
   std::string textureName;

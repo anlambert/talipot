@@ -52,7 +52,7 @@ bool MousePanNZoomNavigator::eventFilter(QObject *widget, QEvent *e) {
 
     if (gesture->gesture(Qt::PinchGesture)) {
       auto *pinch = static_cast<QPinchGesture *>(gesture->gesture(Qt::PinchGesture));
-      Camera &camera = g->scene()->getGraphCamera();
+      Camera &camera = g->scene()->graphCamera();
 
       // store the camera scale factor when starting the gesture
       if (pinch->state() == Qt::GestureStarted) {
@@ -106,11 +106,11 @@ bool MousePanNZoomNavigator::eventFilter(QObject *widget, QEvent *e) {
 void MouseElementDeleter::delElement(Graph *graph, SelectedEntity &selectedEntity) {
   switch (selectedEntity.getEntityType()) {
   case SelectedEntity::NODE_SELECTED:
-    graph->delNode(node(selectedEntity.getComplexEntityId()));
+    graph->delNode(node(selectedEntity.getGraphElementId()));
     break;
 
   case SelectedEntity::EDGE_SELECTED:
-    graph->delEdge(edge(selectedEntity.getComplexEntityId()));
+    graph->delEdge(edge(selectedEntity.getGraphElementId()));
     break;
 
   default:
@@ -366,8 +366,8 @@ bool MouseNKeysNavigator::eventFilter(QObject *widget, QEvent *e) {
       bool find = false;
 
       for (auto tmpNode : tmpNodes) {
-        if (graph->isMetaNode(node(tmpNode.getComplexEntityId()))) {
-          metaNode = node(tmpNode.getComplexEntityId());
+        if (graph->isMetaNode(node(tmpNode.getGraphElementId()))) {
+          metaNode = node(tmpNode.getGraphElementId());
           find = true;
           break;
         }

@@ -110,7 +110,7 @@ void ParallelCoordinatesView::initGlWidget() {
   glGraph = new GlGraph(axisPointsGraph);
   mainLayer->addGlEntity(glGraph, "graph");
   axisSelectionLayer = new GlLayer("Axis selection layer");
-  GlGraphRenderingParameters &param = scene->getGlGraph()->getRenderingParameters();
+  GlGraphRenderingParameters &param = scene->glGraph()->getRenderingParameters();
   param.setAntialiasing(true);
   param.setNodesStencil(2);
   param.setNodesLabelStencil(1);
@@ -714,7 +714,7 @@ void ParallelCoordinatesView::setupAndDrawView() {
     parallelCoordsDrawing->setLayoutType(getLayoutType());
     parallelCoordsDrawing->setLinesType(getLinesType());
     parallelCoordsDrawing->setLinesThickness(getLinesThickness());
-    scene->getGlGraph()->getRenderingParameters().setViewNodeLabel(
+    scene->glGraph()->getRenderingParameters().setViewNodeLabel(
         drawConfigWidget->displayNodeLabels());
 
     if (graphProxy->getUnhighlightedEltsColorAlphaValue() !=
@@ -779,7 +779,7 @@ bool ParallelCoordinatesView::mapGlEntitiesInRegionToData(std::set<uint> &mapped
   glWidget()->pickNodesEdges(x, y, width, height, selectedAxisPoints, dummy, mainLayer);
 
   for (const auto &entity : selectedAxisPoints) {
-    node n(entity.getComplexEntityId());
+    node n(entity.getGraphElementId());
     uint selectedEltId;
 
     if (parallelCoordsDrawing->getDataIdFromAxisPoint(n, selectedEltId)) {

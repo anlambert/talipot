@@ -139,7 +139,7 @@ void NodeLinkDiagramView::setState(const tlp::DataSet &data) {
 }
 
 void NodeLinkDiagramView::graphChanged(tlp::Graph *graph) {
-  GlGraph *composite = glWidget()->scene()->getGlGraph();
+  GlGraph *composite = glWidget()->scene()->glGraph();
   Graph *oldGraph = composite ? composite->getGraph() : nullptr;
   loadGraphOnScene(graph);
   registerTriggers();
@@ -223,7 +223,7 @@ void NodeLinkDiagramView::createScene(Graph *graph, DataSet dataSet) {
   if (dataSet.exists("Display")) {
     DataSet renderingParameters;
     dataSet.get("Display", renderingParameters);
-    GlGraphRenderingParameters &rp = scene->getGlGraph()->getRenderingParameters();
+    GlGraphRenderingParameters &rp = scene->glGraph()->getRenderingParameters();
     rp.setParameters(renderingParameters);
 
     string s;
@@ -248,7 +248,7 @@ void NodeLinkDiagramView::createScene(Graph *graph, DataSet dataSet) {
 DataSet NodeLinkDiagramView::sceneData() const {
   GlScene *scene = glWidget()->scene();
   DataSet outDataSet = GlView::state();
-  outDataSet.set("Display", scene->getGlGraph()->getRenderingParameters().getParameters());
+  outDataSet.set("Display", scene->glGraph()->getRenderingParameters().getParameters());
   std::string out;
   scene->getXML(out);
   size_t pos = out.find(TalipotBitmapDir);
@@ -319,7 +319,7 @@ void NodeLinkDiagramView::registerTriggers() {
     return;
   }
 
-  addRedrawTrigger(glWidget()->scene()->getGlGraph()->getGraph());
+  addRedrawTrigger(glWidget()->scene()->glGraph()->getGraph());
   std::set<tlp::PropertyInterface *> properties = glWidget()->inputData()->properties();
 
   for (auto *p : properties) {
@@ -359,7 +359,7 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
   if (result) {
     menu->addSeparator();
     isNode = entity.getEntityType() == SelectedEntity::NODE_SELECTED;
-    itemId = entity.getComplexEntityId();
+    itemId = entity.getGraphElementId();
     QString sId = QString::number(itemId);
 
     menu->addAction((isNode ? "Node #" : "Edge #") + sId)->setEnabled(false);
@@ -506,7 +506,7 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
     action->setToolTip(genEltToolTip("Display a dialog to update the size of the"));
 
     if (isNode) {
-      Graph *metaGraph = graph()->getNodeMetaInfo(node(entity.getComplexEntityId()));
+      Graph *metaGraph = graph()->getNodeMetaInfo(node(entity.getGraphElementId()));
 
       if (metaGraph) {
         action = menu->addAction("Go inside", [this] { goInsideItem(); });
@@ -515,9 +515,9 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
         action->setToolTip("Replace the meta-node #" + sId + " by the subgraph it represents");
       }
 
-      View::fillContextMenu(menu, node(entity.getComplexEntityId()));
+      View::fillContextMenu(menu, node(entity.getGraphElementId()));
     } else {
-      View::fillContextMenu(menu, edge(entity.getComplexEntityId()));
+      View::fillContextMenu(menu, edge(entity.getGraphElementId()));
     }
   } else {
     GlView::fillContextMenu(menu, point);
@@ -863,14 +863,14 @@ void NodeLinkDiagramView::useHulls(bool hasHulls) {
     GlScene *scene = glWidget()->scene();
 
     manager = new GlCompositeHierarchyManager(
-        scene->getGlGraph()->getInputData()->graph(), scene->getLayer("Main"), "Hulls",
-        scene->getGlGraph()->getInputData()->layout(), scene->getGlGraph()->getInputData()->sizes(),
-        scene->getGlGraph()->getInputData()->rotations());
+        scene->glGraph()->getInputData()->graph(), scene->getLayer("Main"), "Hulls",
+        scene->glGraph()->getInputData()->layout(), scene->glGraph()->getInputData()->sizes(),
+        scene->glGraph()->getInputData()->rotations());
     // Now we remove and add GlGraph to be sure of the order (first Hulls and after
     // GlGraph)
     // This code doesn't affect the behavior of talipot but the tlp file is modified
-    scene->getLayer("Main")->deleteGlEntity(scene->getGlGraph());
-    scene->getLayer("Main")->addGlEntity(scene->getGlGraph(), "graph");
+    scene->getLayer("Main")->deleteGlEntity(scene->glGraph());
+    scene->getLayer("Main")->addGlEntity(scene->glGraph(), "graph");
   }
 }
 

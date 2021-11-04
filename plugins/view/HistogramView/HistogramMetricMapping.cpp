@@ -786,7 +786,7 @@ bool HistogramMetricMapping::eventFilter(QObject *widget, QEvent *e) {
     float x = glWidget->width() - me->pos().x();
     float y = me->pos().y();
     Coord screenCoords = {x, y};
-    Coord sceneCoords = glWidget->scene()->getGraphCamera().viewportTo3DWorld(
+    Coord sceneCoords = glWidget->scene()->graphCamera().viewportTo3DWorld(
         glWidget->screenToViewport(screenCoords));
 
     if (!curveDragStarted) {
@@ -829,7 +829,7 @@ bool HistogramMetricMapping::eventFilter(QObject *widget, QEvent *e) {
       float x = glWidget->width() - me->pos().x();
       float y = me->pos().y();
       Coord screenCoords = {x, y};
-      Coord sceneCoords = glWidget->scene()->getGraphCamera().viewportTo3DWorld(
+      Coord sceneCoords = glWidget->scene()->graphCamera().viewportTo3DWorld(
           glWidget->screenToViewport(screenCoords));
 
       if (curve->pointBelong(sceneCoords)) {
@@ -885,7 +885,7 @@ bool HistogramMetricMapping::eventFilter(QObject *widget, QEvent *e) {
     float x = glWidget->width() - cme->pos().x();
     float y = cme->pos().y();
     Coord screenCoords = {x, y};
-    Coord sceneCoords = glWidget->scene()->getGraphCamera().viewportTo3DWorld(
+    Coord sceneCoords = glWidget->scene()->graphCamera().viewportTo3DWorld(
         glWidget->screenToViewport(screenCoords));
 
     if (pointerUnderScale(sceneCoords)) {

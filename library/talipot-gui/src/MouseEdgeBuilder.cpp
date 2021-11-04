@@ -49,7 +49,7 @@ bool MouseEdgeBuilder::eventFilter(QObject *widget, QEvent *e) {
         if (result && (selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED)) {
           _started = true;
           initObserver(_graph);
-          _source = node(selectedEntity.getComplexEntityId());
+          _source = node(selectedEntity.getGraphElementId());
           _curPos = _startPos = mLayout->getNodeValue(_source);
           return true;
         }
@@ -64,7 +64,7 @@ bool MouseEdgeBuilder::eventFilter(QObject *widget, QEvent *e) {
           clearObserver();
           // allow to undo
           _graph->push();
-          addLink(_source, node(selectedEntity.getComplexEntityId()));
+          addLink(_source, node(selectedEntity.getGraphElementId()));
           // edge finished. clear _source and _started
           _source = node();
           _started = false;
@@ -73,7 +73,7 @@ bool MouseEdgeBuilder::eventFilter(QObject *widget, QEvent *e) {
         } else {
           Coord point = {glWidget->width() - float(qMouseEv->pos().x()),
                          float(qMouseEv->pos().y())};
-          _bends.push_back(glWidget->scene()->getGraphCamera().viewportTo3DWorld(
+          _bends.push_back(glWidget->scene()->graphCamera().viewportTo3DWorld(
               glWidget->screenToViewport(point)));
           glWidget->redraw();
         }
@@ -118,8 +118,7 @@ bool MouseEdgeBuilder::eventFilter(QObject *widget, QEvent *e) {
       }
 
       Coord point = Coord(glWidget->width() - qMouseEv->pos().x(), qMouseEv->pos().y());
-      point =
-          glWidget->scene()->getGraphCamera().viewportTo3DWorld(glWidget->screenToViewport(point));
+      point = glWidget->scene()->graphCamera().viewportTo3DWorld(glWidget->screenToViewport(point));
       _curPos.set(point[0], point[1], point[2]);
       glWidget->redraw();
     }
@@ -136,7 +135,7 @@ bool MouseEdgeBuilder::draw(GlWidget *glWidget) {
   }
 
   glDisable(GL_STENCIL_TEST);
-  glWidget->scene()->getGraphCamera().initGl();
+  glWidget->scene()->graphCamera().initGl();
   vector<Coord> lineVertices;
   lineVertices.push_back(_startPos);
   lineVertices.insert(lineVertices.end(), _bends.begin(), _bends.end());

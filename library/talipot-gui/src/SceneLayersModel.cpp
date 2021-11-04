@@ -60,7 +60,7 @@ QModelIndex SceneLayersModel::index(int row, int column, const QModelIndex &pare
     composite = static_cast<GlComposite *>(parent.internalPointer());
   }
 
-  if (_scene->getGlGraph() == composite) {
+  if (_scene->glGraph() == composite) {
     return createIndex(row, column, GRAPH_COMPOSITE_IDS[row]);
   }
 
@@ -85,8 +85,8 @@ QModelIndex SceneLayersModel::glGraphIndex() const {
     const auto &entities = composite->getGlEntities();
 
     for (const auto &it : entities) {
-      if (it.second == _scene->getGlGraph()) {
-        return createIndex(row, 0, _scene->getGlGraph());
+      if (it.second == _scene->glGraph()) {
+        return createIndex(row, 0, _scene->glGraph());
       }
 
       row++;
@@ -164,7 +164,7 @@ int SceneLayersModel::rowCount(const QModelIndex &parent) const {
 
   auto *entity = static_cast<GlEntity *>(parent.internalPointer());
 
-  if (_scene->getGlGraph() == entity) {
+  if (_scene->glGraph() == entity) {
     return GRAPH_COMPOSITE_IDS.size();
   }
 
@@ -186,7 +186,7 @@ QVariant SceneLayersModel::data(const QModelIndex &index, int role) const {
 
   if (GRAPH_COMPOSITE_IDS.contains(index.internalId())) {
     quint32 id = index.internalId();
-    const GlGraphRenderingParameters &parameters = _scene->getGlGraph()->getRenderingParameters();
+    const GlGraphRenderingParameters &parameters = _scene->glGraph()->getRenderingParameters();
     QString display;
     int stencil = NO_STENCIL;
     bool visible = false;
@@ -298,7 +298,7 @@ bool SceneLayersModel::setData(const QModelIndex &index, const QVariant &value, 
 
   if (GRAPH_COMPOSITE_IDS.contains(index.internalId())) {
     quint32 id = index.internalId();
-    GlGraphRenderingParameters &parameters = _scene->getGlGraph()->getRenderingParameters();
+    GlGraphRenderingParameters &parameters = _scene->glGraph()->getRenderingParameters();
 
     if (index.column() == 1) {
       bool visible = value.value<int>() == int(Qt::Checked);

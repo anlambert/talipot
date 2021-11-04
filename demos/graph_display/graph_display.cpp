@@ -131,7 +131,7 @@ int main(int argc, char **argv) {
   mainLayer->addGraph(g, "graph");
 
   // Sets some rendering parameters on the graph to visualize
-  setGraphRenderingParameters(mainWidget->scene()->getGlGraph());
+  setGraphRenderingParameters(mainWidget->scene()->glGraph());
 
   // Display the widget
   mainWidget->show();

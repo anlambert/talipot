@@ -222,7 +222,7 @@ void FisheyeInteractorComponent::generateFisheyeTexture(GlWidget *glWidget) {
     GlTextureManager::registerExternalTexture(_fboTextureId, _fbo2->texture());
   }
 
-  Camera *camera = &glWidget->scene()->getGraphCamera();
+  Camera *camera = &glWidget->scene()->graphCamera();
   Camera camBackup = *camera;
 
   Coord bbMin = camera->viewportTo3DWorld(
@@ -232,7 +232,7 @@ void FisheyeInteractorComponent::generateFisheyeTexture(GlWidget *glWidget) {
 
   BoundingBox bb = {bbMin, bbMax};
 
-  GlGraph *glGraph = glScene->getGlGraph();
+  GlGraph *glGraph = glScene->glGraph();
   int labelMinSizeBackup = 0;
   if (glGraph) {
     labelMinSizeBackup = glGraph->getRenderingParameters().getMinSizeOfLabel();

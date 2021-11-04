@@ -62,7 +62,7 @@ struct entityWithDistanceCompare {
 //====================================================
 
 GlScene::GlScene(GlLODCalculator *calculator)
-    : backgroundColor(255, 255, 255, 255), viewOrtho(true), glGraph(nullptr), graphLayer(nullptr),
+    : backgroundColor(255, 255, 255, 255), viewOrtho(true), _glGraph(nullptr), _graphLayer(nullptr),
       clearBufferAtDraw(true), inDraw(false), clearDepthBufferAtDraw(true),
       clearStencilBufferAtDraw(true) {
 
@@ -168,7 +168,7 @@ void GlScene::draw() {
     }
 
     // Draw simple entities
-    if (getGlGraph() && !getGlGraph()->getInputData()->renderingParameters()->isElementZOrdered()) {
+    if (_glGraph && !_glGraph->getInputData()->renderingParameters()->isElementZOrdered()) {
       for (const auto &it : itLayer.entitiesLODVector) {
         if (it.lod < 0) {
           continue;
@@ -179,7 +179,7 @@ void GlScene::draw() {
       }
     } else {
 
-      entityWithDistanceCompare::inputData = glGraph->getInputData();
+      entityWithDistanceCompare::inputData = _glGraph->getInputData();
       multiset<EntityWithDistance, entityWithDistanceCompare> entitiesSet;
       Coord camPos = camera->getEyes();
       BoundingBox bb;
@@ -454,8 +454,8 @@ void GlScene::computeAdjustSceneToSize(int width, int height, Coord *center, Coo
 
   GlBoundingBoxSceneVisitor *visitor;
 
-  if (glGraph) {
-    visitor = new GlBoundingBoxSceneVisitor(glGraph->getInputData());
+  if (_glGraph) {
+    visitor = new GlBoundingBoxSceneVisitor(_glGraph->getInputData());
   } else {
     visitor = new GlBoundingBoxSceneVisitor(nullptr);
   }
@@ -648,17 +648,17 @@ void GlScene::rotateCamera(const int x, const int y, const int z) {
 }
 //========================================================================================================
 void GlScene::glGraphAdded(GlLayer *layer, GlGraph *glGraph) {
-  this->graphLayer = layer;
-  this->glGraph = glGraph;
+  _graphLayer = layer;
+  _glGraph = glGraph;
 }
 //========================================================================================================
 void GlScene::glGraphRemoved(GlLayer *layer, GlGraph *glGraph) {
-  if (this->glGraph == glGraph) {
+  if (_glGraph == glGraph) {
     // fixes unused warning in release
     (void)layer;
-    assert(graphLayer == layer);
-    graphLayer = nullptr;
-    this->glGraph = nullptr;
+    assert(_graphLayer == layer);
+    _graphLayer = nullptr;
+    _glGraph = nullptr;
   }
 }
 
@@ -941,7 +941,7 @@ void GlScene::getXMLOnlyForCameras(string &out) {
 void GlScene::setWithXML(string &in, Graph *graph) {
 
   if (graph) {
-    glGraph = new GlGraph(graph);
+    _glGraph = new GlGraph(graph);
   }
 
   assert(in.substr(0, 7) == "<scene>");
@@ -975,7 +975,7 @@ void GlScene::setWithXML(string &in, Graph *graph) {
   }
 
   if (graph) {
-    getLayer("Main")->addGlEntity(glGraph, "graph");
+    getLayer("Main")->addGlEntity(_glGraph, "graph");
   }
 }
 

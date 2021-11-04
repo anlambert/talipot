@@ -184,7 +184,7 @@ bool GeographicViewNavigator::eventFilter(QObject *widget, QEvent *e) {
 
     if (e->type() == QEvent::MouseMove && inRotation) {
 
-      Camera &camera = g->scene()->getGraphCamera();
+      Camera &camera = g->scene()->graphCamera();
       Coord c1 = camera.getEyes() - camera.getCenter();
       Coord c2 = camera.getEyes() - camera.getCenter() + camera.getUp();
       trans(c1, c2, -0.005 * (qMouseEv->pos().y() - y), -0.005 * (qMouseEv->pos().x() - x));
@@ -222,7 +222,7 @@ bool GeographicViewNavigator::eventFilter(QObject *widget, QEvent *e) {
         break;
       }
 
-      Camera &camera = g->scene()->getGraphCamera();
+      Camera &camera = g->scene()->graphCamera();
       Coord c1 = camera.getEyes() - camera.getCenter();
       Coord c2 = camera.getEyes() - camera.getCenter() + camera.getUp();
       trans(c1, c2, angle1, angle2);

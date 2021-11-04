@@ -52,7 +52,7 @@ bool HistogramViewNavigator::eventFilter(QObject *widget, QEvent *e) {
     float x = glWidget->width() - me->pos().x();
     float y = me->pos().y();
     Coord screenCoords = {x, y};
-    Coord sceneCoords = glWidget->scene()->getGraphCamera().viewportTo3DWorld(
+    Coord sceneCoords = glWidget->scene()->graphCamera().viewportTo3DWorld(
         glWidget->screenToViewport(screenCoords));
     selectedHistoOverview = getOverviewUnderPointer(sceneCoords);
     return true;

@@ -45,7 +45,7 @@ QPixmap GlyphRenderer::render(int glyphId, const QColor &backgroundColor) {
       renderer.setSceneBackgroundColor(QColorToColor(backgroundColor));
       renderer.addGraphToScene(graph);
       renderer.scene()->centerScene();
-      renderer.scene()->getGraphCamera().setZoomFactor(0.9);
+      renderer.scene()->graphCamera().setZoomFactor(0.9);
       // init previews
       for (const string &glyphName : PluginsManager::availablePlugins<Glyph>()) {
         auto glId = GlyphManager::glyphId(glyphName);
@@ -99,7 +99,7 @@ QPixmap EdgeExtremityGlyphRenderer::render(int glyphId, const QColor &background
       renderer.setSceneBackgroundColor(QColorToColor(backgroundColor));
       renderer.addGraphToScene(graph);
       GlGraphRenderingParameters &renderingParamerters =
-          renderer.scene()->getGlGraph()->getRenderingParameters();
+          renderer.scene()->glGraph()->getRenderingParameters();
       renderingParamerters.setEdgeColorInterpolate(false);
       renderingParamerters.setEdgeSizeInterpolate(false);
       renderingParamerters.setViewArrow(true);

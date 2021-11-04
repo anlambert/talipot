@@ -757,11 +757,11 @@ void HistogramView::switchFromSmallMultiplesToDetailedView(Histogram *histogramT
   }
 
   if (smallMultiplesView) {
-    sceneRadiusBak = glWidget()->scene()->getGraphCamera().getSceneRadius();
-    zoomFactorBak = glWidget()->scene()->getGraphCamera().getZoomFactor();
-    eyesBak = glWidget()->scene()->getGraphCamera().getEyes();
-    centerBak = glWidget()->scene()->getGraphCamera().getCenter();
-    upBak = glWidget()->scene()->getGraphCamera().getUp();
+    sceneRadiusBak = glWidget()->scene()->graphCamera().getSceneRadius();
+    zoomFactorBak = glWidget()->scene()->graphCamera().getZoomFactor();
+    eyesBak = glWidget()->scene()->graphCamera().getEyes();
+    centerBak = glWidget()->scene()->graphCamera().getCenter();
+    upBak = glWidget()->scene()->graphCamera().getUp();
   }
 
   mainLayer->deleteGlEntity(histogramsComposite);
@@ -799,7 +799,7 @@ void HistogramView::switchFromSmallMultiplesToDetailedView(Histogram *histogramT
   mainLayer->addGlEntity(emptyRect, "emptyRect");
   mainLayer->addGlEntity(emptyRect2, "emptyRect2");
 
-  mainLayer->addGlEntity(histogramToDetail->getGlGraph(), "graph");
+  mainLayer->addGlEntity(histogramToDetail->glGraph(), "graph");
 
   toggleInteractors(true);
 
@@ -863,7 +863,7 @@ void HistogramView::switchFromDetailedViewToSmallMultiples() {
   yAxisDetail = nullptr;
   mainLayer->addGlEntity(histogramsComposite, "overviews composite");
   mainLayer->addGlEntity(labelsComposite, "labels composite");
-  Camera &cam = gl->scene()->getGraphCamera();
+  Camera &cam = gl->scene()->graphCamera();
   cam.setSceneRadius(sceneRadiusBak);
   cam.setZoomFactor(zoomFactorBak);
   cam.setEyes(eyesBak);

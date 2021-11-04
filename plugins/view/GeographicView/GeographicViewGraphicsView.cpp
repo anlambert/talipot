@@ -612,8 +612,8 @@ void GeographicViewGraphicsView::currentZoomChanged() {
   zoomOutButton->setEnabled(leafletMaps->getCurrentMapZoom() != 0);
 }
 
-GlGraph *GeographicViewGraphicsView::getGlGraph() const {
-  return _glWidget->scene()->getGlGraph();
+GlGraph *GeographicViewGraphicsView::glGraph() const {
+  return _glWidget->scene()->glGraph();
 }
 
 void GeographicViewGraphicsView::createLayoutWithAddresses(const string &addressPropertyName,
@@ -941,9 +941,9 @@ void GeographicViewGraphicsView::switchViewType() {
   }
 
   if (planisphereEntity && planisphereEntity->isVisible()) {
-    globeCameraBackup = _glWidget->scene()->getGraphCamera();
+    globeCameraBackup = _glWidget->scene()->graphCamera();
   } else {
-    mapCameraBackup = _glWidget->scene()->getGraphCamera();
+    mapCameraBackup = _glWidget->scene()->graphCamera();
   }
 
   if (geoLayout && geoLayoutBackup != nullptr && geoLayoutComputed) {
@@ -1000,7 +1000,7 @@ void GeographicViewGraphicsView::switchViewType() {
 
     geoLayout->addListener(this);
 
-    Camera &camera = _glWidget->scene()->getGraphCamera();
+    Camera &camera = _glWidget->scene()->graphCamera();
     camera.setEyes(mapCameraBackup.getEyes());
     camera.setCenter(mapCameraBackup.getCenter());
     camera.setUp(mapCameraBackup.getUp());
@@ -1063,7 +1063,7 @@ void GeographicViewGraphicsView::switchViewType() {
       firstGlobeSwitch = false;
 
       _glWidget->scene()->centerScene();
-      Camera &camera = _glWidget->scene()->getGraphCamera();
+      Camera &camera = _glWidget->scene()->graphCamera();
       float centerEyeDistance = (camera.getEyes() - camera.getCenter()).norm();
       camera.setCenter(Coord(0, 0, 0));
       camera.setEyes(Coord(centerEyeDistance, 0, 0));
@@ -1072,7 +1072,7 @@ void GeographicViewGraphicsView::switchViewType() {
       globeCameraBackup = camera;
 
     } else {
-      Camera &camera = _glWidget->scene()->getGraphCamera();
+      Camera &camera = _glWidget->scene()->graphCamera();
       camera.setEyes(globeCameraBackup.getEyes());
       camera.setCenter(globeCameraBackup.getCenter());
       camera.setUp(globeCameraBackup.getUp());
@@ -1097,7 +1097,7 @@ void GeographicViewGraphicsView::switchViewType() {
 void GeographicViewGraphicsView::setGeoLayoutComputed() {
   geoLayoutComputed = true;
   noLayoutMsgBox->setVisible(false);
-  _glWidget->scene()->getGlGraph()->setVisible(true);
+  _glWidget->scene()->glGraph()->setVisible(true);
 }
 
 void GeographicViewGraphicsView::updateMapTexture() {

@@ -119,9 +119,9 @@ bool MouseBoxZoomer::eventFilter(QObject *widget, QEvent *e) {
 
             BoundingBox sceneBB;
             sceneBB.expand(
-                glw->scene()->getGraphCamera().viewportTo3DWorld(glw->screenToViewport(bbMin)));
+                glw->scene()->graphCamera().viewportTo3DWorld(glw->screenToViewport(bbMin)));
             sceneBB.expand(
-                glw->scene()->getGraphCamera().viewportTo3DWorld(glw->screenToViewport(bbMax)));
+                glw->scene()->graphCamera().viewportTo3DWorld(glw->screenToViewport(bbMax)));
 
             QtGlSceneZoomAndPanAnimator zoomAnPan(glw, sceneBB);
             zoomAnPan.animateZoomAndPan();

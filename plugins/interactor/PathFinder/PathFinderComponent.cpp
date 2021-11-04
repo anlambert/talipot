@@ -42,7 +42,7 @@ bool PathFinderComponent::eventFilter(QObject *obj, QEvent *event) {
     SelectedEntity entity;
     if (glw->pickNodesEdges(qMouseEv->pos().x(), qMouseEv->pos().y(), entity) &&
         entity.getEntityType() == SelectedEntity::NODE_SELECTED) {
-      tmp.id = entity.getComplexEntityId();
+      tmp.id = entity.getGraphElementId();
       glw->setCursor(Qt::CrossCursor);
       return true;
     } else {
@@ -105,7 +105,7 @@ bool PathFinderComponent::eventFilter(QObject *obj, QEvent *event) {
       BooleanProperty *selectionProperty = glw->inputData()->selection();
       selectionProperty->setAllNodeValue(false);
       selectionProperty->setAllEdgeValue(false);
-      selectPath(glw, glw->scene()->getGlGraph()->getGraph());
+      selectPath(glw, glw->scene()->glGraph()->getGraph());
 
       Observable::unholdObservers();
 

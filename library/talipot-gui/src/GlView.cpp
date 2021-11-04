@@ -473,11 +473,11 @@ bool GlView::pickNodeEdge(const int x, const int y, node &n, edge &e, bool pickN
   e = edge();
   if (foundEntity) {
     if (selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED) {
-      n.id = selectedEntity.getComplexEntityId();
+      n.id = selectedEntity.getGraphElementId();
       return true;
     }
     if (selectedEntity.getEntityType() == SelectedEntity::EDGE_SELECTED) {
-      e.id = selectedEntity.getComplexEntityId();
+      e.id = selectedEntity.getGraphElementId();
       return true;
     }
   }
@@ -490,7 +490,7 @@ void GlView::zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const doub
     bb = boundingBox;
   } else {
     auto *scene = glWidget()->scene();
-    GlGraphInputData *inputData = scene->getGlGraph()->getInputData();
+    GlGraphInputData *inputData = scene->glGraph()->getInputData();
     GlBoundingBoxSceneVisitor bbVisitor(inputData);
     scene->getLayer("Main")->acceptVisitor(&bbVisitor);
     bb = bbVisitor.getBoundingBox();

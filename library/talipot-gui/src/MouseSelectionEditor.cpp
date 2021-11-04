@@ -475,8 +475,8 @@ void MouseSelectionEditor::mMouseTranslate(double newX, double newY, GlWidget *g
   initProxies(glWidget);
   Coord v0;
   Coord v1 = Coord(editPosition[0] - newX, -(editPosition[1] - newY));
-  v0 = glWidget->scene()->getGraphCamera().viewportTo3DWorld(v0);
-  v1 = glWidget->scene()->getGraphCamera().viewportTo3DWorld(glWidget->screenToViewport(v1));
+  v0 = glWidget->scene()->graphCamera().viewportTo3DWorld(v0);
+  v1 = glWidget->scene()->graphCamera().viewportTo3DWorld(glWidget->screenToViewport(v1));
   v1 -= v0;
   _layout->translate(v1, _selection->getNodesEqualTo(true, _graph),
                      _selection->getEdgesEqualTo(true, _graph));
@@ -770,7 +770,7 @@ void MouseSelectionEditor::mAlign(EditOperation operation, GlWidget *) {
 }
 //========================================================================================
 bool MouseSelectionEditor::computeFFD(GlWidget *glWidget) {
-  if (!glWidget->scene()->getGlGraph() || !glWidget->inputData()->graph()) {
+  if (!glWidget->scene()->glGraph() || !glWidget->inputData()->graph()) {
     return false;
   }
 
@@ -793,7 +793,7 @@ bool MouseSelectionEditor::computeFFD(GlWidget *glWidget) {
   Coord bbsize = boundingBox[1] - boundingBox[0];
   // v1
   Coord tmp = boundingBox[0];
-  tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
+  tmp = glWidget->scene()->graphCamera().worldTo2DViewport(tmp);
   min2D = tmp;
   max2D = tmp;
 
@@ -801,7 +801,7 @@ bool MouseSelectionEditor::computeFFD(GlWidget *glWidget) {
   for (uint i = 0; i < 3; ++i) {
     tmp = boundingBox[0];
     tmp[i] += bbsize[i];
-    tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
+    tmp = glWidget->scene()->graphCamera().worldTo2DViewport(tmp);
     min2D = minVector(tmp, min2D);
     max2D = maxVector(tmp, max2D);
   }
@@ -810,33 +810,33 @@ bool MouseSelectionEditor::computeFFD(GlWidget *glWidget) {
   tmp = boundingBox[0];
   tmp[0] += bbsize[0];
   tmp[1] += bbsize[1];
-  tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
+  tmp = glWidget->scene()->graphCamera().worldTo2DViewport(tmp);
   min2D = minVector(tmp, min2D);
   max2D = maxVector(tmp, max2D);
   // v6
   tmp = Coord(boundingBox[0]);
   tmp[0] += bbsize[0];
   tmp[2] += bbsize[2];
-  tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
+  tmp = glWidget->scene()->graphCamera().worldTo2DViewport(tmp);
   min2D = minVector(tmp, min2D);
   max2D = maxVector(tmp, max2D);
   // v7
   tmp = boundingBox[0];
   tmp[1] += bbsize[1];
   tmp[2] += bbsize[2];
-  tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
+  tmp = glWidget->scene()->graphCamera().worldTo2DViewport(tmp);
   min2D = minVector(tmp, min2D);
   max2D = maxVector(tmp, max2D);
   // v8
   tmp = boundingBox[0];
   tmp += bbsize;
-  tmp = glWidget->scene()->getGraphCamera().worldTo2DViewport(tmp);
+  tmp = glWidget->scene()->graphCamera().worldTo2DViewport(tmp);
   min2D = minVector(tmp, min2D);
   max2D = maxVector(tmp, max2D);
 
   ffdCenter = boundingBox.center();
 
-  Coord tmpCenter = glWidget->scene()->getGraphCamera().worldTo2DViewport(ffdCenter);
+  Coord tmpCenter = glWidget->scene()->graphCamera().worldTo2DViewport(ffdCenter);
 
   int x = int(max2D[0] - min2D[0]) / 2 + 1; // (+1) because selection use glLineWidth=3 thus
   int y = int(max2D[1] - min2D[1]) / 2 + 1; // the rectangle can be too small.

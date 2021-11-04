@@ -41,7 +41,7 @@ bool EditColorScaleInteractor::eventFilter(QObject *obj, QEvent *event) {
   if (event->type() == QEvent::MouseButtonDblClick) {
     auto *me = static_cast<QMouseEvent *>(event);
 
-    glWidget->scene()->getGraphCamera().initGl();
+    glWidget->scene()->graphCamera().initGl();
     selectionLayer->set2DMode();
     glWidget->scene()->addExistingLayer(selectionLayer);
     selectionLayer->getCamera().initGl();
@@ -113,7 +113,7 @@ bool EditColorScaleInteractor::draw(GlWidget *glWidget) {
     }
 
     if (colorScale->isVisible()) {
-      glWidget->scene()->getGraphCamera().initGl();
+      glWidget->scene()->graphCamera().initGl();
       Camera camera2D = Camera(glWidget->scene(), false);
       camera2D.setScene(glWidget->scene());
       camera2D.initGl();

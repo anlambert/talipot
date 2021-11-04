@@ -115,7 +115,7 @@ void GlOverviewGraphicsItem::draw(bool generatePixmap) {
   }
 
   // Compute visible part of the scene
-  Camera &baseCamera = baseScene.getGraphCamera();
+  Camera &baseCamera = baseScene.graphCamera();
 
   vector<Coord> cameraBoundingBox;
   cameraBoundingBox.push_back(
@@ -158,7 +158,7 @@ void GlOverviewGraphicsItem::draw(bool generatePixmap) {
   }
 
   // Project camera bounding box
-  Camera &overviewCamera = baseScene.getGraphCamera();
+  Camera &overviewCamera = baseScene.graphCamera();
   Coord p0 = overviewCamera.worldTo2DViewport(cameraBoundingBox[0]);
   Coord p1 = overviewCamera.worldTo2DViewport(cameraBoundingBox[1]);
   Coord p2 = overviewCamera.worldTo2DViewport(cameraBoundingBox[2]);
@@ -182,12 +182,12 @@ void GlOverviewGraphicsItem::draw(bool generatePixmap) {
   }
 
   if (generatePixmap) {
-    bool edgesLabels = baseScene.getGlGraph()->getRenderingParameters().isViewEdgeLabel();
-    bool nodesLabels = baseScene.getGlGraph()->getRenderingParameters().isViewNodeLabel();
-    bool metaNodesLabels = baseScene.getGlGraph()->getRenderingParameters().isViewMetaLabel();
-    baseScene.getGlGraph()->getRenderingParameters().setViewEdgeLabel(false);
-    baseScene.getGlGraph()->getRenderingParameters().setViewNodeLabel(false);
-    baseScene.getGlGraph()->getRenderingParameters().setViewMetaLabel(false);
+    bool edgesLabels = baseScene.glGraph()->getRenderingParameters().isViewEdgeLabel();
+    bool nodesLabels = baseScene.glGraph()->getRenderingParameters().isViewNodeLabel();
+    bool metaNodesLabels = baseScene.glGraph()->getRenderingParameters().isViewMetaLabel();
+    baseScene.glGraph()->getRenderingParameters().setViewEdgeLabel(false);
+    baseScene.glGraph()->getRenderingParameters().setViewNodeLabel(false);
+    baseScene.glGraph()->getRenderingParameters().setViewMetaLabel(false);
 
     vector<bool> layersVisibility;
 
@@ -220,7 +220,7 @@ void GlOverviewGraphicsItem::draw(bool generatePixmap) {
       ++itTmp;
     }
 
-    GlGraphRenderingParameters &param = baseScene.getGlGraph()->getRenderingParameters();
+    GlGraphRenderingParameters &param = baseScene.glGraph()->getRenderingParameters();
     param.setViewEdgeLabel(edgesLabels);
     param.setViewNodeLabel(nodesLabels);
     param.setViewMetaLabel(metaNodesLabels);

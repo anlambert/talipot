@@ -68,9 +68,9 @@ void GlMetaNodeRenderer::render(node n, float, Camera *camera) {
   int metaStencil = _inputData->renderingParameters()->getMetaNodesStencil();
   int metaSelectedStencil = _inputData->renderingParameters()->getSelectedMetaNodesStencil();
   int metaLabelStencil = _inputData->renderingParameters()->getMetaNodesLabelStencil();
-  scene->getGlGraph()->setRenderingParameters(*(_inputData->renderingParameters()));
+  scene->glGraph()->setRenderingParameters(*(_inputData->renderingParameters()));
 
-  auto &renderingParameters = scene->getGlGraph()->getRenderingParameters();
+  auto &renderingParameters = scene->glGraph()->getRenderingParameters();
   renderingParameters.setDisplayNodes(viewMeta);
   renderingParameters.setDisplayEdges(viewMeta);
   renderingParameters.setViewEdgeLabel(viewMetaLabels);
@@ -130,17 +130,17 @@ void GlMetaNodeRenderer::render(node n, float, Camera *camera) {
   scene->setClearStencilBufferAtDraw(false);
   scene->centerScene();
 
-  float baseNorm = (scene->getGraphLayer()->getCamera().getEyes() -
-                    scene->getGraphLayer()->getCamera().getCenter())
-                       .norm();
-  Camera newCamera = scene->getGraphLayer()->getCamera();
+  float baseNorm =
+      (scene->graphLayer()->getCamera().getEyes() - scene->graphLayer()->getCamera().getCenter())
+          .norm();
+  Camera newCamera = scene->graphLayer()->getCamera();
   auto *oldCamera = new Camera(scene, true);
   newCamera.setScene(scene);
   *oldCamera = newCamera;
   newCamera.setUp(camera->getUp());
   newCamera.setEyes(newCamera.getCenter() + (eyeDirection * baseNorm));
   newCamera.setZoomFactor(newCamera.getZoomFactor() * 0.5);
-  scene->getGraphLayer()->setSharedCamera(&newCamera);
+  scene->graphLayer()->setSharedCamera(&newCamera);
 
   // small hack to avoid z-fighting between the rendering of the metanode content
   // and the rendering of the metanode that occurs afterwards
@@ -149,7 +149,7 @@ void GlMetaNodeRenderer::render(node n, float, Camera *camera) {
   // restore default depth range
   glDepthRange(0, 1);
 
-  scene->getGraphLayer()->setCamera(oldCamera);
+  scene->graphLayer()->setCamera(oldCamera);
 
   camera->getScene()->setClearBufferAtDraw(false);
   camera->getScene()->setClearDepthBufferAtDraw(false);

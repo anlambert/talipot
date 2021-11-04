@@ -190,7 +190,7 @@ void MatrixView::fillContextMenu(QMenu *menu, const QPointF &point) {
   if (glWidget()->pickNodesEdges(point.x(), point.y(), entity)) {
     menu->addSeparator();
     isNode = entity.getEntityType() == SelectedEntity::NODE_SELECTED;
-    itemId = entity.getComplexEntityId();
+    itemId = entity.getGraphElementId();
     QString sId = QString::number(itemId);
 
     if (isNode) {

@@ -69,18 +69,18 @@ ScatterPlot2D::ScatterPlot2D(Graph *graph, Graph *edgeGraph,
       displayEdges(false), displaylabels(true), scale(true) {
 
   if (dataLocation == NODE) {
-    glGraph = new GlGraph(graph);
-    GlGraphInputData *glGraphInputData = glGraph->getInputData();
+    _glGraph = new GlGraph(graph);
+    GlGraphInputData *glGraphInputData = _glGraph->getInputData();
     glGraphInputData->setLayout(scatterLayout);
     glGraphInputData->setSizes(graph->getSizeProperty("viewSize"));
   } else {
-    glGraph = new GlGraph(edgeAsNodeGraph);
-    GlGraphInputData *glGraphInputData = glGraph->getInputData();
+    _glGraph = new GlGraph(edgeAsNodeGraph);
+    GlGraphInputData *glGraphInputData = _glGraph->getInputData();
     glGraphInputData->setLayout(scatterEdgeLayout);
     glGraphInputData->setSizes(edgeAsNodeGraph->getSizeProperty("viewSize"));
   }
 
-  setGraphView(glGraph, (dataLocation == NODE) ? displayEdges : false, displaylabels, scale);
+  setGraphView(_glGraph, (dataLocation == NODE) ? displayEdges : false, displaylabels, scale);
   backgroundRect = new GlRect(Coord(blCorner.getX(), blCorner.getY() + size),
                               Coord(blCorner.getX() + size, blCorner.getY()), backgroundColor,
                               backgroundColor, true, false);
@@ -96,7 +96,7 @@ ScatterPlot2D::ScatterPlot2D(Graph *graph, Graph *edgeGraph,
 
 ScatterPlot2D::~ScatterPlot2D() {
   clean();
-  delete glGraph;
+  delete _glGraph;
   delete scatterLayout;
   delete scatterEdgeLayout;
   GlTextureManager::deleteTexture(textureName);
@@ -110,18 +110,18 @@ void ScatterPlot2D::setBLCorner(const Coord &blCorner) {
 
 void ScatterPlot2D::setDataLocation(const ElementType &dataLocation) {
   if (dataLocation != this->dataLocation) {
-    delete glGraph;
+    delete _glGraph;
     xAxisScaleDefined = false;
     yAxisScaleDefined = false;
 
     if (dataLocation == NODE) {
-      glGraph = new GlGraph(graph);
-      GlGraphInputData *glGraphInputData = glGraph->getInputData();
+      _glGraph = new GlGraph(graph);
+      GlGraphInputData *glGraphInputData = _glGraph->getInputData();
       glGraphInputData->setLayout(scatterLayout);
       glGraphInputData->setSizes(graph->getSizeProperty("viewSize"));
     } else {
-      glGraph = new GlGraph(edgeAsNodeGraph);
-      GlGraphInputData *glGraphInputData = glGraph->getInputData();
+      _glGraph = new GlGraph(edgeAsNodeGraph);
+      GlGraphInputData *glGraphInputData = _glGraph->getInputData();
       glGraphInputData->setLayout(scatterEdgeLayout);
       glGraphInputData->setSizes(edgeAsNodeGraph->getSizeProperty("viewSize"));
     }
@@ -178,10 +178,10 @@ void ScatterPlot2D::generateOverview(GlWidget *glWidget, LayoutProperty *reverse
     backgroundLayer->addGlEntity(background, "background");
   }
 
-  setGraphView(glGraph, displayEdges, displaylabels, scale);
+  setGraphView(_glGraph, displayEdges, displaylabels, scale);
 
   glOffscreenRenderer.setSceneBackgroundColor(backgroundColor);
-  glOffscreenRenderer.addGlGraphToScene(glGraph);
+  glOffscreenRenderer.addGlGraphToScene(_glGraph);
   glOffscreenRenderer.addGlEntityToScene(xAxis);
   glOffscreenRenderer.addGlEntityToScene(yAxis);
   glOffscreenRenderer.renderScene(true);
@@ -303,7 +303,7 @@ void ScatterPlot2D::createAxis() {
 }
 
 void ScatterPlot2D::computeScatterPlotLayout(GlWidget *glWidget, LayoutProperty *reverseLayout) {
-  Graph *_graph = glGraph->getGraph();
+  Graph *_graph = _glGraph->getGraph();
   double sumxiyi = 0.0, sumxi = 0.0, sumyi = 0.0, sumxi2 = 0.0, sumyi2 = 0.0;
   uint nbGraphNodes = _graph->numberOfNodes();
 

@@ -165,15 +165,15 @@ bool GeographicViewShowElementInfo::eventFilter(QObject *widget, QEvent *e) {
             if (selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED) {
               title->setText("Node");
               tableView()->setModel(new GraphNodeElementModel(
-                  _view->graph(), selectedEntity.getComplexEntityId(), _informationWidget));
+                  _view->graph(), selectedEntity.getGraphElementId(), _informationWidget));
             } else {
               title->setText("Edge");
               tableView()->setModel(new GraphEdgeElementModel(
-                  _view->graph(), selectedEntity.getComplexEntityId(), _informationWidget));
+                  _view->graph(), selectedEntity.getGraphElementId(), _informationWidget));
             }
 
             title->setText(title->text() + " #" +
-                           QString::number(selectedEntity.getComplexEntityId()));
+                           QString::number(selectedEntity.getGraphElementId()));
 
             QPoint position = qMouseEv->pos();
 

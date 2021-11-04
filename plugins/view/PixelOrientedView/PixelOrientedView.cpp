@@ -604,7 +604,7 @@ void PixelOrientedView::updateOverviews(const bool updateAll) {
 
   uint nbOverviews = selectedGraphProperties.size();
   unsigned currentStep = 0;
-  Camera &cam = glWidget()->scene()->getGraphCamera();
+  Camera &cam = glWidget()->scene()->graphCamera();
   double sceneRadiusBak = cam.getSceneRadius();
   double zoomFactorBak = cam.getZoomFactor();
   Coord eyesBak = cam.getEyes();
@@ -688,11 +688,11 @@ QuickAccessBar *PixelOrientedView::getQuickAccessBarImpl() {
 void PixelOrientedView::switchFromSmallMultiplesToDetailView(PixelOrientedOverview *pixelOverview) {
 
   if (smallMultiplesView) {
-    sceneRadiusBak = glWidget()->scene()->getGraphCamera().getSceneRadius();
-    zoomFactorBak = glWidget()->scene()->getGraphCamera().getZoomFactor();
-    eyesBak = glWidget()->scene()->getGraphCamera().getEyes();
-    centerBak = glWidget()->scene()->getGraphCamera().getCenter();
-    upBak = glWidget()->scene()->getGraphCamera().getUp();
+    sceneRadiusBak = glWidget()->scene()->graphCamera().getSceneRadius();
+    zoomFactorBak = glWidget()->scene()->graphCamera().getZoomFactor();
+    eyesBak = glWidget()->scene()->graphCamera().getEyes();
+    centerBak = glWidget()->scene()->graphCamera().getCenter();
+    upBak = glWidget()->scene()->graphCamera().getUp();
   }
 
   mainLayer->deleteGlEntity(overviewsComposite);
@@ -736,11 +736,11 @@ void PixelOrientedView::switchFromDetailViewToSmallMultiples() {
   setGraphView(glGraph, false);
   mainLayer->deleteGlEntity(detailViewLabel);
   mainLayer->addGlEntity(overviewsComposite, "overviews composite");
-  glWidget()->scene()->getGraphCamera().setSceneRadius(sceneRadiusBak);
-  glWidget()->scene()->getGraphCamera().setZoomFactor(zoomFactorBak);
-  glWidget()->scene()->getGraphCamera().setEyes(eyesBak);
-  glWidget()->scene()->getGraphCamera().setCenter(centerBak);
-  glWidget()->scene()->getGraphCamera().setUp(upBak);
+  glWidget()->scene()->graphCamera().setSceneRadius(sceneRadiusBak);
+  glWidget()->scene()->graphCamera().setZoomFactor(zoomFactorBak);
+  glWidget()->scene()->graphCamera().setEyes(eyesBak);
+  glWidget()->scene()->graphCamera().setCenter(centerBak);
+  glWidget()->scene()->graphCamera().setUp(upBak);
   smallMultiplesView = true;
   toggleInteractors(false);
   detailOverview = nullptr;

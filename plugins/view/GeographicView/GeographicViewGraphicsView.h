@@ -48,7 +48,7 @@ public:
                                const std::string &longitudePropertyName,
                                const std::string &edgesPathsPropertyName);
 
-  GlGraph *getGlGraph() const;
+  GlGraph *glGraph() const;
 
   void draw() {
     glWidgetItem->setRedrawNeeded(true);

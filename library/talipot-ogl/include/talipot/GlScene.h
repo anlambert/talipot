@@ -35,7 +35,7 @@ class GlGraph;
  * To use this object the first thing to do is to call getEntity type to know the type of Entity
  * After that you can :
  *   - Get the GlSimpleEnity pointer (getEntity())
- *   - Get the id of node/edge and the graph associated (getComplexEntityId() and
+ *   - Get the id of node/edge and the graph associated (getGraphElementId() and
  * getComplexEntityGraph())
  *
  */
@@ -49,27 +49,26 @@ struct SelectedEntity {
   };
 
   SelectedEntity()
-      : entity(nullptr), complexEntityId(uint(-1)), entityType(UNKNOW_SELECTED),
-        complexEntityGraph(nullptr) {}
+      : entity(nullptr), graphElementId(UINT_MAX), entityType(UNKNOW_SELECTED), graph(nullptr) {}
   SelectedEntity(GlEntity *entity)
-      : entity(entity), complexEntityId(uint(-1)), entityType(SIMPLE_ENTITY_SELECTED),
-        complexEntityGraph(nullptr) {}
+      : entity(entity), graphElementId(UINT_MAX), entityType(SIMPLE_ENTITY_SELECTED),
+        graph(nullptr) {}
   SelectedEntity(Graph *graph, uint id, SelectedEntityType type)
-      : entity(nullptr), complexEntityId(id), entityType(type), complexEntityGraph(graph) {}
+      : entity(nullptr), graphElementId(id), entityType(type), graph(graph) {}
 
   GlEntity *getEntity() const {
     assert(entity != nullptr);
     return entity;
   }
 
-  uint getComplexEntityId() const {
-    assert(complexEntityId != uint(-1));
-    return complexEntityId;
+  uint getGraphElementId() const {
+    assert(graphElementId != UINT_MAX);
+    return graphElementId;
   }
 
-  Graph *getComplexEntityGraph() const {
-    assert(complexEntityGraph != nullptr);
-    return complexEntityGraph;
+  Graph *getGraph() const {
+    assert(graph != nullptr);
+    return graph;
   }
 
   SelectedEntityType getEntityType() const {
@@ -80,14 +79,14 @@ struct SelectedEntity {
    * return the corresponding node object. It's equivalent to
    * @code
    * if(getComplexEntityType()==NODE_SELECTED){
-   *    return node(getComplexEntityId())
+   *    return node(getGraphElementId())
    * }
    * @endcode
    * @return the selected node if the entity type is correct or an invalid node else.
    */
   node getNode() const {
     if (entityType == NODE_SELECTED) {
-      return node(complexEntityId);
+      return node(graphElementId);
     } else {
       return node();
     }
@@ -98,14 +97,14 @@ struct SelectedEntity {
    * return the corresponding edge object. It's equivalent to
    * @code
    * if(getComplexEntityType()==EDGE_SELECTED){
-   *    return edge(getComplexEntityId())
+   *    return edge(getGraphElementId())
    * }
    * @endcode
    * @return the selected edge if the entity type is correct or an invalid edge else.
    */
   edge getEdge() const {
     if (entityType == EDGE_SELECTED) {
-      return edge(complexEntityId);
+      return edge(graphElementId);
     } else {
       return edge();
     }
@@ -113,9 +112,9 @@ struct SelectedEntity {
 
 protected:
   GlEntity *entity;
-  uint complexEntityId;
+  uint graphElementId;
   SelectedEntityType entityType;
-  Graph *complexEntityGraph;
+  Graph *graph;
 };
 
 /**
@@ -452,24 +451,24 @@ public:
   /**
    * @brief Return the current GlGraph used by the scene
    */
-  GlGraph *getGlGraph() const {
-    return glGraph;
+  GlGraph *glGraph() const {
+    return _glGraph;
   }
 
   /**
    * @brief Return the layer containing the current GlGraph
    */
-  GlLayer *getGraphLayer() {
-    return graphLayer;
+  GlLayer *graphLayer() {
+    return _graphLayer;
   }
 
   /**
    * @brief By default the most important layer is the layer where the graph is visualized
    * This function return the camera of this layer
    */
-  Camera &getGraphCamera() {
+  Camera &graphCamera() {
     assert(graphLayer != nullptr);
-    return graphLayer->getCamera();
+    return _graphLayer->getCamera();
   }
 
   /**
@@ -478,7 +477,7 @@ public:
    */
   void setGraphCamera(Camera *camera) {
     assert(graphLayer != nullptr);
-    graphLayer->setCamera(camera);
+    _graphLayer->setCamera(camera);
   }
 
   /**
@@ -530,8 +529,8 @@ private:
   Color backgroundColor;
   bool viewOrtho;
 
-  GlGraph *glGraph;
-  GlLayer *graphLayer;
+  GlGraph *_glGraph;
+  GlLayer *_graphLayer;
 
   bool clearBufferAtDraw;
 

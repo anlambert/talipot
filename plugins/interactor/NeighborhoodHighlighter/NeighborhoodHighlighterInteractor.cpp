@@ -164,8 +164,8 @@ bool NeighborhoodHighlighter::eventFilter(QObject *, QEvent *e) {
   checkIfGraphHasChanged();
 
   if (originalGraph == nullptr) {
-    originalGraph = glWidget->scene()->getGlGraph()->getGraph();
-    originalGlGraph = glWidget->scene()->getGlGraph();
+    originalGraph = glWidget->scene()->glGraph()->getGraph();
+    originalGlGraph = glWidget->scene()->glGraph();
 
     if (!glWidget->hasMouseTracking()) {
       glWidget->setMouseTracking(true);
@@ -189,7 +189,7 @@ bool NeighborhoodHighlighter::eventFilter(QObject *, QEvent *e) {
 #endif
     if (selectInAugmentedDisplayGraph(pos.x(), pos.y(), selectedEntity) &&
         selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED) {
-      if (selectedEntity.getComplexEntityId() == neighborhoodGraphCentralNode.id) {
+      if (selectedEntity.getGraphElementId() == neighborhoodGraphCentralNode.id) {
         int numSteps = we->angleDelta().y() / 120;
         neighborhoodDist += numSteps;
 
@@ -227,17 +227,17 @@ bool NeighborhoodHighlighter::eventFilter(QObject *, QEvent *e) {
 
       if (selectInAugmentedDisplayGraph(qMouseEv->pos().x(), qMouseEv->pos().y(), selectedEntity) &&
           selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED) {
-        if (selectedEntity.getComplexEntityId() != neighborhoodGraphCentralNode.id) {
-          neighborhoodGraphColors->setNodeValue(node(selectedEntity.getComplexEntityId()),
+        if (selectedEntity.getGraphElementId() != neighborhoodGraphCentralNode.id) {
+          neighborhoodGraphColors->setNodeValue(node(selectedEntity.getGraphElementId()),
                                                 Color(0, 255, 0));
         } else {
-          neighborhoodGraphColors->setNodeValue(node(selectedEntity.getComplexEntityId()),
+          neighborhoodGraphColors->setNodeValue(node(selectedEntity.getGraphElementId()),
                                                 Color(0, 0, 255));
         }
       }
 
       if (selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED) {
-        selectedNeighborNode = node(selectedEntity.getComplexEntityId());
+        selectedNeighborNode = node(selectedEntity.getGraphElementId());
         glWidget->setCursor(Qt::PointingHandCursor);
       } else {
         selectedNeighborNode = node();
@@ -351,7 +351,7 @@ node NeighborhoodHighlighter::selectNodeInOriginalGraph(GlWidget *glWidget, int 
       glWidget->screenToViewport(3), glWidget->screenToViewport(3), nullptr, selectedElements);
 
   if (!selectedElements.empty()) {
-    n = node(selectedElements[0].getComplexEntityId());
+    n = node(selectedElements[0].getGraphElementId());
   }
 
   return n;
@@ -615,13 +615,13 @@ float NeighborhoodHighlighter::computeNeighborhoodGraphRadius(
 }
 
 void NeighborhoodHighlighter::checkIfGraphHasChanged() {
-  if (glWidget->scene()->getGlGraph()->getGraph() != originalGraph) {
+  if (glWidget->scene()->glGraph()->getGraph() != originalGraph) {
     neighborhoodGraphCentralNode = node();
     centralNodeLocked = false;
     circleLayoutSet = false;
     cleanupNeighborhoodGraph();
-    originalGraph = glWidget->scene()->getGlGraph()->getGraph();
-    originalGlGraph = glWidget->scene()->getGlGraph();
+    originalGraph = glWidget->scene()->glGraph()->getGraph();
+    originalGlGraph = glWidget->scene()->glGraph();
   }
 }
 

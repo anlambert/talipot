@@ -147,7 +147,7 @@ void GeographicView::setState(const DataSet &dataSet) {
     computeGeoLayout();
   }
 
-  GlGraph *glGraph = geoViewGraphicsView->glWidget()->scene()->getGlGraph();
+  GlGraph *glGraph = geoViewGraphicsView->glWidget()->scene()->glGraph();
   GlGraphRenderingParameters &rp = glGraph->getRenderingParameters();
 
   if (dataSet.exists("renderingParameters")) {
@@ -389,7 +389,7 @@ void GeographicView::registerTriggers() {
     return;
   }
 
-  addRedrawTrigger(geoViewGraphicsView->glWidget()->scene()->getGlGraph()->getGraph());
+  addRedrawTrigger(geoViewGraphicsView->glWidget()->scene()->glGraph()->getGraph());
   auto properties = geoViewGraphicsView->glWidget()->inputData()->properties();
 
   for (auto *p : properties) {

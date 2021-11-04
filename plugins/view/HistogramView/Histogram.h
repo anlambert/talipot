@@ -51,8 +51,8 @@ public:
   SizeProperty *getHistogramSize() const {
     return histogramSize;
   }
-  GlGraph *getGlGraph() const {
-    return glGraph;
+  GlGraph *glGraph() const {
+    return _glGraph;
   }
 
   void setNbHistogramBins(const uint nbHistogramBins) {
@@ -208,7 +208,7 @@ private:
   bool cumulativeFreqHisto, lastCumulHisto;
   std::unordered_map<uint, std::pair<double, double>> binMinMaxMap;
   std::string textureName;
-  GlGraph *glGraph;
+  GlGraph *_glGraph;
   Graph *edgeAsNodeGraph;
   std::unordered_map<edge, node> &edgeToNode;
   Color backgroundColor;

@@ -70,17 +70,17 @@ Histogram::Histogram(Graph *graph, Graph *edgeGraph, std::unordered_map<edge, no
       initYAxisScale(make_pair(0, 0)) {
 
   if (dataLocation == NODE) {
-    glGraph = new GlGraph(graph);
-    GlGraphInputData *glGraphInputData = glGraph->getInputData();
+    _glGraph = new GlGraph(graph);
+    GlGraphInputData *glGraphInputData = _glGraph->getInputData();
     glGraphInputData->setLayout(histogramLayout);
     glGraphInputData->setSizes(histogramSize);
   } else {
-    glGraph = new GlGraph(edgeAsNodeGraph);
-    GlGraphInputData *glGraphInputData = glGraph->getInputData();
+    _glGraph = new GlGraph(edgeAsNodeGraph);
+    GlGraphInputData *glGraphInputData = _glGraph->getInputData();
     glGraphInputData->setLayout(histogramEdgeLayout);
   }
 
-  setGraphView(glGraph, (dataLocation == NODE) ? displayEdges : false);
+  setGraphView(_glGraph, (dataLocation == NODE) ? displayEdges : false);
   overviewId = overviewCpt++;
   textureName = propertyName + " histo texture " + getStringFromNumber(overviewId);
   update();
@@ -92,25 +92,25 @@ Histogram::~Histogram() {
   delete histogramEdgeLayout;
   delete histogramSize;
   delete histoBinsComposite;
-  delete glGraph;
+  delete _glGraph;
   delete xAxis;
   delete yAxis;
 }
 
 void Histogram::setDataLocation(const ElementType &dataLocation) {
   if (dataLocation != this->dataLocation) {
-    delete glGraph;
+    delete _glGraph;
     xAxisScaleDefined = false;
     yAxisScaleDefined = false;
 
     if (dataLocation == NODE) {
-      glGraph = new GlGraph(graph);
-      GlGraphInputData *glGraphInputData = glGraph->getInputData();
+      _glGraph = new GlGraph(graph);
+      GlGraphInputData *glGraphInputData = _glGraph->getInputData();
       glGraphInputData->setLayout(histogramLayout);
       glGraphInputData->setSizes(histogramSize);
     } else {
-      glGraph = new GlGraph(edgeAsNodeGraph);
-      GlGraphInputData *glGraphInputData = glGraph->getInputData();
+      _glGraph = new GlGraph(edgeAsNodeGraph);
+      GlGraphInputData *glGraphInputData = _glGraph->getInputData();
       glGraphInputData->setLayout(histogramEdgeLayout);
     }
   }
@@ -685,7 +685,7 @@ void Histogram::update() {
     delete cumulativeHistogram;
   }
 
-  setGraphView(glGraph, (dataLocation == NODE) ? displayEdges : false);
+  setGraphView(_glGraph, (dataLocation == NODE) ? displayEdges : false);
 
   GlOffscreenRenderer &glOffscreenRenderer = GlOffscreenRenderer::instance();
   glOffscreenRenderer.setViewPortSize(size, size);
@@ -694,7 +694,7 @@ void Histogram::update() {
   glOffscreenRenderer.addGlEntityToScene(xAxis);
   glOffscreenRenderer.addGlEntityToScene(yAxis);
   glOffscreenRenderer.addGlEntityToScene(histoBinsComposite);
-  glOffscreenRenderer.addGlGraphToScene(glGraph);
+  glOffscreenRenderer.addGlGraphToScene(_glGraph);
   glOffscreenRenderer.renderScene(true);
   GLuint textureId = glOffscreenRenderer.getGLTexture(true);
   GlTextureManager::deleteTexture(textureName);
