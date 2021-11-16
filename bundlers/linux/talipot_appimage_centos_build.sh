@@ -31,15 +31,17 @@ else
   # add extra CentOS 8 repositories to get some build dependencies
   yum -y install dnf-plugins-core
   yum config-manager --set-enabled powertools
-  yum -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-1.el8.noarch.rpm
+  yum -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarch.rpm
   yum -y install cmake
 fi
 
 
 # install talipot deps
-yum -y install zlib-devel libzstd-devel qhull-devel yajl-devel graphviz-devel libgit2-devel binutils-devel
+yum -y install zlib-devel libzstd-devel qhull-devel yajl-devel \
+  graphviz-devel libgit2-devel binutils-devel
 yum -y install freetype-devel fontconfig-devel glew-devel fribidi-devel
-yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg quazip-qt5-devel qt5-qtwebkit-devel
+yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
+  quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing
 
 # install Python 3.9
 yum -y groupinstall "Development Tools"
