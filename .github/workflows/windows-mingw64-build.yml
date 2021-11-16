@@ -62,7 +62,7 @@ jobs:
           -DTALIPOT_USE_CCACHE=ON ..
       - name: Talipot build
         working-directory: ./build
-        run: make -j4
+        run: make -C library/talipot-core && make -j4
       - name: Install Talipot
         working-directory: ./build
         run: make -j4 install
