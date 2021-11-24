@@ -61,14 +61,16 @@ sudo installer -pkg python-3.8.1-macosx10.9.pkg -target /
 sudo /Library/Frameworks/Python.framework/Versions/3.8/bin/pip3 install wheel
 curl -LO https://www.python.org/ftp/python/3.9.0/python-3.9.0-macosx10.9.pkg
 sudo installer -pkg python-3.9.0-macosx10.9.pkg -target /
-sudo /Library/Frameworks/Python.framework/Versions/3.9/bin/pip3 install wheel
-sudo /Library/Frameworks/Python.framework/Versions/3.9/bin/pip3 install twine
+curl -LO https://www.python.org/ftp/python/3.10.0/python-3.10.0-macosx10.9.pkg
+sudo installer -pkg python-3.10.0-macosx10.9.pkg -target /
+sudo /Library/Frameworks/Python.framework/Versions/3.10/bin/pip3 install wheel
+sudo /Library/Frameworks/Python.framework/Versions/3.10/bin/pip3 install twine
 
 # configure and build wheels for all supported Python versions
 cd $APPVEYOR_BUILD_FOLDER
 mkdir build && cd build
 
-for py3Version in 3.7 3.8 3.9
+for py3Version in 3.7 3.8 3.9 3.10
 do
   cmake .. -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=$PWD/install \
@@ -102,9 +104,14 @@ python3.7 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList()
 
 sudo port -N install \
   python39 \
-  py39-pip
+  py39-pip \
+  python310 \
+  py310-pip
 
 sudo pip-3.9 install --index-url https://test.pypi.org/simple/ talipot
 python3.9 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+
+sudo pip-3.10 install --index-url https://test.pypi.org/simple/ talipot
+python3.10 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
 
 

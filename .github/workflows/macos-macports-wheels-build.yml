@@ -116,13 +116,16 @@ jobs:
           curl -LO https://www.python.org/ftp/python/3.9.0/python-3.9.0-macosx10.9.pkg
           sudo installer -pkg python-3.9.0-macosx10.9.pkg -target /
           sudo /Library/Frameworks/Python.framework/Versions/3.9/bin/pip3 install wheel
-          sudo /Library/Frameworks/Python.framework/Versions/3.9/bin/pip3 install twine
+          curl -LO https://www.python.org/ftp/python/3.10.0/python-3.10.0post2-macos11.pkg
+          sudo installer -pkg python-3.10.0post2-macos11.pkg -target /
+          sudo /Library/Frameworks/Python.framework/Versions/3.10/bin/pip3 install wheel
+          sudo /Library/Frameworks/Python.framework/Versions/3.10/bin/pip3 install twine
       - name: Create build directory
         run: mkdir build
       - name: Build Talipot Python wheels
         working-directory: ./build
         run: |
-          for py3Version in 3.7 3.8 3.9
+          for py3Version in 3.7 3.8 3.9 3.10
           do
             cmake .. -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PWD/install \
@@ -141,6 +144,7 @@ jobs:
         working-directory: ./build
         run: make test-wheel-upload
       - name: Test uploaded wheels in clean environment
+        if: github.ref == 'refs/heads/master'
         run: |
           sudo port -N -f uninstall \
             cmake \
@@ -155,8 +159,14 @@ jobs:
 
           sudo port -N install \
             python39 \
-            py39-pip
+            py39-pip \
+            python310 \
+            py310-pip
 
           sudo pip-3.9 install --index-url https://test.pypi.org/simple/ talipot
           python3.9 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
           python3.9 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
+
+          sudo pip-3.10 install --index-url https://test.pypi.org/simple/ talipot
+          python3.10 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+          python3.10 -c "from talipot import tlp; print(tlp.getImportPluginsList())"

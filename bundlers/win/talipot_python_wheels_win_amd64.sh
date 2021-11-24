@@ -44,7 +44,7 @@ pacman --noconfirm -S --needed \
 # Build wheels for each supported Python version
 cd $APPVEYOR_BUILD_FOLDER
 mkdir build && cd build
-for pyVersion in 36 37 38 39
+for pyVersion in 36 37 38 39 310
 do
   export PATH=/c/Python$pyVersion-x64/:/c/Python$pyVersion-x64/Scripts/:$PATH
   pip install wheel twine
@@ -77,23 +77,23 @@ done
 if [ "$APPVEYOR_REPO_BRANCH" == "master" ]
 then
   make test-wheel-upload
+
+  # Test uploaded wheels in clean environment
+  # Install build tools and dependencies
+  pacman --noconfirm -Rc \
+    mingw-w64-$MSYS2_ARCH-toolchain \
+    mingw-w64-$MSYS2_ARCH-cmake \
+    mingw-w64-$MSYS2_ARCH-ccache \
+    mingw-w64-$MSYS2_ARCH-zlib \
+    mingw-w64-$MSYS2_ARCH-yajl \
+    mingw-w64-$MSYS2_ARCH-zstd \
+    mingw-w64-$MSYS2_ARCH-qhull \
+    mingw-w64-$MSYS2_ARCH-graphviz
+
+  for pyVersion in 36 37 38 39 310
+  do
+    export PATH=/c/Python$pyVersion-x64/:/c/Python$pyVersion-x64/Scripts/:$PATH
+    pip install --index-url https://test.pypi.org/simple/ talipot
+    python -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+  done
 fi
-
-# Test uploaded wheels in clean environment
-# Install build tools and dependencies
-pacman --noconfirm -Rc \
-  mingw-w64-$MSYS2_ARCH-toolchain \
-  mingw-w64-$MSYS2_ARCH-cmake \
-  mingw-w64-$MSYS2_ARCH-ccache \
-  mingw-w64-$MSYS2_ARCH-zlib \
-  mingw-w64-$MSYS2_ARCH-yajl \
-  mingw-w64-$MSYS2_ARCH-zstd \
-  mingw-w64-$MSYS2_ARCH-qhull \
-  mingw-w64-$MSYS2_ARCH-graphviz
-
-for pyVersion in 36 37 38 39
-do
-  export PATH=/c/Python$pyVersion-x64/:/c/Python$pyVersion-x64/Scripts/:$PATH
-  pip install --index-url https://test.pypi.org/simple/ talipot
-  python -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-done

@@ -43,12 +43,23 @@ yum -y install freetype-devel fontconfig-devel glew-devel fribidi-devel
 yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
   quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing
 
-# install Python 3.9
+# install recent Python
 yum -y groupinstall "Development Tools"
 yum -y install openssl-devel libffi-devel bzip2-devel
-wget https://www.python.org/ftp/python/3.9.5/Python-3.9.5.tgz
-tar xzf Python-3.9.5.tgz
-cd Python-3.9.5
+
+if [ "$centos7" = true ]
+then
+  wget https://www.python.org/ftp/python/3.9.9/Python-3.9.9.tgz
+  tar xzf Python-3.9.9.tgz
+  cd Python-3.9.9
+  PYTHON_VERSION=3.9
+else
+  wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz
+  tar xzf Python-3.10.0.tgz
+  cd Python-3.10.0
+  PYTHON_VERSION=3.10
+fi
+
 ./configure --enable-optimizations \
   --with-system-ffi --with-computed-gotos \
   --enable-loadable-sqlite-extensions \
@@ -62,7 +73,7 @@ yum -y install fuse fuse-libs file
 
 # needed for generating the doc
 yum -y install doxygen graphviz
-pip3.9 install sphinx
+pip$PYTHON_VERSION install sphinx
 
 # needed to build and run tests
 yum -y install cppunit-devel xorg-x11-server-Xvfb
@@ -80,7 +91,7 @@ then
          -DCMAKE_C_COMPILER=/opt/rh/devtoolset-8/root/usr/bin/gcc \
          -DCMAKE_CXX_COMPILER=/opt/rh/devtoolset-8/root/usr/bin/g++ \
          -DCMAKE_INSTALL_PREFIX=$PWD/install \
-         -DPYTHON_EXECUTABLE=/usr/local/bin/python3.9 \
+         -DPYTHON_EXECUTABLE=/usr/local/bin/python$PYTHON_VERSION \
          -DTALIPOT_USE_CCACHE=ON \
          -DTALIPOT_BUILD_FOR_APPIMAGE=ON \
          -DTALIPOT_BUILD_TESTS=ON \
@@ -89,7 +100,7 @@ then
 else
   cmake -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$PWD/install \
-        -DPYTHON_EXECUTABLE=/usr/local/bin/python3.9 \
+        -DPYTHON_EXECUTABLE=/usr/local/bin/python$PYTHON_VERSION \
         -DTALIPOT_USE_CCACHE=ON \
         -DTALIPOT_BUILD_FOR_APPIMAGE=ON \
         -DTALIPOT_BUILD_TESTS=ON \

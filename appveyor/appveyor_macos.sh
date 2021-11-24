@@ -11,7 +11,7 @@ source ./macports-ci install
 source ./macports-ci ccache
 
 CLANG_VERSION=13
-PYTHON_VERSION=3.9
+PYTHON_VERSION=3.10
 PYTHON_VERSION_NO_DOT=$(echo $PYTHON_VERSION | sed 's/\.//')
 
 # install Talipot core build dependencies
