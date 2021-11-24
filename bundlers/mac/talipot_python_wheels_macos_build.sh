@@ -36,7 +36,7 @@ curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macp
 source ./macports-ci install
 source ./macports-ci ccache
 
-CLANG_VERSION=12
+CLANG_VERSION=13
 
 # install build tools and dependencies
 sudo port -N install \
