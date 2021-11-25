@@ -369,7 +369,8 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
 
   if (selection && (selection->hasNonDefaultValuatedNodes(graph()) ||
                     selection->hasNonDefaultValuatedEdges(graph()))) {
-    QAction *znpOnSelection = menu->addAction("Zoom and pan on selection");
+    QAction *znpOnSelection = menu->addAction(
+        FontIconManager::icon(MaterialDesignIcons::MagnifyExpand), "Zoom and pan on selection");
     znpOnSelection->setToolTip(
         "Perform a zoom and pan animation to center the view on selected graph elements");
     connect(znpOnSelection, &QAction::triggered, [this, selection, inputData]() {
@@ -379,14 +380,16 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
     });
   }
 
-  QAction *znpCenterView = menu->addAction("Zoom and pan on centered view");
+  QAction *znpCenterView = menu->addAction(FontIconManager::icon(MaterialDesignIcons::MagnifyScan),
+                                           "Zoom and pan on centered view");
   znpCenterView->setToolTip("Perform a zoom and pan animation to center the view");
   connect(znpCenterView, &QAction::triggered, [this]() {
     BoundingBox boundingBox;
     zoomAndPanAnimation(boundingBox);
   });
 
-  QAction *viewOrtho = menu->addAction("Use orthogonal projection");
+  QAction *viewOrtho = menu->addAction(FontIconManager::icon(MaterialDesignIcons::AxisArrow),
+                                       "Use orthogonal projection");
   viewOrtho->setToolTip("Enable to switch between true perspective and orthogonal");
   viewOrtho->setCheckable(true);
   viewOrtho->setChecked(_glWidget->scene()->isViewOrtho());
@@ -396,14 +399,16 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
   menu->addAction("Augmented display")->setEnabled(false);
   menu->addSeparator();
 
-  QAction *a = menu->addAction("Show overview", this, &GlView::setOverviewVisible);
+  QAction *a = menu->addAction(FontIconManager::icon(MaterialDesignIcons::DrawingBox),
+                               "Show overview", this, &GlView::setOverviewVisible);
   a->setToolTip("Show/hide the overview in a corner of the view");
   a->setCheckable(true);
   a->setChecked(overviewVisible());
 
   if (needQuickAccessBar) {
     QAction *quickbarAction =
-        menu->addAction("Show quick access bar", this, &GlView::setQuickAccessBarVisible);
+        menu->addAction(FontIconManager::icon(MaterialDesignIcons::ViewGalleryOutline),
+                        "Show quick access bar", this, &GlView::setQuickAccessBarVisible);
     quickbarAction->setToolTip("Show/hide the quick access bar");
     quickbarAction->setCheckable(true);
     quickbarAction->setChecked(quickAccessBarVisible());

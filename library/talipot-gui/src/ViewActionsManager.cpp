@@ -17,6 +17,7 @@
 #include <talipot/OpenGlConfigManager.h>
 #include <talipot/SnapshotDialog.h>
 #include <talipot/TlpQtTools.h>
+#include <talipot/FontIconManager.h>
 
 using namespace tlp;
 
@@ -24,14 +25,16 @@ ViewActionsManager::ViewActionsManager(View *view, GlWidget *widget, bool keepRa
     : _view(view), _glWidget(widget), _keepSizeRatio(keepRatio), _advAntiAliasingAction(nullptr) {
   // create actions and add them to _view->graphicsView()
   // to enable their keyboard shortcut
-  _forceRedrawAction = new QAction("Force redraw", widget);
+  _forceRedrawAction =
+      new QAction(FontIconManager::icon(MaterialDesignIcons::DrawPen), "Force redraw", widget);
   setToolTipWithCtrlShortcut(_forceRedrawAction, "Redraw the current view", "Shift+R");
   connect(_forceRedrawAction, &QAction::triggered, this, &ViewActionsManager::redraw);
   _forceRedrawAction->setShortcut(QKeySequence("Ctrl+Shift+R"));
   _forceRedrawAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
   _view->graphicsView()->addAction(_forceRedrawAction);
 
-  _centerViewAction = new QAction("Center view", widget);
+  _centerViewAction = new QAction(FontIconManager::icon(MaterialDesignIcons::FitToScreenOutline),
+                                  "Center view", widget);
   setToolTipWithCtrlShortcut(_centerViewAction,
                              "Make the view to fully display and center its contents", "Shift+C");
   connect(_centerViewAction, &QAction::triggered, this, &ViewActionsManager::centerView);
@@ -39,7 +42,8 @@ ViewActionsManager::ViewActionsManager(View *view, GlWidget *widget, bool keepRa
   _centerViewAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
   _view->graphicsView()->addAction(_centerViewAction);
 
-  _snapshotAction = new QAction("Take a snapshot", widget);
+  _snapshotAction =
+      new QAction(FontIconManager::icon(MaterialDesignIcons::Camera), "Take a snapshot", widget);
   setToolTipWithCtrlShortcut(
       _snapshotAction, "Show a dialog to save a snapshot of the current view display", "Shift+P");
   connect(_snapshotAction, &QAction::triggered, this, &ViewActionsManager::openSnapshotDialog);
@@ -82,7 +86,8 @@ void ViewActionsManager::fillContextMenu(QMenu *menu) {
   menu->addAction(_forceRedrawAction);
   menu->addAction(_centerViewAction);
 
-  QAction *action = menu->addAction("Anti-aliasing");
+  QAction *action =
+      menu->addAction(FontIconManager::icon(MaterialDesignIcons::Image), "Anti-aliasing");
   action->setToolTip("Improve rendering quality");
   action->setCheckable(true);
   action->setChecked(OpenGlConfigManager::antiAliasing());

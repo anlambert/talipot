@@ -28,6 +28,8 @@
 #include <talipot/GlCompositeHierarchyManager.h>
 #include <talipot/NodeLinkDiagramView.h>
 #include <talipot/GraphModel.h>
+#include <talipot/FontIconManager.h>
+#include <talipot/MaterialDesignIcons.h>
 
 using namespace tlp;
 using namespace std;
@@ -521,13 +523,15 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
   } else {
     GlView::fillContextMenu(menu, point);
 
-    QAction *action = menu->addAction("Use Z ordering");
+    QAction *action = menu->addAction(
+        FontIconManager::icon(MaterialDesignIcons::LayersTripleOutline), "Use Z ordering");
     action->setToolTip(
         "The graph elements are displayed according the ordering of their z coordinate");
     action->setCheckable(true);
     action->setChecked(glWidget()->renderingParameters().isElementZOrdered());
     connect(action, &QAction::triggered, this, &NodeLinkDiagramView::setZOrdering);
-    action = menu->addAction("Grid display parameters", [this] { showGridControl(); });
+    action = menu->addAction(FontIconManager::icon(MaterialDesignIcons::Grid),
+                             "Grid display parameters", [this] { showGridControl(); });
     action->setToolTip("Display the grid setup wizard");
   }
 }

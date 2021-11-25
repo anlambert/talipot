@@ -22,6 +22,8 @@
 #include <talipot/GraphModel.h>
 #include <talipot/StringProperty.h>
 #include <talipot/ViewToolTipAndUrlManager.h>
+#include <talipot/FontIconManager.h>
+#include <talipot/MaterialDesignIcons.h>
 
 using namespace tlp;
 using namespace std;
@@ -87,7 +89,8 @@ void ViewToolTipAndUrlManager::openUrl() {
 void ViewToolTipAndUrlManager::fillContextMenu(QMenu *menu) {
   Graph *graph = _view->graph();
 
-  QAction *action = menu->addAction("Tooltips");
+  QAction *action =
+      menu->addAction(FontIconManager::icon(MaterialDesignIcons::TooltipOutline), "Tooltips");
   action->setToolTip("When moving the mouse pointer, a tooltip is displayed with some "
                      "information about the graph element located under the pointer");
   action->setCheckable(true);
@@ -100,7 +103,7 @@ void ViewToolTipAndUrlManager::fillContextMenu(QMenu *menu) {
     urlPropMenu = menu->addMenu(
         QString("Url property").append(" (").append(tlpStringToQString(_urlPropName)).append(")"));
   } else {
-    urlPropMenu = menu->addMenu("Url property");
+    urlPropMenu = menu->addMenu(FontIconManager::icon(MaterialDesignIcons::Web), "Url property");
     _urlPropName.clear();
   }
   urlPropMenu->setToolTip(
