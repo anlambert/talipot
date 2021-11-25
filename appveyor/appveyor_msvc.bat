@@ -95,11 +95,11 @@ set /a elapsed=end-start
 set /a hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100),^
   rest%%=60*100, ss=rest/100, cc=rest%%100
 
-rem if more than 30 minutes elapsed, it means vcpkg dependencies got recompiled
+rem if more than 20 minutes elapsed, it means vcpkg dependencies got recompiled
 rem and that talipot build will likely fail due to the 1 hour timeout on appveyor
 rem so exit without error in order to put those dependencies in cache and avoid
 rem recompiling them on next build
-if %mm% gtr 30 exit /b 0
+if %mm% gtr 20 exit /b 0
 
 rem we are good to go, let's compile and install Talipot now
 cd %APPVEYOR_BUILD_FOLDER%
