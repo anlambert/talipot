@@ -65,9 +65,9 @@ vcpkg install --recurse --triplet x64-windows freetype glew fontconfig fribidi
 
 rem get, compile and install quazip
 cd C:/talipot_dependencies
-curl -LO https://github.com/stachenov/quazip/archive/v1.1.zip
-7z x v1.1.zip
-cd quazip-1.1
+curl -LO https://github.com/stachenov/quazip/archive/refs/tags/v1.2.zip
+7z x v1.2.zip
+cd quazip-1.2
 md build && cd build
 cmake -G "%CMAKE_VS_GENERATOR%"^
   -A "%MSVC_ARCH%"^
