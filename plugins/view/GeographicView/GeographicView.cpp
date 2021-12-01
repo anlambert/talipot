@@ -15,6 +15,8 @@
 #include <talipot/GlComplexPolygon.h>
 #include <talipot/TlpQtTools.h>
 #include <talipot/NodeLinkDiagramView.h>
+#include <talipot/FontIconManager.h>
+#include <talipot/MaterialDesignIcons.h>
 
 #include <QTimer>
 
@@ -88,10 +90,11 @@ void GeographicView::viewTypeChanged(const QString &viewTypeName) {
 
 void GeographicView::fillContextMenu(QMenu *menu, const QPointF &pf) {
   _viewActionsManager->fillContextMenu(menu);
-  QAction *action = menu->addAction("Zoom +");
+  QAction *action =
+      menu->addAction(FontIconManager::icon(MaterialDesignIcons::MagnifyPlus), "Zoom +");
   action->setToolTip("Increase zoom level");
   connect(action, &QAction::triggered, this, &GeographicView::zoomIn);
-  action = menu->addAction("Zoom -");
+  action = menu->addAction(FontIconManager::icon(MaterialDesignIcons::MagnifyMinus), "Zoom -");
   action->setToolTip("Increase zoom level");
   connect(action, &QAction::triggered, this, &GeographicView::zoomOut);
   menu->addSeparator();
