@@ -797,6 +797,7 @@ void TalipotMainWindow::importGraph(const std::string &module, DataSet &data) {
     g = tlp::newGraph();
   }
 
+  projectFileChanged();
   _graphs->addGraph(g);
   std::string fileName;
 
@@ -1683,6 +1684,8 @@ void TalipotMainWindow::projectFileChanged(const QString &projectFile) {
 
   if (!_project->name().isEmpty()) {
     wTitle += QString(" - ") + _project->name();
+  } else if (!_project->projectFile().isEmpty()) {
+    wTitle += QString(" - ") + _project->projectFile();
   } else if (!projectFile.isEmpty()) {
     wTitle += QString(" - ") + projectFile;
   } else { // All graphs are deleted, so clear project.
