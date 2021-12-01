@@ -350,6 +350,11 @@ void NodeLinkDiagramView::requestChangeGraph(Graph *graph) {
   draw();
 }
 
+static QIcon addToSelectionIcon() {
+  return FontIconManager::stackIcons(FontIconManager::icon(MaterialDesignIcons::Selection),
+                                     FontIconManager::icon(MaterialDesignIcons::Plus, 0.7));
+}
+
 void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
 
   // Check if a node/edge is under the mouse pointer
@@ -367,7 +372,8 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
 
     menu->addSeparator();
 
-    QMenu *selectMenu = menu->addMenu("Select");
+    QMenu *selectMenu =
+        menu->addMenu(FontIconManager::icon(MaterialDesignIcons::Selection), "Select");
     QAction *action;
 
     if (isNode) {
@@ -394,7 +400,7 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
       action->setToolTip("Select the edge #" + sId + " and its source and target nodes");
     }
 
-    QMenu *addToSelectionMenu = menu->addMenu("Add to selection");
+    QMenu *addToSelectionMenu = menu->addMenu(addToSelectionIcon(), "Add to selection");
 
     if (isNode) {
       action = addToSelectionMenu->addAction("node", [this] { addItemToSelection(); });
@@ -427,7 +433,8 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
                          "and its  source and target nodes to the current selection");
     }
 
-    QMenu *removeFromSelectionMenu = menu->addMenu("Remove from selection");
+    QMenu *removeFromSelectionMenu = menu->addMenu(
+        FontIconManager::icon(MaterialDesignIcons::SelectionRemove), "Remove from selection");
 
     if (isNode) {
       action = removeFromSelectionMenu->addAction("node", [this] { removeItemFromSelection(); });
@@ -459,7 +466,8 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
                          " and its extremities from the current selection");
     }
 
-    QMenu *toggleMenu = menu->addMenu("Toggle selection of");
+    QMenu *toggleMenu = menu->addMenu(FontIconManager::icon(MaterialDesignIcons::SelectionOff),
+                                      "Toggle selection of");
 
     if (isNode) {
       action = toggleMenu->addAction("node", [this] { addRemoveItemToSelection(); });
@@ -493,10 +501,11 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
       return s + (isNode ? " node #" : " edge #") + sId;
     };
 
-    action = menu->addAction("Delete", [this] { deleteItem(); });
+    action = menu->addAction(FontIconManager::icon(MaterialDesignIcons::Delete), "Delete",
+                             [this] { deleteItem(); });
     action->setToolTip(genEltToolTip("Delete the"));
 
-    QMenu *updateMenu = menu->addMenu("Edit");
+    QMenu *updateMenu = menu->addMenu(FontIconManager::icon(MaterialDesignIcons::Pen), "Edit");
     action = updateMenu->addAction("Color", [this] { editColor(); });
     action->setToolTip(genEltToolTip("Display a dialog to update the color of the"));
     action = updateMenu->addAction("Label", [this] { editLabel(); });
@@ -510,9 +519,11 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
       Graph *metaGraph = graph()->getNodeMetaInfo(node(entity.getGraphElementId()));
 
       if (metaGraph) {
-        action = menu->addAction("Go inside", [this] { goInsideItem(); });
+        action = menu->addAction(FontIconManager::icon(MaterialDesignIcons::LocationEnter),
+                                 "Go inside", [this] { goInsideItem(); });
         action->setToolTip("Display the subgraph represented by the meta-node #" + sId);
-        menu->addAction("Ungroup", [this] { ungroupItem(); });
+        menu->addAction(FontIconManager::icon(MaterialDesignIcons::Ungroup), "Ungroup",
+                        [this] { ungroupItem(); });
         action->setToolTip("Replace the meta-node #" + sId + " by the subgraph it represents");
       }
 
