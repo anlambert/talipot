@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2021  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -54,6 +54,8 @@ public:
    * @param mainWindow A QMainWindow object
    */
   GraphNeedsSavingObserver(Graph *graph, QMainWindow *mainWindow = nullptr);
+
+  ~GraphNeedsSavingObserver();
 
   /**
    * @brief saved If the graph has been saved, one has to call this method to reset the status of

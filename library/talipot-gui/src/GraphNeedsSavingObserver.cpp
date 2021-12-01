@@ -26,6 +26,12 @@ GraphNeedsSavingObserver::GraphNeedsSavingObserver(Graph *graph, QMainWindow *ma
   addObserver();
 }
 
+GraphNeedsSavingObserver::~GraphNeedsSavingObserver() {
+  if (_mainWindow) {
+    _mainWindow->setWindowModified(true);
+  }
+}
+
 void GraphNeedsSavingObserver::treatEvents(const vector<Event> &) {
   if (!_needsSaving) {
     forceToSave();
