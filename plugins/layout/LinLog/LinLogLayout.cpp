@@ -516,12 +516,6 @@ bool LinLogLayout::minimizeEnergyNoTree(int nrIterations) {
   // compute initial energy
   computeBaryCenter();
 
-  double energySum = 0.0;
-
-  for (auto u : graph->nodes()) {
-    energySum += getEnergy(u);
-  }
-
   // minimize energy
   double oldPos[3] = {0, 0, 0};
   double bestDir[3] = {0, 0, 0};
@@ -547,7 +541,6 @@ bool LinLogLayout::minimizeEnergyNoTree(int nrIterations) {
     }
 
     // move each node
-    energySum = 0.0;
     for (auto u : graph->nodes()) {
 
       double oldEnergy = getEnergy(u);
@@ -613,8 +606,6 @@ bool LinLogLayout::minimizeEnergyNoTree(int nrIterations) {
         // if(!noackPillar->getNodeValue(u))
         layoutResult->setNodeValue(u, pos);
       }
-
-      energySum += bestEnergy;
     }
 
     if ((step * 100 / nrIterations) % 10 == 0 &&
@@ -639,12 +630,6 @@ bool LinLogLayout::minimizeEnergy(int nrIterations) {
   // compute initial energy
   computeBaryCenter();
   OctTree *octTree = buildOctTree();
-
-  double energySum = 0.0;
-
-  for (auto u : graph->nodes()) {
-    energySum += getEnergy(u, octTree);
-  }
 
   // minimize energy
   double oldPos[3] = {0, 0, 0};
@@ -672,7 +657,6 @@ bool LinLogLayout::minimizeEnergy(int nrIterations) {
     }
 
     // move each node
-    energySum = 0.0;
     for (auto u : graph->nodes()) {
       double oldEnergy = getEnergy(u, octTree);
 
@@ -743,8 +727,6 @@ bool LinLogLayout::minimizeEnergy(int nrIterations) {
       if (!skipNodes || !skipNodes->getNodeValue(u)) {
         layoutResult->setNodeValue(u, pos);
       }
-
-      energySum += bestEnergy;
     }
 
     if ((step * 100 / nrIterations) % 10 == 0 &&
