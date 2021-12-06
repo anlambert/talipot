@@ -467,7 +467,7 @@ public:
    * This function return the camera of this layer
    */
   Camera &graphCamera() {
-    assert(graphLayer != nullptr);
+    assert(_graphLayer != nullptr);
     return _graphLayer->getCamera();
   }
 
@@ -476,7 +476,7 @@ public:
    * This function set the camera of this layer
    */
   void setGraphCamera(Camera *camera) {
-    assert(graphLayer != nullptr);
+    assert(_graphLayer != nullptr);
     _graphLayer->setCamera(camera);
   }
 
