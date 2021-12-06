@@ -44,7 +44,6 @@ private:
   tlp::node tgt;
   tlp::node tmp;
   PathFinder *parent;
-  bool graphPopable;
 
   void selectPath(GlWidget *glWidget, tlp::Graph *graph);
 };
