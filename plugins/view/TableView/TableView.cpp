@@ -802,8 +802,8 @@ void TableView::showHorizontalHeaderCustomContextMenu(const QPoint &pos) {
   QAction *action = contextMenu.addAction(tlpStringToQString(propName));
   action->setEnabled(false);
   contextMenu.addSeparator();
-  QAction *addProp = contextMenu.addAction("Add new property");
-  addProp->setToolTip("Display a dialog to create a new property belonging to the current graph");
+  QAction *hideProp = contextMenu.addAction("Hide property");
+  hideProp->setToolTip("Hide property column in the table");
   QAction *copyProp = contextMenu.addAction("Copy");
   copyProp->setToolTip("Copy the values of \"" + action->text() +
                        "\" in a property of the same type");
@@ -970,13 +970,10 @@ void TableView::showHorizontalHeaderCustomContextMenu(const QPoint &pos) {
     return;
   }
 
-  if (action == addProp) {
-    if (PropertyCreationDialog::createNewProperty(graph(), getMainWindow(), prop->getTypename()) ==
-        nullptr) {
-      // cancelled so undo
-      graph()->pop();
-    }
-
+  if (action == hideProp) {
+    propertiesEditor->setPropertyChecked(tlpStringToQString(propName), false);
+    // no graph state to keep
+    graph()->pop();
     return;
   }
 

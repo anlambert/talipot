@@ -172,16 +172,21 @@ void PropertiesEditor::showCustomContextMenu(const QPoint &p) {
     action = menu.addAction("Hide all other properties");
     action->setToolTip("Show only the column corresponding to this property");
     connect(action, &QAction::triggered, this, &PropertiesEditor::setPropsNotVisibleExcept);
+
+    const std::string &propName = _contextProperty->getName();
+
+    action = menu.addAction("Show / Hide property");
+    action->setToolTip("Show or hide property column in the table");
+    connect(action, &QAction::triggered, [this, propName]() {
+      auto qPropName = tlpStringToQString(propName);
+      setPropertyChecked(qPropName, !isPropertyChecked(qPropName));
+    });
+
     menu.addSeparator();
 
-    action = menu.addAction("Add new property");
-    action->setToolTip("Display a dialog to create a new property belonging to the current graph");
-    connect(action, &QAction::triggered, this, &PropertiesEditor::newProperty);
     connect(menu.addAction("Copy"), &QAction::triggered, this, &PropertiesEditor::copyProperty);
 
     bool enabled = true;
-    const std::string &propName = _contextProperty->getName();
-
     if (isReservedPropertyName(propName.c_str())) {
       // Enable deletion of reserved properties when on a subgraph and that properties are local
       if (_graph == _graph->getRoot() || !_graph->existLocalProperty(propName)) {
@@ -553,12 +558,15 @@ void PropertiesEditor::setPropertyChecked(int index, bool state) {
 }
 
 void PropertiesEditor::setPropertyChecked(const QString &pName, bool state) {
-  int index = _sourceModel->rowOf(pName);
-
-  if (index != -1) {
-    _sourceModel->setData(_sourceModel->index(index, 0), state ? Qt::Checked : Qt::Unchecked,
-                          Qt::CheckStateRole);
+  auto index = _sourceModel->index(_sourceModel->rowOf(pName), 0);
+  if (index.isValid()) {
+    _sourceModel->setData(index, state ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
   }
+}
+
+bool PropertiesEditor::isPropertyChecked(const QString &pName) const {
+  auto index = _sourceModel->index(_sourceModel->rowOf(pName), 0);
+  return index.isValid() && _sourceModel->data(index, Qt::CheckStateRole).toInt() == Qt::Checked;
 }
 
 PropertyInterface *PropertiesEditor::contextProperty() const {

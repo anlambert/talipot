@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2021  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -60,6 +60,7 @@ public:
 
   void setPropertyChecked(int index, bool state);
   void setPropertyChecked(const QString &pName, bool state);
+  bool isPropertyChecked(const QString &pName) const;
   void setCaseSensitive(Qt::CaseSensitivity cs);
   QLineEdit *getPropertiesFilterEdit();
   void toLabels(tlp::PropertyInterface *prop, bool nodes, bool edges, bool selectedOnly = false);
