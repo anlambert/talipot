@@ -169,13 +169,15 @@ void PropertiesEditor::showCustomContextMenu(const QPoint &p) {
     menu.setProperty("mainMenu", true);
     menu.addAction(pname)->setEnabled(false);
     menu.addSeparator();
-    action = menu.addAction("Hide all other properties");
+    action = menu.addAction(FontIconManager::icon(MaterialDesignIcons::EyeOffOutline),
+                            "Hide all other properties");
     action->setToolTip("Show only the column corresponding to this property");
     connect(action, &QAction::triggered, this, &PropertiesEditor::setPropsNotVisibleExcept);
 
     const std::string &propName = _contextProperty->getName();
 
-    action = menu.addAction("Show / Hide property");
+    action = menu.addAction(FontIconManager::icon(MaterialDesignIcons::EyeOffOutline),
+                            "Show / Hide property");
     action->setToolTip("Show or hide property column in the table");
     connect(action, &QAction::triggered, [this, propName]() {
       auto qPropName = tlpStringToQString(propName);
@@ -184,7 +186,8 @@ void PropertiesEditor::showCustomContextMenu(const QPoint &p) {
 
     menu.addSeparator();
 
-    connect(menu.addAction("Copy"), &QAction::triggered, this, &PropertiesEditor::copyProperty);
+    connect(menu.addAction(FontIconManager::icon(MaterialDesignIcons::ContentDuplicate), "Copy"),
+            &QAction::triggered, this, &PropertiesEditor::copyProperty);
 
     bool enabled = true;
     if (isReservedPropertyName(propName.c_str())) {
@@ -195,7 +198,7 @@ void PropertiesEditor::showCustomContextMenu(const QPoint &p) {
     }
 
     if (enabled) {
-      action = menu.addAction("Delete");
+      action = menu.addAction(FontIconManager::icon(MaterialDesignIcons::Delete), "Delete");
       action->setToolTip("Delete the property \"" + tlpStringToQString(propName) + '"');
       connect(action, &QAction::triggered, this, &PropertiesEditor::delProperty);
     }
@@ -209,7 +212,7 @@ void PropertiesEditor::showCustomContextMenu(const QPoint &p) {
 
     menu.addSeparator();
 
-    QMenu *subMenu = menu.addMenu("Set values of");
+    QMenu *subMenu = menu.addMenu(FontIconManager::icon(MaterialDesignIcons::Pen), "Set values of");
     QAction *nodesSetAll =
         subMenu->addAction("All nodes" + OF_PROPERTY + " to a new default value");
     nodesSetAll->setToolTip("Choose a new node default value to reset the values of all nodes" +
@@ -234,7 +237,8 @@ void PropertiesEditor::showCustomContextMenu(const QPoint &p) {
     enabled = (pname != "viewLabel");
 
     if (enabled) {
-      subMenu = menu.addMenu("To labels of");
+      subMenu = menu.addMenu(FontIconManager::icon(MaterialDesignIcons::OrderAlphabeticalAscending),
+                             "To labels of");
       action = subMenu->addAction("All elements" + OF_GRAPH);
       action->setToolTip("Set the values of the current property as labels of all elements" +
                          OF_GRAPH);
