@@ -1,61 +1,77 @@
-# Talipot [![license](https://img.shields.io/github/license/anlambert/talipot.svg)](https://www.gnu.org/licenses/gpl-3.0.html) ![Build Status](https://github.com/anlambert/talipot/workflows/ubuntu-build/badge.svg?branch=master) ![Build Status](https://github.com/anlambert/talipot/workflows/appimage-build/badge.svg?branch=master) ![Build Status](https://github.com/anlambert/talipot/workflows/macos-macports-build/badge.svg?branch=master) ![Build Status](https://github.com/anlambert/talipot/workflows/macos-homebrew-build/badge.svg?branch=master) [![Build Status](https://ci.appveyor.com/api/projects/status/github/anlambert/talipot?branch=master&svg=true)](https://ci.appveyor.com/project/anlambert/talipot)
+# Talipot [![license](https://img.shields.io/github/license/anlambert/talipot.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![Build Status](https://github.com/anlambert/talipot/workflows/ubuntu-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/ubuntu-build.yml)
+[![Build Status](https://github.com/anlambert/talipot/workflows/appimage-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/appimage-build.yml)
+[![Build Status](https://github.com/anlambert/talipot/workflows/macos-macports-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-macports-build.yml)
+[![Build Status](https://github.com/anlambert/talipot/workflows/macos-homebrew-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-homebrew-build.yml)
+[![Build Status](https://github.com/anlambert/talipot/workflows/windows-msys2-mingw64-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-mingw64-build.yml)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/anlambert/talipot?branch=master&svg=true)](https://ci.appveyor.com/project/anlambert/talipot)
 
 
-Talipot is an open source, cross-platform, data visualization framework mainly dedicated to the analysis,
-the drawing and the visualization of very large graphs (up to the million of nodes and edges).
-It is a fork of [Tulip](https://github.com/Tulip-dev/tulip) created by [David Auber](https://www.labri.fr/perso/auber/david_auber_home_page/doku.php/start),
-from [LaBRI](https://www.labri.fr) (Laboratoire Bordelais de Recherche en Informatique) and [University of Bordeaux](https://www.u-bordeaux.fr).
+Talipot is an open source, cross-platform, data visualization framework mainly
+dedicated to the analysis, the drawing and the visualization of very large graphs
+(up to the million of nodes and edges).
+
+It is a fork of [Tulip](https://github.com/Tulip-dev/tulip) created by
+[David Auber](https://www.labri.fr/perso/auber/david_auber_home_page/doku.php/start),
+from [LaBRI](https://www.labri.fr) (Laboratoire Bordelais de Recherche en Informatique)
+and [University of Bordeaux](https://www.u-bordeaux.fr).
+
+![alt text](screenshots/talipot_screenshot_01.png "Talipot software GUI")
 
 ## Features
 
 The Talipot framework offers numerous features, notably:
 
-  * An efficient graph data model in terms of memory usage for storing large networks and
-  the attributes of their elements (called properties in the Talipot semantics).
-  It is also one of the few that offer the possibility to efficiently define and navigate
-  graph hierarchies or cluster trees (nested subgraphs).
+  * An efficient graph data model in terms of memory usage for storing large networks
+  and the attributes of their elements (called properties in the Talipot semantics).
+  It is also one of the few that offer the possibility to efficiently define and
+  navigate graph hierarchies or cluster trees (nested subgraphs).
 
   * Several graph file formats for serializing such a model to disk, notably the
   [TLP format](https://tulip.labri.fr/site/?q=tlp-file-format) based on a
   Lisp syntax for easy parsing but also the TLP binary format for faster graph
   saving and loading.
 
-  * A large variety of graphs algorithms: clustering, metric, layout ... As Talipot is dedicated
-  to graph visualization, it is provided with numerous state of the art graph layout algorithms
-  but also a bridge to the [Open Graph Drawing Framework](https://ogdf.uos.de).
+  * A large variety of graphs algorithms: clustering, metric, layout ... As Talipot
+  is dedicated to graph visualization, it is provided with numerous state of the art
+  graph layout algorithms but also a bridge to the
+  [Open Graph Drawing Framework](https://ogdf.uos.de).
 
   * A hardware accelerated graph rendering engine written in [OpenGL](https://www.opengl.org),
-  highly customizable in terms of visual encoding for graph nodes and edges, in order to
-  efficiently generate aesthetic and interactive visualizations.
+  highly customizable in terms of visual encoding for graph nodes and edges, in order
+  to efficiently generate aesthetic and interactive visualizations.
 
-  * Multiple visualization components (called views in the Talipot semantics) for analyzing graph data
-  using other representations than the classical node link diagram one: matrix, histograms,
-  scatter plots, parallel coordinates, ...
+  * Multiple visualization components (called views in the Talipot semantics) for
+  analyzing graph data using other representations than the classical node link
+  diagram one: matrix, histograms, scatter plots, parallel coordinates, ...
 
-  * [Python](https://www.python.org) bindings for the main Talipot C++ API, giving to Talipot scripting
-  facilities for manipulating graphs loaded from its main graphical user interface.
-  The bindings can also be obtained from the Python Packaging Index.
+  * [Python](https://www.python.org) bindings for the main Talipot C++ API, giving to
+  Talipot scripting facilities for manipulating graphs loaded from its main graphical
+  user interface. The bindings can also be obtained from the Python Packaging Index.
 
-  * A plugin based architecture for easily extend the capability of the framework with new
-  graph import mechanisms, graph algorithms, visualization components, ...
+  * A plugin based architecture for easily extend the capability of the framework with
+  new graph import mechanisms, graph algorithms, visualization components, ...
   Talipot plugins can be written in C++ or Python.
 
-  * A graphical user interface, based on the [Qt](https://www.qt.io) framework, enabling to
-  easily interact and manipulate the different components of the framework.
+  * A graphical user interface, based on the [Qt](https://www.qt.io) framework, enabling
+  to easily interact and manipulate the different components of the framework.
 
 
 ## Installing Talipot
 
-Talipot is a cross-platform framework and can be compiled or installed on FreeBSD, Debian, Fedora,  OpenSUSE, Ubuntu, MacOS and Windows.
+Talipot is a cross-platform framework and can be compiled or installed on Debian, Fedora,
+OpenSUSE, Ubuntu, MacOS and Windows.
 
 ### Precompiled binaries
 
-For each release, Talipot offers precompiled binaries for Linux (using [AppImage](https://github.com/AppImage/AppImageKit)),
-MacOS (dmg bundles) or Windows ([NSIS](https://nsis.sourceforge.io/Main_Page) based installers).
+For each release, Talipot offers precompiled binaries for Linux (using
+[AppImage](https://github.com/AppImage/AppImageKit)), MacOS (dmg bundles) or Windows
+([NSIS](https://nsis.sourceforge.io/Main_Page) based installers).
 
 ### Compiling from scratch
 
-Talipot can be easily compiled on every supported platforms. However, that process can take some times depending on your system configuration.
+Talipot can be easily compiled on every supported platforms. However, that process can take
+some times depending on your system configuration.
 
 The following dependencies are required to build Talipot:
 
@@ -83,22 +99,28 @@ The following dependencies are required to build Talipot:
 
 In order to generate the documentation, the following tools must be installed:
 
-  * [Sphinx](https://www.sphinx-doc.org) to build the User Manual, Developer Handbook and Python bindings documentation
+  * [Sphinx](https://www.sphinx-doc.org) to build the User Manual, Developer Handbook and
+    Python bindings documentation
   * [Doxygen](https://www.doxygen.nl) to build the C++ API documentation
 
-If you are a Linux user, all these dependencies can be installed with the package manager of your distribution.
+If you are a Linux user, all these dependencies can be installed with the package manager
+of your distribution.
 
-If you are a MacOS user, we recommend to use [MacPorts](https://www.macports.org) or [Homebrew](https://brew.sh) in order to easily install all these dependencies.
+If you are a MacOS user, we recommend to use [MacPorts](https://www.macports.org) or
+[Homebrew](https://brew.sh) in order to easily install all these dependencies.
 
-If you are a Windows user, we recommend to use [MSYS2](https://www.msys2.org) as it greatly facilitates the build of Talipot on
-that platform (notably by providing up to date compilers and precompiled dependencies).
+If you are a Windows user, we recommend to use [MSYS2](https://www.msys2.org) as it
+greatly facilitates the build of Talipot on that platform (notably by providing up
+to date compilers and precompiled dependencies).
 
-Hints on how to build Talipot for these three platforms can be found in the continuous integration setup for [GitHub Actions](https://github.com/features/actions) and
+Hints on how to build Talipot for these three platforms can be found in the continuous
+integration setup for [GitHub Actions](https://github.com/features/actions) and
 [AppVeyor](https://www.appveyor.com):
 
   * [ubuntu-build.yml](.github/workflows/ubuntu-build.yml)
-  * [appveyor_msys2.sh](appveyor/appveyor_msys2.sh)
-  * [appveyor_macos.sh](appveyor/appveyor_macos.sh)
+  * [macos-homebrew-build.yml](.github/workflows/macos-homebrew-build.yml)
+  * [macos-macports-build.yml](.github/workflows/macos-macports-build.yml)
+  * [windows-mingw64-build.yml](.github/workflows/windows-mingw64-build.yml)
   * [appveyor_msvc.bat](appveyor/appveyor_msvc.bat)
 
 
