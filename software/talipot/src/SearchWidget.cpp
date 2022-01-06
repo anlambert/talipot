@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -135,7 +135,7 @@ NUM_CMP(LesserEqualOperator, <=)
 SearchWidget::SearchWidget(QWidget *parent)
     : QWidget(parent), _ui(new Ui::SearchWidget), _graph(nullptr) {
   _ui->setupUi(this);
-  _ui->searchButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Magnify));
+  _ui->searchButton->setIcon(FontIcon::icon(MaterialDesignIcons::Magnify));
   _ui->tableWidget->hide();
   _ui->tableWidget->setItemDelegate(new ItemDelegate(_ui->tableWidget));
 

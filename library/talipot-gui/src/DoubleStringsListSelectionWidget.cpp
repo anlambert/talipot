@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -12,7 +12,7 @@
  */
 
 #include <talipot/DoubleStringsListSelectionWidget.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 #include "ui_DoubleStringsListSelectionWidget.h"
@@ -25,10 +25,10 @@ DoubleStringsListSelectionWidget::DoubleStringsListSelectionWidget(
     QWidget *parent, const uint maxSelectedStringsListSize)
     : QWidget(parent), _ui(new Ui::DoubleStringsListSelectionWidget()) {
   _ui->setupUi(this);
-  _ui->upButton->setIcon(FontIconManager::icon(MaterialDesignIcons::ArrowUpBold));
-  _ui->downButton->setIcon(FontIconManager::icon(MaterialDesignIcons::ArrowDownBold));
-  _ui->addButton->setIcon(FontIconManager::icon(MaterialDesignIcons::ArrowRightBold));
-  _ui->removeButton->setIcon(FontIconManager::icon(MaterialDesignIcons::ArrowLeftBold));
+  _ui->upButton->setIcon(FontIcon::icon(MaterialDesignIcons::ArrowUpBold));
+  _ui->downButton->setIcon(FontIcon::icon(MaterialDesignIcons::ArrowDownBold));
+  _ui->addButton->setIcon(FontIcon::icon(MaterialDesignIcons::ArrowRightBold));
+  _ui->removeButton->setIcon(FontIcon::icon(MaterialDesignIcons::ArrowLeftBold));
   _ui->outputList->setMaxListSize(maxSelectedStringsListSize);
   _ui->selectButton->setEnabled(maxSelectedStringsListSize == 0);
 

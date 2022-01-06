@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,7 +20,7 @@
 #include <QMenu>
 
 #include <talipot/Settings.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 using namespace tlp;
@@ -32,10 +32,9 @@ TalipotLogger::TalipotLogger(QWidget *parent)
   _ui->setupUi(this);
   _ui->listWidget->installEventFilter(this);
   _ui->listWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-  _ui->copyButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::ContentCopy, QColor(Qt::white)));
-  _ui->clearButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Broom, QColor(Qt::white)));
-  _ui->closeButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Close, QColor(Qt::white)));
+  _ui->copyButton->setIcon(FontIcon::icon(MaterialDesignIcons::ContentCopy, QColor(Qt::white)));
+  _ui->clearButton->setIcon(FontIcon::icon(MaterialDesignIcons::Broom, QColor(Qt::white)));
+  _ui->closeButton->setIcon(FontIcon::icon(MaterialDesignIcons::Close, QColor(Qt::white)));
   _ui->copyButton->setToolTip("Copy the selected lines into the clipboard");
   _ui->clearButton->setToolTip("Remove all messages");
   _ui->closeButton->setToolTip("Close this window");
@@ -128,19 +127,19 @@ QIcon TalipotLogger::icon(LogType logType) const {
   QIcon icon;
   switch (logType) {
   case Python:
-    icon = FontIconManager::icon(MaterialDesignIcons::LanguagePython, QColor(Qt::gray));
+    icon = FontIcon::icon(MaterialDesignIcons::LanguagePython, QColor(Qt::gray));
     break;
 
   case Info:
-    icon = FontIconManager::icon(MaterialDesignIcons::Information, QColor("#407fb2"));
+    icon = FontIcon::icon(MaterialDesignIcons::Information, QColor("#407fb2"));
     break;
 
   case Warning:
-    icon = FontIconManager::icon(MaterialDesignIcons::Alert, QColor("#e18d2b"));
+    icon = FontIcon::icon(MaterialDesignIcons::Alert, QColor("#e18d2b"));
     break;
 
   case Error:
-    icon = FontIconManager::icon(MaterialDesignIcons::MinusCircle, QColor("#c42730"));
+    icon = FontIcon::icon(MaterialDesignIcons::MinusCircle, QColor("#c42730"));
     break;
   }
 
@@ -227,7 +226,7 @@ void TalipotLogger::setAnchored(bool anchored) {
   QString tooltip;
 
   if (_anchored) {
-    icon = FontIconManager::icon(MaterialDesignIcons::WindowRestore, QColor(Qt::white));
+    icon = FontIcon::icon(MaterialDesignIcons::WindowRestore, QColor(Qt::white));
     tooltip = "Display the logger in a separate window";
     setAttribute(Qt::WA_X11NetWmWindowTypeDialog, false);
     setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
@@ -235,7 +234,7 @@ void TalipotLogger::setAnchored(bool anchored) {
     setMaximumSize(size());
     emit resetLoggerPosition();
   } else {
-    icon = FontIconManager::icon(MaterialDesignIcons::DockBottom, QColor(Qt::white));
+    icon = FontIcon::icon(MaterialDesignIcons::DockBottom, QColor(Qt::white));
     tooltip = "Dock the logger to the bottom of Talipot window";
     setAttribute(Qt::WA_X11NetWmWindowTypeDialog, true);
     setWindowFlags(Qt::Dialog);

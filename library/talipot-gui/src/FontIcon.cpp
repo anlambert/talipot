@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -12,7 +12,7 @@
  */
 
 #include "talipot/IconicFont.h"
-#include "talipot/FontIconManager.h"
+#include "talipot/FontIcon.h"
 
 #include <QFontDatabase>
 #include <QPainter>
@@ -184,23 +184,22 @@ static QString getOptionsString(const QColor &color, const QColor &colorDisabled
          QString::number(translation.y());
 }
 
-const QIcon &FontIconManager::icon(const QString &iconName, const double scaleFactor,
-                                   const double rotation, const QPointF &translation) {
+const QIcon &FontIcon::icon(const QString &iconName, const double scaleFactor,
+                            const double rotation, const QPointF &translation) {
   static QColor invalidColor;
   return icon(iconName, invalidColor, invalidColor, invalidColor, invalidColor, scaleFactor,
               rotation, translation);
 }
 
-const QIcon &FontIconManager::icon(const QString &iconName, const QColor &color,
-                                   const double scaleFactor, const double rotation,
-                                   const QPointF &translation) {
+const QIcon &FontIcon::icon(const QString &iconName, const QColor &color, const double scaleFactor,
+                            const double rotation, const QPointF &translation) {
   return icon(iconName, color, color, color, color, scaleFactor, rotation, translation);
 }
 
-const QIcon &FontIconManager::icon(const QString &iconName, const QColor &color,
-                                   const QColor &colorDisabled, const QColor &colorActive,
-                                   const QColor &colorSelected, const double scaleFactor,
-                                   const double rotation, const QPointF &translation) {
+const QIcon &FontIcon::icon(const QString &iconName, const QColor &color,
+                            const QColor &colorDisabled, const QColor &colorActive,
+                            const QColor &colorSelected, const double scaleFactor,
+                            const double rotation, const QPointF &translation) {
 
   QVariantMap options =
       getOptionsMap(color, colorDisabled, colorActive, colorSelected, scaleFactor, translation);
@@ -220,7 +219,7 @@ const QIcon &FontIconManager::icon(const QString &iconName, const QColor &color,
   return fontIconsCache[iconCacheKey];
 }
 
-QIcon FontIconManager::stackIcons(const QIcon &backIcon, const QIcon &frontIcon) {
+QIcon FontIcon::stackIcons(const QIcon &backIcon, const QIcon &frontIcon) {
   QPixmap pixmap = backIcon.pixmap(QSize(128, 128));
   QPainter painter(&pixmap);
   painter.drawPixmap(0, 0, frontIcon.pixmap(QSize(128, 128)));

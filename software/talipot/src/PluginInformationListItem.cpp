@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,7 +15,7 @@
 #include "ui_PluginInformationListItem.h"
 
 #include <talipot/IconicFont.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 
 using namespace tlp;
 
@@ -24,7 +24,7 @@ PluginInformationListItem::PluginInformationListItem(const Plugin &plugin, QWidg
   _ui->setupUi(this);
   QPixmap pix;
   if (IconicFont::isIconSupported(plugin.icon())) {
-    pix = FontIconManager::icon(tlpStringToQString(plugin.icon())).pixmap(QSize(32, 32));
+    pix = FontIcon::icon(tlpStringToQString(plugin.icon())).pixmap(QSize(32, 32));
   } else {
     pix = QPixmap(tlpStringToQString(plugin.icon())).scaled(32, 32);
   }

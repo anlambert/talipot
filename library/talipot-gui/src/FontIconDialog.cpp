@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -12,7 +12,7 @@
  */
 
 #include <talipot/FontIconDialog.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/FontAwesome.h>
 #include <talipot/MaterialDesignIcons.h>
 
@@ -58,7 +58,7 @@ void FontIconDialog::updateIconList() {
     QString iconName = tlpStringToQString(ic);
 
     if (iconName.indexOf(regexp) != -1) {
-      _ui->iconListWidget->addItem(new QListWidgetItem(FontIconManager::icon(iconName), iconName));
+      _ui->iconListWidget->addItem(new QListWidgetItem(FontIcon::icon(iconName), iconName));
     }
   }
 
@@ -68,7 +68,7 @@ void FontIconDialog::updateIconList() {
     QString iconName = tlpStringToQString(ic);
 
     if (iconName.indexOf(regexp) != -1) {
-      _ui->iconListWidget->addItem(new QListWidgetItem(FontIconManager::icon(iconName), iconName));
+      _ui->iconListWidget->addItem(new QListWidgetItem(FontIcon::icon(iconName), iconName));
     }
   }
 

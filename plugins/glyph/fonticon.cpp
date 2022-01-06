@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -43,7 +43,7 @@
 using namespace std;
 using namespace tlp;
 
-struct FontIcon {
+struct FontIconData {
 
   string fontFile;
   uint iconCodePoint;
@@ -55,16 +55,16 @@ struct FontIcon {
   BoundingBox boundingBox;
 
 public:
-  FontIcon()
+  FontIconData()
       : iconCodePoint(0), renderingDataBuffer(0), indicesBuffer(0), nbVertices(0), nbIndices(0),
         nbOutlineIndices(0) {}
 
-  FontIcon(const std::string &iconName)
+  FontIconData(const std::string &iconName)
       : fontFile(IconicFont::getTTFLocation(iconName)),
         iconCodePoint(IconicFont::getIconCodePoint(iconName)), renderingDataBuffer(0),
         indicesBuffer(0), nbVertices(0), nbIndices(0), nbOutlineIndices(0) {}
 
-  ~FontIcon() {
+  ~FontIconData() {
     if (renderingDataBuffer != 0) {
       glDeleteBuffers(1, &renderingDataBuffer);
     }
@@ -248,45 +248,45 @@ public:
   }
 };
 
-static FontIcon defaultFontIcon;
-static unordered_map<string, FontIcon> fontIcons;
+static FontIconData defaultFontIconData;
+static unordered_map<string, FontIconData> FontIconDatas;
 
-static FontIcon &getFontIcon(const string &iconName) {
+static FontIconData &getFontIconData(const string &iconName) {
   if (iconName.empty() || !IconicFont::isIconSupported(iconName)) {
-    // initialization of defaultFontIcon is delayed
-    if (defaultFontIcon.iconCodePoint == 0) {
+    // initialization of defaultFontIconData is delayed
+    if (defaultFontIconData.iconCodePoint == 0) {
       static const std::string defaultIconName = FontAwesome::Solid::QuestionCircle;
-      defaultFontIcon.iconCodePoint = IconicFont::getIconCodePoint(defaultIconName);
-      defaultFontIcon.fontFile = IconicFont::getTTFLocation(defaultIconName);
+      defaultFontIconData.iconCodePoint = IconicFont::getIconCodePoint(defaultIconName);
+      defaultFontIconData.fontFile = IconicFont::getTTFLocation(defaultIconName);
     }
-    return defaultFontIcon;
+    return defaultFontIconData;
   }
-  auto it = fontIcons.find(iconName);
-  if (fontIcons.find(iconName) == fontIcons.end()) {
-    it = fontIcons.insert({iconName, FontIcon(iconName)}).first;
+  auto it = FontIconDatas.find(iconName);
+  if (FontIconDatas.find(iconName) == FontIconDatas.end()) {
+    it = FontIconDatas.insert({iconName, FontIconData(iconName)}).first;
   }
   return it->second;
 }
 
-static void drawIcon(FontIcon &fontIcon, const Color &color, const Color &outlineColor,
+static void drawIcon(FontIconData &FontIconData, const Color &color, const Color &outlineColor,
                      const float outlineSize, const string &texture) {
   if (!texture.empty()) {
     GlTextureManager::activateTexture(texture);
   }
 
-  fontIcon.render(color, outlineColor, outlineSize);
+  FontIconData.render(color, outlineColor, outlineSize);
 
   GlTextureManager::deactivateTexture();
 }
 
-class FontIconGlyph : public Glyph {
+class FontIconDataGlyph : public Glyph {
 
 public:
   GLYPHINFORMATION("2D - Icon", "Antoine Lambert", "26/02/2015", "Icon", "2.0", NodeShape::Icon)
 
-  FontIconGlyph(const tlp::PluginContext *context = nullptr) : Glyph(context) {}
+  FontIconDataGlyph(const tlp::PluginContext *context = nullptr) : Glyph(context) {}
 
-  ~FontIconGlyph() override = default;
+  ~FontIconDataGlyph() override = default;
 
   void draw(node n, float) override {
     const tlp::Color &nodeColor = glGraphInputData->colors()->getNodeValue(n);
@@ -295,30 +295,30 @@ public:
     const string &nodeTexture = glGraphInputData->renderingParameters()->getTexturePath() +
                                 glGraphInputData->textures()->getNodeValue(n);
 
-    drawIcon(getNodeFontIcon(n), nodeColor, nodeBorderColor, nodeBorderWidth, nodeTexture);
+    drawIcon(getNodeFontIconData(n), nodeColor, nodeBorderColor, nodeBorderWidth, nodeTexture);
   }
 
   BoundingBox getIncludeBoundingBox(node n) override {
-    return getNodeFontIcon(n).getBoundingBox();
+    return getNodeFontIconData(n).getBoundingBox();
   }
 
 private:
-  FontIcon &getNodeFontIcon(node n) {
+  FontIconData &getNodeFontIconData(node n) {
     StringProperty *viewIcon = glGraphInputData->icons();
     const string &iconName = viewIcon->getNodeValue(n);
-    return getFontIcon(iconName);
+    return getFontIconData(iconName);
   }
 };
 
-PLUGIN(FontIconGlyph)
+PLUGIN(FontIconDataGlyph)
 
-class EEFontIconGlyph : public EdgeExtremityGlyph {
+class EEFontIconDataGlyph : public EdgeExtremityGlyph {
 
 public:
   GLYPHINFORMATION("2D - Icon extremity", "Antoine Lambert", "02/03/2015",
                    "Icon for edge extremities", "2.0", EdgeExtremityShape::Icon)
 
-  EEFontIconGlyph(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
+  EEFontIconDataGlyph(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
 
   void draw(edge e, node n, const Color &glyphColor, const Color &borderColor, float) override {
     StringProperty *viewIcon = edgeExtGlGraphInputData->icons();
@@ -341,8 +341,8 @@ public:
     // icon must be mirrored along its Y axis to get a correct rendering
     glScalef(-1.0f, 1.0f, 1.0f);
 
-    drawIcon(getFontIcon(iconName), glyphColor, borderColor, borderWidth, edgeTexture);
+    drawIcon(getFontIconData(iconName), glyphColor, borderColor, borderWidth, edgeTexture);
   }
 };
 
-PLUGIN(EEFontIconGlyph)
+PLUGIN(EEFontIconDataGlyph)

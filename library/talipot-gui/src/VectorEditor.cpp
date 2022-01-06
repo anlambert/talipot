@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,8 +20,8 @@ using namespace tlp;
 VectorEditor::VectorEditor(QWidget *parent)
     : QDialog(parent), _ui(new Ui::VectorEditor), _userType(0) {
   _ui->setupUi(this);
-  _ui->addButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Plus));
-  _ui->removeButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Minus));
+  _ui->addButton->setIcon(FontIcon::icon(MaterialDesignIcons::Plus));
+  _ui->removeButton->setIcon(FontIcon::icon(MaterialDesignIcons::Minus));
   _ui->list->setItemDelegate(new ItemDelegate(_ui->list));
 }
 

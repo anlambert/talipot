@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,7 +27,7 @@
 #include <talipot/QtGlSceneZoomAndPanAnimator.h>
 #include <talipot/GlGraph.h>
 #include <talipot/ViewActionsManager.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 
 using namespace tlp;
 
@@ -199,7 +199,7 @@ void GlView::updateShowOverviewButton() {
     _showOvButton->blockSignals(true);
 
     if (_overviewItem && _overviewItem->isVisible()) {
-      _showOvButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Close, 0.8));
+      _showOvButton->setIcon(FontIcon::icon(MaterialDesignIcons::Close, 0.8));
       _showOvButton->setChecked(true);
       _showOvButton->setToolTip("Hide overview display");
       _showOvButton->move(
@@ -207,7 +207,7 @@ void GlView::updateShowOverviewButton() {
           rect.height() - _overviewItem->getHeight() -
               ((_quickAccessBar != nullptr) ? _quickAccessBarItem->size().height() : 0));
     } else {
-      _showOvButton->setIcon(FontIconManager::icon(MaterialDesignIcons::ChevronLeft));
+      _showOvButton->setIcon(FontIcon::icon(MaterialDesignIcons::ChevronLeft));
       _showOvButton->setChecked(false);
       _showOvButton->setToolTip("Show overview display");
       _showOvButton->move(
@@ -255,13 +255,13 @@ void GlView::updateShowQuickAccessBarButton() {
     _showQabButton->blockSignals(true);
 
     if (quickAccessBarVisible()) {
-      _showQabButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Close, 0.8));
+      _showQabButton->setIcon(FontIcon::icon(MaterialDesignIcons::Close, 0.8));
       _showQabButton->setChecked(true);
       _showQabButton->setToolTip("Hide quick access bar");
       _showQabButton->move(0, rect.height() - _quickAccessBarItem->size().height() -
                                   _showQabButton->height());
     } else {
-      _showQabButton->setIcon(FontIconManager::icon(MaterialDesignIcons::ChevronUp));
+      _showQabButton->setIcon(FontIcon::icon(MaterialDesignIcons::ChevronUp));
       _showQabButton->setChecked(false);
       _showQabButton->setToolTip("Show quick access bar");
       _showQabButton->move(0, rect.height() - _showQabButton->height());
@@ -369,8 +369,8 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
 
   if (selection && (selection->hasNonDefaultValuatedNodes(graph()) ||
                     selection->hasNonDefaultValuatedEdges(graph()))) {
-    QAction *znpOnSelection = menu->addAction(
-        FontIconManager::icon(MaterialDesignIcons::MagnifyExpand), "Zoom and pan on selection");
+    QAction *znpOnSelection = menu->addAction(FontIcon::icon(MaterialDesignIcons::MagnifyExpand),
+                                              "Zoom and pan on selection");
     znpOnSelection->setToolTip(
         "Perform a zoom and pan animation to center the view on selected graph elements");
     connect(znpOnSelection, &QAction::triggered, [this, selection, inputData]() {
@@ -380,7 +380,7 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
     });
   }
 
-  QAction *znpCenterView = menu->addAction(FontIconManager::icon(MaterialDesignIcons::MagnifyScan),
+  QAction *znpCenterView = menu->addAction(FontIcon::icon(MaterialDesignIcons::MagnifyScan),
                                            "Zoom and pan on centered view");
   znpCenterView->setToolTip("Perform a zoom and pan animation to center the view");
   connect(znpCenterView, &QAction::triggered, [this]() {
@@ -388,8 +388,8 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
     zoomAndPanAnimation(boundingBox);
   });
 
-  QAction *viewOrtho = menu->addAction(FontIconManager::icon(MaterialDesignIcons::AxisArrow),
-                                       "Use orthogonal projection");
+  QAction *viewOrtho =
+      menu->addAction(FontIcon::icon(MaterialDesignIcons::AxisArrow), "Use orthogonal projection");
   viewOrtho->setToolTip("Enable to switch between true perspective and orthogonal");
   viewOrtho->setCheckable(true);
   viewOrtho->setChecked(_glWidget->scene()->isViewOrtho());
@@ -399,15 +399,15 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
   menu->addAction("Augmented display")->setEnabled(false);
   menu->addSeparator();
 
-  QAction *a = menu->addAction(FontIconManager::icon(MaterialDesignIcons::DrawingBox),
-                               "Show overview", this, &GlView::setOverviewVisible);
+  QAction *a = menu->addAction(FontIcon::icon(MaterialDesignIcons::DrawingBox), "Show overview",
+                               this, &GlView::setOverviewVisible);
   a->setToolTip("Show/hide the overview in a corner of the view");
   a->setCheckable(true);
   a->setChecked(overviewVisible());
 
   if (needQuickAccessBar) {
     QAction *quickbarAction =
-        menu->addAction(FontIconManager::icon(MaterialDesignIcons::ViewGalleryOutline),
+        menu->addAction(FontIcon::icon(MaterialDesignIcons::ViewGalleryOutline),
                         "Show quick access bar", this, &GlView::setQuickAccessBarVisible);
     quickbarAction->setToolTip("Show/hide the quick access bar");
     quickbarAction->setCheckable(true);

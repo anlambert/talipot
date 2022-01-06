@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,7 +19,7 @@
 
 #include <talipot/MetaTypes.h>
 #include <talipot/GraphHierarchiesModel.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 #include <talipot/Workspace.h>
 
@@ -119,35 +119,30 @@ GraphHierarchiesEditor::GraphHierarchiesEditor(QWidget *parent)
   _ui->setupUi(this);
   _ui->hierarchiesTree->addAction(_ui->actionDelete_All);
   _ui->actionDelete_All->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-  _ui->actionCreate_panel->setIcon(FontIconManager::icon(MaterialDesignIcons::PlusBox));
-  _ui->actionExport->setIcon(FontIconManager::icon(MaterialDesignIcons::Export));
-  _ui->actionSave_to_file->setIcon(FontIconManager::icon(MaterialDesignIcons::FileExportOutline));
-  _ui->actionRename->setIcon(FontIconManager::icon(MaterialDesignIcons::RenameBox));
-  _ui->actionDelete_graph->setIcon(FontIconManager::icon(MaterialDesignIcons::DeleteOutline));
-  _ui->actionDelete_All->setIcon(FontIconManager::icon(MaterialDesignIcons::DeleteOutline));
-  _ui->actionDelete_all_nodes->setIcon(FontIconManager::icon(MaterialDesignIcons::DeleteOutline));
-  _ui->actionDelete_all_edges->setIcon(FontIconManager::icon(MaterialDesignIcons::DeleteOutline));
-  _ui->actionDelete_selection->setIcon(FontIconManager::icon(MaterialDesignIcons::DeleteOutline));
+  _ui->actionCreate_panel->setIcon(FontIcon::icon(MaterialDesignIcons::PlusBox));
+  _ui->actionExport->setIcon(FontIcon::icon(MaterialDesignIcons::Export));
+  _ui->actionSave_to_file->setIcon(FontIcon::icon(MaterialDesignIcons::FileExportOutline));
+  _ui->actionRename->setIcon(FontIcon::icon(MaterialDesignIcons::RenameBox));
+  _ui->actionDelete_graph->setIcon(FontIcon::icon(MaterialDesignIcons::DeleteOutline));
+  _ui->actionDelete_All->setIcon(FontIcon::icon(MaterialDesignIcons::DeleteOutline));
+  _ui->actionDelete_all_nodes->setIcon(FontIcon::icon(MaterialDesignIcons::DeleteOutline));
+  _ui->actionDelete_all_edges->setIcon(FontIcon::icon(MaterialDesignIcons::DeleteOutline));
+  _ui->actionDelete_selection->setIcon(FontIcon::icon(MaterialDesignIcons::DeleteOutline));
   _ui->actionDelete_selection_from_root_graph->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::DeleteOutline));
-  _ui->actionAdd_sub_graph->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Tournament, 1.0, -90));
-  _ui->actionClone_subgraph->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Tournament, 1.0, -90));
+      FontIcon::icon(MaterialDesignIcons::DeleteOutline));
+  _ui->actionAdd_sub_graph->setIcon(FontIcon::icon(MaterialDesignIcons::Tournament, 1.0, -90));
+  _ui->actionClone_subgraph->setIcon(FontIcon::icon(MaterialDesignIcons::Tournament, 1.0, -90));
   _ui->actionCreate_induced_sub_graph->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Tournament, 1.0, -90));
-  _ui->actionClone_sibling->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Tournament, 1.0, -90));
+      FontIcon::icon(MaterialDesignIcons::Tournament, 1.0, -90));
+  _ui->actionClone_sibling->setIcon(FontIcon::icon(MaterialDesignIcons::Tournament, 1.0, -90));
   _ui->actionClone_sibling_with_properties->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Tournament, 1.0, -90));
-  _ui->actionExpand_hierarchy->setIcon(FontIconManager::icon(MaterialDesignIcons::FileTree));
-  _ui->actionCollapse_hierarchy->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::ArrowCollapseUp));
+      FontIcon::icon(MaterialDesignIcons::Tournament, 1.0, -90));
+  _ui->actionExpand_hierarchy->setIcon(FontIcon::icon(MaterialDesignIcons::FileTree));
+  _ui->actionCollapse_hierarchy->setIcon(FontIcon::icon(MaterialDesignIcons::ArrowCollapseUp));
 
   auto *linkButton = new QToolButton();
   linkButton->setObjectName("linkButton");
-  linkButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::LinkVariant, QColor(Qt::white), 0.8));
+  linkButton->setIcon(FontIcon::icon(MaterialDesignIcons::LinkVariant, QColor(Qt::white), 0.8));
   linkButton->setToolTip("Click here to disable the synchronization with workspace active "
                          "panel.\nWhen synchronization is enabled, the graph currently "
                          "displayed\nin the active panel, becomes the current one in the Graphs "
@@ -502,15 +497,14 @@ void GraphHierarchiesEditor::saveGraphHierarchyInTlpFile() {
 
 void GraphHierarchiesEditor::toggleSynchronization(bool f) {
   if (f) {
-    _linkButton->setIcon(
-        FontIconManager::icon(MaterialDesignIcons::LinkVariant, QColor(Qt::white), 0.8));
+    _linkButton->setIcon(FontIcon::icon(MaterialDesignIcons::LinkVariant, QColor(Qt::white), 0.8));
     _linkButton->setToolTip("Click here to disable the synchronization with workspace active "
                             "panel.\nWhen synchronization is enabled, the graph currently "
                             "displayed\nin the active panel, becomes the current one in the Graphs "
                             "panel.");
   } else {
     _linkButton->setIcon(
-        FontIconManager::icon(MaterialDesignIcons::LinkVariantOff, QColor(Qt::white), 0.8));
+        FontIcon::icon(MaterialDesignIcons::LinkVariantOff, QColor(Qt::white), 0.8));
     _linkButton->setToolTip("Click here to enable the synchronization with workspace active "
                             "panel.\nWhen synchronization is enabled, the graph currently "
                             "displayed\nin the active panel, becomes the current one in the Graphs "

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,7 +19,7 @@
 #include <talipot/ColorScaleConfigDialog.h>
 #include <talipot/ColorScalesManager.h>
 #include <talipot/Settings.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 #include "ui_ColorScaleConfigDialog.h"
@@ -33,7 +33,7 @@ map<QString, vector<Color>> ColorScaleConfigDialog::talipotImageColorScales;
 ColorScaleConfigDialog::ColorScaleConfigDialog(const ColorScale &colorScale, QWidget *parent)
     : QDialog(parent), _ui(new Ui::ColorScaleDialog), colorScale(colorScale) {
   _ui->setupUi(this);
-  _ui->invertColorScaleButton->setIcon(FontIconManager::icon(MaterialDesignIcons::ArrowUpDownBold));
+  _ui->invertColorScaleButton->setIcon(FontIcon::icon(MaterialDesignIcons::ArrowUpDownBold));
   _ui->colorsTable->setColumnWidth(0, _ui->colorsTable->width());
   _ui->colorsTable->horizontalHeader()->setHidden(true);
   QPalette palette;

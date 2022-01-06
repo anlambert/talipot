@@ -25,7 +25,7 @@
 #include <talipot/Project.h>
 #include <talipot/Mimes.h>
 #include <talipot/GraphHierarchiesModel.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 
 #include "ui_Workspace.h"
 
@@ -42,12 +42,11 @@ Workspace::Workspace(QWidget *parent)
   _ui->setupUi(this);
   _ui->nextPageButton->setVisible(false);
   _ui->previousPageButton->setVisible(false);
-  _ui->importButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Import));
-  _ui->startupButton->setIcon(FontIconManager::icon(MaterialDesignIcons::PlusBox));
-  _ui->addPanelButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::PlusBox, QColor(Qt::white)));
+  _ui->importButton->setIcon(FontIcon::icon(MaterialDesignIcons::Import));
+  _ui->startupButton->setIcon(FontIcon::icon(MaterialDesignIcons::PlusBox));
+  _ui->addPanelButton->setIcon(FontIcon::icon(MaterialDesignIcons::PlusBox, QColor(Qt::white)));
   _ui->exposeButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::ViewGridOutline, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::ViewGridOutline, QColor(Qt::white)));
   _ui->startupMainFrame->hide();
   _ui->workspaceContents->setCurrentWidget(_ui->startupPage);
   connect(_ui->addPanelButton, &QAbstractButton::clicked, [this] { addPanelRequest(); });

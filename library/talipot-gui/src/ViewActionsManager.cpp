@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,7 +17,7 @@
 #include <talipot/OpenGlConfigManager.h>
 #include <talipot/SnapshotDialog.h>
 #include <talipot/TlpQtTools.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 
 using namespace tlp;
 
@@ -26,15 +26,15 @@ ViewActionsManager::ViewActionsManager(View *view, GlWidget *widget, bool keepRa
   // create actions and add them to _view->graphicsView()
   // to enable their keyboard shortcut
   _forceRedrawAction =
-      new QAction(FontIconManager::icon(MaterialDesignIcons::DrawPen), "Force redraw", widget);
+      new QAction(FontIcon::icon(MaterialDesignIcons::DrawPen), "Force redraw", widget);
   setToolTipWithCtrlShortcut(_forceRedrawAction, "Redraw the current view", "Shift+R");
   connect(_forceRedrawAction, &QAction::triggered, this, &ViewActionsManager::redraw);
   _forceRedrawAction->setShortcut(QKeySequence("Ctrl+Shift+R"));
   _forceRedrawAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
   _view->graphicsView()->addAction(_forceRedrawAction);
 
-  _centerViewAction = new QAction(FontIconManager::icon(MaterialDesignIcons::FitToScreenOutline),
-                                  "Center view", widget);
+  _centerViewAction =
+      new QAction(FontIcon::icon(MaterialDesignIcons::FitToScreenOutline), "Center view", widget);
   setToolTipWithCtrlShortcut(_centerViewAction,
                              "Make the view to fully display and center its contents", "Shift+C");
   connect(_centerViewAction, &QAction::triggered, this, &ViewActionsManager::centerView);
@@ -43,7 +43,7 @@ ViewActionsManager::ViewActionsManager(View *view, GlWidget *widget, bool keepRa
   _view->graphicsView()->addAction(_centerViewAction);
 
   _snapshotAction =
-      new QAction(FontIconManager::icon(MaterialDesignIcons::Camera), "Take a snapshot", widget);
+      new QAction(FontIcon::icon(MaterialDesignIcons::Camera), "Take a snapshot", widget);
   setToolTipWithCtrlShortcut(
       _snapshotAction, "Show a dialog to save a snapshot of the current view display", "Shift+P");
   connect(_snapshotAction, &QAction::triggered, this, &ViewActionsManager::openSnapshotDialog);
@@ -86,8 +86,7 @@ void ViewActionsManager::fillContextMenu(QMenu *menu) {
   menu->addAction(_forceRedrawAction);
   menu->addAction(_centerViewAction);
 
-  QAction *action =
-      menu->addAction(FontIconManager::icon(MaterialDesignIcons::Image), "Anti-aliasing");
+  QAction *action = menu->addAction(FontIcon::icon(MaterialDesignIcons::Image), "Anti-aliasing");
   action->setToolTip("Improve rendering quality");
   action->setCheckable(true);
   action->setChecked(OpenGlConfigManager::antiAliasing());

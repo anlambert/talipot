@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,7 +13,7 @@
 
 #include <talipot/ParameterListModel.h>
 #include <talipot/MetaTypes.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 #include <QPainter>
@@ -22,8 +22,7 @@ namespace tlp {
 
 static QIcon bracketIcon() {
   QPixmap pixmap =
-      FontIconManager::icon(MaterialDesignIcons::CodeBrackets, QColor(Qt::darkGray), 1.4)
-          .pixmap(128, 128);
+      FontIcon::icon(MaterialDesignIcons::CodeBrackets, QColor(Qt::darkGray), 1.4).pixmap(128, 128);
   QPainter painter(&pixmap);
   painter.fillRect(0, 0, 64, 128, backgroundColor());
   painter.end();
@@ -31,22 +30,22 @@ static QIcon bracketIcon() {
 }
 
 static QIcon inputIcon() {
-  return FontIconManager::stackIcons(
-      bracketIcon(), FontIconManager::icon(MaterialDesignIcons::ArrowRightBold, QColor("#0d93f7")));
+  return FontIcon::stackIcons(
+      bracketIcon(), FontIcon::icon(MaterialDesignIcons::ArrowRightBold, QColor("#0d93f7")));
 }
 
 static QIcon outputIcon() {
-  return FontIconManager::stackIcons(
-      bracketIcon(), FontIconManager::icon(MaterialDesignIcons::ArrowLeftBold, QColor(Qt::red)));
+  return FontIcon::stackIcons(bracketIcon(),
+                              FontIcon::icon(MaterialDesignIcons::ArrowLeftBold, QColor(Qt::red)));
 }
 
 static QIcon inputOutputIcon() {
-  const QIcon &rightArrow = FontIconManager::icon(MaterialDesignIcons::ArrowRightBold,
-                                                  QColor("#0d93f7"), 1, 0, QPointF(0, -20));
-  const QIcon &leftArrow = FontIconManager::icon(MaterialDesignIcons::ArrowLeftBold,
-                                                 QColor(Qt::red), 1, 0, QPointF(0, 20));
-  QIcon tmp = FontIconManager::stackIcons(bracketIcon(), rightArrow);
-  return FontIconManager::stackIcons(tmp, leftArrow);
+  const QIcon &rightArrow =
+      FontIcon::icon(MaterialDesignIcons::ArrowRightBold, QColor("#0d93f7"), 1, 0, QPointF(0, -20));
+  const QIcon &leftArrow =
+      FontIcon::icon(MaterialDesignIcons::ArrowLeftBold, QColor(Qt::red), 1, 0, QPointF(0, 20));
+  QIcon tmp = FontIcon::stackIcons(bracketIcon(), rightArrow);
+  return FontIcon::stackIcons(tmp, leftArrow);
 }
 
 ParameterListModel::ParameterListModel(const tlp::ParameterDescriptionList &params,

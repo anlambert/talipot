@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,7 +15,7 @@
 #include "ui_DoubleStringsListRelationDialog.h"
 
 #include <talipot/ColorScale.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 #include <QScrollBar>
@@ -30,10 +30,10 @@ DoubleStringsListRelationDialog::DoubleStringsListRelationDialog(
     : QDialog(parent), _ui(new Ui::DoubleStringsListRelationDialog),
       lastNonInterpolateValues(secondValues) {
   _ui->setupUi(this);
-  _ui->upButton->setIcon(FontIconManager::icon(MaterialDesignIcons::ArrowUpBold));
-  _ui->upButtonColor->setIcon(FontIconManager::icon(MaterialDesignIcons::ArrowUpBold));
-  _ui->downButton->setIcon(FontIconManager::icon(MaterialDesignIcons::ArrowDownBold));
-  _ui->downButtonColor->setIcon(FontIconManager::icon(MaterialDesignIcons::ArrowDownBold));
+  _ui->upButton->setIcon(FontIcon::icon(MaterialDesignIcons::ArrowUpBold));
+  _ui->upButtonColor->setIcon(FontIcon::icon(MaterialDesignIcons::ArrowUpBold));
+  _ui->downButton->setIcon(FontIcon::icon(MaterialDesignIcons::ArrowDownBold));
+  _ui->downButtonColor->setIcon(FontIcon::icon(MaterialDesignIcons::ArrowDownBold));
 
   for (const auto &s : firstValues) {
     _ui->firstListWidget->addItem(tlpStringToQString(s));

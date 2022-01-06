@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,7 +32,7 @@ PropertiesEditor::PropertiesEditor(QWidget *parent)
       _delegate(new tlp::ItemDelegate), _sourceModel(nullptr), filteringProperties(false),
       editorParent(parent), _caseSensitiveSearch(Qt::CaseSensitive) {
   _ui->setupUi(this);
-  _ui->newButton->setIcon(FontIconManager::icon(MaterialDesignIcons::PlusBox));
+  _ui->newButton->setIcon(FontIcon::icon(MaterialDesignIcons::PlusBox));
   connect(_ui->newButton, &QAbstractButton::clicked, this, &PropertiesEditor::newProperty);
   connect(_ui->tableView, &QTableView::customContextMenuRequested, this,
           &PropertiesEditor::showCustomContextMenu);
@@ -169,15 +169,15 @@ void PropertiesEditor::showCustomContextMenu(const QPoint &p) {
     menu.setProperty("mainMenu", true);
     menu.addAction(pname)->setEnabled(false);
     menu.addSeparator();
-    action = menu.addAction(FontIconManager::icon(MaterialDesignIcons::EyeOffOutline),
+    action = menu.addAction(FontIcon::icon(MaterialDesignIcons::EyeOffOutline),
                             "Hide all other properties");
     action->setToolTip("Show only the column corresponding to this property");
     connect(action, &QAction::triggered, this, &PropertiesEditor::setPropsNotVisibleExcept);
 
     const std::string &propName = _contextProperty->getName();
 
-    action = menu.addAction(FontIconManager::icon(MaterialDesignIcons::EyeOffOutline),
-                            "Show / Hide property");
+    action =
+        menu.addAction(FontIcon::icon(MaterialDesignIcons::EyeOffOutline), "Show / Hide property");
     action->setToolTip("Show or hide property column in the table");
     connect(action, &QAction::triggered, [this, propName]() {
       auto qPropName = tlpStringToQString(propName);
@@ -186,7 +186,7 @@ void PropertiesEditor::showCustomContextMenu(const QPoint &p) {
 
     menu.addSeparator();
 
-    connect(menu.addAction(FontIconManager::icon(MaterialDesignIcons::ContentDuplicate), "Copy"),
+    connect(menu.addAction(FontIcon::icon(MaterialDesignIcons::ContentDuplicate), "Copy"),
             &QAction::triggered, this, &PropertiesEditor::copyProperty);
 
     bool enabled = true;
@@ -198,7 +198,7 @@ void PropertiesEditor::showCustomContextMenu(const QPoint &p) {
     }
 
     if (enabled) {
-      action = menu.addAction(FontIconManager::icon(MaterialDesignIcons::Delete), "Delete");
+      action = menu.addAction(FontIcon::icon(MaterialDesignIcons::Delete), "Delete");
       action->setToolTip("Delete the property \"" + tlpStringToQString(propName) + '"');
       connect(action, &QAction::triggered, this, &PropertiesEditor::delProperty);
     }
@@ -212,7 +212,7 @@ void PropertiesEditor::showCustomContextMenu(const QPoint &p) {
 
     menu.addSeparator();
 
-    QMenu *subMenu = menu.addMenu(FontIconManager::icon(MaterialDesignIcons::Pen), "Set values of");
+    QMenu *subMenu = menu.addMenu(FontIcon::icon(MaterialDesignIcons::Pen), "Set values of");
     QAction *nodesSetAll =
         subMenu->addAction("All nodes" + OF_PROPERTY + " to a new default value");
     nodesSetAll->setToolTip("Choose a new node default value to reset the values of all nodes" +
@@ -237,7 +237,7 @@ void PropertiesEditor::showCustomContextMenu(const QPoint &p) {
     enabled = (pname != "viewLabel");
 
     if (enabled) {
-      subMenu = menu.addMenu(FontIconManager::icon(MaterialDesignIcons::OrderAlphabeticalAscending),
+      subMenu = menu.addMenu(FontIcon::icon(MaterialDesignIcons::OrderAlphabeticalAscending),
                              "To labels of");
       action = subMenu->addAction("All elements" + OF_GRAPH);
       action->setToolTip("Set the values of the current property as labels of all elements" +

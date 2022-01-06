@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -457,10 +457,10 @@ bool FileDescriptorEditorCreator::paint(QPainter *painter, const QStyleOptionVie
     icon = imageIcon;
     text = fileInfo.fileName();
   } else if (fileInfo.isFile()) {
-    icon = FontIconManager::icon(MaterialDesignIcons::FileOutline);
+    icon = FontIcon::icon(MaterialDesignIcons::FileOutline);
     text = fileInfo.fileName();
   } else if (fileInfo.isDir()) {
-    icon = FontIconManager::icon(MaterialDesignIcons::FolderOutline);
+    icon = FontIcon::icon(MaterialDesignIcons::FolderOutline);
     QDir d1 = fileInfo.dir();
     d1.cdUp();
     text = fileInfo.absoluteFilePath().remove(0, d1.absolutePath().length() - 1);
@@ -601,23 +601,23 @@ QWidget *FontIconCreator::createWidget(QWidget *parent) const {
 
 void FontIconCreator::setEditorData(QWidget *w, const QVariant &v, bool, tlp::Graph *) {
   auto *tfid = static_cast<FontIconDialog *>(w);
-  tfid->setSelectedIconName(v.value<FontIcon>().iconName);
+  tfid->setSelectedIconName(v.value<FontIconName>().iconName);
 }
 
 QVariant FontIconCreator::editorData(QWidget *w, tlp::Graph *) {
-  return QVariant::fromValue<FontIcon>(
-      FontIcon(static_cast<FontIconDialog *>(w)->getSelectedIconName()));
+  return QVariant::fromValue<FontIconName>(
+      FontIconName(static_cast<FontIconDialog *>(w)->getSelectedIconName()));
 }
 
 QString FontIconCreator::displayText(const QVariant &data) const {
-  return data.value<FontIcon>().iconName;
+  return data.value<FontIconName>().iconName;
 }
 
 bool FontIconCreator::paint(QPainter *painter, const QStyleOptionViewItem &option,
                             const QVariant &v, const QModelIndex &index) const {
   ItemEditorCreator::paint(painter, option, v, index);
 
-  QString iconName = v.value<FontIcon>().iconName;
+  QString iconName = v.value<FontIconName>().iconName;
 
   if (iconName.isEmpty()) {
     return true;
@@ -626,7 +626,7 @@ bool FontIconCreator::paint(QPainter *painter, const QStyleOptionViewItem &optio
   QStyleOptionViewItem opt = option;
   opt.features |= QStyleOptionViewItem::HasDecoration;
   opt.features |= QStyleOptionViewItem::HasDisplay;
-  opt.icon = FontIconManager::icon(iconName);
+  opt.icon = FontIcon::icon(iconName);
   opt.decorationSize = opt.icon.actualSize(QSize(16, 16));
   opt.text = displayText(v);
   opt.rect = {opt.rect.x() + cellPadding, opt.rect.y(), opt.rect.width() - cellPadding,

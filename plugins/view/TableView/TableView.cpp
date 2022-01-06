@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -604,7 +604,7 @@ void TableView::showCustomContextMenu(const QPoint &pos) {
   contextMenu.addSeparator();
 
   QMenu *subMenu =
-      contextMenu.addMenu(FontIconManager::icon(MaterialDesignIcons::Pen), "Set value(s) of ");
+      contextMenu.addMenu(FontIcon::icon(MaterialDesignIcons::Pen), "Set value(s) of ");
   QAction *setAll = nullptr;
   if (propIsInherited) {
     setAll = subMenu->addAction("All " + eltsName + OF_PROPERTY + " to a new default value");
@@ -635,8 +635,8 @@ void TableView::showCustomContextMenu(const QPoint &pos) {
   QAction *toLabels, *selectedToLabels, *highlightedToLabels;
   toLabels = selectedToLabels = highlightedToLabels = nullptr;
   if (propName != "viewLabel") {
-    subMenu = contextMenu.addMenu(
-        FontIconManager::icon(MaterialDesignIcons::OrderAlphabeticalAscending), "To label(s) of ");
+    subMenu = contextMenu.addMenu(FontIcon::icon(MaterialDesignIcons::OrderAlphabeticalAscending),
+                                  "To label(s) of ");
     toLabels = subMenu->addAction("All " + eltsName + OF_GRAPH);
     toLabels->setToolTip("Set the values of the current property as labels of the " + eltsName +
                          OF_GRAPH);
@@ -663,18 +663,18 @@ void TableView::showCustomContextMenu(const QPoint &pos) {
                                                        : QString("%1 #%2").arg(eltName).arg(eltId));
   action->setEnabled(false);
   contextMenu.addSeparator();
-  QAction *toggleAction = contextMenu.addAction(
-      FontIconManager::icon(MaterialDesignIcons::SelectionOff), "Toggle selection");
+  QAction *toggleAction =
+      contextMenu.addAction(FontIcon::icon(MaterialDesignIcons::SelectionOff), "Toggle selection");
   toggleAction->setToolTip("Invert the selection of the " + action->text() +
                            ": deselect if selected or select if not selected");
   QAction *selectAction =
-      contextMenu.addAction(FontIconManager::icon(MaterialDesignIcons::Selection), "Select");
+      contextMenu.addAction(FontIcon::icon(MaterialDesignIcons::Selection), "Select");
   selectAction->setToolTip("Set the selection with the " + action->text());
   QAction *deleteAction =
-      contextMenu.addAction(FontIconManager::icon(MaterialDesignIcons::Delete), "Delete");
+      contextMenu.addAction(FontIcon::icon(MaterialDesignIcons::Delete), "Delete");
   deleteAction->setToolTip("Delete the " + action->text());
   QAction *setValueAction =
-      contextMenu.addAction(FontIconManager::icon(MaterialDesignIcons::Pen),
+      contextMenu.addAction(FontIcon::icon(MaterialDesignIcons::Pen),
                             (highlightedRows.size() > 1) ? "Set values" : "Set value");
   setValueAction->setToolTip(highlightedSetAll->toolTip());
 
@@ -808,11 +808,11 @@ void TableView::showHorizontalHeaderCustomContextMenu(const QPoint &pos) {
   QAction *action = contextMenu.addAction(tlpStringToQString(propName));
   action->setEnabled(false);
   contextMenu.addSeparator();
-  QAction *hideProp = contextMenu.addAction(
-      FontIconManager::icon(MaterialDesignIcons::EyeOffOutline), "Hide property");
+  QAction *hideProp =
+      contextMenu.addAction(FontIcon::icon(MaterialDesignIcons::EyeOffOutline), "Hide property");
   hideProp->setToolTip("Hide property column in the table");
   QAction *copyProp =
-      contextMenu.addAction(FontIconManager::icon(MaterialDesignIcons::ContentDuplicate), "Copy");
+      contextMenu.addAction(FontIcon::icon(MaterialDesignIcons::ContentDuplicate), "Copy");
   copyProp->setToolTip("Copy the values of \"" + action->text() +
                        "\" in a property of the same type");
   QAction *deleteProp = nullptr;
@@ -820,23 +820,20 @@ void TableView::showHorizontalHeaderCustomContextMenu(const QPoint &pos) {
   if (!propertiesEditor->isReservedPropertyName(propName.c_str()) ||
       // Enable deletion of reserved properties when on a subgraph and that properties are local
       (graph() != graph()->getRoot() && graph()->existLocalProperty(propName))) {
-    deleteProp =
-        contextMenu.addAction(FontIconManager::icon(MaterialDesignIcons::Delete), "Delete");
+    deleteProp = contextMenu.addAction(FontIcon::icon(MaterialDesignIcons::Delete), "Delete");
     deleteProp->setToolTip("Delete the property \"" + action->text() + '"');
   }
 
   QAction *renameProp = nullptr;
 
   if (!propertiesEditor->isReservedPropertyName(propName.c_str())) {
-    renameProp =
-        contextMenu.addAction(FontIconManager::icon(MaterialDesignIcons::RenameBox), "Rename");
+    renameProp = contextMenu.addAction(FontIcon::icon(MaterialDesignIcons::RenameBox), "Rename");
     renameProp->setToolTip("Rename the property \"" + action->text() + '"');
   }
 
   contextMenu.addSeparator();
 
-  QMenu *subMenu =
-      contextMenu.addMenu(FontIconManager::icon(MaterialDesignIcons::Pen), "Set values of ");
+  QMenu *subMenu = contextMenu.addMenu(FontIcon::icon(MaterialDesignIcons::Pen), "Set values of ");
   QAction *nodesSetAll = nullptr;
   QAction *edgesSetAll = nullptr;
   if (propIsInherited) {
@@ -880,8 +877,8 @@ void TableView::showHorizontalHeaderCustomContextMenu(const QPoint &pos) {
   QAction *highlightedToLabels = nullptr;
 
   if (propName != "viewLabel") {
-    subMenu = contextMenu.addMenu(
-        FontIconManager::icon(MaterialDesignIcons::OrderAlphabeticalAscending), "To labels of ");
+    subMenu = contextMenu.addMenu(FontIcon::icon(MaterialDesignIcons::OrderAlphabeticalAscending),
+                                  "To labels of ");
     toLabels = subMenu->addAction("All elements" + OF_GRAPH);
     toLabels->setToolTip("Set the values of the current property as labels of all elements" +
                          OF_GRAPH);
@@ -915,7 +912,7 @@ void TableView::showHorizontalHeaderCustomContextMenu(const QPoint &pos) {
 
   contextMenu.addSeparator();
   QAction *sortById = contextMenu.addAction(
-      FontIconManager::icon(MaterialDesignIcons::SortNumericAscending), "Sort the rows by id");
+      FontIcon::icon(MaterialDesignIcons::SortNumericAscending), "Sort the rows by id");
   sortById->setToolTip("Display the rows in ordering of the id of the " + eltsName);
 
   // display the menu with the mouse inside to give it the focus

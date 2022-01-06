@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -11,7 +11,7 @@
  *
  */
 
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 #include "talipot/PythonInterpreter.h"
@@ -47,7 +47,7 @@ void PythonTabWidget::paintEvent(QPaintEvent *event) {
   QRect rect(width() - (imageWidth + labelWidth), tabBar()->pos().y() + offset / 2, imageWidth,
              imageWidth);
   QRectF rect2(width() - labelWidth, tabBar()->pos().y(), labelWidth, tabBar()->height());
-  painter.drawPixmap(rect, FontIconManager::icon(MaterialDesignIcons::LanguagePython, _textColor)
+  painter.drawPixmap(rect, FontIcon::icon(MaterialDesignIcons::LanguagePython, _textColor)
                                .pixmap(QSize(imageWidth, imageWidth)));
   painter.drawText(rect2, Qt::AlignCenter, QString("Python ") + pythonVersion);
 }

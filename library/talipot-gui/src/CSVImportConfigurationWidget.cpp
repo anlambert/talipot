@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,7 +28,7 @@
 #include <talipot/SizeProperty.h>
 #include <talipot/StringProperty.h>
 #include <talipot/BooleanProperty.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 using namespace tlp;
@@ -125,8 +125,8 @@ void PropertyConfigurationWidget::showPropertyCreationDialog() {
   QDialog dialog(this);
   ui = new Ui_CSVPropertyDialog();
   ui->setupUi(&dialog);
-  ui->addExceptionButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Plus));
-  ui->delCurrentExceptionButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Minus));
+  ui->addExceptionButton->setIcon(FontIcon::icon(MaterialDesignIcons::Plus));
+  ui->delCurrentExceptionButton->setIcon(FontIcon::icon(MaterialDesignIcons::Minus));
   ui->label->setText(QString("Column #%1").arg(propertyNumber + 1));
   propertyNameValidator->setCurrentIndex(propertyNumber);
   ui->nameCB->setValidator(propertyNameValidator);

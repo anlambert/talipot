@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,7 +28,7 @@
 #include <talipot/GlCompositeHierarchyManager.h>
 #include <talipot/NodeLinkDiagramView.h>
 #include <talipot/GraphModel.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 using namespace tlp;
@@ -351,8 +351,8 @@ void NodeLinkDiagramView::requestChangeGraph(Graph *graph) {
 }
 
 static QIcon addToSelectionIcon() {
-  return FontIconManager::stackIcons(FontIconManager::icon(MaterialDesignIcons::Selection),
-                                     FontIconManager::icon(MaterialDesignIcons::Plus, 0.7));
+  return FontIcon::stackIcons(FontIcon::icon(MaterialDesignIcons::Selection),
+                              FontIcon::icon(MaterialDesignIcons::Plus, 0.7));
 }
 
 void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
@@ -372,8 +372,7 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
 
     menu->addSeparator();
 
-    QMenu *selectMenu =
-        menu->addMenu(FontIconManager::icon(MaterialDesignIcons::Selection), "Select");
+    QMenu *selectMenu = menu->addMenu(FontIcon::icon(MaterialDesignIcons::Selection), "Select");
     QAction *action;
 
     if (isNode) {
@@ -434,7 +433,7 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
     }
 
     QMenu *removeFromSelectionMenu = menu->addMenu(
-        FontIconManager::icon(MaterialDesignIcons::SelectionRemove), "Remove from selection");
+        FontIcon::icon(MaterialDesignIcons::SelectionRemove), "Remove from selection");
 
     if (isNode) {
       action = removeFromSelectionMenu->addAction("node", [this] { removeItemFromSelection(); });
@@ -466,8 +465,8 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
                          " and its extremities from the current selection");
     }
 
-    QMenu *toggleMenu = menu->addMenu(FontIconManager::icon(MaterialDesignIcons::SelectionOff),
-                                      "Toggle selection of");
+    QMenu *toggleMenu =
+        menu->addMenu(FontIcon::icon(MaterialDesignIcons::SelectionOff), "Toggle selection of");
 
     if (isNode) {
       action = toggleMenu->addAction("node", [this] { addRemoveItemToSelection(); });
@@ -501,11 +500,11 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
       return s + (isNode ? " node #" : " edge #") + sId;
     };
 
-    action = menu->addAction(FontIconManager::icon(MaterialDesignIcons::Delete), "Delete",
+    action = menu->addAction(FontIcon::icon(MaterialDesignIcons::Delete), "Delete",
                              [this] { deleteItem(); });
     action->setToolTip(genEltToolTip("Delete the"));
 
-    QMenu *updateMenu = menu->addMenu(FontIconManager::icon(MaterialDesignIcons::Pen), "Edit");
+    QMenu *updateMenu = menu->addMenu(FontIcon::icon(MaterialDesignIcons::Pen), "Edit");
     action = updateMenu->addAction("Color", [this] { editColor(); });
     action->setToolTip(genEltToolTip("Display a dialog to update the color of the"));
     action = updateMenu->addAction("Label", [this] { editLabel(); });
@@ -519,10 +518,10 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
       Graph *metaGraph = graph()->getNodeMetaInfo(node(entity.getGraphElementId()));
 
       if (metaGraph) {
-        action = menu->addAction(FontIconManager::icon(MaterialDesignIcons::LocationEnter),
-                                 "Go inside", [this] { goInsideItem(); });
+        action = menu->addAction(FontIcon::icon(MaterialDesignIcons::LocationEnter), "Go inside",
+                                 [this] { goInsideItem(); });
         action->setToolTip("Display the subgraph represented by the meta-node #" + sId);
-        menu->addAction(FontIconManager::icon(MaterialDesignIcons::Ungroup), "Ungroup",
+        menu->addAction(FontIcon::icon(MaterialDesignIcons::Ungroup), "Ungroup",
                         [this] { ungroupItem(); });
         action->setToolTip("Replace the meta-node #" + sId + " by the subgraph it represents");
       }
@@ -534,15 +533,15 @@ void NodeLinkDiagramView::fillContextMenu(QMenu *menu, const QPointF &point) {
   } else {
     GlView::fillContextMenu(menu, point);
 
-    QAction *action = menu->addAction(
-        FontIconManager::icon(MaterialDesignIcons::LayersTripleOutline), "Use Z ordering");
+    QAction *action =
+        menu->addAction(FontIcon::icon(MaterialDesignIcons::LayersTripleOutline), "Use Z ordering");
     action->setToolTip(
         "The graph elements are displayed according the ordering of their z coordinate");
     action->setCheckable(true);
     action->setChecked(glWidget()->renderingParameters().isElementZOrdered());
     connect(action, &QAction::triggered, this, &NodeLinkDiagramView::setZOrdering);
-    action = menu->addAction(FontIconManager::icon(MaterialDesignIcons::Grid),
-                             "Grid display parameters", [this] { showGridControl(); });
+    action = menu->addAction(FontIcon::icon(MaterialDesignIcons::Grid), "Grid display parameters",
+                             [this] { showGridControl(); });
     action->setToolTip("Display the grid setup wizard");
   }
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,7 +24,7 @@
 
 #include <talipot/View.h>
 #include <talipot/GlOffscreenRenderer.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 
 using namespace std;
 
@@ -35,22 +35,20 @@ public:
   LinkWidget() : QWidget(), linked(true), alwaysLinked(false) {
     installEventFilter(this);
     auto *topLabel = new QLabel();
-    QPixmap topPixmap =
-        FontIconManager::icon(MaterialDesignIcons::AlphaL, 1.0, 0.0, QPointF(-1, -6))
-            .pixmap(20, 20)
-            .transformed(QTransform().scale(-1, -1));
+    QPixmap topPixmap = FontIcon::icon(MaterialDesignIcons::AlphaL, 1.0, 0.0, QPointF(-1, -6))
+                            .pixmap(20, 20)
+                            .transformed(QTransform().scale(-1, -1));
     topLabel->setPixmap(topPixmap);
     auto *bottomLabel = new QLabel();
-    QPixmap bottomPixmap =
-        FontIconManager::icon(MaterialDesignIcons::AlphaL, 1.0, 0.0, QPointF(-1, -6))
-            .pixmap(20, 20)
-            .transformed(QTransform().scale(-1, 1));
+    QPixmap bottomPixmap = FontIcon::icon(MaterialDesignIcons::AlphaL, 1.0, 0.0, QPointF(-1, -6))
+                               .pixmap(20, 20)
+                               .transformed(QTransform().scale(-1, 1));
     bottomLabel->setPixmap(bottomPixmap);
     linkLabel = new QLabel();
-    linkPixmap = FontIconManager::icon(MaterialDesignIcons::Link, 1.0, 0.0, QPointF(0, -3))
+    linkPixmap = FontIcon::icon(MaterialDesignIcons::Link, 1.0, 0.0, QPointF(0, -3))
                      .pixmap(20, 20)
                      .transformed(QTransform().rotate(90));
-    unlinkPixmap = FontIconManager::icon(MaterialDesignIcons::LinkOff, 1.0, 0.0, QPointF(0, -3))
+    unlinkPixmap = FontIcon::icon(MaterialDesignIcons::LinkOff, 1.0, 0.0, QPointF(0, -3))
                        .pixmap(20, 20)
                        .transformed(QTransform().rotate(90));
     linkLabel->setPixmap(linkPixmap);
@@ -122,9 +120,9 @@ SnapshotDialog::SnapshotDialog(const View *v, QWidget *parent)
 
   QPushButton *copyButton = ui->buttonBox->button(QDialogButtonBox::Apply);
   copyButton->setText("&Copy to clipboard");
-  copyButton->setIcon(FontIconManager::icon(MaterialDesignIcons::ContentCopy));
+  copyButton->setIcon(FontIcon::icon(MaterialDesignIcons::ContentCopy));
   ui->buttonBox->button(QDialogButtonBox::RestoreDefaults)
-      ->setIcon(FontIconManager::icon(MaterialDesignIcons::Restore));
+      ->setIcon(FontIcon::icon(MaterialDesignIcons::Restore));
   ui->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
   connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &SnapshotDialog::clicked);
 

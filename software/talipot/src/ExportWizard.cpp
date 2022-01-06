@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,7 +29,7 @@ ExportWizard::ExportWizard(Graph *g, const QString &exportFile, QWidget *parent)
     : QWizard(parent), _ui(new Ui::ExportWizard), _graph(g) {
   _ui->setupUi(this);
   setWizardStyle(QWizard::ClassicStyle);
-  _ui->browseButton->setIcon(FontIconManager::icon(MaterialDesignIcons::FolderOpen));
+  _ui->browseButton->setIcon(FontIcon::icon(MaterialDesignIcons::FolderOpen));
   button(QWizard::FinishButton)->setEnabled(false);
 
   auto *model = new PluginModel<tlp::ExportModule>(_ui->exportModules);

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -61,7 +61,7 @@ QuickAccessBarImpl::QuickAccessBarImpl(QGraphicsItem *quickAccessBarItem,
       _captionsInitialized(false) {
   _ui->setupUi(this);
   _ui->screenshotButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Camera, darkColor, 1.0, 0.0, QPointF(0, 1)));
+      FontIcon::icon(MaterialDesignIcons::Camera, darkColor, 1.0, 0.0, QPointF(0, 1)));
   _ui->backgroundColorButton->setDialogTitle("Choose the background color");
   _ui->nodeColorButton->setDialogTitle("Choose the node's default color");
   _ui->edgeColorButton->setDialogTitle("Choose the edge's default color");

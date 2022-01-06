@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,7 +16,7 @@
 #include "NominalParallelAxis.h"
 
 #include <talipot/IntegerProperty.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 #include <QGridLayout>
@@ -138,10 +138,10 @@ NominalAxisConfigDialog::NominalAxisConfigDialog(NominalParallelAxis *axis)
 
   okButton = new QPushButton("OK");
   axisLabelsOrder = new ItemsListWidget(this);
-  auto *up = new QPushButton(FontIconManager::icon(MaterialDesignIcons::ArrowUpBold), "");
+  auto *up = new QPushButton(FontIcon::icon(MaterialDesignIcons::ArrowUpBold), "");
   auto *lexOrder = new QPushButton(QString("Lexicographic") + QChar(QChar::LineSeparator) +
                                    QString("     order"));
-  auto *down = new QPushButton(FontIconManager::icon(MaterialDesignIcons::ArrowDownBold), "");
+  auto *down = new QPushButton(FontIcon::icon(MaterialDesignIcons::ArrowDownBold), "");
 
   buttonsUpDownLayout->addWidget(up);
   buttonsUpDownLayout->addWidget(lexOrder);

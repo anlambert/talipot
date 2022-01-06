@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,7 +17,7 @@
 #include <talipot/QtGlSceneZoomAndPanAnimator.h>
 #include <talipot/NodeLinkDiagramView.h>
 #include <talipot/MouseInteractors.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 
 using namespace tlp;
 using namespace std;
@@ -130,7 +130,7 @@ bool MouseElementDeleter::eventFilter(QObject *widget, QEvent *e) {
 
     if (e->type() == QEvent::MouseMove) {
       if (glWidget->pickNodesEdges(qMouseEv->pos().x(), qMouseEv->pos().y(), selectedEntity)) {
-        QIcon icon = FontIconManager::icon(MaterialDesignIcons::DeleteOutline);
+        QIcon icon = FontIcon::icon(MaterialDesignIcons::DeleteOutline);
         glWidget->setCursor(QCursor(icon.pixmap(32, 32)));
       } else {
         glWidget->setCursor(Qt::ArrowCursor);

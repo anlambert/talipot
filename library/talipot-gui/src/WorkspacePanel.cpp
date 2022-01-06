@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,7 +25,7 @@
 #include <talipot/View.h>
 #include <talipot/GraphHierarchiesModel.h>
 #include <talipot/Mimes.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 
 using namespace tlp;
 
@@ -68,11 +68,10 @@ WorkspacePanel::WorkspacePanel(tlp::View *view, QWidget *parent)
       _viewConfigurationTabWidgetProxy(nullptr), _viewConfigurationExpanded(false) {
   _ui->setupUi(this);
   _ui->linkButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::LinkVariantOff, QColor(Qt::white), 0.8));
+      FontIcon::icon(MaterialDesignIcons::LinkVariantOff, QColor(Qt::white), 0.8));
   _ui->dragHandle->setPixmap(
-      FontIconManager::icon(MaterialDesignIcons::CursorMove, QColor(Qt::white))
-          .pixmap(QSize(16, 16)));
-  _ui->closeButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Close, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::CursorMove, QColor(Qt::white)).pixmap(QSize(16, 16)));
+  _ui->closeButton->setIcon(FontIcon::icon(MaterialDesignIcons::Close, QColor(Qt::white)));
   _ui->actionClose->setShortcutContext(Qt::WidgetWithChildrenShortcut);
   _ui->interactorsFrame->installEventFilter(this);
   _ui->dragHandle->setPanel(this);
@@ -576,14 +575,14 @@ bool WorkspacePanel::isGraphSynchronized() const {
 void WorkspacePanel::toggleSynchronization(bool f) {
   if (f) {
     _ui->linkButton->setIcon(
-        FontIconManager::icon(MaterialDesignIcons::LinkVariant, QColor(Qt::white), 0.8));
+        FontIcon::icon(MaterialDesignIcons::LinkVariant, QColor(Qt::white), 0.8));
     _ui->linkButton->setToolTip("Click here to disable the synchronization with the Graphs "
                                 "panel.\nWhen synchronization is enabled, the current graph of the "
                                 "Graphs panel,\nbecomes the current one in the workspace active "
                                 "panel.");
   } else {
     _ui->linkButton->setIcon(
-        FontIconManager::icon(MaterialDesignIcons::LinkVariantOff, QColor(Qt::white), 0.8));
+        FontIcon::icon(MaterialDesignIcons::LinkVariantOff, QColor(Qt::white), 0.8));
     _ui->linkButton->setToolTip("Click here to enable the synchronization with the Graphs "
                                 "panel.\nWhen synchronization is enabled, the current graph of the "
                                 "Graphs panel,\nbecomes the current one in the workspace active "

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,7 +13,7 @@
 
 #include <talipot/ClearableLineEdit.h>
 #include <talipot/MaterialDesignIcons.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 
 #include <QPaintEvent>
 #include <QPainter>
@@ -25,7 +25,7 @@ unique_ptr<QPixmap> ClearableLineEdit::CLEAR_PIXMAP;
 
 void ClearableLineEdit::initPixmap() {
   CLEAR_PIXMAP.reset(new QPixmap(
-      FontIconManager::icon(MaterialDesignIcons::Backspace, 0.5, 0, QPointF(5, 0)).pixmap(32, 32)));
+      FontIcon::icon(MaterialDesignIcons::Backspace, 0.5, 0, QPointF(5, 0)).pixmap(32, 32)));
 }
 
 ClearableLineEdit::ClearableLineEdit(QWidget *parent)

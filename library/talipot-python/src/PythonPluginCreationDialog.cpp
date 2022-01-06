@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -12,7 +12,7 @@
  */
 
 #include <talipot/PythonInterpreter.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 #include <QDate>
@@ -27,7 +27,7 @@ using namespace tlp;
 PythonPluginCreationDialog::PythonPluginCreationDialog(QWidget *parent)
     : QDialog(parent), _ui(new Ui::PythonPluginCreationDialog) {
   _ui->setupUi(this);
-  _ui->browseButton->setIcon(FontIconManager::icon(MaterialDesignIcons::FolderOpen));
+  _ui->browseButton->setIcon(FontIcon::icon(MaterialDesignIcons::FolderOpen));
 
   connect(_ui->browseButton, &QAbstractButton::clicked, this,
           &PythonPluginCreationDialog::selectPluginSourceFile);

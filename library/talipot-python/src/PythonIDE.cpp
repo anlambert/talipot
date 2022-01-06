@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,7 +26,7 @@
 #include <talipot/GraphHierarchiesModel.h>
 #include <talipot/Mimes.h>
 #include <talipot/MetaTypes.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 
 #include <talipot/PythonIDE.h>
 #include <talipot/PythonPluginCreationDialog.h>
@@ -342,52 +342,44 @@ PythonIDE::PythonIDE(QWidget *parent)
   _ui->header->setTitle("Python " + pythonVersion);
   _ui->header->setExpandable(false);
 
-  _ui->newMainScriptButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::File, QColor(Qt::white)));
+  _ui->newMainScriptButton->setIcon(FontIcon::icon(MaterialDesignIcons::File, QColor(Qt::white)));
   _ui->loadMainScriptButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
   _ui->saveMainScriptButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
   _ui->newStringModuleButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::FilePlus, QColor(Qt::white)));
-  _ui->newPluginButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::File, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::FilePlus, QColor(Qt::white)));
+  _ui->newPluginButton->setIcon(FontIcon::icon(MaterialDesignIcons::File, QColor(Qt::white)));
   _ui->loadPluginButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
   _ui->savePluginButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
-  _ui->newModuleButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::File, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
+  _ui->newModuleButton->setIcon(FontIcon::icon(MaterialDesignIcons::File, QColor(Qt::white)));
   _ui->loadModuleButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
   _ui->saveModuleButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
+  _ui->decreaseFontSizeButton->setIcon(FontIcon::icon(MaterialDesignIcons::MinusCircle, Qt::black));
+  _ui->increaseFontSizeButton->setIcon(FontIcon::icon(MaterialDesignIcons::PlusCircle, Qt::black));
+  _ui->runScriptButton->setIcon(FontIcon::icon(MaterialDesignIcons::Play, QColor(Qt::white)));
+  _ui->pauseScriptButton->setIcon(FontIcon::icon(MaterialDesignIcons::Pause, QColor(Qt::white)));
+  _ui->stopScriptButton->setIcon(FontIcon::icon(MaterialDesignIcons::Stop, QColor(Qt::white)));
   _ui->decreaseFontSizeButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::MinusCircle, Qt::black));
+      FontIcon::icon(MaterialDesignIcons::Minus, QColor(Qt::white)));
   _ui->increaseFontSizeButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::PlusCircle, Qt::black));
-  _ui->runScriptButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Play, QColor(Qt::white)));
-  _ui->pauseScriptButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Pause, QColor(Qt::white)));
-  _ui->stopScriptButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Stop, QColor(Qt::white)));
-  _ui->decreaseFontSizeButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Minus, QColor(Qt::white)));
-  _ui->increaseFontSizeButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Plus, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::Plus, QColor(Qt::white)));
   _ui->decreaseFontSizeButton_2->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Minus, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::Minus, QColor(Qt::white)));
   _ui->increaseFontSizeButton_2->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Plus, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::Plus, QColor(Qt::white)));
   _ui->decreaseFontSizeButton_3->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Minus, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::Minus, QColor(Qt::white)));
   _ui->increaseFontSizeButton_3->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Plus, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::Plus, QColor(Qt::white)));
   _ui->registerPluginButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::DatabaseRefresh, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::DatabaseRefresh, QColor(Qt::white)));
   _ui->removePluginButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::DatabaseRemove, QColor(Qt::white)));
+      FontIcon::icon(MaterialDesignIcons::DatabaseRemove, QColor(Qt::white)));
   useUndoToggled(_ui->useUndoCB->isChecked());
   connect(_ui->useUndoCB, &QAbstractButton::toggled, this, &PythonIDE::useUndoToggled);
 
@@ -2258,10 +2250,10 @@ void PythonIDE::setAnchored(bool anchored) {
   QIcon icon;
   QString tooltip;
   if (anchored) {
-    icon = FontIconManager::icon(MaterialDesignIcons::WindowRestore, QColor(Qt::white));
+    icon = FontIcon::icon(MaterialDesignIcons::WindowRestore, QColor(Qt::white));
     tooltip = "Display the Python IDE in a separate window";
   } else {
-    icon = FontIconManager::icon(MaterialDesignIcons::DockLeft, QColor(Qt::white));
+    icon = FontIcon::icon(MaterialDesignIcons::DockLeft, QColor(Qt::white));
     tooltip = "Dock the Python IDE to the left of Talipot window";
   }
   _ui->anchoredCB->setIcon(icon);
@@ -2295,12 +2287,12 @@ bool PythonIDE::isAnchored() const {
 
 void PythonIDE::useUndoToggled(bool useUndo) {
   static QIcon baseIcon =
-      FontIconManager::icon(MaterialDesignIcons::Reply, QColor(Qt::white), 0.8, 0, QPoint(0, -2));
+      FontIcon::icon(MaterialDesignIcons::Reply, QColor(Qt::white), 0.8, 0, QPoint(0, -2));
   if (useUndo) {
     _ui->useUndoCB->setIcon(baseIcon);
   } else {
-    static QIcon icon = FontIconManager::stackIcons(
-        baseIcon, FontIconManager::icon(MaterialDesignIcons::WindowClose, QColor(Qt::black)));
+    static QIcon icon = FontIcon::stackIcons(
+        baseIcon, FontIcon::icon(MaterialDesignIcons::WindowClose, QColor(Qt::black)));
     _ui->useUndoCB->setIcon(icon);
   }
 }

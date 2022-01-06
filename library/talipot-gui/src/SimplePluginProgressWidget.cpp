@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -12,7 +12,7 @@
  */
 
 #include <talipot/SimplePluginProgressWidget.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 #include "ui_SimplePluginProgressWidget.h"
@@ -25,10 +25,8 @@ SimplePluginProgressWidget::SimplePluginProgressWidget(QWidget *parent, Qt::Wind
     : QWidget(parent, f), _ui(new Ui::SimplePluginProgressWidget),
       _lastUpdate(QTime::currentTime()), _state(tlp::TLP_CONTINUE) {
   _ui->setupUi(this);
-  _ui->cancelButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Cancel, QColor(50, 50, 50), 0.8));
-  _ui->stopButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Stop, QColor(50, 50, 50), 1.4));
+  _ui->cancelButton->setIcon(FontIcon::icon(MaterialDesignIcons::Cancel, QColor(50, 50, 50), 0.8));
+  _ui->stopButton->setIcon(FontIcon::icon(MaterialDesignIcons::Stop, QColor(50, 50, 50), 1.4));
   connect(_ui->cancelButton, &QAbstractButton::clicked, this,
           &SimplePluginProgressWidget::cancelClicked);
   connect(_ui->stopButton, &QAbstractButton::clicked, this,

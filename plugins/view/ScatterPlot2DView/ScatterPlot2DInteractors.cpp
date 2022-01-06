@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -78,9 +78,9 @@ void ScatterPlot2DInteractorTrendLine::construct() {
 
 ScatterPlot2DInteractorCorrelCoeffSelector::ScatterPlot2DInteractorCorrelCoeffSelector(
     const tlp::PluginContext *)
-    : ScatterPlot2DInteractor(
-          FontIconManager::icon(MaterialDesignIcons::AutoFix, QColor(Qt::white)),
-          "Correlation Coefficient Selector", StandardInteractorPriority::ViewInteractor2),
+    : ScatterPlot2DInteractor(FontIcon::icon(MaterialDesignIcons::AutoFix, QColor(Qt::white)),
+                              "Correlation Coefficient Selector",
+                              StandardInteractorPriority::ViewInteractor2),
       optionsWidget(nullptr) {}
 
 void ScatterPlot2DInteractorCorrelCoeffSelector::construct() {

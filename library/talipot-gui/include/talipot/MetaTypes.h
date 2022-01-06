@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -64,11 +64,11 @@ struct TextureFile {
   TextureFile(const QString &texturePath) : texturePath(texturePath) {}
 };
 
-struct FontIcon {
+struct FontIconName {
 
-  FontIcon() = default;
+  FontIconName() = default;
 
-  FontIcon(const QString &iconName) : iconName(iconName) {}
+  FontIconName(const QString &iconName) : iconName(iconName) {}
 
   QString iconName;
 };
@@ -126,7 +126,7 @@ Q_DECLARE_METATYPE(tlp::StringCollection)
 
 Q_DECLARE_METATYPE(TextureFile)
 Q_DECLARE_METATYPE(FileDescriptor)
-Q_DECLARE_METATYPE(FontIcon)
+Q_DECLARE_METATYPE(FontIconName)
 
 Q_DECLARE_METATYPE(tlp::NodeShape::NodeShapes)
 Q_DECLARE_METATYPE(tlp::EdgeShape::EdgeShapes)

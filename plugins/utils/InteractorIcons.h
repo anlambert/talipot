@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2020-2021  The Talipot developers
+ * Copyright (C) 2020-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef INTERACTOR_ICONS_H
 #define INTERACTOR_ICONS_H
 
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 namespace tlp {
@@ -39,63 +39,63 @@ static QIcon interactorIcon(InteractorType interactorType, const QColor &iconCol
   QIcon icon;
   switch (interactorType) {
   case AddEdge: {
-    icon = FontIconManager::icon(MaterialDesignIcons::VectorPolyline, iconColor);
+    icon = FontIcon::icon(MaterialDesignIcons::VectorPolyline, iconColor);
     break;
   }
   case DeleteElement: {
-    icon = FontIconManager::icon(MaterialDesignIcons::DeleteOutline, iconColor);
+    icon = FontIcon::icon(MaterialDesignIcons::DeleteOutline, iconColor);
     break;
   }
   case EditEdgeBends: {
-    icon = FontIconManager::icon(MaterialDesignIcons::VectorCurve, iconColor, 1, 90);
+    icon = FontIcon::icon(MaterialDesignIcons::VectorCurve, iconColor, 1, 90);
     break;
   }
   case Fisheye: {
-    icon = FontIconManager::icon(MaterialDesignIcons::Web, iconColor);
+    icon = FontIcon::icon(MaterialDesignIcons::Web, iconColor);
     break;
   }
   case GetInformation: {
-    QIcon backIcon = FontIconManager::icon(MaterialDesignIcons::CursorDefault, iconColor, 0.9, 0,
-                                           QPointF(-20, 0));
+    QIcon backIcon =
+        FontIcon::icon(MaterialDesignIcons::CursorDefault, iconColor, 0.9, 0, QPointF(-20, 0));
     QIcon frontIcon =
-        FontIconManager::icon(MaterialDesignIcons::Help, iconColor, 0.6, 0, QPointF(40, -20));
-    icon = FontIconManager::stackIcons(backIcon, frontIcon);
+        FontIcon::icon(MaterialDesignIcons::Help, iconColor, 0.6, 0, QPointF(40, -20));
+    icon = FontIcon::stackIcons(backIcon, frontIcon);
     break;
   }
   case Lasso: {
-    icon = FontIconManager::icon(MaterialDesignIcons::VectorPolygon, iconColor);
+    icon = FontIcon::icon(MaterialDesignIcons::VectorPolygon, iconColor);
     break;
   }
   case MagnifyingGlass: {
-    icon = FontIconManager::icon(MaterialDesignIcons::Magnify, iconColor);
+    icon = FontIcon::icon(MaterialDesignIcons::Magnify, iconColor);
     break;
   }
   case Navigation: {
-    icon = FontIconManager::icon(MaterialDesignIcons::CursorPointer, iconColor);
+    icon = FontIcon::icon(MaterialDesignIcons::CursorPointer, iconColor);
     break;
   }
   case NeighborhoodHighlighting: {
-    icon = FontIconManager::icon(MaterialDesignIcons::GoogleCirclesExtended, iconColor);
+    icon = FontIcon::icon(MaterialDesignIcons::GoogleCirclesExtended, iconColor);
     break;
   }
   case PathFinding: {
-    icon = FontIconManager::icon(MaterialDesignIcons::Routes, iconColor);
+    icon = FontIcon::icon(MaterialDesignIcons::Routes, iconColor);
     break;
   }
   case RectangleZoom: {
-    QIcon backIcon = FontIconManager::icon(MaterialDesignIcons::Selection, iconColor);
-    QIcon frontIcon = FontIconManager::icon(MaterialDesignIcons::MagnifyPlus, iconColor, 0.6);
-    icon = FontIconManager::stackIcons(backIcon, frontIcon);
+    QIcon backIcon = FontIcon::icon(MaterialDesignIcons::Selection, iconColor);
+    QIcon frontIcon = FontIcon::icon(MaterialDesignIcons::MagnifyPlus, iconColor, 0.6);
+    icon = FontIcon::stackIcons(backIcon, frontIcon);
     break;
   }
   case Selection: {
-    icon = FontIconManager::icon(MaterialDesignIcons::Selection, iconColor);
+    icon = FontIcon::icon(MaterialDesignIcons::Selection, iconColor);
     break;
   }
   case SelectionModifier: {
-    QIcon backIcon = FontIconManager::icon(MaterialDesignIcons::Selection, iconColor);
-    QIcon frontIcon = FontIconManager::icon(MaterialDesignIcons::ArrowAll, iconColor, 0.6);
-    icon = FontIconManager::stackIcons(backIcon, frontIcon);
+    QIcon backIcon = FontIcon::icon(MaterialDesignIcons::Selection, iconColor);
+    QIcon frontIcon = FontIcon::icon(MaterialDesignIcons::ArrowAll, iconColor, 0.6);
+    icon = FontIcon::stackIcons(backIcon, frontIcon);
     break;
   }
   default:

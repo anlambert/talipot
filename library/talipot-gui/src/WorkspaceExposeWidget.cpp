@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,7 +21,7 @@
 #include <talipot/View.h>
 #include <talipot/WorkspacePanel.h>
 #include <talipot/Graph.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 
 using namespace tlp;
 
@@ -34,7 +34,7 @@ PreviewItem::PreviewItem(const QPixmap &pixmap, WorkspacePanel *panel, QGraphics
       _closeButtonHovered(false) {
   if (!_closeButtonPixmap.get()) {
     _closeButtonPixmap.reset(
-        new QPixmap(FontIconManager::icon(MaterialDesignIcons::Close).pixmap(16, 16)));
+        new QPixmap(FontIcon::icon(MaterialDesignIcons::Close).pixmap(16, 16)));
     _closePixmapRect = QRect(boundingRect().width() - _closeButtonPixmap->width() - 5,
                              -0.5 * _closeButtonPixmap->height(), _closeButtonPixmap->width(),
                              _closeButtonPixmap->height());

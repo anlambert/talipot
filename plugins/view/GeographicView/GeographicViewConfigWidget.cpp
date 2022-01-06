@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,7 +17,7 @@
 
 #include <QFileDialog>
 
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 
 using namespace std;
 using namespace tlp;
@@ -25,8 +25,8 @@ using namespace tlp;
 GeographicViewConfigWidget::GeographicViewConfigWidget(QWidget *parent)
     : QWidget(parent), _ui(new Ui::GeographicViewConfigWidget), _oldPolyFileType(None) {
   _ui->setupUi(this);
-  _ui->csvFilePushButton->setIcon(FontIconManager::icon(MaterialDesignIcons::FolderOpen));
-  _ui->polyFilePushButton->setIcon(FontIconManager::icon(MaterialDesignIcons::FolderOpen));
+  _ui->csvFilePushButton->setIcon(FontIcon::icon(MaterialDesignIcons::FolderOpen));
+  _ui->polyFilePushButton->setIcon(FontIcon::icon(MaterialDesignIcons::FolderOpen));
 }
 
 GeographicViewConfigWidget::~GeographicViewConfigWidget() {

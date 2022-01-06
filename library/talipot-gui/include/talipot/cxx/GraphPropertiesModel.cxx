@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,7 +13,7 @@
 
 #include <talipot/Graph.h>
 #include <talipot/TlpQtTools.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 namespace tlp {
@@ -152,7 +152,7 @@ QVariant GraphPropertiesModel<PROPTYPE>::data(const QModelIndex &index, int role
     }
   } else if (role == Qt::DecorationRole && index.column() == 0 && pi != nullptr &&
              !_graph->existLocalProperty(pi->getName())) {
-    return FontIconManager::icon(MaterialDesignIcons::TransferUp);
+    return FontIcon::icon(MaterialDesignIcons::TransferUp);
   } else if (role == Qt::FontRole) {
     QFont f;
 

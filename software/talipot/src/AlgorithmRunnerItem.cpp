@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,8 +36,8 @@ AlgorithmRunnerItem::AlgorithmRunnerItem(QString pluginName, QWidget *parent)
       _storeResultAsLocal(true) {
   _ui->setupUi(this);
   connect(_ui->favoriteCheck, &QAbstractButton::toggled, this, &AlgorithmRunnerItem::favorized);
-  _ui->settingsButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Cog, QColor("#5c8ec8")));
-  _ui->playButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Play, QColor(Qt::green)));
+  _ui->settingsButton->setIcon(FontIcon::icon(MaterialDesignIcons::Cog, QColor("#5c8ec8")));
+  _ui->playButton->setIcon(FontIcon::icon(MaterialDesignIcons::Play, QColor(Qt::green)));
   _ui->playButton->setText(pluginName.replace("&", "&&"));
 
   // initialize parameters only if needed
@@ -68,7 +68,7 @@ AlgorithmRunnerItem::AlgorithmRunnerItem(QString pluginName, QWidget *parent)
 
   connect(_ui->favoriteCheck, &QCheckBox::stateChanged, this,
           &AlgorithmRunnerItem::favoriteChanged);
-  QIcon icon = FontIconManager::icon(iconName, 0.6);
+  QIcon icon = FontIcon::icon(iconName, 0.6);
   _ui->languageLabel->setPixmap(icon.pixmap(_ui->languageLabel->size()));
   _ui->languageLabel->setToolTip(tooltip);
 }
@@ -472,7 +472,7 @@ void AlgorithmRunnerItem::mouseMoveEvent(QMouseEvent *ev) {
   const Plugin &p = PluginsManager::pluginInformation(QStringToTlpString(_pluginName));
   QPixmap icon;
   if (IconicFont::isIconSupported(p.icon())) {
-    icon = FontIconManager::icon(tlp::tlpStringToQString(p.icon())).pixmap(QSize(64, 64));
+    icon = FontIcon::icon(tlp::tlpStringToQString(p.icon())).pixmap(QSize(64, 64));
   } else {
     icon = icon.scaled(64, 64);
   }

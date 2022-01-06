@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -129,9 +129,9 @@ tlp::DataType *MetaTypes::qVariantToDataType(const QVariant &v) {
     return new TypedData<std::string>(new std::string(QStringToTlpString(desc.absolutePath)));
   }
 
-  if (v.userType() == qMetaTypeId<FontIcon>()) {
+  if (v.userType() == qMetaTypeId<FontIconName>()) {
     return new TypedData<std::string>(
-        new std::string(QStringToTlpString(v.value<FontIcon>().iconName)));
+        new std::string(QStringToTlpString(v.value<FontIconName>().iconName)));
   }
 
   return nullptr;

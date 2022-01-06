@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,7 +22,7 @@
 #include <talipot/GraphModel.h>
 #include <talipot/StringProperty.h>
 #include <talipot/ViewToolTipAndUrlManager.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 using namespace tlp;
@@ -90,7 +90,7 @@ void ViewToolTipAndUrlManager::fillContextMenu(QMenu *menu) {
   Graph *graph = _view->graph();
 
   QAction *action =
-      menu->addAction(FontIconManager::icon(MaterialDesignIcons::TooltipOutline), "Tooltips");
+      menu->addAction(FontIcon::icon(MaterialDesignIcons::TooltipOutline), "Tooltips");
   action->setToolTip("When moving the mouse pointer, a tooltip is displayed with some "
                      "information about the graph element located under the pointer");
   action->setCheckable(true);
@@ -103,7 +103,7 @@ void ViewToolTipAndUrlManager::fillContextMenu(QMenu *menu) {
     urlPropMenu = menu->addMenu(
         QString("Url property").append(" (").append(tlpStringToQString(_urlPropName)).append(")"));
   } else {
-    urlPropMenu = menu->addMenu(FontIconManager::icon(MaterialDesignIcons::Web), "Url property");
+    urlPropMenu = menu->addMenu(FontIcon::icon(MaterialDesignIcons::Web), "Url property");
     _urlPropName.clear();
   }
   urlPropMenu->setToolTip(

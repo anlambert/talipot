@@ -88,7 +88,7 @@ SET(SRCS
     ScientificDoubleSpinBox.cpp
     AboutPage.cpp
     FontIconDialog.cpp
-    FontIconManager.cpp
+    FontIcon.cpp
     ViewActionsManager.cpp
     ViewToolTipAndUrlManager.cpp)
 

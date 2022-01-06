@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -186,7 +186,7 @@ AlgorithmRunner::AlgorithmRunner(QWidget *parent)
   _storeResultAsLocalButton->setMaximumSize(23, 23);
   _storeResultAsLocalButton->setMinimumSize(23, 23);
   _storeResultAsLocalButton->setIcon(
-      FontIconManager::icon(MaterialDesignIcons::Tournament, QColor(Qt::white), 0.7, -90));
+      FontIcon::icon(MaterialDesignIcons::Tournament, QColor(Qt::white), 0.7, -90));
   _storeResultAsLocalButton->setIconSize(QSize(23, 23));
   _storeResultAsLocalButton->setStyleSheet("QToolButton::menu-indicator { image: none; }");
   _storeResultAsLocalButton->setToolTip(

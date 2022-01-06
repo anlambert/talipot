@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,7 +18,7 @@
 #include <QPushButton>
 
 #include <talipot/Graph.h>
-#include <talipot/FontIconManager.h>
+#include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
 using namespace tlp;
@@ -65,7 +65,7 @@ void PropertyCreationDialog::initGui() {
   labels << propertyTypeToPropertyTypeLabel("vector<string>");
   ui->propertyTypeComboBox->addItems(labels);
   _createPropertyButton = ui->buttonBox->addButton("Create", QDialogButtonBox::AcceptRole);
-  _createPropertyButton->setIcon(FontIconManager::icon(MaterialDesignIcons::Check));
+  _createPropertyButton->setIcon(FontIcon::icon(MaterialDesignIcons::Check));
   ui->errorIconLabel->setPixmap(
       QApplication::style()->standardIcon(QStyle::SP_MessageBoxWarning).pixmap(16, 16));
   connect(ui->propertyNameLineEdit, &QLineEdit::textChanged, this,
