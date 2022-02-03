@@ -11,8 +11,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: Talipot build on MacOS 10.15
-            os: macos-10.15
+          # - name: Talipot build on MacOS 10.15
+          #   os: macos-10.15
           - name: Talipot build on MacOS 11.0
             os: macos-11.0
     steps:
@@ -40,34 +40,33 @@ jobs:
         run: |
           curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
           source ./macports-ci install
-          source ./macports-ci ccache
+          # source ./macports-ci ccache
       - name: Install Talipot build dependencies
         run: sudo port -N install
           cmake
           clang-${{ env.CLANG_VERSION }}
           ccache
-          zlib
-          qhull
-          yajl
-          zstd
-          graphviz
-          libgit2
-          python${{ env.PYTHON_VERSION_NO_DOT }}
+          zlib +universal
+          qhull +universal
+          yajl +universal
+          zstd +universal
+          libgit2 +universal
+          python${{ env.PYTHON_VERSION_NO_DOT }} +universal
           pkgconfig
-          cppunit
-          freetype
-          fontconfig
-          fribidi
-          glew
-          qt5-qtbase
-          qt5-qttools
-          qt5-qtwebkit
-          quazip
+          cppunit +universal
+          freetype +universal
+          fontconfig +universal
+          fribidi +universal
+          glew +universal
+          qt5-qtbase +universal
+          qt5-qttools +universal
+          qt5-qtwebkit +universal
+          quazip +universal
           py${{ env.PYTHON_VERSION_NO_DOT }}-pip
       - name: Install Sphinx
         run: pip-${{ env.PYTHON_VERSION }} install sphinx
-      - name: Save MacPorts ccache
-        run: source ./macports-ci ccache --save
+      # - name: Save MacPorts ccache
+      #   run: source ./macports-ci ccache --save
       - name: Create build directory
         run: mkdir build
       - name: Configure Talipot core build with CMake
