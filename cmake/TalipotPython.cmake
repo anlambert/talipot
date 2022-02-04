@@ -1,14 +1,3 @@
-SET(TALIPOT_PYTHON_SITE_INSTALL
-    OFF
-    CACHE
-      BOOL
-      "Do you want to install Talipot Python modules in a Python standard module
-folder on your system ? The selected folder path will be the first in the list
-returned by site.getsitepackages() whose prefix equals ${CMAKE_INSTALL_PREFIX}.
-If no such folder is found, the path will be the one returned by
-site.getusersitepackages(). This should only be used when packaging Talipot for a
-Linux distribution or MSYS2.")
-
 # After finding the Python interpreter, try to find if SIP and its dev tools are
 # installed on the host system. If not, compile the SIP version located in
 # thirdparty.
@@ -30,34 +19,8 @@ EXECUTE_PROCESS(
   OUTPUT_VARIABLE PYTHON_STDLIB_DIR)
 STRING(REPLACE "\n" "" PYTHON_STDLIB_DIR "${PYTHON_STDLIB_DIR}")
 
-IF(TALIPOT_PYTHON_SITE_INSTALL)
-
-  EXECUTE_PROCESS(
-    COMMAND
-      ${PYTHON_EXECUTABLE} -c "
-from __future__ import print_function
-import site
-import sys
-from distutils.sysconfig import get_python_lib
-py_version = str(sys.version_info[0]) + '.' + str(sys.version_info[1])
-for path in site.getsitepackages():
-  # check that we select a valid install path
-  if path.startswith('${CMAKE_INSTALL_PREFIX}') and py_version in path:
-    # avoid to install in /usr/local when CMAKE_INSTALL_PREFIX is /usr on debian
-    if '${CMAKE_INSTALL_PREFIX}' == '/usr' and '/usr/local' in path:
-      continue
-    print(path)
-    exit()
-print(site.getusersitepackages())
-"
-    OUTPUT_VARIABLE TalipotPythonModulesInstallDir)
-  STRING(REPLACE "\n" "" TalipotPythonModulesInstallDir
-                 "${TalipotPythonModulesInstallDir}")
-
-ELSE(TALIPOT_PYTHON_SITE_INSTALL)
-  SET(TalipotPythonModulesInstallDir
-      ${CMAKE_INSTALL_PREFIX}/${TalipotLibInstallDir}/talipot/python)
-ENDIF(TALIPOT_PYTHON_SITE_INSTALL)
+SET(TalipotPythonModulesInstallDir
+    ${CMAKE_INSTALL_PREFIX}/${TalipotLibInstallDir}/talipot/python)
 
 # Unset the previous values of the CMake cache variables related to Python
 # libraries in case the value of PYTHON_EXECUTABLE CMake variable changed
@@ -75,17 +38,9 @@ SET(Python_ADDITIONAL_VERSIONS ${PYTHON_VERSION}mu ${PYTHON_VERSION}m
 # Ensure the detection of Python library installed through a bundle downloaded
 # from Python.org
 IF(APPLE)
-  IF(NOT "${PYTHON_EXECUTABLE}" MATCHES "^/usr/bin/python.*$"
-     AND NOT "${PYTHON_EXECUTABLE}" MATCHES
-         "^/System/Library/Frameworks/Python.framework/.*/python.*$")
-    SET(CMAKE_PREFIX_PATH
-        /Library/Frameworks/Python.framework/Versions/${PYTHON_VERSION}
-        ${CMAKE_PREFIX_PATH})
-  ELSE()
-    SET(CMAKE_PREFIX_PATH
-        /System/Library/Frameworks/Python.framework/Versions/${PYTHON_VERSION}
-        ${CMAKE_PREFIX_PATH})
-  ENDIF()
+  SET(CMAKE_PREFIX_PATH
+      /Library/Frameworks/Python.framework/Versions/${PYTHON_VERSION}
+      ${CMAKE_PREFIX_PATH})
 ENDIF(APPLE)
 
 GET_FILENAME_COMPONENT(PYTHON_HOME_PATH ${PYTHON_EXECUTABLE} PATH)
@@ -158,14 +113,6 @@ IF(APPLE)
      "^/Library/Frameworks/Python.framework/Versions/${PYTHON_VERSION}.*$")
     SET(PYTHON_INCLUDE_DIR
         /Library/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/Headers
-        CACHE PATH "" FORCE)
-  ENDIF()
-  IF("${PYTHON_LIBRARY}"
-     MATCHES
-     "^/System/Library/Frameworks/Python.framework/Versions/${PYTHON_VERSION}.*$"
-  )
-    SET(PYTHON_INCLUDE_DIR
-        /System/Library/Frameworks/Python.framework/Versions/${PYTHON_VERSION}/Headers
         CACHE PATH "" FORCE)
   ENDIF()
 ENDIF(APPLE)
