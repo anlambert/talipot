@@ -58,7 +58,6 @@ jobs:
         run: |
           curl -LO https://raw.githubusercontent.com/anlambert/macports-ci/master/macports-ci
           source ./macports-ci install
-          source ./macports-ci ccache
       - name: Install CMake and Clang
         run: sudo port -N install
           cmake
@@ -85,8 +84,6 @@ jobs:
             qhull \
             yajl \
             libgit2
-      - name: Save MacPorts ccache
-        run: source ./macports-ci ccache --save
       - name: Build Graphviz from sources
         run: |
           git clone https://gitlab.com/graphviz/graphviz.git
