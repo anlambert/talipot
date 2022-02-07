@@ -3,12 +3,23 @@
 # this script should only be run in a centos:[7|8] docker image
 
 centos7=true
+centos8=false
 if grep -q "CentOS Linux release 8" /etc/centos-release
 then
   centos7=false
+  centos8=true
 fi
 
 cd
+
+if [ "$centos8" = true ]
+then
+  # Centos 8 reached EOL so we need to update the package repository URLs
+  sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-*
+  sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' \
+    /etc/yum.repos.d/CentOS-Linux-*
+  yum -y upgrade
+fi
 
 # clean packages cache
 yum -y clean all
