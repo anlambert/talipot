@@ -21,10 +21,8 @@
 #include <talipot/GlWidgetGraphicsItem.h>
 #include <talipot/SceneConfigWidget.h>
 #include <talipot/SceneLayersConfigWidget.h>
-#include <talipot/GlBoundingBoxSceneVisitor.h>
 #include <talipot/GlOverviewGraphicsItem.h>
 #include <talipot/QuickAccessBar.h>
-#include <talipot/QtGlSceneZoomAndPanAnimator.h>
 #include <talipot/GlGraph.h>
 #include <talipot/ViewActionsManager.h>
 #include <talipot/FontIcon.h>
@@ -376,7 +374,7 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
     connect(znpOnSelection, &QAction::triggered, [this, selection, inputData]() {
       auto boundingBox = computeBoundingBox(graph(), inputData->layout(), inputData->sizes(),
                                             inputData->rotations(), selection);
-      zoomAndPanAnimation(boundingBox);
+      glWidget()->zoomAndPanAnimation(boundingBox);
     });
   }
 
@@ -385,7 +383,7 @@ void GlView::fillContextMenu(QMenu *menu, const QPointF &pf) {
   znpCenterView->setToolTip("Perform a zoom and pan animation to center the view");
   connect(znpCenterView, &QAction::triggered, [this]() {
     BoundingBox boundingBox;
-    zoomAndPanAnimation(boundingBox);
+    glWidget()->zoomAndPanAnimation(boundingBox);
   });
 
   QAction *viewOrtho =
@@ -487,19 +485,4 @@ bool GlView::pickNodeEdge(const int x, const int y, node &n, edge &e, bool pickN
     }
   }
   return false;
-}
-
-void GlView::zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const double duration) const {
-  BoundingBox bb;
-  if (boundingBox.isValid()) {
-    bb = boundingBox;
-  } else {
-    auto *scene = glWidget()->scene();
-    GlGraphInputData *inputData = scene->glGraph()->inputData();
-    GlBoundingBoxSceneVisitor bbVisitor(inputData);
-    scene->getLayer("Main")->acceptVisitor(&bbVisitor);
-    bb = bbVisitor.getBoundingBox();
-  }
-  QtGlSceneZoomAndPanAnimator zoomAnPan(glWidget(), bb, duration);
-  zoomAnPan.animateZoomAndPan();
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,6 +32,8 @@
 #include <talipot/OpenGlConfigManager.h>
 #include <talipot/GlOffscreenRenderer.h>
 #include <talipot/GlTextureManager.h>
+#include <talipot/GlBoundingBoxSceneVisitor.h>
+#include <talipot/QtGlSceneZoomAndPanAnimator.h>
 
 using namespace std;
 
@@ -483,4 +485,21 @@ GlGraphRenderingParameters &GlWidget::renderingParameters() {
 GlGraphInputData *GlWidget::inputData() const {
   return _scene.glGraph()->inputData();
 }
+
+void GlWidget::zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const double duration,
+                                   AdditionalGlSceneAnimation *additionalAnimation) {
+  BoundingBox bb = boundingBox;
+  if (!boundingBox.isValid()) {
+    GlGraphInputData *inputData = scene()->glGraph()->inputData();
+    GlBoundingBoxSceneVisitor bbVisitor(inputData);
+    scene()->getLayer("Main")->acceptVisitor(&bbVisitor);
+    bb = bbVisitor.getBoundingBox();
+  }
+  QtGlSceneZoomAndPanAnimator zoomAndPan(this, bb, duration);
+  if (additionalAnimation) {
+    zoomAndPan.setAdditionalGlSceneAnimation(additionalAnimation);
+  }
+  zoomAndPan.animateZoomAndPan();
+}
+
 }

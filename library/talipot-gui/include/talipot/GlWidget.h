@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,6 +25,7 @@ class QOpenGLFramebufferObject;
 
 namespace tlp {
 
+class AdditionalGlSceneAnimation;
 class View;
 class GlCompositeHierarchyManager;
 
@@ -269,6 +270,17 @@ public:
   const std::string &getSceneTextureId() const {
     return sceneTextureId;
   }
+
+  /**
+   * @brief Do a zoom and pan animation
+   * @param boundingBox the bounding box in scene coordinates on which the view
+   * has to be zoomed and panned. If it is not valid, the scene bounding box will be used.
+   * At the end of the animation, the view will be zoomed and centered on the content of that
+   * bounding box.
+   * @param duration the animation duration in msecs
+   */
+  void zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const double duration = 1000,
+                           AdditionalGlSceneAnimation *additionalAnimation = nullptr);
 
 private:
   void createFramebuffers(int width, int height);

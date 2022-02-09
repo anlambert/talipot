@@ -14,7 +14,7 @@
 #include <QPinchGesture>
 
 #include <talipot/GlBoundingBoxSceneVisitor.h>
-#include <talipot/QtGlSceneZoomAndPanAnimator.h>
+#include <talipot/GlSceneZoomAndPan.h>
 #include <talipot/NodeLinkDiagramView.h>
 #include <talipot/MouseInteractors.h>
 #include <talipot/FontIcon.h>
@@ -307,38 +307,30 @@ bool MouseMove::eventFilter(QObject *widget, QEvent *e) {
 }
 
 // animation during meta node interaction
-class MyQtGlSceneZoomAndPanAnimator : public tlp::QtGlSceneZoomAndPanAnimator {
+class NodeColorAnimation : public tlp::AdditionalGlSceneAnimation {
 public:
-  MyQtGlSceneZoomAndPanAnimator(tlp::GlWidget *glWidget, tlp::View *view,
-                                const tlp::BoundingBox &boundingBox, tlp::Graph *graph, tlp::node n,
-                                const float &color)
-      : tlp::QtGlSceneZoomAndPanAnimator(glWidget, boundingBox), view(view), graph(graph), n(n),
-        alphaEnd(color) {
+  NodeColorAnimation(tlp::Graph *graph, tlp::node n, const float &color)
+      : graph(graph), n(n), alphaEnd(color) {
     tlp::ColorProperty *colorProp = graph->getColorProperty("viewColor");
     alphaBegin = colorProp->getNodeValue(n)[3];
   }
 
 protected:
-  void zoomAndPanAnimStepSlot(int animationStep) override;
+  void animationStep(int animationStep) override {
+    float t = animationStep / float(nbAnimationSteps);
+    ColorProperty *colorProp = graph->getColorProperty("viewColor");
+    Color color = colorProp->getNodeValue(n);
+    color[3] = alphaBegin + t * (alphaEnd - alphaBegin);
+    colorProp->setNodeValue(n, color);
+  }
 
 protected:
-  tlp::View *view;
   tlp::Graph *graph;
   tlp::node n;
   float alphaEnd;
   float alphaBegin;
 };
 
-void MyQtGlSceneZoomAndPanAnimator::zoomAndPanAnimStepSlot(int animationStep) {
-  int nbAnimationSteps = animationDurationMsec / 40 + 1;
-  float decAlpha = (alphaEnd - alphaBegin) / nbAnimationSteps;
-  ColorProperty *colorProp = graph->getColorProperty("viewColor");
-  Color color = colorProp->getNodeValue(n);
-  color[3] = alphaBegin + decAlpha * animationStep;
-  colorProp->setNodeValue(n, color);
-  QtGlSceneZoomAndPanAnimator::zoomAndPanAnimationStep(animationStep);
-  view->draw();
-}
 //===============================================================
 bool MouseNKeysNavigator::eventFilter(QObject *widget, QEvent *e) {
   if (isGesturing) {
@@ -417,9 +409,8 @@ bool MouseNKeysNavigator::eventFilter(QObject *widget, QEvent *e) {
         glWidget->scene()->getLayer("Main")->acceptVisitor(&visitor);
         BoundingBox boundingBox(visitor.getBoundingBox());
 
-        MyQtGlSceneZoomAndPanAnimator navigator(glWidget, nldv, boundingBox, oldGraph, n,
-                                                alphaOrigin);
-        navigator.animateZoomAndPan();
+        NodeColorAnimation nodeColorAnimation(oldGraph, n, alphaOrigin);
+        glWidget->zoomAndPanAnimation(boundingBox, 1000, &nodeColorAnimation);
 
         return true;
       }

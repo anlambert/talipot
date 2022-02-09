@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -112,10 +112,6 @@ bool SOMPropertiesWidget::useAnimation() const {
   return _ui->animationCheckBox->isChecked();
 }
 
-uint SOMPropertiesWidget::getAnimationDuration() const {
-  return _ui->animationStepsSpinBox->value();
-}
-
 unsigned SOMPropertiesWidget::getIterationNumber() const {
   return dimensionConfigurationWidget->number();
 }
@@ -173,10 +169,6 @@ void SOMPropertiesWidget::treatEvents(const std::vector<Event> &) {
   view->updateDefaultColorProperty();
 }
 
-void SOMPropertiesWidget::animationCheckBoxClicked() {
-  _ui->animationStepsSpinBox->setEnabled(_ui->animationCheckBox->isChecked());
-}
-
 DataSet SOMPropertiesWidget::getData() const {
   DataSet data;
 
@@ -202,7 +194,6 @@ DataSet SOMPropertiesWidget::getData() const {
 
   // Animation
   data.set("withAnimation", useAnimation());
-  data.set("animationDuration", getAnimationDuration());
 
   // Save current properties.
   vector<string> properties = dimensionConfigurationWidget->getSelectedProperties();
@@ -284,8 +275,6 @@ void SOMPropertiesWidget::setData(const DataSet &data) {
   // Animation
   data.get("withAnimation", boolValue);
   _ui->animationCheckBox->setChecked(boolValue);
-  data.get("animationDuration", uintValue);
-  _ui->animationStepsSpinBox->setValue(uintValue);
 
   // If there is saved properties reload them.
   if (data.exists("properties")) {

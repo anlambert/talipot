@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,9 +20,7 @@ namespace tlp {
 class GlWidget;
 struct BoundingBox;
 
-void zoomOnScreenRegion(GlWidget *glWidget, const BoundingBox &boundingBox,
-                        const bool optimalPath = true, const double velocity = 1.1,
-                        const double p = std::sqrt(1.6));
+void zoomOnScreenRegion(GlWidget *glWidget, const BoundingBox &boundingBox);
 void zoomOnScreenRegionWithoutAnimation(GlWidget *glWidget, const BoundingBox &boundingBox);
 }
 #endif // ZOOM_UTILS_H

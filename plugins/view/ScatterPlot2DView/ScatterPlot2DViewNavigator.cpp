@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -10,8 +10,6 @@
  * See top-level LICENSE file for more information
  *
  */
-
-#include <talipot/QtGlSceneZoomAndPanAnimator.h>
 
 #include "ScatterPlot2DView.h"
 #include "ScatterPlot2DViewNavigator.h"
@@ -62,16 +60,12 @@ bool ScatterPlot2DViewNavigator::eventFilter(QObject *widget, QEvent *e) {
         scatterPlot2dView->generateScatterPlot(selectedScatterPlotOverview, glWidget);
         glWidget->draw();
       } else if (selectedScatterPlotOverview != nullptr && scatterPlot2dView->matrixViewSet()) {
-        QtGlSceneZoomAndPanAnimator zoomAndPanAnimator(
-            glWidget, selectedScatterPlotOverview->getBoundingBox());
-        zoomAndPanAnimator.animateZoomAndPan();
+        glWidget->zoomAndPanAnimation(selectedScatterPlotOverview->getBoundingBox());
         scatterPlot2dView->switchFromMatrixToDetailView(selectedScatterPlotOverview, true);
         selectedScatterPlotOverview = nullptr;
       } else if (!scatterPlot2dView->matrixViewSet()) {
         scatterPlot2dView->switchFromDetailViewToMatrixView();
-        QtGlSceneZoomAndPanAnimator zoomAndPanAnimator(glWidget,
-                                                       scatterPlot2dView->getMatrixBoundingBox());
-        zoomAndPanAnimator.animateZoomAndPan();
+        glWidget->zoomAndPanAnimation(scatterPlot2dView->getMatrixBoundingBox());
       }
 
       return true;

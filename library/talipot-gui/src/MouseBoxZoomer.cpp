@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,8 +14,6 @@
 #include <QMouseEvent>
 
 #include <talipot/GlWidget.h>
-#include <talipot/QtGlSceneZoomAndPanAnimator.h>
-#include <talipot/GlBoundingBoxSceneVisitor.h>
 #include <talipot/MouseBoxZoomer.h>
 
 using namespace std;
@@ -87,10 +85,7 @@ bool MouseBoxZoomer::eventFilter(QObject *widget, QEvent *e) {
   }
 
   if (e->type() == QEvent::MouseButtonDblClick) {
-    GlBoundingBoxSceneVisitor bbVisitor(inputData);
-    glw->scene()->getLayer("Main")->acceptVisitor(&bbVisitor);
-    QtGlSceneZoomAndPanAnimator zoomAnPan(glw, bbVisitor.getBoundingBox());
-    zoomAnPan.animateZoomAndPan();
+    glw->zoomAndPanAnimation(BoundingBox());
     return true;
   }
 
@@ -122,9 +117,7 @@ bool MouseBoxZoomer::eventFilter(QObject *widget, QEvent *e) {
                 glw->scene()->graphCamera().viewportTo3DWorld(glw->screenToViewport(bbMin)));
             sceneBB.expand(
                 glw->scene()->graphCamera().viewportTo3DWorld(glw->screenToViewport(bbMax)));
-
-            QtGlSceneZoomAndPanAnimator zoomAnPan(glw, sceneBB);
-            zoomAnPan.animateZoomAndPan();
+            glw->zoomAndPanAnimation(sceneBB);
           }
         }
       }

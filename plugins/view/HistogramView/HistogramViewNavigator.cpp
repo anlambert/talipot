@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -10,8 +10,6 @@
  * See top-level LICENSE file for more information
  *
  */
-
-#include <talipot/QtGlSceneZoomAndPanAnimator.h>
 
 #include "HistogramViewNavigator.h"
 #include "HistogramView.h"
@@ -58,16 +56,12 @@ bool HistogramViewNavigator::eventFilter(QObject *widget, QEvent *e) {
     return true;
   } else if (e->type() == QEvent::MouseButtonDblClick) {
     if (selectedHistoOverview != nullptr && histoView->smallMultiplesViewSet()) {
-      QtGlSceneZoomAndPanAnimator zoomAndPanAnimator(glWidget,
-                                                     selectedHistoOverview->getBoundingBox());
-      zoomAndPanAnimator.animateZoomAndPan();
+      glWidget->zoomAndPanAnimation(selectedHistoOverview->getBoundingBox());
       histoView->switchFromSmallMultiplesToDetailedView(selectedHistoOverview);
       selectedHistoOverview = nullptr;
     } else if (!histoView->smallMultiplesViewSet()) {
       histoView->switchFromDetailedViewToSmallMultiples();
-      QtGlSceneZoomAndPanAnimator zoomAndPanAnimator(glWidget,
-                                                     histoView->getSmallMultiplesBoundingBox());
-      zoomAndPanAnimator.animateZoomAndPan();
+      glWidget->zoomAndPanAnimation(histoView->getSmallMultiplesBoundingBox());
     }
 
     return true;

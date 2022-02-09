@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1102,8 +1102,7 @@ void SOMView::internalSwitchToDetailledMode(SOMPreviewComposite *preview, bool a
   if (animation) {
     GlBoundingBoxSceneVisitor bbsv(previewWidget->inputData());
     preview->acceptVisitor(&bbsv);
-    tlp::zoomOnScreenRegion(previewWidget, bbsv.getBoundingBox(), true,
-                            properties->getAnimationDuration());
+    tlp::zoomOnScreenRegion(previewWidget, bbsv.getBoundingBox());
   }
 
   copyToGlWidget(mapWidget);
@@ -1125,8 +1124,7 @@ void SOMView::internalSwitchToPreviewMode(bool animation) {
   }
 
   if (animation) {
-    tlp::zoomOnScreenRegion(previewWidget, bbsv.getBoundingBox(), true,
-                            properties->getAnimationDuration());
+    tlp::zoomOnScreenRegion(previewWidget, bbsv.getBoundingBox());
   } else {
     tlp::zoomOnScreenRegionWithoutAnimation(previewWidget, bbsv.getBoundingBox());
   }

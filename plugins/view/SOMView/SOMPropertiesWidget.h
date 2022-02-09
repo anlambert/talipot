@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -80,10 +80,6 @@ public:
    * @brief Return true if using namiation during switching to preview.
    */
   bool useAnimation() const;
-  /**
-   * @brief Return the duration of the animation in second.
-   */
-  uint getAnimationDuration() const;
 
   /**
    * @brief Store the configuration widget data properties.
@@ -119,7 +115,6 @@ protected:
 protected slots:
   void diffusionMethodChange();
   void scalingMethodChange(QAbstractButton *) const;
-  void animationCheckBoxClicked();
 };
 }
 #endif // SOM_PROPERTIES_WIDGET_H

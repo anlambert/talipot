@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -11,17 +11,13 @@
  *
  */
 
-#include <talipot/QtGlSceneZoomAndPanAnimator.h>
 #include <talipot/GlWidget.h>
 
 using namespace std;
 
 namespace tlp {
-void zoomOnScreenRegion(GlWidget *glWidget, const BoundingBox &boundingBox, const bool optimalPath,
-                        const double velocity, const double p) {
-  QtGlSceneZoomAndPanAnimator animator(glWidget, boundingBox, 1000, "Main", optimalPath, velocity,
-                                       p);
-  animator.animateZoomAndPan();
+void zoomOnScreenRegion(GlWidget *glWidget, const BoundingBox &boundingBox) {
+  glWidget->zoomAndPanAnimation(boundingBox);
 }
 
 void zoomOnScreenRegionWithoutAnimation(GlWidget *glWidget, const BoundingBox &boundingBox) {

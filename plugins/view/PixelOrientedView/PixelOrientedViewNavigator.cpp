@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -10,8 +10,6 @@
  * See top-level LICENSE file for more information
  *
  */
-
-#include <talipot/QtGlSceneZoomAndPanAnimator.h>
 
 #include "PixelOrientedViewNavigator.h"
 
@@ -69,15 +67,12 @@ bool PixelOrientedViewNavigator::eventFilter(QObject *widget, QEvent *e) {
       pixelView->generatePixelOverview(selectedOverview, glWidget);
       glWidget->draw();
     } else if (selectedOverview != nullptr && pixelView->smallMultiplesViewSet()) {
-      QtGlSceneZoomAndPanAnimator zoomAndPanAnimator(glWidget, selectedOverview->getBoundingBox());
-      zoomAndPanAnimator.animateZoomAndPan();
+      glWidget->zoomAndPanAnimation(selectedOverview->getBoundingBox());
       pixelView->switchFromSmallMultiplesToDetailView(selectedOverview);
       selectedOverview = nullptr;
     } else if (!pixelView->smallMultiplesViewSet() && pixelView->getOverviews().size() > 1) {
       pixelView->switchFromDetailViewToSmallMultiples();
-      QtGlSceneZoomAndPanAnimator zoomAndPanAnimator(glWidget,
-                                                     pixelView->getSmallMultiplesViewBoundingBox());
-      zoomAndPanAnimator.animateZoomAndPan();
+      glWidget->zoomAndPanAnimation(pixelView->getSmallMultiplesViewBoundingBox());
       pixelView->centerView();
     }
 

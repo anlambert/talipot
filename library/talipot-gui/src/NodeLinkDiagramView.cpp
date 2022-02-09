@@ -24,7 +24,6 @@
 #include <talipot/GlGraph.h>
 #include <talipot/GlVertexArrayManager.h>
 #include <talipot/GlOverviewGraphicsItem.h>
-#include <talipot/QtGlSceneZoomAndPanAnimator.h>
 #include <talipot/GlCompositeHierarchyManager.h>
 #include <talipot/NodeLinkDiagramView.h>
 #include <talipot/GraphModel.h>
@@ -846,8 +845,7 @@ const Camera &NodeLinkDiagramView::goInsideItem(node meta) {
   BoundingBox bb;
   bb.expand(coord - size / 2.f);
   bb.expand(coord + size / 2.f);
-  QtGlSceneZoomAndPanAnimator zoomAnPan(glWidget(), bb);
-  zoomAnPan.animateZoomAndPan();
+  glWidget()->zoomAndPanAnimation(bb);
   loadGraphOnScene(metaGraph);
   registerTriggers();
   emit graphSet(metaGraph);

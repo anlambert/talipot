@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,8 +17,8 @@
 
 #include <talipot/MouseInteractors.h>
 #include <talipot/GlCircle.h>
-#include <talipot/QtGlSceneZoomAndPanAnimator.h>
 #include <talipot/NodeLinkDiagramView.h>
+#include <talipot/GlSceneZoomAndPan.h>
 
 #include "NeighborhoodHighlighterInteractor.h"
 #include "../../utils/PluginNames.h"
@@ -373,13 +373,7 @@ void NeighborhoodHighlighter::performZoomAndPan(const BoundingBox &destBB,
                                                 AdditionalGlSceneAnimation *additionalAnimation) {
   MouseEventDiscardFilter medf;
   glWidget->installEventFilter(&medf);
-  QtGlSceneZoomAndPanAnimator sceneZoomAndPan(glWidget, destBB);
-
-  if (additionalAnimation != nullptr) {
-    sceneZoomAndPan.setAdditionalGlSceneAnimation(additionalAnimation);
-  }
-
-  sceneZoomAndPan.animateZoomAndPan();
+  glWidget->zoomAndPanAnimation(destBB, 1000, additionalAnimation);
   glWidget->removeEventFilter(&medf);
 }
 
