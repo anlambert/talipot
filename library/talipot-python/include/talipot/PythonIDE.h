@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -45,6 +45,7 @@ class TLP_PYTHON_SCOPE PythonIDE : public QWidget {
   bool _dontTreatFocusIn;
   tlp::Project *_project;
   tlp::GraphHierarchiesModel *_graphsModel;
+  bool _scriptRunning;
   bool _scriptStopped;
   bool _saveFilesToProject;
   bool _notifyProjectModified;
@@ -99,6 +100,7 @@ public:
   void setAnchoredCheckboxVisible(bool visible);
   void setAnchored(bool anchored);
   bool isAnchored() const;
+  bool isScriptRunning();
 
 protected:
   void dragEnterEvent(QDragEnterEvent *) override;
@@ -129,6 +131,12 @@ signals:
 
   void anchoredRequest(bool anchored);
 
+public slots:
+
+  void executeCurrentScript();
+  void stopCurrentScript();
+  void pauseCurrentScript();
+
 private slots:
 
   void newPythonPlugin();
@@ -155,9 +163,6 @@ private slots:
   void loadScript();
   void saveScript();
   void saveAllScripts();
-  void executeCurrentScript();
-  void stopCurrentScript();
-  void pauseCurrentScript();
   void currentScriptPaused();
 
   void closeModuleTabRequested(int index);

@@ -540,6 +540,18 @@ TalipotMainWindow::~TalipotMainWindow() {
 
 bool TalipotMainWindow::terminated() {
 
+  if (_pythonIDE->isScriptRunning()) {
+    _pythonIDE->pauseCurrentScript();
+    QString message("A Python script is currently running.\nDo you really want to exit ?");
+    QMessageBox::StandardButton answer =
+        QMessageBox::question(this, "Exit ?", message, QMessageBox::Yes | QMessageBox::No);
+
+    if (answer == QMessageBox::No) {
+      _pythonIDE->executeCurrentScript();
+      return false;
+    }
+  }
+
   if (_graphs->needsSaving() || isWindowModified()) {
     QString message("The project has been modified (loaded graphs or Python files opened in the "
                     "IDE).\nDo you want to save your changes?");
@@ -548,14 +560,19 @@ bool TalipotMainWindow::terminated() {
         QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel | QMessageBox::Escape);
 
     if (answer == QMessageBox::Cancel) {
+      if (_pythonIDE->isScriptRunning()) {
+        _pythonIDE->executeCurrentScript();
+      }
       return false;
     } else if (answer == QMessageBox::Yes) {
+      _pythonIDE->stopCurrentScript();
       _pythonIDE->savePythonFilesAndWriteToProject(true);
       return save();
     }
   }
 
   _pythonIDE->hide();
+  _pythonIDE->stopCurrentScript();
 
   // force workspace and views destruction here to avoid hanging on exit
   // when linking against QtWebEngine binaries provided by qt.io

@@ -333,9 +333,9 @@ talipotplugins.registerPluginOfGroup(pluginName='%2',
 
 PythonIDE::PythonIDE(QWidget *parent)
     : QWidget(parent), _ui(new Ui::PythonIDE), _pythonInterpreter(&PythonInterpreter::instance()),
-      _dontTreatFocusIn(false), _project(nullptr), _graphsModel(nullptr), _scriptStopped(false),
-      _saveFilesToProject(true), _notifyProjectModified(false), _anchored(true),
-      _outputWidget(nullptr) {
+      _dontTreatFocusIn(false), _project(nullptr), _graphsModel(nullptr), _scriptRunning(false),
+      _scriptStopped(false), _saveFilesToProject(true), _notifyProjectModified(false),
+      _anchored(true), _outputWidget(nullptr) {
   _ui->setupUi(this);
 
   QString pythonVersion(PythonInterpreter::instance().getPythonVersionStr());
@@ -1848,7 +1848,9 @@ void PythonIDE::executeCurrentScript() {
 
   QApplication::processEvents();
 
+  _scriptRunning = true;
   bool scriptExecOk = _pythonInterpreter->runGraphScript("__main__", "main", graph, scriptFileName);
+  _scriptRunning = false;
 
   _pythonInterpreter->setProcessQtEventsDuringScriptExecution(false);
   _ui->stopScriptButton->setEnabled(false);
@@ -2295,4 +2297,8 @@ void PythonIDE::useUndoToggled(bool useUndo) {
         baseIcon, FontIcon::icon(MaterialDesignIcons::WindowClose, QColor(Qt::black)));
     _ui->useUndoCB->setIcon(icon);
   }
+}
+
+bool PythonIDE::isScriptRunning() {
+  return _scriptRunning;
 }
