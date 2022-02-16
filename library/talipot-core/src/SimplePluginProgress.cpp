@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,8 @@
 #include <talipot/SimplePluginProgress.h>
 using namespace tlp;
 using namespace std;
-SimplePluginProgress::SimplePluginProgress() : _state(TLP_CONTINUE), _preview(false) {}
+SimplePluginProgress::SimplePluginProgress()
+    : _state(ProgressState::TLP_CONTINUE), _preview(false) {}
 ProgressState SimplePluginProgress::progress(int step, int max_step) {
   PluginProgress::progress(step, max_step);
   progress_handler(step, max_step);
@@ -22,11 +23,11 @@ ProgressState SimplePluginProgress::progress(int step, int max_step) {
 }
 //====================================================
 void SimplePluginProgress::stop() {
-  _state = TLP_STOP;
+  _state = ProgressState::TLP_STOP;
 }
 //====================================================
 void SimplePluginProgress::cancel() {
-  _state = TLP_CANCEL;
+  _state = ProgressState::TLP_CANCEL;
 }
 //====================================================
 bool SimplePluginProgress::isPreviewMode() const {

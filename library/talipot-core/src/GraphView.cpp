@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -156,7 +156,7 @@ void GraphView::addNodesInternal(const std::vector<node> &nodes) {
   }
 
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_ADD_NODES, nodes.size()));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_ADD_NODES, nodes.size()));
   }
 }
 //----------------------------------------------------------------
@@ -224,7 +224,7 @@ void GraphView::addEdgesInternal(const std::vector<edge> &edges) {
   }
 
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_ADD_EDGES, edges.size()));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_ADD_EDGES, edges.size()));
   }
 }
 //----------------------------------------------------------------

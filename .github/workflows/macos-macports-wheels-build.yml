@@ -128,6 +128,7 @@ jobs:
         run: |
           for py3Version in 3.7 3.8 3.9 3.10
           do
+            sudo /Library/Frameworks/Python.framework/Versions/$py3Version/bin/pip3 install sip
             cmake .. -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PWD/install \
               -DCMAKE_C_COMPILER=/opt/local/bin/clang-mp-${{ env.CLANG_VERSION }} \

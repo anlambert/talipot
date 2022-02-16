@@ -63,6 +63,7 @@ jobs:
               fribidi \
               fontconfig \
               python-sphinx \
+              sip \
               xorg-server-xvfb
 
             mkdir /talipot_build

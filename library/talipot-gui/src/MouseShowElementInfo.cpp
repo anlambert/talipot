@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -143,8 +143,9 @@ bool MouseShowElementInfo::eventFilter(QObject *widget, QEvent *e) {
 
             auto *title = _informationWidget->findChild<QLabel *>();
 
-            ElementType eltType =
-                selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED ? NODE : EDGE;
+            ElementType eltType = selectedEntity.getEntityType() == SelectedEntity::NODE_SELECTED
+                                      ? ElementType::NODE
+                                      : ElementType::EDGE;
 
             // set the table view as the parent of the models as it
             // takes ownership of them in that case (and thus
@@ -211,7 +212,7 @@ void MouseShowElementInfo::viewChanged(View *view) {
 
 QAbstractItemModel *MouseShowElementInfo::buildModel(ElementType elementType, uint elementId,
                                                      QObject *parent) const {
-  if (elementType == NODE) {
+  if (elementType == ElementType::NODE) {
     return new GraphNodeElementModel(view()->graph(), elementId, parent);
   } else {
     return new GraphEdgeElementModel(view()->graph(), elementId, parent);
@@ -219,6 +220,6 @@ QAbstractItemModel *MouseShowElementInfo::buildModel(ElementType elementType, ui
 }
 
 QString MouseShowElementInfo::elementName(ElementType elementType, uint elementId) const {
-  QString elementTypeLabel = elementType == NODE ? QString("Node") : QString("Edge");
+  QString elementTypeLabel = elementType == ElementType::NODE ? QString("Node") : QString("Edge");
   return elementTypeLabel + " #" + QString::number(elementId);
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -69,7 +69,7 @@ Histogram::Histogram(Graph *graph, Graph *edgeGraph, std::unordered_map<edge, no
       yAxisScale(make_pair(0, 0)), initXAxisScale(make_pair(0, 0)),
       initYAxisScale(make_pair(0, 0)) {
 
-  if (dataLocation == NODE) {
+  if (dataLocation == ElementType::NODE) {
     _glGraph = new GlGraph(graph);
     GlGraphInputData *glGraphInputData = _glGraph->inputData();
     glGraphInputData->setLayout(histogramLayout);
@@ -80,7 +80,7 @@ Histogram::Histogram(Graph *graph, Graph *edgeGraph, std::unordered_map<edge, no
     glGraphInputData->setLayout(histogramEdgeLayout);
   }
 
-  setGraphView(_glGraph, (dataLocation == NODE) ? displayEdges : false);
+  setGraphView(_glGraph, (dataLocation == ElementType::NODE) ? displayEdges : false);
   overviewId = overviewCpt++;
   textureName = propertyName + " histo texture " + getStringFromNumber(overviewId);
   update();
@@ -103,7 +103,7 @@ void Histogram::setDataLocation(const ElementType &dataLocation) {
     xAxisScaleDefined = false;
     yAxisScaleDefined = false;
 
-    if (dataLocation == NODE) {
+    if (dataLocation == ElementType::NODE) {
       _glGraph = new GlGraph(graph);
       GlGraphInputData *glGraphInputData = _glGraph->inputData();
       glGraphInputData->setLayout(histogramLayout);
@@ -130,7 +130,7 @@ void Histogram::computeHistogram() {
   histogramBins.resize(nbHistogramBins);
 
   if (graph->getProperty(propertyName)->getTypename() == "double") {
-    if (dataLocation == NODE) {
+    if (dataLocation == ElementType::NODE) {
       min = graph->getDoubleProperty(propertyName)->getNodeMin(graph);
       max = graph->getDoubleProperty(propertyName)->getNodeMax(graph);
     } else {
@@ -138,7 +138,7 @@ void Histogram::computeHistogram() {
       max = graph->getDoubleProperty(propertyName)->getEdgeMax(graph);
     }
   } else {
-    if (dataLocation == NODE) {
+    if (dataLocation == ElementType::NODE) {
       min = graph->getIntegerProperty(propertyName)->getNodeMin(graph);
       max = graph->getIntegerProperty(propertyName)->getNodeMax(graph);
     } else {
@@ -178,7 +178,7 @@ void Histogram::computeHistogram() {
     if (graph->getProperty(propertyName)->getTypename() == "double") {
       propertyCopy = *(graph->getDoubleProperty(propertyName));
     } else {
-      if (dataLocation == NODE) {
+      if (dataLocation == ElementType::NODE) {
         for (auto n : graph->nodes()) {
           propertyCopy.setNodeValue(n, graph->getIntegerProperty(propertyName)->getNodeValue(n));
         }
@@ -196,7 +196,7 @@ void Histogram::computeHistogram() {
       binMinMaxMap[i].second = 0;
     }
 
-    if (dataLocation == NODE) {
+    if (dataLocation == ElementType::NODE) {
 
       for (auto n : graph->nodes()) {
         auto binId = uint(propertyCopy.getNodeValue(n));
@@ -269,7 +269,7 @@ void Histogram::computeHistogram() {
     uniformQuantificationAxisLabels.push_back(
         getStringFromNumber(binMinMaxMap[nbHistogramBins - 1].second));
   } else {
-    if (dataLocation == NODE) {
+    if (dataLocation == ElementType::NODE) {
 
       for (auto n : graph->nodes()) {
         double value;
@@ -342,7 +342,7 @@ void Histogram::createAxis() {
   uint maxAxisValue, minAxisValue = 0;
 
   if (cumulativeFreqHisto) {
-    if (dataLocation == NODE) {
+    if (dataLocation == ElementType::NODE) {
       maxAxisValue = graph->numberOfNodes();
     } else {
       maxAxisValue = graph->numberOfEdges();
@@ -378,7 +378,7 @@ void Histogram::createAxis() {
     if (!lastCumulHisto) {
       n = maxBinSize;
     } else {
-      if (dataLocation == NODE) {
+      if (dataLocation == ElementType::NODE) {
         n = graph->numberOfNodes();
       } else {
         n = graph->numberOfEdges();
@@ -392,8 +392,9 @@ void Histogram::createAxis() {
     }
   }
 
-  yAxis = new GlQuantitativeAxis((dataLocation == NODE ? "number of nodes" : "number of edges"),
-                                 Coord(0, 0, 0), axisLength, GlAxis::VERTICAL_AXIS, textColor);
+  yAxis = new GlQuantitativeAxis(
+      (dataLocation == ElementType::NODE ? "number of nodes" : "number of edges"), Coord(0, 0, 0),
+      axisLength, GlAxis::VERTICAL_AXIS, textColor);
   yAxis->setAxisParameters(int(minAxisValue), int(maxAxisValue), yAxisIncrementStep,
                            GlAxis::LEFT_OR_BELOW, true);
   yAxis->setLogScale(yAxisLogScale);
@@ -445,7 +446,7 @@ void Histogram::createAxis() {
   refSizeX = axisLength / nbHistogramBins;
 
   if (cumulativeFreqHisto) {
-    if (dataLocation == NODE) {
+    if (dataLocation == ElementType::NODE) {
       refSizeY =
           yAxis->getAxisPointCoordForValue(graph->numberOfNodes()).getY() / graph->numberOfNodes();
     } else {
@@ -498,7 +499,7 @@ void Histogram::updateLayout() {
 
       Coord nodeCoord = {nodeXCoord, nodeYCoord};
 
-      if (dataLocation == NODE) {
+      if (dataLocation == ElementType::NODE) {
         histogramLayout->setNodeValue(node(histogramBins[i][j]), nodeCoord);
       } else {
         node n = edgeToNode[edge(histogramBins[i][j])];
@@ -552,7 +553,7 @@ void Histogram::updateSizes() {
     }
 
     for (uint j = 0; j < binSize; ++j) {
-      if (dataLocation == NODE) {
+      if (dataLocation == ElementType::NODE) {
         const Size &currentNodeSize = viewSize->getNodeValue(node(histogramBins[i][j]));
         Size newNodeSize;
 
@@ -610,7 +611,7 @@ void Histogram::update() {
     cumulativeSize += binSize;
 
     for (uint j = 0; j < binSize; ++j) {
-      if (dataLocation == NODE) {
+      if (dataLocation == ElementType::NODE) {
         for (uint k = 0; k < 4; ++k) {
           quadColorCumul[k] += uint(viewColor->getNodeValue(node(histogramBins[i][j]))[k]);
         }
@@ -648,7 +649,7 @@ void Histogram::update() {
       polyQuadCoords.push_back(endLeftVertex);
       polyQuadCoords.push_back(endRightVertex);
 
-      if (dataLocation == NODE) {
+      if (dataLocation == ElementType::NODE) {
         quadColorCumul /= binSize;
         quadColor =
             Color(quadColorCumul[0], quadColorCumul[1], quadColorCumul[2], quadColorCumul[3]);
@@ -685,7 +686,7 @@ void Histogram::update() {
     delete cumulativeHistogram;
   }
 
-  setGraphView(_glGraph, (dataLocation == NODE) ? displayEdges : false);
+  setGraphView(_glGraph, (dataLocation == ElementType::NODE) ? displayEdges : false);
 
   GlOffscreenRenderer &glOffscreenRenderer = GlOffscreenRenderer::instance();
   glOffscreenRenderer.setViewPortSize(size, size);

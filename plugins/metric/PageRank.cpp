@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -90,14 +90,14 @@ struct PageRank : public DoubleAlgorithm {
     const auto kMax = uint(15 * log(nbNodes));
 
     NodeVectorProperty<double> deg(graph);
-    tlp::degree(graph, deg, directed ? DIRECTED : UNDIRECTED, weight, false);
+    tlp::degree(graph, deg, directed ? EdgeType::DIRECTED : EdgeType::UNDIRECTED, weight, false);
 
     for (uint k = 0; k < kMax + 1; ++k) {
       if (!weight) {
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
           double n_sum = 0;
-          for (auto nin :
-               getAdjacentNodesIterator(graph, n, directed ? INV_DIRECTED : UNDIRECTED)) {
+          for (auto nin : getAdjacentNodesIterator(
+                   graph, n, directed ? EdgeType::INV_DIRECTED : EdgeType::UNDIRECTED)) {
             n_sum += pr.getNodeValue(nin) / deg.getNodeValue(nin);
           }
           next_pr[i] = one_minus_d + d * n_sum;
@@ -105,7 +105,8 @@ struct PageRank : public DoubleAlgorithm {
       } else {
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
           double n_sum = 0;
-          for (auto e : getIncidentEdgesIterator(graph, n, directed ? INV_DIRECTED : UNDIRECTED)) {
+          for (auto e : getIncidentEdgesIterator(
+                   graph, n, directed ? EdgeType::INV_DIRECTED : EdgeType::UNDIRECTED)) {
             node nin = graph->opposite(e, n);
             if (deg.getNodeValue(nin) > 0) {
               n_sum += weight->getEdgeDoubleValue(e) * pr.getNodeValue(nin) / deg.getNodeValue(nin);

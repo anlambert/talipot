@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -621,6 +621,17 @@ public:
                                           char closeChar = ')') = 0;
 };
 
+enum class PropertyEventType {
+  TLP_BEFORE_SET_NODE_VALUE = 0,
+  TLP_AFTER_SET_NODE_VALUE,
+  TLP_BEFORE_SET_ALL_NODE_VALUE,
+  TLP_AFTER_SET_ALL_NODE_VALUE,
+  TLP_BEFORE_SET_ALL_EDGE_VALUE,
+  TLP_AFTER_SET_ALL_EDGE_VALUE,
+  TLP_BEFORE_SET_EDGE_VALUE,
+  TLP_AFTER_SET_EDGE_VALUE
+};
+
 /**
  * @ingroup Observation
  * @brief Contains additional information about events on a property,
@@ -629,20 +640,8 @@ public:
  */
 class TLP_SCOPE PropertyEvent : public Event {
 public:
-  // be careful about the ordering of the constants
-  // in the enum below because it is used in some assertions
-  enum PropertyEventType {
-    TLP_BEFORE_SET_NODE_VALUE = 0,
-    TLP_AFTER_SET_NODE_VALUE,
-    TLP_BEFORE_SET_ALL_NODE_VALUE,
-    TLP_AFTER_SET_ALL_NODE_VALUE,
-    TLP_BEFORE_SET_ALL_EDGE_VALUE,
-    TLP_AFTER_SET_ALL_EDGE_VALUE,
-    TLP_BEFORE_SET_EDGE_VALUE,
-    TLP_AFTER_SET_EDGE_VALUE
-  };
   PropertyEvent(const PropertyInterface &prop, PropertyEventType propEvtType,
-                Event::EventType evtType = Event::TLP_MODIFICATION, uint id = UINT_MAX)
+                EventType evtType = EventType::TLP_MODIFICATION, uint id = UINT_MAX)
       : Event(prop, evtType), evtType(propEvtType), eltId(id) {}
 
   PropertyInterface *getProperty() const {

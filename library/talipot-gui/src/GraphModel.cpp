@@ -227,8 +227,8 @@ void GraphModel::treatEvent(const Event &ev) {
   const auto *graphEv = dynamic_cast<const GraphEvent *>(&ev);
   if (graphEv != nullptr) {
 
-    if (graphEv->getType() == GraphEvent::TLP_ADD_INHERITED_PROPERTY ||
-        graphEv->getType() == GraphEvent::TLP_ADD_LOCAL_PROPERTY) {
+    if (graphEv->getType() == GraphEventType::TLP_ADD_INHERITED_PROPERTY ||
+        graphEv->getType() == GraphEventType::TLP_ADD_LOCAL_PROPERTY) {
 #ifdef NDEBUG
 
       if (graphEv->getPropertyName() == "viewMetaGraph") {
@@ -252,8 +252,8 @@ void GraphModel::treatEvent(const Event &ev) {
       prop->addListener(this);
       prop->addObserver(this);
       endInsertColumns();
-    } else if (graphEv->getType() == GraphEvent::TLP_BEFORE_DEL_INHERITED_PROPERTY ||
-               graphEv->getType() == GraphEvent::TLP_BEFORE_DEL_LOCAL_PROPERTY) {
+    } else if (graphEv->getType() == GraphEventType::TLP_BEFORE_DEL_INHERITED_PROPERTY ||
+               graphEv->getType() == GraphEventType::TLP_BEFORE_DEL_LOCAL_PROPERTY) {
 #ifdef NDEBUG
 
       if (graphEv->getPropertyName() == "viewMetaGraph") {
@@ -266,7 +266,7 @@ void GraphModel::treatEvent(const Event &ev) {
       beginRemoveColumns(QModelIndex(), col, col);
       _properties.remove(col);
       endRemoveColumns();
-    } else if (graphEv->getType() == GraphEvent::TLP_BEFORE_RENAME_LOCAL_PROPERTY) {
+    } else if (graphEv->getType() == GraphEventType::TLP_BEFORE_RENAME_LOCAL_PROPERTY) {
       PropertyInterface *prop = graphEv->getProperty();
       // remove from old place
       int col = _properties.indexOf(prop);
@@ -1110,7 +1110,7 @@ void NodesGraphModel::treatEvent(const Event &ev) {
 
   if (graphEv) {
 
-    if (graphEv->getType() == GraphEvent::TLP_ADD_NODE) {
+    if (graphEv->getType() == GraphEventType::TLP_ADD_NODE) {
       _nodesAdded = true;
       // if the node was removed then added again before the call to Observable::unholdObservers(),
       // remove it from the elementsToModify list as no update has to be performed in the model for
@@ -1123,7 +1123,7 @@ void NodesGraphModel::treatEvent(const Event &ev) {
       } else {
         _elementsToModify.remove(wasDeleted);
       }
-    } else if (graphEv->getType() == GraphEvent::TLP_ADD_NODES) {
+    } else if (graphEv->getType() == GraphEventType::TLP_ADD_NODES) {
       _nodesAdded = true;
 
       for (auto n : graphEv->getNodes()) {
@@ -1138,7 +1138,7 @@ void NodesGraphModel::treatEvent(const Event &ev) {
           _elementsToModify.remove(wasDeleted);
         }
       }
-    } else if (graphEv->getType() == GraphEvent::TLP_DEL_NODE) {
+    } else if (graphEv->getType() == GraphEventType::TLP_DEL_NODE) {
       _nodesRemoved = true;
       // if the node was added then deleted before the call to Observable::unholdObservers(), remove
       // it from the elementsToModify list as no update has to be performed in the model for that
@@ -1154,8 +1154,8 @@ void NodesGraphModel::treatEvent(const Event &ev) {
       }
     }
   } else if (propEv) {
-    if (propEv->getType() == PropertyEvent::TLP_AFTER_SET_NODE_VALUE ||
-        propEv->getType() == PropertyEvent::TLP_AFTER_SET_ALL_NODE_VALUE) {
+    if (propEv->getType() == PropertyEventType::TLP_AFTER_SET_NODE_VALUE ||
+        propEv->getType() == PropertyEventType::TLP_AFTER_SET_ALL_NODE_VALUE) {
       _propertiesModified.insert(propEv->getProperty());
     }
   }
@@ -1196,7 +1196,7 @@ void EdgesGraphModel::treatEvent(const Event &ev) {
 
   if (dynamic_cast<const GraphEvent *>(&ev) != nullptr) {
 
-    if (graphEv->getType() == GraphEvent::TLP_ADD_EDGE) {
+    if (graphEv->getType() == GraphEventType::TLP_ADD_EDGE) {
       _edgesAdded = true;
       // if the edge was removed then added again before the call to Observable::unholdObservers(),
       // remove it from the elementsToModify list as no update has to be performed in the model for
@@ -1209,7 +1209,7 @@ void EdgesGraphModel::treatEvent(const Event &ev) {
       } else {
         _elementsToModify.remove(wasDeleted);
       }
-    } else if (graphEv->getType() == GraphEvent::TLP_ADD_EDGES) {
+    } else if (graphEv->getType() == GraphEventType::TLP_ADD_EDGES) {
       _edgesAdded = true;
 
       for (auto e : graphEv->getEdges()) {
@@ -1224,7 +1224,7 @@ void EdgesGraphModel::treatEvent(const Event &ev) {
           _elementsToModify.remove(wasDeleted);
         }
       }
-    } else if (graphEv->getType() == GraphEvent::TLP_DEL_EDGE) {
+    } else if (graphEv->getType() == GraphEventType::TLP_DEL_EDGE) {
       _edgesRemoved = true;
       // if the edge was added then deleted before the call to Observable::unholdObservers(), remove
       // it from the elementsToModify list as no update has to be performed in the model for that
@@ -1239,8 +1239,8 @@ void EdgesGraphModel::treatEvent(const Event &ev) {
       }
     }
   } else if (propEv) {
-    if (propEv->getType() == PropertyEvent::TLP_AFTER_SET_EDGE_VALUE ||
-        propEv->getType() == PropertyEvent::TLP_AFTER_SET_ALL_EDGE_VALUE) {
+    if (propEv->getType() == PropertyEventType::TLP_AFTER_SET_EDGE_VALUE ||
+        propEv->getType() == PropertyEventType::TLP_AFTER_SET_ALL_EDGE_VALUE) {
       _propertiesModified.insert(propEv->getProperty());
     }
   }

@@ -421,7 +421,8 @@ void QuickAccessBarImpl::setLabelColor(const QColor &c) {
   emit settingsChanged();
 }
 
-void QuickAccessBarImpl::setAllColorValues(uint eltType, ColorProperty *prop, const Color &color) {
+void QuickAccessBarImpl::setAllColorValues(ElementType eltType, ColorProperty *prop,
+                                           const Color &color) {
   BooleanProperty *selected = inputData()->selection();
   bool hasSelected = false;
 
@@ -429,7 +430,7 @@ void QuickAccessBarImpl::setAllColorValues(uint eltType, ColorProperty *prop, co
 
   Observable::holdObservers();
 
-  if (eltType == NODE) {
+  if (eltType == ElementType::NODE) {
     for (auto n : selected->getNonDefaultValuatedNodes(_mainView->graph())) {
       prop->setNodeValue(n, color);
       hasSelected = true;
@@ -455,22 +456,22 @@ void QuickAccessBarImpl::setAllColorValues(uint eltType, ColorProperty *prop, co
 }
 
 void QuickAccessBarImpl::setNodeColor(const QColor &c) {
-  setAllColorValues(NODE, inputData()->colors(), QColorToColor(c));
+  setAllColorValues(ElementType::NODE, inputData()->colors(), QColorToColor(c));
 }
 
 void QuickAccessBarImpl::setEdgeColor(const QColor &c) {
-  setAllColorValues(EDGE, inputData()->colors(), QColorToColor(c));
+  setAllColorValues(ElementType::EDGE, inputData()->colors(), QColorToColor(c));
 }
 
 void QuickAccessBarImpl::setNodeBorderColor(const QColor &c) {
-  setAllColorValues(NODE, inputData()->borderColors(), QColorToColor(c));
+  setAllColorValues(ElementType::NODE, inputData()->borderColors(), QColorToColor(c));
 }
 
 void QuickAccessBarImpl::setEdgeBorderColor(const QColor &c) {
-  setAllColorValues(EDGE, inputData()->borderColors(), QColorToColor(c));
+  setAllColorValues(ElementType::EDGE, inputData()->borderColors(), QColorToColor(c));
 }
 
-void QuickAccessBarImpl::setAllValues(uint eltType, PropertyInterface *prop) {
+void QuickAccessBarImpl::setAllValues(ElementType eltType, PropertyInterface *prop) {
   QVariant val = ItemDelegate::showEditorDialog(static_cast<tlp::ElementType>(eltType), prop,
                                                 _mainView->graph(), delegate,
                                                 _mainView->graphicsView()->window());
@@ -487,7 +488,7 @@ void QuickAccessBarImpl::setAllValues(uint eltType, PropertyInterface *prop) {
 
   Observable::holdObservers();
 
-  if (eltType == NODE) {
+  if (eltType == ElementType::NODE) {
     for (auto n : selected->getNonDefaultValuatedNodes(_mainView->graph())) {
       GraphModel::setNodeValue(n.id, prop, val);
       hasSelected = true;
@@ -513,23 +514,23 @@ void QuickAccessBarImpl::setAllValues(uint eltType, PropertyInterface *prop) {
 }
 
 void QuickAccessBarImpl::setNodeShape() {
-  setAllValues(NODE, inputData()->shapes());
+  setAllValues(ElementType::NODE, inputData()->shapes());
 }
 
 void QuickAccessBarImpl::setEdgeShape() {
-  setAllValues(EDGE, inputData()->shapes());
+  setAllValues(ElementType::EDGE, inputData()->shapes());
 }
 
 void QuickAccessBarImpl::setNodeSize() {
-  setAllValues(NODE, inputData()->sizes());
+  setAllValues(ElementType::NODE, inputData()->sizes());
 }
 
 void QuickAccessBarImpl::setEdgeSize() {
-  setAllValues(EDGE, inputData()->sizes());
+  setAllValues(ElementType::EDGE, inputData()->sizes());
 }
 
 void QuickAccessBarImpl::setNodeLabelPosition() {
-  setAllValues(NODE, inputData()->labelPositions());
+  setAllValues(ElementType::NODE, inputData()->labelPositions());
 }
 
 void QuickAccessBarImpl::setEdgesVisible(bool v) {

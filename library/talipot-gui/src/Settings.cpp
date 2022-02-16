@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -60,12 +60,12 @@ Settings::Settings() : QSettings("TalipotFramework", "Talipot") {
 }
 
 void Settings::synchronizeViewSettings() {
-  ViewSettings::setDefaultColor(NODE, defaultColor(NODE));
-  ViewSettings::setDefaultColor(EDGE, defaultColor(EDGE));
-  ViewSettings::setDefaultSize(NODE, defaultSize(NODE));
-  ViewSettings::setDefaultSize(EDGE, defaultSize(EDGE));
-  ViewSettings::setDefaultShape(NODE, defaultShape(NODE));
-  ViewSettings::setDefaultShape(EDGE, defaultShape(EDGE));
+  ViewSettings::setDefaultColor(ElementType::NODE, defaultColor(ElementType::NODE));
+  ViewSettings::setDefaultColor(ElementType::EDGE, defaultColor(ElementType::EDGE));
+  ViewSettings::setDefaultSize(ElementType::NODE, defaultSize(ElementType::NODE));
+  ViewSettings::setDefaultSize(ElementType::EDGE, defaultSize(ElementType::EDGE));
+  ViewSettings::setDefaultShape(ElementType::NODE, defaultShape(ElementType::NODE));
+  ViewSettings::setDefaultShape(ElementType::EDGE, defaultShape(ElementType::EDGE));
   ViewSettings::setDefaultLabelColor(defaultLabelColor());
   ViewSettings::setDefaultSelectionColor(defaultSelectionColor());
 }
@@ -91,7 +91,7 @@ void Settings::addToRecentDocuments(const QString &name) {
 }
 
 QString Settings::elementKey(const QString &configEntry, tlp::ElementType elem) {
-  return configEntry + (elem == tlp::NODE ? "node" : "edge");
+  return configEntry + (elem == tlp::ElementType::NODE ? "node" : "edge");
 }
 
 tlp::Color Settings::defaultColor(tlp::ElementType elem) {
@@ -383,13 +383,13 @@ void Settings::setGuiTheme(const QString &guiTheme) {
 void Settings::treatEvent(const Event &message) {
   const auto *sev = dynamic_cast<const ViewSettingsEvent *>(&message);
 
-  if (sev && sev->getType() == ViewSettingsEvent::TLP_DEFAULT_COLOR_MODIFIED) {
+  if (sev && sev->getType() == ViewSettingsEventType::TLP_DEFAULT_COLOR_MODIFIED) {
     setDefaultColor(sev->getElementType(), sev->getColor());
-  } else if (sev && sev->getType() == ViewSettingsEvent::TLP_DEFAULT_SIZE_MODIFIED) {
+  } else if (sev && sev->getType() == ViewSettingsEventType::TLP_DEFAULT_SIZE_MODIFIED) {
     setDefaultSize(sev->getElementType(), sev->getSize());
-  } else if (sev && sev->getType() == ViewSettingsEvent::TLP_DEFAULT_SHAPE_MODIFIED) {
+  } else if (sev && sev->getType() == ViewSettingsEventType::TLP_DEFAULT_SHAPE_MODIFIED) {
     setDefaultShape(sev->getElementType(), sev->getShape());
-  } else if (sev && sev->getType() == ViewSettingsEvent::TLP_DEFAULT_LABEL_COLOR_MODIFIED) {
+  } else if (sev && sev->getType() == ViewSettingsEventType::TLP_DEFAULT_LABEL_COLOR_MODIFIED) {
     setDefaultLabelColor(sev->getColor());
   }
 }

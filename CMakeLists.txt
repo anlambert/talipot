@@ -141,7 +141,6 @@ SET(LibTalipotOGLName "talipot-ogl-${TalipotMMVersion}")
 SET(LibTalipotGUIName "talipot-gui-${TalipotMMVersion}")
 SET(LibTalipotPythonName "talipot-python-${TalipotMMVersion}")
 SET(LibTalipotOGDFName "talipot-ogdf-${TalipotMMVersion}")
-SET(LibStlPythonBindingsName "stl-python-bindings")
 SET(LibTalipotCorePythonBindingsName "talipot-core-python-bindings")
 SET(TalipotLibs ${LibTalipotCoreName} ${LibTalipotOGLName} ${LibTalipotGUIName}
                 ${LibTalipotOGDFName})

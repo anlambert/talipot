@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,6 +14,18 @@
 namespace tlp {
 
 class Color {
+%Docstring
+This class represents a color using the RGBA color space. It can be instantiated the following way::
+
+  # Each component must be in the range [0, 255]
+  redOpaque = tlp.Color(255, 0, 0)
+
+  blueTranslucent = tlp.Color(0, 0, 255, 100)
+
+The value of each component can be read / written using the [] operator.
+
+%End
+
 %TypeHeaderCode
 #include <talipot/Color.h>
 %End
@@ -30,7 +42,7 @@ class Color {
       return 0;
     }
 
-    for (SIP_SSIZE_T i = 0; i < PyTuple_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(sipPy); ++i) {
       PyObject *item = PyTuple_GET_ITEM(sipPy, i);
       if (PyBool_Check(item)) {
         return 0;
@@ -65,18 +77,6 @@ class Color {
     *sipCppPtr = new tlp::Color(r, g, b, a);
   }
   return sipGetState(sipTransferObj);
-%End
-
-%Docstring
-This class represents a color using the RGBA color space. It can be instantiated the following way::
-
-  # Each component must be in the range [0, 255]
-  redOpaque = tlp.Color(255, 0, 0)
-
-  blueTranslucent = tlp.Color(0, 0, 255, 100)
-
-The value of each component can be read / written using the [] operator.
-
 %End
 
 public:

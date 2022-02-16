@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,105 +13,164 @@
 
 %ModuleHeaderCode
 #include <talipot/ViewSettings.h>
+
+namespace tlp {
+
+class NodeShapeConstants {
+
+public:
+
+  static const int Billboard = 7;
+  static const int Circle = 14;
+  static const int Cone = 3;
+  static const int Cross = 8;
+  static const int Cube = 0;
+  static const int CubeOutlined = 1;
+  static const int CubeOutlinedTransparent = 9;
+  static const int Cylinder = 6;
+  static const int Diamond = 5;
+  static const int GlowSphere = 16;
+  static const int HalfCylinder = 10;
+  static const int Hexagon = 13;
+  static const int Pentagon = 12;
+  static const int Ring = 15;
+  static const int RoundedBox = 18;
+  static const int Sphere = 2;
+  static const int Square = 4;
+  static const int Triangle = 11;
+  static const int Window = 17;
+  static const int Star = 19;
+  static const int FontAwesomeIcon = 20;
+  static const int Icon = 20;
+
+};
+
+class EdgeShapeConstants {
+
+public:
+
+  static const int Polyline = 0;
+  static const int BezierCurve = 4;
+  static const int CatmullRomCurve = 8;
+  static const int CubicBSplineCurve = 16;
+};
+
+class EdgeExtremityShapeConstants {
+
+public:
+
+  static const int None = -1;
+  static const int Arrow = 50;
+  static const int Circle = 14;
+  static const int Cone = 3;
+  static const int Cross = 8;
+  static const int Cube = 0;
+  static const int CubeOutlinedTransparent = 9;
+  static const int Cylinder = 6;
+  static const int Diamond = 5;
+  static const int GlowSphere = 16;
+  static const int Hexagon = 13;
+  static const int Pentagon = 12;
+  static const int Ring = 15;
+  static const int Sphere = 2;
+  static const int Square = 4;
+  static const int Star = 19;
+  static const int FontAwesomeIcon = 20;
+  static const int Icon = 20;
+
+};
+
+class LabelPositionConstants {
+
+public:
+
+  static const int Center = 0;
+  static const int Top = 1;
+  static const int Bottom = 2;
+  static const int Left = 3;
+  static const int Right = 4;
+};
+
+
+}
+
 %End
 
 namespace tlp {
 
-class NodeShape /NoDefaultCtors/ {
-%TypeHeaderCode
-#include <talipot/ViewSettings.h>
-%End
+class NodeShapeConstants /NoDefaultCtors, PyName=NodeShape/ {
 
 public:
 
-  enum NodeShapes {
-    Billboard=7,
-    Circle=14,
-    Cone=3,
-    Cross=8,
-    Cube=0,
-    CubeOutlined=1,
-    CubeOutlinedTransparent=9,
-    Cylinder=6,
-    Diamond=5,
-    GlowSphere=16,
-    HalfCylinder=10,
-    Hexagon=13,
-    Pentagon=12,
-    Ring=15,
-    RoundedBox=18,
-    Sphere=2 ,
-    Square=4,
-    Triangle=11,
-    Window=17,
-    Star=19,
-    FontAwesomeIcon=20,
-    Icon=20
-  };
+  static const int Billboard;
+  static const int Circle;
+  static const int Cone;
+  static const int Cross;
+  static const int Cube;
+  static const int CubeOutlined;
+  static const int CubeOutlinedTransparent;
+  static const int Cylinder;
+  static const int Diamond;
+  static const int GlowSphere;
+  static const int HalfCylinder;
+  static const int Hexagon;
+  static const int Pentagon;
+  static const int Ring;
+  static const int RoundedBox;
+  static const int Sphere;
+  static const int Square;
+  static const int Triangle;
+  static const int Window;
+  static const int Star;
+  static const int FontAwesomeIcon;
+  static const int Icon;
 
 };
 
-class EdgeShape /NoDefaultCtors/ {
-%TypeHeaderCode
-#include <talipot/ViewSettings.h>
-%End
+class EdgeShapeConstants /NoDefaultCtors, PyName=EdgeShape/ {
 
 public:
 
-  enum EdgeShapes {
-    Polyline=0,
-    BezierCurve=4,
-    CatmullRomCurve=8,
-    CubicBSplineCurve=16
-  };
+  static const int Polyline;
+  static const int BezierCurve;
+  static const int CatmullRomCurve;
+  static const int CubicBSplineCurve;
+};
+
+class EdgeExtremityShapeConstants /NoDefaultCtors, PyName=EdgeExtremityShape/ {
+
+public:
+
+  static const int None;
+  static const int Arrow;
+  static const int Circle;
+  static const int Cone;
+  static const int Cross;
+  static const int Cube;
+  static const int CubeOutlinedTransparent;
+  static const int Cylinder;
+  static const int Diamond;
+  static const int GlowSphere;
+  static const int Hexagon;
+  static const int Pentagon;
+  static const int Ring;
+  static const int Sphere;
+  static const int Square;
+  static const int Star;
+  static const int FontAwesomeIcon;
+  static const int Icon;
 
 };
 
-class EdgeExtremityShape /NoDefaultCtors/ {
-%TypeHeaderCode
-#include <talipot/ViewSettings.h>
-%End
+class LabelPositionConstants /NoDefaultCtors, PyName=LabelPosition/ {
 
 public:
 
-  enum EdgeExtremityShapes {
-    None=-1,
-    Arrow=50,
-    Circle=14,
-    Cone=3,
-    Cross=8,
-    Cube=0,
-    CubeOutlinedTransparent=9,
-    Cylinder=6,
-    Diamond=5,
-    GlowSphere=16,
-    Hexagon=13,
-    Pentagon=12,
-    Ring=15,
-    Sphere=2 ,
-    Square=4,
-    Star=19,
-    FontAwesomeIcon=20,
-    Icon=20
-  };
-
-};
-
-class LabelPosition /NoDefaultCtors/ {
-%TypeHeaderCode
-#include <talipot/ViewSettings.h>
-%End
-
-public:
-
-  enum LabelPositions {
-    Center=0,
-    Top,
-    Bottom,
-    Left,
-    Right
-  };
-
+  static const int Center;
+  static const int Top;
+  static const int Bottom;
+  static const int Left;
+  static const int Right;
 };
 
 class ViewSettings : tlp::Observable /NoDefaultCtors/ {
@@ -215,27 +274,27 @@ private:
 
 };
 
+enum class ViewSettingsEventType {
+  TLP_DEFAULT_COLOR_MODIFIED,
+  TLP_DEFAULT_SHAPE_MODIFIED,
+  TLP_DEFAULT_SIZE_MODIFIED,
+  TLP_DEFAULT_LABEL_COLOR_MODIFIED
+};
+
 class ViewSettingsEvent : public tlp::Event /NoDefaultCtors/ {
 %TypeHeaderCode
 #include <talipot/ViewSettings.h>
 %End
 
 %ConvertToSubClassCode
-   if (dynamic_cast<tlp::ViewSettingsEvent*>(sipCpp)) {
-        sipType = sipFindType("tlp::ViewSettingsEvent");
-   } else {
-        sipType = NULL;
-   }
+  if (dynamic_cast<tlp::ViewSettingsEvent*>(sipCpp)) {
+    sipType = sipFindType("tlp::ViewSettingsEvent");
+  } else {
+    sipType = NULL;
+  }
 %End
 
 public:
-
-  enum ViewSettingsEventType {
-    TLP_DEFAULT_COLOR_MODIFIED,
-    TLP_DEFAULT_SHAPE_MODIFIED,
-    TLP_DEFAULT_SIZE_MODIFIED,
-    TLP_DEFAULT_LABEL_COLOR_MODIFIED
-  };
 
   ViewSettingsEventType getType();
 

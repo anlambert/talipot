@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -150,56 +150,64 @@ void PreferencesDialog::writeSettings() {
   bool applyDrawingDefaults = _ui->applyDrawingDefaultsCheck->isChecked();
   bool graphPush = true;
 
-  if (Settings::defaultColor(tlp::NODE) != model->data(model->index(0, 0)).value<tlp::Color>()) {
-    Settings::setDefaultColor(tlp::NODE, model->data(model->index(0, 0)).value<tlp::Color>());
+  if (Settings::defaultColor(tlp::ElementType::NODE) !=
+      model->data(model->index(0, 0)).value<tlp::Color>()) {
+    Settings::setDefaultColor(tlp::ElementType::NODE,
+                              model->data(model->index(0, 0)).value<tlp::Color>());
 
     if (applyDrawingDefaults) {
-      setDefaultNodeValueInProperty<ColorProperty>("viewColor", Settings::defaultColor(tlp::NODE),
-                                                   graphPush);
+      setDefaultNodeValueInProperty<ColorProperty>(
+          "viewColor", Settings::defaultColor(tlp::ElementType::NODE), graphPush);
     }
   }
 
-  if (Settings::defaultColor(tlp::EDGE) != model->data(model->index(0, 1)).value<tlp::Color>()) {
-    Settings::setDefaultColor(tlp::EDGE, model->data(model->index(0, 1)).value<tlp::Color>());
+  if (Settings::defaultColor(tlp::ElementType::EDGE) !=
+      model->data(model->index(0, 1)).value<tlp::Color>()) {
+    Settings::setDefaultColor(tlp::ElementType::EDGE,
+                              model->data(model->index(0, 1)).value<tlp::Color>());
 
     if (applyDrawingDefaults) {
-      setDefaultEdgeValueInProperty<ColorProperty>("viewColor", Settings::defaultColor(tlp::EDGE),
-                                                   graphPush);
+      setDefaultEdgeValueInProperty<ColorProperty>(
+          "viewColor", Settings::defaultColor(tlp::ElementType::EDGE), graphPush);
     }
   }
 
-  if (Settings::defaultSize(tlp::NODE) != model->data(model->index(1, 0)).value<tlp::Size>()) {
-    Settings::setDefaultSize(tlp::NODE, model->data(model->index(1, 0)).value<tlp::Size>());
-    setDefaultNodeValueInProperty<SizeProperty>("viewSize", Settings::defaultSize(tlp::NODE),
-                                                graphPush);
+  if (Settings::defaultSize(tlp::ElementType::NODE) !=
+      model->data(model->index(1, 0)).value<tlp::Size>()) {
+    Settings::setDefaultSize(tlp::ElementType::NODE,
+                             model->data(model->index(1, 0)).value<tlp::Size>());
+    setDefaultNodeValueInProperty<SizeProperty>(
+        "viewSize", Settings::defaultSize(tlp::ElementType::NODE), graphPush);
   }
 
-  if (Settings::defaultSize(tlp::EDGE) != model->data(model->index(1, 1)).value<tlp::Size>()) {
-    Settings::setDefaultSize(tlp::EDGE, model->data(model->index(1, 1)).value<tlp::Size>());
+  if (Settings::defaultSize(tlp::ElementType::EDGE) !=
+      model->data(model->index(1, 1)).value<tlp::Size>()) {
+    Settings::setDefaultSize(tlp::ElementType::EDGE,
+                             model->data(model->index(1, 1)).value<tlp::Size>());
 
     if (applyDrawingDefaults) {
-      setDefaultEdgeValueInProperty<SizeProperty>("viewSize", Settings::defaultSize(tlp::EDGE),
-                                                  graphPush);
+      setDefaultEdgeValueInProperty<SizeProperty>(
+          "viewSize", Settings::defaultSize(tlp::ElementType::EDGE), graphPush);
     }
   }
 
-  if (Settings::defaultShape(tlp::NODE) !=
+  if (Settings::defaultShape(tlp::ElementType::NODE) !=
       model->data(model->index(2, 0)).value<NodeShape::NodeShapes>()) {
-    Settings::setDefaultShape(tlp::NODE,
+    Settings::setDefaultShape(tlp::ElementType::NODE,
                               model->data(model->index(2, 0)).value<NodeShape::NodeShapes>());
 
     if (applyDrawingDefaults) {
-      setDefaultNodeValueInProperty<IntegerProperty>("viewShape", Settings::defaultShape(tlp::NODE),
-                                                     graphPush);
+      setDefaultNodeValueInProperty<IntegerProperty>(
+          "viewShape", Settings::defaultShape(tlp::ElementType::NODE), graphPush);
     }
   }
 
-  if (Settings::defaultShape(tlp::EDGE) !=
+  if (Settings::defaultShape(tlp::ElementType::EDGE) !=
       int(model->data(model->index(2, 1)).value<EdgeShape::EdgeShapes>())) {
-    Settings::setDefaultShape(tlp::EDGE,
+    Settings::setDefaultShape(tlp::ElementType::EDGE,
                               int(model->data(model->index(2, 1)).value<EdgeShape::EdgeShapes>()));
-    setDefaultEdgeValueInProperty<IntegerProperty>("viewShape", Settings::defaultShape(tlp::EDGE),
-                                                   graphPush);
+    setDefaultEdgeValueInProperty<IntegerProperty>(
+        "viewShape", Settings::defaultShape(tlp::ElementType::EDGE), graphPush);
   }
 
   if (Settings::defaultLabelColor() != model->data(model->index(4, 0)).value<tlp::Color>()) {
@@ -282,19 +290,19 @@ void PreferencesDialog::readSettings() {
 
   QAbstractItemModel *model = _ui->graphDefaultsTable->model();
   model->setData(model->index(0, 0),
-                 QVariant::fromValue<tlp::Color>(Settings::defaultColor(tlp::NODE)));
+                 QVariant::fromValue<tlp::Color>(Settings::defaultColor(tlp::ElementType::NODE)));
   model->setData(model->index(0, 1),
-                 QVariant::fromValue<tlp::Color>(Settings::defaultColor(tlp::EDGE)));
+                 QVariant::fromValue<tlp::Color>(Settings::defaultColor(tlp::ElementType::EDGE)));
   model->setData(model->index(1, 0),
-                 QVariant::fromValue<tlp::Size>(Settings::defaultSize(tlp::NODE)));
+                 QVariant::fromValue<tlp::Size>(Settings::defaultSize(tlp::ElementType::NODE)));
   model->setData(model->index(1, 1),
-                 QVariant::fromValue<tlp::Size>(Settings::defaultSize(tlp::EDGE)));
+                 QVariant::fromValue<tlp::Size>(Settings::defaultSize(tlp::ElementType::EDGE)));
   model->setData(model->index(2, 0),
-                 QVariant::fromValue<NodeShape::NodeShapes>(
-                     static_cast<NodeShape::NodeShapes>(Settings::defaultShape(tlp::NODE))));
+                 QVariant::fromValue<NodeShape::NodeShapes>(static_cast<NodeShape::NodeShapes>(
+                     Settings::defaultShape(tlp::ElementType::NODE))));
   model->setData(model->index(2, 1),
-                 QVariant::fromValue<EdgeShape::EdgeShapes>(
-                     static_cast<EdgeShape::EdgeShapes>(Settings::defaultShape(tlp::EDGE))));
+                 QVariant::fromValue<EdgeShape::EdgeShapes>(static_cast<EdgeShape::EdgeShapes>(
+                     Settings::defaultShape(tlp::ElementType::EDGE))));
   model->setData(model->index(3, 0),
                  QVariant::fromValue<tlp::Color>(Settings::defaultSelectionColor()));
   model->setData(model->index(3, 1),

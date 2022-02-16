@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -52,8 +52,8 @@ HistogramView::HistogramView(const PluginContext *)
       axisComposite(nullptr), smallMultiplesView(true), mainLayer(nullptr),
       detailedHistogram(nullptr), sceneRadiusBak(0), zoomFactorBak(0), noDimsLabel(nullptr),
       noDimsLabel1(nullptr), noDimsLabel2(nullptr), emptyRect(nullptr), emptyRect2(nullptr),
-      isConstruct(false), lastNbHistograms(0), dataLocation(NODE), needUpdateHistogram(false),
-      edgeAsNodeGraph(nullptr) {}
+      isConstruct(false), lastNbHistograms(0), dataLocation(ElementType::NODE),
+      needUpdateHistogram(false), edgeAsNodeGraph(nullptr) {}
 
 HistogramView::~HistogramView() {
   if (isConstruct) {
@@ -321,7 +321,7 @@ void HistogramView::setState(const DataSet &dataSet) {
     }
   }
 
-  unsigned nodes = NODE;
+  unsigned nodes = static_cast<unsigned>(ElementType::NODE);
   dataSet.get("Nodes/Edges", nodes);
   dataLocation = static_cast<ElementType>(nodes);
   propertiesSelectionWidget->setDataLocation(dataLocation);
@@ -593,7 +593,7 @@ void HistogramView::graphChanged(Graph *) {
   // in the new state in order to keep
   // the user choice when changing graph
   DataSet oldDs = state();
-  unsigned nodes = NODE;
+  unsigned nodes = static_cast<unsigned>(ElementType::NODE);
   oldDs.get("Nodes/Edges", nodes);
   DataSet newDs;
   newDs.set("Nodes/Edges", nodes);
@@ -815,7 +815,7 @@ void HistogramView::switchFromSmallMultiplesToDetailedView(Histogram *histogramT
 
   histoOptionsWidget->setWidgetEnabled(true);
 
-  histoOptionsWidget->enableShowGraphEdgesCB(dataLocation == NODE);
+  histoOptionsWidget->enableShowGraphEdgesCB(dataLocation == ElementType::NODE);
   histoOptionsWidget->setUniformQuantification(detailedHistogram->uniformQuantificationHistogram());
   histoOptionsWidget->setNbOfHistogramBins(detailedHistogram->getNbHistogramBins());
   histoOptionsWidget->setBinWidth(detailedHistogram->getHistogramBinsWidth());
@@ -889,7 +889,7 @@ void HistogramView::updateDetailedHistogramAxis() {
   GlQuantitativeAxis *yAxis = detailedHistogram->getYAxis();
   xAxis->addCaption(GlAxis::BELOW, 100, false, 300, 155, detailedHistogram->getPropertyName());
   yAxis->addCaption(GlAxis::LEFT, 100, false, 300, 155,
-                    (dataLocation == NODE ? "number of nodes" : "number of edges"));
+                    (dataLocation == ElementType::NODE ? "number of nodes" : "number of edges"));
 
   if (xAxis->getCaptionHeight() > yAxis->getCaptionHeight()) {
     xAxis->setCaptionHeight(yAxis->getCaptionHeight(), false);
@@ -947,19 +947,19 @@ void HistogramView::treatEvent(const Event &message) {
     const auto *graphEvent = dynamic_cast<const GraphEvent *>(&message);
 
     if (graphEvent) {
-      if (graphEvent->getType() == GraphEvent::TLP_ADD_NODE) {
+      if (graphEvent->getType() == GraphEventType::TLP_ADD_NODE) {
         addNode(graphEvent->getGraph(), graphEvent->getNode());
       }
 
-      if (graphEvent->getType() == GraphEvent::TLP_ADD_EDGE) {
+      if (graphEvent->getType() == GraphEventType::TLP_ADD_EDGE) {
         addEdge(graphEvent->getGraph(), graphEvent->getEdge());
       }
 
-      if (graphEvent->getType() == GraphEvent::TLP_DEL_NODE) {
+      if (graphEvent->getType() == GraphEventType::TLP_DEL_NODE) {
         delNode(graphEvent->getGraph(), graphEvent->getNode());
       }
 
-      if (graphEvent->getType() == GraphEvent::TLP_DEL_EDGE) {
+      if (graphEvent->getType() == GraphEventType::TLP_DEL_EDGE) {
         delEdge(graphEvent->getGraph(), graphEvent->getEdge());
       }
     }
@@ -969,19 +969,19 @@ void HistogramView::treatEvent(const Event &message) {
     const auto *propertyEvent = dynamic_cast<const PropertyEvent *>(&message);
 
     if (propertyEvent) {
-      if (propertyEvent->getType() == PropertyEvent::TLP_AFTER_SET_NODE_VALUE) {
+      if (propertyEvent->getType() == PropertyEventType::TLP_AFTER_SET_NODE_VALUE) {
         afterSetNodeValue(propertyEvent->getProperty(), propertyEvent->getNode());
       }
 
-      if (propertyEvent->getType() == PropertyEvent::TLP_AFTER_SET_EDGE_VALUE) {
+      if (propertyEvent->getType() == PropertyEventType::TLP_AFTER_SET_EDGE_VALUE) {
         afterSetEdgeValue(propertyEvent->getProperty(), propertyEvent->getEdge());
       }
 
-      if (propertyEvent->getType() == PropertyEvent::TLP_AFTER_SET_ALL_NODE_VALUE) {
+      if (propertyEvent->getType() == PropertyEventType::TLP_AFTER_SET_ALL_NODE_VALUE) {
         afterSetAllNodeValue(propertyEvent->getProperty());
       }
 
-      if (propertyEvent->getType() == PropertyEvent::TLP_AFTER_SET_ALL_EDGE_VALUE) {
+      if (propertyEvent->getType() == PropertyEventType::TLP_AFTER_SET_ALL_EDGE_VALUE) {
         afterSetAllEdgeValue(propertyEvent->getProperty());
       }
     }
@@ -1104,7 +1104,7 @@ void HistogramView::delEdge(Graph *, const edge e) {
 }
 
 uint HistogramView::getMappedId(uint id) {
-  if (dataLocation == EDGE) {
+  if (dataLocation == ElementType::EDGE) {
     return nodeToEdge[node(id)].id;
   }
 

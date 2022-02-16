@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -96,7 +96,7 @@ void AbstractCSVToGraphDataMapping::init(uint) {
   valueToId.clear();
 
   // Fill map with graph values.
-  if (type == NODE) {
+  if (type == ElementType::NODE) {
     for (auto n : graph->nodes()) {
       string key;
 
@@ -177,12 +177,12 @@ pair<ElementType, vector<uint>>
 CSVToNewNodeIdMapping::getElementsForRow(const vector<vector<string>> &) {
   vector<uint> result(1);
   result[0] = graph->addNode().id;
-  return make_pair(NODE, result);
+  return make_pair(ElementType::NODE, result);
 }
 
 CSVToGraphNodeIdMapping::CSVToGraphNodeIdMapping(Graph *graph, const vector<uint> &colIds,
                                                  const vector<string> &propNames, bool createNode)
-    : AbstractCSVToGraphDataMapping(graph, NODE, colIds, propNames),
+    : AbstractCSVToGraphDataMapping(graph, ElementType::NODE, colIds, propNames),
       createMissingNodes(createNode) {}
 
 void CSVToGraphNodeIdMapping::init(uint rowNumber) {
@@ -210,7 +210,7 @@ uint CSVToGraphNodeIdMapping::buildIndexForRow(uint, const vector<string> &keys)
 
 CSVToGraphEdgeIdMapping::CSVToGraphEdgeIdMapping(Graph *graph, const vector<uint> &colIds,
                                                  const vector<string> &propNames)
-    : AbstractCSVToGraphDataMapping(graph, EDGE, colIds, propNames) {}
+    : AbstractCSVToGraphDataMapping(graph, ElementType::EDGE, colIds, propNames) {}
 
 uint CSVToGraphEdgeIdMapping::buildIndexForRow(uint, const vector<string> &) {
   return UINT_MAX;
@@ -415,7 +415,7 @@ CSVToGraphEdgeSrcTgtMapping::getElementsForRow(const vector<vector<string>> &tok
     }
   }
 
-  return make_pair(EDGE, results);
+  return make_pair(ElementType::EDGE, results);
 }
 
 CSVImportColumnToGraphPropertyMappingProxy::CSVImportColumnToGraphPropertyMappingProxy(
@@ -613,7 +613,7 @@ bool CSVGraphImport::line(uint row, const vector<string> &lineTokens) {
     // if the token is empty no need to import the value
     if (property != nullptr && !tokens[column].empty()) {
       bool isVectorProperty = (property->getTypename().find("vector") == 0);
-      if (elements.first == NODE) {
+      if (elements.first == ElementType::NODE) {
         for (uint i : elements.second) {
           if (i == UINT_MAX) {
             continue;

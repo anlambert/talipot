@@ -266,12 +266,12 @@ static FontIconData &getFontIconData(const string &iconName, ElementType eltType
     }
 
     if (iconName.empty()) {
-      tlp::warning() << "Icon name for " << (eltType == NODE ? "node " : "edge ") << eltId
-                     << " is empty." << std::endl;
+      tlp::warning() << "Icon name for " << (eltType == ElementType::NODE ? "node " : "edge ")
+                     << eltId << " is empty." << std::endl;
     } else {
       tlp::warning() << "Icon name '" << iconName << "' for "
-                     << (eltType == NODE ? "node " : "edge ") << eltId << " does not exist."
-                     << std::endl;
+                     << (eltType == ElementType::NODE ? "node " : "edge ") << eltId
+                     << " does not exist." << std::endl;
     }
 
     return defaultFontIconData;
@@ -318,7 +318,7 @@ private:
   FontIconData &getNodeFontIconData(node n) {
     StringProperty *viewIcon = glGraphInputData->icons();
     const string &iconName = viewIcon->getNodeValue(n);
-    return getFontIconData(iconName, NODE, n.id);
+    return getFontIconData(iconName, ElementType::NODE, n.id);
   }
 };
 
@@ -353,8 +353,8 @@ public:
     // icon must be mirrored along its Y axis to get a correct rendering
     glScalef(-1.0f, 1.0f, 1.0f);
 
-    drawIcon(getFontIconData(iconName, EDGE, e.id), glyphColor, borderColor, borderWidth,
-             edgeTexture);
+    drawIcon(getFontIconData(iconName, ElementType::EDGE, e.id), glyphColor, borderColor,
+             borderWidth, edgeTexture);
   }
 };
 

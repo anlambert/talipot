@@ -369,7 +369,7 @@ void AlgorithmRunnerItem::run(Graph *g) {
   }
 
   if (!result) {
-    if (progress->state() == TLP_CANCEL && errorMessage.empty()) {
+    if (progress->state() == ProgressState::TLP_CANCEL && errorMessage.empty()) {
       errorMessage = "Cancelled by user";
       tlp::warning() << QStringToTlpString(name()) << ": " << errorMessage;
       QMessageBox::warning(parentWidget(), name(), errorMessage.c_str());
@@ -380,7 +380,7 @@ void AlgorithmRunnerItem::run(Graph *g) {
     progress->setComment("Cancelling graph changes...");
     g->pop();
   } else {
-    if (progress->state() == TLP_STOP) {
+    if (progress->state() == ProgressState::TLP_STOP) {
       errorMessage = "Stopped by user";
       tlp::warning() << QStringToTlpString(name()) << ": " << errorMessage;
       QMessageBox::warning(parentWidget(), name(), errorMessage.c_str());

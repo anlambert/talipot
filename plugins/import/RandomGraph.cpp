@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -143,8 +143,9 @@ public:
 
     while (myGraph.size() < nb_disctint_pairs_needed) {
       if (myGraph.size() % nbNodes == 1 &&
-          (pluginProgress->progress(myGraph.size(), nb_disctint_pairs_needed) != TLP_CONTINUE)) {
-        return pluginProgress->state() != TLP_CANCEL;
+          (pluginProgress->progress(myGraph.size(), nb_disctint_pairs_needed) !=
+           ProgressState::TLP_CONTINUE)) {
+        return pluginProgress->state() != ProgressState::TLP_CANCEL;
       }
 
       edgeS tmp;

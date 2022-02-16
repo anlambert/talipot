@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -51,13 +51,13 @@ Edges and simplices are defined using indexes into the original list of points.
 %End
 
 class VoronoiDiagram /Abstract/ {
-%TypeHeaderCode
-#include <talipot/Delaunay.h>
-%End
-
 %Docstring
 That class defines a voronoi diagram. Use the :func:`tlp.voronoiDiagram` function
 to get an instance of it.
+%End
+
+%TypeHeaderCode
+#include <talipot/Delaunay.h>
 %End
 
 public:

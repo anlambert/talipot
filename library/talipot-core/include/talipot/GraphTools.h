@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,22 +36,22 @@ class NumericProperty;
 class PlanarConMap;
 class PluginProgress;
 
-enum EDGE_TYPE { UNDIRECTED = 0, INV_DIRECTED = 1, DIRECTED = 2 };
-#define IN_EDGE INV_DIRECTED
-#define OUT_EDGE DIRECTED
-#define INOUT_EDGE UNDIRECTED
+enum class EdgeType { UNDIRECTED = 0, INV_DIRECTED = 1, DIRECTED = 2 };
+#define IN_EDGE EdgeType::INV_DIRECTED
+#define OUT_EDGE EdgeType::DIRECTED
+#define INOUT_EDGE EdgeType::UNDIRECTED
 
 /**
  * Return a function to get an Iterator on the adjacent nodes of a graph node
  * according to the given direction
  */
-TLP_SCOPE Iterator<node> *getAdjacentNodesIterator(const Graph *graph, node n, EDGE_TYPE direction);
+TLP_SCOPE Iterator<node> *getAdjacentNodesIterator(const Graph *graph, node n, EdgeType direction);
 
 /**
  * Return a function to get an Iterator on the incident edges of a graph node
  * according to the given direction
  */
-TLP_SCOPE Iterator<edge> *getIncidentEdgesIterator(const Graph *graph, node n, EDGE_TYPE direction);
+TLP_SCOPE Iterator<edge> *getIncidentEdgesIterator(const Graph *graph, node n, EdgeType direction);
 
 /**
  *  This ordering was first introduced by C. Gutwenger and P. Mutzel in \n
@@ -222,7 +222,7 @@ TLP_SCOPE unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selec
  * It is used in tlp::selectShortestPaths. Reversed means the same than Directed from target node to
  *source node.
  **/
-enum ShortestPathType {
+enum class ShortestPathType {
   OnePath = 0,
   OneDirectedPath = 1,
   OneReversedPath = 2,
@@ -252,17 +252,17 @@ TLP_SCOPE bool selectShortestPaths(const Graph *const graph, node src, node tgt,
  * mark as reachable (set the corresponding value in "reachables" map to true),
  * all the nodes, according to direction,
  * at distance less or equal to maxDistance of startNode.
- * If direction is set to UNDIRECTED use undirected graph,
- * DIRECTED use directed graph
- * and INV_DIRECTED use reverse directed graph (ie. all edges are reversed)
+ * If direction is set to EdgeType::UNDIRECTED use undirected graph,
+ * EdgeType::DIRECTED use directed graph
+ * and EdgeType::INV_DIRECTED use reverse directed graph (ie. all edges are reversed)
  */
 TLP_SCOPE void markReachableNodes(const Graph *graph, const node startNode,
                                   std::unordered_map<node, bool> &reachables, uint maxDistance,
-                                  EDGE_TYPE direction = UNDIRECTED);
+                                  EdgeType direction = EdgeType::UNDIRECTED);
 
 TLP_SCOPE void computeDijkstra(const Graph *const graph, node src,
                                const EdgeVectorProperty<double> &weights,
-                               NodeVectorProperty<double> &nodeDistance, EDGE_TYPE direction,
+                               NodeVectorProperty<double> &nodeDistance, EdgeType direction,
                                std::unordered_map<node, std::list<node>> &ancestors,
                                std::stack<node> *queueNodes = nullptr,
                                MutableContainer<int> *numberOfPaths = nullptr);

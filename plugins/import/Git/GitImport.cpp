@@ -384,7 +384,7 @@ public:
       graph->addEdge(oidNode[commitOid], oidNode[rootTreeOid]);
 
       if (pluginProgress) {
-        if (pluginProgress->progress(++i, nbCommits) != TLP_CONTINUE) {
+        if (pluginProgress->progress(++i, nbCommits) != ProgressState::TLP_CONTINUE) {
           return false;
         }
         pluginProgress->setComment(to_string(i) + " / " + to_string(nbCommits) +

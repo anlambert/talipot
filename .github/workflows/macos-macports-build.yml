@@ -57,6 +57,7 @@ jobs:
           graphviz
           libgit2
           python${{ env.PYTHON_VERSION_NO_DOT }}
+          py${{ env.PYTHON_VERSION_NO_DOT }}-sip
           pkgconfig
           cppunit
           freetype

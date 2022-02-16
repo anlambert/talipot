@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,12 +14,6 @@
 namespace tlp {
 
 class edge {
-
-%TypeHeaderCode
-#include <talipot/config.h>
-#include <talipot/Edge.h>
-%End
-
 %Docstring
 An instance of this class represent an edge in a Talipot graph. It encapsulates an integer identifier.
 Use specific methods in the :class:`tlp.Graph` class to get references on such objects (
@@ -27,6 +21,11 @@ for instance :meth:`tlp.Graph.addEdge`, :meth:`tlp.Graph.getEdges`, :meth:`tlp.G
 Edge objects can be used as keys in a Python dictionary.
 
 The edge identifier can be accessed through the **id** class member.
+%End
+
+%TypeHeaderCode
+#include <talipot/config.h>
+#include <talipot/Edge.h>
 %End
 
 public:
@@ -56,7 +55,7 @@ Returns :const:`True` if the edge is a valid one, meaning it is attached to a gr
   sipRes = new std::string(oss.str());
 %End
 
-  long __hash__() const;
+  Py_hash_t __hash__() const;
 %MethodCode
   return static_cast<long>(sipCpp->id);
 %End

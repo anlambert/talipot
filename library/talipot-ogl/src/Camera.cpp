@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -102,7 +102,7 @@ void Camera::rotate(float angle, float x, float y, float z) {
   matrixCoherent = false;
 
   if (hasOnlookers()) {
-    sendEvent(Event(*this, Event::TLP_MODIFICATION));
+    sendEvent(Event(*this, EventType::TLP_MODIFICATION));
   }
 }
 //====================================================
@@ -273,7 +273,7 @@ void Camera::setSceneRadius(double sceneRadius, const BoundingBox sceneBoundingB
   matrixCoherent = false;
 
   if (hasOnlookers()) {
-    sendEvent(Event(*this, Event::TLP_MODIFICATION));
+    sendEvent(Event(*this, EventType::TLP_MODIFICATION));
   }
 }
 //====================================================
@@ -286,7 +286,7 @@ void Camera::setZoomFactor(double zoomFactor) {
   matrixCoherent = false;
 
   if (hasOnlookers()) {
-    sendEvent(Event(*this, Event::TLP_MODIFICATION));
+    sendEvent(Event(*this, EventType::TLP_MODIFICATION));
   }
 }
 //====================================================
@@ -295,7 +295,7 @@ void Camera::setEyes(const Coord &eyes) {
   matrixCoherent = false;
 
   if (hasOnlookers()) {
-    sendEvent(Event(*this, Event::TLP_MODIFICATION));
+    sendEvent(Event(*this, EventType::TLP_MODIFICATION));
   }
 }
 //====================================================
@@ -304,7 +304,7 @@ void Camera::setCenter(const Coord &center) {
   matrixCoherent = false;
 
   if (hasOnlookers()) {
-    sendEvent(Event(*this, Event::TLP_MODIFICATION));
+    sendEvent(Event(*this, EventType::TLP_MODIFICATION));
   }
 }
 //====================================================
@@ -313,7 +313,7 @@ void Camera::setUp(const Coord &up) {
   matrixCoherent = false;
 
   if (hasOnlookers()) {
-    sendEvent(Event(*this, Event::TLP_MODIFICATION));
+    sendEvent(Event(*this, EventType::TLP_MODIFICATION));
   }
 }
 //====================================================

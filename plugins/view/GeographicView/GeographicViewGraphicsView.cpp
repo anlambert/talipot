@@ -892,7 +892,7 @@ void GeographicViewGraphicsView::setGeoShape(IntegerProperty *property) {
 void GeographicViewGraphicsView::treatEvent(const Event &ev) {
   const auto *propEvt = dynamic_cast<const PropertyEvent *>(&ev);
 
-  if (propEvt && propEvt->getType() == PropertyEvent::TLP_AFTER_SET_NODE_VALUE &&
+  if (propEvt && propEvt->getType() == PropertyEventType::TLP_AFTER_SET_NODE_VALUE &&
       propEvt->getProperty() == geoLayout) {
     // compute new node latitude / longitude from updated coordinates
     node n = propEvt->getNode();

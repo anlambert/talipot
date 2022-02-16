@@ -501,8 +501,8 @@ bool TableView::setAllHighlightedRows(PropertyInterface *prop) {
   }
 
   QVariant val =
-      ItemDelegate::showEditorDialog(NODES_DISPLAYED ? NODE : EDGE, prop, g,
-                                     static_cast<ItemDelegate *>(_ui->table->itemDelegate()),
+      ItemDelegate::showEditorDialog(NODES_DISPLAYED ? ElementType::NODE : ElementType::EDGE, prop,
+                                     g, static_cast<ItemDelegate *>(_ui->table->itemDelegate()),
                                      graphicsView()->viewport()->parentWidget(), eltId);
 
   // Check if edition has been cancelled
@@ -521,10 +521,10 @@ bool TableView::setAllHighlightedRows(PropertyInterface *prop) {
 }
 
 bool TableView::setCurrentValue(PropertyInterface *prop, uint eltId) {
-  QVariant val =
-      ItemDelegate::showEditorDialog(NODES_DISPLAYED ? NODE : EDGE, prop, graph(),
-                                     static_cast<ItemDelegate *>(_ui->table->itemDelegate()),
-                                     graphicsView()->viewport()->parentWidget(), eltId);
+  QVariant val = ItemDelegate::showEditorDialog(
+      NODES_DISPLAYED ? ElementType::NODE : ElementType::EDGE, prop, graph(),
+      static_cast<ItemDelegate *>(_ui->table->itemDelegate()),
+      graphicsView()->viewport()->parentWidget(), eltId);
 
   // Check if edition has been cancelled
   if (!val.isValid()) {

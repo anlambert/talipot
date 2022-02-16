@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,14 +13,14 @@
 
 namespace tlp {
 class Plugin : tlp::WithParameter, tlp::WithDependency {
-%TypeHeaderCode
-#include <talipot/Plugin.h>
-%End
-
 %Docstring
 Bases: :class:`tlp.WithParameter`
 
 This is the base class for all Talipot plugins.
+%End
+
+%TypeHeaderCode
+#include <talipot/Plugin.h>
 %End
 
 public:

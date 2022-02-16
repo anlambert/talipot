@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,25 +32,27 @@ class Observable;
  * An Event is characterized by its type. The base Event class only carries information as to the
  *type of event, nothing specific.
  *
- * Event::TLP_DELETE : send directly to all Observers/Listeners, not affected by
+ * EventType::TLP_DELETE : send directly to all Observers/Listeners, not affected by
  *Observable::holdObservers().
- * Event::TLP_MODIFICATION : sent to all Observers/Listeners. MODIFICATION are first sent to
+ * EventType::TLP_MODIFICATION : sent to all Observers/Listeners. MODIFICATION are first sent to
  *Observers
  *and then to Listeners.
- * Event::TLP_INFORMATION : sent only to Listeners.
- * Event::TLP_INVALID : never sent, used internally for delaying events.
+ * EventType::TLP_INFORMATION : sent only to Listeners.
+ * EventType::TLP_INVALID : never sent, used internally for delaying events.
  *
  * @see Listener
  * @see Observer
  * @see Observable
  **/
+
+enum class EventType { TLP_DELETE = 0, TLP_MODIFICATION = 1, TLP_INFORMATION, TLP_INVALID = 2 };
+
 class TLP_SCOPE Event {
   friend class Observable;
   friend class Graph;
   friend class PropertyInterface;
 
 public:
-  enum EventType { TLP_DELETE = 0, TLP_MODIFICATION, TLP_INFORMATION, TLP_INVALID };
   virtual ~Event();
   Observable *sender() const;
   Event(const Observable &sender, EventType type);
@@ -127,10 +129,9 @@ public:
    * @brief Holds back all events until Observable::unholdObservers() is called.
    *
    * Listeners are not affected by this function.
-   * Once this function is called, all events heading to an Observer will be held, except TLP_DELETE
-   * events.
-   * The events are stored in a queue, and will be sent once Observable::unholdObservers() is
-   * called.
+   * Once this function is called, all events heading to an Observer will be held, except
+   * EventType::TLP_DELETE events. The events are stored in a queue, and will be sent once
+   * Observable::unholdObservers() is called.
    *
    * It is possible to nest calls to  Observable::holdObservers() and Observable::unholdObservers(),
    * and in this case the events will only be sent when there
@@ -170,11 +171,11 @@ public:
    * @brief disable the whole event notification mechanism
    * Until a call to enableEventNotification(),
    * all sent events will be lost,
-   * except TLP_DELETE events which are synchronously processed,
+   * except EventType::TLP_DELETE events which are synchronously processed,
    * in order to void dangling pointers.
    * @warning this function is a first step to allow parallel
    * computation (of Talipot properties, for example). Use it at your
-   * own risk and avoid the sent of TLP_DELETE events whose management
+   * own risk and avoid the sent of EventType::TLP_DELETE events whose management
    * is not thread safe.
    */
   static void disableEventNotification() {
@@ -343,6 +344,7 @@ protected:
   virtual ~Observable();
   Observable &operator=(const Observable &);
 
+public:
   /**
    * @brief Sends an event to all the Observers/Listeners.
    * It is highly recommended to check if there are observers/listeners to send the event to before
@@ -353,7 +355,7 @@ protected:
    *
    * @code
    *    if (hasOnlookers()) {
-   *       sendEvent(GraphEvent(*this, GraphEvent::TLP_ADD_NODE, n));
+   *       sendEvent(GraphEvent(*this, GraphEventType::TLP_ADD_NODE, n));
    *    }
    * @endcode
    *
@@ -382,6 +384,21 @@ protected:
   virtual void treatEvent(const Event &message);
 
   /**
+   * @brief Checks whether there are Observers/Listeners attached to this object.
+   *
+   * Using this function avoids the creation of events that no-one will see :
+   * @code
+   *    if (hasOnlookers()) {
+   *       sendEvent(GraphEvent(*this, GraphEventType::TLP_ADD_NODE, n));
+   *    }
+   * @endcode
+   *
+   * @return
+   */
+  bool hasOnlookers() const;
+
+protected:
+  /**
    * @brief Sends the Event::DELETE before the deletion of the subclass and its internal objects.
    *
    * The observation system automatically sends the DELETE event when the Observable is deleted, but
@@ -398,20 +415,6 @@ protected:
    * your destructor.
    */
   void observableDeleted();
-
-  /**
-   * @brief Checks whether there are Observers/Listeners attached to this object.
-   *
-   * Using this function avoids the creation of events that no-one will see :
-   * @code
-   *    if (hasOnlookers()) {
-   *       sendEvent(GraphEvent(*this, GraphEvent::TLP_ADD_NODE, n));
-   *    }
-   * @endcode
-   *
-   * @return
-   */
-  bool hasOnlookers() const;
 
 private:
   enum OBSERVABLEEDGETYPE { OBSERVABLE = 0x01, OBSERVER = 0x02, LISTENER = 0x04 };

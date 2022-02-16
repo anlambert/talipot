@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -50,35 +50,35 @@ void GraphUpdatesRecorder::treatEvent(const Event &ev) {
     Graph *graph = gEvt->getGraph();
 
     switch (gEvt->getType()) {
-    case GraphEvent::TLP_ADD_NODE:
+    case GraphEventType::TLP_ADD_NODE:
       addNode(graph, gEvt->getNode());
       break;
 
-    case GraphEvent::TLP_DEL_NODE:
+    case GraphEventType::TLP_DEL_NODE:
       delNode(graph, gEvt->getNode());
       break;
 
-    case GraphEvent::TLP_ADD_EDGE:
+    case GraphEventType::TLP_ADD_EDGE:
       addEdge(graph, gEvt->getEdge());
       break;
 
-    case GraphEvent::TLP_DEL_EDGE:
+    case GraphEventType::TLP_DEL_EDGE:
       delEdge(graph, gEvt->getEdge());
       break;
 
-    case GraphEvent::TLP_REVERSE_EDGE:
+    case GraphEventType::TLP_REVERSE_EDGE:
       reverseEdge(graph, gEvt->getEdge());
       break;
 
-    case GraphEvent::TLP_BEFORE_SET_ENDS:
+    case GraphEventType::TLP_BEFORE_SET_ENDS:
       beforeSetEnds(graph, gEvt->getEdge());
       break;
 
-    case GraphEvent::TLP_AFTER_SET_ENDS:
+    case GraphEventType::TLP_AFTER_SET_ENDS:
       afterSetEnds(graph, gEvt->getEdge());
       break;
 
-    case GraphEvent::TLP_ADD_NODES: {
+    case GraphEventType::TLP_ADD_NODES: {
       const std::vector<node> &nodes = graph->nodes();
 
       for (uint i = nodes.size() - gEvt->getNumberOfNodes(); i < nodes.size(); ++i) {
@@ -88,35 +88,35 @@ void GraphUpdatesRecorder::treatEvent(const Event &ev) {
       break;
     }
 
-    case GraphEvent::TLP_ADD_EDGES:
+    case GraphEventType::TLP_ADD_EDGES:
       addEdges(graph, gEvt->getNumberOfEdges());
       break;
 
-    case GraphEvent::TLP_AFTER_ADD_SUBGRAPH:
+    case GraphEventType::TLP_AFTER_ADD_SUBGRAPH:
       addSubGraph(graph, const_cast<Graph *>(gEvt->getSubGraph()));
       break;
 
-    case GraphEvent::TLP_AFTER_DEL_SUBGRAPH:
+    case GraphEventType::TLP_AFTER_DEL_SUBGRAPH:
       delSubGraph(graph, const_cast<Graph *>(gEvt->getSubGraph()));
       break;
 
-    case GraphEvent::TLP_ADD_LOCAL_PROPERTY:
+    case GraphEventType::TLP_ADD_LOCAL_PROPERTY:
       addLocalProperty(graph, gEvt->getPropertyName());
       break;
 
-    case GraphEvent::TLP_BEFORE_DEL_LOCAL_PROPERTY:
+    case GraphEventType::TLP_BEFORE_DEL_LOCAL_PROPERTY:
       delLocalProperty(graph, gEvt->getPropertyName());
       break;
 
-    case GraphEvent::TLP_BEFORE_RENAME_LOCAL_PROPERTY:
+    case GraphEventType::TLP_BEFORE_RENAME_LOCAL_PROPERTY:
       propertyRenamed(gEvt->getProperty());
       break;
 
-    case GraphEvent::TLP_BEFORE_SET_ATTRIBUTE:
+    case GraphEventType::TLP_BEFORE_SET_ATTRIBUTE:
       beforeSetAttribute(graph, gEvt->getAttributeName());
       break;
 
-    case GraphEvent::TLP_REMOVE_ATTRIBUTE:
+    case GraphEventType::TLP_REMOVE_ATTRIBUTE:
       removeAttribute(graph, gEvt->getAttributeName());
 
     default:
@@ -129,19 +129,19 @@ void GraphUpdatesRecorder::treatEvent(const Event &ev) {
       PropertyInterface *prop = propEvt->getProperty();
 
       switch (propEvt->getType()) {
-      case PropertyEvent::TLP_BEFORE_SET_NODE_VALUE:
+      case PropertyEventType::TLP_BEFORE_SET_NODE_VALUE:
         beforeSetNodeValue(prop, propEvt->getNode());
         break;
 
-      case PropertyEvent::TLP_BEFORE_SET_ALL_NODE_VALUE:
+      case PropertyEventType::TLP_BEFORE_SET_ALL_NODE_VALUE:
         beforeSetAllNodeValue(prop);
         break;
 
-      case PropertyEvent::TLP_BEFORE_SET_ALL_EDGE_VALUE:
+      case PropertyEventType::TLP_BEFORE_SET_ALL_EDGE_VALUE:
         beforeSetAllEdgeValue(prop);
         break;
 
-      case PropertyEvent::TLP_BEFORE_SET_EDGE_VALUE:
+      case PropertyEventType::TLP_BEFORE_SET_EDGE_VALUE:
         beforeSetEdgeValue(prop, propEvt->getEdge());
         break;
 

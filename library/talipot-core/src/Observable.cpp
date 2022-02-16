@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -121,9 +121,9 @@ tlp::node Observable::getNode(const Observable *obs) {
 }
 //=================================
 Event::Event(const Observable &sender, EventType type) : _sender(sender._n), _type(type) {
-  assert(_type != TLP_DELETE);
+  assert(_type != EventType::TLP_DELETE);
 
-  if (_type == TLP_DELETE) {
+  if (_type == EventType::TLP_DELETE) {
     throw ObservableException("It is forbidden to create a delete events, DeleteEvents are "
                               "autmotically generated at the observable destruction");
   }
@@ -262,7 +262,7 @@ void Observable::unholdObservers() {
           sender->_queuedEvent = false;
           if (observationGraph.alive[tgt.id]) {
             observationGraph.eventsToTreat[tgt.id] += 1;
-            preparedEvents[tgt].push_back(Event(*sender, Event::TLP_MODIFICATION));
+            preparedEvents[tgt].push_back(Event(*sender, EventType::TLP_MODIFICATION));
           }
         }
       }
@@ -361,16 +361,16 @@ void Observable::observableDeleted() {
   _deleteMsgSent = true;
 
   if (hasOnlookers()) {
-    Event msg(*this, Event::TLP_INVALID); // create a modify event to prevent raise exception,
-                                          // (hack) to forbid creation of Delete exception without
-                                          // calling that function
-    msg._type = Event::TLP_DELETE;
+    Event msg(*this, EventType::TLP_INVALID); // create a modify event to prevent raise exception,
+                                              // (hack) to forbid creation of Delete exception
+                                              // without calling that function
+    msg._type = EventType::TLP_DELETE;
     sendEvent(msg);
   }
 }
 //----------------------------------------
 void Observable::sendEvent(const Event &message) {
-  if ((_oDisabled && message._type != Event::TLP_DELETE) || !isBound()) {
+  if ((_oDisabled && message._type != EventType::TLP_DELETE) || !isBound()) {
     return;
   }
 
@@ -402,8 +402,9 @@ void Observable::sendEvent(const Event &message) {
       Observable *obs = observationGraph.pointer[src.id];
       assert(obs != nullptr);
 
-      if ((observationGraph.type[e.id] & OBSERVER) && (message.type() != Event::TLP_INFORMATION)) {
-        if (_oHoldCounter == 0 || message.type() == Event::TLP_DELETE) {
+      if ((observationGraph.type[e.id] & OBSERVER) &&
+          (message.type() != EventType::TLP_INFORMATION)) {
+        if (_oHoldCounter == 0 || message.type() == EventType::TLP_DELETE) {
           // schedule event
           observationGraph.eventsToTreat[backn.id] += 1;
           observationGraph.eventsToTreat[src.id] += 1;
@@ -432,7 +433,7 @@ void Observable::sendEvent(const Event &message) {
 
   // send message to listeners
   for (const auto &[obs, n] : listenerTonotify) {
-    if (n == backn && message.type() == Event::TLP_DELETE) {
+    if (n == backn && message.type() == EventType::TLP_DELETE) {
       tlp::debug() << "[Observable info]: An observable onlook itself Event::DELETE msg can't be "
                       "sent to it."
                    << endl;
@@ -468,7 +469,7 @@ void Observable::sendEvent(const Event &message) {
     vector<Event> tmp(1, message);
 
     for (const auto &[obs, n] : observerTonotify) {
-      if (n == backn && message.type() == Event::TLP_DELETE) {
+      if (n == backn && message.type() == EventType::TLP_DELETE) {
         tlp::debug() << "[Observable info]: An observable onlook itself Event::DELETE msg can't be "
                         "sent to it."
                      << endl;
@@ -504,7 +505,7 @@ void Observable::sendEvent(const Event &message) {
   --_oNotifying;
 
   if (!observerTonotify.empty() || !listenerTonotify.empty() ||
-      message.type() == Event::TLP_DELETE) {
+      message.type() == EventType::TLP_DELETE) {
     updateObserverGraph();
   }
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -55,7 +55,7 @@ ReachableSubGraphSelection::ReachableSubGraphSelection(const tlp::PluginContext 
 bool ReachableSubGraphSelection::run() {
   uint maxDistance = 5;
   StringCollection edgeDirectionCollecion;
-  EDGE_TYPE edgeDirection = DIRECTED;
+  EdgeType edgeDirection = EdgeType::DIRECTED;
   BooleanProperty *startNodes = graph->getBooleanProperty("viewSelection");
 
   if (dataSet != nullptr) {
@@ -73,11 +73,11 @@ bool ReachableSubGraphSelection::run() {
 
     if (found) {
       if (edgeDirectionCollecion.getCurrentString() == edgesDirectionLabels[0]) {
-        edgeDirection = DIRECTED;
+        edgeDirection = EdgeType::DIRECTED;
       } else if (edgeDirectionCollecion.getCurrentString() == edgesDirectionLabels[1]) {
-        edgeDirection = INV_DIRECTED;
+        edgeDirection = EdgeType::INV_DIRECTED;
       } else if (edgeDirectionCollecion.getCurrentString() == edgesDirectionLabels[2]) {
-        edgeDirection = UNDIRECTED;
+        edgeDirection = EdgeType::UNDIRECTED;
       }
     } else {
       // If the new parameter is not defined search for the old one.
@@ -86,15 +86,15 @@ bool ReachableSubGraphSelection::run() {
       if (dataSet->get("direction", direction)) {
         switch (direction) {
         case 0:
-          edgeDirection = DIRECTED;
+          edgeDirection = EdgeType::DIRECTED;
           break;
 
         case 1:
-          edgeDirection = INV_DIRECTED;
+          edgeDirection = EdgeType::INV_DIRECTED;
           break;
 
         case 2:
-          edgeDirection = UNDIRECTED;
+          edgeDirection = EdgeType::UNDIRECTED;
         }
       }
     }

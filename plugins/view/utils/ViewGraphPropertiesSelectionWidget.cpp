@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,7 +20,7 @@ namespace tlp {
 
 ViewGraphPropertiesSelectionWidget::ViewGraphPropertiesSelectionWidget(QWidget *parent)
     : QWidget(parent), _ui(new Ui::ViewGraphPropertiesSelectionWidget), graph(nullptr),
-      lastDataLocation(NODE) {
+      lastDataLocation(ElementType::NODE) {
   _ui->setupUi(this);
 }
 
@@ -123,14 +123,14 @@ void ViewGraphPropertiesSelectionWidget::setSelectedProperties(vector<string> se
 
 ElementType ViewGraphPropertiesSelectionWidget::getDataLocation() const {
   if (_ui->nodesButton->isChecked()) {
-    return NODE;
+    return ElementType::NODE;
   } else {
-    return EDGE;
+    return ElementType::EDGE;
   }
 }
 
 void ViewGraphPropertiesSelectionWidget::setDataLocation(const ElementType location) {
-  if (location == NODE) {
+  if (location == ElementType::NODE) {
     _ui->edgesButton->setChecked(false);
     _ui->nodesButton->setChecked(true);
   } else {
@@ -147,9 +147,9 @@ void ViewGraphPropertiesSelectionWidget::treatEvent(const Event &evt) {
   if (graphEvent) {
     switch (graphEvent->getType()) {
 
-    case GraphEvent::TLP_ADD_LOCAL_PROPERTY:
-    case GraphEvent::TLP_AFTER_DEL_LOCAL_PROPERTY:
-    case GraphEvent::TLP_AFTER_RENAME_LOCAL_PROPERTY: {
+    case GraphEventType::TLP_ADD_LOCAL_PROPERTY:
+    case GraphEventType::TLP_AFTER_DEL_LOCAL_PROPERTY:
+    case GraphEventType::TLP_AFTER_RENAME_LOCAL_PROPERTY: {
       setWidgetParameters(graph, graphPropertiesTypesFilter);
       break;
     }

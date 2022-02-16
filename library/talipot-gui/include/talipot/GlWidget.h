@@ -116,7 +116,7 @@ public:
 
   /** @brief Select a node or edge at a screen point
    *  Try to select at point (x,y) a node in the first place then if no result try to select an edge
-   *  @param type tells what has been found: NODE, EDGE
+   *  @param type tells what has been found: ElementType::NODE, ElementType::EDGE
    *  @param layer specify the layer in which to perform the picking
    *  @param pickNodes enable or disable the picking of nodes
    *  @param pickEdges enable or disable the picking of edges

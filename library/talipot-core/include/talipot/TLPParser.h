@@ -423,8 +423,8 @@ struct TLPParser {
 
     while ((currentToken = tokenParser->nextToken(currentValue, curPos)) != ENDOFSTREAM) {
       if (curPos % 2000 == 1) {
-        if (pluginProgress->progress(curPos, fileSize) != TLP_CONTINUE) {
-          return pluginProgress->state() != TLP_CANCEL;
+        if (pluginProgress->progress(curPos, fileSize) != ProgressState::TLP_CONTINUE) {
+          return pluginProgress->state() != ProgressState::TLP_CANCEL;
         }
       }
 

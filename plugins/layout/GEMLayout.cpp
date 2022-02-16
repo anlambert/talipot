@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -209,7 +209,7 @@ void GEMLayout::insert() {
       updateLayout();
     }
 
-    if (pluginProgress->progress(i, _nbNodes) != TLP_CONTINUE) {
+    if (pluginProgress->progress(i, _nbNodes) != ProgressState::TLP_CONTINUE) {
       return;
     }
 
@@ -346,7 +346,7 @@ void GEMLayout::arrange() {
   while (_temperature > stop_temperature && Iteration < max_iter) {
     //    tlp::warning() << "t°:"<< _temperature << "/" << stop_temperature << " it:" << Iteration
     //    << endl;
-    if (pluginProgress->progress(Iteration, max_iter / 2) != TLP_CONTINUE) {
+    if (pluginProgress->progress(Iteration, max_iter / 2) != ProgressState::TLP_CONTINUE) {
       return;
     }
 
@@ -450,14 +450,14 @@ bool GEMLayout::run() {
     }
   }
 
-  if ((pluginProgress->state() == TLP_CONTINUE) && (a_finaltemp < a_starttemp)) {
+  if ((pluginProgress->state() == ProgressState::TLP_CONTINUE) && (a_finaltemp < a_starttemp)) {
     this->arrange();
   }
 
-  if (pluginProgress->state() != TLP_CANCEL) {
+  if (pluginProgress->state() != ProgressState::TLP_CANCEL) {
     updateLayout();
   }
 
-  return pluginProgress->state() != TLP_CANCEL;
+  return pluginProgress->state() != ProgressState::TLP_CANCEL;
 }
 //=========================================================

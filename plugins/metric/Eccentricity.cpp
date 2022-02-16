@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -56,7 +56,8 @@ double EccentricityMetric::compute(uint nPos) {
 
   NodeVectorProperty<double> distance(graph);
   distance.setAll(0);
-  double val = tlp::maxDistance(graph, nPos, distance, weight, directed ? DIRECTED : UNDIRECTED);
+  double val = tlp::maxDistance(graph, nPos, distance, weight,
+                                directed ? EdgeType::DIRECTED : EdgeType::UNDIRECTED);
 
   if (!allPaths) {
     return val;
@@ -126,7 +127,7 @@ bool EccentricityMetric::run() {
 
     if (ThreadManager::getThreadNumber() == 0) {
       if (pluginProgress->progress(i, nbNodes / ThreadManager::getNumberOfThreads()) !=
-          TLP_CONTINUE) {
+          ProgressState::TLP_CONTINUE) {
         stopfor = true;
       }
     }
@@ -143,8 +144,8 @@ bool EccentricityMetric::run() {
     }
   });
 
-  if (pluginProgress->state() != TLP_CONTINUE) {
-    return pluginProgress->state() != TLP_CANCEL;
+  if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+    return pluginProgress->state() != ProgressState::TLP_CANCEL;
   }
 
   TLP_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
@@ -159,5 +160,5 @@ bool EccentricityMetric::run() {
     dataSet->set("graph diameter", (!allPaths && norm) ? diameter : double(-1));
   }
 
-  return pluginProgress->state() != TLP_CANCEL;
+  return pluginProgress->state() != ProgressState::TLP_CANCEL;
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -207,7 +207,7 @@ void InputSample::treatEvents(const std::vector<Event> &events) {
     unsigned int propNum = 0;
 
     for (auto *prop : propertiesList) {
-      if (event.type() == Event::TLP_MODIFICATION && event.sender() == prop) {
+      if (event.type() == EventType::TLP_MODIFICATION && event.sender() == prop) {
         // mWeightTab.setAll(DynamicVector<double> ());
         mWeightTab.clear();
 
@@ -220,7 +220,7 @@ void InputSample::treatEvents(const std::vector<Event> &events) {
 
         // notify observers
         if (hasOnlookers()) {
-          sendEvent(Event(*this, Event::TLP_MODIFICATION));
+          sendEvent(Event(*this, EventType::TLP_MODIFICATION));
         }
 
         break;
@@ -247,7 +247,7 @@ void InputSample::addNode(Graph *, const node n) {
 
   // notify observers
   if (hasOnlookers()) {
-    sendEvent(Event(*this, Event::TLP_MODIFICATION));
+    sendEvent(Event(*this, EventType::TLP_MODIFICATION));
   }
 }
 void InputSample::delNode(Graph *, const node n) {
@@ -266,7 +266,7 @@ void InputSample::delNode(Graph *, const node n) {
 
   // notify observers
   if (hasOnlookers()) {
-    sendEvent(Event(*this, Event::TLP_MODIFICATION));
+    sendEvent(Event(*this, EventType::TLP_MODIFICATION));
   }
 }
 void InputSample::delLocalProperty(Graph *, const std::string &propName) {
@@ -283,7 +283,7 @@ void InputSample::delLocalProperty(Graph *, const std::string &propName) {
 
       // notify observers
       if (hasOnlookers()) {
-        sendEvent(Event(*this, Event::TLP_MODIFICATION));
+        sendEvent(Event(*this, EventType::TLP_MODIFICATION));
       }
 
       break;

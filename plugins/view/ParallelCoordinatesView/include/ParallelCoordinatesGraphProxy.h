@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,7 +27,7 @@ class ColorProperty;
 class ParallelCoordinatesGraphProxy : public GraphDecorator {
 
 public:
-  ParallelCoordinatesGraphProxy(Graph *graph, const ElementType location = NODE);
+  ParallelCoordinatesGraphProxy(Graph *graph, const ElementType location = ElementType::NODE);
   ~ParallelCoordinatesGraphProxy() override;
 
   uint getNumberOfSelectedProperties() const;
@@ -102,7 +102,7 @@ public:
   template <typename PROPERTY, typename PROPERTYTYPE>
   TYPE_CONST_REFERENCE(PROPERTYTYPE)
   getPropertyValueForData(const std::string &propertyName, const uint dataId) {
-    if (getDataLocation() == NODE) {
+    if (getDataLocation() == ElementType::NODE) {
       return getProperty<PROPERTY>(propertyName)->getNodeValue(node(dataId));
     } else {
       return getProperty<PROPERTY>(propertyName)->getEdgeValue(edge(dataId));
@@ -112,7 +112,7 @@ public:
   template <typename PROPERTY, typename PROPERTYTYPE>
   void setPropertyValueForData(const std::string &propertyName, const uint dataId,
                                const REAL_TYPE(PROPERTYTYPE) & propertyValue) {
-    if (getDataLocation() == NODE) {
+    if (getDataLocation() == ElementType::NODE) {
       getProperty<PROPERTY>(propertyName)->setNodeValue(node(dataId), propertyValue);
     } else {
       getProperty<PROPERTY>(propertyName)->setEdgeValue(edge(dataId), propertyValue);
@@ -122,7 +122,7 @@ public:
   template <typename PROPERTY, typename PROPERTYTYPE>
   void setPropertyValueForAllData(const std::string &propertyName,
                                   const REAL_TYPE(PROPERTYTYPE) & propertyValue) {
-    if (getDataLocation() == NODE) {
+    if (getDataLocation() == ElementType::NODE) {
       getProperty<PROPERTY>(propertyName)->setAllNodeValue(propertyValue);
     } else {
       getProperty<PROPERTY>(propertyName)->setAllEdgeValue(propertyValue);
@@ -132,7 +132,7 @@ public:
   template <typename PROPERTY, typename PROPERTYTYPE>
   REAL_TYPE(PROPERTYTYPE)
   getPropertyMinValue(const std::string &propertyName) {
-    if (getDataLocation() == NODE) {
+    if (getDataLocation() == ElementType::NODE) {
       return getProperty<PROPERTY>(propertyName)->getNodeMin(graph_component);
     } else {
       return getProperty<PROPERTY>(propertyName)->getEdgeMin(graph_component);
@@ -142,7 +142,7 @@ public:
   template <typename PROPERTY, typename PROPERTYTYPE>
   REAL_TYPE(PROPERTYTYPE)
   getPropertyMaxValue(const std::string &propertyName) {
-    if (getDataLocation() == NODE) {
+    if (getDataLocation() == ElementType::NODE) {
       return getProperty<PROPERTY>(propertyName)->getNodeMax(graph_component);
     } else {
       return getProperty<PROPERTY>(propertyName)->getEdgeMax(graph_component);

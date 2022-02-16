@@ -1,0 +1,13 @@
+[build-system]
+requires = ["sip >=6, <7"]
+build-backend = "sipbuild.api"
+
+[tool.sip.metadata]
+name = "talipot"
+
+[tool.sip.project]
+sip-include-dirs = ["../stl"]
+sip-module = "talipot.native.sip"
+
+[tool.sip.bindings.talipot]
+concatenate = 12

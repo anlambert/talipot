@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -401,7 +401,7 @@ Qt::ItemFlags SceneLayersModel::flags(const QModelIndex &index) const {
 }
 
 void SceneLayersModel::treatEvent(const Event &e) {
-  if (e.type() == Event::TLP_MODIFICATION) {
+  if (e.type() == EventType::TLP_MODIFICATION) {
     const auto *glse = dynamic_cast<const GlSceneEvent *>(&e);
 
     if (glse) {

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -172,7 +172,7 @@ void MouseEdgeBuilder::treatEvent(const Event &evt) {
   if (typeid(evt) == typeid(GraphEvent)) {
     const auto *graphEvent = dynamic_cast<const GraphEvent *>(&evt);
 
-    if (graphEvent && graphEvent->getType() == GraphEvent::TLP_DEL_NODE &&
+    if (graphEvent && graphEvent->getType() == GraphEventType::TLP_DEL_NODE &&
         graphEvent->getNode() == _source) {
       _bends.clear();
       _started = false;
@@ -181,7 +181,7 @@ void MouseEdgeBuilder::treatEvent(const Event &evt) {
   } else {
     const auto *propertyEvent = dynamic_cast<const PropertyEvent *>(&evt);
 
-    if (propertyEvent && propertyEvent->getType() == PropertyEvent::TLP_AFTER_SET_NODE_VALUE &&
+    if (propertyEvent && propertyEvent->getType() == PropertyEventType::TLP_AFTER_SET_NODE_VALUE &&
         propertyEvent->getNode() == _source && propertyEvent->getProperty() == _layoutProperty) {
       _startPos = _layoutProperty->getNodeValue(_source);
     }

@@ -92,7 +92,7 @@ bool CSVSimpleParser::parse(CSVContentHandler *handler, PluginProgress *progress
       if (progress) {
         readSize += line.size();
 
-        if (progress->state() != TLP_CONTINUE) {
+        if (progress->state() != ProgressState::TLP_CONTINUE) {
           break;
         }
 
@@ -135,7 +135,7 @@ bool CSVSimpleParser::parse(CSVContentHandler *handler, PluginProgress *progress
 
         // If user want to stop break the import process.
         if (progress) {
-          if (progress->state() != TLP_CONTINUE) {
+          if (progress->state() != ProgressState::TLP_CONTINUE) {
             break;
           }
         }

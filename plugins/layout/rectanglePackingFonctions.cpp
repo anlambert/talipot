@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -42,8 +42,8 @@ bool RectanglePackingLimitRectangles(vector<Rectangle<float>> &v, const char *qu
     ++itNewRect;
 
     /* to follow the algorithm progression on through the PluginProgress*/
-    if (progress &&
-        (progress->progress(numberNewRect, numberOfPackedRectangles + 1) != TLP_CONTINUE)) {
+    if (progress && (progress->progress(numberNewRect, numberOfPackedRectangles + 1) !=
+                     ProgressState::TLP_CONTINUE)) {
       return false;
     }
   }
@@ -57,7 +57,8 @@ bool RectanglePackingLimitRectangles(vector<Rectangle<float>> &v, const char *qu
 
   /* added to enable the synchronisation of the PluginProgress closing and the end of the
    * algorithm*/
-  return progress ? (progress->progress(numberNewRect, numberOfPackedRectangles + 1) != TLP_CANCEL)
+  return progress ? (progress->progress(numberNewRect, numberOfPackedRectangles + 1) !=
+                     ProgressState::TLP_CANCEL)
                   : true;
 }
 
@@ -85,7 +86,7 @@ bool RectanglePackingLimitPositions(vector<Rectangle<float>> &v, const char *qua
     rectPack.optimalPositionOfNewRectangleLimPos(itNewRect, numberTestedPositions);
 
     /* to follow the algorithm progression on through the PluginProgress*/
-    if (progress && (progress->progress(counter, entrySize + 1) != TLP_CONTINUE)) {
+    if (progress && (progress->progress(counter, entrySize + 1) != ProgressState::TLP_CONTINUE)) {
       return false;
     }
 
@@ -98,5 +99,6 @@ bool RectanglePackingLimitPositions(vector<Rectangle<float>> &v, const char *qua
 
   /* added to enable the synchronisation of the PluginProgress closing and the end of the
    * algorithm*/
-  return progress ? (progress->progress(counter, entrySize + 1) != TLP_CANCEL) : true;
+  return progress ? (progress->progress(counter, entrySize + 1) != ProgressState::TLP_CANCEL)
+                  : true;
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,7 +35,7 @@ Returns the graph on which the property has been defined.
  //===========================================================================================
 
   virtual bool hasNonDefaultValuatedNodes(const tlp::Graph* subgraph= NULL) const = 0;
- %Docstring
+%Docstring
  tlp.PropertyInterface.hasNonDefaultValuatedNodes(subgraph=None)
 
  Returns whether it exists nodes whose value is different
@@ -44,12 +44,12 @@ Returns the graph on which the property has been defined.
  :param subgraph: a subgraph can be given in parameter. In that case, only the nodes belonging to this subgraph are considered.
  :type subgraph: :class:`tlp.Graph`
  :rtype: boolean
- %End
+%End
 
  //===========================================================================================
 
   virtual uint numberOfNonDefaultValuatedNodes(const tlp::Graph* subgraph= NULL) const = 0;
- %Docstring
+%Docstring
  tlp.PropertyInterface.numberOfNonDefaultValuatedNodes(subgraph=None)
 
  Returns the number of nodes whose value is different
@@ -58,7 +58,7 @@ Returns the graph on which the property has been defined.
  :param subgraph: a subgraph can be given in parameter. In that case, only the number of nodes in this subgraph whose value is different from the default one is returned.
  :type subgraph: :class:`tlp.Graph`
  :rtype: integer
- %End
+%End
 
 //===========================================================================================
 
@@ -81,7 +81,7 @@ from the default value.
  //===========================================================================================
 
   virtual bool hasNonDefaultValuatedEdges(const tlp::Graph* subgraph= NULL) const = 0;
- %Docstring
+%Docstring
  tlp.PropertyInterface.hasNonDefaultValuatedEdges(subgraph=None)
 
  Returns whether it exists edges whose value is different
@@ -90,12 +90,12 @@ from the default value.
  :param subgraph: a subgraph can be given in parameter. In that case, only the edges belonging to this subgraph are considered.
  :type subgraph: :class:`tlp.Graph`
  :rtype: boolean
- %End
+%End
 
  //===========================================================================================
 
   virtual uint numberOfNonDefaultValuatedEdges(const tlp::Graph* subgraph= NULL) const = 0;
- %Docstring
+%Docstring
  tlp.PropertyInterface.numberOfNonDefaultValuatedEdges(subgraph=None)
 
  Returns the number of edges whose value is different
@@ -104,7 +104,7 @@ from the default value.
  :param subgraph: a subgraph can be given in parameter. In that case, only the number of edges in this subgraph whose value is different from the default one is returned.
  :type subgraph: :class:`tlp.Graph`
  :rtype: integer
- %End
+%End
 
 //===========================================================================================
 

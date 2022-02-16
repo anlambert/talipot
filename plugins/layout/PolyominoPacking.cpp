@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -171,9 +171,9 @@ bool PolyominoPacking::run() {
     BoundingBox ccBB = tlp::computeBoundingBox(graph, ccNodes, ccEdges, layout, size, rotation);
     polyominos.push_back(Polyomino(&ccNodes, ccBB));
 
-    if (pluginProgress &&
-        (pluginProgress->progress(i + 1, connectedComponents.size()) != TLP_CONTINUE)) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress && (pluginProgress->progress(i + 1, connectedComponents.size()) !=
+                           ProgressState::TLP_CONTINUE)) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
   }
 
@@ -185,16 +185,17 @@ bool PolyominoPacking::run() {
 
   if (pluginProgress) {
     pluginProgress->setComment("Generating polyominos ...");
-    if (pluginProgress->progress(0, polyominos.size()) != TLP_CONTINUE) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress->progress(0, polyominos.size()) != ProgressState::TLP_CONTINUE) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
   }
 
   for (size_t i = 0; i < polyominos.size(); ++i) {
     genPolyomino(polyominos[i], layout, size);
 
-    if (pluginProgress && (pluginProgress->progress(i + 1, polyominos.size()) != TLP_CONTINUE)) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress &&
+        (pluginProgress->progress(i + 1, polyominos.size()) != ProgressState::TLP_CONTINUE)) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
   }
 
@@ -202,16 +203,17 @@ bool PolyominoPacking::run() {
 
   if (pluginProgress) {
     pluginProgress->setComment("Packing polyominos ...");
-    if (pluginProgress->progress(0, polyominos.size()) != TLP_CONTINUE) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress->progress(0, polyominos.size()) != ProgressState::TLP_CONTINUE) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
   }
 
   for (size_t i = 0; i < polyominos.size(); ++i) {
     placePolyomino(i, polyominos[i]);
 
-    if (pluginProgress && (pluginProgress->progress(i + 1, polyominos.size()) != TLP_CONTINUE)) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress &&
+        (pluginProgress->progress(i + 1, polyominos.size()) != ProgressState::TLP_CONTINUE)) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
   }
 

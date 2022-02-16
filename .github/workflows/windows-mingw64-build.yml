@@ -39,6 +39,7 @@ jobs:
             mingw-w64-x86_64-quazip
             mingw-w64-x86_64-qtwebkit
             mingw-w64-x86_64-python-sphinx
+            mingw-w64-x86_64-sip
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -525,7 +525,7 @@ bool ParallelCoordinatesView::getNodeOrEdgeAtViewportPos(int x, int y, node &n, 
   set<uint> data;
 
   if (mapGlEntitiesInRegionToData(data, x, y)) {
-    if (graphProxy->getDataLocation() == NODE) {
+    if (graphProxy->getDataLocation() == ElementType::NODE) {
       n = node(*(data.begin()));
       return true;
     } else {
@@ -852,7 +852,7 @@ bool ParallelCoordinatesView::getDataUnderPointerProperties(const int x, const i
       }
     }
 
-    if (graphProxy->getDataLocation() == NODE) {
+    if (graphProxy->getDataLocation() == ElementType::NODE) {
       selectedEntity = SelectedEntity(graph(), dataId, SelectedEntity::NODE_SELECTED);
     } else {
       selectedEntity = SelectedEntity(graph(), dataId, SelectedEntity::EDGE_SELECTED);

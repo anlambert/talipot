@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -66,7 +66,7 @@ protected:
 
   /**
    * @brief buildModel creates and returns the model to visualize edit element parameters.
-   * @param elementType the type of the element can be NODE or EDGE
+   * @param elementType the type of the element can be ElementType::NODE or ElementType::EDGE
    * @param elementId elementId the id of the element
    * @param parent the parent for the model creation.
    * @return
@@ -75,7 +75,7 @@ protected:
                                          QObject *parent) const;
   /**
    * @brief elementName returns the title of the element.
-   * @param elementType the type of the element can be NODE or EDGE
+   * @param elementType the type of the element can be ElementType::NODE or ElementType::EDGE
    * @param elementId the id of the element
    * @return
    */

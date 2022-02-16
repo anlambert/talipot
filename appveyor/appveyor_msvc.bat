@@ -15,10 +15,11 @@ set starttime=%time%
 
 rem let's compile clcache in order to speedup incremental builds
 cd C:/
-set PATH=C:/Python39-x64;C:/Python39-x64/Scripts;%PATH%
-pip install clcache
+set PATH=%PYTHON_HOME%;%PYTHON_HOME%\Scripts;%PATH%
+pip install --upgrade pip
+pip install clcache sip
 set CLCACHE_MSBUILD_CONF=/p:TrackFileAccess=false /p:CLToolExe=clcache.exe^
-  /p:CLToolPath=C:\Python39-x64\Scripts
+  /p:CLToolPath=%PYTHON_HOME%\Scripts
 
 rem create a directory to store some Talipot dependencies
 cd C:/ && md talipot_dependencies
@@ -99,7 +100,7 @@ cmake -G "%CMAKE_VS_GENERATOR%"^
   -DCMAKE_INCLUDE_PATH="%INCLUDE_PATH%"^
   -DCMAKE_LIBRARY_PATH="%LIBRARY_PATH%"^
   -DCMAKE_PREFIX_PATH="%QT5_DIR%"^
-  -DPYTHON_EXECUTABLE="%PYTHON_EXECUTABLE%"^
+  -DPYTHON_EXECUTABLE="%PYTHON_HOME%/python.exe"^
   -DTALIPOT_BUILD_CORE_ONLY=%TALIPOT_BUILD_CORE_ONLY%^
   -DTALIPOT_BUILD_DOC=OFF^
   -DTALIPOT_BUILD_TESTS=ON ..

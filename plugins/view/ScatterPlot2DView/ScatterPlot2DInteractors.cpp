@@ -115,14 +115,14 @@ public:
 protected:
   /**
    * @brief buildModel create and returns the model to visualize edit elements parameters.
-   * @param elementType the type of the element can be NODE or EDGE
+   * @param elementType the type of the element can be ElementType::NODE or ElementType::EDGE
    * @param elementId elementId the id of the element
    * @param parent the parent for the model creation.
    * @return
    */
   QAbstractItemModel *buildModel(ElementType elementType, uint elementId,
                                  QObject *parent) const override {
-    if (scp2DView->getDataLocation() == EDGE) {
+    if (scp2DView->getDataLocation() == ElementType::EDGE) {
       elementId = scp2DView->getMappedId(elementId);
       return new GraphEdgeElementModel(scp2DView->graph(), elementId, parent);
     }
@@ -132,12 +132,12 @@ protected:
 
   /**
    * @brief elementName returns the title of the element.
-   * @param elementType the type of the element can be NODE or EDGE
+   * @param elementType the type of the element can be ElementType::NODE or ElementType::EDGE
    * @param elementId the id of the element
    * @return
    */
   QString elementName(ElementType elementType, uint elementId) const override {
-    if (scp2DView->getDataLocation() == EDGE) {
+    if (scp2DView->getDataLocation() == ElementType::EDGE) {
       elementId = scp2DView->getMappedId(elementId);
       return QString("Edge") + " #" + QString::number(elementId);
     }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -297,7 +297,7 @@ void ParallelCoordinatesDrawing::plotData(const uint dataId, const Color &color)
         axisPointsGraphLayout->setNodeValue(n, pointCoord);
         axisPointsGraphSize->setNodeValue(n, adjustedViewSize);
 
-        if (graphProxy->getDataLocation() == NODE) {
+        if (graphProxy->getDataLocation() == ElementType::NODE) {
           axisPointsGraphShape->setNodeValue(
               n, graphProxy->getPropertyValueForData<IntegerProperty, IntegerType>("viewShape",
                                                                                    dataId));
@@ -658,13 +658,13 @@ void ParallelCoordinatesDrawing::resetAxisSlidersPosition() {
 }
 
 void ParallelCoordinatesDrawing::delNode(Graph *, const node n) {
-  if (graphProxy->getDataLocation() == NODE) {
+  if (graphProxy->getDataLocation() == ElementType::NODE) {
     removeHighlightedElt(n.id);
   }
 }
 
 void ParallelCoordinatesDrawing::delEdge(Graph *, const edge e) {
-  if (graphProxy->getDataLocation() == EDGE) {
+  if (graphProxy->getDataLocation() == ElementType::EDGE) {
     removeHighlightedElt(e.id);
   }
 }
@@ -676,11 +676,11 @@ void ParallelCoordinatesDrawing::treatEvent(const tlp::Event &evt) {
     Graph *graph = gEvt->getGraph();
 
     switch (gEvt->getType()) {
-    case GraphEvent::TLP_DEL_NODE:
+    case GraphEventType::TLP_DEL_NODE:
       delNode(graph, gEvt->getNode());
       break;
 
-    case GraphEvent::TLP_DEL_EDGE:
+    case GraphEventType::TLP_DEL_EDGE:
       delEdge(graph, gEvt->getEdge());
       break;
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1394,7 +1394,7 @@ Ordering::Ordering(PlanarConMap *G, PluginProgress *pluginProgress, int minProgr
     // give some feedback
     if (pluginProgress &&
         (pluginProgress->progress(minProgress + (deltaProgress * (nbMax - nbTours)) / nbMax,
-                                  maxProgress) != TLP_CONTINUE))
+                                  maxProgress) != ProgressState::TLP_CONTINUE))
       return;
 
     // search for a visited node that can be selected

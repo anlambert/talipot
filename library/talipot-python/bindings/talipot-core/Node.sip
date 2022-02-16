@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,10 +13,6 @@
 
 namespace tlp {
 class node {
-%TypeHeaderCode
-#include <talipot/Node.h>
-%End
-
 %Docstring
 An instance of this class represent a node in a Talipot graph. It encapsulates an integer identifier.
 Use specific methods in the :class:`tlp.Graph` class to get references on such objects (
@@ -24,6 +20,10 @@ for instance :meth:`tlp.Graph.addNode`, :meth:`tlp.Graph.getNodes`, :meth:`tlp.G
 Node objects can be used as keys in a Python dictionary.
 
 The node identifier can be accessed through the **id** class member.
+%End
+
+%TypeHeaderCode
+#include <talipot/Node.h>
 %End
 
 public:
@@ -48,7 +48,7 @@ Returns :const:`True` if the node is a valid one, meaning it is attached to a gr
   sipRes = new std::string(oss.str());
 %End
 
-  long __hash__() const;
+  Py_hash_t __hash__() const;
 %MethodCode
   return static_cast<long>(sipCpp->id);
 %End

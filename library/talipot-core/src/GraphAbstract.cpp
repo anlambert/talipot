@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -378,39 +378,39 @@ bool GraphAbstract::renameLocalProperty(PropertyInterface *prop, const std::stri
 //=========================================================================
 void GraphAbstract::notifyAddInheritedProperty(const std::string &propName) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_ADD_INHERITED_PROPERTY, propName));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_ADD_INHERITED_PROPERTY, propName));
   }
 }
 void GraphAbstract::notifyBeforeAddInheritedProperty(const std::string &propName) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_BEFORE_ADD_INHERITED_PROPERTY, propName));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_BEFORE_ADD_INHERITED_PROPERTY, propName));
   }
 }
 //=========================================================================
 void GraphAbstract::notifyBeforeDelInheritedProperty(const std::string &propName) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_BEFORE_DEL_INHERITED_PROPERTY, propName,
-                         Event::TLP_INFORMATION));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_BEFORE_DEL_INHERITED_PROPERTY, propName,
+                         EventType::TLP_INFORMATION));
   }
 }
 //=========================================================================
 void GraphAbstract::notifyAfterDelInheritedProperty(const std::string &name) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_AFTER_DEL_INHERITED_PROPERTY, name));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_AFTER_DEL_INHERITED_PROPERTY, name));
   }
 }
 //=========================================================================
 void GraphAbstract::notifyBeforeRenameLocalProperty(PropertyInterface *prop,
                                                     const std::string &newName) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_BEFORE_RENAME_LOCAL_PROPERTY, prop, newName));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_BEFORE_RENAME_LOCAL_PROPERTY, prop, newName));
   }
 }
 //=========================================================================
 void GraphAbstract::notifyAfterRenameLocalProperty(PropertyInterface *prop,
                                                    const std::string &oldName) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_AFTER_RENAME_LOCAL_PROPERTY, prop, oldName));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_AFTER_RENAME_LOCAL_PROPERTY, prop, oldName));
   }
 }
 //=========================================================================

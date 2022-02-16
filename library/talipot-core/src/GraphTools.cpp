@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,29 +26,29 @@ using namespace std;
 
 namespace tlp {
 
-Iterator<node> *getAdjacentNodesIterator(const Graph *graph, node n, EDGE_TYPE direction) {
+Iterator<node> *getAdjacentNodesIterator(const Graph *graph, node n, EdgeType direction) {
   switch (direction) {
-  case DIRECTED:
+  case EdgeType::DIRECTED:
     return graph->getOutNodes(n);
 
-  case INV_DIRECTED:
+  case EdgeType::INV_DIRECTED:
     return graph->getInNodes(n);
 
-  case UNDIRECTED:
+  case EdgeType::UNDIRECTED:
   default:
     return graph->getInOutNodes(n);
   }
 }
 
-Iterator<edge> *getIncidentEdgesIterator(const Graph *graph, node n, EDGE_TYPE direction) {
+Iterator<edge> *getIncidentEdgesIterator(const Graph *graph, node n, EdgeType direction) {
   switch (direction) {
-  case DIRECTED:
+  case EdgeType::DIRECTED:
     return graph->getOutEdges(n);
 
-  case INV_DIRECTED:
+  case EdgeType::INV_DIRECTED:
     return graph->getInEdges(n);
 
-  case UNDIRECTED:
+  case EdgeType::UNDIRECTED:
   default:
     return graph->getInOutEdges(n);
   }
@@ -158,7 +158,7 @@ std::vector<node> computeGraphCenters(Graph *graph) {
 
   TLP_PARALLEL_MAP_INDICES(nbNodes, [&](uint i) {
     tlp::NodeVectorProperty<uint> tmp(graph);
-    uint maxD = tlp::maxDistance(graph, i, tmp, UNDIRECTED);
+    uint maxD = tlp::maxDistance(graph, i, tmp, EdgeType::UNDIRECTED);
     dist[i] = maxD;
     TLP_LOCK_SECTION(COMPUTE_MIN) {
       if (minD > maxD) {
@@ -317,7 +317,7 @@ void selectSpanningForest(Graph *graph, BooleanProperty *selectionProperty,
 
           if (edgeCount == 200) {
             if (pluginProgress->progress(nbSelectedNodes * 100 / graph->numberOfNodes(), 100) !=
-                TLP_CONTINUE) {
+                ProgressState::TLP_CONTINUE) {
               return;
             }
 
@@ -402,7 +402,8 @@ void selectSpanningTree(Graph *graph, BooleanProperty *selection, PluginProgress
             ++edgeCount;
 
             if (edgeCount % 200 == 0) {
-              if (pluginProgress->progress(edgeCount, graph->numberOfEdges()) != TLP_CONTINUE)
+              if (pluginProgress->progress(edgeCount, graph->numberOfEdges()) !=
+                  ProgressState::TLP_CONTINUE)
                 return;
             }
           }
@@ -478,7 +479,8 @@ void selectMinimumSpanningTree(Graph *graph, BooleanProperty *selection,
       ++edgeCount;
 
       if (edgeCount == 200) {
-        if (pluginProgress->progress((maxCount - numClasses) * 100 / maxCount, 100) != TLP_CONTINUE)
+        if (pluginProgress->progress((maxCount - numClasses) * 100 / maxCount, 100) !=
+            ProgressState::TLP_CONTINUE)
           return;
 
         edgeCount = 0;
@@ -513,7 +515,8 @@ static void bfs(const Graph *graph, node root, NodeVectorProperty<bool> &visited
     queue.pop_front();
     nodes.push_back(current);
 
-    for (auto e : getIncidentEdgesIterator(graph, current, directed ? DIRECTED : UNDIRECTED)) {
+    for (auto e : getIncidentEdgesIterator(graph, current,
+                                           directed ? EdgeType::DIRECTED : EdgeType::UNDIRECTED)) {
       auto neigh = graph->opposite(e, current);
       if (!visited[neigh]) {
         visited[neigh] = true;
@@ -601,8 +604,8 @@ static void dfs(const Graph *graph, node root, NodeVectorProperty<bool> &visited
       edges.push_back(edge);
     }
 
-    auto incidentEdges = iteratorVector(
-        getIncidentEdgesIterator(graph, currentNode, directed ? DIRECTED : UNDIRECTED));
+    auto incidentEdges = iteratorVector(getIncidentEdgesIterator(
+        graph, currentNode, directed ? EdgeType::DIRECTED : EdgeType::UNDIRECTED));
     for (auto e : reversed(incidentEdges)) {
       node neigh = graph->opposite(e, currentNode);
       if (!visited[neigh]) {
@@ -776,21 +779,21 @@ unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selection, bool
 
 bool selectShortestPaths(const Graph *const graph, node src, node tgt, ShortestPathType pathType,
                          const DoubleProperty *const weights, BooleanProperty *result) {
-  EDGE_TYPE direction;
+  EdgeType direction;
 
   switch (pathType) {
   case ShortestPathType::OnePath:
   case ShortestPathType::AllPaths:
-    direction = UNDIRECTED;
+    direction = EdgeType::UNDIRECTED;
     break;
   case ShortestPathType::OneDirectedPath:
   case ShortestPathType::AllDirectedPaths:
-    direction = DIRECTED;
+    direction = EdgeType::DIRECTED;
     break;
   case ShortestPathType::OneReversedPath:
   case ShortestPathType::AllReversedPaths:
   default:
-    direction = INV_DIRECTED;
+    direction = EdgeType::INV_DIRECTED;
   }
 
   EdgeVectorProperty<double> eWeights(graph);
@@ -808,7 +811,7 @@ bool selectShortestPaths(const Graph *const graph, node src, node tgt, ShortestP
   NodeVectorProperty<double> nodeDistance(graph);
   Dijkstra dijkstra(graph, src, eWeights, nodeDistance, direction);
 
-  if (uint(pathType) < ShortestPathType::AllPaths) {
+  if (uint(pathType) < uint(ShortestPathType::AllPaths)) {
     return dijkstra.searchPath(tgt, result);
   }
   return dijkstra.searchPaths(tgt, result);
@@ -816,7 +819,7 @@ bool selectShortestPaths(const Graph *const graph, node src, node tgt, ShortestP
 
 void markReachableNodes(const Graph *graph, const node startNode,
                         std::unordered_map<node, bool> &result, uint maxDistance,
-                        EDGE_TYPE direction) {
+                        EdgeType direction) {
   deque<node> fifo;
   MutableContainer<bool> visited;
   MutableContainer<uint> distance;
@@ -845,7 +848,7 @@ void markReachableNodes(const Graph *graph, const node startNode,
 }
 
 void computeDijkstra(const Graph *const graph, node src, const EdgeVectorProperty<double> &weights,
-                     NodeVectorProperty<double> &nodeDistance, EDGE_TYPE direction,
+                     NodeVectorProperty<double> &nodeDistance, EdgeType direction,
                      unordered_map<node, std::list<node>> &ancestors, std::stack<node> *queueNodes,
                      MutableContainer<int> *numberOfPaths) {
   Dijkstra dijkstra(graph, src, weights, nodeDistance, direction, queueNodes, numberOfPaths);

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,6 +14,10 @@
 namespace tlp {
 
 class NumericProperty : tlp::PropertyInterface /Abstract/ {
+%Docstring
+Bases: :class:`tlp.PropertyInterface`
+%End
+
 %TypeHeaderCode
 #include <talipot/NumericProperty.h>
 %End
@@ -26,10 +30,6 @@ class NumericProperty : tlp::PropertyInterface /Abstract/ {
   } else {
     sipType = NULL;
   }
-%End
-
-%Docstring
-Bases: :class:`tlp.PropertyInterface`
 %End
 
 public:

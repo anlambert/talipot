@@ -1,2 +1,1 @@
-ADD_SUBDIRECTORY(stl)
 ADD_SUBDIRECTORY(talipot-core)

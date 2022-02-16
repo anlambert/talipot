@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -802,13 +802,13 @@ void GraphHierarchiesModel::treatEvent(const Event &e) {
     // URL (due to QEventLoop use in FileDownloader class implementation)
     string texture;
     auto *viewTexture = static_cast<StringProperty *>(pe->getProperty());
-    if (pe->getType() == PropertyEvent::TLP_AFTER_SET_NODE_VALUE) {
+    if (pe->getType() == PropertyEventType::TLP_AFTER_SET_NODE_VALUE) {
       texture = viewTexture->getNodeValue(pe->getNode());
-    } else if (pe->getType() == PropertyEvent::TLP_AFTER_SET_EDGE_VALUE) {
+    } else if (pe->getType() == PropertyEventType::TLP_AFTER_SET_EDGE_VALUE) {
       texture = viewTexture->getEdgeValue(pe->getEdge());
-    } else if (pe->getType() == PropertyEvent::TLP_AFTER_SET_ALL_NODE_VALUE) {
+    } else if (pe->getType() == PropertyEventType::TLP_AFTER_SET_ALL_NODE_VALUE) {
       texture = viewTexture->getNodeDefaultValue();
-    } else if (pe->getType() == PropertyEvent::TLP_AFTER_SET_ALL_EDGE_VALUE) {
+    } else if (pe->getType() == PropertyEventType::TLP_AFTER_SET_ALL_EDGE_VALUE) {
       texture = viewTexture->getEdgeDefaultValue();
     }
     if (!texture.empty()) {
@@ -819,7 +819,7 @@ void GraphHierarchiesModel::treatEvent(const Event &e) {
 
   auto *g = static_cast<tlp::Graph *>(e.sender());
 
-  if (e.type() == Event::TLP_DELETE && _graphs.contains(g)) { // A root graph has been deleted
+  if (e.type() == EventType::TLP_DELETE && _graphs.contains(g)) { // A root graph has been deleted
     int pos = _graphs.indexOf(g);
     beginRemoveRows(QModelIndex(), pos, pos);
 
@@ -838,7 +838,7 @@ void GraphHierarchiesModel::treatEvent(const Event &e) {
     }
 
     endRemoveRows();
-  } else if (e.type() == Event::TLP_MODIFICATION) {
+  } else if (e.type() == EventType::TLP_MODIFICATION) {
     const auto *ge = dynamic_cast<const tlp::GraphEvent *>(&e);
 
     if (!ge) {
@@ -847,7 +847,7 @@ void GraphHierarchiesModel::treatEvent(const Event &e) {
 
     if (_graphs.contains(ge->getGraph()->getRoot())) {
 
-      if (ge->getType() == GraphEvent::TLP_AFTER_ADD_DESCENDANTGRAPH) {
+      if (ge->getType() == GraphEventType::TLP_AFTER_ADD_DESCENDANTGRAPH) {
         // that event must only be treated on a root graph
         if (ge->getGraph() != ge->getGraph()->getRoot()) {
           return;
@@ -882,7 +882,7 @@ void GraphHierarchiesModel::treatEvent(const Event &e) {
         // when the treatEvents method is called
         _graphsChanged.insert(parentGraph);
 
-      } else if (ge->getType() == GraphEvent::TLP_AFTER_DEL_DESCENDANTGRAPH) {
+      } else if (ge->getType() == GraphEventType::TLP_AFTER_DEL_DESCENDANTGRAPH) {
         // that event must only be treated on a root graph
         if (ge->getGraph() != ge->getGraph()->getRoot()) {
           return;
@@ -931,13 +931,13 @@ void GraphHierarchiesModel::treatEvent(const Event &e) {
           setCurrentGraph(parentGraph);
         }
 
-      } else if (ge->getType() == GraphEvent::TLP_ADD_NODE ||
-                 ge->getType() == GraphEvent::TLP_ADD_NODES ||
-                 ge->getType() == GraphEvent::TLP_DEL_NODE ||
-                 ge->getType() == GraphEvent::TLP_ADD_EDGE ||
-                 ge->getType() == GraphEvent::TLP_ADD_EDGES ||
-                 ge->getType() == GraphEvent::TLP_DEL_EDGE ||
-                 (ge->getType() == GraphEvent::TLP_AFTER_SET_ATTRIBUTE &&
+      } else if (ge->getType() == GraphEventType::TLP_ADD_NODE ||
+                 ge->getType() == GraphEventType::TLP_ADD_NODES ||
+                 ge->getType() == GraphEventType::TLP_DEL_NODE ||
+                 ge->getType() == GraphEventType::TLP_ADD_EDGE ||
+                 ge->getType() == GraphEventType::TLP_ADD_EDGES ||
+                 ge->getType() == GraphEventType::TLP_DEL_EDGE ||
+                 (ge->getType() == GraphEventType::TLP_AFTER_SET_ATTRIBUTE &&
                   ge->getAttributeName() == "name")) {
         const Graph *graph = ge->getGraph();
         // row representing the graph in the associated tree views has to be updated

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -218,12 +218,13 @@ public:
             result->setNodeValue(n, getColor(dd - minN, maxN - minN));
           }
 
-          if ((iter % 100 == 0) && (pluginProgress->progress(iter, maxIter) != TLP_CONTINUE)) {
+          if ((iter % 100 == 0) &&
+              (pluginProgress->progress(iter, maxIter) != ProgressState::TLP_CONTINUE)) {
             if (eltTypes.getCurrent() == UNIFORM_ELT) {
               delete entryMetric;
             }
 
-            return pluginProgress->state() != TLP_CANCEL;
+            return pluginProgress->state() != ProgressState::TLP_CANCEL;
           }
 
           ++iter;
@@ -251,12 +252,13 @@ public:
             result->setEdgeValue(e, getColor(dd - minE, maxE - minE));
           }
 
-          if ((iter % 100 == 0) && (pluginProgress->progress(iter, maxIter) != TLP_CONTINUE)) {
+          if ((iter % 100 == 0) &&
+              (pluginProgress->progress(iter, maxIter) != ProgressState::TLP_CONTINUE)) {
             if (eltTypes.getCurrent() == UNIFORM_ELT) {
               delete entryMetric;
             }
 
-            return pluginProgress->state() != TLP_CANCEL;
+            return pluginProgress->state() != ProgressState::TLP_CANCEL;
           }
 
           ++iter;
@@ -281,8 +283,9 @@ public:
             result->setEdgeValue(edge(id), it.second);
           }
 
-          if ((iter % 100 == 0) && (pluginProgress->progress(iter, maxIter) != TLP_CONTINUE)) {
-            return pluginProgress->state() != TLP_CANCEL;
+          if ((iter % 100 == 0) &&
+              (pluginProgress->progress(iter, maxIter) != ProgressState::TLP_CONTINUE)) {
+            return pluginProgress->state() != ProgressState::TLP_CANCEL;
           }
 
           ++iter;

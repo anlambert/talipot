@@ -9,6 +9,16 @@ IF(MSVC)
   SET(SIP_FLAGS -x NO_LIMIT_DOC)
 ENDIF()
 
+SET(STL_SIP_FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../stl/std_list.sip
+    ${CMAKE_CURRENT_SOURCE_DIR}/../stl/std_map.sip
+    ${CMAKE_CURRENT_SOURCE_DIR}/../stl/stl.sip
+    ${CMAKE_CURRENT_SOURCE_DIR}/../stl/std_pair.sip
+    ${CMAKE_CURRENT_SOURCE_DIR}/../stl/std_set.sip
+    ${CMAKE_CURRENT_SOURCE_DIR}/../stl/std_string.sip
+    ${CMAKE_CURRENT_SOURCE_DIR}/../stl/std_vector.sip
+    ${CMAKE_CURRENT_SOURCE_DIR}/../stl/std_ostream.sip)
+
 SET(TALIPOT_SIP_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/AcyclicTest.sip
     ${CMAKE_CURRENT_SOURCE_DIR}/AbstractProperty.sip.in
@@ -40,7 +50,7 @@ SET(TALIPOT_SIP_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/MapIterator.sip
     ${CMAKE_CURRENT_SOURCE_DIR}/MaterialDesignIcons.sip
     ${CMAKE_CURRENT_SOURCE_DIR}/Matrix.sip
-    ${CMAKE_CURRENT_SOURCE_DIR}/Module.sip
+    ${CMAKE_CURRENT_SOURCE_DIR}/talipot.sip
     ${CMAKE_CURRENT_SOURCE_DIR}/Node.sip
     ${CMAKE_CURRENT_SOURCE_DIR}/NumericProperty.sip
     ${CMAKE_CURRENT_SOURCE_DIR}/Observable.sip
@@ -65,18 +75,41 @@ SET(TALIPOT_SIP_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/ViewSettings.sip
     ${CMAKE_CURRENT_SOURCE_DIR}/Vector.sip
     ${CMAKE_CURRENT_SOURCE_DIR}/WithDependency.sip
-    ${CMAKE_CURRENT_SOURCE_DIR}/WithParameter.sip
-    CACHE INTERNAL "")
+    ${CMAKE_CURRENT_SOURCE_DIR}/WithParameter.sip)
+
+SET(SIP_MODULE_SRC
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_array.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_bool.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_core.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_descriptors.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_enum.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_int_convertors.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_object_map.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_threads.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_voidptr.c
+)
 
 SET(TALIPOT_PYTHON_BINDINGS_SRC
-    sip_talipotpart0.cpp
-    sip_talipotpart1.cpp
-    sip_talipotpart2.cpp
-    sip_talipotpart3.cpp
-    sip_talipotpart4.cpp
-    sip_talipotpart5.cpp
-    sip_talipotpart6.cpp
-    sip_talipotpart7.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart0.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart1.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart2.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart3.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart4.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart5.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart6.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart7.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart8.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart9.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart10.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart11.cpp)
+
+ADD_CUSTOM_COMMAND(
+  OUTPUT ${SIP_MODULE_SRC}
+  COMMAND ${SIP_MODULE_EXECUTABLE} --sdist talipot.native.sip
+  COMMAND ${CMAKE_COMMAND} -E tar xzf
+          talipot_native_sip-${SIP_ABI_VERSION}.tar.gz
+  COMMENT "Generating talipot.native.sip Python module source code"
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 ADD_CUSTOM_COMMAND(
   OUTPUT ${TALIPOT_PYTHON_BINDINGS_SRC}
@@ -84,25 +117,37 @@ ADD_CUSTOM_COMMAND(
     ${CMAKE_COMMAND} -DSOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
     -DBINARY_DIR=${CMAKE_CURRENT_BINARY_DIR} -P
     ${CMAKE_CURRENT_SOURCE_DIR}/generatePropertiesBindings.cmake
-  COMMAND
-    ${SIP_EXE} -n ${SIP_MODULE} -y ${CMAKE_CURRENT_BINARY_DIR}/talipot.pyi -o -I
-    ${CMAKE_CURRENT_BINARY_DIR} -I ${CMAKE_CURRENT_SOURCE_DIR} -c
-    ${CMAKE_CURRENT_BINARY_DIR} -j8 ${SIP_FLAGS}
-    ${CMAKE_CURRENT_SOURCE_DIR}/Module.sip
+  COMMAND ${SIP_BUILD_EXECUTABLE} --no-compile --api-dir
+          ${CMAKE_CURRENT_BINARY_DIR}
   COMMENT "Generating Python bindings for libtalipot-core"
   DEPENDS
-    ${TALIPOT_SIP_FILES} ${STL_SIP_FILES}
+    ${TALIPOT_SIP_FILES} ${STL_SIP_FILES} pyproject.toml
     ${CMAKE_CURRENT_SOURCE_DIR}/../../include/talipot/PythonCppTypesConverter.h
-  VERBATIM)
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 DISABLE_COMPILER_WARNINGS()
 
 # Force to use SIP and headers located in thirdparty instead of those installed
 # in the system
-INCLUDE_DIRECTORIES(BEFORE ${SIP_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/build)
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIR} ${PYTHON_INCLUDE_PATH})
 INCLUDE_DIRECTORIES(${TalipotCoreBuildInclude} ${TalipotCoreInclude}
                     ${TalipotPythonInclude})
+
+ADD_LIBRARY(sip SHARED ${SIP_MODULE_SRC})
+
+SET_TARGET_PROPERTIES(sip PROPERTIES LIBRARY_OUTPUT_DIRECTORY
+                                     ${TALIPOT_PYTHON_NATIVE_FOLDER})
+SET_TARGET_PROPERTIES(sip PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                     ${TALIPOT_PYTHON_NATIVE_FOLDER})
+SET_TARGET_PROPERTIES(sip PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE
+                                     ${TALIPOT_PYTHON_NATIVE_FOLDER})
+SET_TARGET_PROPERTIES(sip PROPERTIES RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL
+                                     ${TALIPOT_PYTHON_NATIVE_FOLDER})
+SET_TARGET_PROPERTIES(sip PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO
+                                     ${TALIPOT_PYTHON_NATIVE_FOLDER})
+SET_TARGET_PROPERTIES(sip PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG
+                                     ${TALIPOT_PYTHON_NATIVE_FOLDER})
 
 SET(TALIPOT_PYTHON_BINDINGS_SRC
     ${TALIPOT_PYTHON_BINDINGS_SRC}
@@ -176,19 +221,18 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
   ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
 ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 
-IF(NOT SYSTEM_SIP)
-  ADD_DEPENDENCIES(${LibTalipotCorePythonBindingsName} ${SIP_LIB})
-ENDIF(NOT SYSTEM_SIP)
-
 SET_TARGET_PROPERTIES(${LibTalipotCorePythonBindingsName}
                       PROPERTIES OUTPUT_NAME talipot PREFIX "_")
+SET_TARGET_PROPERTIES(sip PROPERTIES OUTPUT_NAME sip PREFIX "")
 
 IF(WIN32)
   SET_TARGET_PROPERTIES(${LibTalipotCorePythonBindingsName} PROPERTIES SUFFIX
                                                                        ".pyd")
+  SET_TARGET_PROPERTIES(sip PROPERTIES SUFFIX ".pyd")
 ELSE(WIN32)
   SET_TARGET_PROPERTIES(${LibTalipotCorePythonBindingsName} PROPERTIES SUFFIX
                                                                        ".so")
+  SET_TARGET_PROPERTIES(sip PROPERTIES SUFFIX ".so")
 ENDIF(WIN32)
 
 # On MacOS, add the paths of dependencies dylibs in install rpaths of the
@@ -228,31 +272,20 @@ TARGET_LINK_LIBRARIES(${LibTalipotCorePythonBindingsName} ${LibTalipotCoreName})
 IF(APPLE AND TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
   SET_TARGET_PROPERTIES(${LibTalipotCorePythonBindingsName}
                         PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+  SET_TARGET_PROPERTIES(sip PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 ELSE(APPLE AND TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
   IF(NOT LINUX OR NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
     TARGET_LINK_LIBRARIES(${LibTalipotCorePythonBindingsName} ${PYTHON_LIBRARY})
+    TARGET_LINK_LIBRARIES(sip ${PYTHON_LIBRARY})
   ENDIF(NOT LINUX OR NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 ENDIF(APPLE AND TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 
 TALIPOT_INSTALL_PYTHON_FILES(talipot ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py)
-TALIPOT_INSTALL_PYTHON_FILES(talipot/native ${LibTalipotCorePythonBindingsName})
+TALIPOT_INSTALL_PYTHON_FILES(talipot/native sip
+                             ${LibTalipotCorePythonBindingsName})
 
-IF(NOT TALIPOT_BUILD_CORE_ONLY)
-  ADD_CUSTOM_COMMAND(
-    TARGET ${LibTalipotCorePythonBindingsName}
-    POST_BUILD
-    COMMAND
-      ${SIP_EXE} -n ${SIP_MODULE} -I ${CMAKE_CURRENT_BINARY_DIR} -I
-      ${CMAKE_CURRENT_SOURCE_DIR} -a ${CMAKE_CURRENT_BINARY_DIR}/talipot.api
-      ${CMAKE_CURRENT_SOURCE_DIR}/Module.sip
-    COMMENT "Generating API file for Talipot Python bindings"
-    VERBATIM)
-  INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/talipot.api
-          DESTINATION ${TalipotShareInstallDir}/apiFiles)
-ENDIF(NOT TALIPOT_BUILD_CORE_ONLY)
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot.api
+        DESTINATION ${TalipotShareInstallDir}/apiFiles)
 
-SET_DIRECTORY_PROPERTIES(
-  PROPERTIES
-    ADDITIONAL_MAKE_CLEAN_FILES
-    "talipot.api;sipAPI_talipot.h;talipot_module;BooleanProperty.sip;ColorProperty.sip;DoubleProperty.sip;IntegerProperty.sip;LayoutProperty.sip;SizeProperty.sip;StringProperty.sip"
-)
+SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES
+                                    ${CMAKE_CURRENT_SOURCE_DIR}/build)

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,28 +18,6 @@
 
 namespace tlp {
 class Vec3f  {
-
-// Convert Python list or tuple of numbers to a tlp::Vec3f
-%ConvertToTypeCode
-  const sipTypeDef *sipType = sipFindType("tlp::Vec3f");
-  // Check if type is compatible
-  if (sipIsErr == NULL) {
-    if (sipCanConvertToType(sipPy, sipType, SIP_NOT_NONE|SIP_NO_CONVERTORS)) {
-      return 1;
-    }
-    return isTupleAndCanConvertToVec3fType(sipPy);
-  }
-  if (sipCanConvertToType(sipPy, sipType, SIP_NOT_NONE|SIP_NO_CONVERTORS)) {
-    int state=0, err=0;
-    tlp::Vec3f *v = static_cast<tlp::Vec3f*>(sipConvertToType(sipPy, sipType, sipTransferObj, SIP_NOT_NONE|SIP_NO_CONVERTORS, &state, &err));
-    *sipCppPtr = new tlp::Vec3f(*v);
-    sipReleaseType(v, sipType, state);
-  } else {
-    *sipCppPtr = convertToVec3fType<tlp::Vec3f>(sipPy);
-  }
-  return sipGetState(sipTransferObj);
-%End
-
 %Docstring
 This class represents a vector with 3 floating point components.
 It can be instantiated as illustrated in the code below: ::
@@ -101,6 +79,27 @@ Each component of the vector can be read / written through the [] operator: ::
 
 Operators for vectors equality (==), vectors difference (!=) and vectors comparison (<, >) are also available.
 
+%End
+
+// Convert Python list or tuple of numbers to a tlp::Vec3f
+%ConvertToTypeCode
+  const sipTypeDef *sipType = sipFindType("tlp::Vec3f");
+  // Check if type is compatible
+  if (sipIsErr == NULL) {
+    if (sipCanConvertToType(sipPy, sipType, SIP_NOT_NONE|SIP_NO_CONVERTORS)) {
+      return 1;
+    }
+    return isTupleAndCanConvertToVec3fType(sipPy);
+  }
+  if (sipCanConvertToType(sipPy, sipType, SIP_NOT_NONE|SIP_NO_CONVERTORS)) {
+    int state=0, err=0;
+    tlp::Vec3f *v = static_cast<tlp::Vec3f*>(sipConvertToType(sipPy, sipType, sipTransferObj, SIP_NOT_NONE|SIP_NO_CONVERTORS, &state, &err));
+    *sipCppPtr = new tlp::Vec3f(*v);
+    sipReleaseType(v, sipType, state);
+  } else {
+    *sipCppPtr = convertToVec3fType<tlp::Vec3f>(sipPy);
+  }
+  return sipGetState(sipTransferObj);
 %End
 
 public:

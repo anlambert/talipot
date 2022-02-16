@@ -25,90 +25,90 @@ to register an observer to a graph. The sample code below illustrates that obser
       def treatEvent(self, event):
         if isinstance(event, tlp.GraphEvent):
           graph = event.getGraph()
-          if event.getType() == tlp.GraphEvent.TLP_ADD_NODE:
+          if event.getType() == tlp.GraphEventType.TLP_ADD_NODE:
             print("The node", event.getNode(), "has been added to the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_DEL_NODE:
+          elif event.getType() == tlp.GraphEventType.TLP_DEL_NODE:
             print("The node", event.getNode(), "has been deleted from the graph", graph)
 
-          if event.getType() == tlp.GraphEvent.TLP_ADD_EDGE:
+          if event.getType() == tlp.GraphEventType.TLP_ADD_EDGE:
             print("The edge", event.getEdge(), "has been added to the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_DEL_EDGE:
+          elif event.getType() == tlp.GraphEventType.TLP_DEL_EDGE:
             print("The edge", event.getEdge(), "has been deleted from the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_REVERSE_EDGE:
+          elif event.getType() == tlp.GraphEventType.TLP_REVERSE_EDGE:
             print("The edge", event.getEdge(), "has been reversed in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_BEFORE_SET_ENDS:
+          elif event.getType() == tlp.GraphEventType.TLP_BEFORE_SET_ENDS:
             print("The edge", event.getEdge(), "will have its ends modified. Current source is", graph.source(event.getEdge()),\
                   "Current target is", graph.target(event.getEdge()))
 
-          elif event.getType() == tlp.GraphEvent.TLP_AFTER_SET_ENDS:
+          elif event.getType() == tlp.GraphEventType.TLP_AFTER_SET_ENDS:
             print("The edge", event.getEdge(), "had its ends modified. Current source is", graph.source(event.getEdge()),\
                   "Current target is", graph.target(event.getEdge()))
 
-          elif event.getType() == tlp.GraphEvent.TLP_ADD_NODES:
+          elif event.getType() == tlp.GraphEventType.TLP_ADD_NODES:
             print("The nodes", event.getNodes(), "have been added to the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_ADD_EDGES:
+          elif event.getType() == tlp.GraphEventType.TLP_ADD_EDGES:
             print("The edges", event.getEdges(), "have been added to the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_BEFORE_ADD_DESCENDANTGRAPH:
+          elif event.getType() == tlp.GraphEventType.TLP_BEFORE_ADD_DESCENDANTGRAPH:
             print("A descendant graph", event.getSubGraph(), "is about to be added in the subgraphs hierarchy of graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_AFTER_ADD_DESCENDANTGRAPH:
+          elif event.getType() == tlp.GraphEventType.TLP_AFTER_ADD_DESCENDANTGRAPH:
             print("A descendant graph", event.getSubGraph(), "has been added in the subgraphs hierarchy of graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_BEFORE_DEL_DESCENDANTGRAPH:
+          elif event.getType() == tlp.GraphEventType.TLP_BEFORE_DEL_DESCENDANTGRAPH:
             print("A descendant graph", event.getSubGraph(), "is about to be deleted in the subgraphs hierarchy of graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_AFTER_DEL_DESCENDANTGRAPH:
+          elif event.getType() == tlp.GraphEventType.TLP_AFTER_DEL_DESCENDANTGRAPH:
             print("A descendant graph", event.getSubGraph(), "has been deleted in the subgraphs hierarchy of graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_BEFORE_ADD_SUBGRAPH:
+          elif event.getType() == tlp.GraphEventType.TLP_BEFORE_ADD_SUBGRAPH:
             print("A subgraph", event.getSubGraph(), "is about to be added in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_AFTER_ADD_SUBGRAPH:
+          elif event.getType() == tlp.GraphEventType.TLP_AFTER_ADD_SUBGRAPH:
             print("A subgraph", event.getSubGraph(), "has been added in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_BEFORE_DEL_SUBGRAPH:
+          elif event.getType() == tlp.GraphEventType.TLP_BEFORE_DEL_SUBGRAPH:
             print("A subgraph", event.getSubGraph(), "is about to be deleted in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_AFTER_DEL_SUBGRAPH:
+          elif event.getType() == tlp.GraphEventType.TLP_AFTER_DEL_SUBGRAPH:
             print("A subgraph", event.getSubGraph(), "has been deleted in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_BEFORE_ADD_LOCAL_PROPERTY:
+          elif event.getType() == tlp.GraphEventType.TLP_BEFORE_ADD_LOCAL_PROPERTY:
             print("A local property", event.getPropertyName(), "is about to be added in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_ADD_LOCAL_PROPERTY:
+          elif event.getType() == tlp.GraphEventType.TLP_ADD_LOCAL_PROPERTY:
             print("A local property", event.getPropertyName(), "has been added in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_BEFORE_DEL_LOCAL_PROPERTY:
+          elif event.getType() == tlp.GraphEventType.TLP_BEFORE_DEL_LOCAL_PROPERTY:
             print("A local property", event.getPropertyName(), "is about to be deleted in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_AFTER_DEL_LOCAL_PROPERTY:
+          elif event.getType() == tlp.GraphEventType.TLP_AFTER_DEL_LOCAL_PROPERTY:
             print("A local property", event.getPropertyName(), "has been deleted in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_BEFORE_ADD_INHERITED_PROPERTY:
+          elif event.getType() == tlp.GraphEventType.TLP_BEFORE_ADD_INHERITED_PROPERTY:
             print("An inherited property", event.getPropertyName(), "is about to be added in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_ADD_INHERITED_PROPERTY:
+          elif event.getType() == tlp.GraphEventType.TLP_ADD_INHERITED_PROPERTY:
             print("An inherited property", event.getPropertyName(), "has been added in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_BEFORE_DEL_INHERITED_PROPERTY:
+          elif event.getType() == tlp.GraphEventType.TLP_BEFORE_DEL_INHERITED_PROPERTY:
             print("An inherited property", event.getPropertyName(), "is about to be deleted in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_AFTER_DEL_INHERITED_PROPERTY:
+          elif event.getType() == tlp.GraphEventType.TLP_AFTER_DEL_INHERITED_PROPERTY:
             print("An inherited property", event.getPropertyName(), "has been deleted in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_BEFORE_SET_ATTRIBUTE:
+          elif event.getType() == tlp.GraphEventType.TLP_BEFORE_SET_ATTRIBUTE:
             print("An attribute", event.getAttributeName(), "is about to be set/modified in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_AFTER_SET_ATTRIBUTE:
+          elif event.getType() == tlp.GraphEventType.TLP_AFTER_SET_ATTRIBUTE:
             print("An attribute", event.getAttributeName(), "has been set/modified in the graph", graph)
 
-          elif event.getType() == tlp.GraphEvent.TLP_REMOVE_ATTRIBUTE:
+          elif event.getType() == tlp.GraphEventType.TLP_REMOVE_ATTRIBUTE:
             print("An attribute", event.getAttributeName(), "has been removed in the graph", graph)
 
     root = tlp.newGraph()
@@ -200,21 +200,21 @@ to register an observer to a property. The sample code below illustrates that ob
       def treatEvent(self, event):
         if isinstance(event, tlp.PropertyEvent):
           prop = event.getProperty()
-          if event.getType() == tlp.PropertyEvent.TLP_BEFORE_SET_NODE_VALUE:
+          if event.getType() == tlp.PropertyEventType.TLP_BEFORE_SET_NODE_VALUE:
             print("Value for node", event.getNode(), "in property", prop, "is about to be modified. Current value is", prop[event.getNode()])
-          elif event.getType() == tlp.PropertyEvent.TLP_AFTER_SET_NODE_VALUE:
+          elif event.getType() == tlp.PropertyEventType.TLP_AFTER_SET_NODE_VALUE:
             print("Value for node", event.getNode(), "in property", prop, "has been modified. New value is", prop[event.getNode()])
-          elif event.getType() == tlp.PropertyEvent.TLP_BEFORE_SET_EDGE_VALUE:
+          elif event.getType() == tlp.PropertyEventType.TLP_BEFORE_SET_EDGE_VALUE:
             print("Value for edge", event.getEdge(), "in property", prop, "is about to be modified. Current value is", prop[event.getEdge()])
-          elif event.getType() == tlp.PropertyEvent.TLP_AFTER_SET_EDGE_VALUE:
+          elif event.getType() == tlp.PropertyEventType.TLP_AFTER_SET_EDGE_VALUE:
             print("Value for edge", event.getEdge(), "in property", prop, "has been modified. New value is", prop[event.getEdge()])
-          elif event.getType() == tlp.PropertyEvent.TLP_BEFORE_SET_ALL_NODE_VALUE:
+          elif event.getType() == tlp.PropertyEventType.TLP_BEFORE_SET_ALL_NODE_VALUE:
             print("Value for all nodes", "in property", prop, "is about to be modified.")
-          elif event.getType() == tlp.PropertyEvent.TLP_AFTER_SET_ALL_NODE_VALUE:
+          elif event.getType() == tlp.PropertyEventType.TLP_AFTER_SET_ALL_NODE_VALUE:
             print("Value for all nodes", "in property", prop, "has been modified.")
-          elif event.getType() == tlp.PropertyEvent.TLP_BEFORE_SET_ALL_EDGE_VALUE:
+          elif event.getType() == tlp.PropertyEventType.TLP_BEFORE_SET_ALL_EDGE_VALUE:
             print("Value for all edges", "in property", prop, "is about to be modified.")
-          elif event.getType() == tlp.PropertyEvent.TLP_AFTER_SET_ALL_EDGE_VALUE:
+          elif event.getType() == tlp.PropertyEventType.TLP_AFTER_SET_ALL_EDGE_VALUE:
             print("Value for all edges", "in property", prop, "has been modified.")
 
     graph = tlp.newGraph()

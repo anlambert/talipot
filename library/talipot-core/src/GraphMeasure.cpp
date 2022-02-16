@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,7 +19,7 @@ using namespace tlp;
 
 //================================================================
 uint tlp::maxDistance(const Graph *graph, uint nPos, tlp::NodeVectorProperty<uint> &distance,
-                      EDGE_TYPE direction) {
+                      EdgeType direction) {
   deque<uint> fifo;
   distance.setAll(UINT_MAX);
   fifo.push_back(nPos);
@@ -47,7 +47,7 @@ uint tlp::maxDistance(const Graph *graph, uint nPos, tlp::NodeVectorProperty<uin
 //================================================================
 double tlp::maxDistance(const Graph *graph, const uint nPos,
                         tlp::NodeVectorProperty<double> &distance,
-                        const NumericProperty *const weights, EDGE_TYPE direction) {
+                        const NumericProperty *const weights, EdgeType direction) {
   if (!weights) {
     NodeVectorProperty<uint> dist_int(graph);
     dist_int.setAll(0);
@@ -89,7 +89,7 @@ double tlp::averagePathLength(const Graph *graph) {
 
   TLP_PARALLEL_MAP_INDICES(nbNodes, [&](uint i) {
     tlp::NodeVectorProperty<uint> distance(graph);
-    maxDistance(graph, i, distance, UNDIRECTED);
+    maxDistance(graph, i, distance, EdgeType::UNDIRECTED);
 
     double tmp_result = 0;
 
@@ -206,25 +206,25 @@ void tlp::dagLevel(const Graph *graph, tlp::NodeVectorProperty<uint> &level) {
 }
 
 //==================================================
-void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EDGE_TYPE direction,
+void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EdgeType direction,
                  NumericProperty *weights, bool norm) {
   uint nbNodes = graph->numberOfNodes();
 
   if (!weights) {
     if (!norm) {
       switch (direction) {
-      case UNDIRECTED:
+      case EdgeType::UNDIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph,
                                            [&](const node n, uint i) { deg[i] = graph->deg(n); });
 
         break;
 
-      case INV_DIRECTED:
+      case EdgeType::INV_DIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph,
                                            [&](const node n, uint i) { deg[i] = graph->indeg(n); });
         break;
 
-      case DIRECTED:
+      case EdgeType::DIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(
             graph, [&](const node n, uint i) { deg[i] = graph->outdeg(n); });
 
@@ -238,17 +238,17 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EDGE_
       }
 
       switch (direction) {
-      case UNDIRECTED:
+      case EdgeType::UNDIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(
             graph, [&](const node n, uint i) { deg[i] = normalization * graph->deg(n); });
         break;
 
-      case INV_DIRECTED:
+      case EdgeType::INV_DIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(
             graph, [&](const node n, uint i) { deg[i] = normalization * graph->indeg(n); });
         break;
 
-      case DIRECTED:
+      case EdgeType::DIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(
             graph, [&](const node n, uint i) { deg[i] = normalization * graph->outdeg(n); });
         break;
@@ -257,7 +257,7 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EDGE_
   } else {
     if (!norm) {
       switch (direction) {
-      case UNDIRECTED:
+      case EdgeType::UNDIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
           double nWeight = 0.0;
           for (auto e : graph->incidence(n)) {
@@ -267,7 +267,7 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EDGE_
         });
         break;
 
-      case INV_DIRECTED:
+      case EdgeType::INV_DIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
           double nWeight = 0.0;
           for (auto e : graph->getInEdges(n)) {
@@ -278,7 +278,7 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EDGE_
 
         break;
 
-      case DIRECTED:
+      case EdgeType::DIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
           double nWeight = 0.0;
           for (auto e : graph->getOutEdges(n)) {
@@ -310,7 +310,7 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EDGE_
       }
 
       switch (direction) {
-      case UNDIRECTED:
+      case EdgeType::UNDIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
           double nWeight = 0.0;
           for (auto e : graph->incidence(n)) {
@@ -321,7 +321,7 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EDGE_
 
         break;
 
-      case INV_DIRECTED:
+      case EdgeType::INV_DIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
           double nWeight = 0.0;
           for (auto e : graph->getInEdges(n)) {
@@ -332,7 +332,7 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EDGE_
 
         break;
 
-      case DIRECTED:
+      case EdgeType::DIRECTED:
         TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
           double nWeight = 0.0;
           for (auto e : graph->getOutEdges(n)) {

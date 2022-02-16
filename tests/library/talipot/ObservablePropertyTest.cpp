@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -51,7 +51,7 @@ public:
   }
 
   void treatEvents(const vector<Event> &events) override {
-    if (events[0].type() == Event::TLP_DELETE) {
+    if (events[0].type() == EventType::TLP_DELETE) {
       observables.insert(events[0].sender());
     } else {
       reset();
@@ -121,19 +121,19 @@ public:
       PropertyInterface *prop = propEvt->getProperty();
 
       switch (propEvt->getType()) {
-      case PropertyEvent::TLP_BEFORE_SET_NODE_VALUE:
+      case PropertyEventType::TLP_BEFORE_SET_NODE_VALUE:
         beforeSetNodeValue(prop, propEvt->getNode());
         return;
 
-      case PropertyEvent::TLP_BEFORE_SET_EDGE_VALUE:
+      case PropertyEventType::TLP_BEFORE_SET_EDGE_VALUE:
         beforeSetEdgeValue(prop, propEvt->getEdge());
         return;
 
-      case PropertyEvent::TLP_BEFORE_SET_ALL_NODE_VALUE:
+      case PropertyEventType::TLP_BEFORE_SET_ALL_NODE_VALUE:
         beforeSetAllNodeValue(prop);
         return;
 
-      case PropertyEvent::TLP_BEFORE_SET_ALL_EDGE_VALUE:
+      case PropertyEventType::TLP_BEFORE_SET_ALL_EDGE_VALUE:
         beforeSetAllEdgeValue(prop);
         return;
       default:
@@ -142,7 +142,7 @@ public:
     } else {
       auto *prop = dynamic_cast<PropertyInterface *>(evt.sender());
 
-      if (prop && evt.type() == Event::TLP_DELETE) {
+      if (prop && evt.type() == EventType::TLP_DELETE) {
         destroy(prop);
       }
     }

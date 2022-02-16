@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1117,7 +1117,7 @@ public:
   void treatEvent(const Event &evt) override {
     auto *prop = dynamic_cast<PropertyInterface *>(evt.sender());
 
-    if (prop && evt.type() == Event::TLP_DELETE) {
+    if (prop && evt.type() == EventType::TLP_DELETE) {
       destroy(prop);
     }
   }
@@ -1284,7 +1284,7 @@ public:
   vector<PropertyInterface *> deletedProperties;
 
   void treatEvent(const Event &e) override {
-    if (e.type() == Event::TLP_DELETE) {
+    if (e.type() == EventType::TLP_DELETE) {
       auto *graph = dynamic_cast<Graph *>(e.sender());
       if (graph) {
         deletedGraphs.push_back(graph);

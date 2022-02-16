@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -95,8 +95,9 @@ bool TLPBExport::exportGraph(std::ostream &os) {
                  MAX_EDGES_TO_WRITE * sizeof(vEdges[0]));
         nbWrittenEdges += edgesToWrite;
 
-        if (pluginProgress->progress(nbWrittenEdges, header.numEdges) != TLP_CONTINUE) {
-          return pluginProgress->state() != TLP_CANCEL;
+        if (pluginProgress->progress(nbWrittenEdges, header.numEdges) !=
+            ProgressState::TLP_CONTINUE) {
+          return pluginProgress->state() != ProgressState::TLP_CANCEL;
         }
 
         edgesToWrite = 0;
@@ -267,8 +268,8 @@ bool TLPBExport::exportGraph(std::ostream &os) {
                  rangesToWrite * sizeof(vRanges[0]));
       }
 
-      if (pluginProgress->progress(i, numSubGraphs) != TLP_CONTINUE) {
-        return pluginProgress->state() != TLP_CANCEL;
+      if (pluginProgress->progress(i, numSubGraphs) != ProgressState::TLP_CONTINUE) {
+        return pluginProgress->state() != ProgressState::TLP_CANCEL;
       }
     }
   }
@@ -548,8 +549,8 @@ bool TLPBExport::exportGraph(std::ostream &os) {
         }
       }
 
-      if (pluginProgress->progress(i, numProperties) != TLP_CONTINUE) {
-        return pluginProgress->state() != TLP_CANCEL;
+      if (pluginProgress->progress(i, numProperties) != ProgressState::TLP_CONTINUE) {
+        return pluginProgress->state() != ProgressState::TLP_CANCEL;
       }
     }
   }

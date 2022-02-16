@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -44,7 +44,7 @@ public:
 
   // Observable methods
   void treatEvents(const vector<Event> &events) override {
-    if (events[0].type() == Event::TLP_DELETE) {
+    if (events[0].type() == EventType::TLP_DELETE) {
       observables.insert(events[0].sender());
     } else {
       for (const auto &event : events) {
@@ -103,27 +103,27 @@ public:
       Graph *graph = gEvt->getGraph();
 
       switch (gEvt->getType()) {
-      case GraphEvent::TLP_BEFORE_DEL_LOCAL_PROPERTY:
+      case GraphEventType::TLP_BEFORE_DEL_LOCAL_PROPERTY:
         beforeDelLocalProperty(graph, gEvt->getPropertyName());
         return;
 
-      case GraphEvent::TLP_AFTER_DEL_INHERITED_PROPERTY:
+      case GraphEventType::TLP_AFTER_DEL_INHERITED_PROPERTY:
         afterDelInheritedProperty(graph, gEvt->getPropertyName());
         return;
 
-      case GraphEvent::TLP_AFTER_DEL_LOCAL_PROPERTY:
+      case GraphEventType::TLP_AFTER_DEL_LOCAL_PROPERTY:
         afterDelLocalProperty(graph, gEvt->getPropertyName());
         return;
 
-      case GraphEvent::TLP_BEFORE_DEL_INHERITED_PROPERTY:
+      case GraphEventType::TLP_BEFORE_DEL_INHERITED_PROPERTY:
         beforeDelInheritedProperty(graph, gEvt->getPropertyName());
         return;
 
-      case GraphEvent::TLP_ADD_LOCAL_PROPERTY:
+      case GraphEventType::TLP_ADD_LOCAL_PROPERTY:
         addLocalProperty(graph, gEvt->getPropertyName());
         return;
 
-      case GraphEvent::TLP_ADD_INHERITED_PROPERTY:
+      case GraphEventType::TLP_ADD_INHERITED_PROPERTY:
         addInheritedProperty(graph, gEvt->getPropertyName());
         return;
 
@@ -259,63 +259,63 @@ public:
       Graph *graph = gEvt->getGraph();
 
       switch (gEvt->getType()) {
-      case GraphEvent::TLP_ADD_NODE:
+      case GraphEventType::TLP_ADD_NODE:
         addNode(graph, gEvt->getNode());
         break;
 
-      case GraphEvent::TLP_DEL_NODE:
+      case GraphEventType::TLP_DEL_NODE:
         delNode(graph, gEvt->getNode());
         break;
 
-      case GraphEvent::TLP_ADD_EDGE:
+      case GraphEventType::TLP_ADD_EDGE:
         addEdge(graph, gEvt->getEdge());
         break;
 
-      case GraphEvent::TLP_ADD_EDGES:
+      case GraphEventType::TLP_ADD_EDGES:
         addEdges(graph, gEvt->getEdges());
         break;
 
-      case GraphEvent::TLP_DEL_EDGE:
+      case GraphEventType::TLP_DEL_EDGE:
         delEdge(graph, gEvt->getEdge());
         break;
 
-      case GraphEvent::TLP_REVERSE_EDGE:
+      case GraphEventType::TLP_REVERSE_EDGE:
         reverseEdge(graph, gEvt->getEdge());
         break;
 
-      case GraphEvent::TLP_AFTER_ADD_SUBGRAPH:
+      case GraphEventType::TLP_AFTER_ADD_SUBGRAPH:
         addSubGraph(graph, const_cast<Graph *>(gEvt->getSubGraph()));
         break;
 
-      case GraphEvent::TLP_AFTER_DEL_SUBGRAPH:
+      case GraphEventType::TLP_AFTER_DEL_SUBGRAPH:
         delSubGraph(graph, const_cast<Graph *>(gEvt->getSubGraph()));
         break;
 
-      case GraphEvent::TLP_ADD_LOCAL_PROPERTY:
+      case GraphEventType::TLP_ADD_LOCAL_PROPERTY:
         addLocalProperty(graph, gEvt->getPropertyName());
         break;
 
-      case GraphEvent::TLP_BEFORE_DEL_LOCAL_PROPERTY:
+      case GraphEventType::TLP_BEFORE_DEL_LOCAL_PROPERTY:
         delLocalProperty(graph, gEvt->getPropertyName());
         break;
 
-      case GraphEvent::TLP_ADD_INHERITED_PROPERTY:
+      case GraphEventType::TLP_ADD_INHERITED_PROPERTY:
         addInheritedProperty(graph, gEvt->getPropertyName());
         return;
 
-      case GraphEvent::TLP_AFTER_DEL_INHERITED_PROPERTY:
+      case GraphEventType::TLP_AFTER_DEL_INHERITED_PROPERTY:
         afterDelInheritedProperty(graph, gEvt->getPropertyName());
         return;
 
-        /*case GraphEvent::TLP_BEFORE_SET_ENDS:
+        /*case GraphEventType::TLP_BEFORE_SET_ENDS:
   beforeSetEnds(graph, gEvt->getEdge());
   break;
 
-      case GraphEvent::TLP_AFTER_SET_ENDS:
+      case GraphEventType::TLP_AFTER_SET_ENDS:
   afterSetEnds(graph, gEvt->getEdge());
   break;
 
-      case GraphEvent::TLP_ADD_NODES: {
+      case GraphEventType::TLP_ADD_NODES: {
   const std::vector<node>& nodes = gEvt->getNodes();
 
   for (uint i = 0; i < nodes.size(); ++i)
@@ -324,7 +324,7 @@ public:
   break;
       }
 
-      case GraphEvent::TLP_ADD_EDGES: {
+      case GraphEventType::TLP_ADD_EDGES: {
   const std::vector<edge>& edges = gEvt->getEdges();
 
   for (uint i = 0; i < edges.size(); ++i)
@@ -333,29 +333,29 @@ public:
   break;
       }
 
-      case GraphEvent::TLP_BEFORE_SET_ATTRIBUTE:
+      case GraphEventType::TLP_BEFORE_SET_ATTRIBUTE:
   beforeSetAttribute(graph, gEvt->getAttributeName());
   break;
 
-      case GraphEvent::TLP_AFTER_SET_ATTRIBUTE:
+      case GraphEventType::TLP_AFTER_SET_ATTRIBUTE:
   afterSetAttribute(graph, gEvt->getAttributeName());
   break;
 
-      case GraphEvent::TLP_REMOVE_ATTRIBUTE:
+      case GraphEventType::TLP_REMOVE_ATTRIBUTE:
   removeAttribute(graph, gEvt->getAttributeName());
 
-      case GraphEvent::TLP_AFTER_DEL_LOCAL_PROPERTY:
-      case GraphEvent::TLP_ADD_INHERITED_PROPERTY:
-      case GraphEvent::TLP_AFTER_DEL_INHERITED_PROPERTY:
-      case GraphEvent::TLP_BEFORE_DEL_INHERITED_PROPERTY:
-      case GraphEvent::TLP_BEFORE_ADD_DESCENDANTGRAPH:
-      case GraphEvent::TLP_AFTER_ADD_DESCENDANTGRAPH:
-      case GraphEvent::TLP_BEFORE_DEL_DESCENDANTGRAPH:
-      case GraphEvent::TLP_AFTER_DEL_DESCENDANTGRAPH:
-      case GraphEvent::TLP_BEFORE_ADD_SUBGRAPH:
-      case GraphEvent::TLP_BEFORE_DEL_SUBGRAPH:
-      case GraphEvent::TLP_BEFORE_ADD_LOCAL_PROPERTY:
-      case GraphEvent::TLP_BEFORE_ADD_INHERITED_PROPERTY:
+      case GraphEventType::TLP_AFTER_DEL_LOCAL_PROPERTY:
+      case GraphEventType::TLP_ADD_INHERITED_PROPERTY:
+      case GraphEventType::TLP_AFTER_DEL_INHERITED_PROPERTY:
+      case GraphEventType::TLP_BEFORE_DEL_INHERITED_PROPERTY:
+      case GraphEventType::TLP_BEFORE_ADD_DESCENDANTGRAPH:
+      case GraphEventType::TLP_AFTER_ADD_DESCENDANTGRAPH:
+      case GraphEventType::TLP_BEFORE_DEL_DESCENDANTGRAPH:
+      case GraphEventType::TLP_AFTER_DEL_DESCENDANTGRAPH:
+      case GraphEventType::TLP_BEFORE_ADD_SUBGRAPH:
+      case GraphEventType::TLP_BEFORE_DEL_SUBGRAPH:
+      case GraphEventType::TLP_BEFORE_ADD_LOCAL_PROPERTY:
+      case GraphEventType::TLP_BEFORE_ADD_INHERITED_PROPERTY:
       break;*/
 
       default:
@@ -364,7 +364,7 @@ public:
     } else {
       auto *graph = static_cast<Graph *>(evt.sender());
 
-      if (graph && evt.type() == Event::TLP_DELETE) {
+      if (graph && evt.type() == EventType::TLP_DELETE) {
         if (deleteBug747) {
           delete observer;
           obs = new GraphObserverTest();
@@ -407,7 +407,7 @@ public:
     if (gEvt) {
       Graph *graph = gEvt->getGraph();
 
-      if (gEvt->getType() == GraphEvent::TLP_BEFORE_DEL_INHERITED_PROPERTY) {
+      if (gEvt->getType() == GraphEventType::TLP_BEFORE_DEL_INHERITED_PROPERTY) {
         delInheritedProperty(graph, gEvt->getPropertyName());
       }
     }
@@ -1033,7 +1033,7 @@ void ObservableGraphTest::testAddEdgesEventForTLPBImport() {
   DataSet params;
   params.set("file::filename", tlpbFile);
   importGraph("TLPB Import", params, nullptr, graph);
-  // check that the graph event TLP_ADD_EDGES has been correctly received
+  // check that the graph event GraphEventType::TLP_ADD_EDGES has been correctly received
   CPPUNIT_ASSERT(!gObserver->edges.empty());
   delete testGraph;
 }

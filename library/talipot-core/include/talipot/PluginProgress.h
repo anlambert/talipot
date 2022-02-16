@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -46,14 +46,17 @@ public:
  * @brief This enum describes callback actions for the underlying system when calling
  *tlp::PluginProgress::progress();
  * @list
- * @li TLP_CONTINUE: tells that the process monitored by the the progress should continue.
- * @li TLP_CANCEL: The process should be cancelled, reverting all changes since it was started.
- * @li TLP_STOP: The process should stop, leaving all the changes made since the beginning
+ * @li ProgressState::TLP_CONTINUE: tells that the process monitored by the the progress should
+ *continue.
+ * @li ProgressState::TLP_CANCEL: The process should be cancelled, reverting all changes since it
+ *was started.
+ * @li ProgressState::TLP_STOP: The process should stop, leaving all the changes made since the
+ *beginning
  * @endlist
  *
  * @see tlp::PluginProgress
  **/
-enum ProgressState {
+enum class ProgressState {
   /** The plugin should continue its execution. */
   TLP_CONTINUE,
   /** The plugin should cancel, reverting all performed changes since the plugin was called. */

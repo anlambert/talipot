@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,11 +20,11 @@ namespace tlp {
 
 GlSceneEvent::GlSceneEvent(const GlScene &scene, GlSceneEventType sceneEventType,
                            const std::string &layerName, GlLayer *layer)
-    : Event(scene, Event::TLP_MODIFICATION), sceneEventType(sceneEventType), layerName(layerName),
-      layer(layer) {}
+    : Event(scene, EventType::TLP_MODIFICATION), sceneEventType(sceneEventType),
+      layerName(layerName), layer(layer) {}
 
 GlSceneEvent::GlSceneEvent(const GlScene &scene, GlSceneEventType sceneEventType, GlEntity *entity)
-    : Event(scene, Event::TLP_MODIFICATION), sceneEventType(sceneEventType), entity(entity) {}
+    : Event(scene, EventType::TLP_MODIFICATION), sceneEventType(sceneEventType), entity(entity) {}
 
 GlEntity *GlSceneEvent::getGlEntity() const {
   return entity;

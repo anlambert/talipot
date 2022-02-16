@@ -93,18 +93,18 @@ static void setViewPropertiesDefaults(Graph *g) {
                     labelRotation = "viewLabelRotation";
 
   if (!g->existProperty(shapes)) {
-    g->getIntegerProperty(shapes)->setAllNodeValue(ViewSettings::defaultShape(NODE));
-    g->getIntegerProperty(shapes)->setAllEdgeValue(ViewSettings::defaultShape(EDGE));
+    g->getIntegerProperty(shapes)->setAllNodeValue(ViewSettings::defaultShape(ElementType::NODE));
+    g->getIntegerProperty(shapes)->setAllEdgeValue(ViewSettings::defaultShape(ElementType::EDGE));
   }
 
   if (!g->existProperty(colors)) {
-    g->getColorProperty(colors)->setAllNodeValue(ViewSettings::defaultColor(NODE));
-    g->getColorProperty(colors)->setAllEdgeValue(ViewSettings::defaultColor(EDGE));
+    g->getColorProperty(colors)->setAllNodeValue(ViewSettings::defaultColor(ElementType::NODE));
+    g->getColorProperty(colors)->setAllEdgeValue(ViewSettings::defaultColor(ElementType::EDGE));
   }
 
   if (!g->existProperty(sizes)) {
-    g->getSizeProperty(sizes)->setAllNodeValue(ViewSettings::defaultSize(NODE));
-    g->getSizeProperty(sizes)->setAllEdgeValue(ViewSettings::defaultSize(EDGE));
+    g->getSizeProperty(sizes)->setAllNodeValue(ViewSettings::defaultSize(ElementType::NODE));
+    g->getSizeProperty(sizes)->setAllEdgeValue(ViewSettings::defaultSize(ElementType::EDGE));
   }
 
   if (!g->existProperty(metrics)) {
@@ -123,13 +123,17 @@ static void setViewPropertiesDefaults(Graph *g) {
   }
 
   if (!g->existProperty(borderWidth)) {
-    g->getDoubleProperty(borderWidth)->setAllNodeValue(ViewSettings::defaultBorderWidth(NODE));
-    g->getDoubleProperty(borderWidth)->setAllEdgeValue(ViewSettings::defaultBorderWidth(EDGE));
+    g->getDoubleProperty(borderWidth)
+        ->setAllNodeValue(ViewSettings::defaultBorderWidth(ElementType::NODE));
+    g->getDoubleProperty(borderWidth)
+        ->setAllEdgeValue(ViewSettings::defaultBorderWidth(ElementType::EDGE));
   }
 
   if (!g->existProperty(borderColor)) {
-    g->getColorProperty(borderColor)->setAllNodeValue(ViewSettings::defaultBorderColor(NODE));
-    g->getColorProperty(borderColor)->setAllEdgeValue(ViewSettings::defaultBorderColor(EDGE));
+    g->getColorProperty(borderColor)
+        ->setAllNodeValue(ViewSettings::defaultBorderColor(ElementType::NODE));
+    g->getColorProperty(borderColor)
+        ->setAllEdgeValue(ViewSettings::defaultBorderColor(ElementType::EDGE));
   }
 
   if (!g->existProperty(tgtShape)) {
@@ -773,49 +777,50 @@ void Graph::setAttribute(const std::string &name, const DataType *value) {
 
 void Graph::notifyAddNode(const node n) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_ADD_NODE, n));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_ADD_NODE, n));
   }
 }
 
 void Graph::notifyDelNode(const node n) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_DEL_NODE, n));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_DEL_NODE, n));
   }
 }
 
 void Graph::notifyAddEdge(const edge e) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_ADD_EDGE, e));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_ADD_EDGE, e));
   }
 }
 
 void Graph::notifyDelEdge(const edge e) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_DEL_EDGE, e));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_DEL_EDGE, e));
   }
 }
 
 void Graph::notifyReverseEdge(const edge e) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_REVERSE_EDGE, e));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_REVERSE_EDGE, e));
   }
 }
 
 void Graph::notifyBeforeSetEnds(const edge e) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_BEFORE_SET_ENDS, e, Event::TLP_INFORMATION));
+    sendEvent(
+        GraphEvent(*this, GraphEventType::TLP_BEFORE_SET_ENDS, e, EventType::TLP_INFORMATION));
   }
 }
 
 void Graph::notifyAfterSetEnds(const edge e) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_AFTER_SET_ENDS, e));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_AFTER_SET_ENDS, e));
   }
 }
 
 void Graph::notifyBeforeAddSubGraph(const Graph *graph) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_BEFORE_ADD_SUBGRAPH, graph));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_BEFORE_ADD_SUBGRAPH, graph));
   }
 
   Graph *g = this;
@@ -830,7 +835,7 @@ void Graph::notifyBeforeAddSubGraph(const Graph *graph) {
 
 void Graph::notifyAfterAddSubGraph(const Graph *graph) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_AFTER_ADD_SUBGRAPH, graph));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_AFTER_ADD_SUBGRAPH, graph));
   }
 
   Graph *g = this;
@@ -845,7 +850,7 @@ void Graph::notifyAfterAddSubGraph(const Graph *graph) {
 
 void Graph::notifyBeforeDelSubGraph(const Graph *graph) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_BEFORE_DEL_SUBGRAPH, graph));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_BEFORE_DEL_SUBGRAPH, graph));
   }
 
   Graph *g = this;
@@ -859,7 +864,7 @@ void Graph::notifyBeforeDelSubGraph(const Graph *graph) {
 }
 void Graph::notifyAfterDelSubGraph(const Graph *graph) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_AFTER_DEL_SUBGRAPH, graph));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_AFTER_DEL_SUBGRAPH, graph));
   }
 
   Graph *g = this;
@@ -874,74 +879,75 @@ void Graph::notifyAfterDelSubGraph(const Graph *graph) {
 
 void Graph::notifyBeforeAddDescendantGraph(const Graph *graph) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_BEFORE_ADD_DESCENDANTGRAPH, graph));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_BEFORE_ADD_DESCENDANTGRAPH, graph));
   }
 }
 void Graph::notifyAfterAddDescendantGraph(const Graph *graph) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_AFTER_ADD_DESCENDANTGRAPH, graph));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_AFTER_ADD_DESCENDANTGRAPH, graph));
   }
 }
 
 void Graph::notifyBeforeDelDescendantGraph(const Graph *graph) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_BEFORE_DEL_DESCENDANTGRAPH, graph));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_BEFORE_DEL_DESCENDANTGRAPH, graph));
   }
 }
 void Graph::notifyAfterDelDescendantGraph(const Graph *graph) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_AFTER_DEL_DESCENDANTGRAPH, graph));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_AFTER_DEL_DESCENDANTGRAPH, graph));
   }
 }
 
 void Graph::notifyBeforeAddLocalProperty(const std::string &propName) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_BEFORE_ADD_LOCAL_PROPERTY, propName));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_BEFORE_ADD_LOCAL_PROPERTY, propName));
   }
 }
 void Graph::notifyAddLocalProperty(const std::string &propName) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_ADD_LOCAL_PROPERTY, propName));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_ADD_LOCAL_PROPERTY, propName));
   }
 }
 
 void Graph::notifyBeforeDelLocalProperty(const std::string &propName) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_BEFORE_DEL_LOCAL_PROPERTY, propName,
-                         Event::TLP_INFORMATION));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_BEFORE_DEL_LOCAL_PROPERTY, propName,
+                         EventType::TLP_INFORMATION));
   }
 }
 
 void Graph::notifyAfterDelLocalProperty(const std::string &propName) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_AFTER_DEL_LOCAL_PROPERTY, propName));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_AFTER_DEL_LOCAL_PROPERTY, propName));
   }
 }
 
 void Graph::notifyBeforeSetAttribute(const std::string &attName) {
   if (hasOnlookers()) {
-    sendEvent(
-        GraphEvent(*this, GraphEvent::TLP_BEFORE_SET_ATTRIBUTE, attName, Event::TLP_INFORMATION));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_BEFORE_SET_ATTRIBUTE, attName,
+                         EventType::TLP_INFORMATION));
   }
 }
 
 void Graph::notifyAfterSetAttribute(const std::string &attName) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_AFTER_SET_ATTRIBUTE, attName));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_AFTER_SET_ATTRIBUTE, attName));
   }
 }
 
 void Graph::notifyRemoveAttribute(const std::string &attName) {
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_REMOVE_ATTRIBUTE, attName, Event::TLP_INFORMATION));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_REMOVE_ATTRIBUTE, attName,
+                         EventType::TLP_INFORMATION));
   }
 }
 
 void Graph::notifyDestroy() {
   if (hasOnlookers()) {
     // the undo/redo mechanism has to simulate graph destruction
-    Event evt(*this, Event::TLP_MODIFICATION);
-    evt._type = Event::TLP_DELETE;
+    Event evt(*this, EventType::TLP_MODIFICATION);
+    evt._type = EventType::TLP_DELETE;
     sendEvent(evt);
   }
 }
@@ -1677,10 +1683,11 @@ Graph *Graph::getNthSubGraph(uint n) const {
 }
 
 const std::string &GraphEvent::getPropertyName() const {
-  assert((evtType > TLP_AFTER_DEL_SUBGRAPH && evtType < TLP_BEFORE_SET_ATTRIBUTE) ||
+  assert((evtType > GraphEventType::TLP_AFTER_DEL_SUBGRAPH && evtType < TLP_BEFORE_SET_ATTRIBUTE) ||
          evtType > TLP_REMOVE_ATTRIBUTE);
 
-  if (evtType == TLP_BEFORE_RENAME_LOCAL_PROPERTY || evtType == TLP_AFTER_RENAME_LOCAL_PROPERTY) {
+  if (evtType == GraphEventType::TLP_BEFORE_RENAME_LOCAL_PROPERTY ||
+      evtType == GraphEventType::TLP_AFTER_RENAME_LOCAL_PROPERTY) {
     return info.renamedProp->first->getName();
   }
 
@@ -1844,25 +1851,26 @@ Iterator<Graph *> *Graph::getDescendantGraphs() const {
 
 // destructor
 GraphEvent::~GraphEvent() {
-  if (evtType > TLP_AFTER_DEL_SUBGRAPH) {
+  if (evtType > GraphEventType::TLP_AFTER_DEL_SUBGRAPH) {
     // need to cleanup name if any
-    if (evtType == TLP_BEFORE_RENAME_LOCAL_PROPERTY || evtType == TLP_AFTER_RENAME_LOCAL_PROPERTY) {
+    if (evtType == GraphEventType::TLP_BEFORE_RENAME_LOCAL_PROPERTY ||
+        evtType == GraphEventType::TLP_AFTER_RENAME_LOCAL_PROPERTY) {
       delete info.renamedProp;
     } else {
       delete info.name;
     }
   } else {
     //  need to cleanup vectInfos if not null
-    if (evtType == TLP_ADD_NODES && vectInfos.addedNodes) {
+    if (evtType == GraphEventType::TLP_ADD_NODES && vectInfos.addedNodes) {
       delete vectInfos.addedNodes;
-    } else if (evtType == TLP_ADD_EDGES && vectInfos.addedEdges) {
+    } else if (evtType == GraphEventType::TLP_ADD_EDGES && vectInfos.addedEdges) {
       delete vectInfos.addedEdges;
     }
   }
 }
 
 const std::vector<node> &GraphEvent::getNodes() const {
-  assert(evtType == TLP_ADD_NODES);
+  assert(evtType == GraphEventType::TLP_ADD_NODES);
 
   if (vectInfos.addedNodes == nullptr) {
     uint nbElts = info.nbElts;
@@ -1880,7 +1888,7 @@ const std::vector<node> &GraphEvent::getNodes() const {
 }
 
 const std::vector<edge> &GraphEvent::getEdges() const {
-  assert(evtType == TLP_ADD_EDGES);
+  assert(evtType == GraphEventType::TLP_ADD_EDGES);
 
   if (vectInfos.addedEdges == nullptr) {
     uint nbElts = info.nbElts;

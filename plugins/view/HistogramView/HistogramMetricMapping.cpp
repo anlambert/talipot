@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1062,7 +1062,7 @@ void HistogramMetricMapping::updateGraphWithMapping(Graph *graph, LayoutProperty
   DoubleProperty *graphBorderSizes = graph->getDoubleProperty("viewBorderWidth");
   IntegerProperty *graphShapes = graph->getIntegerProperty("viewShape");
 
-  if (histoView->getDataLocation() == NODE) {
+  if (histoView->getDataLocation() == ElementType::NODE) {
 
     for (auto n : graph->nodes()) {
       const Coord &nodeHistoCoord = histogramLayout->getNodeValue(n);

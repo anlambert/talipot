@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,7 +18,7 @@
 
 namespace tlp {
 
-  enum EDGE_TYPE {DIRECTED = 0, INV_DIRECTED = 1, UNDIRECTED = 2};
+  enum class EdgeType {DIRECTED = 0, INV_DIRECTED = 1, UNDIRECTED = 2};
 
 //===========================================================================================
 
@@ -129,7 +129,7 @@ Returns the minimum degree of the graph's nodes.
 
 //===========================================================================================
 
-  uint maxDistance(const tlp::Graph *graph, const tlp::node node, tlp::IntegerProperty *result, tlp::EDGE_TYPE direction = tlp::UNDIRECTED);
+  uint maxDistance(const tlp::Graph *graph, const tlp::node node, tlp::IntegerProperty *result, tlp::EdgeType direction = tlp::EdgeType::UNDIRECTED);
 %Docstring
 tlp.maxDistance(graph, node, result, direction)
 
@@ -142,7 +142,7 @@ Computes the distances from a node to all the other nodes of a graph and return 
 :param result: a graph property in which the results will be stored
 :type result: :class:`tlp.IntegerProperty`
 :param direction: specify if the graph must be directed or not
-:type direction: tlp.DIRECTED, tlp.INV_DIRECTED, tlp.UNDIRECTED
+:type direction: tlp.EdgeType::DIRECTED, tlp.EdgeType::INV_DIRECTED, tlp.EdgeType::UNDIRECTED
 :rtype: integer
 :throws: an exception if the node does not belong to the graph
 %End
@@ -159,7 +159,7 @@ Computes the distances from a node to all the other nodes of a graph and return 
 
 //===========================================================================================
 
-  double maxDistanceWeighted(const tlp::Graph *graph, const tlp::node node, tlp::DoubleProperty *result, tlp::DoubleProperty *weight, tlp::EDGE_TYPE direction = tlp::UNDIRECTED);
+  double maxDistanceWeighted(const tlp::Graph *graph, const tlp::node node, tlp::DoubleProperty *result, tlp::DoubleProperty *weight, tlp::EdgeType direction = tlp::EdgeType::UNDIRECTED);
 %Docstring
 tlp.maxDistanceWeighted(graph, node, result, weight, direction)
 
@@ -174,7 +174,7 @@ Computes the distances from a node to all the other nodes of a weighted graph an
 :param result: a graph property in which edges lengths are stored
 :type result: :class:`tlp.DoubleProperty`
 :param direction: specify if the graph must be directed or not
-:type direction: tlp.DIRECTED, tlp.INV_DIRECTED, tlp.UNDIRECTED
+:type direction: tlp.EdgeType::DIRECTED, tlp.EdgeType::INV_DIRECTED, tlp.EdgeType::UNDIRECTED
 :rtype: double
 :throws: an exception if the node does not belong to the graph
 %End
@@ -192,7 +192,7 @@ Computes the distances from a node to all the other nodes of a weighted graph an
 
 //===========================================================================================
 
-  void reachableNodes(const tlp::Graph *graph, const tlp::node startNode, std::set<tlp::node> &result /Out/, uint maxDistance, tlp::EDGE_TYPE direction = tlp::UNDIRECTED);
+  void reachableNodes(const tlp::Graph *graph, const tlp::node startNode, std::set<tlp::node> &result /Out/, uint maxDistance, tlp::EdgeType direction = tlp::EdgeType::UNDIRECTED);
 %Docstring
 tlp.reachableNodes(graph, startNode, maxDistance, direction)
 
@@ -206,7 +206,7 @@ at distance less or equal to a maximum one.
 :param maxDistance: the maximum distance to reach nodes
 :type maxDistance: integer
 :param direction: specify if the graph must be directed or not
-:type direction: tlp.DIRECTED, tlp.INV_DIRECTED, tlp.UNDIRECTED
+:type direction: tlp.EdgeType::DIRECTED, tlp.EdgeType::INV_DIRECTED, tlp.EdgeType::UNDIRECTED
 :rtype: set of :class:`tlp.node`
 :throws: an exception if the node does not belong to the graph
 %End

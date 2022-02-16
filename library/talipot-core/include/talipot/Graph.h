@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -56,7 +56,7 @@ struct Iterator;
  *
  * It is used in functions that can return an edge or a node, to distinguish between the two cases.
  **/
-enum ElementType {
+enum class ElementType {
   /** This element describes a node **/
   NODE = 0,
   /** This element describes an edge **/
@@ -2090,52 +2090,51 @@ protected:
   std::unordered_map<std::string, tlp::PropertyInterface *> circularCalls;
 };
 
+enum class GraphEventType {
+  TLP_ADD_NODE = 0,
+  TLP_DEL_NODE = 1,
+  TLP_ADD_EDGE = 2,
+  TLP_DEL_EDGE = 3,
+  TLP_REVERSE_EDGE = 4,
+  TLP_BEFORE_SET_ENDS = 5,
+  TLP_AFTER_SET_ENDS = 6,
+  TLP_ADD_NODES = 7,
+  TLP_ADD_EDGES = 8,
+  TLP_BEFORE_ADD_DESCENDANTGRAPH = 9,
+  TLP_AFTER_ADD_DESCENDANTGRAPH = 10,
+  TLP_BEFORE_DEL_DESCENDANTGRAPH = 11,
+  TLP_AFTER_DEL_DESCENDANTGRAPH = 12,
+  TLP_BEFORE_ADD_SUBGRAPH = 13,
+  TLP_AFTER_ADD_SUBGRAPH = 14,
+  TLP_BEFORE_DEL_SUBGRAPH = 15,
+  TLP_AFTER_DEL_SUBGRAPH = 16,
+  TLP_ADD_LOCAL_PROPERTY = 17,
+  TLP_BEFORE_DEL_LOCAL_PROPERTY = 18,
+  TLP_AFTER_DEL_LOCAL_PROPERTY = 19,
+  TLP_ADD_INHERITED_PROPERTY = 20,
+  TLP_BEFORE_DEL_INHERITED_PROPERTY = 21,
+  TLP_AFTER_DEL_INHERITED_PROPERTY = 22,
+  TLP_BEFORE_RENAME_LOCAL_PROPERTY = 23,
+  TLP_AFTER_RENAME_LOCAL_PROPERTY = 24,
+  TLP_BEFORE_SET_ATTRIBUTE = 25,
+  TLP_AFTER_SET_ATTRIBUTE = 26,
+  TLP_REMOVE_ATTRIBUTE = 27,
+  TLP_BEFORE_ADD_LOCAL_PROPERTY = 28,
+  TLP_BEFORE_ADD_INHERITED_PROPERTY = 29
+};
+
 /**
  * @ingroup Observation
  * Event class for specific events on Graph
  **/
 class TLP_SCOPE GraphEvent : public Event {
 public:
-  // be careful about the ordering of the constants
-  // in the enum below because it is used in some assertions
-  enum GraphEventType {
-    TLP_ADD_NODE = 0,
-    TLP_DEL_NODE = 1,
-    TLP_ADD_EDGE = 2,
-    TLP_DEL_EDGE = 3,
-    TLP_REVERSE_EDGE = 4,
-    TLP_BEFORE_SET_ENDS = 5,
-    TLP_AFTER_SET_ENDS = 6,
-    TLP_ADD_NODES = 7,
-    TLP_ADD_EDGES = 8,
-    TLP_BEFORE_ADD_DESCENDANTGRAPH = 9,
-    TLP_AFTER_ADD_DESCENDANTGRAPH = 10,
-    TLP_BEFORE_DEL_DESCENDANTGRAPH = 11,
-    TLP_AFTER_DEL_DESCENDANTGRAPH = 12,
-    TLP_BEFORE_ADD_SUBGRAPH = 13,
-    TLP_AFTER_ADD_SUBGRAPH = 14,
-    TLP_BEFORE_DEL_SUBGRAPH = 15,
-    TLP_AFTER_DEL_SUBGRAPH = 16,
-    TLP_ADD_LOCAL_PROPERTY = 17,
-    TLP_BEFORE_DEL_LOCAL_PROPERTY = 18,
-    TLP_AFTER_DEL_LOCAL_PROPERTY = 19,
-    TLP_ADD_INHERITED_PROPERTY = 20,
-    TLP_BEFORE_DEL_INHERITED_PROPERTY = 21,
-    TLP_AFTER_DEL_INHERITED_PROPERTY = 22,
-    TLP_BEFORE_RENAME_LOCAL_PROPERTY = 23,
-    TLP_AFTER_RENAME_LOCAL_PROPERTY = 24,
-    TLP_BEFORE_SET_ATTRIBUTE = 25,
-    TLP_AFTER_SET_ATTRIBUTE = 26,
-    TLP_REMOVE_ATTRIBUTE = 27,
-    TLP_BEFORE_ADD_LOCAL_PROPERTY = 28,
-    TLP_BEFORE_ADD_INHERITED_PROPERTY = 29
-  };
-
   // constructor for node/edge/nodes/edges events
   GraphEvent(const Graph &g, GraphEventType graphEvtType, uint id,
-             Event::EventType evtType = Event::TLP_MODIFICATION)
+             EventType evtType = EventType::TLP_MODIFICATION)
       : Event(g, evtType), evtType(graphEvtType) {
-    if (graphEvtType == TLP_ADD_NODES || graphEvtType == TLP_ADD_EDGES) {
+    if (graphEvtType == GraphEventType::TLP_ADD_NODES ||
+        graphEvtType == GraphEventType::TLP_ADD_EDGES) {
       info.nbElts = id;
     } else {
       info.eltId = id;
@@ -2145,14 +2144,14 @@ public:
   }
   // constructor for subgraph events
   GraphEvent(const Graph &g, GraphEventType graphEvtType, const Graph *sg)
-      : Event(g, Event::TLP_MODIFICATION), evtType(graphEvtType) {
+      : Event(g, EventType::TLP_MODIFICATION), evtType(graphEvtType) {
     info.subGraph = sg;
     vectInfos.addedNodes = nullptr;
   }
 
   // constructor for attribute/property events
   GraphEvent(const Graph &g, GraphEventType graphEvtType, const std::string &str,
-             Event::EventType evtType = Event::TLP_MODIFICATION)
+             EventType evtType = EventType::TLP_MODIFICATION)
       : Event(g, evtType), evtType(graphEvtType) {
     info.name = new std::string(str);
     vectInfos.addedNodes = nullptr;
@@ -2161,7 +2160,7 @@ public:
   // constructor for rename property events
   GraphEvent(const Graph &g, GraphEventType graphEvtType, PropertyInterface *prop,
              const std::string &newName)
-      : Event(g, Event::TLP_MODIFICATION), evtType(graphEvtType) {
+      : Event(g, EventType::TLP_MODIFICATION), evtType(graphEvtType) {
     info.renamedProp = new std::pair<PropertyInterface *, std::string>(prop, newName);
     vectInfos.addedNodes = nullptr;
   }
@@ -2178,26 +2177,26 @@ public:
   }
 
   edge getEdge() const {
-    assert(evtType > TLP_DEL_NODE && evtType < TLP_ADD_NODES);
+    assert(evtType > TLP_DEL_NODE && evtType < GraphEventType::TLP_ADD_NODES);
     return edge(info.eltId);
   }
 
   const std::vector<node> &getNodes() const;
 
   uint getNumberOfNodes() const {
-    assert(evtType == TLP_ADD_NODES);
+    assert(evtType == GraphEventType::TLP_ADD_NODES);
     return info.nbElts;
   }
 
   const std::vector<edge> &getEdges() const;
 
   uint getNumberOfEdges() const {
-    assert(evtType == TLP_ADD_EDGES);
+    assert(evtType == GraphEventType::TLP_ADD_EDGES);
     return info.nbElts;
   }
 
   const Graph *getSubGraph() const {
-    assert(evtType > TLP_ADD_EDGES && evtType < TLP_ADD_LOCAL_PROPERTY);
+    assert(evtType > GraphEventType::TLP_ADD_EDGES && evtType < TLP_ADD_LOCAL_PROPERTY);
     return info.subGraph;
   }
 
@@ -2209,18 +2208,18 @@ public:
   const std::string &getPropertyName() const;
 
   PropertyInterface *getProperty() const {
-    assert(evtType == TLP_BEFORE_RENAME_LOCAL_PROPERTY ||
-           evtType == TLP_AFTER_RENAME_LOCAL_PROPERTY);
+    assert(evtType == GraphEventType::TLP_BEFORE_RENAME_LOCAL_PROPERTY ||
+           evtType == GraphEventType::TLP_AFTER_RENAME_LOCAL_PROPERTY);
     return info.renamedProp->first;
   }
 
   const std::string &getPropertyNewName() const {
-    assert(evtType == TLP_BEFORE_RENAME_LOCAL_PROPERTY);
+    assert(evtType == GraphEventType::TLP_BEFORE_RENAME_LOCAL_PROPERTY);
     return info.renamedProp->second;
   }
 
   const std::string &getPropertyOldName() const {
-    assert(evtType == TLP_AFTER_RENAME_LOCAL_PROPERTY);
+    assert(evtType == GraphEventType::TLP_AFTER_RENAME_LOCAL_PROPERTY);
     return info.renamedProp->second;
   }
 

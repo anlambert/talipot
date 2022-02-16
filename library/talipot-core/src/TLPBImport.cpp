@@ -78,8 +78,9 @@ bool TLPBImport::importGraph() {
         return false;
       }
 
-      if (pluginProgress->progress(header.numEdges - nbEdges, header.numEdges) != TLP_CONTINUE) {
-        return pluginProgress->state() != TLP_CANCEL;
+      if (pluginProgress->progress(header.numEdges - nbEdges, header.numEdges) !=
+          ProgressState::TLP_CONTINUE) {
+        return pluginProgress->state() != ProgressState::TLP_CANCEL;
       }
 
       // add edges in the graph
@@ -187,8 +188,8 @@ bool TLPBImport::importGraph() {
         sg->addEdges(sgEdges);
       }
 
-      if (pluginProgress->progress(i + 1, numSubGraphs) != TLP_CONTINUE) {
-        return pluginProgress->state() != TLP_CANCEL;
+      if (pluginProgress->progress(i + 1, numSubGraphs) != ProgressState::TLP_CONTINUE) {
+        return pluginProgress->state() != ProgressState::TLP_CANCEL;
       }
     }
   }
@@ -541,8 +542,8 @@ bool TLPBImport::importGraph() {
         }
       }
 
-      if (pluginProgress->progress(i + 1, numProperties) != TLP_CONTINUE) {
-        return pluginProgress->state() != TLP_CANCEL;
+      if (pluginProgress->progress(i + 1, numProperties) != ProgressState::TLP_CONTINUE) {
+        return pluginProgress->state() != ProgressState::TLP_CANCEL;
       }
     }
   }
@@ -575,8 +576,8 @@ bool TLPBImport::importGraph() {
       return false;
     }
 
-    if (pluginProgress->progress(i + 1, numSubGraphs + 1) != TLP_CONTINUE) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress->progress(i + 1, numSubGraphs + 1) != ProgressState::TLP_CONTINUE) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
   }
 

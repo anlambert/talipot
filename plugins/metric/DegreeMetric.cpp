@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -60,7 +60,7 @@ bool DegreeMetric::run() {
   }
 
   NodeVectorProperty<double> deg(graph);
-  degree(graph, deg, static_cast<EDGE_TYPE>(degreeTypes.getCurrent()), weights, norm);
+  degree(graph, deg, static_cast<EdgeType>(degreeTypes.getCurrent()), weights, norm);
   deg.copyToProperty(result);
 
   return true;

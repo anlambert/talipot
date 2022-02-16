@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -42,8 +42,8 @@ bool ReverseEdges::run() {
     if ((++step % 100) == 0) {
       ProgressState state = pluginProgress->progress(step, max_step);
 
-      if (state != TLP_CONTINUE) {
-        return state != TLP_CANCEL;
+      if (state != ProgressState::TLP_CONTINUE) {
+        return state != ProgressState::TLP_CANCEL;
       }
     }
 

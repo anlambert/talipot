@@ -64,3 +64,10 @@ library/talipot-core/src/MaterialDesignIconsData.cpp
 library/talipot-python/bindings/talipot-core/FontAwesome.sip
 library/talipot-python/bindings/talipot-core/MaterialDesignIcons.sip
 doc/python/fonticons.rst
+library/talipot-python/bindings/talipot-core/BooleanProperty.sip
+library/talipot-python/bindings/talipot-core/ColorProperty.sip
+library/talipot-python/bindings/talipot-core/DoubleProperty.sip
+library/talipot-python/bindings/talipot-core/IntegerProperty.sip
+library/talipot-python/bindings/talipot-core/LayoutProperty.sip
+library/talipot-python/bindings/talipot-core/SizeProperty.sip
+library/talipot-python/bindings/talipot-core/StringProperty.sip

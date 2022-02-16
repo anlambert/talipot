@@ -223,12 +223,12 @@ public:
           pluginProgress->progress(i, entries.count());
         }
 
-        if (pluginProgress->state() == TLP_CANCEL) {
+        if (pluginProgress->state() == ProgressState::TLP_CANCEL) {
           pluginProgress->setError("Import cancelled by user.");
           return false;
         }
 
-        if (pluginProgress->state() == TLP_STOP) {
+        if (pluginProgress->state() == ProgressState::TLP_STOP) {
           break;
         }
       }

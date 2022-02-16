@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -99,16 +99,16 @@ bool MixedModel::run() {
   vector<edge> edge_planar;
 
   // give some empirical feedback of what we are doing 0,1 %
-  if (pluginProgress->progress(1, 1000) != TLP_CONTINUE) {
-    return pluginProgress->state() != TLP_CANCEL;
+  if (pluginProgress->progress(1, 1000) != ProgressState::TLP_CONTINUE) {
+    return pluginProgress->state() != ProgressState::TLP_CANCEL;
   }
 
   // compute the connected components's subgraphs
   auto components = ConnectedTest::computeConnectedComponents(graph);
 
   for (auto &component : components) {
-    if (pluginProgress->progress(2, 1000) != TLP_CONTINUE) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress->progress(2, 1000) != ProgressState::TLP_CONTINUE) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
 
     //====================================================
@@ -215,8 +215,8 @@ bool MixedModel::run() {
     //===============================================
 
     // give some empirical feedback of what we are doing 0,5%
-    if (pluginProgress->progress(5, 1000) != TLP_CONTINUE) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress->progress(5, 1000) != ProgressState::TLP_CONTINUE) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
 
     vector<edge> added_edges;
@@ -231,8 +231,8 @@ bool MixedModel::run() {
     assert(BiconnectedTest::isBiconnected(carte));
 
     // give some empirical feedback of what we are doing (5%)
-    if (pluginProgress->progress(5, 100) != TLP_CONTINUE) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress->progress(5, 100) != ProgressState::TLP_CONTINUE) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
 
     InPoints.clear();
@@ -253,8 +253,8 @@ bool MixedModel::run() {
     initPartition();
 
     // give some empirical feedback of what we are doing (10%)
-    if (pluginProgress->progress(10, 100) != TLP_CONTINUE) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress->progress(10, 100) != ProgressState::TLP_CONTINUE) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
 
     assignInOutPoints();
@@ -284,8 +284,8 @@ bool MixedModel::run() {
     tmp.set("coordinates", result);
     graph->applyPropertyAlgorithm("Connected Components Packing", result, err, &tmp,
                                   pluginProgress);
-    if (pluginProgress->state() != TLP_CONTINUE) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
   }
 
@@ -430,7 +430,7 @@ void MixedModel::placeNodesEdges() {
 void MixedModel::initPartition() {
   V = tlp::computeCanonicalOrdering(carte, &dummy, pluginProgress);
 
-  if (pluginProgress->state() == TLP_CANCEL) {
+  if (pluginProgress->state() == ProgressState::TLP_CANCEL) {
     return;
   }
 
@@ -452,7 +452,7 @@ void MixedModel::assignInOutPoints() { // on considère qu'il n'y a pas d'arc do
   for (uint k = 0; k < V.size(); ++k) {
     // give pluginProgress feedback
     if (pluginProgress->progress(minProgress + (deltaProgress * k) / V.size(), 1000) !=
-        TLP_CONTINUE) {
+        ProgressState::TLP_CONTINUE) {
       return;
     }
 

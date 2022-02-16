@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -689,12 +689,12 @@ void LayoutProperty::treatEvent(const Event &evt) {
 
   if (graphEvent) {
     switch (graphEvent->getType()) {
-    case GraphEvent::TLP_ADD_NODE:
-    case GraphEvent::TLP_DEL_NODE:
+    case GraphEventType::TLP_ADD_NODE:
+    case GraphEventType::TLP_DEL_NODE:
       LayoutMinMaxProperty::treatEvent(evt);
       break;
 
-    case GraphEvent::TLP_REVERSE_EDGE: {
+    case GraphEventType::TLP_REVERSE_EDGE: {
       std::vector<Coord> bends = getEdgeValue(graphEvent->getEdge());
 
       // reverse bends if needed

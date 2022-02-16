@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -65,10 +65,9 @@ template<TYPE *>
     if (!PyList_Check(sipPy)) {
       return 0;
     }
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       PyObject *item = PyList_GET_ITEM(sipPy, i);
       if (!sipCanConvertToType(item, kpTypeDef, SIP_NOT_NONE)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to TYPE");
         return 0;
       }
     }
@@ -78,7 +77,7 @@ template<TYPE *>
   // Convert Python list of TYPE to  std::list<TYPE*>
   std::list<TYPE*> *l = new std::list<TYPE*>();
 
-  for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
     int state;
     PyObject *item = PyList_GET_ITEM(sipPy, i);
     TYPE* p = static_cast<TYPE*>(sipConvertToType(item, kpTypeDef, NULL, SIP_NOT_NONE, &state, sipIsErr));
@@ -154,10 +153,9 @@ template<TYPE>
     if (!PyList_Check(sipPy)) {
       return 0;
     }
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       PyObject *item = PyList_GET_ITEM(sipPy, i);
       if (!sipCanConvertToType(item, kpTypeDef, SIP_NOT_NONE)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to TYPE");
         return 0;
       }
     }
@@ -166,7 +164,7 @@ template<TYPE>
 
   // Convert Python list of TYPE to  std::list<TYPE>
   std::list<TYPE> *l = new std::list<TYPE>();
-  for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
     int state;
     TYPE* p = static_cast<TYPE*>(sipConvertToType(PyList_GET_ITEM(sipPy, i), kpTypeDef, sipTransferObj, SIP_NOT_NONE, &state, sipIsErr));
 
@@ -221,10 +219,9 @@ template<TYPE>
     if (!PyList_Check(sipPy)) {
       return 0;
     }
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       PyObject *item = PyList_GET_ITEM(sipPy, i);
       if (!PyNumber_Check(item)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to double");
         return 0;
       }
     }
@@ -233,7 +230,7 @@ template<TYPE>
 
   // Convert Python list of numbers to a std::vector<double>
   std::list<double> *v = new std::list<double>();
-  for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
     PyObject *f = PyNumber_Float(PyList_GET_ITEM(sipPy, i));
     v->push_back(PyFloat_AsDouble(f));
     Py_XDECREF(f);
@@ -279,10 +276,9 @@ template<TYPE>
     if (!PyList_Check(sipPy)) {
       return 0;
     }
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       PyObject *item = PyList_GET_ITEM(sipPy, i);
       if (!PyNumber_Check(item)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to float");
         return 0;
       }
     }
@@ -291,7 +287,7 @@ template<TYPE>
 
   // Convert Python list of numbers to a std::vector<double>
   std::list<float> *v = new std::list<float>();
-  for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
     PyObject *f = PyNumber_Float(PyList_GET_ITEM(sipPy, i));
     v->push_back(float(PyFloat_AsDouble(f)));
     Py_XDECREF(f);
@@ -338,10 +334,9 @@ template<TYPE>
     if (!PyList_Check(sipPy)) {
       return 0;
     }
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       PyObject *item = PyList_GET_ITEM(sipPy, i);
       if (!PyLong_Check(item)) {
-          //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to int");
           return 0;
         }
       }
@@ -350,7 +345,7 @@ template<TYPE>
 
     // Convert Python list of integers to a std::vector<int>
     std::list<int> *v = new std::list<int>();
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       v->push_back(int(PyLong_AsLong(PyList_GET_ITEM(sipPy, i))));
     }
 
@@ -395,10 +390,9 @@ template<TYPE>
     if (!PyList_Check(sipPy)) {
       return 0;
     }
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       PyObject *item = PyList_GET_ITEM(sipPy, i);
       if (!PyLong_Check(item)) {
-          //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to int");
           return 0;
         }
       }
@@ -407,7 +401,7 @@ template<TYPE>
 
     // Convert Python list of integers to a std::vector<int>
     std::list<uint> *v = new std::list<uint>();
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       v->push_back(uint(PyLong_AsUnsignedLong(PyList_GET_ITEM(sipPy, i))));
     }
 
@@ -444,18 +438,17 @@ template<TYPE>
 
   // Return the Python list.
   return l;
-  %End
+%End
 
-  %ConvertToTypeCode
+%ConvertToTypeCode
   // Check if type is compatible
   if (sipIsErr == NULL) {
     if (!PyList_Check(sipPy)) {
       return 0;
     }
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       PyObject *item = PyList_GET_ITEM(sipPy, i);
       if (!PyLong_Check(item)) {
-          //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to long");
           return 0;
         }
       }
@@ -464,7 +457,7 @@ template<TYPE>
 
     // Convert Python list of integers to a std::vector<int>
     std::list<long> *v = new std::list<long>();
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       v->push_back(PyLong_AsLong(PyList_GET_ITEM(sipPy, i)));
     }
 
@@ -501,18 +494,17 @@ template<TYPE>
 
   // Return the Python list.
   return l;
-  %End
+%End
 
-  %ConvertToTypeCode
+%ConvertToTypeCode
   // Check if type is compatible
   if (sipIsErr == NULL) {
     if (!PyList_Check(sipPy)) {
       return 0;
     }
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       PyObject *item = PyList_GET_ITEM(sipPy, i);
       if (!PyLong_Check(item)) {
-          //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to unsigned long");
           return 0;
         }
       }
@@ -521,7 +513,7 @@ template<TYPE>
 
     // Convert Python list of integers to a std::vector<int>
     std::list<unsigned long> *v = new std::list<unsigned long>();
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       v->push_back(PyLong_AsUnsignedLong(PyList_GET_ITEM(sipPy, i)));
     }
 
@@ -558,18 +550,17 @@ template<TYPE>
 
   // Return the Python list.
   return l;
-  %End
+%End
 
-  %ConvertToTypeCode
+%ConvertToTypeCode
   // Check if type is compatible
   if (sipIsErr == NULL) {
     if (!PyList_Check(sipPy)) {
       return 0;
     }
-    for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
       PyObject *item = PyList_GET_ITEM(sipPy, i);
       if (!PyBool_Check(item)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to bool");
         return 0;
       }
     }
@@ -578,7 +569,7 @@ template<TYPE>
 
   // Convert Python list of booleans to a std::vector<bool>
   std::list<bool> *v = new std::list<bool>();
-  for (SIP_SSIZE_T i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
     v->push_back(PyList_GET_ITEM(sipPy, i) == Py_True);
   }
 

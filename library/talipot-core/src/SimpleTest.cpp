@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -44,7 +44,7 @@ void SimpleTestListener::treatEvent(const Event &evt) {
     Graph *graph = gEvt->getGraph();
 
     switch (gEvt->getType()) {
-    case GraphEvent::TLP_ADD_EDGE:
+    case GraphEventType::TLP_ADD_EDGE:
 
       if (resultsBuffer[graph]) {
         deleteResult(graph);
@@ -52,7 +52,7 @@ void SimpleTestListener::treatEvent(const Event &evt) {
 
       break;
 
-    case GraphEvent::TLP_DEL_EDGE:
+    case GraphEventType::TLP_DEL_EDGE:
 
       if (!resultsBuffer[graph]) {
         deleteResult(graph);
@@ -60,7 +60,7 @@ void SimpleTestListener::treatEvent(const Event &evt) {
 
       break;
 
-    case GraphEvent::TLP_REVERSE_EDGE:
+    case GraphEventType::TLP_REVERSE_EDGE:
       deleteResult(graph);
       break;
 
@@ -71,7 +71,7 @@ void SimpleTestListener::treatEvent(const Event &evt) {
 
     auto *graph = static_cast<Graph *>(evt.sender());
 
-    if (evt.type() == Event::TLP_DELETE) {
+    if (evt.type() == EventType::TLP_DELETE) {
       deleteResult(graph);
     }
   }
@@ -135,7 +135,8 @@ pair<vector<edge>, vector<edge>> SimpleTest::getLoopsAndParallelEdges(const tlp:
     set<node> seenOpposites;
 
     // search for parallel edges and loops
-    for (auto e : getIncidentEdgesIterator(graph, n, directed ? DIRECTED : UNDIRECTED)) {
+    for (auto e :
+         getIncidentEdgesIterator(graph, n, directed ? EdgeType::DIRECTED : EdgeType::UNDIRECTED)) {
 
       // check if edge has already been visited
       if (visited[e]) {

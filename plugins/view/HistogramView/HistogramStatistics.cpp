@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -276,7 +276,7 @@ void HistogramStatistics::computeInteractor() {
   double min, max;
 
   if (propertyType == "double") {
-    if (histoView->getDataLocation() == NODE) {
+    if (histoView->getDataLocation() == ElementType::NODE) {
       min = graph->getDoubleProperty(selectedProperty)->getNodeMin();
       max = graph->getDoubleProperty(selectedProperty)->getNodeMax();
     } else {
@@ -284,7 +284,7 @@ void HistogramStatistics::computeInteractor() {
       max = graph->getDoubleProperty(selectedProperty)->getEdgeMax();
     }
   } else {
-    if (histoView->getDataLocation() == NODE) {
+    if (histoView->getDataLocation() == ElementType::NODE) {
       min = graph->getIntegerProperty(selectedProperty)->getNodeMin();
       max = graph->getIntegerProperty(selectedProperty)->getNodeMax();
     } else {
@@ -295,7 +295,7 @@ void HistogramStatistics::computeInteractor() {
 
   uint nbElements = 0;
 
-  if (histoView->getDataLocation() == NODE) {
+  if (histoView->getDataLocation() == ElementType::NODE) {
     nbElements = graph->numberOfNodes();
     for (auto n : graph->nodes()) {
       double nodeVal;
@@ -443,7 +443,7 @@ void HistogramStatistics::computeInteractor() {
                              map_value_less_equal<uint, double>(upperBound)));
 
       while (pos != graphPropertyValueSet.end()) {
-        if (histoView->getDataLocation() == EDGE) {
+        if (histoView->getDataLocation() == ElementType::EDGE) {
           viewSelection->setNodeValue(node(pos->first), true);
         } else {
           viewSelection->setEdgeValue(edge(pos->first), true);

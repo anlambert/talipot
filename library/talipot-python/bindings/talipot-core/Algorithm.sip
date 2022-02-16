@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,12 +13,6 @@
 
 namespace tlp {
 class Algorithm : tlp::Plugin {
-%TypeHeaderCode
-#include <talipot/Algorithm.h>
-%End
-
-public:
-
 %Docstring
 Bases: :class:`tlp.Plugin`
 
@@ -46,6 +40,13 @@ if it is decomposed in multiple phases (e.g. layouting the graph, coloring it, .
 .. rubric:: class methods
 
 %End
+
+
+%TypeHeaderCode
+#include <talipot/Algorithm.h>
+%End
+
+public:
 
   Algorithm(const tlp::PluginContext* context);
 

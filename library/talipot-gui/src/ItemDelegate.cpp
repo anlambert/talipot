@@ -261,7 +261,7 @@ QVariant ItemDelegate::showEditorDialog(tlp::ElementType elType, tlp::PropertyIn
                                         QWidget *dialogParent, uint id) {
   QVariant value;
   bool valid;
-  if (elType == tlp::NODE) {
+  if (elType == tlp::ElementType::NODE) {
     node n(id);
 
     if ((valid = n.isValid())) {
@@ -291,11 +291,12 @@ QVariant ItemDelegate::showEditorDialog(tlp::ElementType elType, tlp::PropertyIn
   auto *dlg = dynamic_cast<QDialog *>(w);
 
   if (dlg == nullptr) {
-    QString title(
-        QString("Set %1 %2").arg(elType == NODE ? "node" : "edge").arg(valid ? "value" : "values"));
+    QString title(QString("Set %1 %2")
+                      .arg(elType == ElementType::NODE ? "node" : "edge")
+                      .arg(valid ? "value" : "values"));
     bool displayPropertyName = true;
     // adjust dialog title for some view properties
-    if (pi->getName() == "viewShape" && elType == EDGE) {
+    if (pi->getName() == "viewShape" && elType == ElementType::EDGE) {
       title = "Select an edge shape";
       displayPropertyName = false;
     }

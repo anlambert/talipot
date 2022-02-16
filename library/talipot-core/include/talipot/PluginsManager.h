@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -262,7 +262,7 @@ public:
 
   // constructor for node/edge events
   PluginEvent(PluginEventType pluginEvtType, const std::string &pluginName)
-      : Event(tlp::PluginsManager::instance(), Event::TLP_MODIFICATION), evtType(pluginEvtType),
+      : Event(tlp::PluginsManager::instance(), EventType::TLP_MODIFICATION), evtType(pluginEvtType),
         pluginName(pluginName) {}
 
   PluginEventType getType() const {

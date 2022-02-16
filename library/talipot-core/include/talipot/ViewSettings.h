@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -92,7 +92,7 @@ public:
 class TLP_SCOPE LabelPosition {
 
 public:
-  enum LabelPositions { Center = 0, Top, Bottom, Left, Right };
+  enum LabelPositions { Center = 0, Top = 1, Bottom = 2, Left = 3, Right = 4 };
 };
 
 class ViewSettings;
@@ -183,31 +183,31 @@ private:
   ViewSettings() = default;
 };
 
+enum class ViewSettingsEventType {
+  TLP_DEFAULT_COLOR_MODIFIED,
+  TLP_DEFAULT_SHAPE_MODIFIED,
+  TLP_DEFAULT_SIZE_MODIFIED,
+  TLP_DEFAULT_LABEL_COLOR_MODIFIED,
+  TLP_DEFAULT_SELECTION_COLOR_MODIFIED,
+};
+
 class TLP_SCOPE ViewSettingsEvent : public tlp::Event {
 
 public:
-  enum ViewSettingsEventType {
-    TLP_DEFAULT_COLOR_MODIFIED,
-    TLP_DEFAULT_SHAPE_MODIFIED,
-    TLP_DEFAULT_SIZE_MODIFIED,
-    TLP_DEFAULT_LABEL_COLOR_MODIFIED,
-    TLP_DEFAULT_SELECTION_COLOR_MODIFIED,
-  };
-
   ViewSettingsEvent(const Color &color, ViewSettingsEventType type)
-      : Event(ViewSettings::instance(), Event::TLP_MODIFICATION), _type(type), _color(color) {}
+      : Event(ViewSettings::instance(), EventType::TLP_MODIFICATION), _type(type), _color(color) {}
 
   ViewSettingsEvent(ElementType elem, const Color &color)
-      : Event(ViewSettings::instance(), Event::TLP_MODIFICATION), _type(TLP_DEFAULT_COLOR_MODIFIED),
-        _elem(elem), _color(color) {}
+      : Event(ViewSettings::instance(), EventType::TLP_MODIFICATION),
+        _type(ViewSettingsEventType::TLP_DEFAULT_COLOR_MODIFIED), _elem(elem), _color(color) {}
 
   ViewSettingsEvent(ElementType elem, const Size &size)
-      : Event(ViewSettings::instance(), Event::TLP_MODIFICATION), _type(TLP_DEFAULT_SIZE_MODIFIED),
-        _elem(elem), _size(size) {}
+      : Event(ViewSettings::instance(), EventType::TLP_MODIFICATION),
+        _type(ViewSettingsEventType::TLP_DEFAULT_SIZE_MODIFIED), _elem(elem), _size(size) {}
 
   ViewSettingsEvent(ElementType elem, int shape)
-      : Event(ViewSettings::instance(), Event::TLP_MODIFICATION), _type(TLP_DEFAULT_SHAPE_MODIFIED),
-        _elem(elem), _shape(shape) {}
+      : Event(ViewSettings::instance(), EventType::TLP_MODIFICATION),
+        _type(ViewSettingsEventType::TLP_DEFAULT_SHAPE_MODIFIED), _elem(elem), _shape(shape) {}
 
   ViewSettingsEventType getType() const {
     return _type;

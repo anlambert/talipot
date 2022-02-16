@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -178,8 +178,8 @@ bool StrengthMetric::run() {
     result->setEdgeValue(e, getEdgeValue(e));
 
     if ((++steps % (maxSteps / 10)) == 0) {
-      if (pluginProgress->progress(steps, maxSteps) != TLP_CONTINUE) {
-        return pluginProgress->state() != TLP_CANCEL;
+      if (pluginProgress->progress(steps, maxSteps) != ProgressState::TLP_CONTINUE) {
+        return pluginProgress->state() != ProgressState::TLP_CANCEL;
       }
     }
   }
@@ -196,8 +196,8 @@ bool StrengthMetric::run() {
     result->setNodeValue(n, getNodeValue(n));
 
     if ((++steps % (maxSteps / 10)) == 0) {
-      if (pluginProgress->progress(steps, maxSteps) != TLP_CONTINUE) {
-        return pluginProgress->state() != TLP_CANCEL;
+      if (pluginProgress->progress(steps, maxSteps) != ProgressState::TLP_CONTINUE) {
+        return pluginProgress->state() != ProgressState::TLP_CANCEL;
       }
     }
   }

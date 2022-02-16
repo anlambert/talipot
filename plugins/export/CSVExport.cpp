@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -50,7 +50,7 @@ static constexpr std::string_view paramHelp[] = {
 #define ELT_TYPE "Type of elements"
 #define ELT_TYPES "nodes;edges;both"
 #define NODE_TYPE 0
-#define EDGE_TYPE 1
+#define EdgeType 1
 #define BOTH_TYPES 2
 
 #define EXPORT_SELECTION "Export selection"
@@ -170,7 +170,7 @@ bool CsvExport::exportGraph(std::ostream &os) {
   // export names of fields
   // export ids if needed
   if (exportId) {
-    if (eltType != EDGE_TYPE) {
+    if (eltType != EdgeType) {
       exportString(os, string("node id"));
     }
 
@@ -228,7 +228,7 @@ bool CsvExport::exportGraph(std::ostream &os) {
     std::locale::global(std::locale(prevLocale, new decimal_comma));
   }
 
-  if (eltType != EDGE_TYPE) {
+  if (eltType != EdgeType) {
     Iterator<node> *it = exportSelection ? prop->getNodesEqualTo(true, graph) : graph->getNodes();
 
     for (auto n : it) {

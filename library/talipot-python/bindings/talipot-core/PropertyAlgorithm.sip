@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,10 +27,6 @@ public :
 };
 
 class BooleanAlgorithm : tlp::PropertyAlgorithm {
-%TypeHeaderCode
-#include <talipot/PropertyAlgorithm.h>
-%End
-
 %Docstring
 Bases: :class:`tlp.Algorithm`
 
@@ -41,6 +37,10 @@ This class is the base interface for selection plugins.
 .. py:attribute:: result
 
     The result of the algorithm must be stored in this :class:`tlp.BooleanProperty`.
+%End
+
+%TypeHeaderCode
+#include <talipot/PropertyAlgorithm.h>
 %End
 
 public:
@@ -57,10 +57,6 @@ protected:
 
 
 class ColorAlgorithm : tlp::PropertyAlgorithm {
-%TypeHeaderCode
-#include <talipot/PropertyAlgorithm.h>
-%End
-
 %Docstring
 Bases: :class:`tlp.Algorithm`
 
@@ -71,6 +67,10 @@ This class is the base interface for color plugins.
 .. py:attribute:: result
 
     The result of the algorithm must be stored in this :class:`tlp.ColorProperty`.
+%End
+
+%TypeHeaderCode
+#include <talipot/PropertyAlgorithm.h>
 %End
 
 public:
@@ -86,10 +86,6 @@ protected:
 };
 
 class DoubleAlgorithm : tlp::PropertyAlgorithm {
-%TypeHeaderCode
-#include <talipot/PropertyAlgorithm.h>
-%End
-
 %Docstring
 Bases: :class:`tlp.Algorithm`
 
@@ -100,6 +96,10 @@ This class is the base interface for metric plugins.
 .. py:attribute:: result
 
     The result of the algorithm must be stored in this :class:`tlp.DoubleProperty`.
+%End
+
+%TypeHeaderCode
+#include <talipot/PropertyAlgorithm.h>
 %End
 
 public:
@@ -115,10 +115,6 @@ protected:
 };
 
 class IntegerAlgorithm : tlp::PropertyAlgorithm {
-%TypeHeaderCode
-#include <talipot/PropertyAlgorithm.h>
-%End
-
 %Docstring
 Bases: :class:`tlp.IntegerAlgorithm`
 
@@ -129,6 +125,10 @@ This class is the base interface for integer plugins.
 .. py:attribute:: result
 
     The result of the algorithm must be stored in this :class:`tlp.IntegerProperty`.
+%End
+
+%TypeHeaderCode
+#include <talipot/PropertyAlgorithm.h>
 %End
 
 public:
@@ -143,10 +143,6 @@ protected:
 };
 
 class LayoutAlgorithm : tlp::PropertyAlgorithm {
-%TypeHeaderCode
-#include <talipot/PropertyAlgorithm.h>
-%End
-
 %Docstring
 Bases: :class:`tlp.Algorithm`
 
@@ -157,6 +153,10 @@ This class is the base interface for layout plugins.
 .. py:attribute:: result
 
     The result of the algorithm must be stored in this :class:`tlp.LayoutProperty`.
+%End
+
+%TypeHeaderCode
+#include <talipot/PropertyAlgorithm.h>
 %End
 
 public:
@@ -172,10 +172,6 @@ protected:
 };
 
 class SizeAlgorithm : tlp::PropertyAlgorithm {
-%TypeHeaderCode
-#include <talipot/PropertyAlgorithm.h>
-%End
-
 %Docstring
 Bases: :class:`tlp.Algorithm`
 
@@ -186,6 +182,10 @@ This class is the base interface for size plugins.
 .. py:attribute:: result
 
 The result of the algorithm must be stored in this :class:`tlp.SizeProperty`.
+%End
+
+%TypeHeaderCode
+#include <talipot/PropertyAlgorithm.h>
 %End
 
 public:
@@ -201,10 +201,6 @@ protected:
 };
 
 class StringAlgorithm : tlp::PropertyAlgorithm {
-%TypeHeaderCode
-#include <talipot/PropertyAlgorithm.h>
-%End
-
 %Docstring
 Bases: :class:`tlp.Algorithm`
 
@@ -215,6 +211,10 @@ This class is the base interface for string plugins.
 .. py:attribute:: result
 
     The result of the algorithm must be stored in this :class:`tlp.StringProperty`.
+%End
+
+%TypeHeaderCode
+#include <talipot/PropertyAlgorithm.h>
 %End
 
 public:

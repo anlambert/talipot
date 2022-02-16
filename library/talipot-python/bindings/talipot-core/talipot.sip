@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -177,8 +177,6 @@ extern bool isValidGraphSelection(const tlp::Graph *graph, tlp::BooleanProperty 
 
 extern PyObject* evalPythonStatement(const std::string &pythonStatement);
 
-extern std::string convertPythonUnicodeObjectToStdString(PyObject *pyUnicodeObj);
-
 extern bool isTupleAndCanConvertToVec3fType(PyObject *pyObj);
 
 template <typename VEC_TYPE>
@@ -293,13 +291,6 @@ bool isValidGraphSelection(const tlp::Graph *graph, tlp::BooleanProperty *select
   return true;
 }
 
-std::string convertPythonUnicodeObjectToStdString(PyObject *pyUnicodeObj) {
-  PyObject *utf8Str = PyUnicode_AsUTF8String(pyUnicodeObj);
-  std::string ret(PyBytes_AsString(utf8Str));
-  Py_DECREF(utf8Str);
-  return ret;
-}
-
 PyObject* evalPythonStatement(const std::string &pythonStatement) {
   PyObject *pName = PyUnicode_FromString("__main__");
 
@@ -322,7 +313,7 @@ bool isTupleAndCanConvertToVec3fType(PyObject *pyObj) {
     return false;
   }
 
-  for (SIP_SSIZE_T i = 0; i < PyTuple_GET_SIZE(pyObj); ++i) {
+  for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(pyObj); ++i) {
     PyObject *item = PyTuple_GET_ITEM(pyObj, i);
     bool canConvert = false;
     if (!PyBool_Check(item) && PyLong_Check(item)) {
@@ -343,7 +334,7 @@ bool isTupleAndCanConvertToVec3fType(PyObject *pyObj) {
 
 typedef unsigned int uint;
 
-%Import ../stl/Module.sip
+%Include stl.sip
 
 %Include Iterator.sip
 %Include MapIterator.sip
@@ -369,7 +360,6 @@ typedef unsigned int uint;
 %Include ExportModule.sip
 
 %Include PropertyInterface.sip
-
 
 %Include BooleanProperty.sip
 %Include DoubleProperty.sip

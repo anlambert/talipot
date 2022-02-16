@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -112,7 +112,8 @@ public:
 
     for (auto s : graph->nodes()) {
 
-      if (((++count % 50) == 0) && (pluginProgress->progress(count, nbNodes) != TLP_CONTINUE)) {
+      if (((++count % 50) == 0) &&
+          (pluginProgress->progress(count, nbNodes) != ProgressState::TLP_CONTINUE)) {
         break;
       }
 
@@ -155,8 +156,8 @@ public:
       }
     }
 
-    if (pluginProgress->state() != TLP_CONTINUE) {
-      return pluginProgress->state() != TLP_CANCEL;
+    if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
 
     // Normalization
@@ -192,7 +193,7 @@ public:
     avg_path_length /= (nbNodes * (nbNodes - 1.));
     dataSet->set("average path length", avg_path_length);
 
-    return pluginProgress->state() != TLP_CANCEL;
+    return pluginProgress->state() != ProgressState::TLP_CANCEL;
   }
 
 private:
@@ -234,8 +235,8 @@ private:
     EdgeVectorProperty<double> eWeights(graph);
     eWeights.copyFromNumericProperty(weight);
     NodeVectorProperty<double> nodeDistance(graph);
-    tlp::computeDijkstra(graph, s, eWeights, nodeDistance, directed ? DIRECTED : UNDIRECTED, P, &S,
-                         &sigma);
+    tlp::computeDijkstra(graph, s, eWeights, nodeDistance,
+                         directed ? EdgeType::DIRECTED : EdgeType::UNDIRECTED, P, &S, &sigma);
   }
 };
 

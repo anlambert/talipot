@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -68,7 +68,7 @@ ScatterPlot2D::ScatterPlot2D(Graph *graph, Graph *edgeGraph,
       yAxisScale(make_pair(0, 0)), initXAxisScale(make_pair(0, 0)), initYAxisScale(make_pair(0, 0)),
       displayEdges(false), displaylabels(true), scale(true) {
 
-  if (dataLocation == NODE) {
+  if (dataLocation == ElementType::NODE) {
     _glGraph = new GlGraph(graph);
     GlGraphInputData *glGraphInputData = _glGraph->inputData();
     glGraphInputData->setLayout(scatterLayout);
@@ -80,7 +80,8 @@ ScatterPlot2D::ScatterPlot2D(Graph *graph, Graph *edgeGraph,
     glGraphInputData->setSizes(edgeAsNodeGraph->getSizeProperty("viewSize"));
   }
 
-  setGraphView(_glGraph, (dataLocation == NODE) ? displayEdges : false, displaylabels, scale);
+  setGraphView(_glGraph, (dataLocation == ElementType::NODE) ? displayEdges : false, displaylabels,
+               scale);
   backgroundRect = new GlRect(Coord(blCorner.getX(), blCorner.getY() + size),
                               Coord(blCorner.getX() + size, blCorner.getY()), backgroundColor,
                               backgroundColor, true, false);
@@ -114,7 +115,7 @@ void ScatterPlot2D::setDataLocation(const ElementType &dataLocation) {
     xAxisScaleDefined = false;
     yAxisScaleDefined = false;
 
-    if (dataLocation == NODE) {
+    if (dataLocation == ElementType::NODE) {
       _glGraph = new GlGraph(graph);
       GlGraphInputData *glGraphInputData = _glGraph->inputData();
       glGraphInputData->setLayout(scatterLayout);
@@ -219,7 +220,7 @@ void ScatterPlot2D::createAxis() {
 
   double xMin, xMax, yMin, yMax;
 
-  if (dataLocation == NODE) {
+  if (dataLocation == ElementType::NODE) {
     xMin = xProp->getNodeDoubleMin(graph);
     xMax = xProp->getNodeDoubleMax(graph);
     yMin = yProp->getNodeDoubleMin(graph);
@@ -324,10 +325,10 @@ void ScatterPlot2D::computeScatterPlotLayout(GlWidget *glWidget, LayoutProperty 
     Coord nodeCoord;
     double xValue, yValue;
 
-    if (dataLocation == NODE) {
+    if (dataLocation == ElementType::NODE) {
       xValue = xProp->getNodeDoubleValue(n);
       yValue = yProp->getNodeDoubleValue(n);
-    } else { // EDGE
+    } else { // ElementType::EDGE
       xValue = xProp->getEdgeDoubleValue(nodeToEdge[n]);
       yValue = yProp->getEdgeDoubleValue(nodeToEdge[n]);
     }
@@ -339,7 +340,7 @@ void ScatterPlot2D::computeScatterPlotLayout(GlWidget *glWidget, LayoutProperty 
     sumyi2 += (yValue * yValue);
     sumxiyi += (xValue * yValue);
 
-    if (reverseLayout == nullptr || dataLocation != NODE) {
+    if (reverseLayout == nullptr || dataLocation != ElementType::NODE) {
       Coord xValueAxisCoord = xAxis->getAxisPointCoordForValue(xValue);
       Coord yValueAxisCoord = yAxis->getAxisPointCoordForValue(yValue);
       nodeCoord = Coord(xValueAxisCoord.getX(), yValueAxisCoord.getY(), 0.0f);
@@ -348,7 +349,7 @@ void ScatterPlot2D::computeScatterPlotLayout(GlWidget *glWidget, LayoutProperty 
       nodeCoord = Coord(nodeCoordReverse.getY(), nodeCoordReverse.getX(), 0.0f);
     }
 
-    if (dataLocation == NODE) {
+    if (dataLocation == ElementType::NODE) {
       scatterLayout->setNodeValue(n, nodeCoord);
     } else {
       scatterEdgeLayout->setNodeValue(n, nodeCoord);

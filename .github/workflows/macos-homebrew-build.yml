@@ -29,7 +29,7 @@ jobs:
           zstd
           graphviz
           libgit2
-          python3
+          python@3.10
           cppunit
           pkg-config
           glew
@@ -38,6 +38,7 @@ jobs:
           fontconfig
           qt6
           quazip
+          sip
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
@@ -59,7 +60,7 @@ jobs:
           -DCMAKE_C_COMPILER=/usr/local/opt/llvm/bin/clang
           -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm/bin/clang++
           -DCMAKE_RANLIB=/usr/bin/ranlib
-          -DPYTHON_EXECUTABLE=/usr/local/bin/python3
+          -DPYTHON_EXECUTABLE=/usr/local/opt/python@3.10/bin/python3
           -DTALIPOT_BUILD_CORE_ONLY=ON
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_BUILD_DOC=OFF

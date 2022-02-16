@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -59,7 +59,7 @@ TLP_SCOPE void clusteringCoefficient(const Graph *g, tlp::NodeVectorProperty<dou
  * weighted case => m(n) = deg_w(n) / [(sum(e_w)/#E)(#V - 1)]
  */
 TLP_SCOPE void degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg,
-                      EDGE_TYPE direction = UNDIRECTED, NumericProperty *weights = nullptr,
+                      EdgeType direction = EdgeType::UNDIRECTED, NumericProperty *weights = nullptr,
                       bool norm = false);
 /*
  * assign to each node of a Directed Acyclic Graph a level such that
@@ -76,26 +76,26 @@ TLP_SCOPE uint minDegree(const Graph *);
 /*
  * compute the maximum distance from the n (graph->nodes[nPos]) to all the other nodes of graph
  * and store it into distance, (stored value is UINT_MAX for non connected nodes),
- * if direction is set to UNDIRECTED use undirected graph, DIRECTED use directed graph
- * and INV_DIRECTED use reverse directed graph (ie. all edges are reversed)
- * all the edge's weight is set to 1. (it uses a bfs thus the complexity is o(m), m = |E|).
+ * if direction is set to EdgeType::UNDIRECTED use undirected graph, EdgeType::DIRECTED use directed
+ * graph and EdgeType::INV_DIRECTED use reverse directed graph (ie. all edges are reversed) all the
+ * edge's weight is set to 1. (it uses a bfs thus the complexity is o(m), m = |E|).
  */
 TLP_SCOPE uint maxDistance(const Graph *graph, const uint nPos,
                            tlp::NodeVectorProperty<uint> &distance,
-                           EDGE_TYPE direction = UNDIRECTED);
+                           EdgeType direction = EdgeType::UNDIRECTED);
 
 /*
  * compute the maximum distance from the n (graph->nodes[nPos]) to all the other nodes of graph
  * and store it into distance, (stored value is DBL_MAX for non connected nodes),
- * if direction is set to UNDIRECTED use undirected graph, DIRECTED use directed graph
- * and INV_DIRECTED use reverse directed graph (ie. all edges are reversed)
- * Edge weights can be given, Dijkstra's algorithm is then used
- * (the complexity is then o((m + n)log n)) otherwise
- * all the edge's weight is set to 1. (it uses a bfs thus the complexity is o(m), m = |E|).
+ * if direction is set to EdgeType::UNDIRECTED use undirected graph, EdgeType::DIRECTED use directed
+ * graph and EdgeType::INV_DIRECTED use reverse directed graph (ie. all edges are reversed) Edge
+ * weights can be given, Dijkstra's algorithm is then used (the complexity is then o((m + n)log n))
+ * otherwise all the edge's weight is set to 1. (it uses a bfs thus the complexity is o(m), m =
+ * |E|).
  */
 TLP_SCOPE double maxDistance(const Graph *graph, const uint nPos,
                              tlp::NodeVectorProperty<double> &distance,
                              const NumericProperty *const weights,
-                             EDGE_TYPE direction = UNDIRECTED);
+                             EdgeType direction = EdgeType::UNDIRECTED);
 }
 #endif // TALIPOT_GRAPH_MEASURE_H

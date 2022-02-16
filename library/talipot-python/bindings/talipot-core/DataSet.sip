@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -121,50 +121,6 @@ bool setDataSetEntryFromPyObject(tlp::DataSet *dataSet, const std::string &key, 
 namespace tlp {
 
 struct DataSet /TypeHint="Dict[str, Any]", TypeHintValue="{}"/ {
-
-%TypeCode
-#include <talipot/PythonCppTypesConverter.h>
-%End
-
-%ConvertToTypeCode
-
-  PyObject *key = NULL;
-  PyObject *val = NULL;
-  Py_ssize_t pos = 0;
-
-  if (sipIsErr == NULL) {
-    if (sipCanConvertToType(sipPy, sipFindType("tlp::DataSet"), SIP_NOT_NONE|SIP_NO_CONVERTORS)) {
-      return 1;
-    } else if (PyDict_Check(sipPy)) {
-      while (PyDict_Next(sipPy, &pos, &key, &val)) {
-        if (!sipCanConvertToType(key, sipFindType("std::string"), SIP_NOT_NONE)) {
-          return 0;
-        }
-      }
-      return 1;
-    }
-    return 0;
-  }
-
-  int state=0, err=0;
-
-  if (PyDict_Check(sipPy)) {
-    *sipCppPtr = convertPyDictToTlpDataSet(sipPy);
-  } else {
-    const sipTypeDef *sipType  = sipFindType("tlp::DataSet");
-    tlp::DataSet *ds = static_cast<tlp::DataSet*>(sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE|SIP_NO_CONVERTORS, &state, &err));
-    *sipCppPtr = new tlp::DataSet(*ds);
-    sipReleaseType(ds, sipType, state);
-  }
-
-  if (!*sipCppPtr) {
-    *sipIsErr = 1;
-  }
-
-  return sipGetState(sipTransferObj);
-
-%End
-
 %Docstring
 
 .. deprecated:: deprecated
@@ -212,6 +168,49 @@ a data set is done through the [] operator as illustrated below::
   area = dataSet["height"] * dataSet["width"]
 
 When reading a data set value, a reference is returned not a copy.
+
+%End
+
+%TypeCode
+#include <talipot/PythonCppTypesConverter.h>
+%End
+
+%ConvertToTypeCode
+
+  PyObject *key = NULL;
+  PyObject *val = NULL;
+  Py_ssize_t pos = 0;
+
+  if (sipIsErr == NULL) {
+    if (sipCanConvertToType(sipPy, sipFindType("tlp::DataSet"), SIP_NOT_NONE|SIP_NO_CONVERTORS)) {
+      return 1;
+    } else if (PyDict_Check(sipPy)) {
+      while (PyDict_Next(sipPy, &pos, &key, &val)) {
+        if (!sipCanConvertToType(key, sipFindType("std::string"), SIP_NOT_NONE)) {
+          return 0;
+        }
+      }
+      return 1;
+    }
+    return 0;
+  }
+
+  int state=0, err=0;
+
+  if (PyDict_Check(sipPy)) {
+    *sipCppPtr = convertPyDictToTlpDataSet(sipPy);
+  } else {
+    const sipTypeDef *sipType  = sipFindType("tlp::DataSet");
+    tlp::DataSet *ds = static_cast<tlp::DataSet*>(sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE|SIP_NO_CONVERTORS, &state, &err));
+    *sipCppPtr = new tlp::DataSet(*ds);
+    sipReleaseType(ds, sipType, state);
+  }
+
+  if (!*sipCppPtr) {
+    *sipIsErr = 1;
+  }
+
+  return sipGetState(sipTransferObj);
 
 %End
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -302,7 +302,7 @@ node GraphDecorator::addNode() {
 std::vector<node> GraphDecorator::addNodes(uint nb) {
   std::vector<node> addedNodes = graph_component->addNodes(nb);
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_ADD_NODES, nb));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_ADD_NODES, nb));
   }
   return addedNodes;
 }
@@ -338,7 +338,7 @@ edge GraphDecorator::addEdge(const node n, const node n2) {
 std::vector<edge> GraphDecorator::addEdges(const std::vector<std::pair<node, node>> &edges) {
   std::vector<edge> addedEdges = graph_component->addEdges(edges);
   if (hasOnlookers()) {
-    sendEvent(GraphEvent(*this, GraphEvent::TLP_ADD_EDGES, edges.size()));
+    sendEvent(GraphEvent(*this, GraphEventType::TLP_ADD_EDGES, edges.size()));
   }
   return addedEdges;
 }

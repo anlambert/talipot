@@ -14,12 +14,12 @@
 namespace tlp {
 
 class @PROPERTY_TYPE@Property : tlp::@BASE_CLASS@ /NoDefaultCtors/ {
-%TypeHeaderCode
-#include <talipot/@PROPERTY_TYPE@Property.h>
-%End
-
 %Docstring
 Bases: :class:`tlp.@BASE_CLASS@`
+%End
+
+%TypeHeaderCode
+#include <talipot/@PROPERTY_TYPE@Property.h>
 %End
 
 public :
@@ -455,12 +455,12 @@ Copies the values hold by a property in this property.
 };
 
 class @VEC_PROPERTY_TYPE@VectorProperty : tlp::PropertyInterface /NoDefaultCtors/ {
-%TypeHeaderCode
-#include <talipot/@PROPERTY_TYPE@Property.h>
-%End
-
 %Docstring
 Bases: :class:`tlp.PropertyInterface`
+%End
+
+%TypeHeaderCode
+#include <talipot/@PROPERTY_TYPE@Property.h>
 %End
 
 public :

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -71,11 +71,11 @@ void ViewSettings::setDefaultSelectionColor(const Color &color) {
   }
   _defaultSelectionColor = color;
   instance().sendEvent(
-      ViewSettingsEvent(color, ViewSettingsEvent::TLP_DEFAULT_SELECTION_COLOR_MODIFIED));
+      ViewSettingsEvent(color, ViewSettingsEventType::TLP_DEFAULT_SELECTION_COLOR_MODIFIED));
 }
 
 Color ViewSettings::defaultColor(ElementType elem) {
-  if (elem == NODE) {
+  if (elem == ElementType::NODE) {
     return _defaultNodeColor;
   } else {
     return _defaultEdgeColor;
@@ -87,7 +87,7 @@ void ViewSettings::setDefaultColor(ElementType elem, const Color &color) {
     return;
   }
 
-  if (elem == NODE) {
+  if (elem == ElementType::NODE) {
     _defaultNodeColor = color;
   } else {
     _defaultEdgeColor = color;
@@ -97,7 +97,7 @@ void ViewSettings::setDefaultColor(ElementType elem, const Color &color) {
 }
 
 Color ViewSettings::defaultBorderColor(ElementType elem) {
-  if (elem == NODE) {
+  if (elem == ElementType::NODE) {
     return _defaultNodeBorderColor;
   } else {
     return _defaultEdgeBorderColor;
@@ -105,7 +105,7 @@ Color ViewSettings::defaultBorderColor(ElementType elem) {
 }
 
 void ViewSettings::setDefaultBorderColor(ElementType elem, const Color &color) {
-  if (elem == NODE) {
+  if (elem == ElementType::NODE) {
     _defaultNodeBorderColor = color;
   } else {
     _defaultEdgeBorderColor = color;
@@ -113,7 +113,7 @@ void ViewSettings::setDefaultBorderColor(ElementType elem, const Color &color) {
 }
 
 float ViewSettings::defaultBorderWidth(ElementType elem) {
-  if (elem == NODE) {
+  if (elem == ElementType::NODE) {
     return _defaultNodeBorderWidth;
   } else {
     return _defaultEdgeBorderWidth;
@@ -121,7 +121,7 @@ float ViewSettings::defaultBorderWidth(ElementType elem) {
 }
 
 void ViewSettings::setdefaultBorderWidth(ElementType elem, float borderWidth) {
-  if (elem == NODE) {
+  if (elem == ElementType::NODE) {
     _defaultNodeBorderWidth = borderWidth;
   } else {
     _defaultEdgeBorderWidth = borderWidth;
@@ -139,7 +139,7 @@ void ViewSettings::setDefaultLabelColor(const Color &color) {
 
   _defaultLabelColor = color;
   instance().sendEvent(
-      ViewSettingsEvent(color, ViewSettingsEvent::TLP_DEFAULT_LABEL_COLOR_MODIFIED));
+      ViewSettingsEvent(color, ViewSettingsEventType::TLP_DEFAULT_LABEL_COLOR_MODIFIED));
 }
 
 Color ViewSettings::defaultLabelBorderColor() {
@@ -173,7 +173,7 @@ void ViewSettings::setDefaultLabelPosition(int position) {
 }
 
 Size ViewSettings::defaultSize(ElementType elem) {
-  if (elem == NODE) {
+  if (elem == ElementType::NODE) {
     return _defaultNodeSize;
   } else {
     return _defaultEdgeSize;
@@ -185,7 +185,7 @@ void ViewSettings::setDefaultSize(ElementType elem, const Size &size) {
     return;
   }
 
-  if (elem == NODE) {
+  if (elem == ElementType::NODE) {
     _defaultNodeSize = size;
   } else {
     _defaultEdgeSize = size;
@@ -195,7 +195,7 @@ void ViewSettings::setDefaultSize(ElementType elem, const Size &size) {
 }
 
 int ViewSettings::defaultShape(ElementType elem) {
-  if (elem == NODE) {
+  if (elem == ElementType::NODE) {
     return _defaultNodeShape;
   } else {
     return _defaultEdgeShape;
@@ -207,7 +207,7 @@ void ViewSettings::setDefaultShape(ElementType elem, int shape) {
     return;
   }
 
-  if (elem == NODE) {
+  if (elem == ElementType::NODE) {
     _defaultNodeShape = shape;
   } else {
     _defaultEdgeShape = shape;

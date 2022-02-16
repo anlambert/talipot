@@ -47,7 +47,7 @@ mkdir build && cd build
 for pyVersion in 37 38 39 310
 do
   export PATH=/c/Python$pyVersion-x64/:/c/Python$pyVersion-x64/Scripts/:$PATH
-  pip install wheel twine
+  pip install wheel twine sip
   cmake -G "MSYS Makefiles" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_NEED_RESPONSE=ON \

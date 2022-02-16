@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -469,9 +469,9 @@ bool EdgeBundling::run() {
       uint i = oriGraph->numberOfEdges() - vertexCoverGraph->numberOfEdges();
 
       if (((i % 10) == 0) &&
-          (pluginProgress->progress(i, oriGraph->numberOfEdges()) != TLP_CONTINUE)) {
+          (pluginProgress->progress(i, oriGraph->numberOfEdges()) != ProgressState::TLP_CONTINUE)) {
         oriGraph->delSubGraph(vertexCoverGraph);
-        return pluginProgress->state() != TLP_CANCEL;
+        return pluginProgress->state() != ProgressState::TLP_CANCEL;
       }
 
       //====================================

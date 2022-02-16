@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -89,7 +89,7 @@ void GlCompositeHierarchyManager::treatEvent(const Event &evt) {
     Graph *graph = gEvt->getGraph();
 
     switch (gEvt->getType()) {
-    case GraphEvent::TLP_ADD_NODE:
+    case GraphEventType::TLP_ADD_NODE:
 
       if (_graphsComposites[graph].second) {
         _graphsComposites[graph].second->updateHull();
@@ -97,13 +97,13 @@ void GlCompositeHierarchyManager::treatEvent(const Event &evt) {
 
       break;
 
-    case GraphEvent::TLP_AFTER_ADD_SUBGRAPH:
-    case GraphEvent::TLP_AFTER_DEL_SUBGRAPH: {
+    case GraphEventType::TLP_AFTER_ADD_SUBGRAPH:
+    case GraphEventType::TLP_AFTER_DEL_SUBGRAPH: {
       createComposite();
       break;
     }
 
-    case GraphEvent::TLP_BEFORE_SET_ATTRIBUTE: {
+    case GraphEventType::TLP_BEFORE_SET_ATTRIBUTE: {
       auto attributeName = gEvt->getAttributeName();
 
       // we save the old property value in a temporary attribute, so we can find the GlEntity and
@@ -116,7 +116,7 @@ void GlCompositeHierarchyManager::treatEvent(const Event &evt) {
       break;
     }
 
-    case GraphEvent::TLP_AFTER_SET_ATTRIBUTE: {
+    case GraphEventType::TLP_AFTER_SET_ATTRIBUTE: {
       auto attributeName = gEvt->getAttributeName();
 
       if (attributeName == _nameAttribute) {
@@ -136,7 +136,7 @@ void GlCompositeHierarchyManager::treatEvent(const Event &evt) {
       break;
     }
 
-    case GraphEvent::TLP_BEFORE_DEL_LOCAL_PROPERTY: {
+    case GraphEventType::TLP_BEFORE_DEL_LOCAL_PROPERTY: {
       auto propertyName = gEvt->getPropertyName();
       if (propertyName == _layout->getName()) {
         _layout = nullptr;
@@ -145,7 +145,7 @@ void GlCompositeHierarchyManager::treatEvent(const Event &evt) {
       break;
     }
 
-    case GraphEvent::TLP_AFTER_DEL_LOCAL_PROPERTY: {
+    case GraphEventType::TLP_AFTER_DEL_LOCAL_PROPERTY: {
       if (!_layout) {
         auto propertyName = gEvt->getPropertyName();
         _layout = graph->getLayoutProperty(propertyName);
@@ -156,7 +156,7 @@ void GlCompositeHierarchyManager::treatEvent(const Event &evt) {
       break;
     }
 
-    case GraphEvent::TLP_ADD_LOCAL_PROPERTY: {
+    case GraphEventType::TLP_ADD_LOCAL_PROPERTY: {
       auto propertyName = gEvt->getPropertyName();
 
       if (propertyName == _layout->getName()) {
@@ -193,7 +193,7 @@ void GlCompositeHierarchyManager::treatEvent(const Event &evt) {
   }
 
   auto *graph = dynamic_cast<Graph *>(evt.sender());
-  if (graph && evt.type() == Event::TLP_DELETE) {
+  if (graph && evt.type() == EventType::TLP_DELETE) {
     if (graph == _graph) {
       _graph = nullptr;
       _graphsComposites.clear();

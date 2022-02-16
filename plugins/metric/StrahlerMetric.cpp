@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -209,7 +209,7 @@ bool StrahlerMetric::run() {
 
     if (allNodes) {
       if (pluginProgress && ((++i % 100) == 0) &&
-          (pluginProgress->progress(i, graph->numberOfNodes()) != TLP_CONTINUE)) {
+          (pluginProgress->progress(i, graph->numberOfNodes()) != ProgressState::TLP_CONTINUE)) {
         break;
       }
 
@@ -237,8 +237,8 @@ bool StrahlerMetric::run() {
     }
   }
 
-  if (pluginProgress->state() != TLP_CONTINUE) {
-    return pluginProgress->state() != TLP_CANCEL;
+  if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+    return pluginProgress->state() != ProgressState::TLP_CANCEL;
   }
 
   if (!allNodes) {
@@ -262,6 +262,6 @@ bool StrahlerMetric::run() {
     }
   }
 
-  return pluginProgress->state() != TLP_CANCEL;
+  return pluginProgress->state() != ProgressState::TLP_CANCEL;
 }
 //==============================================================================

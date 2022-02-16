@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -176,7 +176,7 @@ void View::setGraph(tlp::Graph *g) {
 void View::treatEvent(const Event &ev) {
   const auto *gEv = dynamic_cast<const GraphEvent *>(&ev);
 
-  if (ev.type() == Event::TLP_DELETE && ev.sender() == _graph) {
+  if (ev.type() == EventType::TLP_DELETE && ev.sender() == _graph) {
 #ifndef NDEBUG
     Graph *old = _graph;
 #endif // NDEBUG
@@ -194,7 +194,7 @@ void View::treatEvent(const Event &ev) {
     }
 
 #endif // NDEBUG
-  } else if (gEv && gEv->getType() == GraphEvent::TLP_ADD_LOCAL_PROPERTY) {
+  } else if (gEv && gEv->getType() == GraphEventType::TLP_ADD_LOCAL_PROPERTY) {
     QString propName = gEv->getPropertyName().c_str();
 
     if (propName.startsWith("view")) {
@@ -244,7 +244,7 @@ void View::addRedrawTrigger(tlp::Observable *obs) {
 void View::treatEvents(const std::vector<Event> &events) {
   for (auto e : events) {
     // ensure redraw trigger is removed from the triggers set when it is deleted
-    if (e.type() == Event::TLP_DELETE && _triggers.contains(e.sender())) {
+    if (e.type() == EventType::TLP_DELETE && _triggers.contains(e.sender())) {
       removeRedrawTrigger(e.sender());
     }
 

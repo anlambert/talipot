@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,10 +14,6 @@
 namespace tlp {
 
 class SelfLoops {
-%TypeHeaderCode
-#include <talipot/AcyclicTest.h>
-%End
-
 %Docstring
 The tlp.SelfLoops class represents a self loop that has been replaced by two nodes and three edges.
 The method :meth:`tlp.AcyclicTest.makeAcyclic` returns a list of this type.
@@ -31,6 +27,10 @@ It contains the following variables :
   * e2 (:class:`tlp.edge`) : the edge added between n1 and n2
   * e3 (:class:`tlp.edge`) : the edge added between the node at the extremity of the loop and n2
 
+%End
+
+%TypeHeaderCode
+#include <talipot/AcyclicTest.h>
 %End
 
 public:

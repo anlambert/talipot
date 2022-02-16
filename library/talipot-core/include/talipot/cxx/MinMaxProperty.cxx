@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -285,11 +285,11 @@ void tlp::MinMaxProperty<NodeType, EdgeType, PropType>::treatEvent(const tlp::Ev
     tlp::Graph *graph = graphEvent->getGraph();
 
     switch (graphEvent->getType()) {
-    case GraphEvent::TLP_ADD_NODE:
+    case GraphEventType::TLP_ADD_NODE:
       removeListenersAndClearNodeMap();
       break;
 
-    case GraphEvent::TLP_DEL_NODE: {
+    case GraphEventType::TLP_DEL_NODE: {
       uint sgi = graph->getId();
 
       if (const auto it = _minMaxNode.find(sgi); it != _minMaxNode.end()) {
@@ -310,11 +310,11 @@ void tlp::MinMaxProperty<NodeType, EdgeType, PropType>::treatEvent(const tlp::Ev
       break;
     }
 
-    case GraphEvent::TLP_ADD_EDGE:
+    case GraphEventType::TLP_ADD_EDGE:
       removeListenersAndClearEdgeMap();
       break;
 
-    case GraphEvent::TLP_DEL_EDGE: {
+    case GraphEventType::TLP_DEL_EDGE: {
       uint sgi = graph->getId();
 
       if (const auto it = _minMaxEdge.find(sgi); it != _minMaxEdge.end()) {

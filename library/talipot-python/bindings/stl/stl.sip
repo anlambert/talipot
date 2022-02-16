@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -11,12 +11,8 @@
  *
  */
 
-%Module _stl
-
 %ModuleHeaderCode
 #include <string>
-
-extern void printErrorMessage(const std::string &errMsg);
 
 extern std::string convertPythonUnicodeObjectToStdString(PyObject *pyUnicodeObj);
 
@@ -24,14 +20,6 @@ extern std::string convertPythonUnicodeObjectToStdString(PyObject *pyUnicodeObj)
 
 %ModuleCode
 #include <string>
-void printErrorMessage(const std::string &errMsg) {
-  std::string pythonCode =
-  "import sys\n"
-  "sys.stderr.write(\"";
-  pythonCode += errMsg;
-  pythonCode += "\\n\")";
-  PyRun_SimpleString(pythonCode.c_str());
-}
 
 std::string convertPythonUnicodeObjectToStdString(PyObject *pyUnicodeObj) {
   PyObject *utf8Str = PyUnicode_AsUTF8String(pyUnicodeObj);

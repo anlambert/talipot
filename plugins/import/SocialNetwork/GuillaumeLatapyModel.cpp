@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -89,8 +89,8 @@ struct GuillaumeLatapyModel : public ImportModule {
 
     for (i = 0; i < nbNodes; ++i) {
       if (i % 100 == 0) {
-        if (pluginProgress->progress(i, iterations) != TLP_CONTINUE) {
-          return pluginProgress->state() != TLP_CANCEL;
+        if (pluginProgress->progress(i, iterations) != ProgressState::TLP_CONTINUE) {
+          return pluginProgress->state() != ProgressState::TLP_CANCEL;
         }
       }
 
@@ -122,8 +122,8 @@ struct GuillaumeLatapyModel : public ImportModule {
 
     for (i = 0; i < nbNodes; ++i) {
       if (i % 100 == 0) {
-        if (pluginProgress->progress(i + nbNodes, iterations) != TLP_CONTINUE) {
-          return pluginProgress->state() != TLP_CANCEL;
+        if (pluginProgress->progress(i + nbNodes, iterations) != ProgressState::TLP_CONTINUE) {
+          return pluginProgress->state() != ProgressState::TLP_CANCEL;
         }
       }
 
@@ -144,8 +144,8 @@ struct GuillaumeLatapyModel : public ImportModule {
 
     for (i = 0; i < nbNodes; ++i) {
       if (i % 100 == 0) {
-        if (pluginProgress->progress(i + 2 * nbNodes, iterations) != TLP_CONTINUE) {
-          return pluginProgress->state() != TLP_CANCEL;
+        if (pluginProgress->progress(i + 2 * nbNodes, iterations) != ProgressState::TLP_CONTINUE) {
+          return pluginProgress->state() != ProgressState::TLP_CANCEL;
         }
       }
 
@@ -161,7 +161,7 @@ struct GuillaumeLatapyModel : public ImportModule {
       }
     }
 
-    return pluginProgress->state() != TLP_CANCEL;
+    return pluginProgress->state() != ProgressState::TLP_CANCEL;
   }
 
   bool isNotNodeInVector(vector<node> vec, node n) {

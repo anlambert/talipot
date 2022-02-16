@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -125,8 +125,8 @@ bool EqualValueClustering::computeClusters(NumericProperty *prop, bool onNodes, 
         if (pluginProgress && (++step % 50 == 1)) {
           pluginProgress->progress(step, maxSteps);
 
-          if (pluginProgress->state() != TLP_CONTINUE) {
-            return pluginProgress->state() != TLP_CANCEL;
+          if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+            return pluginProgress->state() != ProgressState::TLP_CANCEL;
           }
         }
 
@@ -162,8 +162,8 @@ bool EqualValueClustering::computeClusters(NumericProperty *prop, bool onNodes, 
                 if (pluginProgress && (++step % 50 == 1)) {
                   pluginProgress->progress(step, maxSteps);
 
-                  if (pluginProgress->state() != TLP_CONTINUE) {
-                    return pluginProgress->state() != TLP_CANCEL;
+                  if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+                    return pluginProgress->state() != ProgressState::TLP_CANCEL;
                   }
                 }
               } else {
@@ -229,8 +229,8 @@ bool EqualValueClustering::computeClusters(NumericProperty *prop, bool onNodes, 
         if (pluginProgress && (++step % 50 == 1)) {
           pluginProgress->progress(step, maxSteps);
 
-          if (pluginProgress->state() != TLP_CONTINUE) {
-            return pluginProgress->state() != TLP_CANCEL;
+          if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+            return pluginProgress->state() != ProgressState::TLP_CANCEL;
           }
         }
 
@@ -263,8 +263,8 @@ bool EqualValueClustering::computeClusters(NumericProperty *prop, bool onNodes, 
               if (pluginProgress && (++step % 50 == 1)) {
                 pluginProgress->progress(step, maxSteps);
 
-                if (pluginProgress->state() != TLP_CONTINUE) {
-                  return pluginProgress->state() != TLP_CANCEL;
+                if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+                  return pluginProgress->state() != ProgressState::TLP_CANCEL;
                 }
               }
             }
@@ -333,8 +333,8 @@ bool EqualValueClustering::computeClusters(PropertyInterface *prop, bool onNodes
         if (pluginProgress && (++step % 50 == 1)) {
           pluginProgress->progress(step, maxSteps);
 
-          if (pluginProgress->state() != TLP_CONTINUE) {
-            return pluginProgress->state() != TLP_CANCEL;
+          if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+            return pluginProgress->state() != ProgressState::TLP_CANCEL;
           }
         }
 
@@ -369,8 +369,8 @@ bool EqualValueClustering::computeClusters(PropertyInterface *prop, bool onNodes
                 if (pluginProgress && (++step % 50 == 1)) {
                   pluginProgress->progress(step, maxSteps);
 
-                  if (pluginProgress->state() != TLP_CONTINUE) {
-                    return pluginProgress->state() != TLP_CANCEL;
+                  if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+                    return pluginProgress->state() != ProgressState::TLP_CANCEL;
                   }
                 }
               } else {
@@ -435,8 +435,8 @@ bool EqualValueClustering::computeClusters(PropertyInterface *prop, bool onNodes
         if (pluginProgress && (++step % 50 == 1)) {
           pluginProgress->progress(step, maxSteps);
 
-          if (pluginProgress->state() != TLP_CONTINUE) {
-            return pluginProgress->state() != TLP_CANCEL;
+          if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+            return pluginProgress->state() != ProgressState::TLP_CANCEL;
           }
         }
 
@@ -469,8 +469,8 @@ bool EqualValueClustering::computeClusters(PropertyInterface *prop, bool onNodes
               if (pluginProgress && (++step % 50 == 1)) {
                 pluginProgress->progress(step, maxSteps);
 
-                if (pluginProgress->state() != TLP_CONTINUE) {
-                  return pluginProgress->state() != TLP_CANCEL;
+                if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+                  return pluginProgress->state() != ProgressState::TLP_CANCEL;
                 }
               }
             }

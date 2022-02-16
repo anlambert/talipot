@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -169,10 +169,10 @@ void GlGraphInputData::treatEvent(const Event &ev) {
   if (dynamic_cast<const GraphEvent *>(&ev) != nullptr) {
     const auto *graphEv = static_cast<const GraphEvent *>(&ev);
 
-    if (graphEv->getType() == GraphEvent::TLP_ADD_LOCAL_PROPERTY ||
-        graphEv->getType() == GraphEvent::TLP_AFTER_DEL_LOCAL_PROPERTY ||
-        graphEv->getType() == GraphEvent::TLP_ADD_INHERITED_PROPERTY ||
-        graphEv->getType() == GraphEvent::TLP_AFTER_DEL_INHERITED_PROPERTY) {
+    if (graphEv->getType() == GraphEventType::TLP_ADD_LOCAL_PROPERTY ||
+        graphEv->getType() == GraphEventType::TLP_AFTER_DEL_LOCAL_PROPERTY ||
+        graphEv->getType() == GraphEventType::TLP_ADD_INHERITED_PROPERTY ||
+        graphEv->getType() == GraphEventType::TLP_AFTER_DEL_INHERITED_PROPERTY) {
       if (_propertiesNameMap.count(graphEv->getPropertyName()) != 0) {
         PropertyInterface *oldProperty =
             _propertiesMap[_propertiesNameMap[graphEv->getPropertyName()]];

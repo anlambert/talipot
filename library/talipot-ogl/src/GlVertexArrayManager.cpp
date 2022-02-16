@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1043,19 +1043,19 @@ void GlVertexArrayManager::treatEvent(const Event &evt) {
   if (graphEvent) {
 
     switch (graphEvent->getType()) {
-    case GraphEvent::TLP_ADD_NODE:
-    case GraphEvent::TLP_ADD_EDGE:
-    case GraphEvent::TLP_DEL_NODE:
-    case GraphEvent::TLP_DEL_EDGE:
-    case GraphEvent::TLP_REVERSE_EDGE:
-    case GraphEvent::TLP_AFTER_SET_ENDS:
+    case GraphEventType::TLP_ADD_NODE:
+    case GraphEventType::TLP_ADD_EDGE:
+    case GraphEventType::TLP_DEL_NODE:
+    case GraphEventType::TLP_DEL_EDGE:
+    case GraphEventType::TLP_REVERSE_EDGE:
+    case GraphEventType::TLP_AFTER_SET_ENDS:
       clearData();
       clearObservers();
       break;
 
-    case GraphEvent::TLP_BEFORE_DEL_INHERITED_PROPERTY:
-    case GraphEvent::TLP_ADD_LOCAL_PROPERTY:
-    case GraphEvent::TLP_BEFORE_DEL_LOCAL_PROPERTY: {
+    case GraphEventType::TLP_BEFORE_DEL_INHERITED_PROPERTY:
+    case GraphEventType::TLP_ADD_LOCAL_PROPERTY:
+    case GraphEventType::TLP_BEFORE_DEL_LOCAL_PROPERTY: {
       const PropertyInterface *property = graph->getProperty(graphEvent->getPropertyName());
 
       if (property == colorProperty) { // Color property changed
@@ -1099,7 +1099,7 @@ void GlVertexArrayManager::treatEvent(const Event &evt) {
     default:
       break;
     }
-  } else if (evt.type() == Event::TLP_DELETE) {
+  } else if (evt.type() == EventType::TLP_DELETE) {
     PropertyInterface *property = nullptr;
     const auto *propertyEvent = dynamic_cast<const PropertyEvent *>(&evt);
 
@@ -1114,8 +1114,8 @@ void GlVertexArrayManager::treatEvent(const Event &evt) {
     PropertyInterface *property = propertyEvent->getProperty();
 
     switch (propertyEvent->getType()) {
-    case PropertyEvent::TLP_BEFORE_SET_ALL_NODE_VALUE:
-    case PropertyEvent::TLP_BEFORE_SET_NODE_VALUE:
+    case PropertyEventType::TLP_BEFORE_SET_ALL_NODE_VALUE:
+    case PropertyEventType::TLP_BEFORE_SET_NODE_VALUE:
       if (shapeProperty == property || sizeProperty == property) {
         edgesModified = true;
       }
@@ -1123,8 +1123,8 @@ void GlVertexArrayManager::treatEvent(const Event &evt) {
       propertyValueChanged(property);
       break;
 
-    case PropertyEvent::TLP_BEFORE_SET_ALL_EDGE_VALUE:
-    case PropertyEvent::TLP_BEFORE_SET_EDGE_VALUE:
+    case PropertyEventType::TLP_BEFORE_SET_ALL_EDGE_VALUE:
+    case PropertyEventType::TLP_BEFORE_SET_EDGE_VALUE:
 
       if (layoutProperty == property || shapeProperty == property ||
           srcAnchorShapeProperty == property || tgtAnchorShapeProperty == property ||

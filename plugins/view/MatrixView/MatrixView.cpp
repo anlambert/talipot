@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -410,15 +410,15 @@ void MatrixView::treatEvent(const Event &message) {
   const auto *graphEvent = dynamic_cast<const GraphEvent *>(&message);
 
   if (graphEvent) {
-    if (graphEvent->getType() == GraphEvent::TLP_ADD_EDGE) {
+    if (graphEvent->getType() == GraphEventType::TLP_ADD_EDGE) {
       addEdge(graphEvent->getGraph(), graphEvent->getEdge());
     }
 
-    if (graphEvent->getType() == GraphEvent::TLP_DEL_NODE) {
+    if (graphEvent->getType() == GraphEventType::TLP_DEL_NODE) {
       delNode(graphEvent->getGraph(), graphEvent->getNode());
     }
 
-    if (graphEvent->getType() == GraphEvent::TLP_DEL_EDGE) {
+    if (graphEvent->getType() == GraphEventType::TLP_DEL_EDGE) {
       delEdge(graphEvent->getGraph(), graphEvent->getEdge());
     }
   }

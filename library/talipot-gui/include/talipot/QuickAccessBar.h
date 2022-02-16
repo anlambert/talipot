@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,8 +16,9 @@
 
 #include <QWidget>
 
-#include <talipot/CaptionItem.h>
 #include <talipot/config.h>
+#include <talipot/CaptionItem.h>
+#include <talipot/Graph.h>
 
 class QGraphicsItem;
 class QAbstractButton;
@@ -115,8 +116,8 @@ protected:
   void addSeparator();
   void updateFontButtonStyle();
   void showHideCaption(CaptionItem::CaptionType captionType);
-  void setAllValues(uint eltType, PropertyInterface *prop);
-  void setAllColorValues(uint eltType, ColorProperty *prop, const Color &color);
+  void setAllValues(ElementType eltType, PropertyInterface *prop);
+  void setAllColorValues(ElementType eltType, ColorProperty *prop, const Color &color);
 
 public slots:
   void reset() override;

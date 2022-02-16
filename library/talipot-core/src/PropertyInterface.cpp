@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -37,65 +37,65 @@ bool PropertyInterface::rename(const std::string &newName) {
 
 void PropertyInterface::notifyBeforeSetNodeValue(const node n) {
   if (hasOnlookers() && getGraph()->isElement(n)) {
-    sendEvent(
-        PropertyEvent(*this, PropertyEvent::TLP_BEFORE_SET_NODE_VALUE, Event::TLP_INFORMATION, n));
+    sendEvent(PropertyEvent(*this, PropertyEventType::TLP_BEFORE_SET_NODE_VALUE,
+                            EventType::TLP_INFORMATION, n));
   }
 }
 
 void PropertyInterface::notifyAfterSetNodeValue(const node n) {
   if (hasOnlookers() && getGraph()->isElement(n)) {
-    sendEvent(
-        PropertyEvent(*this, PropertyEvent::TLP_AFTER_SET_NODE_VALUE, Event::TLP_MODIFICATION, n));
+    sendEvent(PropertyEvent(*this, PropertyEventType::TLP_AFTER_SET_NODE_VALUE,
+                            EventType::TLP_MODIFICATION, n));
   }
 }
 
 void PropertyInterface::notifyBeforeSetEdgeValue(const edge e) {
   if (hasOnlookers() && getGraph()->isElement(e)) {
-    sendEvent(
-        PropertyEvent(*this, PropertyEvent::TLP_BEFORE_SET_EDGE_VALUE, Event::TLP_INFORMATION, e));
+    sendEvent(PropertyEvent(*this, PropertyEventType::TLP_BEFORE_SET_EDGE_VALUE,
+                            EventType::TLP_INFORMATION, e));
   }
 }
 
 void PropertyInterface::notifyAfterSetEdgeValue(const edge e) {
   if (hasOnlookers() && getGraph()->isElement(e)) {
-    sendEvent(
-        PropertyEvent(*this, PropertyEvent::TLP_AFTER_SET_EDGE_VALUE, Event::TLP_MODIFICATION, e));
+    sendEvent(PropertyEvent(*this, PropertyEventType::TLP_AFTER_SET_EDGE_VALUE,
+                            EventType::TLP_MODIFICATION, e));
   }
 }
 
 void PropertyInterface::notifyBeforeSetAllNodeValue() {
   if (hasOnlookers()) {
-    sendEvent(
-        PropertyEvent(*this, PropertyEvent::TLP_BEFORE_SET_ALL_NODE_VALUE, Event::TLP_INFORMATION));
+    sendEvent(PropertyEvent(*this, PropertyEventType::TLP_BEFORE_SET_ALL_NODE_VALUE,
+                            EventType::TLP_INFORMATION));
   }
 }
 
 void PropertyInterface::notifyAfterSetAllNodeValue() {
   if (hasOnlookers()) {
-    sendEvent(
-        PropertyEvent(*this, PropertyEvent::TLP_AFTER_SET_ALL_NODE_VALUE, Event::TLP_MODIFICATION));
+    sendEvent(PropertyEvent(*this, PropertyEventType::TLP_AFTER_SET_ALL_NODE_VALUE,
+                            EventType::TLP_MODIFICATION));
   }
 }
 
 void PropertyInterface::notifyBeforeSetAllEdgeValue() {
   if (hasOnlookers()) {
-    sendEvent(
-        PropertyEvent(*this, PropertyEvent::TLP_BEFORE_SET_ALL_EDGE_VALUE, Event::TLP_INFORMATION));
+    sendEvent(PropertyEvent(*this, PropertyEventType::TLP_BEFORE_SET_ALL_EDGE_VALUE,
+                            EventType::TLP_INFORMATION));
   }
 }
 
 void PropertyInterface::notifyAfterSetAllEdgeValue() {
   if (hasOnlookers()) {
-    sendEvent(
-        PropertyEvent(*this, PropertyEvent::TLP_AFTER_SET_ALL_EDGE_VALUE, Event::TLP_MODIFICATION));
+    sendEvent(PropertyEvent(*this, PropertyEventType::TLP_AFTER_SET_ALL_EDGE_VALUE,
+                            EventType::TLP_MODIFICATION));
   }
 }
 
 void PropertyInterface::notifyDestroy() {
   if (hasOnlookers()) {
     // the undo/redo mechanism has to simulate graph destruction
-    Event evt(*this, Event::TLP_MODIFICATION);
-    evt._type = Event::TLP_DELETE;
+    Event evt(*this, EventType::TLP_MODIFICATION);
+    evt._type = EventType::TLP_DELETE;
     sendEvent(evt);
   }
 }

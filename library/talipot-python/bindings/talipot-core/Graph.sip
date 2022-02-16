@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -250,17 +250,9 @@ typedef tlp::Iterator<tlp::GraphPointer> IteratorGraph;
 typedef tlp::PropertyInterface* PropertyPointer;
 typedef tlp::Iterator<tlp::PropertyPointer> IteratorProperty;
 
-enum ElementType {NODE=0, EDGE};
+enum class ElementType {NODE=0, EDGE=1};
 
 class Graph : tlp::Observable /Abstract/ {
-%TypeHeaderCode
-#include <talipot/Graph.h>
-%End
-
-%TypeCode
-#include <talipot/PythonCppTypesConverter.h>
-%End
-
 %Docstring
 This is the main Talipot class. It enables to :
 
@@ -271,6 +263,14 @@ This is the main Talipot class. It enables to :
 
 This class can not be instanced directly. Use :func:`tlp.newGraph()` to create a new
 empty graph.
+%End
+
+%TypeHeaderCode
+#include <talipot/Graph.h>
+%End
+
+%TypeCode
+#include <talipot/PythonCppTypesConverter.h>
 %End
 
 public:
@@ -4056,7 +4056,7 @@ while the values must be typed according to those of the available Talipot prope
 
 //===========================================================================================
 
-  long __hash__() const;
+  Py_hash_t __hash__() const;
 %MethodCode
   return static_cast<long>(sipCpp->getId());
 %End

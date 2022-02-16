@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -117,21 +117,21 @@ void GlGraph::treatEvent(const Event &evt) {
   if (graphEvent) {
     switch (graphEvent->getType()) {
 
-    case GraphEvent::TLP_ADD_NODE:
-    case GraphEvent::TLP_DEL_NODE:
+    case GraphEventType::TLP_ADD_NODE:
+    case GraphEventType::TLP_DEL_NODE:
       nodesModified = true;
       break;
 
-    case GraphEvent::TLP_ADD_EDGE:
-    case GraphEvent::TLP_DEL_EDGE:
-    case GraphEvent::TLP_REVERSE_EDGE:
-    case GraphEvent::TLP_AFTER_SET_ENDS:
+    case GraphEventType::TLP_ADD_EDGE:
+    case GraphEventType::TLP_DEL_EDGE:
+    case GraphEventType::TLP_REVERSE_EDGE:
+    case GraphEventType::TLP_AFTER_SET_ENDS:
       break;
 
     default:
       break;
     }
-  } else if (evt.type() == Event::TLP_DELETE) {
+  } else if (evt.type() == EventType::TLP_DELETE) {
     auto *g = dynamic_cast<Graph *>(evt.sender());
 
     if (g && _inputData.graph() == g) {
@@ -140,7 +140,7 @@ void GlGraph::treatEvent(const Event &evt) {
   } else {
     const auto *propertyEvent = dynamic_cast<const PropertyEvent *>(&evt);
 
-    if (propertyEvent && propertyEvent->getType() == PropertyEvent::TLP_AFTER_SET_NODE_VALUE) {
+    if (propertyEvent && propertyEvent->getType() == PropertyEventType::TLP_AFTER_SET_NODE_VALUE) {
       nodesModified = true;
     }
   }

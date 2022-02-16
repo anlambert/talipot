@@ -803,8 +803,8 @@ void NodeLinkDiagramView::deleteItem() {
 
 void NodeLinkDiagramView::editValue(PropertyInterface *pi) {
   ItemDelegate tid(glWidget());
-  QVariant val =
-      ItemDelegate::showEditorDialog(isNode ? NODE : EDGE, pi, graph(), &tid, glWidget(), itemId);
+  QVariant val = ItemDelegate::showEditorDialog(isNode ? ElementType::NODE : ElementType::EDGE, pi,
+                                                graph(), &tid, glWidget(), itemId);
 
   // Check if edition has been cancelled
   if (!val.isValid()) {

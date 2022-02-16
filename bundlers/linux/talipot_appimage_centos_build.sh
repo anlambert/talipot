@@ -80,7 +80,7 @@ yum -y install fuse fuse-libs file
 
 # needed for generating the doc
 yum -y install doxygen graphviz
-pip$PYTHON_VERSION install sphinx
+pip$PYTHON_VERSION install sphinx sip
 
 # needed to build and run tests
 yum -y install cppunit-devel xorg-x11-server-Xvfb

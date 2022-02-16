@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -342,9 +342,9 @@ public:
 
     tree = TreeTest::computeTree(graph, pluginProgress);
 
-    if (pluginProgress && pluginProgress->state() != TLP_CONTINUE) {
+    if (pluginProgress && pluginProgress->state() != ProgressState::TLP_CONTINUE) {
       TreeTest::cleanComputedTree(graph, tree);
-      return pluginProgress->state() != TLP_CANCEL;
+      return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
 
     float nSpacing, lSpacing;

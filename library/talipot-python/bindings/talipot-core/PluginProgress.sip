@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,18 +13,18 @@
 
 namespace tlp {
 
-enum ProgressState{TLP_CONTINUE, TLP_CANCEL , TLP_STOP };
+enum class ProgressState {TLP_CONTINUE, TLP_CANCEL , TLP_STOP };
 
 class PluginProgress /Abstract/ {
+%Docstring
+This interface allows to notify and control the progression of a process.
+%End
+
 %TypeHeaderCode
 #include <talipot/PluginProgress.h>
 %End
 
 public:
-
-%Docstring
-This interface allows to notify and control the progression of a process.
-%End
 
 %ConvertToSubClassCode
   if (dynamic_cast<tlp::SimplePluginProgress*>(sipCpp)) {
@@ -46,7 +46,10 @@ Use this method to notify the progression of the process.
 :type step: integer
 :param maxStep: the total number of steps
 :type maxStep: integer
-:rtype: a value indicating whether the progress has been stopped (:const:`tlp.TLP_STOP`), cancelled (:const:`tlp.TLP_CANCEL`), or will continue (:const:`tlp.TLP_CONTINUE`).
+:rtype: a value indicating whether the progress has been stopped
+  (:const:`tlp.ProgressState.ProgressState::TLP_STOP`), cancelled
+  (:const:`tlp.ProgressState.ProgressState::TLP_CANCEL`), or will continue
+  (:const:`tlp.ProgressState.ProgressState::TLP_CONTINUE`).
 %End
 
 
@@ -104,7 +107,10 @@ tlp.PluginProgress.state()
 
 Gets the current internal state of the PluginProgress.
 
-:rtype: a value indicating whether the progress has been stopped (:const:`tlp.TLP_STOP`), cancelled (:const:`tlp.TLP_CANCEL`), or will continue (:const:`tlp.TLP_CONTINUE`).
+:rtype: a value indicating whether the progress has been stopped
+  (:const:`tlp.ProgressState.ProgressState::TLP_STOP`), cancelled
+  (:const:`tlp.ProgressState.ProgressState::TLP_CANCEL`), or will continue
+  (:const:`tlp.ProgressState.ProgressState::TLP_CONTINUE`).
 %End
 
   virtual std::string getError() = 0;

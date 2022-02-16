@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,7 +18,7 @@ using namespace std;
 
 //============================================================
 Dijkstra::Dijkstra(const Graph *const graph, node src, const EdgeVectorProperty<double> &weights,
-                   NodeVectorProperty<double> &nd, EDGE_TYPE direction, std::stack<node> *qN,
+                   NodeVectorProperty<double> &nd, EdgeType direction, std::stack<node> *qN,
                    MutableContainer<int> *nP)
     : nodeDistance(nd), queueNodes(qN), numberOfPaths(nP) {
   assert(src.isValid());

@@ -71,8 +71,8 @@ jobs:
             qtwebsockets \
             qtwebchannel \
             qtsvg
-      - name: Install sphinx
-        run: sudo pip install sphinx
+      - name: Install sphinx and sip
+        run: sudo pip install sphinx sip
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |

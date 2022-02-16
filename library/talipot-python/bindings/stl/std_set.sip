@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -71,7 +71,6 @@ template<TYPE>
 
     while (item = PyIter_Next(iterator)) {
       if (!sipCanConvertToType(item, kpTypeDef, SIP_NOT_NONE)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to TYPE");
         Py_DECREF(item);
         Py_DECREF(iterator);
         return 0;
@@ -168,7 +167,6 @@ template<TYPE*>
     PyObject *item = NULL;
     while (item = PyIter_Next(iterator)) {
       if (!sipCanConvertToType(item, kpTypeDef, SIP_NOT_NONE)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to TYPE");
         Py_DECREF(item);
         Py_DECREF(iterator);
         return 0;
@@ -243,7 +241,6 @@ template<TYPE*>
     PyObject *item = NULL;
     while (item = PyIter_Next(iterator)) {
       if (!PyNumber_Check(item)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to double");
         Py_DECREF(item);
         Py_DECREF(iterator);
         return 0;
@@ -307,7 +304,6 @@ template<TYPE*>
     PyObject *item = NULL;
     while (item = PyIter_Next(iterator)) {
       if (!PyNumber_Check(item)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to float");
         Py_DECREF(item);
         Py_DECREF(iterator);
         return 0;
@@ -371,7 +367,6 @@ template<TYPE*>
     PyObject *item = NULL;
     while (item = PyIter_Next(iterator)) {
       if (!PyLong_Check(item)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to int");
         Py_DECREF(item);
         Py_DECREF(iterator);
         return 0;
@@ -433,7 +428,6 @@ template<TYPE*>
     PyObject *item = NULL;
     while (item = PyIter_Next(iterator)) {
       if (!PyLong_Check(item)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to long");
         Py_DECREF(item);
         Py_DECREF(iterator);
         return 0;
@@ -495,7 +489,6 @@ template<TYPE*>
     PyObject *item = NULL;
     while (item = PyIter_Next(iterator)) {
       if (!PyLong_Check(item)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to uint");
         Py_DECREF(item);
         Py_DECREF(iterator);
         return 0;
@@ -556,7 +549,6 @@ template<TYPE*>
     PyObject *item = NULL;
     while (item = PyIter_Next(iterator)) {
       if (!PyLong_Check(item)) {
-        //printErrorMessage("TypeError : object in list of type " + std::string(item->ob_type->tp_name) + " can not be converted to unsigned long");
         Py_DECREF(item);
         Py_DECREF(iterator);
         return 0;

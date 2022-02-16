@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -208,15 +208,15 @@ void GlGraphLowDetailsRenderer::treatEvent(const Event &ev) {
     const auto *graphEvent = dynamic_cast<const GraphEvent *>(&ev);
 
     switch (graphEvent->getType()) {
-    case GraphEvent::TLP_ADD_NODE:
-    case GraphEvent::TLP_ADD_EDGE:
-    case GraphEvent::TLP_DEL_NODE:
-    case GraphEvent::TLP_DEL_EDGE:
+    case GraphEventType::TLP_ADD_NODE:
+    case GraphEventType::TLP_ADD_EDGE:
+    case GraphEventType::TLP_DEL_NODE:
+    case GraphEventType::TLP_DEL_EDGE:
       buildVBO = true;
       break;
 
-    case GraphEvent::TLP_ADD_LOCAL_PROPERTY:
-    case GraphEvent::TLP_BEFORE_DEL_LOCAL_PROPERTY: {
+    case GraphEventType::TLP_ADD_LOCAL_PROPERTY:
+    case GraphEventType::TLP_BEFORE_DEL_LOCAL_PROPERTY: {
       const PropertyInterface *property =
           inputData->graph()->getProperty(graphEvent->getPropertyName());
 
@@ -236,17 +236,17 @@ void GlGraphLowDetailsRenderer::treatEvent(const Event &ev) {
     const auto *propertyEvent = dynamic_cast<const PropertyEvent *>(&ev);
 
     switch (propertyEvent->getType()) {
-    case PropertyEvent::TLP_BEFORE_SET_ALL_NODE_VALUE:
-    case PropertyEvent::TLP_BEFORE_SET_NODE_VALUE:
-    case PropertyEvent::TLP_BEFORE_SET_ALL_EDGE_VALUE:
-    case PropertyEvent::TLP_BEFORE_SET_EDGE_VALUE:
+    case PropertyEventType::TLP_BEFORE_SET_ALL_NODE_VALUE:
+    case PropertyEventType::TLP_BEFORE_SET_NODE_VALUE:
+    case PropertyEventType::TLP_BEFORE_SET_ALL_EDGE_VALUE:
+    case PropertyEventType::TLP_BEFORE_SET_EDGE_VALUE:
       buildVBO = true;
       break;
 
     default:
       break;
     }
-  } else if (ev.type() == Event::TLP_DELETE) {
+  } else if (ev.type() == EventType::TLP_DELETE) {
 
     if (dynamic_cast<tlp::Graph *>(ev.sender())) {
       removeObservers();

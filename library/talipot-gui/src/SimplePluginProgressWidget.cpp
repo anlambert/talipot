@@ -23,7 +23,7 @@ using namespace tlp;
 
 SimplePluginProgressWidget::SimplePluginProgressWidget(QWidget *parent, Qt::WindowFlags f)
     : QWidget(parent, f), _ui(new Ui::SimplePluginProgressWidget),
-      _lastUpdate(QTime::currentTime()), _state(tlp::TLP_CONTINUE) {
+      _lastUpdate(QTime::currentTime()), _state(tlp::ProgressState::TLP_CONTINUE) {
   _ui->setupUi(this);
   _ui->cancelButton->setIcon(FontIcon::icon(MaterialDesignIcons::Cancel, QColor(50, 50, 50), 0.8));
   _ui->stopButton->setIcon(FontIcon::icon(MaterialDesignIcons::Stop, QColor(50, 50, 50), 1.4));
@@ -66,11 +66,11 @@ ProgressState SimplePluginProgressWidget::progress(int step, int max_step) {
 }
 
 void SimplePluginProgressWidget::cancel() {
-  _state = tlp::TLP_CANCEL;
+  _state = tlp::ProgressState::TLP_CANCEL;
 }
 
 void SimplePluginProgressWidget::stop() {
-  _state = tlp::TLP_STOP;
+  _state = tlp::ProgressState::TLP_STOP;
 }
 
 bool SimplePluginProgressWidget::isPreviewMode() const {

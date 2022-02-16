@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -101,7 +101,7 @@ bool KCores::run() {
     dataSet->get("metric", metric);
   }
 
-  auto degree_type = static_cast<EDGE_TYPE>(degreeTypes.getCurrent());
+  auto degree_type = static_cast<EdgeType>(degreeTypes.getCurrent());
 
   // the famous k
   double k = DBL_MAX;

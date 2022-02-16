@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,10 +14,6 @@
 namespace tlp {
 
 struct BoundingBox {
-%TypeHeaderCode
-#include <talipot/BoundingBox.h>
-%End
-
 %Docstring
 This class represents the 3D bounding box of an object.
 It is defined by two 3d points, the first one being the lowest point (bottom-left corner),
@@ -36,6 +32,10 @@ A bounding box can be instantiated and manipulated the following ways::
   # Reading / writing the bounding box components can be done through the [] operator
   min = bb2[0]
   max = bb2[1]
+%End
+
+%TypeHeaderCode
+#include <talipot/BoundingBox.h>
 %End
 
   BoundingBox();

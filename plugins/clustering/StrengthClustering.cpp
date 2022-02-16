@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -160,7 +160,7 @@ double StrengthClustering::findBestThreshold(int numberOfSteps, bool &stopped) {
     if (pluginProgress && ((++steps % (numberOfSteps / 10)) == 0)) {
       pluginProgress->progress(steps, numberOfSteps);
 
-      if ((stopped = (pluginProgress->state() != TLP_CONTINUE))) {
+      if ((stopped = (pluginProgress->state() != ProgressState::TLP_CONTINUE))) {
         return threshold;
       }
     }
@@ -224,8 +224,8 @@ bool StrengthClustering::run() {
       if (pluginProgress && ((++steps % (maxSteps / 10) == 0))) {
         pluginProgress->progress(steps, maxSteps);
 
-        if (pluginProgress->state() != TLP_CONTINUE) {
-          return pluginProgress->state() != TLP_CANCEL;
+        if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+          return pluginProgress->state() != ProgressState::TLP_CANCEL;
         }
       }
     }
@@ -243,7 +243,7 @@ bool StrengthClustering::run() {
   double threshold = findBestThreshold(NB_TEST, stopped);
 
   if (stopped) {
-    return pluginProgress->state() != TLP_CANCEL;
+    return pluginProgress->state() != ProgressState::TLP_CANCEL;
   }
 
   vector<unordered_set<node>> tmp;

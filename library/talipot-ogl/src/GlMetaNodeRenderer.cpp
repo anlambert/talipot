@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -171,7 +171,7 @@ GlScene *GlMetaNodeRenderer::createScene(Graph *metaGraph) const {
 }
 
 void GlMetaNodeRenderer::treatEvent(const Event &e) {
-  if (e.type() == Event::TLP_DELETE) {
+  if (e.type() == EventType::TLP_DELETE) {
     delete _metaGraphToSceneMap[static_cast<Graph *>(e.sender())];
     _metaGraphToSceneMap.erase(static_cast<Graph *>(e.sender()));
   }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -198,7 +198,7 @@ void PropertyValuesDispatcher::treatEvent(const tlp::Event &evt) {
     const auto *gEvt = dynamic_cast<const GraphEvent *>(&evt);
     Graph *graph = gEvt->getGraph();
 
-    if (gEvt->getType() == GraphEvent::TLP_ADD_LOCAL_PROPERTY) {
+    if (gEvt->getType() == GraphEventType::TLP_ADD_LOCAL_PROPERTY) {
       addLocalProperty(graph, gEvt->getPropertyName());
     }
   } else {
@@ -208,19 +208,19 @@ void PropertyValuesDispatcher::treatEvent(const tlp::Event &evt) {
       PropertyInterface *prop = propEvt->getProperty();
 
       switch (propEvt->getType()) {
-      case PropertyEvent::TLP_AFTER_SET_NODE_VALUE:
+      case PropertyEventType::TLP_AFTER_SET_NODE_VALUE:
         afterSetNodeValue(prop, propEvt->getNode());
         return;
 
-      case PropertyEvent::TLP_AFTER_SET_ALL_NODE_VALUE:
+      case PropertyEventType::TLP_AFTER_SET_ALL_NODE_VALUE:
         afterSetAllNodeValue(prop);
         return;
 
-      case PropertyEvent::TLP_AFTER_SET_ALL_EDGE_VALUE:
+      case PropertyEventType::TLP_AFTER_SET_ALL_EDGE_VALUE:
         afterSetAllEdgeValue(prop);
         return;
 
-      case PropertyEvent::TLP_AFTER_SET_EDGE_VALUE:
+      case PropertyEventType::TLP_AFTER_SET_EDGE_VALUE:
         afterSetEdgeValue(prop, propEvt->getEdge());
         return;
 

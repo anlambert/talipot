@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,7 +36,7 @@ void OuterPlanarTestListener::treatEvent(const Event &evt) {
     Graph *graph = gEvt->getGraph();
 
     switch (gEvt->getType()) {
-    case GraphEvent::TLP_ADD_EDGE:
+    case GraphEventType::TLP_ADD_EDGE:
       if (resultsBuffer.find(graph) != resultsBuffer.end()) {
         if (resultsBuffer[graph]) {
           return;
@@ -47,8 +47,8 @@ void OuterPlanarTestListener::treatEvent(const Event &evt) {
       resultsBuffer.erase(graph);
       break;
 
-    case GraphEvent::TLP_DEL_EDGE:
-    case GraphEvent::TLP_DEL_NODE:
+    case GraphEventType::TLP_DEL_EDGE:
+    case GraphEventType::TLP_DEL_NODE:
 
       if (resultsBuffer.find(graph) != resultsBuffer.end()) {
         if (!resultsBuffer[graph]) {
@@ -57,7 +57,7 @@ void OuterPlanarTestListener::treatEvent(const Event &evt) {
       }
       [[fallthrough]];
 
-    case GraphEvent::TLP_REVERSE_EDGE:
+    case GraphEventType::TLP_REVERSE_EDGE:
       graph->removeListener(this);
       resultsBuffer.erase(graph);
       break;
@@ -70,7 +70,7 @@ void OuterPlanarTestListener::treatEvent(const Event &evt) {
 
     auto *graph = static_cast<Graph *>(evt.sender());
 
-    if (evt.type() == Event::TLP_DELETE) {
+    if (evt.type() == EventType::TLP_DELETE) {
       resultsBuffer.erase(graph);
     }
   }

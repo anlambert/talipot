@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,12 +20,6 @@
 namespace tlp {
 
 class ImportModule : tlp::Plugin {
-%TypeHeaderCode
-#include <talipot/ImportModule.h>
-%End
-
-public:
-
 %Docstring
 Bases: :class:`tlp.Plugin`
 
@@ -48,6 +42,12 @@ This abstract class describes an import plugin.
 .. rubric:: class methods
 
 %End
+
+%TypeHeaderCode
+#include <talipot/ImportModule.h>
+%End
+
+public:
 
   ImportModule (const tlp::PluginContext* context);
   virtual ~ImportModule();

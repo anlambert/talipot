@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,16 +14,6 @@
 namespace tlp {
 
 class StringCollection {
-%TypeHeaderCode
-#include <talipot/StringCollection.h>
-%End
-
-%ConvertFromTypeCode
-  return sipConvertFromNewType(new std::string(sipCpp->getCurrentString()), sipFindType("std::string"), NULL);
-%End
-
-public:
-
 %Docstring
 
 .. deprecated:: deprecated
@@ -33,6 +23,16 @@ public:
 This class represents a list of selectable string entries that can be used as plugin parameter.
 The list will appear as a combo box in the Plugin Parameter Dialog from the Talipot GUI.
 %End
+
+%TypeHeaderCode
+#include <talipot/StringCollection.h>
+%End
+
+%ConvertFromTypeCode
+  return sipConvertFromNewType(new std::string(sipCpp->getCurrentString()), sipFindType("std::string"), NULL);
+%End
+
+public:
 
 // ===========================================================================
 

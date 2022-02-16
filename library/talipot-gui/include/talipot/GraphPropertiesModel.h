@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -87,7 +87,7 @@ public:
 
   // Methods inherited from the observable system
   void treatEvent(const tlp::Event &evt) override {
-    if (evt.type() == Event::TLP_DELETE) {
+    if (evt.type() == EventType::TLP_DELETE) {
       // calls to *ResetModel() functions below
       // are not needed because they may cause a Free Memory Read.
       // However the current model will be soon deleted
@@ -104,8 +104,8 @@ public:
       return;
     }
 
-    if (graphEvent->getType() == GraphEvent::TLP_BEFORE_DEL_LOCAL_PROPERTY ||
-        graphEvent->getType() == GraphEvent::TLP_BEFORE_DEL_INHERITED_PROPERTY) {
+    if (graphEvent->getType() == GraphEventType::TLP_BEFORE_DEL_LOCAL_PROPERTY ||
+        graphEvent->getType() == GraphEventType::TLP_BEFORE_DEL_INHERITED_PROPERTY) {
 
       auto *prop = dynamic_cast<PROPTYPE *>(_graph->getProperty(graphEvent->getPropertyName()));
 
@@ -118,14 +118,14 @@ public:
           _checkedProperties.remove(prop);
         }
       }
-    } else if (graphEvent->getType() == GraphEvent::TLP_AFTER_DEL_LOCAL_PROPERTY ||
-               graphEvent->getType() == GraphEvent::TLP_AFTER_DEL_INHERITED_PROPERTY) {
+    } else if (graphEvent->getType() == GraphEventType::TLP_AFTER_DEL_LOCAL_PROPERTY ||
+               graphEvent->getType() == GraphEventType::TLP_AFTER_DEL_INHERITED_PROPERTY) {
       if (_removingRows) {
         endRemoveRows();
         _removingRows = false;
       }
-    } else if (graphEvent->getType() == GraphEvent::TLP_ADD_LOCAL_PROPERTY ||
-               graphEvent->getType() == GraphEvent::TLP_ADD_INHERITED_PROPERTY) {
+    } else if (graphEvent->getType() == GraphEventType::TLP_ADD_LOCAL_PROPERTY ||
+               graphEvent->getType() == GraphEventType::TLP_ADD_INHERITED_PROPERTY) {
       auto *prop = dynamic_cast<PROPTYPE *>(_graph->getProperty(graphEvent->getPropertyName()));
 
       if (prop != nullptr) {
@@ -137,7 +137,7 @@ public:
           endInsertRows();
         }
       }
-    } else if (graphEvent->getType() == GraphEvent::TLP_AFTER_RENAME_LOCAL_PROPERTY) {
+    } else if (graphEvent->getType() == GraphEventType::TLP_AFTER_RENAME_LOCAL_PROPERTY) {
       // force any needed sorting
       emit layoutAboutToBeChanged();
       changePersistentIndex(createIndex(0, 0), createIndex(_properties.size() - 1, 0));

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,6 +24,8 @@ using namespace tlp;
 
 static const unordered_map<string, string> cppTypenameToSipTypename = {
     {demangleClassName<string>(), "std::string"},
+    {demangleClassName<node>(), "tlp::node"},
+    {demangleClassName<edge>(), "tlp::edge"},
     {demangleClassName<Vec3f>(), "tlp::Vec3f"},
     {demangleClassName<Coord>(), "tlp::Coord"},
     {demangleClassName<Size>(), "tlp::Size"},
@@ -345,10 +347,10 @@ PyObject *getPyObjectFromDataType(const DataType *dataType, bool noCopy) {
     }                                                                              \
   }
 
-#define CHECK_SIP_ENUM_CONVERSION(SIP_TYPE_STR)                \
-  if (sipCanConvertToEnum(pyObj, sipFindType(SIP_TYPE_STR))) { \
-    valSetter.setValue(int(PyLong_AsLong(pyObj)));             \
-    return true;                                               \
+#define CHECK_SIP_ENUM_CONVERSION(SIP_TYPE_STR)                              \
+  if (sipCanConvertToType(pyObj, sipFindType(SIP_TYPE_STR), SIP_NOT_NONE)) { \
+    valSetter.setValue(sipConvertToEnum(pyObj, sipFindType(SIP_TYPE_STR)));  \
+    return true;                                                             \
   }
 
 #define CHECK_SIP_POINTER_TYPE_CONVERSION(CPP_TYPE, SIP_TYPE_STR)                    \
@@ -489,11 +491,6 @@ bool setCppValueFromPyObject(PyObject *pyObj, ValueSetter &valSetter, DataType *
 
     return true;
   }
-
-  CHECK_SIP_ENUM_CONVERSION("tlp::NodeShape::NodeShapes")
-  CHECK_SIP_ENUM_CONVERSION("tlp::EdgeShape::EdgeShapes")
-  CHECK_SIP_ENUM_CONVERSION("tlp::EdgeExtremityShape::EdgeExtremityShapes")
-  CHECK_SIP_ENUM_CONVERSION("tlp::LabelPosition::LabelPositions")
 
   CHECK_SIP_TYPE_CONVERSION(string, "std::string")
   CHECK_SIP_TYPE_CONVERSION(node, "tlp::node")

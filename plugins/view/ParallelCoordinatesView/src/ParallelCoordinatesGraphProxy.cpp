@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -79,7 +79,7 @@ ElementType ParallelCoordinatesGraphProxy::getDataLocation() const {
 }
 
 uint ParallelCoordinatesGraphProxy::getDataCount() const {
-  if (getDataLocation() == NODE) {
+  if (getDataLocation() == ElementType::NODE) {
     return numberOfNodes();
   } else {
     return numberOfEdges();
@@ -115,7 +115,7 @@ void ParallelCoordinatesGraphProxy::resetSelection() {
 }
 
 void ParallelCoordinatesGraphProxy::deleteData(const uint dataId) {
-  if (getDataLocation() == NODE) {
+  if (getDataLocation() == ElementType::NODE) {
     delNode(node(dataId));
   } else {
     delEdge(edge(dataId));
@@ -126,7 +126,7 @@ static std::function<uint(tlp::node)> nodeToId = [](tlp::node n) { return n.id; 
 static std::function<uint(tlp::edge)> edgeToId = [](tlp::edge e) { return e.id; };
 
 Iterator<uint> *ParallelCoordinatesGraphProxy::getDataIterator() {
-  if (getDataLocation() == NODE) {
+  if (getDataLocation() == ElementType::NODE) {
     return conversionIterator<uint>(getNodes(), nodeToId);
   } else {
     return conversionIterator<uint>(getEdges(), edgeToId);
@@ -136,7 +136,7 @@ Iterator<uint> *ParallelCoordinatesGraphProxy::getDataIterator() {
 Iterator<uint> *ParallelCoordinatesGraphProxy::getSelectedDataIterator() {
   BooleanProperty *viewSelection = static_cast<BooleanProperty *>(getProperty("viewSelection"));
 
-  if (getDataLocation() == NODE) {
+  if (getDataLocation() == ElementType::NODE) {
     return conversionIterator<uint>(viewSelection->getNodesEqualTo(true, graph_component),
                                     nodeToId);
   } else {
@@ -148,7 +148,7 @@ Iterator<uint> *ParallelCoordinatesGraphProxy::getSelectedDataIterator() {
 Iterator<uint> *ParallelCoordinatesGraphProxy::getUnselectedDataIterator() {
   BooleanProperty *viewSelection = static_cast<BooleanProperty *>(getProperty("viewSelection"));
 
-  if (getDataLocation() == NODE) {
+  if (getDataLocation() == ElementType::NODE) {
     return conversionIterator<uint>(viewSelection->getNodesEqualTo(false, graph_component),
                                     nodeToId);
   } else {
@@ -221,14 +221,14 @@ void ParallelCoordinatesGraphProxy::colorDataAccordingToHighlightedElts() {
       Color currentColor = getPropertyValueForData<ColorProperty, ColorType>("viewColor", dataId);
       Color originalColor;
 
-      if (getDataLocation() == NODE) {
+      if (getDataLocation() == ElementType::NODE) {
         originalColor = originalDataColors->getNodeValue(node(dataId));
       } else {
         originalColor = originalDataColors->getEdgeValue(edge(dataId));
       }
 
       if (!isDataHighlighted(dataId) && currentColor.getA() != unhighlightedEltsColorAlphaValue) {
-        if (getDataLocation() == NODE) {
+        if (getDataLocation() == ElementType::NODE) {
           originalDataColors->setNodeValue(node(dataId),
                                            Color(currentColor.getR(), currentColor.getG(),
                                                  currentColor.getB(), originalColor.getA()));
@@ -244,7 +244,7 @@ void ParallelCoordinatesGraphProxy::colorDataAccordingToHighlightedElts() {
       }
 
       if (highlightedEltsSet() && isDataHighlighted(dataId) && currentColor != originalColor) {
-        if (getDataLocation() == NODE) {
+        if (getDataLocation() == ElementType::NODE) {
           originalDataColors->setNodeValue(node(dataId),
                                            Color(currentColor.getR(), currentColor.getG(),
                                                  currentColor.getB(), originalColor.getA()));
@@ -269,7 +269,7 @@ void ParallelCoordinatesGraphProxy::colorDataAccordingToHighlightedElts() {
 }
 
 Color ParallelCoordinatesGraphProxy::getOriginalDataColor(const uint dataId) {
-  if (getDataLocation() == NODE) {
+  if (getDataLocation() == ElementType::NODE) {
     return originalDataColors->getNodeValue(node(dataId));
   } else {
     return originalDataColors->getEdgeValue(edge(dataId));

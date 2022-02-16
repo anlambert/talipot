@@ -257,10 +257,10 @@ for cat in sorted(plugins.keys()):
             if param.getName() == 'result' and 'Property' in paramType:
                 continue
             paramDir = 'input / output'
-            if param.getDirection() == tlp.IN_PARAM:
+            if param.getDirection() == tlp.ParameterDirection.IN_PARAM:
                 paramDir = 'input'
                 nbInParams = nbInParams+1
-            elif param.getDirection() == tlp.OUT_PARAM:
+            elif param.getDirection() == tlp.ParameterDirection.OUT_PARAM:
                 paramDir = 'output'
             else:
                 nbInParams = nbInParams+1
