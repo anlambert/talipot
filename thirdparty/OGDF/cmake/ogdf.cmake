@@ -58,6 +58,18 @@ mark_as_advanced(OGDF_EXTRA_CXX_FLAGS)
 mark_as_advanced(OGDF_EXTRA_CXX_FLAGS_DEBUG)
 mark_as_advanced(OGDF_EXTRA_CXX_FLAGS_RELEASE)
 
+# static analysis using clang-tidy
+option(OGDF_ENABLE_CLANG_TIDY "Enable static analysis using clang-tidy" OFF)
+
+if(OGDF_ENABLE_CLANG_TIDY)
+  find_program(CLANG_TIDY clang-tidy)
+  if(CLANG_TIDY)
+    set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY};-extra-arg=-Wno-unknown-warning-option)
+  else()
+    message(WARNING "clang-tidy not found!")
+  endif()
+endif()
+
 # compilation
 file(GLOB_RECURSE ogdf_headers include/ogdf/*.h)
 file(GLOB_RECURSE ogdf_sources src/ogdf/*.cpp)
@@ -97,6 +109,14 @@ endfunction()
 
 add_ogdf_extra_flags(${OGDFLibrary})
 
+# do not count warnings in external libraries as errors
+file(GLOB_RECURSE lib_headers include/ogdf/lib/*.h)
+file(GLOB_RECURSE lib_sources src/ogdf/lib/*.cpp)
+file(GLOB_RECURSE bandit_headers test/include/bandit/*.h)
+set(tinydir_headers "test/include/tinydir.h")
+set(lib_sources "${lib_sources};${lib_headers};${bandit_headers};${tinydir_headers}")
+set_source_files_properties(${lib_sources} PROPERTIES COMPILE_FLAGS " ${warnings_not_as_errors_flag} ")
+
 # set OGDF_INSTALL for shared libraries
 if(BUILD_SHARED_LIBS)
   target_compile_definitions(${OGDFLibrary} PRIVATE OGDF_INSTALL)
@@ -128,27 +148,23 @@ if(BUILD_SHARED_LIBS)
   set(OGDF_DLL 1)
 endif()
 
+# autogen header variables for mallinfo2
+include(check-mallinfo2)
+if(has_mallinfo2)
+  set(OGDF_HAS_MALLINFO2 1)
+endif()
+
 # autogen header variables for SSE3
-INCLUDE(check-sse3)
-IF(has_sse3_intrin)
-  SET(OGDF_SSE3_EXTENSIONS <intrin.h>)
-  IF(NOT MSVC)
-    SET_PROPERTY(
-      TARGET ${OGDFLibrary}
-      APPEND_STRING
-      PROPERTY COMPILE_FLAGS " -sse3")
-  ENDIF()
-ELSEIF(has_sse3_pmmintrin)
-  SET(OGDF_SSE3_EXTENSIONS <pmmintrin.h>)
-  IF(NOT MSVC)
-    SET_PROPERTY(
-      TARGET ${OGDFLibrary}
-      APPEND_STRING
-      PROPERTY COMPILE_FLAGS " -msse3")
-  ENDIF()
-ELSE()
-  MESSAGE(STATUS "SSE3 could not be activated")
-ENDIF()
+include(check-sse3)
+if(has_sse3_intrin)
+  set(OGDF_SSE3_EXTENSIONS <intrin.h>)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sse3")
+elseif(has_sse3_pmmintrin)
+  set(OGDF_SSE3_EXTENSIONS <pmmintrin.h>)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse3")
+else()
+  message(STATUS "SSE3 could not be activated")
+endif()
 
 # autogen header variables for Linux-specific CPU_SET, etc.
 include(check-cpu-macros)
@@ -156,7 +172,7 @@ if(has_linux_cpu_macros)
   set(OGDF_HAS_LINUX_CPU_MACROS 1)
 endif()
 
-if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+if(CMAKE_COMPILER_IS_GNUCXX OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT "${CMAKE_CXX_SIMULATE_ID}" STREQUAL "MSVC"))
   target_link_libraries(${OGDFLibrary} PUBLIC pthread)
 endif()
 
@@ -180,14 +196,16 @@ endif()
 
 # # installation
 # set(OGDF_INSTALL_LIBRARY_DIR "lib/${CMAKE_LIBRARY_ARCHITECTURE}" CACHE PATH "Installation path of OGDF library")
+# set(OGDF_INSTALL_BIN_DIR "bin" CACHE PATH "Installation path of OGDF runtime targets")
 # set(OGDF_INSTALL_INCLUDE_DIR "include" CACHE PATH "Installation path of OGDF header files (creates subdirectory)")
 # set(OGDF_INSTALL_CMAKE_DIR "lib/${CMAKE_LIBRARY_ARCHITECTURE}/cmake/OGDF/" CACHE PATH "Installation path of OGDF files for CMake")
-# mark_as_advanced(OGDF_INSTALL_LIBRARY_DIR OGDF_INSTALL_INCLUDE_DIR OGDF_INSTALL_CMAKE_DIR)
+# mark_as_advanced(OGDF_INSTALL_LIBRARY_DIR OGDF_INSTALL_BIN_DIR OGDF_INSTALL_INCLUDE_DIR OGDF_INSTALL_CMAKE_DIR)
 # configure_file(cmake/ogdf-config.cmake "${PROJECT_BINARY_DIR}/ogdf-config.cmake" @ONLY)
-# install(TARGETS OGDF
+# install(TARGETS ${OGDFLibrary}
 #   EXPORT OgdfTargets
 #   LIBRARY DESTINATION "${OGDF_INSTALL_LIBRARY_DIR}"
 #   ARCHIVE DESTINATION "${OGDF_INSTALL_LIBRARY_DIR}"
+#   RUNTIME DESTINATION "${OGDF_INSTALL_BIN_DIR}"
 #   INCLUDES DESTINATION "${COIN_INSTALL_INCLUDE_DIR}"
 #   PUBLIC_HEADER DESTINATION "${OGDF_INSTALL_INCLUDE_DIR}")
 # install(DIRECTORY "${PROJECT_BINARY_DIR}/include/ogdf" include/ogdf

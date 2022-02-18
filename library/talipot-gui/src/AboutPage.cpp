@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -87,7 +87,7 @@ AboutPage::AboutPage(QWidget *parent) : QWidget(parent), _ui(new Ui::AboutPage()
       (from vendor %4)
     </li>
     <li>
-      <b>OGDF</b> v2020.02 (Catalpa):
+      <b>OGDF</b> v2022.02 (Dogwood):
       <a href="http://www.ogdf.net">http://www.ogdf.net</a>
       <br/>
       aka the Open Graph Drawing Framework

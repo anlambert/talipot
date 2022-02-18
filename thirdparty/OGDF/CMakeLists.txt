@@ -35,7 +35,7 @@ include(ogdf)
 file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/ogdf/basic/internal")
 configure_file("${module_dir}/config_autogen.h.in" "${PROJECT_BINARY_DIR}/include/ogdf/basic/internal/config_autogen.h")
 
-# target documentation
+# # target documentation
 # message(STATUS "The default target builds OGDF (and dependencies like COIN).")
 # if(DOXYGEN_FOUND AND DOC_INSTALL)
 #   message(STATUS "Because DOC_INSTALL is set, it also generates the OGDF documentation (in-source).")
