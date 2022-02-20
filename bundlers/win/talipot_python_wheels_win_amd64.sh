@@ -90,7 +90,7 @@ then
     mingw-w64-$MSYS2_ARCH-qhull \
     mingw-w64-$MSYS2_ARCH-graphviz
 
-  for pyVersion in 36 37 38 39 310
+  for pyVersion in 37 38 39 310
   do
     export PATH=/c/Python$pyVersion-x64/:/c/Python$pyVersion-x64/Scripts/:$PATH
     pip install --index-url https://test.pypi.org/simple/ talipot
