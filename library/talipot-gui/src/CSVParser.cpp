@@ -86,6 +86,7 @@ bool CSVSimpleParser::parse(CSVContentHandler *handler, PluginProgress *progress
       std::locale::global(loc);
     }
 
+    uint lastNbTokens = 0;
     while (multiplatformgetline(*csvFile, line) && row <= _lastLine) {
 
       if (progress) {
@@ -108,8 +109,17 @@ bool CSVSimpleParser::parse(CSVContentHandler *handler, PluginProgress *progress
 
         tokens.clear();
         tokenize(line, tokens, _separator, _mergesep, _textDelimiter, 0);
-        uint column = 0;
 
+        if (row > 0 && tokens.size() != lastNbTokens) {
+          result = false;
+          progress->setError("CSV file is malformed, line " + to_string(row) +
+                             " has a different number of columns than the previous one.");
+          break;
+        }
+
+        lastNbTokens = tokens.size();
+
+        uint column = 0;
         for (column = 0; column < tokens.size(); ++column) {
           tokens[column] = treatToken(tokens[column], row, column);
         }
