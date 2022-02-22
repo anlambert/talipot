@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,7 +49,7 @@ bool CSVSimpleParser::parse(CSVContentHandler *handler, PluginProgress *progress
 
   istream *csvFile = tlp::getInputFileStream(_fileName);
 
-  if (*csvFile) {
+  if (!csvFile->fail()) {
     // Real row number used to
     uint row = 0;
     // Read row number
@@ -117,6 +117,7 @@ bool CSVSimpleParser::parse(CSVContentHandler *handler, PluginProgress *progress
         result = handler->line(row, tokens);
 
         if (!result) {
+          progress->setError("Failed to process line " + to_string(row) + " of CSV file.");
           break;
         }
 
@@ -143,6 +144,7 @@ bool CSVSimpleParser::parse(CSVContentHandler *handler, PluginProgress *progress
 
     return result ? handler->end(row, columnMax) : false;
   } else {
+    progress->setError(_fileName + ": " + strerror(errno));
     delete csvFile;
     return false;
   }

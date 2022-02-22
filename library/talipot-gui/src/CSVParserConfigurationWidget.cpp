@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -215,4 +215,9 @@ void CSVParserConfigurationWidget::setNbIgnoredLines(int nb) {
   if (!ui->ignoreFirstLinesCheckBox->isChecked()) {
     ui->nbOfIgnoredLinesSpinBox->setValue(nb);
   }
+}
+
+void CSVParserConfigurationWidget::clearFile() {
+  ui->fileLineEdit->setText("");
+  lastOpenedFile.clear();
 }

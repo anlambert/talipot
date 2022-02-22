@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,6 +21,7 @@
 #include <talipot/CSVGraphMappingConfigurationWidget.h>
 #include <talipot/SimplePluginProgressWidget.h>
 #include <talipot/CSVParser.h>
+#include <talipot/TlpQtTools.h>
 
 using namespace tlp;
 
@@ -67,11 +68,15 @@ void CSVParsingConfigurationQWizardPage::parserChanged() {
     SimplePluginProgressDialog progress(this);
     progress.showPreview(false);
     progress.setWindowTitle("Parsing file");
-    parser->parse(previewTableWidget, &progress);
-    uint nbCommentsLines = previewTableWidget->getNbCommentsLines();
-
-    if (nbCommentsLines) {
-      parserConfigurationWidget->setNbIgnoredLines(nbCommentsLines);
+    if (!parser->parse(previewTableWidget, &progress)) {
+      QMessageBox::critical(this, "CSV Parser failure", tlpStringToQString(progress.getError()));
+      parserConfigurationWidget->clearFile();
+      previewTableWidget->setEnabled(false);
+    } else {
+      uint nbCommentsLines = previewTableWidget->getNbCommentsLines();
+      if (nbCommentsLines) {
+        parserConfigurationWidget->setNbIgnoredLines(nbCommentsLines);
+      }
     }
   } else {
     previewTableWidget->setEnabled(false);
@@ -80,10 +85,6 @@ void CSVParsingConfigurationQWizardPage::parserChanged() {
   delete parser;
   emit completeChanged();
 }
-
-// CSVToGraphDataMapping* CSVGraphMappingConfigurationQWizardPage::buildMappingObject()const {
-//  return graphMappingConfigurationWidget->buildMappingObject();
-//}
 
 CSVToGraphDataMapping *CSVGraphMappingConfigurationQWizardPage::buildMappingObject() const {
   return graphMappingConfigurationWidget->buildMappingObject();
