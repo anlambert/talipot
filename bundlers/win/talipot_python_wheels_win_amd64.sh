@@ -71,6 +71,15 @@ print('Talipot %s successfully imported in Python %s' %
   pip uninstall -y talipot
   popd
 
+  nb_minutes_elapsed=$(($SECONDS / 60))
+  echo "$nb_minutes_elapsed elapsed since script started"
+  if [ "$nb_minutes_elapsed" -ge "50" ]
+  then
+    # exit early when appveyor build timeout is close to save compiled
+    # object files in appveyor cache to speedup next builds
+    exit 1
+  fi
+
 done
 
 # Upload wheels
