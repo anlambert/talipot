@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -94,13 +94,15 @@ public:
 class TalipotSaveLoadGraphFunctionsTest : public ImportExportTest {
   CPPUNIT_TEST_SUITE(TalipotSaveLoadGraphFunctionsTest);
   CPPUNIT_TEST(testTalipotSaveLoadGraphFunctions);
+  CPPUNIT_TEST(testSaveGraphNoSuchFile);
   CPPUNIT_TEST_SUITE_END();
 
 public:
   TalipotSaveLoadGraphFunctionsTest();
 
-  void setUp() override;
+  void setUp() override {}
   void testTalipotSaveLoadGraphFunctions();
+  void testSaveGraphNoSuchFile();
 };
 
 #endif // IMPORT_EXPORT_TEST_H

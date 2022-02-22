@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -295,15 +295,23 @@ bool tlp::saveGraph(Graph *graph, const std::string &filename, PluginProgress *p
     os = tlp::getOutputFileStream(filename);
   }
 
-  bool result;
-  DataSet ds;
+  bool result = false;
+  if (os->fail()) {
+    string errMsg = "[" + exportPluginName + "] " + filename + ": " + strerror(errno);
+    if (progress) {
+      progress->setError(errMsg);
+    }
+    tlp::error() << errMsg << std::endl;
+  } else {
+    DataSet ds;
 
-  if (parameters != nullptr) {
-    ds = *parameters;
+    if (parameters != nullptr) {
+      ds = *parameters;
+    }
+
+    ds.set("file", filename);
+    result = tlp::exportGraph(graph, *os, exportPluginName, ds, progress);
   }
-
-  ds.set("file", filename);
-  result = tlp::exportGraph(graph, *os, exportPluginName, ds, progress);
   delete os;
   return result;
 }

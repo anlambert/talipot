@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -670,8 +670,6 @@ void ImportExportTest::testGraphsTopologiesAreEqual(tlp::Graph *first, tlp::Grap
   }
 }
 
-void TalipotSaveLoadGraphFunctionsTest::setUp() {}
-
 void TalipotSaveLoadGraphFunctionsTest::testTalipotSaveLoadGraphFunctions() {
   tlp::Graph *graph = createSimpleGraph();
   tlp::Graph *loadedGraph = nullptr;
@@ -747,6 +745,12 @@ void TalipotSaveLoadGraphFunctionsTest::testTalipotSaveLoadGraphFunctions() {
   testGraphsAreEqual(graph, loadedGraph);
   delete loadedGraph;
 
+  delete graph;
+}
+
+void TalipotSaveLoadGraphFunctionsTest::testSaveGraphNoSuchFile() {
+  tlp::Graph *graph = createSimpleGraph();
+  CPPUNIT_ASSERT(!tlp::saveGraph(graph, "invalid/path/to/save/graph.tlp"));
   delete graph;
 }
 
