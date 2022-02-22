@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2020-2021  The Talipot developers
+ * Copyright (C) 2020-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -41,11 +41,16 @@ ImportModule::InputData ImportModule::getInputData() const {
     tlp_stat_t infoEntry;
     bool pathExists = (statPath(filename, &infoEntry) == 0);
 
+    auto errorMessage = [&]() {
+      string errMsg = "[" + name() + "] " + filename + ": " + strerror(errno);
+      if (pluginProgress) {
+        pluginProgress->setError(errMsg);
+      }
+      error() << errMsg << endl;
+    };
+
     if (!pathExists) {
-      stringstream ess;
-      ess << filename << ": " << strerror(errno);
-      pluginProgress->setError(ess.str());
-      error() << pluginProgress->getError() << endl;
+      errorMessage();
       return InputData();
     }
 
@@ -75,6 +80,10 @@ ImportModule::InputData ImportModule::getInputData() const {
       input = getInputFileStream(filename);
     }
 
+    if (input->fail()) {
+      errorMessage();
+    }
+
   } else if (dataSet->exists("file::data")) {
     string data;
     dataSet->get("file::data", data);
@@ -83,8 +92,11 @@ ImportModule::InputData ImportModule::getInputData() const {
     *tmpss << data;
     input = tmpss;
   } else {
-    pluginProgress->setError("No file to open: 'file::filename' parameter is missing");
-    error() << pluginProgress->getError() << std::endl;
+    string errMsg = "No file to open: 'file::filename' parameter is missing";
+    if (pluginProgress) {
+      pluginProgress->setError(errMsg);
+    }
+    error() << errMsg << std::endl;
     return InputData();
   }
   return InputData(input, size, filename);

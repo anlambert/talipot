@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -128,7 +128,7 @@ protected:
     InputData(std::istream *is = nullptr, size_t size = 0, const std::string &filename = "")
         : is(is), size(size), filename(filename) {}
     bool valid() const {
-      return is.get() != nullptr;
+      return is.get() != nullptr && !is->fail();
     }
     std::unique_ptr<std::istream> is;
     size_t size;
