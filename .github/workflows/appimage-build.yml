@@ -11,7 +11,7 @@ jobs:
           - name: Talipot AppImage build on CentOS 7
             docker-image: centos:7
           - name: Talipot AppImage build on CentOS 8
-            docker-image: centos:8
+            docker-image: tgagor/centos-stream:8
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v2
