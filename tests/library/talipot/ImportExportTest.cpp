@@ -751,6 +751,7 @@ void TalipotSaveLoadGraphFunctionsTest::testTalipotSaveLoadGraphFunctions() {
 void TalipotSaveLoadGraphFunctionsTest::testSaveGraphNoSuchFile() {
   tlp::Graph *graph = createSimpleGraph();
   CPPUNIT_ASSERT(!tlp::saveGraph(graph, "invalid/path/to/save/graph.tlp"));
+  CPPUNIT_ASSERT(!tlp::saveGraph(graph, "invalid/path/to/save/graph.tlp.gz"));
   delete graph;
 }
 

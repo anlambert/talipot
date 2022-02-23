@@ -109,14 +109,16 @@ public:
 // function interface of the zlib. Files are compatible with gzip compression.
 // ----------------------------------------------------------------------------
 
-class GZSTREAM_SCOPE igzstream : public gzstreambase, public std::istream {
+class GZSTREAM_SCOPE igzstream : public std::istream, public gzstreambase {
 public:
     igzstream() : std::istream( &buf) {} 
-    igzstream( const char* name, int open_mode = std::ios::in)
-        : gzstreambase( name, open_mode), std::istream( &buf) {}  
+    igzstream( const char* name, int open_mode = std::ios::in) : std::istream( &buf) {
+        open(name, open_mode);
+    }
 #if defined(WIN32) && ZLIB_VERNUM >= 0x1270
-    igzstream( const wchar_t* name, int open_mode = std::ios::in)
-        : gzstreambase( name, open_mode), std::istream( &buf) {}
+    igzstream( const wchar_t* name, int open_mode = std::ios::in) : std::istream( &buf) {
+        open(name, open_mode);
+    }
 #endif
     gzstreambuf* rdbuf() { return gzstreambase::rdbuf(); }
     void open( const char* name, int open_mode = std::ios::in) {
@@ -129,14 +131,16 @@ public:
 #endif
 };
 
-class GZSTREAM_SCOPE ogzstream : public gzstreambase, public std::ostream {
+class GZSTREAM_SCOPE ogzstream : public std::ostream, public gzstreambase {
 public:
     ogzstream() : std::ostream( &buf) {}
-    ogzstream( const char* name, int mode = std::ios::out)
-        : gzstreambase( name, mode), std::ostream( &buf) {}  
+    ogzstream( const char* name, int open_mode = std::ios::out) : std::ostream( &buf) {
+        open(name, open_mode);
+    }
 #if defined(WIN32) && ZLIB_VERNUM >= 0x1270
-    ogzstream( const wchar_t* name, int mode = std::ios::out)
-        : gzstreambase( name, mode), std::ostream( &buf) {}
+    ogzstream( const wchar_t* name, int open_mode = std::ios::out) : std::ostream( &buf) {
+        open(name, open_mode);
+    }
 #endif
     gzstreambuf* rdbuf() { return gzstreambase::rdbuf(); }
     void open( const char* name, int open_mode = std::ios::out) {
