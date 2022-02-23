@@ -187,13 +187,17 @@ public:
         : detail::ZstdStreamBase(stream, level)
         , std::ostream(buf_.get())
         , stream_(nullptr)
-    {}
+    {
+      clear(stream.rdstate());
+    }
 
     explicit ZstdOStream(std::ostream* stream, int level = DEFAULT_COMPRESS_LEVEL)
         : detail::ZstdStreamBase(*stream, level)
         , std::ostream(buf_.get())
         , stream_(stream)
-    {}
+    {
+      clear(stream->rdstate());
+    }
 
     ~ZstdOStream() override {
       flush_stream();
@@ -211,13 +215,17 @@ public:
         : detail::ZstdStreamBase(stream)
         , std::istream(buf_.get())
         , stream_(nullptr)
-    {}
+    {
+      clear(stream.rdstate());
+    }
 
     explicit ZstdIStream(std::istream* stream)
         : detail::ZstdStreamBase(*stream)
         , std::istream(buf_.get())
         , stream_(stream)
-    {}
+    {
+      clear(stream->rdstate());
+    }
 
     ~ZstdIStream() override {
       delete stream_;
