@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -110,20 +110,13 @@ Defines a graph with 3 nodes and 3 edges, the edge between A and C is named E an
   }
 
   bool importGraph() override {
-    string name2;
+    auto inputData = getInputData();
 
-    if (!(dataSet->get("file::filename", name2) ||
-          // ensure compatibility with old version
-          dataSet->get("file::name", name2))) {
+    if (!inputData.valid()) {
       return false;
     }
 
-    if (!pathExists(name2)) {
-      pluginProgress->setError(strerror(errno));
-      return false;
-    }
-
-    std::istream *in = tlp::getInputFileStream(name2);
+    std::istream *in = inputData.is.get();
     uint curLine = 0;
     DoubleProperty *metric = graph->getDoubleProperty("viewMetric");
     StringProperty *stringP = graph->getStringProperty("viewLabel");
@@ -240,15 +233,13 @@ Defines a graph with 3 nodes and 3 edges, the edge between A and C is named E an
       ++curLine;
     }
 
-    delete in;
-
     // final check:
     // number of lines must be equal to number of nodes
     if (curLine == nodes.size()) {
       return true;
     }
 
-    pluginProgress->setError(std::string("The number of lines in file ") + name2 +
+    pluginProgress->setError(std::string("The number of lines in file ") + inputData.filename +
                              "\n is different from the number of found nodes.");
     tlp::warning() << pluginProgress->getError() << std::endl;
     return false;
