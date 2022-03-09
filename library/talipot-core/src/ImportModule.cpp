@@ -41,16 +41,15 @@ ImportModule::InputData ImportModule::getInputData() const {
     tlp_stat_t infoEntry;
     bool pathExists = (statPath(filename, &infoEntry) == 0);
 
-    auto errorMessage = [&]() {
-      string errMsg = "[" + name() + "] " + filename + ": " + strerror(errno);
+    auto setErrorMessage = [&]() {
+      string errMsg = filename + ": " + strerror(errno);
       if (pluginProgress) {
         pluginProgress->setError(errMsg);
       }
-      error() << errMsg << endl;
     };
 
     if (!pathExists) {
-      errorMessage();
+      setErrorMessage();
       return InputData();
     }
 
@@ -81,7 +80,7 @@ ImportModule::InputData ImportModule::getInputData() const {
     }
 
     if (input->fail()) {
-      errorMessage();
+      setErrorMessage();
     }
 
   } else if (dataSet->exists("file::data")) {
@@ -96,7 +95,6 @@ ImportModule::InputData ImportModule::getInputData() const {
     if (pluginProgress) {
       pluginProgress->setError(errMsg);
     }
-    error() << errMsg << std::endl;
     return InputData();
   }
   return InputData(input, size, filename);

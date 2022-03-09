@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -142,11 +142,11 @@ public:
     dataSet->get("follow symlinks", symlinks);
 
     if (!rootInfo.exists()) {
-#ifndef NDEBUG
-      tlp::warning() << "Provided directory "
-                     << tlp::QStringToTlpString(rootInfo.absoluteFilePath()) << " does not exist."
-                     << std::endl;
-#endif
+      if (pluginProgress) {
+        pluginProgress->setError("Provided directory " +
+                                 tlp::QStringToTlpString(rootInfo.absoluteFilePath()) +
+                                 " does not exist.");
+      }
       return false;
     }
 

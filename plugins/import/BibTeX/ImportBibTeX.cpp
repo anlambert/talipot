@@ -343,7 +343,6 @@ public:
       stringstream sstr;
       sstr << "BibTeX file parsing error at char " << e.column() << " of line " << e.line() << ": "
            << e.what() << endl;
-      error() << sstr.str();
       pluginProgress->setError(sstr.str());
     }
 

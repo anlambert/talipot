@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -55,7 +55,6 @@ bool TLPBImport::importGraph() {
 
   if (!header.checkCompatibility()) {
     pluginProgress->setError("file is not in TLPB format.");
-    tlp::error() << pluginProgress->getError() << std::endl;
     return false;
   }
 
@@ -513,10 +512,10 @@ bool TLPBImport::importGraph() {
                 static_cast<StringProperty *>(prop)->setEdgeValue(e, value);
               } else
 
-                  // read and set edge value
-                  if (!prop->readEdgeValue(vs, e)) {
-                return false;
-              }
+                // read and set edge value
+                if (!prop->readEdgeValue(vs, e)) {
+                  return false;
+                }
             }
 
             numValues -= valuesToRead;

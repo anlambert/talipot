@@ -105,7 +105,6 @@ Defines a graph with 3 nodes and 3 edges, the edge between A and C is named E an
     std::stringstream ess;
     ess << "Error parsing '" << s << "' at line :" << curLine + 1;
     pluginProgress->setError(ess.str());
-    tlp::warning() << pluginProgress->getError() << std::endl;
     return false;
   }
 
@@ -241,7 +240,6 @@ Defines a graph with 3 nodes and 3 edges, the edge between A and C is named E an
 
     pluginProgress->setError(std::string("The number of lines in file ") + inputData.filename +
                              "\n is different from the number of found nodes.");
-    tlp::warning() << pluginProgress->getError() << std::endl;
     return false;
   }
 };
