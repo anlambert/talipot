@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -321,7 +321,7 @@ struct TLPBuilder {
     return false;
   }
 
-  TLPParser *parser;
+  TLPParser *parser = nullptr;
 };
 
 struct TLPTrue : public TLPBuilder {
@@ -427,6 +427,8 @@ struct TLPParser {
           return pluginProgress->state() != TLP_CANCEL;
         }
       }
+
+      builderStack.front()->parser = this;
 
       switch (currentToken) {
       case OPENTOKEN:
