@@ -228,50 +228,43 @@ void BasicPluginsTest::testImportPajek() {
   for (const auto &file : net_files) {
     DataSet ds;
     ds.set("file::filename", string(file));
-    std::cout << "importing Pajek file: " << file << "...";
     Graph *g = importGraph("Pajek", ds, nullptr, graph);
     CPPUNIT_ASSERT(g == graph);
-    std::cout << " OK" << std::endl;
     g->clear();
   }
 }
 //==========================================================
 void BasicPluginsTest::testImportUCINET() {
   // test all data/dl_*.txt files
-  const char *dl_files[] = {"data/dl_el1_test_labels_embedded.txt",
-                            "data/dl_el1_test_labels.txt",
-                            "data/dl_el1_test_multiple_labels_embedded.txt",
-                            "data/dl_el2_test2_labels_embedded.txt",
-                            "data/dl_el2_test_labels_embedded.txt",
-                            "data/dl_fm_test2.txt",
-                            "data/dl_fm_test3.txt",
-                            "data/dl_fm_test_labels_no_diag.txt",
-                            "data/dl_fm_test2_labels_no_diag.txt",
-                            "data/dl_fm_test_labels.txt",
-                            "data/dl_fm_test_multi_matrices.txt",
-                            "data/dl_fm_test_rect_labels_embedded.txt",
-                            "data/dl_fm_test_rect_labels.txt",
-                            "data/dl_fm_test_rect.txt",
-                            "data/dl_fm_test.txt",
-                            "data/dl_lh_test_labels_no_diag.txt",
-                            "data/dl_lh_test_labels.txt",
-                            "data/dl_nl1_test2_labels_embedded.txt",
-                            "data/dl_nl1_test2_labels.txt",
-                            "data/dl_nl1_test_labels_embedded.txt",
-                            "data/dl_nl1_test_labels.txt",
-                            "data/dl_nl2_test_row_col_labels_embedded.txt",
-                            nullptr};
-  const char **files = &dl_files[0];
+  list<string> dl_files = {"data/dl_el1_test_labels_embedded.txt",
+                           "data/dl_el1_test_labels.txt",
+                           "data/dl_el1_test_multiple_labels_embedded.txt",
+                           "data/dl_el2_test2_labels_embedded.txt",
+                           "data/dl_el2_test_labels_embedded.txt",
+                           "data/dl_fm_test2.txt",
+                           "data/dl_fm_test3.txt",
+                           "data/dl_fm_test_labels_no_diag.txt",
+                           "data/dl_fm_test2_labels_no_diag.txt",
+                           "data/dl_fm_test_labels.txt",
+                           "data/dl_fm_test_multi_matrices.txt",
+                           "data/dl_fm_test_rect_labels_embedded.txt",
+                           "data/dl_fm_test_rect_labels.txt",
+                           "data/dl_fm_test_rect.txt",
+                           "data/dl_fm_test.txt",
+                           "data/dl_lh_test_labels_no_diag.txt",
+                           "data/dl_lh_test_labels.txt",
+                           "data/dl_nl1_test2_labels_embedded.txt",
+                           "data/dl_nl1_test2_labels.txt",
+                           "data/dl_nl1_test_labels_embedded.txt",
+                           "data/dl_nl1_test_labels.txt",
+                           "data/dl_nl2_test_row_col_labels_embedded.txt"};
 
-  while (files[0]) {
+  for (const auto &file : dl_files) {
     DataSet ds;
-    ds.set("file::filename", string(files[0]));
-    std::cout << "importing UCINET file: " << files[0] << "...";
+    ds.set("file::filename", file);
     Graph *g = importGraph("UCINET", ds, nullptr, graph);
     CPPUNIT_ASSERT(g == graph);
-    std::cout << " OK" << std::endl;
     g->clear();
-    files += 1;
   }
 }
 //==========================================================
@@ -455,27 +448,17 @@ void BasicPluginsTest::testImportFileSystem() {
 //==========================================================
 void BasicPluginsTest::testImportGEXF() {
   // test all data/*.net files
-  const char *gexf_files[] = {"data/basic.gexf",
-                              "data/data.gexf",
-                              "data/hierarchy1.gexf",
-                              "data/hierarchy2.gexf",
-                              "data/hierarchy3.gexf",
-                              "data/hierarchy4.gexf",
-                              "data/phylogeny.gexf",
-                              "data/viz.gexf",
-                              "data/WebAtlas_EuroSiS.gexf",
-                              nullptr};
-  const char **files = &gexf_files[0];
+  list<string> gexf_files = {
+      "data/basic.gexf",      "data/data.gexf",       "data/hierarchy1.gexf",
+      "data/hierarchy2.gexf", "data/hierarchy3.gexf", "data/hierarchy4.gexf",
+      "data/phylogeny.gexf",  "data/viz.gexf",        "data/WebAtlas_EuroSiS.gexf"};
 
-  while (files[0]) {
+  for (const auto &file : gexf_files) {
     DataSet ds;
-    ds.set("file::filename", string(files[0]));
-    std::cout << "importing GEXF file: " << files[0] << "...";
+    ds.set("file::filename", file);
     Graph *g = importGraph("GEXF", ds, nullptr, graph);
     CPPUNIT_ASSERT(g == graph);
-    std::cout << " OK" << std::endl;
     g->clear();
-    files += 1;
   }
 }
 #endif
