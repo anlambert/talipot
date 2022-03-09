@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -88,6 +88,7 @@ public:
       return false;
     }
 
+    bool result = false;
     bool createAuthNodes = toImport != IMPORT_PUBLICATIONS;
     bool createPubliNodes = toImport != IMPORT_AUTHORS;
 
@@ -114,7 +115,6 @@ public:
 
     try {
       xdkbib::File bibFile;
-
       // extract entries from BibTeX file
       bibFile.readFromFile(filename, xdkbib::File::StrictQuote);
       auto &entries = const_cast<vector<xdkbib::FileEntry> &>(bibFile.entries());
@@ -347,14 +347,18 @@ public:
       pluginProgress->setError(sstr.str());
     }
 
-    // layout graph with FM^3
-    if (createAuthNodes) {
+    result = !graph->isEmpty();
+
+    if (!result) {
+      pluginProgress->setError("Import of graph from BibTeX file " + filename + " failed.");
+    } else if (createAuthNodes) {
+      // layout graph with FM^3
       string err;
-      return graph->applyPropertyAlgorithm("FM^3 (OGDF)", graph->getLayoutProperty("viewLayout"),
-                                           err, nullptr, pluginProgress);
+      graph->applyPropertyAlgorithm("FM^3 (OGDF)", graph->getLayoutProperty("viewLayout"), err,
+                                    nullptr, pluginProgress);
     }
 
-    return true;
+    return result;
   }
 };
 

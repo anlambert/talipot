@@ -208,6 +208,19 @@ void BasicPluginsTest::testImportAdjacencyMatrix() {
   CPPUNIT_ASSERT(g == graph);
 }
 //==========================================================
+void BasicPluginsTest::testImportBibTeX() {
+  DataSet ds;
+  ds.set("file::filename", string("data/toto.bib"));
+  Graph *g = importGraph("BibTeX", ds, nullptr, graph);
+  CPPUNIT_ASSERT(g == nullptr);
+  ds.set("file::filename", string("data/adj_mat.txt"));
+  g = importGraph("BibTeX", ds, nullptr, graph);
+  CPPUNIT_ASSERT(g == nullptr);
+  ds.set("file::filename", string("data/teachpress_pub_17012022.bib"));
+  g = importGraph("BibTeX", ds, nullptr, graph);
+  CPPUNIT_ASSERT(g == graph);
+}
+//==========================================================
 void BasicPluginsTest::testImportPajek() {
   // test all data/*.net files
   list<string> net_files = {"data/NDactors.net", "data/NDwww.net", "data/netscience.net"};

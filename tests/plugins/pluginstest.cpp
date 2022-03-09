@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -43,6 +43,7 @@ int main() {
   PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/colors", pLoader);
   PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/export", pLoader);
   PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/import", pLoader);
+  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/import/BibTeX", pLoader);
   PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/import/Graphviz", pLoader);
   PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/layout", pLoader);
   PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/layout/FastOverlapRemoval",

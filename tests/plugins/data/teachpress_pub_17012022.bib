@@ -1,0 +1,401 @@
+% This file was created with teachPress 8.1.0
+% Encoding: UTF-8
+
+@techreport{gruenpeter:hal-03483982,
+title = {Software Stories for landmark legacy code},
+author = { Morane Gruenpeter and Roberto Di Cosmo and Katherine Thornton and Kenneth Seals-Nutt and Carlo Montangero and Guido Scatena},
+url = {https://hal.archives-ouvertes.fr/hal-03483982},
+year  = {2021},
+date = {2021-11-01},
+institution = {Inria},
+keywords = {},
+pubstate = {published},
+tppubtype = {techreport}
+}
+@inproceedings{bussi:hal-03375572,
+title = {Preserving landmark legacy software with the Software Heritage Acquisition Process},
+author = {Laura Bussi and Roberto Di Cosmo and Carlo Montangero and Guido Scatena},
+url = {https://hal.archives-ouvertes.fr/hal-03375572},
+year  = {2021},
+date = {2021-10-01},
+booktitle = {iPres2021 - 17th International Conference on Digital Preservation},
+address = {Beijing, China},
+keywords = {},
+pubstate = {published},
+tppubtype = {inproceedings}
+}
+@article{ieee-sw-gender-swh,
+title = {Gender Differences in Public Code Contributions: a 50-year Perspective},
+author = {Stefano Zacchiroli},
+url = {https://arxiv.org/abs/2011.08488
+https://www.softwareheritage.org/wp-content/uploads/2021/03/ieee-sw-gender-swh.pdf},
+doi = {10.1109/MS.2020.3038765},
+issn = {0740-7459},
+year  = {2021},
+date = {2021-01-01},
+journal = {IEEE Software},
+publisher = {IEEE Computer Society},
+abstract = {Gender imbalance in information technology in general, and Free/Open Source Software specifically, is a well-known problem in the field. Still, little is known yet about the large-scale extent and long-term trends that underpin the phenomenon. We contribute to fill this gap by conducting a longitudinal study of the population of contributors to publicly available software source code. We analyze 1.6 billion commits corresponding to the development history of 120 million projects, contributed by 33 million distinct authors over a period of 50 years. We classify author names by gender and study their evolution over time. We show that, while the amount of commits by female authors remains low overall, there is evidence of a stable long-term increase in their proportion over all contributions, providing hope of a more gender-balanced future for collaborative software development.},
+keywords = {},
+pubstate = {published},
+tppubtype = {article}
+}
+@inproceedings{swh-fuse-icse2021,
+title = {The Software Heritage Filesystem (SwhFS): Integrating Source Code Archival with Development},
+author = {Thibault Allançon and Antoine Pietri and Stefano Zacchiroli},
+url = {https://arxiv.org/abs/2102.06390
+https://www.softwareheritage.org/wp-content/uploads/2021/03/swh-fuse-icse2021.pdf},
+year  = {2021},
+date = {2021-01-01},
+booktitle = {ICSE 2021: The 43rd International Conference on Software Engineering},
+publisher = {IEEE},
+abstract = {We introduce the Software Heritage filesystem (SwhFS), a user-space filesystem that integrates large-scale open source software archival with development workflows. SwhFS provides a POSIX filesystem view of Software Heritage, the largest public archive of software source code and version control system (VCS) development history. Using SwhFS, developers can quickly “checkout” any of the 2 billion commits archived by Software Heritage, even after they disappear from their previous known location and without incurring the performance cost of repository cloning. SwhFS works across unrelated repositories and different VCS technologies. Other source code artifacts archived by Software Heritage—individual source code files and trees, releases, and branches—can also be accessed using common programming tools and custom scripts, as if they were locally available. A screencast of SwhFS is available online at dx.doi.org/10.5281/zenodo.4531411.},
+keywords = {},
+pubstate = {forthcoming},
+tppubtype = {inproceedings}
+}
+@techreport{SCIDWG2020,
+title = {Use cases and identifier schemes for persistent software source code identification},
+author = {Morane Gruenpeter and Roberto Di Cosmo and Alice Allen and Anita Bandrowski and Peter Chan and Martin Fenner and Leyla Garcia and Catherine M Jones and Daniel S Katz and John Kunze and Moritz Schubotz and Ilian T Todorov},
+editor = {Morane Gruenpeter},
+url = {https://doi.org/10.15497/RDA00053},
+doi = {10.15497/RDA00053},
+year  = {2020},
+date = {2020-10-06},
+publisher = {Zenodo},
+note = {Output from the Research Data Alliance/FORCE11 Software Source Code Identification Working group},
+keywords = {},
+pubstate = {published},
+tppubtype = {techreport}
+}
+@inproceedings{DBLP:conf/icms/Cosmo20,
+title = {Archiving and Referencing Source Code with Software Heritage},
+author = {Roberto Di Cosmo},
+doi = {10.1007/978-3-030-52200-1_36},
+isbn = {978-3-030-52200-1},
+year  = {2020},
+date = {2020-07-15},
+booktitle = {ICMS},
+volume = {12097},
+pages = {362--373},
+publisher = {Springer},
+series = {Lecture Notes in Computer Science},
+abstract = {Software, and software source code in particular, is widely used in modern research. It must be properly archived, referenced, described and cited in order to build a stable and long lasting corpus of scientific knowledge. In this article we show how the Software Heritage universal source code archive provides a means to fully address the first two concerns, by archiving seamlessly all publicly available software source code, and by providing intrinsic persistent identifiers that allow to reference it at various granularities in a way that is at the same time convenient and effective.
+
+We call upon the research community to adopt widely this approach.},
+keywords = {},
+pubstate = {published},
+tppubtype = {inproceedings}
+}
+@article{Rousseau:2020,
+title = {Software provenance tracking at the scale of public source code},
+author = {Guillaume Rousseau and Roberto Di Cosmo and Stefano Zacchiroli },
+url = {https://hal.archives-ouvertes.fr/hal-02543794},
+doi = {10.1007/s10664-020-09828-5},
+issn = {1573-7616},
+year  = {2020},
+date = {2020-05-29},
+journal = {Empirical Software Engineering},
+pages = {1-30},
+abstract = {We study the possibilities to track provenance of software source code artifacts within the largest publicly accessible corpus of publicly available source code, the Software Heritage archive, with over 4 billions unique source code files and 1 billion commits capturing their development histories across 50 million software projects. We perform a systematic and generic estimate of the replication factor across the different layers of this corpus, analysing how much the same artifacts (e.g., SLOC, files or commits) appear in different contexts (e.g., files, commits or source code repositories). We observe a combinatorial explosion in the number of identical source code files across different commits. To discuss the implication of these findings, we benchmark different data models for capturing software provenance information at this scale, and we identify a viable solution, based on the properties of isochrone subgraphs, that is deployable on commodity hardware, is incremental and appears to be maintainable for the foreseeable future. Using these properties, we quantify, at a scale never achieved previously, the growth rate of original, i.e. never-seen-before, source code files and commits, and find it to be exponential over a period of more than 40 years.},
+keywords = {},
+pubstate = {published},
+tppubtype = {article}
+}
+@inproceedings{msr-2020-topology,
+title = {Determining the Intrinsic Structure of Public Software Development History},
+author = {Antoine Pietri and Guillaume Rousseau and Stefano Zacchiroli},
+url = {https://arxiv.org/abs/2011.07914
+https://www.softwareheritage.org/wp-content/uploads/2021/03/msr-2020-topology.pdf},
+doi = {10.1145/3379597.3387506},
+year  = {2020},
+date = {2020-05-01},
+booktitle = {MSR 2020: The 17th International Conference on Mining Software Repositories},
+pages = {602-605},
+publisher = {IEEE},
+abstract = {Background: Collaborative software development has produced a wealth of version control system (VCS) data that can now be analyzed in full. Little is known about the intrinsic structure of the entire corpus of publicly available VCS as an interconnected graph. Understanding its structure is needed to determine the best approach to analyze it in full and to avoid methodological pitfalls when doing so. Objective: We intend to determine the most salient network topology properties of public software development history as captured by VCS. We will explore: degree distributions, determining whether they are scale-free or not; distribution of connect component sizes; distribution of shortest path lengths. Method: We will use Software Heritage---which is the largest corpus of public VCS data---compress it using webgraph compression techniques, and analyze it in-memory using classic graph algorithms. Analyses will be performed both on the full graph and on relevant subgraphs. Limitations: The study is exploratory in nature; as such no hypotheses on the findings is stated at this time. Chosen graph algorithms are expected to scale to the corpus size, but it will need to be confirmed experimentally. External validity will depend on how representative Software Heritage is of the software commons.},
+keywords = {},
+pubstate = {published},
+tppubtype = {inproceedings}
+}
+@inproceedings{msr-2020-forks,
+title = {Forking Without Clicking: on How to Identify Software Repository Forks},
+author = {Antoine Pietri and Guillaume Rousseau and Stefano Zacchiroli},
+url = {https://arxiv.org/abs/2011.07821
+https://www.softwareheritage.org/wp-content/uploads/2021/03/msr-2020-forks.pdf},
+doi = {10.1145/3379597.3387450},
+year  = {2020},
+date = {2020-05-01},
+booktitle = {MSR 2020: The 17th International Conference on Mining Software Repositories},
+pages = {277-287},
+publisher = {IEEE},
+abstract = {The notion of software "fork" has been shifting over time from the (negative) phenomenon of community disagreements that result in the creation of separate development lines and ultimately software products, to the (positive) practice of using distributed version control system (VCS) repositories to collaboratively improve a single product without stepping on each others toes. In both cases the VCS repositories participating in a fork share parts of a common development history. Studies of software forks generally rely on hosting platform metadata, such as GitHub, as the source of truth for what constitutes a fork. These “forge forks” however can only identify as forks repositories that have been created on the platform, e.g., by clicking a "fork" button on the platform user interface. The increased diversity in code hosting platforms (e.g., GitLab) and the habits of significant development communities (e.g., the Linux kernel, which is not primarily hosted on any single platform) call into question the reliability of trusting code hosting platforms to identify forks. Doing so might introduce selection and methodological biases in empirical studies. In this article we explore various definitions of "software forks", trying to capture forking workflows that exist in the real world. We quantify the differences in how many repositories would be identified as forks on GitHub according to the various definitions, confirming that a significant number could be overlooked by only considering forge forks. We study the structure and size of fork networks, observing how they are affected by the proposed definitions and discuss the potential impact on empirical research.},
+keywords = {},
+pubstate = {published},
+tppubtype = {inproceedings}
+}
+@inproceedings{msr-2020-challenge,
+title = {The Software Heritage Graph Dataset: Large-scale Analysis of Public Software Development History},
+author = {Antoine Pietri and Diomidis Spinellis and Stefano Zacchiroli},
+url = {https://arxiv.org/abs/2011.07824
+https://www.softwareheritage.org/wp-content/uploads/2021/03/msr-2020-challenge.pdf},
+doi = {10.1145/3379597.3387510},
+year  = {2020},
+date = {2020-05-01},
+booktitle = {MSR 2020: The 17th International Conference on Mining Software Repositories},
+pages = {1-5},
+publisher = {IEEE},
+abstract = {Software Heritage is the largest existing public archive of software source code and accompanying development history. It spans more than five billion unique source code files and one billion unique commits, coming from more than 80 million software projects. These software artifacts were retrieved from major collaborative development platforms (e.g., GitHub, GitLab) and package repositories (e.g., PyPI, Debian, NPM), and stored in a uniform representation linking together source code files, directories, commits, and full snapshots of version control systems (VCS) repositories as observed by Software Heritage during periodic crawls. This dataset is unique in terms of accessibility and scale, and allows to explore a number of research questions on the long tail of public software development, instead of solely focusing on "most starred" repositories as it often happens.},
+keywords = {},
+pubstate = {published},
+tppubtype = {inproceedings}
+}
+@article{dicosmo-rescience-2020,
+title = {[Rp] Reproducing and replicating the OCamlP3l  experiment},
+author = {Roberto Di Cosmo and Marco Danelutto},
+url = {https://www.softwareheritage.org/wp-content/uploads/2021/03/dicosmo-rescience-2020.pdf
+https://zenodo.org/record/3763416/files/article.pdf
+https://rescience.github.io/read/#volume-6-2020},
+doi = {10.5281/zenodo.3763416},
+year  = {2020},
+date = {2020-04-30},
+journal = {ReScience C},
+volume = {6},
+number = {1},
+abstract = {This article provides a full report on the effort to reproduce the work described in the article “Parallel Functional Programming with Skeletons: the OCamlP3L experiment”, written in 1998. It presented OCamlP3L, a parallel programming system written in the OCaml programming language. It turns out that we found the source code of the OCamlP3L system only in Software Heritage: since it was saved with all its development history, we could perform this reproduction experiment.},
+keywords = {},
+pubstate = {published},
+tppubtype = {article}
+}
+@inproceedings{saner-2020-swh-graph,
+title = {Ultra-Large-Scale Repository Analysis via Graph Compression},
+author = {Paolo Boldi and Antoine Pietri and Sebastiano Vigna and Stefano Zacchiroli},
+url = {https://www.softwareheritage.org/wp-content/uploads/2020/02/saner-2020-swh-graph.pdf
+https://upsilon.cc/~zack/research/publications/saner-2020-swh-graph.pdf
+},
+doi = {10.1109/SANER48275.2020.9054827},
+year  = {2020},
+date = {2020-02-21},
+booktitle = {SANER 2020: The 27th IEEE International Conference on Software Analysis, Evolution and Reengineering},
+pages = {184-194},
+publisher = {IEEE},
+abstract = {We consider the problem of mining the development history—as captured by modern version control systems—of ultra-large-scale software archives (e.g., tens of millions software repositories corresponding). We show that graph compression techniques can be applied to the problem, dramatically reducing the hardware resources needed to mine similarly-sized corpus. As a concrete use case we compress the full Software Heritage archive, consisting of 5 billion unique source code files and 1 billion unique commits, harvested from more than 80 million software projects—encompassing a full mirror of GitHub. The resulting compressed graph fits in less than 100 GB of RAM, corresponding to a hardware cost of less than 300 U.S. dollars. We show that the compressed in-memory representation of the full corpus can be accessed with excellent performances, with edge lookup times close to memory random access. As a sample exploitation experiment we show that the compressed graph can be used to conduct clone detection at this scale, benefiting from main memory access speed.},
+keywords = {},
+pubstate = {published},
+tppubtype = {inproceedings}
+}
+@article{2020GtCitation,
+title = {Attributing and Referencing (Research) Software: Best Practices and Outlook From Inria},
+author = {Pierre Alliez and Roberto Di Cosmo and Benjamin Guedj and Alain Girault and Mohand-Said Hacid and Arnaud Legrand and Nicolas Rougier},
+url = {https://www.softwareheritage.org/wp-content/uploads/2020/01/2020GtCitation.pdf
+https://hal.archives-ouvertes.fr/hal-02135891},
+doi = {10.1109/MCSE.2019.2949413},
+issn = {1558-366X},
+year  = {2020},
+date = {2020-01-01},
+journal = {Computing in Science Engineering},
+volume = {22},
+number = {1},
+pages = {39-52},
+abstract = {Software is a fundamental pillar of modern scientific research, across all fields and disciplines. However, there is a lack of adequate means to cite and reference software due to the complexity of the problem in terms of authorship, roles, and credits. This complexity is further increased when it is considered over the lifetime of a software that can span up to several decades. Building upon the internal experience of Inria, the French research institute for digital sciences, we provide in this article a contribution to the ongoing efforts in order to develop proper guidelines and recommendations for software citation and reference. Namely, we recommend: first, a richer taxonomy for software contributions with a qualitative scale; second, to put humans at the heart of the evaluation; and third, to distinguish citation from reference.},
+keywords = {},
+pubstate = {published},
+tppubtype = {article}
+}
+@book{SIRSReport2020,
+title = {Scholarly Infrastructures for Research Software},
+author = {Roberto Di Cosmo and Jose Benito Gonzalez Lopez and Jean-François Abramatic and Kay Graf and Miguel Colom and Paolo Manghi and Melissa Harrison and Yannick Barborini and Ville Tenhunen and Michael Wagner and Wolfgang Dalitz and Jason Maassen and Carlos Martinez-Ortiz and Elisabetta Ronchieri and Sam Yates and Moritz Schubotz and Leonardo Candela and Martin Fenner and Eric Jeangirard},
+url = {https://data.europa.eu/doi/10.2777/28598},
+doi = {10.2777/28598},
+isbn = {978-92-76-25568-0	},
+year  = {2020},
+date = {2020-01-01},
+publisher = {European Commission. Directorate General for Research and Innovation.},
+keywords = {},
+pubstate = {published},
+tppubtype = {book}
+}
+@article{DiCosmo2020b,
+title = {Announcing biblatex-software},
+author = { Roberto Di Cosmo},
+url = {https://hal.archives-ouvertes.fr/hal-02977711},
+doi = {10.1145/3417564.3417570},
+year  = {2020},
+date = {2020-01-01},
+journal = {ACM SIGSOFT Software Engineering Notes},
+volume = {45},
+number = {4},
+pages = {22--23},
+publisher = {Association for Computing Machinery (ACM)},
+keywords = {},
+pubstate = {published},
+tppubtype = {article}
+}
+@article{DiCosmo2020,
+title = {Curated Archiving of Research Software Artifacts: Lessons Learned from the French Open Archive (HAL)},
+author = {Roberto Di Cosmo and Morane Gruenpeter and Bruno Marmol and Alain Monteil and Laurent Romary and Jozefina Sadowska},
+url = {https://doi.org/10.2218/ijdc.v15i1.698},
+doi = {10.2218/ijdc.v15i1.698},
+year  = {2020},
+date = {2020-01-01},
+journal = {International Journal of Digital Curation},
+volume = {15},
+number = {1},
+pages = {16},
+publisher = {Edinburgh University Library},
+abstract = {oftware has become an indissociable support of technical and scientific knowledge. The preservation of this universal body of knowledge is as essential as preserving research articles and data sets. In the quest to make scientific results reproducible, and pass knowledge to future generations, we must preserve these three main pillars:  research articles that describe the results, the data sets used or produced, and the software that embodies the logic of the data transformation.
+
+The collaboration between Software Heritage (SWH), the Center for Direct Scientific Communication (CCSD) and the scientific and technical information services (IES) of The French Institute for Research in Computer Science and Automation (Inria) has resulted in a specified moderation and curation workflow for research software artifacts deposited in the HAL the French global open access repository. The curation workflow was developed to help digital librarians and archivists handle this new and peculiar artifact - software source code. While implementing the workflow, a set of guidelines has emerged from the challenges and the solutions put in place to help all actors involved in the process.},
+keywords = {},
+pubstate = {published},
+tppubtype = {article}
+}
+@article{cise-2020-doi,
+title = {Referencing Source Code Artifacts: a Separate Concern in Software Citation},
+author = {Roberto Di Cosmo and Morane Gruenpeter and Stefano Zacchiroli},
+url = {https://www.softwareheritage.org/wp-content/uploads/2020/01/2020-CiSE-swhid-1.pdf
+http://www.dicosmo.org/Articles/2020-CiSE-swhid.pdf
+https://hal.archives-ouvertes.fr/hal-02446202},
+doi = {10.1109/MCSE.2019.2963148},
+issn = {1521-9615},
+year  = {2020},
+date = {2020-01-01},
+journal = {Computing in Science & Engineering},
+publisher = {IEEE},
+abstract = {Among the entities involved in software citation, software 
+ source code requires special attention, due to the role it 
+ plays in ensuring scientific reproducibility. To reference 
+ source code we need identifiers that are not only unique 
+ and persistent, but also support integrity checking 
+ intrinsically. Suitable iden- tifiers must guarantee that 
+ denoted objects will always stay the same, without relying 
+ on external third parties and administrative processes. We 
+ analyze the role of identifiers for digital objects (IDOs), 
+ whose properties are different from, and complementary to, 
+ those of the various digital identifiers of objects (DIOs) 
+ that are today popular building blocks of software and data 
+ citation toolchains. We argue that both kinds of 
+ identifiers are needed and detail the syntax, semantics, 
+ and practical implementation of the persistent identifiers 
+ (PIDs) adopted by the Software Heritage project to 
+ reference billions of software source code artifacts such 
+ as source code files, directories, and commits.},
+keywords = {},
+pubstate = {published},
+tppubtype = {article}
+}
+@inproceedings{msr-2019-swh,
+title = {The Software Heritage Graph Dataset: Public software development under one roof},
+author = {Antoine Pietri and Diomidis Spinellis and Stefano Zacchiroli},
+url = {https://www.softwareheritage.org/wp-content/uploads/2020/01/msr-2019-swh.pdf
+https://upsilon.cc/~zack/research/publications/msr-2019-swh.pdf},
+doi = {10.1109/MSR.2019.00030},
+year  = {2019},
+date = {2019-05-27},
+booktitle = {Proceedings of the 16th International Conference on Mining Software Repositories},
+pages = {138-142},
+publisher = {IEEE Press},
+series = {MSR '19},
+abstract = {Software Heritage is the largest existing public archive of software source code and accompanying development history: it currently spans more than five billion unique source code files and one billion unique commits, coming from more than 80 million software projects. This paper introduces the Software Heritage graph dataset: a fully-deduplicated Merkle DAG representation of the Software Heritage archive. The dataset links together file content identifiers, source code directories, Version Control System (VCS) commits tracking evolution over time, up to the full states of VCS repositories as observed by Software Heritage during periodic crawls. The dataset's contents come from major development forges (including GitHub and GitLab), FOSS distributions (e.g., Debian), and language-specific package managers (e.g., PyPI). Crawling information is also included, providing timestamps about when and where all archived source code artifacts have been observed in the wild. The Software Heritage graph dataset is available in multiple formats, including downloadable CSV dumps and Apache Parquet files for local use, as well as a public instance on Amazon Athena interactive query service for ready-to-use powerful analytical processing. Source code file contents are cross-referenced at the graph leaves, and can be retrieved through individual requests using the Software Heritage archive API.},
+keywords = {},
+pubstate = {published},
+tppubtype = {inproceedings}
+}
+@online{gplo-note-2020,
+title = {Encouraging a wider usage of software derived from research},
+author = {Mélanie Clément-Fontaine and Roberto Di Cosmo and Bastien Guerry and Patrick Moreau and François Pellegrini},
+url = {https://hal.archives-ouvertes.fr/hal-02545142},
+year  = {2019},
+date = {2019-01-01},
+institution = {Committee for Open Science's Free Software and Open Source Project Group},
+note = {Position paper of the software working group of the French National Council for Open Science},
+keywords = {},
+pubstate = {published},
+tppubtype = {online}
+}
+@inproceedings{benevol-2018-swh,
+title = {Towards Universal Software Evolution Analysis},
+author = {Antoine Pietri and Stefano Zacchiroli},
+url = {https://www.softwareheritage.org/wp-content/uploads/2020/01/benevol-2018-swh.pdf
+https://upsilon.cc/~zack/research/publications/benevol-2018-swh.pdf},
+issn = {1613-0073},
+year  = {2018},
+date = {2018-12-01},
+booktitle = {BENEVOL 2018: The 17th Belgium-Netherlands Software Evolution Workshop},
+volume = {2361},
+pages = {6-10},
+series = {CEUR Workshop Proceedings (CEUR-WS)},
+abstract = {Software evolution studies have mostly focused on individual software products, generally developed as Free/Open Source Software (FOSS) projects, and more sparingly on software collections like component and package ecosystems. We argue in this paper that the next step in this organic scale expansion is universal software evolution analysis, i.e., the study of software evolution at the scale of the whole body of publicly available software. We consider the case of Software Heritage, the largest existing archive of publicly available software source code artifacts (more than 5 B unique files archived and 1 B commits, coming from more than 80 M software projects). We propose research requirements that would allow to leverage the Software Heritage archive to study universal software evolution. We discuss the challenges that need to be overcome to address such requirements and outline a research roadmap to do so.},
+keywords = {},
+pubstate = {published},
+tppubtype = {inproceedings}
+}
+@article{cacm-2018-software-heritage,
+title = {Building the Universal Archive of Source Code},
+author = {Jean-François Abramatic and Roberto Di Cosmo and Stefano Zacchiroli},
+editor = {ACM},
+url = {https://cacm.acm.org/magazines/2018/10/231366-building-the-universal-archive-of-source-code/fulltext},
+doi = {10.1145/3183558},
+issn = {0001-0782},
+year  = {2018},
+date = {2018-10-01},
+journal = {Communications of the ACM},
+volume = {61},
+number = {10},
+pages = {29-31},
+keywords = {},
+pubstate = {published},
+tppubtype = {article}
+}
+@inproceedings{dicosmo:hal-01865790,
+title = {Identifiers for Digital Objects: the Case of Software Source Code Preservation},
+author = {Roberto Di Cosmo and Morane Gruenpeter and Stefano Zacchiroli},
+url = {https://www.softwareheritage.org/wp-content/uploads/2020/01/ipres-2018-swh.pdf
+https://hal.archives-ouvertes.fr/hal-01865790},
+doi = {10.17605/OSF.IO/KDE56},
+year  = {2018},
+date = {2018-09-01},
+booktitle = {iPRES 2018 - 15th International Conference on Digital Preservation},
+keywords = {},
+pubstate = {published},
+tppubtype = {inproceedings}
+}
+@misc{barborini:hal-01738741,
+title = {The creation of a new type of scientific deposit: Software},
+author = {Yannick Barborini and Roberto Di Cosmo and Antoine R. Dumont and Morane Gruenpeter and Bruno P. Marmol and Alain Monteil and Jozefina Sadowska and Stefano Zacchiroli},
+url = {https://www.softwareheritage.org/wp-content/uploads/2020/01/barborini-rda-poster.pdf
+https://hal.inria.fr/hal-01738741},
+year  = {2018},
+date = {2018-03-21},
+howpublished = {RDA Eleventh Plenary Meeting, Berlin, Germany},
+note = {poster},
+keywords = {},
+pubstate = {published},
+tppubtype = {misc}
+}
+@misc{barborini:hal-01688726,
+title = {La création du nouveau type de dépôt scientifique - Le logiciel},
+author = {Yannick Barborini and Roberto Di Cosmo and Antoine R. Dumont and Morane Gruenpeter and Bruno P. Marmol and Alain Monteil and Jozefina Sadowska and Stefano Zacchiroli},
+url = {https://www.softwareheritage.org/wp-content/uploads/2020/01/barborini-jso2018-poster.pdf
+https://hal.inria.fr/hal-01688726},
+year  = {2018},
+date = {2018-01-22},
+howpublished = {JSO 2018 - 7es journées Science Ouverte Couperin : 100 % open access : initiatives pour une transition réussie},
+note = {poster},
+keywords = {},
+pubstate = {published},
+tppubtype = {misc}
+}
+@inproceedings{dicosmo:hal-01590958,
+title = {Software Heritage: Why and How to Preserve Software Source Code},
+author = {Roberto Di Cosmo and Stefano Zacchiroli},
+url = {https://www.softwareheritage.org/wp-content/uploads/2020/01/ipres-2017-swh.pdf
+https://hal.archives-ouvertes.fr/hal-01590958},
+year  = {2017},
+date = {2017-09-25},
+booktitle = {iPRES 2017: 14th International Conference on Digital Preservation},
+address = {Kyoto, Japan},
+keywords = {},
+pubstate = {published},
+tppubtype = {inproceedings}
+}

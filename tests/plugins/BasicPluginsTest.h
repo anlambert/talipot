@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,6 +39,7 @@ class BasicPluginsTest : public CppUnit::TestFixture {
   CPPUNIT_TEST(testExportImportTLPB);
   CPPUNIT_TEST(testExportImportJSON);
   CPPUNIT_TEST(testImportAdjacencyMatrix);
+  CPPUNIT_TEST(testImportBibTeX);
   CPPUNIT_TEST(testImportPajek);
   CPPUNIT_TEST(testImportUCINET);
   CPPUNIT_TEST(testMetricColorMapping);
@@ -87,6 +88,7 @@ public:
   void testExportImportTLPB();
   void testExportImportJSON();
   void testImportAdjacencyMatrix();
+  void testImportBibTeX();
   void testImportPajek();
   void testImportUCINET();
   void testMetricColorMapping();
