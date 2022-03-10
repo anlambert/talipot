@@ -10,6 +10,15 @@ jobs:
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v2
+      - name: Configure pagefile
+        uses: al-cheb/configure-pagefile-action@v1.2
+        with:
+          minimum-size: 2GB
+          maximum-size: 8GB
+      - name: Set up pagefile
+        run: |
+          (Get-CimInstance Win32_PageFileUsage).AllocatedBaseSize
+        shell: pwsh
       - name: Install mingw64 and Talipot build dependencies
         uses: msys2/setup-msys2@v2
         with:
@@ -62,7 +71,7 @@ jobs:
           -DTALIPOT_USE_CCACHE=ON ..
       - name: Talipot build
         working-directory: ./build
-        run: make -C library/talipot-core && make -j4
+        run: make -j4
       - name: Install Talipot
         working-directory: ./build
         run: make -j4 install
