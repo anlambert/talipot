@@ -10,6 +10,7 @@ TALIPOT_ADD_PLUGIN(
   ${LibTalipotCoreName}
   ${LIBGIT2_LIBRARIES}
   INSTALL_DIR
-  ${TalipotPluginsInstallDir})
+  ${TalipotPluginsInstallDir}
+  FIXUP_INSTALL)
 
 INSTALL(FILES git.png DESTINATION ${TalipotBitmapInstallDir})

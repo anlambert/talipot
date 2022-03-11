@@ -11,4 +11,5 @@ TALIPOT_ADD_PLUGIN(
   ${LibTalipotCoreName}
   ${Graphviz_LIBRARIES}
   INSTALL_DIR
-  ${TalipotPluginsInstallDir})
+  ${TalipotPluginsInstallDir}
+  FIXUP_INSTALL)

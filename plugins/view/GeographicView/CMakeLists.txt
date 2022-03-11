@@ -73,4 +73,5 @@ TALIPOT_ADD_PLUGIN(
   ${QT_LIBRARIES}
   ${QT_WEB_LIBRARIES}
   INSTALL_DIR
-  ${TalipotViewPluginsInstallDir})
+  ${TalipotViewPluginsInstallDir}
+  FIXUP_INSTALL)
