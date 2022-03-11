@@ -409,6 +409,13 @@ bool tlp::exportGraph(Graph *graph, std::ostream &outputStream, const std::strin
 
   result = newExportModule->exportGraph(outputStream);
 
+  if (!result) {
+    string errMsg = tmpProgress->getError();
+    if (!errMsg.empty()) {
+      tlp::error() << "[" << format << "] " << errMsg << std::endl;
+    }
+  }
+
   if (deletePluginProgress) {
     delete tmpProgress;
   }
