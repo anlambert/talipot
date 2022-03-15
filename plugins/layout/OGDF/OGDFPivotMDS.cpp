@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,7 +25,10 @@ static constexpr std::string_view paramHelp[] = {
 
     // edge costs
     "Sets the desired distance between adjacent nodes. If the new value is smaller or equal 0 the "
-    "default value (100) is used."};
+    "default value (100) is used.",
+
+    // 3D layout
+    "Indicates if a three-dimensional layout should be computed."};
 
 class OGDFPivotMDS : public tlp::OGDFLayoutPluginBase {
 
@@ -41,6 +44,7 @@ public:
     addInParameter<int>("number of pivots", paramHelp[0].data(), "250", false);
     addInParameter<bool>("use edge costs", paramHelp[1].data(), "false", false);
     addInParameter<double>("edge costs", paramHelp[2].data(), "100", false);
+    addInParameter<bool>("3D layout", paramHelp[3].data(), "false", false);
   }
 
   void beforeCall() override {
@@ -60,6 +64,10 @@ public:
 
       if (dataSet->get("use edge costs", bval)) {
         pivotMds->useEdgeCostsAttribute(bval);
+      }
+
+      if (dataSet->get("3D layout", bval)) {
+        tlpToOGDF->enable3DLayout(bval);
       }
     }
   }

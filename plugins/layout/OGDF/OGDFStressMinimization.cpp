@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -46,7 +46,10 @@ static constexpr std::string_view paramHelp[] = {
     "Tells whether the edge costs are uniform or defined in an edge costs property.",
 
     // edgeCostsProperty
-    "The numeric property that holds the desired cost for each edge."
+    "The numeric property that holds the desired cost for each edge.",
+
+    // 3D layout
+    "Indicates if a three-dimensional layout should be computed."
 
 };
 
@@ -70,6 +73,7 @@ public:
     addInParameter<double>("edgeCosts", paramHelp[6].data(), "100");
     addInParameter<bool>("useEdgeCostsProperty", paramHelp[7].data(), "false");
     addInParameter<tlp::NumericProperty *>("edgeCostsProperty", paramHelp[8].data(), "viewMetric");
+    addInParameter<bool>("3D layout", paramHelp[5].data(), "false");
   }
 
   void beforeCall() override {
@@ -124,6 +128,10 @@ public:
           dataSet->get("edgeCostsProperty", edgeCosts);
           tlpToOGDF->copyTlpNumericPropertyToOGDFEdgeLength(edgeCosts);
         }
+      }
+
+      if (dataSet->get("3D layout", bval)) {
+        tlpToOGDF->enable3DLayout(bval);
       }
     }
   }
