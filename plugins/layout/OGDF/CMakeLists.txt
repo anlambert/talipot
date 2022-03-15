@@ -20,7 +20,8 @@ SET(PLUGINS_SRCS
     OGDFBertaultLayout.cpp
     OGDFPivotMDS.cpp
     OGDFTileToRowsPacking.cpp
-    OGDFPlanarizationLayout.cpp)
+    OGDFPlanarizationLayout.cpp
+    OGDFDTreeMultilevelEmbedder.cpp)
 
 DISABLE_COMPILER_WARNINGS()
 
