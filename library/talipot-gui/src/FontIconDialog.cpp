@@ -32,7 +32,7 @@ FontIconDialog::FontIconDialog(QWidget *parent) : QDialog(parent), _ui(new Ui::F
       QString("<html><head/><body><p><span style=\" font-size:8pt;\">Special credit for the design "
               "of icons goes to:</span><br/><span style=\" font-size:8pt; font-weight:600;\">Font "
               "Awesome </span><span style=\"font-size:8pt; color:#0000ff;\"><a "
-              "href=\"http://fontawesome.com\">http://fontawesome.com</a></span><span style=\" "
+              "href=\"https://fontawesome.com\">https://fontawesome.com</a></span><span style=\" "
               "font-size:8pt;\"> (v%1)</span><br/><span style=\"font-size:8pt; "
               "font-weight:600;\">Material Design Icons </span><span "
               "style=\"font-size:8pt;color:#0000ff;\"><a "

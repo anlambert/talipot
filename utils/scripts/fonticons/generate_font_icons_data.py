@@ -38,7 +38,7 @@ def to_upper_style(s):
 def version_tuple(v):
     if not v:
         return (0, 0, 0)
-    return tuple(map(int, (v.split("."))))
+    return tuple(map(int, (d.split('-')[0] for d in v.split("."))))
 
 
 path = os.path.dirname(__file__)
@@ -54,7 +54,9 @@ with open(os.path.join(path, 'fa-icons.json'), 'r',
 fa_icons = defaultdict(list)
 
 fa_name_replace = {
-    '500px': 'px500'
+    '500px': 'px500',
+    '42-group': 'group42',
+    **{'%s' % i: 'digit-%s' % i for i in range(10)}
 }
 fa_name_replace_inv = {
     v: k for k, v in fa_name_replace.items()
@@ -92,17 +94,19 @@ with open(fa_constants_path, 'w', **open_kwargs) as fa_constants_h:
         style_upper = style[0].upper() + style[1:]
         fa_constants_h.write('struct TLP_SCOPE %s {\n' % style_upper)
         for icon_data in fa_icons[style]:
-            icon_name_prefix = '%s-%s' % (fa_style_prefix[style],
-                                          icon_data['name'])
-            icon_constant_name = to_upper_style(icon_data['name'])
-            fa_constants_h.write(
-                '  static const char *%s;\n' % icon_constant_name)
-            init_icon_code_points += (
-                '  {FontAwesome::%s::%s, 0x%s},\n' %
-                (style_upper, icon_constant_name, icon_data['unicode']))
-            fa_constants += ('const char *FontAwesome::%s::%s = "%s";\n' %
-                             (style_upper, icon_constant_name,
-                              icon_name_prefix))
+            icon_aliases = icon_data.get("aliases", {}).get("names", [])
+            for icon_name in [icon_data['name'], *icon_aliases]:
+                icon_name_prefix = '%s-%s' % (fa_style_prefix[style],
+                                              icon_name)
+                icon_constant_name = to_upper_style(icon_name)
+                fa_constants_h.write(
+                    '  static const char *%s;\n' % icon_constant_name)
+                init_icon_code_points += (
+                    '  {FontAwesome::%s::%s, 0x%s},\n' %
+                    (style_upper, icon_constant_name, icon_data['unicode']))
+                fa_constants += ('const char *FontAwesome::%s::%s = "%s";\n' %
+                                 (style_upper, icon_constant_name,
+                                  icon_name_prefix))
         fa_constants_h.write('};\n')
 
     init_icon_code_points += '};'
