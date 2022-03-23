@@ -31,25 +31,7 @@ git pull
 call bootstrap-vcpkg.bat
 
 rem install talipot core build dependencies
-vcpkg install --triplet x64-windows zlib zstd qhull yajl libgit2 cppunit
-
-rem get, compile and install graphviz
-cd C:/talipot_dependencies
-git clone https://gitlab.com/graphviz/graphviz.git
-cd graphviz
-git checkout 2.46.0
-git submodule update --init
-md build && cd build
-cmake -G "%CMAKE_VS_GENERATOR%"^
-  -A "%MSVC_ARCH%"^
-  -DCMAKE_INSTALL_PREFIX="C:/talipot_dependencies"^
-  -DCMAKE_PROGRAM_PATH="C:/msys64/usr/bin"^
-  -DVERSION="2.46.0"^
-  -DDATE="2021-01-18"^
-  ..
-if %errorlevel% neq 0 exit /b %errorlevel%
-msbuild INSTALL.vcxproj /clp:ErrorsOnly /p:Configuration=Release %CLCACHE_MSBUILD_CONF%
-if %errorlevel% neq 0 exit /b %errorlevel%
+vcpkg install --triplet x64-windows zlib zstd qhull yajl graphviz libgit2 cppunit
 
 if "%TALIPOT_BUILD_CORE_ONLY%" == "0" (
   goto install_complete_talipot_build_dependencies
@@ -105,8 +87,8 @@ rem we are good to go, let's compile and install Talipot now
 cd %APPVEYOR_BUILD_FOLDER%
 md build && cd build
 set INCLUDE_PATH=C:/Tools/vcpkg/installed/x64-windows/include;^
-C:/talipot_dependencies/include;^
-C:/talipot_dependencies/include/graphviz
+C:/Tools/vcpkg/installed/x64-windows/include/graphviz;^
+C:/talipot_dependencies/include
 set LIBRARY_PATH=C:/Tools/vcpkg/installed/x64-windows/bin;^
 C:/Tools/vcpkg/installed/x64-windows/lib;^
 C:/talipot_dependencies/lib;^
