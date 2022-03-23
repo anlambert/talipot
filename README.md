@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/anlambert/talipot/workflows/appimage-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/appimage-build.yml)
 [![Build Status](https://github.com/anlambert/talipot/workflows/macos-macports-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-macports-build.yml)
 [![Build Status](https://github.com/anlambert/talipot/workflows/macos-homebrew-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-homebrew-build.yml)
-[![Build Status](https://github.com/anlambert/talipot/workflows/windows-msys2-mingw64-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-mingw64-build.yml)
+[![Build Status](https://github.com/anlambert/talipot/workflows/windows-mingw64-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-mingw64-build.yml)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/anlambert/talipot?branch=master&svg=true)](https://ci.appveyor.com/project/anlambert/talipot)
 
 

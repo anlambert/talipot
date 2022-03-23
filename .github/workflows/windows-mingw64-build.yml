@@ -1,4 +1,4 @@
-name: windows-msys2-mingw64-build
+name: windows-mingw64-build
 on: [push, pull_request]
 jobs:
   mingw64:
