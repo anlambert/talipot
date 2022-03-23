@@ -801,6 +801,20 @@
     "version": "1.5.54"
   },
   {
+    "id": "5A21DE4E-D502-4D12-8B2A-58FB95BE0964",
+    "name": "account-hard-hat-outline",
+    "codepoint": "F1A1F",
+    "aliases": [
+      "worker-outline",
+      "construction-outline"
+    ],
+    "tags": [
+      "Account \/ User"
+    ],
+    "author": "Contributors",
+    "version": "6.6.95"
+  },
+  {
     "id": "15C54239-5327-4962-95CD-721512C6B27F",
     "name": "account-heart",
     "codepoint": "F0899",
@@ -1393,6 +1407,34 @@
     ],
     "author": "Austin Andrews",
     "version": "2.8.94"
+  },
+  {
+    "id": "BE45DEDF-3BBC-442F-9EDD-4A16570B91A0",
+    "name": "account-school",
+    "codepoint": "F1A20",
+    "aliases": [
+      "account-student",
+      "account-graduation"
+    ],
+    "tags": [
+      "Account \/ User"
+    ],
+    "author": "Contributors",
+    "version": "6.6.95"
+  },
+  {
+    "id": "DB767D52-F1C9-4986-B785-98314B70B2FF",
+    "name": "account-school-outline",
+    "codepoint": "F1A21",
+    "aliases": [
+      "account-student-outline",
+      "account-graduation-outline"
+    ],
+    "tags": [
+      "Account \/ User"
+    ],
+    "author": "Contributors",
+    "version": "6.6.95"
   },
   {
     "id": "48E9C474-C544-4868-9966-C3A8D7808FCA",
@@ -7848,10 +7890,23 @@
     "id": "E8C373FE-4258-4341-B52A-E33D9A484968",
     "name": "asterisk",
     "codepoint": "F06C4",
-    "aliases": [],
+    "aliases": [
+      "required"
+    ],
     "tags": [],
     "author": "Michael Irigoyen",
     "version": "1.8.36"
+  },
+  {
+    "id": "1A9A6BE7-2B58-458C-9DA5-3CCA65D67414",
+    "name": "asterisk-circle-outline",
+    "codepoint": "F1A27",
+    "aliases": [
+      "required-circle"
+    ],
+    "tags": [],
+    "author": "mocking-mike",
+    "version": "6.6.95"
   },
   {
     "id": "9FC24609-9C8B-4DBA-A473-F5EFAFCC90DF",
@@ -7918,6 +7973,17 @@
     "tags": [],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "08E6060D-0A4F-4A3C-867E-192E737972C6",
+    "name": "attachment-lock",
+    "codepoint": "F19C4",
+    "aliases": [
+      "paperclip-lock"
+    ],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.6.95"
   },
   {
     "id": "2CB292B6-3835-44B4-857B-5231B87B5968",
@@ -8035,6 +8101,22 @@
     ],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "E140F6DB-8C47-4F0F-9293-0D8EE1106B64",
+    "name": "autorenew-off",
+    "codepoint": "F19E7",
+    "aliases": [
+      "clockwise-arrows-off",
+      "circular-arrows-off",
+      "circle-arrows-off",
+      "sync-off"
+    ],
+    "tags": [
+      "Arrow"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
   },
   {
     "id": "A118E3CD-FF18-48FD-B26C-B4A48641E4C5",
@@ -9043,9 +9125,13 @@
     "id": "CD3098D2-892F-49F5-9FA7-1A5FDC53A15C",
     "name": "barrel",
     "codepoint": "F0074",
-    "aliases": [],
+    "aliases": [
+      "oil-barrel",
+      "energy",
+      "fossil-fuel"
+    ],
     "tags": [],
-    "author": "Austin Andrews",
+    "author": "Google",
     "version": "1.5.54"
   },
   {
@@ -10064,6 +10150,36 @@
     "version": "6.1.95"
   },
   {
+    "id": "11C7A5CA-DA77-453A-BAA8-6345949394C7",
+    "name": "battery-clock",
+    "codepoint": "F19E5",
+    "aliases": [
+      "battery-full-clock",
+      "battery-100-clock"
+    ],
+    "tags": [
+      "Battery",
+      "Home Automation"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "5756A4F3-FBED-4F81-8B97-AF391EC4D893",
+    "name": "battery-clock-outline",
+    "codepoint": "F19E6",
+    "aliases": [
+      "batter-0-clock",
+      "battery-empty-clock"
+    ],
+    "tags": [
+      "Battery",
+      "Home Automation"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
     "id": "DEE88AFA-DFF3-4100-8475-EB5EB72CCFCB",
     "name": "battery-heart",
     "codepoint": "F120F",
@@ -10521,7 +10637,8 @@
     "name": "bed",
     "codepoint": "F02E3",
     "aliases": [
-      "hotel"
+      "hotel",
+      "guest-room"
     ],
     "tags": [
       "Home Automation",
@@ -10534,7 +10651,9 @@
     "id": "76E0CC3D-3FF4-421A-A7F0-0F38C68C92A2",
     "name": "bed-double",
     "codepoint": "F0FD4",
-    "aliases": [],
+    "aliases": [
+      "bedroom"
+    ],
     "tags": [
       "Home Automation",
       "Holiday"
@@ -10546,7 +10665,9 @@
     "id": "6061EF08-3805-4F30-88A1-0DC3419E6989",
     "name": "bed-double-outline",
     "codepoint": "F0FD3",
-    "aliases": [],
+    "aliases": [
+      "bedroom-outline"
+    ],
     "tags": [
       "Home Automation",
       "Holiday"
@@ -10570,7 +10691,9 @@
     "id": "D6763D57-A47E-4BFA-A493-5F25C164FB2F",
     "name": "bed-king",
     "codepoint": "F0FD2",
-    "aliases": [],
+    "aliases": [
+      "bedroom"
+    ],
     "tags": [
       "Home Automation",
       "Holiday"
@@ -10582,7 +10705,9 @@
     "id": "E84472BF-7730-4700-B468-E5096FD65531",
     "name": "bed-king-outline",
     "codepoint": "F0FD1",
-    "aliases": [],
+    "aliases": [
+      "bedroom-outline"
+    ],
     "tags": [
       "Home Automation",
       "Holiday"
@@ -10595,9 +10720,13 @@
     "name": "bed-outline",
     "codepoint": "F0099",
     "aliases": [
-      "hotel-outline"
+      "hotel-outline",
+      "guest-room-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Home Automation",
+      "Holiday"
+    ],
     "author": "Google",
     "version": "1.5.54"
   },
@@ -10605,7 +10734,9 @@
     "id": "0DB69F3A-8C9B-48D0-8D37-5A1CF6B03B68",
     "name": "bed-queen",
     "codepoint": "F0FD0",
-    "aliases": [],
+    "aliases": [
+      "bedroom"
+    ],
     "tags": [
       "Home Automation",
       "Holiday"
@@ -10617,7 +10748,9 @@
     "id": "DC8A5BF4-BEA0-4D7D-B364-4765854CD4CE",
     "name": "bed-queen-outline",
     "codepoint": "F0FDB",
-    "aliases": [],
+    "aliases": [
+      "bedroom-outline"
+    ],
     "tags": [
       "Home Automation",
       "Holiday"
@@ -10629,7 +10762,9 @@
     "id": "A9C924A7-EAA8-42FC-963A-C74E36448A1B",
     "name": "bed-single",
     "codepoint": "F106D",
-    "aliases": [],
+    "aliases": [
+      "bedroom"
+    ],
     "tags": [
       "Home Automation",
       "Holiday"
@@ -10641,7 +10776,9 @@
     "id": "C9FEB434-571C-41C6-A0E5-1FA68368ACC3",
     "name": "bed-single-outline",
     "codepoint": "F106E",
-    "aliases": [],
+    "aliases": [
+      "bedroom-outline"
+    ],
     "tags": [
       "Home Automation",
       "Holiday"
@@ -11520,6 +11657,18 @@
     "version": "1.5.54"
   },
   {
+    "id": "2ECDAB32-FFDA-4E29-9465-D932794C53EF",
+    "name": "bone-off",
+    "codepoint": "F19E0",
+    "aliases": [],
+    "tags": [
+      "Animal",
+      "Holiday"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
+  },
+  {
     "id": "FFF82791-D12F-4643-8128-71CF5FE38C9B",
     "name": "book",
     "codepoint": "F00BA",
@@ -11777,6 +11926,30 @@
     "tags": [],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
+  },
+  {
+    "id": "4A830C97-1A09-495F-91A5-8F02571C54C6",
+    "name": "book-heart",
+    "codepoint": "F1A1D",
+    "aliases": [
+      "book-favorite",
+      "book-love"
+    ],
+    "tags": [],
+    "author": "Austin Andrews",
+    "version": "6.6.95"
+  },
+  {
+    "id": "72206137-0CFE-4A3C-BA21-16EB71D39821",
+    "name": "book-heart-outline",
+    "codepoint": "F1A1E",
+    "aliases": [
+      "book-favorite-outline",
+      "book-love-outline"
+    ],
+    "tags": [],
+    "author": "Austin Andrews",
+    "version": "6.6.95"
   },
   {
     "id": "4A6A20D1-3F8E-440A-BFB1-38CFB3FB3EC6",
@@ -13543,8 +13716,13 @@
     "id": "CBC38577-44FC-45B5-9454-3D04AA9CEAE3",
     "name": "brightness-percent",
     "codepoint": "F0CF2",
-    "aliases": [],
-    "tags": [],
+    "aliases": [
+      "discount",
+      "sale"
+    ],
+    "tags": [
+      "Shopping"
+    ],
     "author": "Michael Irigoyen",
     "version": "3.3.92"
   },
@@ -13604,6 +13782,19 @@
     "tags": [],
     "author": "Teodor Sandu",
     "version": "6.1.95"
+  },
+  {
+    "id": "0C2A4D14-A68C-444C-B01C-70CBD6DE0A69",
+    "name": "brush-outline",
+    "codepoint": "F1A0D",
+    "aliases": [
+      "paintbrush-outline"
+    ],
+    "tags": [
+      "Drawing \/ Art"
+    ],
+    "author": "Google",
+    "version": "6.6.95"
   },
   {
     "id": "8B433DEE-0DAC-4C0E-80A0-068A00269BEE",
@@ -15105,6 +15296,28 @@
     ],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "46E0AE7F-ECCB-4EAC-BADC-176B2A1FD338",
+    "name": "camera-lock",
+    "codepoint": "F1A14",
+    "aliases": [],
+    "tags": [
+      "Photography"
+    ],
+    "author": "Austin Andrews",
+    "version": "6.6.95"
+  },
+  {
+    "id": "662A0A34-3FEC-47DB-BD66-608D95F912EF",
+    "name": "camera-lock-outline",
+    "codepoint": "F1A15",
+    "aliases": [],
+    "tags": [
+      "Photography"
+    ],
+    "author": "Austin Andrews",
+    "version": "6.6.95"
   },
   {
     "id": "304F1239-9ADE-4371-AFA5-AD2BC3343D24",
@@ -17625,6 +17838,19 @@
     "version": "2.5.94"
   },
   {
+    "id": "AF03DF0A-3E57-412D-B72E-67938C4FD599",
+    "name": "cellphone-arrow-down-variant",
+    "codepoint": "F19C5",
+    "aliases": [
+      "cellphone-download"
+    ],
+    "tags": [
+      "Cellphone \/ Phone"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
+  },
+  {
     "id": "E22A55C0-983F-499E-8B43-4A66DB278B4E",
     "name": "cellphone-basic",
     "codepoint": "F011E",
@@ -17989,7 +18215,8 @@
     "name": "chair-rolling",
     "codepoint": "F0F48",
     "aliases": [
-      "office-chair"
+      "office-chair",
+      "study-chair"
     ],
     "tags": [
       "Home Automation"
@@ -21705,7 +21932,11 @@
     "id": "21D89E60-3522-4F1F-A1D2-60E67B2C9552",
     "name": "coat-rack",
     "codepoint": "F109E",
-    "aliases": [],
+    "aliases": [
+      "foyer",
+      "hallway",
+      "entry-room"
+    ],
     "tags": [
       "Home Automation",
       "Clothing"
@@ -23980,10 +24211,13 @@
     "aliases": [
       "crib",
       "bassinet",
-      "baby"
+      "baby",
+      "nursery",
+      "baby-room"
     ],
     "tags": [
-      "People \/ Family"
+      "People \/ Family",
+      "Home Automation"
     ],
     "author": "Google",
     "version": "6.5.95"
@@ -23995,10 +24229,13 @@
     "aliases": [
       "bassinet",
       "crib",
-      "baby"
+      "baby",
+      "nursery-outline",
+      "baby-room-outline"
     ],
     "tags": [
-      "People \/ Family"
+      "People \/ Family",
+      "Home Automation"
     ],
     "author": "Google",
     "version": "6.5.95"
@@ -25021,7 +25258,7 @@
       "Currency",
       "Banking"
     ],
-    "author": "Austin Andrews",
+    "author": "Google",
     "version": "1.5.54"
   },
   {
@@ -25036,7 +25273,7 @@
       "Currency",
       "Banking"
     ],
-    "author": "Haley Halcyon",
+    "author": "Google",
     "version": "2.0.46"
   },
   {
@@ -25092,7 +25329,7 @@
       "Currency",
       "Banking"
     ],
-    "author": "Austin Andrews",
+    "author": "Google",
     "version": "1.5.54"
   },
   {
@@ -25132,7 +25369,7 @@
       "Currency",
       "Banking"
     ],
-    "author": "Haley Halcyon",
+    "author": "Google",
     "version": "2.0.46"
   },
   {
@@ -25233,7 +25470,7 @@
       "Currency",
       "Banking"
     ],
-    "author": "Austin Andrews",
+    "author": "Google",
     "version": "1.5.54"
   },
   {
@@ -25249,7 +25486,7 @@
     "tags": [
       "Banking"
     ],
-    "author": "Michael Irigoyen",
+    "author": "Google",
     "version": "6.5.95"
   },
   {
@@ -25277,7 +25514,7 @@
       "Currency",
       "Banking"
     ],
-    "author": "Austin Andrews",
+    "author": "Google",
     "version": "1.5.54"
   },
   {
@@ -27135,7 +27372,10 @@
     "id": "95CEA0DD-5123-4FFA-B906-E6C55766030D",
     "name": "disc",
     "codepoint": "F05EE",
-    "aliases": [],
+    "aliases": [
+      "cd-rom",
+      "dvd"
+    ],
     "tags": [
       "Music"
     ],
@@ -31053,7 +31293,7 @@
       "Printer",
       "Cellphone \/ Phone"
     ],
-    "author": "Simran",
+    "author": "Google",
     "version": "1.5.54"
   },
   {
@@ -31341,6 +31581,28 @@
     ],
     "author": "Simran",
     "version": "1.5.54"
+  },
+  {
+    "id": "B7778AA5-6982-4820-A733-996314D07B82",
+    "name": "file-chart-check",
+    "codepoint": "F19C6",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
+  },
+  {
+    "id": "8051BED5-0582-4A3A-91F3-E29484840427",
+    "name": "file-chart-check-outline",
+    "codepoint": "F19C7",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
   },
   {
     "id": "E8F550E7-DE55-47CE-B548-4B6987B9FDE7",
@@ -31967,8 +32229,32 @@
       "Lock",
       "Files \/ Folders"
     ],
-    "author": "Austin Andrews",
+    "author": "Simran",
     "version": "1.5.54"
+  },
+  {
+    "id": "E59676A5-2E82-4B91-8887-4ADDEB5E2204",
+    "name": "file-lock-open",
+    "codepoint": "F19C8",
+    "aliases": [],
+    "tags": [
+      "Lock",
+      "Files \/ Folders"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
+  },
+  {
+    "id": "D94F03DE-9FA8-4AF4-AB95-3EDB4DB97522",
+    "name": "file-lock-open-outline",
+    "codepoint": "F19C9",
+    "aliases": [],
+    "tags": [
+      "Lock",
+      "Files \/ Folders"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
   },
   {
     "id": "658B01A1-E16D-4D8E-B274-C66465BF1CE3",
@@ -31979,7 +32265,7 @@
       "Files \/ Folders",
       "Lock"
     ],
-    "author": "Terren",
+    "author": "Simran",
     "version": "4.1.95"
   },
   {
@@ -34168,6 +34454,172 @@
     "version": "3.5.94"
   },
   {
+    "id": "40D3B512-FD3C-4F69-922E-DE4EC33AB3A5",
+    "name": "folder-arrow-down",
+    "codepoint": "F19E8",
+    "aliases": [
+      "folder-download"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "65D7B690-9532-44AC-B537-82B136036F15",
+    "name": "folder-arrow-down-outline",
+    "codepoint": "F19E9",
+    "aliases": [
+      "folder-download-outline"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "25BB41F5-0A33-4F15-8C92-FBA086F0C6EA",
+    "name": "folder-arrow-left",
+    "codepoint": "F19EA",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "79455D10-F086-4724-A89A-CA23815D9A2A",
+    "name": "folder-arrow-left-outline",
+    "codepoint": "F19EB",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "BCD77C22-F711-42AD-BFD7-46EA0DCA2AD0",
+    "name": "folder-arrow-left-right",
+    "codepoint": "F19EC",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "51BC71E5-596D-4FAC-A254-5E3F9E0C8AA2",
+    "name": "folder-arrow-left-right-outline",
+    "codepoint": "F19ED",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "56C26607-0AD8-47DC-8ECE-5180A20BE4B2",
+    "name": "folder-arrow-right",
+    "codepoint": "F19EE",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "7FCB1874-45D5-4DD4-8F82-172FCADE562A",
+    "name": "folder-arrow-right-outline",
+    "codepoint": "F19EF",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "90B8DA2E-A381-4226-8F27-E085B391B5A1",
+    "name": "folder-arrow-up",
+    "codepoint": "F19F0",
+    "aliases": [
+      "folder-upload"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "F710484C-04A2-41A6-82BA-D0900A94E2DB",
+    "name": "folder-arrow-up-down",
+    "codepoint": "F19F1",
+    "aliases": [
+      "folder-transfer"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "0D1FD0C5-6A2C-475F-8824-A1EC1B93E85F",
+    "name": "folder-arrow-up-down-outline",
+    "codepoint": "F19F2",
+    "aliases": [
+      "folder-transfer-outline"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "320546E6-E809-47EA-BF2A-7EE3369AA89D",
+    "name": "folder-arrow-up-outline",
+    "codepoint": "F19F3",
+    "aliases": [
+      "folder-upload-outline"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "EF125AA8-4CB8-4608-9E99-F50F7756F375",
+    "name": "folder-cancel",
+    "codepoint": "F19F4",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "54D65B1D-7337-435B-8E69-BA2E721F9DE5",
+    "name": "folder-cancel-outline",
+    "codepoint": "F19F5",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
     "id": "B231DD3B-3FD4-4D82-9BD4-329B5A1F59A5",
     "name": "folder-check",
     "codepoint": "F197E",
@@ -34304,6 +34756,28 @@
     "tags": [],
     "author": "Michael Irigoyen",
     "version": "6.1.95"
+  },
+  {
+    "id": "92D3CAE7-0191-42CE-8D9F-7AE3C8D067DA",
+    "name": "folder-file",
+    "codepoint": "F19F6",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "9DEB2414-C7DC-4AE8-831C-32FE8C5ECFCF",
+    "name": "folder-file-outline",
+    "codepoint": "F19F7",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
   },
   {
     "id": "B8ACEEFF-E80A-42A9-BCAE-A804D47D8929",
@@ -34629,6 +35103,28 @@
     "version": "3.2.89"
   },
   {
+    "id": "A792FD60-AF2F-4EDD-8CCB-42FFBEE61286",
+    "name": "folder-off",
+    "codepoint": "F19F8",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "3DA5D076-3943-4968-A375-3DB3A73C3E69",
+    "name": "folder-off-outline",
+    "codepoint": "F19F9",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
     "id": "7BBC57AE-0EBA-4198-8B85-5082A38522DE",
     "name": "folder-open",
     "codepoint": "F0770",
@@ -34662,6 +35158,36 @@
     ],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "C3FACC18-E546-4E6F-A140-48541C0B808E",
+    "name": "folder-play",
+    "codepoint": "F19FA",
+    "aliases": [
+      "folder-media",
+      "folder-music",
+      "folder-video"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "63119A3C-5E35-4BC5-9DA6-74EB4DD748DB",
+    "name": "folder-play-outline",
+    "codepoint": "F19FB",
+    "aliases": [
+      "folder-media-outline",
+      "folder-music-outline",
+      "folder-video-outline"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
   },
   {
     "id": "BAE32170-6509-4D1F-A6A5-A2FD1A0C679B",
@@ -34716,6 +35242,32 @@
     ],
     "author": "Michael Irigoyen",
     "version": "3.3.92"
+  },
+  {
+    "id": "772568CD-A665-4EBA-ACEA-6D6D5D23CDFB",
+    "name": "folder-question",
+    "codepoint": "F19CA",
+    "aliases": [
+      "folder-help"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
+  },
+  {
+    "id": "DF184C5C-BF3B-47C7-8E37-6992E1E7480E",
+    "name": "folder-question-outline",
+    "codepoint": "F19CB",
+    "aliases": [
+      "folder-help-outline"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
   },
   {
     "id": "9B23FB77-FAF2-4F8E-B071-D23726EA8632",
@@ -34974,6 +35526,32 @@
     ],
     "author": "Michael Richins",
     "version": "4.3.95"
+  },
+  {
+    "id": "4A9F791A-45FC-42C8-BBBB-1963868C4E44",
+    "name": "folder-wrench",
+    "codepoint": "F19FC",
+    "aliases": [
+      "folder-settings"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "D489D931-A6B8-4363-B4E4-C76190FE4B18",
+    "name": "folder-wrench-outline",
+    "codepoint": "F19FD",
+    "aliases": [
+      "folder-settings-outline"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
   },
   {
     "id": "1573C575-7FBA-4BCD-A960-02D42043FE6F",
@@ -36772,7 +37350,8 @@
     "codepoint": "F0290",
     "aliases": [
       "fridge-filled",
-      "refrigerator"
+      "refrigerator",
+      "kitchen"
     ],
     "tags": [
       "Home Automation"
@@ -37080,6 +37659,17 @@
     "version": "4.1.95"
   },
   {
+    "id": "E17D31CC-F130-4832-95AD-EBC299E1B8E5",
+    "name": "fruit-pear",
+    "codepoint": "F1A0E",
+    "aliases": [],
+    "tags": [
+      "Food \/ Drink"
+    ],
+    "author": "Contributors",
+    "version": "6.6.95"
+  },
+  {
     "id": "F28FDEF7-E169-45AA-84E7-13DB0A6CA241",
     "name": "fruit-pineapple",
     "codepoint": "F1046",
@@ -37155,7 +37745,9 @@
     "name": "function",
     "codepoint": "F0295",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Math"
+    ],
     "author": "Austin Andrews",
     "version": "1.5.54"
   },
@@ -37164,7 +37756,9 @@
     "name": "function-variant",
     "codepoint": "F0871",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Math"
+    ],
     "author": "Michael Richins",
     "version": "2.1.99"
   },
@@ -37641,6 +38235,21 @@
     ],
     "author": "Michael Irigoyen",
     "version": "6.1.95"
+  },
+  {
+    "id": "BB98FED5-2967-4D6D-B133-8447CE90C089",
+    "name": "gas-burner",
+    "codepoint": "F1A1B",
+    "aliases": [
+      "stove-burner",
+      "cooktop-burner",
+      "grill"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Austin Andrews",
+    "version": "6.6.95"
   },
   {
     "id": "7CEC48C5-3A70-4BA2-9FB8-A383387DC4A1",
@@ -39150,7 +39759,8 @@
     "codepoint": "F002D",
     "aliases": [
       "glasshouse",
-      "hothouse"
+      "hothouse",
+      "shed"
     ],
     "tags": [
       "Home Automation",
@@ -39857,10 +40467,12 @@
     "codepoint": "F02C8",
     "aliases": [
       "coat-hanger",
-      "clothes-hanger"
+      "clothes-hanger",
+      "closet"
     ],
     "tags": [
-      "Clothing"
+      "Clothing",
+      "Home Automation"
     ],
     "author": "Moma Design Studio",
     "version": "1.5.54"
@@ -41139,6 +41751,34 @@
     "version": "3.3.92"
   },
   {
+    "id": "F3391DCE-6EC9-4C63-869D-36ED374054FC",
+    "name": "home-clock",
+    "codepoint": "F1A12",
+    "aliases": [
+      "home-time",
+      "home-schedule"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "9ADA7472-66EE-4F9A-8494-C4292C29207C",
+    "name": "home-clock-outline",
+    "codepoint": "F1A13",
+    "aliases": [
+      "home-time-outline",
+      "home-schedule-outline"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
     "id": "6D381D99-24F0-46B5-AD04-F527B97830AE",
     "name": "home-edit",
     "codepoint": "F1159",
@@ -41180,9 +41820,10 @@
     "aliases": [],
     "tags": [
       "Weather",
-      "Home Automation"
+      "Home Automation",
+      "Nature"
     ],
-    "author": "Michael Irigoyen",
+    "author": "Google",
     "version": "3.8.95"
   },
   {
@@ -41602,7 +42243,8 @@
     "name": "home-roof",
     "codepoint": "F112B",
     "aliases": [
-      "home-chimney"
+      "home-chimney",
+      "home-attic"
     ],
     "tags": [
       "Home Automation"
@@ -42814,8 +43456,14 @@
     "id": "27E31ADA-EF15-4A4E-A17A-45F4C032256F",
     "name": "image-frame",
     "codepoint": "F0E49",
-    "aliases": [],
-    "tags": [],
+    "aliases": [
+      "hallway",
+      "foyer",
+      "entry-room"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "Google",
     "version": "3.6.95"
   },
@@ -42925,6 +43573,28 @@
     "version": "2.1.99"
   },
   {
+    "id": "F91A5FFA-04D3-40A5-AFD1-C7F79D1CE20D",
+    "name": "image-refresh",
+    "codepoint": "F19FE",
+    "aliases": [],
+    "tags": [
+      "Photography"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "243DB52F-654F-488F-86DB-BD7EA47B3BA8",
+    "name": "image-refresh-outline",
+    "codepoint": "F19FF",
+    "aliases": [],
+    "tags": [
+      "Photography"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
     "id": "95B5A056-E7FE-4C3F-95A6-1E826DD80076",
     "name": "image-remove",
     "codepoint": "F1418",
@@ -42977,6 +43647,28 @@
     "tags": [],
     "author": "Google",
     "version": "3.2.89"
+  },
+  {
+    "id": "8597FAE8-2093-48A1-8B87-9717D9AB968B",
+    "name": "image-sync",
+    "codepoint": "F1A00",
+    "aliases": [],
+    "tags": [
+      "Photography"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "DB8F481F-1215-4093-8B6F-C50C34C93A4C",
+    "name": "image-sync-outline",
+    "codepoint": "F1A01",
+    "aliases": [],
+    "tags": [
+      "Photography"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
   },
   {
     "id": "E404BB7C-724B-4390-9DE4-D08DA29B151A",
@@ -43563,7 +44255,7 @@
     "tags": [
       "Sport"
     ],
-    "author": "Michael Richins",
+    "author": "Google",
     "version": "2.1.19"
   },
   {
@@ -45224,6 +45916,19 @@
     "version": "1.5.54"
   },
   {
+    "id": "1A100B37-6238-49F0-81EB-05FDE23DAA3E",
+    "name": "library-outline",
+    "codepoint": "F1A22",
+    "aliases": [
+      "local-library-outline"
+    ],
+    "tags": [
+      "Places"
+    ],
+    "author": "Jeff Anders",
+    "version": "6.6.95"
+  },
+  {
     "id": "282A591C-4D91-4AAF-B401-00F3AE4B73F2",
     "name": "library-shelves",
     "codepoint": "F0BA9",
@@ -45309,12 +46014,29 @@
     "id": "647E0001-A60B-4D74-B127-BF522712922F",
     "name": "light-switch",
     "codepoint": "F097E",
-    "aliases": [],
+    "aliases": [
+      "toggle-switch",
+      "rocker-switch"
+    ],
     "tags": [
       "Home Automation"
     ],
-    "author": "Google",
+    "author": "Matthias de Baat",
     "version": "2.4.85"
+  },
+  {
+    "id": "39A7777B-C9F7-4468-95B0-FE0037A635E9",
+    "name": "light-switch-off",
+    "codepoint": "F1A24",
+    "aliases": [
+      "toggle-switch-off",
+      "rocker-switch-off"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Matthias de Baat",
+    "version": "6.6.95"
   },
   {
     "id": "ECC94305-DFA6-4D9B-85C8-CC79F3F05FB5",
@@ -45329,6 +46051,32 @@
     ],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "1FED2710-D8D6-41FC-9318-51A23EDD13CF",
+    "name": "lightbulb-alert",
+    "codepoint": "F19E1",
+    "aliases": [
+      "lightbulb-error"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
+  },
+  {
+    "id": "AC5BBA36-C64C-4E2F-B0E9-2B35A4D9FFE8",
+    "name": "lightbulb-alert-outline",
+    "codepoint": "F19E2",
+    "aliases": [
+      "lightbulb-error-outline"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
   },
   {
     "id": "DB38FD91-5875-4D53-81A9-A0B5400D53AE",
@@ -45576,7 +46324,8 @@
     "codepoint": "F06E8",
     "aliases": [
       "idea",
-      "bulb-on"
+      "bulb-on",
+      "lightbulb-dimmer-100"
     ],
     "tags": [
       "Home Automation"
@@ -45611,6 +46360,32 @@
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
+  },
+  {
+    "id": "CB600C6A-E43E-4723-A8F0-963222692C23",
+    "name": "lightbulb-question",
+    "codepoint": "F19E3",
+    "aliases": [
+      "lightbulb-help"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
+  },
+  {
+    "id": "8EFBF4AB-73DD-41EC-BF3C-2503A5BDF93E",
+    "name": "lightbulb-question-outline",
+    "codepoint": "F19E4",
+    "aliases": [
+      "lightbulb-help-outline"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
   },
   {
     "id": "2D6C2BB9-CF5E-4BD1-A44B-262F2A61FAC2",
@@ -48216,7 +48991,8 @@
     "name": "message-badge",
     "codepoint": "F1941",
     "aliases": [
-      "message-unread"
+      "message-unread",
+      "message-notification"
     ],
     "tags": [],
     "author": "Google",
@@ -48227,7 +49003,8 @@
     "name": "message-badge-outline",
     "codepoint": "F1942",
     "aliases": [
-      "message-unread-outline"
+      "message-unread-outline",
+      "message-notification-outline"
     ],
     "tags": [],
     "author": "Google",
@@ -48305,6 +49082,24 @@
     "tags": [],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "1FAB8199-286D-4D00-9AA5-7D4D14AC1B74",
+    "name": "message-fast",
+    "codepoint": "F19CC",
+    "aliases": [],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.6.95"
+  },
+  {
+    "id": "13E100B1-AEB4-4398-9A8D-404F8C765642",
+    "name": "message-fast-outline",
+    "codepoint": "F19CD",
+    "aliases": [],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.6.95"
   },
   {
     "id": "A9181976-10D1-4CB7-993E-AE8B7DEDEC64",
@@ -48591,6 +49386,24 @@
     ],
     "author": "Michael Irigoyen",
     "version": "4.4.95"
+  },
+  {
+    "id": "9CD08DBB-70E0-41B6-8BAA-79B9D4FE11AA",
+    "name": "message-text-fast",
+    "codepoint": "F19CE",
+    "aliases": [],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.6.95"
+  },
+  {
+    "id": "3EA07D0B-1C28-4140-9CF3-60E741D34A65",
+    "name": "message-text-fast-outline",
+    "codepoint": "F19CF",
+    "aliases": [],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.6.95"
   },
   {
     "id": "362401F1-947F-45FD-8047-F515CB2F7C44",
@@ -49619,6 +50432,32 @@
     ],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "8C772F38-CA90-4CAD-BC26-DE68A84FD6F4",
+    "name": "monitor-arrow-down",
+    "codepoint": "F19D0",
+    "aliases": [
+      "monitor-download"
+    ],
+    "tags": [
+      "Device \/ Tech"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
+  },
+  {
+    "id": "D3299EA1-1120-4457-86B0-7162B329B826",
+    "name": "monitor-arrow-down-variant",
+    "codepoint": "F19D1",
+    "aliases": [
+      "monitor-download"
+    ],
+    "tags": [
+      "Device \/ Tech"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
   },
   {
     "id": "B2A9CF60-30E4-46DC-9116-ED206912B156",
@@ -51678,6 +52517,25 @@
     "version": "1.5.54"
   },
   {
+    "id": "EF95D4D3-9095-412A-A109-BF170FA2A1D9",
+    "name": "needle-off",
+    "codepoint": "F19D2",
+    "aliases": [
+      "syringe-off",
+      "injection-off",
+      "medicine-off",
+      "shot-off",
+      "drug-off",
+      "immunization-off",
+      "pharmaceutical-off"
+    ],
+    "tags": [
+      "Medical \/ Hospital"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
+  },
+  {
     "id": "7AEF7097-EC88-4D09-A65E-5244DDA99599",
     "name": "netflix",
     "codepoint": "F0746",
@@ -52486,6 +53344,30 @@
     ],
     "author": "Austin Andrews",
     "version": "5.4.55"
+  },
+  {
+    "id": "BA533C71-48B2-4D1D-8069-98F53EC6224B",
+    "name": "notebook-heart",
+    "codepoint": "F1A0B",
+    "aliases": [
+      "notebook-favorite",
+      "notebook-love"
+    ],
+    "tags": [],
+    "author": "Austin Andrews",
+    "version": "6.6.95"
+  },
+  {
+    "id": "0F8BCA10-0144-4507-850B-777AE12B3A80",
+    "name": "notebook-heart-outline",
+    "codepoint": "F1A0C",
+    "aliases": [
+      "notebook-favorite-outline",
+      "notebook-love-outline"
+    ],
+    "tags": [],
+    "author": "Austin Andrews",
+    "version": "6.6.95"
   },
   {
     "id": "60952B51-85EE-45B0-9834-7117F8DED9D7",
@@ -53807,6 +54689,21 @@
     "version": "4.1.95"
   },
   {
+    "id": "560615BB-A023-4B98-88A6-F38FBF3272E2",
+    "name": "numeric-off",
+    "codepoint": "F19D3",
+    "aliases": [
+      "numbers-off",
+      "123-off",
+      "one-two-three-off"
+    ],
+    "tags": [
+      "Alpha \/ Numeric"
+    ],
+    "author": "Piotr \u0141ado\u0144ski",
+    "version": "6.6.95"
+  },
+  {
     "id": "73DE8F6E-A301-42D1-B2C3-3699265BA2BB",
     "name": "numeric-positive-1",
     "codepoint": "F15CB",
@@ -54482,6 +55379,80 @@
     "tags": [],
     "author": "Austin Andrews",
     "version": "1.5.54"
+  },
+  {
+    "id": "DF9F88A2-7B9A-4881-A2E4-6BC6F4387A0F",
+    "name": "package-variant-closed-minus",
+    "codepoint": "F19D4",
+    "aliases": [
+      "package-variant-closed-subtract",
+      "box-variant-closed-minus",
+      "box-variant-closed-subtract"
+    ],
+    "tags": [],
+    "author": "Ferenc Szabo",
+    "version": "6.6.95"
+  },
+  {
+    "id": "749AB237-2B69-4BB9-9B2D-6F22B1F85D50",
+    "name": "package-variant-closed-plus",
+    "codepoint": "F19D5",
+    "aliases": [
+      "box-variant-closed-plus",
+      "package-variant-closed-add",
+      "box-variant-closed-add"
+    ],
+    "tags": [],
+    "author": "Ferenc Szabo",
+    "version": "6.6.95"
+  },
+  {
+    "id": "425F62CE-0308-47E5-9825-CEE711EE34B2",
+    "name": "package-variant-closed-remove",
+    "codepoint": "F19D6",
+    "aliases": [
+      "box-variant-closed-remove"
+    ],
+    "tags": [],
+    "author": "Ferenc Szabo",
+    "version": "6.6.95"
+  },
+  {
+    "id": "C204643B-C7FA-48A9-9910-C2258F77E707",
+    "name": "package-variant-minus",
+    "codepoint": "F19D7",
+    "aliases": [
+      "box-variant-minus",
+      "package-variant-subtract",
+      "box-variant-subtract"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
+  },
+  {
+    "id": "8E0543FE-6EC4-4D0F-9109-E77254414DD7",
+    "name": "package-variant-plus",
+    "codepoint": "F19D8",
+    "aliases": [
+      "box-variant-plus",
+      "package-variant-add",
+      "box-variant-add"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
+  },
+  {
+    "id": "1E482E98-310D-4A28-B461-DD48ADE915E8",
+    "name": "package-variant-remove",
+    "codepoint": "F19D9",
+    "aliases": [
+      "box-variant-remove"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "6.6.95"
   },
   {
     "id": "DF23FF47-4DD3-4CB3-9BEC-6EE986B0FA65",
@@ -55169,6 +56140,17 @@
     "version": "1.5.54"
   },
   {
+    "id": "3A005420-791A-45DA-A903-EED63E35C1C6",
+    "name": "paperclip-lock",
+    "codepoint": "F19DA",
+    "aliases": [
+      "attachment-lock"
+    ],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.6.95"
+  },
+  {
     "id": "47070C5A-B989-49C6-A635-3B764DC112CB",
     "name": "parachute",
     "codepoint": "F0CB4",
@@ -55782,12 +56764,76 @@
     "id": "3AB307BF-41D9-4CA4-9D44-58C82304C7BB",
     "name": "percent",
     "codepoint": "F03F0",
-    "aliases": [],
+    "aliases": [
+      "discount",
+      "sale"
+    ],
     "tags": [
-      "Math"
+      "Math",
+      "Shopping"
     ],
     "author": "Simran",
     "version": "1.5.54"
+  },
+  {
+    "id": "DD3C1F53-8265-4133-8C96-BC9EFF0A30D5",
+    "name": "percent-box",
+    "codepoint": "F1A02",
+    "aliases": [
+      "discount-box",
+      "sale-box"
+    ],
+    "tags": [
+      "Math",
+      "Shopping"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "4B5165F6-736B-44F7-961C-420A1F2EEFE7",
+    "name": "percent-box-outline",
+    "codepoint": "F1A03",
+    "aliases": [
+      "discount-box-outline",
+      "sale-box-outline"
+    ],
+    "tags": [
+      "Math",
+      "Shopping"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "CA4A3F7A-B20E-4937-9FD6-207B1F974DE8",
+    "name": "percent-circle",
+    "codepoint": "F1A04",
+    "aliases": [
+      "discount-circle",
+      "sale-circle"
+    ],
+    "tags": [
+      "Math",
+      "Shopping"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
+  },
+  {
+    "id": "30332F97-18B5-4866-A31F-912C262ACDBE",
+    "name": "percent-circle-outline",
+    "codepoint": "F1A05",
+    "aliases": [
+      "discount-circle-outline",
+      "sale-circle-outline"
+    ],
+    "tags": [
+      "Math",
+      "Shopping"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.6.95"
   },
   {
     "id": "0625AC7C-AD52-4221-8F53-A9AE6DAA57BD",
@@ -55981,6 +57027,20 @@
     "tags": [],
     "author": "Austin Andrews",
     "version": "4.7.95"
+  },
+  {
+    "id": "1B8EA976-32FD-4A71-94FA-EF40FC346FBD",
+    "name": "phone-clock",
+    "codepoint": "F19DB",
+    "aliases": [
+      "phone-schedule",
+      "phone-time"
+    ],
+    "tags": [
+      "Cellphone \/ Phone"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
   },
   {
     "id": "8F4DBE23-BD53-447F-917D-5343B4DDE8B8",
@@ -56968,6 +58028,50 @@
     "tags": [],
     "author": "frankgrinaert",
     "version": "4.7.95"
+  },
+  {
+    "id": "0B180C29-3ADF-47C2-ACC6-C5EE5E744AD4",
+    "name": "play-box-lock",
+    "codepoint": "F1A16",
+    "aliases": [],
+    "tags": [
+      "Video \/ Movie"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
+  },
+  {
+    "id": "560E6993-9435-4447-8A14-235913D80579",
+    "name": "play-box-lock-open",
+    "codepoint": "F1A17",
+    "aliases": [],
+    "tags": [
+      "Video \/ Movie"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
+  },
+  {
+    "id": "3C88B8D8-AFDD-4A9F-A976-BCD74895D1F5",
+    "name": "play-box-lock-open-outline",
+    "codepoint": "F1A18",
+    "aliases": [],
+    "tags": [
+      "Video \/ Movie"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
+  },
+  {
+    "id": "F7617311-2473-4D67-A62D-1B06033CFAE7",
+    "name": "play-box-lock-outline",
+    "codepoint": "F1A19",
+    "aliases": [],
+    "tags": [
+      "Video \/ Movie"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
   },
   {
     "id": "9700DCD7-8658-479A-A817-1241A09F9654",
@@ -58406,6 +59510,18 @@
     "version": "1.5.54"
   },
   {
+    "id": "BCC3FC58-92BE-4C05-9273-FA1EB03C3E3E",
+    "name": "projector-off",
+    "codepoint": "F1A23",
+    "aliases": [],
+    "tags": [
+      "Device \/ Tech",
+      "Home Automation"
+    ],
+    "author": "Terren",
+    "version": "6.6.95"
+  },
+  {
     "id": "A152DD64-B013-4AE7-B89F-49FC90B2E471",
     "name": "projector-screen",
     "codepoint": "F042F",
@@ -58500,7 +59616,7 @@
     "codepoint": "F1357",
     "aliases": [],
     "tags": [],
-    "author": "Michael Irigoyen",
+    "author": "Google",
     "version": "4.9.95"
   },
   {
@@ -58509,7 +59625,7 @@
     "codepoint": "F1358",
     "aliases": [],
     "tags": [],
-    "author": "Michael Irigoyen",
+    "author": "Google",
     "version": "4.9.95"
   },
   {
@@ -59257,6 +60373,28 @@
     "version": "1.5.54"
   },
   {
+    "id": "0B304D53-8218-4F49-9330-1AB9CCB11C01",
+    "name": "raw",
+    "codepoint": "F1A0F",
+    "aliases": [],
+    "tags": [
+      "Photography"
+    ],
+    "author": "Google",
+    "version": "6.6.95"
+  },
+  {
+    "id": "8882E66A-7C74-4F2A-B38F-94AF59CFB92B",
+    "name": "raw-off",
+    "codepoint": "F1A10",
+    "aliases": [],
+    "tags": [
+      "Photography"
+    ],
+    "author": "Google",
+    "version": "6.6.95"
+  },
+  {
     "id": "935371AF-0FF0-4D1E-86F8-DB6E5C5510F9",
     "name": "ray-end",
     "codepoint": "F0440",
@@ -59372,6 +60510,17 @@
     "tags": [],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "C5A53971-FD74-4C82-8CA6-9C1216713365",
+    "name": "receipt-outline",
+    "codepoint": "F19DC",
+    "aliases": [
+      "invoice-outline"
+    ],
+    "tags": [],
+    "author": "Google",
+    "version": "6.6.95"
   },
   {
     "id": "F84F1E59-868C-42CE-80EA-159588E83462",
@@ -60718,6 +61867,15 @@
     "version": "2.8.94"
   },
   {
+    "id": "318E8495-2191-4315-A58D-77D697743290",
+    "name": "robot-industrial-outline",
+    "codepoint": "F1A1A",
+    "aliases": [],
+    "tags": [],
+    "author": "Austin Andrews",
+    "version": "6.6.95"
+  },
+  {
     "id": "2EFA6B95-27BD-4A52-90AF-991A3574FD2C",
     "name": "robot-love",
     "codepoint": "F16A5",
@@ -61472,9 +62630,24 @@
     "aliases": [
       "discount"
     ],
-    "tags": [],
+    "tags": [
+      "Shopping"
+    ],
     "author": "Simran",
     "version": "1.5.54"
+  },
+  {
+    "id": "EC5767A6-FA73-4A93-AA73-3EE66CB7374B",
+    "name": "sale-outline",
+    "codepoint": "F1A06",
+    "aliases": [
+      "discount-outline"
+    ],
+    "tags": [
+      "Shopping"
+    ],
+    "author": "Austin Andrews",
+    "version": "6.6.95"
   },
   {
     "id": "D7963D7C-396F-45DB-A5D7-AA18AE32FE53",
@@ -62035,9 +63208,13 @@
     "aliases": [
       "event-seat",
       "chair",
-      "chair-accent"
+      "chair-accent",
+      "home-theater",
+      "home-theatre"
     ],
-    "tags": [],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "Google",
     "version": "3.2.89"
   },
@@ -62114,9 +63291,13 @@
     "aliases": [
       "event-seat-outline",
       "chair-outline",
-      "chair-accent-outline"
+      "chair-accent-outline",
+      "home-theater",
+      "home-theatre"
     ],
-    "tags": [],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "Google",
     "version": "3.2.89"
   },
@@ -63987,7 +65168,8 @@
     "name": "shower",
     "codepoint": "F09A0",
     "aliases": [
-      "bathtub"
+      "bathtub",
+      "bathroom"
     ],
     "tags": [
       "Home Automation"
@@ -63999,7 +65181,9 @@
     "id": "F0E6B2EB-7E10-42C8-AEF1-84A461E1E2B3",
     "name": "shower-head",
     "codepoint": "F09A1",
-    "aliases": [],
+    "aliases": [
+      "bathroom"
+    ],
     "tags": [
       "Home Automation"
     ],
@@ -65579,9 +66763,13 @@
     "name": "sofa",
     "codepoint": "F04B9",
     "aliases": [
-      "couch"
+      "couch",
+      "living-room",
+      "family-room"
     ],
-    "tags": [],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "Michael Irigoyen",
     "version": "1.5.54"
   },
@@ -65590,9 +66778,13 @@
     "name": "sofa-outline",
     "codepoint": "F156D",
     "aliases": [
-      "couch-outline"
+      "couch-outline",
+      "living-room-outline",
+      "family-room-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "Michael Irigoyen",
     "version": "5.5.55"
   },
@@ -65604,9 +66796,13 @@
       "loveseat",
       "love-seat",
       "couch",
-      "chair-accent"
+      "chair-accent",
+      "living-room",
+      "family-room"
     ],
-    "tags": [],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "Michael Irigoyen",
     "version": "5.5.55"
   },
@@ -65618,9 +66814,13 @@
       "loveseat-outline",
       "love-seat-outline",
       "couch-outline",
-      "chair-accent-outline"
+      "chair-accent-outline",
+      "living-room-outline",
+      "family-room-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "Michael Irigoyen",
     "version": "5.5.55"
   },
@@ -66807,6 +68007,34 @@
     "tags": [],
     "author": "Jeff Anders",
     "version": "5.4.55"
+  },
+  {
+    "id": "D8486DF6-E4E4-4EAF-B362-8A9FD1CF27C3",
+    "name": "square-rounded-badge",
+    "codepoint": "F1A07",
+    "aliases": [
+      "app-badge",
+      "push-notification"
+    ],
+    "tags": [
+      "Shape"
+    ],
+    "author": "Jeff Anders",
+    "version": "6.6.95"
+  },
+  {
+    "id": "336D96D3-5E97-434B-BEF7-651BF94FA347",
+    "name": "square-rounded-badge-outline",
+    "codepoint": "F1A08",
+    "aliases": [
+      "app-badge-outline",
+      "push-notification-outline"
+    ],
+    "tags": [
+      "Shape"
+    ],
+    "author": "Jeff Anders",
+    "version": "6.6.95"
   },
   {
     "id": "9E46259E-F519-4CCA-BE7E-0DAC8230B3A4",
@@ -68367,8 +69595,17 @@
     "id": "A915898D-3218-4A0E-9732-CEB0701DADA1",
     "name": "sun-thermometer",
     "codepoint": "F18D6",
-    "aliases": [],
-    "tags": [],
+    "aliases": [
+      "heat-index",
+      "sun-temperature",
+      "day-temperature",
+      "external-temperature",
+      "outdoor-temperature"
+    ],
+    "tags": [
+      "Weather",
+      "Home Automation"
+    ],
     "author": "Michael Irigoyen",
     "version": "6.3.95"
   },
@@ -68378,7 +69615,9 @@
     "codepoint": "F18D7",
     "aliases": [
       "external-temperature",
-      "outside-temperature"
+      "outside-temperature",
+      "heat-index",
+      "day-temperature"
     ],
     "tags": [
       "Home Automation",
@@ -68530,7 +69769,10 @@
     "name": "swap-horizontal",
     "codepoint": "F04E1",
     "aliases": [
-      "arrow-left-right"
+      "arrow-left-right",
+      "transfer",
+      "exchange",
+      "switch"
     ],
     "tags": [
       "Arrow"
@@ -68972,7 +70214,8 @@
     "aliases": [
       "restaurant",
       "kitchen",
-      "dining"
+      "dining",
+      "dining-room"
     ],
     "tags": [
       "Home Automation"
@@ -69106,8 +70349,13 @@
     "id": "9A7A9F69-9BC4-4619-981D-DF8423A22FF2",
     "name": "table-furniture",
     "codepoint": "F05BC",
-    "aliases": [],
-    "tags": [],
+    "aliases": [
+      "kitchen",
+      "dining-room"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "nilsfast",
     "version": "1.5.54"
   },
@@ -69910,10 +71158,14 @@
     "codepoint": "F18FB",
     "aliases": [
       "child-toy",
-      "children-toy"
+      "children-toy",
+      "kids-room",
+      "childrens-room",
+      "play-room"
     ],
     "tags": [
-      "Holiday"
+      "Holiday",
+      "Home Automation"
     ],
     "author": "Andy Allsopp",
     "version": "6.3.95"
@@ -71389,10 +72641,41 @@
     "version": "2.5.94"
   },
   {
+    "id": "7B449AE2-593A-435F-A5C2-FEA8E1BE0FBB",
+    "name": "toggle-switch-variant",
+    "codepoint": "F1A25",
+    "aliases": [
+      "light-switch-on"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Matthias de Baat",
+    "version": "6.6.95"
+  },
+  {
+    "id": "E22551ED-0CEC-46B4-9CAE-FF9CC5C11CF2",
+    "name": "toggle-switch-variant-off",
+    "codepoint": "F1A26",
+    "aliases": [
+      "light-switch-off",
+      "rocker-switch-off"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Matthias de Baat",
+    "version": "6.6.95"
+  },
+  {
     "id": "5A1815F9-FC9E-4420-B723-AF4B324262A4",
     "name": "toilet",
     "codepoint": "F09AB",
-    "aliases": [],
+    "aliases": [
+      "bathroom",
+      "lavatory",
+      "bidet"
+    ],
     "tags": [
       "Home Automation"
     ],
@@ -72431,6 +73714,21 @@
     "version": "6.4.95"
   },
   {
+    "id": "C54CC9F5-7BCA-4368-B379-E0CCD221A567",
+    "name": "transmission-tower-off",
+    "codepoint": "F19DD",
+    "aliases": [
+      "powerline-off",
+      "pylon-off",
+      "grid-off"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
+  },
+  {
     "id": "260712C5-252B-484C-B5A7-33827BBC5487",
     "name": "trash-can",
     "codepoint": "F0A79",
@@ -72664,6 +73962,32 @@
     "version": "1.5.54"
   },
   {
+    "id": "C5F5CD46-5905-406B-8C0B-7109E8393218",
+    "name": "triangle-small-down",
+    "codepoint": "F1A09",
+    "aliases": [
+      "trending-down-variant"
+    ],
+    "tags": [
+      "Shape"
+    ],
+    "author": "Jeff Anders",
+    "version": "6.6.95"
+  },
+  {
+    "id": "D7C0A028-070C-4E9B-88B8-910365A3FE41",
+    "name": "triangle-small-up",
+    "codepoint": "F1A0A",
+    "aliases": [
+      "trending-up-variant"
+    ],
+    "tags": [
+      "Shape"
+    ],
+    "author": "Jeff Anders",
+    "version": "6.6.95"
+  },
+  {
     "id": "59CAC75D-7028-4672-9EC2-1B9E797BA9D1",
     "name": "triangle-wave",
     "codepoint": "F147C",
@@ -72777,6 +74101,32 @@
     ],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "8650D94A-71BC-4B6B-9BA9-A6A2A756063C",
+    "name": "truck-alert",
+    "codepoint": "F19DE",
+    "aliases": [
+      "truck-error"
+    ],
+    "tags": [
+      "Transportation + Road"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
+  },
+  {
+    "id": "FCE10225-CA09-4B2E-8BE3-5B9D718B13D5",
+    "name": "truck-alert-outline",
+    "codepoint": "F19DF",
+    "aliases": [
+      "truck-error-outline"
+    ],
+    "tags": [
+      "Transportation + Road"
+    ],
+    "author": "Simran",
+    "version": "6.6.95"
   },
   {
     "id": "8C535C82-EAA1-431A-90AE-D0A5032024EB",
@@ -73046,7 +74396,9 @@
     "id": "7796F195-34DA-4CAA-8F58-1179343EFB18",
     "name": "tumble-dryer",
     "codepoint": "F0917",
-    "aliases": [],
+    "aliases": [
+      "laundry-room"
+    ],
     "tags": [
       "Home Automation"
     ],
@@ -73057,7 +74409,9 @@
     "id": "D21E17B9-0D84-4C21-977C-D1056E934449",
     "name": "tumble-dryer-alert",
     "codepoint": "F11BA",
-    "aliases": [],
+    "aliases": [
+      "laundry-room-alert"
+    ],
     "tags": [
       "Home Automation",
       "Alert \/ Error"
@@ -73069,7 +74423,9 @@
     "id": "E9DC2320-5FD4-403B-8445-9EB68B4468B6",
     "name": "tumble-dryer-off",
     "codepoint": "F11BB",
-    "aliases": [],
+    "aliases": [
+      "laundry-room-off"
+    ],
     "tags": [
       "Home Automation"
     ],
@@ -74276,6 +75632,17 @@
     "version": "1.5.54"
   },
   {
+    "id": "0E676B63-2A2E-4182-91BD-F2A5D8D89595",
+    "name": "video-2d",
+    "codepoint": "F1A1C",
+    "aliases": [],
+    "tags": [
+      "Video \/ Movie"
+    ],
+    "author": "Austin Andrews",
+    "version": "6.6.95"
+  },
+  {
     "id": "3F4D3E00-72CA-4167-A269-F9DD1A94540D",
     "name": "video-3d",
     "codepoint": "F07FD",
@@ -75470,6 +76837,19 @@
     "version": "2.0.46"
   },
   {
+    "id": "436644E2-0AFD-47DE-A15F-EF6BD02C5F5A",
+    "name": "wall-fire",
+    "codepoint": "F1A11",
+    "aliases": [
+      "firewall"
+    ],
+    "tags": [
+      "Device \/ Tech"
+    ],
+    "author": "Austin Andrews",
+    "version": "6.6.95"
+  },
+  {
     "id": "EABFE131-4690-406C-9042-EFCA33E97A00",
     "name": "wall-sconce",
     "codepoint": "F091C",
@@ -75742,7 +77122,8 @@
     "codepoint": "F072A",
     "aliases": [
       "laundrette",
-      "local-laundry-service"
+      "local-laundry-service",
+      "laundry-room"
     ],
     "tags": [
       "Home Automation"
@@ -75754,7 +77135,9 @@
     "id": "A00D0B3E-D24A-4BC9-915C-7B264B63F2F4",
     "name": "washing-machine-alert",
     "codepoint": "F11BC",
-    "aliases": [],
+    "aliases": [
+      "laundry-room-alert"
+    ],
     "tags": [
       "Home Automation",
       "Alert \/ Error"
@@ -75766,7 +77149,9 @@
     "id": "9B318E52-E7BE-4BE1-94DF-96CA020CE55D",
     "name": "washing-machine-off",
     "codepoint": "F11BD",
-    "aliases": [],
+    "aliases": [
+      "laundry-room-off"
+    ],
     "tags": [
       "Home Automation"
     ],
@@ -76482,7 +77867,9 @@
     "id": "880967C4-85F9-4953-A6D0-73C9370BC987",
     "name": "weather-hurricane",
     "codepoint": "F0898",
-    "aliases": [],
+    "aliases": [
+      "cyclone"
+    ],
     "tags": [
       "Weather"
     ],
