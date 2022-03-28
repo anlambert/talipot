@@ -71,7 +71,7 @@ then
   echo "export GDK_PIXBUF_MODULE_FILE=\
 \${BUNDLE_DIR}/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache" >> $APPRUN_FILE
 fi
-echo "\${BUNDLE_DIR}/usr/bin/talipot" >> $APPRUN_FILE
+echo "\${BUNDLE_DIR}/usr/bin/talipot \$*" >> $APPRUN_FILE
 chmod 755 $APPRUN_FILE
 
 # create desktop file
