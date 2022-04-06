@@ -12,7 +12,7 @@ dedicated to the analysis, the drawing and the visualization of very large graph
 (up to the million of nodes and edges).
 
 It is a fork of [Tulip](https://github.com/Tulip-dev/tulip) created by
-[David Auber](https://www.labri.fr/perso/auber/david_auber_home_page/doku.php/start),
+[David Auber](https://www.labri.fr/perso/auber/david_auber_home_page/),
 from [LaBRI](https://www.labri.fr) (Laboratoire Bordelais de Recherche en Informatique)
 and [University of Bordeaux](https://www.u-bordeaux.fr).
 
