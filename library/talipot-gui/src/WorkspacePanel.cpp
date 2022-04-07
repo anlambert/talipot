@@ -183,6 +183,7 @@ void WorkspacePanel::setView(tlp::View *view) {
   if (!compatibleInteractors.empty()) {
     setCurrentInteractor(compatibleInteractors[0]);
   } else {
+    _ui->currentInteractorWidget->hide();
     _ui->sep4->hide();
   }
 
