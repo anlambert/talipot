@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021  The Talipot developers
+ * Copyright (C) 2021-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,7 +40,7 @@ static bool operator==(const git_oid &oid, const git_oid &oid2) {
 // format git_time to ISO 8601 string
 static string iso8601(const git_time *gt) {
   ostringstream oss;
-  oss << put_time(gmtime(reinterpret_cast<const time_t *>(&gt->time)), "%FT%TZ");
+  oss << put_time(gmtime(reinterpret_cast<const time_t *>(&gt->time)), "%Y-%m-%dT%H:%M:%SZ");
   return oss.str();
 }
 
