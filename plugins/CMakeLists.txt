@@ -1,3 +1,4 @@
+ADD_SUBDIRECTORY(utils/graphviz)
 ADD_SUBDIRECTORY(clustering)
 ADD_SUBDIRECTORY(export)
 ADD_SUBDIRECTORY(general)

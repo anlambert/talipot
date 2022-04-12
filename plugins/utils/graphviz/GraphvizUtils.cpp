@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -785,6 +785,7 @@ bool getCoordFromGraphvizPos(Coord &outCoord, const string &inValue) {
 }
 
 bool getCoordsFromGraphvizPos(vector<Coord> &outCoords, const string &inValue) {
+  outCoords.clear();
   vector<string> points = tokenize(inValue);
   for (const auto &point : points) {
     // skip anchor points
