@@ -50,6 +50,24 @@ FIND_LIBRARY(
   NAMES pathplan
   HINTS ${pc_graphviz_LIBDIR} ${pc_graphviz_LIBRARY_DIRS})
 
+FIND_LIBRARY(
+  Graphviz_GVPLUGIN_CORE_LIBRARY
+  NAMES gvplugin_core
+  PATH_SUFFIXES graphviz
+  HINTS ${pc_graphviz_LIBDIR}/graphviz ${pc_graphviz_LIBRARY_DIRS})
+
+FIND_LIBRARY(
+  Graphviz_GVPLUGIN_DOT_LAYOUT_LIBRARY
+  NAMES gvplugin_dot_layout
+  PATH_SUFFIXES graphviz
+  HINTS ${pc_graphviz_LIBDIR}/graphviz ${pc_graphviz_LIBRARY_DIRS})
+
+FIND_LIBRARY(
+  Graphviz_GVPLUGIN_NEATO_LAYOUT_LIBRARY
+  NAMES gvplugin_neato_layout
+  PATH_SUFFIXES graphviz
+  HINTS ${pc_graphviz_LIBDIR}/graphviz ${pc_graphviz_LIBRARY_DIRS})
+
 SET(Graphviz_LIBRARIES
     "${Graphviz_GVC_LIBRARY}" "${Graphviz_CDT_LIBRARY}"
     "${Graphviz_GRAPH_LIBRARY}" "${Graphviz_PATHPLAN_LIBRARY}")
@@ -62,11 +80,8 @@ IF(EXISTS "${Graphviz_INCLUDE_DIRECTORIES}/graphviz_version.h")
   SET(Graphviz_VERSION "${CMAKE_MATCH_1}")
 ENDIF()
 
-IF("${Graphviz_FIND_VERSION}" VERSION_GREATER "${Graphviz_VERSION}")
-  MESSAGE(
-    FATAL_ERROR "Required version (" ${Graphviz_FIND_VERSION}
-                ") is higher than found version (" ${Graphviz_VERSION} ")")
-ENDIF()
+GET_FILENAME_COMPONENT(Graphviz_PLUGINS_DIR "${Graphviz_GVPLUGIN_CORE_LIBRARY}"
+                       DIRECTORY)
 
 INCLUDE(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(

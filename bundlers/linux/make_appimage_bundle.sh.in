@@ -118,8 +118,11 @@ cp -v -Rp @QT_PLUGINS_DIR@/xcbglintegrations $BUNDLE_USR_DIR/plugins
 if [ "$centos7" = true ]
 then
   # add gdk-2.0 plugins directory (needed for qt5 gtk3 platformthemes plugin)
-  cp -v -Rp /usr/lib64/gdk-pixbuf-2.0 $BUNDLE_LIB_DIRfi
+  cp -v -Rp /usr/lib64/gdk-pixbuf-2.0 $BUNDLE_LIB_DIR
 fi
+
+# copy graphviz plugins needed by talipot plugins wrapping graphviz layouts
+cp -v -Rp /usr/lib64/graphviz $BUNDLE_LIB_DIR/graphviz
 
 # set up LD_LIBRARY_PATH with the installation path of the Qt libs used
 export QT_INSTALL_LIBS_DIR=$(${QMAKE} -query QT_INSTALL_LIBS)
@@ -182,6 +185,9 @@ looking_for_plugin_dependencies $BUNDLE_LIB_DIR/talipot
 
 # copy other common libs needed by qt plugins
 looking_for_plugin_dependencies $BUNDLE_USR_DIR/plugins
+
+# copy other common libs needed by graphviz plugins
+looking_for_plugin_dependencies $BUNDLE_LIB_DIR/graphviz
 
 # copy other common libs needed by python modules
 looking_for_plugin_dependencies $PYTHON_PACKAGE_BUNDLE_DIR/lib-dynload

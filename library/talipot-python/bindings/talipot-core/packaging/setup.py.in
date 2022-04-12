@@ -72,13 +72,17 @@ if platform.system() == 'Darwin' and len(sys.argv) > 1 \
 
     talipotNativeLibsPath = os.getcwd() + '/talipot/native/'
     talipotNativePluginsLibsPath = os.getcwd() + '/talipot/native/plugins/'
+    talipotGraphvizPluginsLibsPath = os.getcwd() + '/talipot/native/graphviz/'
 
     print("Copying dylibs dependencies in talipot wheel ...")
     copyDyLibsDependencies(talipotNativeLibsPath)
     copyDyLibsDependencies(talipotNativePluginsLibsPath, '../')
+    copyDyLibsDependencies(talipotGraphvizPluginsLibsPath, '../')
     print("Relinking dylibs and setting rpaths in talipot wheel ...")
     relinkDyLibsInDirAndSetRpaths(talipotNativeLibsPath, ['@loader_path/'])
     relinkDyLibsInDirAndSetRpaths(talipotNativePluginsLibsPath,
+                                  ['@loader_path/..'])
+    relinkDyLibsInDirAndSetRpaths(talipotGraphvizPluginsLibsPath,
                                   ['@loader_path/..'])
 
 
@@ -93,7 +97,7 @@ class BinaryDistribution(Distribution):
 talipot_native_libs = []
 if platform.system() == 'Windows':
     talipot_native_libs = ['native/*.pyd', 'native/*.dll',
-                         'native/plugins/*.dll']
+                         'native/plugins/*.dll', 'native/graphviz/*.dll']
     # on Windows, call a CMake script that will gather all the required DLLs
     # to import the modules and copy them to the wheel native folder
     command = ('"${CMAKE_COMMAND}" -DCWD=%s '
@@ -102,9 +106,10 @@ if platform.system() == 'Windows':
     p = subprocess.call(command, shell=True)
 elif platform.system() == 'Darwin':
     talipot_native_libs = ['native/*.so', 'native/*.dylib',
-                           'native/plugins/*.dylib']
+                           'native/plugins/*.dylib', 'native/graphviz/*.dylib']
 elif platform.system() == 'Linux':
-    talipot_native_libs = ['native/*.so*', 'native/plugins/*.so']
+    talipot_native_libs = ['native/*.so*', 'native/plugins/*.so',
+                           'native/graphviz/*.so']
 
 here = path.abspath(path.dirname(__file__))
 
@@ -172,7 +177,8 @@ setup(
                                           'plugins/general/*',
                                           'plugins/import/*',
                                           'plugins/layout/H3Layout.py',
-                                          'plugins/layout/h3/*'],
+                                          'plugins/layout/h3/*',
+                                          'native/graphviz/config6'],
     },
 
     include_package_data=True,
