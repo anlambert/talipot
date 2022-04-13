@@ -927,14 +927,11 @@ void TableView::showHorizontalHeaderCustomContextMenu(const QPoint &pos) {
     if (_ui->table->horizontalHeader()->sortIndicatorSection() != -1) {
       _ui->table->horizontalHeader()->setSortIndicator(-1, Qt::AscendingOrder);
       auto *sortModel = static_cast<GraphSortFilterProxyModel *>(_ui->table->model());
-      QAbstractItemModel *model = sortModel->sourceModel();
-      sortModel->setSourceModel(nullptr);
-      sortModel->setSourceModel(model);
-      sortModel->setFilterProperty(getFilteringProperty());
+      sortModel->sort(-1);
 
       QSet<tlp::PropertyInterface *> visibleProperties = propertiesEditor->visibleProperties();
 
-      for (int i = 0; i < model->columnCount(); ++i) {
+      for (int i = 0; i < sortModel->sourceModel()->columnCount(); ++i) {
         auto *pi = _model->headerData(i, Qt::Horizontal, Model::PropertyRole)
                        .value<tlp::PropertyInterface *>();
 
@@ -945,11 +942,6 @@ void TableView::showHorizontalHeaderCustomContextMenu(const QPoint &pos) {
 
     return;
   }
-
-  /*if (action == nodesSetDefault || action == edgesSetDefault) {
-    propertiesEditor->setDefaultValue(prop, action == nodesSetDefault);
-    return;
-    }*/
 
   // hold/unhold observers
   tlp::ObserverHolder oh;
