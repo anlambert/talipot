@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,7 +22,8 @@
 using namespace tlp;
 using namespace std;
 
-QPixmap GlyphRenderer::render(int glyphId, const QColor &backgroundColor) {
+QPixmap GlyphRenderer::render(int glyphId, const QColor &backgroundColor,
+                              const QColor &borderColor) {
   QString glyphKey = QString::number(glyphId) + backgroundColor.name();
   static QMap<QString, QPixmap> previews;
   if (!previews.contains(glyphKey)) {
@@ -36,7 +37,7 @@ QPixmap GlyphRenderer::render(int glyphId, const QColor &backgroundColor) {
       GlGraphInputData inputData(graph, &parameters);
       inputData.sizes()->setAllNodeValue(Size(1, 1, 1));
       inputData.colors()->setAllNodeValue(Color(192, 192, 192));
-      inputData.borderColors()->setAllNodeValue(QColorToColor(textColor()));
+      inputData.borderColors()->setAllNodeValue(QColorToColor(borderColor));
       inputData.borderWidths()->setAllNodeValue(1);
 
       GlOffscreenRenderer &renderer = GlOffscreenRenderer::instance();
@@ -63,7 +64,8 @@ QPixmap GlyphRenderer::render(int glyphId, const QColor &backgroundColor) {
   return previews[glyphKey];
 }
 
-QPixmap EdgeExtremityGlyphRenderer::render(int glyphId, const QColor &backgroundColor) {
+QPixmap EdgeExtremityGlyphRenderer::render(int glyphId, const QColor &backgroundColor,
+                                           const QColor &borderColor) {
   static QMap<QString, QPixmap> previews;
   QString glyphKey = QString::number(glyphId) + backgroundColor.name();
   if (!previews.contains(glyphKey)) {
@@ -83,7 +85,7 @@ QPixmap EdgeExtremityGlyphRenderer::render(int glyphId, const QColor &background
       inputData.colors()->setAllNodeValue(QColorToColor(tlp::backgroundColor()));
       inputData.borderColors()->setAllNodeValue(QColorToColor(tlp::backgroundColor()));
       inputData.colors()->setAllEdgeValue(Color(192, 192, 192));
-      inputData.borderColors()->setAllEdgeValue(QColorToColor(textColor()));
+      inputData.borderColors()->setAllEdgeValue(QColorToColor(borderColor));
       inputData.layout()->setNodeValue(n1, Coord(0, 0, 0));
       inputData.layout()->setNodeValue(n2, Coord(0.3f, 0, 0));
       vector<Coord> bends;

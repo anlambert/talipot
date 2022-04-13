@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -55,6 +55,7 @@ public:
   QList<QWidget *> configurationWidgets() const override;
   bool getNodeOrEdgeAtViewportPos(int x, int y, tlp::node &n, tlp::edge &e) const override;
 
+  void draw() override;
 public slots:
   void readSettings();
   void setPropertyVisible(tlp::PropertyInterface *, bool);

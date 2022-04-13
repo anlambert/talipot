@@ -613,9 +613,25 @@ QString FontIconCreator::displayText(const QVariant &data) const {
   return data.value<FontIconName>().iconName;
 }
 
+static std::pair<QColor, QColor> modelIndexColors(const QModelIndex &index,
+                                                  const QStyleOptionViewItem &option) {
+  QColor backgroundColor = index.model()->data(index, Qt::BackgroundRole).value<QColor>();
+  if (!backgroundColor.isValid()) {
+    backgroundColor =
+        (index.row() % 2) ? option.palette.alternateBase().color() : option.palette.base().color();
+  }
+  QColor foregroundColor = index.model()->data(index, Qt::ForegroundRole).value<QColor>();
+  if (!foregroundColor.isValid()) {
+    foregroundColor = textColor();
+  }
+  return {backgroundColor, foregroundColor};
+}
+
 bool FontIconCreator::paint(QPainter *painter, const QStyleOptionViewItem &option,
                             const QVariant &v, const QModelIndex &index) const {
   ItemEditorCreator::paint(painter, option, v, index);
+
+  auto [backgroundColor, foregroundColor] = modelIndexColors(index, option);
 
   QString iconName = v.value<FontIconName>().iconName;
 
@@ -624,9 +640,11 @@ bool FontIconCreator::paint(QPainter *painter, const QStyleOptionViewItem &optio
   }
 
   QStyleOptionViewItem opt = option;
+  opt.backgroundBrush = backgroundColor;
+  opt.palette.setColor(QPalette::Text, foregroundColor);
   opt.features |= QStyleOptionViewItem::HasDecoration;
   opt.features |= QStyleOptionViewItem::HasDisplay;
-  opt.icon = FontIcon::icon(iconName);
+  opt.icon = FontIcon::icon(iconName, foregroundColor);
   opt.decorationSize = opt.icon.actualSize(QSize(16, 16));
   opt.text = displayText(v);
   opt.rect = {opt.rect.x() + cellPadding, opt.rect.y(), opt.rect.width() - cellPadding,
@@ -657,7 +675,8 @@ QWidget *NodeShapeEditorCreator::createWidget(QWidget *parent) const {
 
   for (const auto &glyph : glyphs) {
     QString shapeName = tlpStringToQString(glyph);
-    QPixmap pixmap = GlyphRenderer::render(GlyphManager::glyphId(glyph), backgroundColor());
+    QPixmap pixmap =
+        GlyphRenderer::render(GlyphManager::glyphId(glyph), backgroundColor(), textColor());
     shapes.push_back({shapeName, pixmap});
   }
 
@@ -685,7 +704,7 @@ QSize NodeShapeEditorCreator::sizeHint(const QStyleOptionViewItem &option,
                                        const QModelIndex &index) const {
   QVariant data = index.model()->data(index);
   static QPixmap pixmap =
-      GlyphRenderer::render(data.value<NodeShape::NodeShapes>(), backgroundColor());
+      GlyphRenderer::render(data.value<NodeShape::NodeShapes>(), backgroundColor(), textColor());
   QFontMetrics fontMetrics(option.font);
   return QSize(pixmap.width() + fontMetrics.boundingRect(displayText(data)).width() + 20,
                pixmap.height());
@@ -695,11 +714,14 @@ bool NodeShapeEditorCreator::paint(QPainter *painter, const QStyleOptionViewItem
                                    const QVariant &data, const QModelIndex &index) const {
   ItemEditorCreator::paint(painter, option, data, index);
 
-  QPixmap pixmap = GlyphRenderer::render(data.value<NodeShape::NodeShapes>(),
-                                         (index.row() % 2) ? option.palette.alternateBase().color()
-                                                           : option.palette.base().color());
+  auto [backgroundColor, foregroundColor] = modelIndexColors(index, option);
+
+  QPixmap pixmap =
+      GlyphRenderer::render(data.value<NodeShape::NodeShapes>(), backgroundColor, foregroundColor);
 
   QStyleOptionViewItem opt = option;
+  opt.backgroundBrush = backgroundColor;
+  opt.palette.setColor(QPalette::Text, foregroundColor);
   opt.features |= QStyleOptionViewItem::HasDecoration;
   opt.features |= QStyleOptionViewItem::HasDisplay;
   opt.icon = QIcon(pixmap);
@@ -709,6 +731,7 @@ bool NodeShapeEditorCreator::paint(QPainter *painter, const QStyleOptionViewItem
               opt.rect.height()};
 
   QStyle *style = QApplication::style();
+
   style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, nullptr);
   return true;
 }
@@ -727,7 +750,7 @@ QWidget *EdgeExtremityShapeEditorCreator::createWidget(QWidget *parent) const {
   for (const auto &glyph : glyphs) {
     QString shapeName = tlpStringToQString(glyph);
     QPixmap pixmap = EdgeExtremityGlyphRenderer::render(EdgeExtremityGlyphManager::glyphId(glyph),
-                                                        backgroundColor());
+                                                        backgroundColor(), textColor());
     shapes.push_back({shapeName, pixmap});
   }
 
@@ -760,11 +783,14 @@ bool EdgeExtremityShapeEditorCreator::paint(QPainter *painter, const QStyleOptio
                                             const QVariant &data, const QModelIndex &index) const {
   ItemEditorCreator::paint(painter, option, data, index);
 
+  auto [backgroundColor, foregroundColor] = modelIndexColors(index, option);
+
   QPixmap pixmap = EdgeExtremityGlyphRenderer::render(
-      data.value<EdgeExtremityShape::EdgeExtremityShapes>(),
-      (index.row() % 2) ? option.palette.alternateBase().color() : option.palette.base().color());
+      data.value<EdgeExtremityShape::EdgeExtremityShapes>(), backgroundColor, foregroundColor);
 
   QStyleOptionViewItem opt = option;
+  opt.backgroundBrush = backgroundColor;
+  opt.palette.setColor(QPalette::Text, foregroundColor);
   opt.features |= QStyleOptionViewItem::HasDecoration;
   opt.features |= QStyleOptionViewItem::HasDisplay;
   opt.icon = QIcon(pixmap);
@@ -782,7 +808,7 @@ QSize EdgeExtremityShapeEditorCreator::sizeHint(const QStyleOptionViewItem &opti
                                                 const QModelIndex &index) const {
   QVariant data = index.model()->data(index);
   static QPixmap pixmap = EdgeExtremityGlyphRenderer::render(
-      data.value<EdgeExtremityShape::EdgeExtremityShapes>(), backgroundColor());
+      data.value<EdgeExtremityShape::EdgeExtremityShapes>(), backgroundColor(), textColor());
   QFontMetrics fontMetrics(option.font);
   return QSize(pixmap.width() + fontMetrics.boundingRect(displayText(data)).width() + 40,
                pixmap.height());

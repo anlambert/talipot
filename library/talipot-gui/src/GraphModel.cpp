@@ -16,6 +16,7 @@
 #include <talipot/MetaTypes.h>
 #include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
+#include <talipot/Settings.h>
 
 using namespace tlp;
 
@@ -104,8 +105,25 @@ QVariant GraphModel::headerData(int section, Qt::Orientation orientation, int ro
       return QVariant();
     }
 
+    QModelIndex index = this->index(_elements[section], 0);
+
     if (role == Qt::DisplayRole) {
       return _elements[section];
+    } else if (role == Qt::BackgroundRole) {
+      bool selected = data(index, ElementSelectedRole).toBool();
+      if (selected) {
+        return colorToQColor(Settings::defaultSelectionColor());
+      }
+    } else if (role == Qt::ForegroundRole) {
+      bool selected = data(index, ElementSelectedRole).toBool();
+      if (selected) {
+        QColor background = data(index, Qt::BackgroundRole).value<QColor>();
+        if (background.lightnessF() < 0.5) {
+          return QColor(Qt::white);
+        } else {
+          return QColor(Qt::black);
+        }
+      }
     }
   } else {
     if (section > _properties.size() || section < 0) {
@@ -164,6 +182,27 @@ QVariant GraphModel::data(const QModelIndex &index, int role) const {
                        static_cast<PropertyInterface *>(index.internalPointer()));
   } else if (role == ElementIdRole) {
     return _elements[index.row()];
+  } else if (role == ElementSelectedRole) {
+    if (isNode()) {
+      return static_cast<bool>((*_graph)["viewSelection"][node(_elements[index.row()])]);
+    } else {
+      return static_cast<bool>((*_graph)["viewSelection"][edge(_elements[index.row()])]);
+    }
+  } else if (role == Qt::BackgroundRole) {
+    bool selected = data(index, ElementSelectedRole).toBool();
+    if (selected) {
+      return colorToQColor(Settings::defaultSelectionColor());
+    }
+  } else if (role == Qt::ForegroundRole) {
+    bool selected = data(index, ElementSelectedRole).toBool();
+    if (selected) {
+      QColor background = data(index, Qt::BackgroundRole).value<QColor>();
+      if (background.lightnessF() < 0.5) {
+        return QColor(Qt::white);
+      } else {
+        return QColor(Qt::black);
+      }
+    }
   }
 
   return QVariant();

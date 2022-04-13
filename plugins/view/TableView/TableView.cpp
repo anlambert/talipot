@@ -217,6 +217,14 @@ void TableView::graphChanged(tlp::Graph *g) {
   previousGraph = g;
   isNewGraph = false;
   setColumnsFilterCase();
+
+  for (auto *obs : triggers()) {
+    removeRedrawTrigger(obs);
+  }
+
+  if (g) {
+    addRedrawTrigger(g->getBooleanProperty("viewSelection"));
+  }
 }
 
 void TableView::graphDeleted(Graph *ancestor) {
@@ -1079,6 +1087,10 @@ void TableView::showHorizontalHeaderCustomContextMenu(const QPoint &pos) {
     setLabelsOfHighlightedRows(prop);
     return;
   }
+}
+
+void TableView::draw() {
+  _ui->table->update();
 }
 
 PLUGIN(TableView)

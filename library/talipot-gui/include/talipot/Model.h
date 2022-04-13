@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,7 +31,8 @@ public:
     IsNodeRole = Qt::UserRole + 3,
     StringRole = Qt::UserRole + 4,
     MandatoryRole = Qt::UserRole + 5,
-    ElementIdRole = Qt::UserRole + 6
+    ElementIdRole = Qt::UserRole + 6,
+    ElementSelectedRole = Qt::UserRole + 7,
   };
 
   explicit Model(QObject *parent = nullptr);
