@@ -67,7 +67,7 @@ for:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
 
     cache:
-      - C:\msys64\home\appveyor\.ccache
+      - C:\msys64\home\appveyor\ccache
       - C:\Users\appveyor\clcache
       - C:\Tools\vcpkg\installed\
 
