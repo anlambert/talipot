@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -183,12 +183,17 @@ bool MultiLinesEditEditorCreator<T>::paint(QPainter *painter, const QStyleOption
   QString valS = tlpStringToQString(T::toString(val));
   QStringList lines = valS.split(QLatin1Char('\n'));
 
+  QColor foregroundColor = index.model()->data(index, Qt::ForegroundRole).value<QColor>();
+  if (!foregroundColor.isValid()) {
+    foregroundColor = option.palette.text().color();
+  }
+
   if (option.state.testFlag(QStyle::State_Selected) && option.showDecorationSelected) {
     painter->setPen(option.palette.highlightedText().color());
     painter->setBrush(option.palette.highlightedText());
   } else {
-    painter->setPen(option.palette.text().color());
-    painter->setBrush(option.palette.text());
+    painter->setPen(foregroundColor);
+    painter->setBrush(foregroundColor);
   }
 
   for (int i = 0; i < lines.count(); ++i) {
