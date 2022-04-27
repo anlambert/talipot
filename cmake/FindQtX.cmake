@@ -117,8 +117,8 @@ IF(WIN32)
   IF(EXISTS ${QT_BINARY_DIR}/../plugins)
     SET(QT_PLUGINS_DIR ${QT_BINARY_DIR}/../plugins)
     # MSYS2 special case
-  ELSEIF(EXISTS ${QT_BINARY_DIR}/../share/qt5/plugins)
-    SET(QT_PLUGINS_DIR ${QT_BINARY_DIR}/../share/qt5/plugins)
+  ELSEIF(EXISTS ${QT_BINARY_DIR}/../share/qt${QT_MAJOR_VERSION}/plugins)
+    SET(QT_PLUGINS_DIR ${QT_BINARY_DIR}/../share/qt${QT_MAJOR_VERSION}/plugins)
   ENDIF()
 ELSEIF(APPLE)
   GET_TARGET_PROPERTY(QtCore_location Qt${QT_MAJOR_VERSION}::Core LOCATION)
@@ -126,19 +126,17 @@ ELSEIF(APPLE)
   SET(QT_FRAMEWORKS_DIR ${QT_FRAMEWORKS_DIR}/..)
   SET(QT_BINARY_DIR ${QT_FRAMEWORKS_DIR}/../bin)
 ELSE()
-  IF(EXISTS /usr/lib/x86_64-linux-gnu/qt5/bin)
-    SET(QT_BINARY_DIR /usr/lib/x86_64-linux-gnu/qt5/bin)
-  ELSEIF(EXISTS /usr/lib/i386-linux-gnu/qt5/bin)
-    SET(QT_BINARY_DIR /usr/lib/i386-linux-gnu/qt5/bin)
-  ELSEIF(EXISTS /usr/lib64/qt5/bin)
-    SET(QT_BINARY_DIR /usr/lib64/qt5/bin)
+  IF(EXISTS /usr/lib/x86_64-linux-gnu/qt${QT_MAJOR_VERSION}/bin)
+    SET(QT_BINARY_DIR /usr/lib/x86_64-linux-gnu/qt${QT_MAJOR_VERSION}/bin)
+  ELSEIF(EXISTS /usr/lib64/qt${QT_MAJOR_VERSION}/bin)
+    SET(QT_BINARY_DIR /usr/lib64/qt${QT_MAJOR_VERSION}/bin)
   ELSE()
-    SET(QT_BINARY_DIR "${_qt5Gui_install_prefix}/bin")
+    SET(QT_BINARY_DIR "${_qt${QT_MAJOR_VERSION}Gui_install_prefix}/bin")
   ENDIF()
   IF(EXISTS ${QT_BINARY_DIR}/qmake)
     SET(QT_QMAKE_EXECUTABLE ${QT_BINARY_DIR}/qmake)
-  ELSEIF(EXISTS ${QT_BINARY_DIR}/qmake-qt5)
-    SET(QT_QMAKE_EXECUTABLE ${QT_BINARY_DIR}/qmake-qt5)
+  ELSEIF(EXISTS ${QT_BINARY_DIR}/qmake-qt${QT_MAJOR_VERSION})
+    SET(QT_QMAKE_EXECUTABLE ${QT_BINARY_DIR}/qmake-qt${QT_MAJOR_VERSION})
   ENDIF()
   # Standard QtX installation
   IF(EXISTS ${QT_BINARY_DIR}/../plugins)
@@ -160,7 +158,7 @@ GET_FILENAME_COMPONENT(QT_CMAKE_DIR "${Qt${QT_MAJOR_VERSION}Core_DIR}"
 
 # On Apple platform, we need to link against QtXDBus and QtXPrintSupport when
 # using the official QtX bundle provided by qt.io (dylibs dependencies side
-# effect). However, those modules are not necessarily present when using Qt5
+# effect). However, those modules are not necessarily present when using QtX
 # from Homebrew or MacPorts, so handle those special cases here.
 IF(APPLE)
   SET(QT_DBUS_CMAKE_DIR "${QT_CMAKE_DIR}/Qt${QT_MAJOR_VERSION}DBus")
