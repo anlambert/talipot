@@ -182,11 +182,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
   ItemEditorCreator *c = creator(v.userType());
 
-  if (c == nullptr) {
-    return;
-  }
-
-  if (!c->paint(painter, option, v, index)) {
+  if (c && !c->paint(painter, option, v, index)) {
     QStyledItemDelegate::paint(painter, option, index);
   }
 }
@@ -207,7 +203,7 @@ void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) cons
     return;
   }
 
-  c->setEditorData(editor, data, isMandatory, g);
+  c->setEditorData(editor, index, data, isMandatory, g);
 }
 
 void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
@@ -283,7 +279,7 @@ QVariant ItemDelegate::showEditorDialog(tlp::ElementType elType, tlp::PropertyIn
 
   creator->setPropertyToEdit(pi);
   QWidget *w = creator->createWidget(dialogParent);
-  creator->setEditorData(w, value, g);
+  creator->setEditorData(w, QModelIndex(), value, g);
 
   auto *dlg = dynamic_cast<QDialog *>(w);
 

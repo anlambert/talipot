@@ -67,8 +67,8 @@ QWidget *NumberEditorCreator<T>::createWidget(QWidget *parent) const {
 }
 
 template <typename T>
-void NumberEditorCreator<T>::setEditorData(QWidget *editor, const QVariant &data, bool,
-                                           tlp::Graph *) {
+void NumberEditorCreator<T>::setEditorData(QWidget *editor, const QModelIndex &,
+                                           const QVariant &data, bool, tlp::Graph *) {
   static_cast<QDoubleSpinBox *>(editor)->setValue(data.value<REAL_TYPE(T)>());
 }
 
@@ -85,8 +85,8 @@ QWidget *LineEditEditorCreator<T>::createWidget(QWidget *parent) const {
 }
 
 template <typename T>
-void LineEditEditorCreator<T>::setEditorData(QWidget *editor, const QVariant &data, bool,
-                                             tlp::Graph *) {
+void LineEditEditorCreator<T>::setEditorData(QWidget *editor, const QModelIndex &,
+                                             const QVariant &data, bool, tlp::Graph *) {
   REAL_TYPE(T::RealType val = data.value < typename T) > ();
   static_cast<QLineEdit *>(editor)->setText(tlpStringToQString(T::toString(val)));
   static_cast<QLineEdit *>(editor)->selectAll();
@@ -131,8 +131,8 @@ QWidget *MultiLinesEditEditorCreator<T>::createWidget(QWidget *parent) const {
 }
 
 template <typename T>
-void MultiLinesEditEditorCreator<T>::setEditorData(QWidget *editor, const QVariant &data, bool,
-                                                   tlp::Graph *) {
+void MultiLinesEditEditorCreator<T>::setEditorData(QWidget *editor, const QModelIndex &,
+                                                   const QVariant &data, bool, tlp::Graph *) {
   auto val = data.value<REAL_TYPE(T)>();
   static_cast<QTextEdit *>(editor)->setPlainText(tlpStringToQString(T::toString(val)));
   static_cast<QTextEdit *>(editor)->selectAll();
@@ -211,8 +211,9 @@ QWidget *PropertyEditorCreator<PROPTYPE>::createWidget(QWidget *parent) const {
 }
 
 template <typename PROPTYPE>
-void PropertyEditorCreator<PROPTYPE>::setEditorData(QWidget *w, const QVariant &val,
-                                                    bool isMandatory, tlp::Graph *g) {
+void PropertyEditorCreator<PROPTYPE>::setEditorData(QWidget *w, const QModelIndex &,
+                                                    const QVariant &val, bool isMandatory,
+                                                    tlp::Graph *g) {
   if (g == nullptr) {
     w->setEnabled(false);
     return;
@@ -266,8 +267,8 @@ QWidget *VectorEditorCreator<ElementType>::createWidget(QWidget *) const {
 }
 
 template <typename ElementType>
-void VectorEditorCreator<ElementType>::setEditorData(QWidget *editor, const QVariant &v, bool,
-                                                     tlp::Graph *) {
+void VectorEditorCreator<ElementType>::setEditorData(QWidget *editor, const QModelIndex &,
+                                                     const QVariant &v, bool, tlp::Graph *) {
   QVector<QVariant> editorData;
   auto vect = v.value<std::vector<ElementType>>();
 

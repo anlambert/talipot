@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2020-2021  The Talipot developers
+ * Copyright (C) 2020-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -780,28 +780,28 @@ AlgorithmRunner #searchBox {
   text-align: left;
 }
 
-#AlgorithmRunnerItem QCheckBox {
+#AlgorithmRunnerItem QCheckBox[favorite="true"] {
   spacing: 0px;
 }
 
-#AlgorithmRunnerItem QCheckBox::indicator {
+#AlgorithmRunnerItem QCheckBox[favorite="true"]::indicator {
   width: 28px;
   height: 28px;
 }
 
-#AlgorithmRunnerItem QCheckBox::indicator:unchecked {
+#AlgorithmRunnerItem QCheckBox[favorite="true"]::indicator:unchecked {
   image: url(:/talipot/app/icons/svg/star-outline.svg);
 }
 
-#AlgorithmRunnerItem QCheckBox::indicator:unchecked:hover {
+#AlgorithmRunnerItem QCheckBox[favorite="true"]::indicator:unchecked:hover {
   image: url(:/talipot/app/icons/svg/star-outline-hover.svg);
 }
 
-#AlgorithmRunnerItem QCheckBox::indicator:checked {
+#AlgorithmRunnerItem QCheckBox[favorite="true"]::indicator:checked {
   image: url(:/talipot/app/icons/svg/star.svg);
 }
 
-#AlgorithmRunnerItem QCheckBox::indicator:checked:hover {
+#AlgorithmRunnerItem QCheckBox[favorite="true"]::indicator:checked:hover {
   image: url(:/talipot/app/icons/svg/star-hover.svg);
 }
 
@@ -816,7 +816,6 @@ AlgorithmRunner #searchBox {
 }
 
 #AlgorithmRunnerItem  QTableView {
-  background: transparent;
   font: 12px;
 }
 

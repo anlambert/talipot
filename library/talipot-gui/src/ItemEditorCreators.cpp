@@ -14,6 +14,7 @@
 #include <QColorDialog>
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QCheckBox>
 
 #include <talipot/ColorScaleButton.h>
 #include <talipot/Vec3fEditor.h>
@@ -29,6 +30,20 @@
 #include <talipot/ShapeDialog.h>
 
 using namespace tlp;
+
+static std::pair<QColor, QColor> modelIndexColors(const QModelIndex &index,
+                                                  const QStyleOptionViewItem &option) {
+  QColor backgroundColor = index.model()->data(index, Qt::BackgroundRole).value<QColor>();
+  if (!backgroundColor.isValid()) {
+    backgroundColor =
+        (index.row() % 2) ? option.palette.alternateBase().color() : option.palette.base().color();
+  }
+  QColor foregroundColor = index.model()->data(index, Qt::ForegroundRole).value<QColor>();
+  if (!foregroundColor.isValid()) {
+    foregroundColor = textColor();
+  }
+  return {backgroundColor, foregroundColor};
+}
 
 /*
  * Base class
@@ -99,7 +114,8 @@ bool ColorEditorCreator::paint(QPainter *painter, const QStyleOptionViewItem &op
   return true;
 }
 
-void ColorEditorCreator::setEditorData(QWidget *editor, const QVariant &data, bool, tlp::Graph *) {
+void ColorEditorCreator::setEditorData(QWidget *editor, const QModelIndex &, const QVariant &data,
+                                       bool, tlp::Graph *) {
   auto *dlg = static_cast<ColorDialog *>(editor);
 
   dlg->previousColor = data.value<tlp::Color>();
@@ -118,26 +134,88 @@ QVariant ColorEditorCreator::editorData(QWidget *editor, tlp::Graph *) {
   return QVariant::fromValue<tlp::Color>(QColorToColor(dlg->currentColor()));
 }
 
+class BooleanCheckBox : public QCheckBox {
+
+public:
+  BooleanCheckBox(QWidget *parent = nullptr) : QCheckBox(parent) {
+    connect(this, &QCheckBox::stateChanged, this, &BooleanCheckBox::stateChangedSlot);
+  }
+
+private slots:
+
+  void stateChangedSlot(int state) {
+    setText(state == Qt::Checked ? "true" : "false");
+  }
+};
+
 /*
   BooleanEditorCreator
 */
 QWidget *BooleanEditorCreator::createWidget(QWidget *parent) const {
-  return new QComboBox(parent);
+  return new BooleanCheckBox(parent);
 }
 
-void BooleanEditorCreator::setEditorData(QWidget *editor, const QVariant &v, bool, tlp::Graph *) {
-  auto *cb = static_cast<QComboBox *>(editor);
-  cb->addItem("false");
-  cb->addItem("true");
-  cb->setCurrentIndex(v.toBool() ? 1 : 0);
+void BooleanEditorCreator::setEditorData(QWidget *editor, const QModelIndex &index,
+                                         const QVariant &v, bool, tlp::Graph *) {
+  auto *cb = static_cast<QCheckBox *>(editor);
+  cb->setChecked(v.toBool());
+  cb->setText(v.toBool() ? "true" : "false");
+  if (index.isValid()) {
+    auto [backgroundColor, foregroundColor] = modelIndexColors(index, QStyleOptionViewItem());
+    cb->setStyleSheet(QString("QCheckBox { background: %1; color: %2; }")
+                          .arg(backgroundColor.name())
+                          .arg(foregroundColor.name()));
+  }
 }
 
 QVariant BooleanEditorCreator::editorData(QWidget *editor, tlp::Graph *) {
-  return static_cast<QComboBox *>(editor)->currentIndex() == 1;
+  return static_cast<QCheckBox *>(editor)->isChecked();
 }
 
 QString BooleanEditorCreator::displayText(const QVariant &v) const {
   return v.toBool() ? "true" : "false";
+}
+
+bool BooleanEditorCreator::paint(QPainter *painter, const QStyleOptionViewItem &option,
+                                 const QVariant &v, const QModelIndex &index) const {
+  ItemEditorCreator::paint(painter, option, v, index);
+
+  auto [backgroundColor, foregroundColor] = modelIndexColors(index, option);
+
+  bool checked = v.toBool();
+
+  QStyleOptionViewItem opt = option;
+  opt.backgroundBrush = backgroundColor;
+  opt.palette.setColor(QPalette::Text, foregroundColor);
+  opt.features |= QStyleOptionViewItem::HasDisplay;
+  opt.features |= QStyleOptionViewItem::HasCheckIndicator;
+  opt.text = displayText(v);
+  opt.rect = {opt.rect.x(), opt.rect.y(), opt.rect.width(), opt.rect.height()};
+  opt.checkState = checked ? Qt::Checked : Qt::Unchecked;
+
+  QStyle *style = QApplication::style();
+  style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, nullptr);
+
+  if (applicationHasDarkGuiTheme() && qApp->style()->objectName() == "QFusionStyle") {
+    // ensure checkbox indicator is visible with dark them when using Qt Fusion style
+    opt.backgroundBrush = Qt::transparent;
+    opt.palette.setColor(QPalette::Text, qApp->palette().color(QPalette::Text));
+    if (foregroundColor == darkColor) {
+      opt.text = "";
+    }
+    style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, nullptr);
+  }
+
+  return true;
+}
+
+QSize BooleanEditorCreator::sizeHint(const QStyleOptionViewItem &option,
+                                     const QModelIndex &index) const {
+  QVariant data = index.model()->data(index);
+  static QSize iconSize(16, 16);
+  QFontMetrics fontMetrics(option.font);
+  return QSize(iconSize.width() + fontMetrics.boundingRect(displayText(data)).width() + 20,
+               iconSize.height());
 }
 
 /*
@@ -148,7 +226,8 @@ QWidget *Vec3fEditorCreator::createWidget(QWidget *parent) const {
   return new Vec3fEditor(mainWindow ? mainWindow : parent, editSize);
 }
 
-void Vec3fEditorCreator::setEditorData(QWidget *w, const QVariant &v, bool, tlp::Graph *) {
+void Vec3fEditorCreator::setEditorData(QWidget *w, const QModelIndex &, const QVariant &v, bool,
+                                       tlp::Graph *) {
   if (editSize) {
     static_cast<Vec3fEditor *>(w)->setVec3f(v.value<tlp::Size>());
   } else {
@@ -183,8 +262,9 @@ QWidget *PropertyInterfaceEditorCreator::createWidget(QWidget *parent) const {
   return new QComboBox(parent);
 }
 
-void PropertyInterfaceEditorCreator::setEditorData(QWidget *w, const QVariant &val,
-                                                   bool isMandatory, tlp::Graph *g) {
+void PropertyInterfaceEditorCreator::setEditorData(QWidget *w, const QModelIndex &,
+                                                   const QVariant &val, bool isMandatory,
+                                                   tlp::Graph *g) {
   if (g == nullptr) {
     w->setEnabled(false);
     return;
@@ -227,7 +307,8 @@ QWidget *NumericPropertyEditorCreator::createWidget(QWidget *parent) const {
   return new QComboBox(parent);
 }
 
-void NumericPropertyEditorCreator::setEditorData(QWidget *w, const QVariant &val, bool isMandatory,
+void NumericPropertyEditorCreator::setEditorData(QWidget *w, const QModelIndex &,
+                                                 const QVariant &val, bool isMandatory,
                                                  tlp::Graph *g) {
   if (g == nullptr) {
     w->setEnabled(false);
@@ -279,7 +360,8 @@ bool ColorScaleEditorCreator::paint(QPainter *painter, const QStyleOptionViewIte
   return true;
 }
 
-void ColorScaleEditorCreator::setEditorData(QWidget *w, const QVariant &var, bool, tlp::Graph *) {
+void ColorScaleEditorCreator::setEditorData(QWidget *w, const QModelIndex &, const QVariant &var,
+                                            bool, tlp::Graph *) {
   static_cast<ColorScaleButton *>(w)->editColorScale(var.value<ColorScale>());
 }
 
@@ -294,8 +376,8 @@ QWidget *StringCollectionEditorCreator::createWidget(QWidget *parent) const {
   return new QComboBox(parent);
 }
 
-void StringCollectionEditorCreator::setEditorData(QWidget *widget, const QVariant &var, bool,
-                                                  tlp::Graph *) {
+void StringCollectionEditorCreator::setEditorData(QWidget *widget, const QModelIndex &,
+                                                  const QVariant &var, bool, tlp::Graph *) {
   auto col = var.value<StringCollection>();
   auto *combo = static_cast<QComboBox *>(widget);
 
@@ -363,7 +445,8 @@ QWidget *FileDescriptorEditorCreator::createWidget(QWidget *parent) const {
   return dlg;
 }
 
-void FileDescriptorEditorCreator::setEditorData(QWidget *w, const QVariant &v, bool, tlp::Graph *) {
+void FileDescriptorEditorCreator::setEditorData(QWidget *w, const QModelIndex &, const QVariant &v,
+                                                bool, tlp::Graph *) {
   auto desc = v.value<FileDescriptor>();
   auto *dlg = static_cast<FileDialog *>(w);
   dlg->previousFileDescriptor = desc;
@@ -517,7 +600,8 @@ QWidget *TextureFileEditorCreator::createWidget(QWidget *parent) const {
   return new TextureFileDialog(mainWindow ? mainWindow : parent);
 }
 
-void TextureFileEditorCreator::setEditorData(QWidget *w, const QVariant &v, bool, tlp::Graph *) {
+void TextureFileEditorCreator::setEditorData(QWidget *w, const QModelIndex &, const QVariant &v,
+                                             bool, tlp::Graph *) {
   auto desc = v.value<TextureFile>();
   auto *dlg = static_cast<TextureFileDialog *>(w);
   dlg->setData(desc);
@@ -599,7 +683,8 @@ QWidget *FontIconCreator::createWidget(QWidget *parent) const {
   return new FontIconDialog(mainWindow ? mainWindow : parent);
 }
 
-void FontIconCreator::setEditorData(QWidget *w, const QVariant &v, bool, tlp::Graph *) {
+void FontIconCreator::setEditorData(QWidget *w, const QModelIndex &, const QVariant &v, bool,
+                                    tlp::Graph *) {
   auto *tfid = static_cast<FontIconDialog *>(w);
   tfid->setSelectedIconName(v.value<FontIconName>().iconName);
 }
@@ -611,20 +696,6 @@ QVariant FontIconCreator::editorData(QWidget *w, tlp::Graph *) {
 
 QString FontIconCreator::displayText(const QVariant &data) const {
   return data.value<FontIconName>().iconName;
-}
-
-static std::pair<QColor, QColor> modelIndexColors(const QModelIndex &index,
-                                                  const QStyleOptionViewItem &option) {
-  QColor backgroundColor = index.model()->data(index, Qt::BackgroundRole).value<QColor>();
-  if (!backgroundColor.isValid()) {
-    backgroundColor =
-        (index.row() % 2) ? option.palette.alternateBase().color() : option.palette.base().color();
-  }
-  QColor foregroundColor = index.model()->data(index, Qt::ForegroundRole).value<QColor>();
-  if (!foregroundColor.isValid()) {
-    foregroundColor = textColor();
-  }
-  return {backgroundColor, foregroundColor};
 }
 
 bool FontIconCreator::paint(QPainter *painter, const QStyleOptionViewItem &option,
@@ -684,7 +755,8 @@ QWidget *NodeShapeEditorCreator::createWidget(QWidget *parent) const {
   return new ShapeDialog(shapes, mainWindow ? mainWindow : parent);
 }
 
-void NodeShapeEditorCreator::setEditorData(QWidget *w, const QVariant &data, bool, tlp::Graph *) {
+void NodeShapeEditorCreator::setEditorData(QWidget *w, const QModelIndex &, const QVariant &data,
+                                           bool, tlp::Graph *) {
   auto *nsd = static_cast<ShapeDialog *>(w);
   nsd->setSelectedShapeName(
       tlpStringToQString(GlyphManager::glyphName(data.value<NodeShape::NodeShapes>())));
@@ -760,8 +832,8 @@ QWidget *EdgeExtremityShapeEditorCreator::createWidget(QWidget *parent) const {
   return shapeDialog;
 }
 
-void EdgeExtremityShapeEditorCreator::setEditorData(QWidget *w, const QVariant &data, bool,
-                                                    tlp::Graph *) {
+void EdgeExtremityShapeEditorCreator::setEditorData(QWidget *w, const QModelIndex &,
+                                                    const QVariant &data, bool, tlp::Graph *) {
   auto *nsd = static_cast<ShapeDialog *>(w);
   nsd->setSelectedShapeName(tlpStringToQString(
       EdgeExtremityGlyphManager::glyphName(data.value<EdgeExtremityShape::EdgeExtremityShapes>())));
@@ -826,7 +898,8 @@ QWidget *EdgeShapeEditorCreator::createWidget(QWidget *parent) const {
 
   return combobox;
 }
-void EdgeShapeEditorCreator::setEditorData(QWidget *editor, const QVariant &data, bool, Graph *) {
+void EdgeShapeEditorCreator::setEditorData(QWidget *editor, const QModelIndex &,
+                                           const QVariant &data, bool, Graph *) {
   auto *combobox = static_cast<QComboBox *>(editor);
   combobox->setCurrentIndex(combobox->findData(int(data.value<EdgeShape::EdgeShapes>())));
 }
@@ -846,7 +919,8 @@ QWidget *FontEditorCreator::createWidget(QWidget *parent) const {
   QMainWindow *mainWindow = getMainWindow();
   return new FontDialog(mainWindow ? mainWindow : parent);
 }
-void FontEditorCreator::setEditorData(QWidget *editor, const QVariant &data, bool, tlp::Graph *) {
+void FontEditorCreator::setEditorData(QWidget *editor, const QModelIndex &, const QVariant &data,
+                                      bool, tlp::Graph *) {
   Font font = data.value<Font>();
   auto *fontWidget = static_cast<FontDialog *>(editor);
   fontWidget->selectFont(font);
@@ -891,8 +965,8 @@ QWidget *LabelPositionEditorCreator::createWidget(QWidget *parent) const {
 
   return result;
 }
-void LabelPositionEditorCreator::setEditorData(QWidget *w, const QVariant &var, bool,
-                                               tlp::Graph *) {
+void LabelPositionEditorCreator::setEditorData(QWidget *w, const QModelIndex &, const QVariant &var,
+                                               bool, tlp::Graph *) {
   auto *comboBox = static_cast<QComboBox *>(w);
   comboBox->setCurrentIndex(int(var.value<LabelPosition::LabelPositions>()));
 }
@@ -910,7 +984,8 @@ QWidget *GraphEditorCreator::createWidget(QWidget *parent) const {
   return new QLabel(parent);
 }
 
-void GraphEditorCreator::setEditorData(QWidget *w, const QVariant &var, bool, tlp::Graph *) {
+void GraphEditorCreator::setEditorData(QWidget *w, const QModelIndex &, const QVariant &var, bool,
+                                       tlp::Graph *) {
   auto *g = var.value<Graph *>();
 
   if (g != nullptr) {
@@ -941,7 +1016,8 @@ QWidget *EdgeSetEditorCreator::createWidget(QWidget *parent) const {
   return new QLabel(parent);
 }
 
-void EdgeSetEditorCreator::setEditorData(QWidget *w, const QVariant &var, bool, tlp::Graph *) {
+void EdgeSetEditorCreator::setEditorData(QWidget *w, const QModelIndex &, const QVariant &var, bool,
+                                         tlp::Graph *) {
   auto eset = var.value<std::set<tlp::edge>>();
 
   std::stringstream ss;
@@ -970,8 +1046,8 @@ QWidget *QVectorBoolEditorCreator::createWidget(QWidget *parent) const {
   return w;
 }
 
-void QVectorBoolEditorCreator::setEditorData(QWidget *editor, const QVariant &v, bool,
-                                             tlp::Graph *) {
+void QVectorBoolEditorCreator::setEditorData(QWidget *editor, const QModelIndex &,
+                                             const QVariant &v, bool, tlp::Graph *) {
   QVector<QVariant> editorData;
   auto vect = v.value<QVector<bool>>();
 
@@ -1033,7 +1109,8 @@ QWidget *QStringEditorCreator::createWidget(QWidget *parent) const {
   return editor;
 }
 
-void QStringEditorCreator::setEditorData(QWidget *editor, const QVariant &var, bool, tlp::Graph *) {
+void QStringEditorCreator::setEditorData(QWidget *editor, const QModelIndex &, const QVariant &var,
+                                         bool, tlp::Graph *) {
   static_cast<StringEditor *>(editor)->setString(var.toString());
 }
 
@@ -1055,8 +1132,8 @@ void QStringEditorCreator::setPropertyToEdit(tlp::PropertyInterface *prop) {
 }
 
 // StdStringEditorCreator
-void StdStringEditorCreator::setEditorData(QWidget *editor, const QVariant &var, bool,
-                                           tlp::Graph *) {
+void StdStringEditorCreator::setEditorData(QWidget *editor, const QModelIndex &,
+                                           const QVariant &var, bool, tlp::Graph *) {
   static_cast<StringEditor *>(editor)->setString(tlpStringToQString(var.value<std::string>()));
 }
 
@@ -1079,7 +1156,8 @@ QWidget *QStringListEditorCreator::createWidget(QWidget *parent) const {
   return w;
 }
 
-void QStringListEditorCreator::setEditorData(QWidget *w, const QVariant &var, bool, Graph *) {
+void QStringListEditorCreator::setEditorData(QWidget *w, const QModelIndex &, const QVariant &var,
+                                             bool, Graph *) {
   QStringList strList = var.toStringList();
   QVector<QVariant> vect(strList.length());
   int i = 0;

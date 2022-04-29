@@ -160,11 +160,8 @@
           <height>28</height>
          </size>
         </property>
-        <property name="iconSize">
-         <size>
-          <width>28</width>
-          <height>28</height>
-         </size>
+        <property name="favorite" stdset="0">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -198,7 +195,7 @@
       <bool>true</bool>
      </attribute>
      <attribute name="verticalHeaderDefaultSectionSize">
-      <number>27</number>
+      <number>30</number>
      </attribute>
     </widget>
    </item>

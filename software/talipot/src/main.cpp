@@ -65,8 +65,12 @@ void usage(const QString &error) {
 class TalipotProxyStyle : public QProxyStyle {
 
 public:
-  TalipotProxyStyle(const QString &key) : QProxyStyle(key) {}
-  TalipotProxyStyle(QStyle *style) : QProxyStyle(style) {}
+  TalipotProxyStyle(const QString &key) : QProxyStyle(key) {
+    setObjectName(baseStyle()->metaObject()->className());
+  }
+  TalipotProxyStyle(QStyle *style) : QProxyStyle(style) {
+    setObjectName(style->metaObject()->className());
+  }
 
   QIcon standardIcon(QStyle::StandardPixmap standardIcon, const QStyleOption *option = nullptr,
                      const QWidget *widget = nullptr) const override {
