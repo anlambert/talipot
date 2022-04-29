@@ -185,6 +185,13 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
   if (c && !c->paint(painter, option, v, index)) {
     QStyledItemDelegate::paint(painter, option, index);
   }
+
+  if (option.state & QStyle::State_HasFocus) {
+    painter->setBrush(Qt::transparent);
+    painter->setPen(QPen(textColor(), 2));
+    painter->drawRect(option.rect.x() + 1, option.rect.y() + 1, option.rect.width() - 2,
+                      option.rect.height() - 2);
+  }
 }
 
 void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const {
