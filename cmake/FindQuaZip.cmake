@@ -16,8 +16,9 @@ IF(WIN32)
   FIND_PATH(
     QUAZIP_INCLUDE_DIR
     NAMES quazip.h
-    PATH_SUFFIXES include/quazip5 quazip5 QuaZip-Qt5-1.0/quazip
-                  QuaZip-Qt5-1.1/quazip QuaZip-Qt5-1.2/quazip)
+    PATH_SUFFIXES
+      include/quazip5 quazip5 QuaZip-Qt5-1.0/quazip QuaZip-Qt5-1.1/quazip
+      QuaZip-Qt5-1.2/quazip QuaZip-Qt5-1.3/quazip)
   FIND_PATH(QUAZIP_ZLIB_INCLUDE_DIR NAMES zlib.h)
 ELSE(WIN32)
 
@@ -33,8 +34,9 @@ ELSE(WIN32)
     HINTS /usr/lib /usr/lib64 /usr/local/lib /opt/local/lib)
 
   # special case when using Qt5 on unix
-  SET(QUAZIP_PATH_SUFFIXES quazip5 quazip QuaZip-Qt5-1.0/quazip
-                           QuaZip-Qt5-1.1/quazip QuaZip-Qt5-1.2/quazip)
+  SET(QUAZIP_PATH_SUFFIXES
+      quazip5 quazip QuaZip-Qt5-1.0/quazip QuaZip-Qt5-1.1/quazip
+      QuaZip-Qt5-1.2/quazip QuaZip-Qt5-1.3/quazip)
   FIND_PATH(
     QUAZIP_INCLUDE_DIR quazip.h
     HINTS /usr/include /usr/local/include /usr/local/include/quazip
