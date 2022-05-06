@@ -1,7 +1,13 @@
-# QUAZIP_FOUND - QuaZip library was found QUAZIP_INCLUDE_DIR - Path to QuaZip
-# include dir QUAZIP_INCLUDE_DIRS - Path to QuaZip and zlib include dir
-# (combined from QUAZIP_INCLUDE_DIR + ZLIB_INCLUDE_DIR) QUAZIP_LIBRARIES - List
-# of QuaZip libraries QUAZIP_ZLIB_INCLUDE_DIR - The include dir of zlib headers
+# QUAZIP_FOUND - QuaZip library was found
+#
+# QUAZIP_INCLUDE_DIR - Path to QuaZip include dir
+#
+# QUAZIP_INCLUDE_DIRS - Path to QuaZip and zlib include dir (combined from
+# QUAZIP_INCLUDE_DIR + ZLIB_INCLUDE_DIR)
+#
+# QUAZIP_LIBRARIES - List of QuaZip libraries
+#
+# QUAZIP_ZLIB_INCLUDE_DIR - The include dir of zlib headers
 
 # Unset related CMake variables in order to change the lib version without
 # having to delete the current CMake cache
@@ -12,18 +18,27 @@ UNSET(QUAZIP_INCLUDE_DIRS CACHE)
 UNSET(QUAZIP_ZLIB_INCLUDE_DIR CACHE)
 
 IF(WIN32)
-  FIND_LIBRARY(QUAZIP_LIBRARIES NAMES libquazip5 quazip5 quazip1-qt5)
+  FIND_LIBRARY(
+    QUAZIP_LIBRARIES
+    NAMES libquazip${QT_MAJOR_VERSION} quazip${QT_MAJOR_VERSION}
+          quazip1-qt${QT_MAJOR_VERSION})
   FIND_PATH(
     QUAZIP_INCLUDE_DIR
     NAMES quazip.h
     PATH_SUFFIXES
-      include/quazip5 quazip5 QuaZip-Qt5-1.0/quazip QuaZip-Qt5-1.1/quazip
-      QuaZip-Qt5-1.2/quazip QuaZip-Qt5-1.3/quazip)
+      include/quazip${QT_MAJOR_VERSION}
+      quazip${QT_MAJOR_VERSION}
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.0/quazip
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.1/quazip
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.2/quazip
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.3/quazip)
   FIND_PATH(QUAZIP_ZLIB_INCLUDE_DIR NAMES zlib.h)
 ELSE(WIN32)
 
-  # special case when using Qt5 on unix
-  SET(QUAZIP_LIBRARY_NAMES quazip5 quazip-qt5 quazip1-qt5)
+  # special case when using Qt on unix
+  SET(QUAZIP_LIBRARY_NAMES
+      quazip${QT_MAJOR_VERSION} quazip-qt${QT_MAJOR_VERSION}
+      quazip1-qt${QT_MAJOR_VERSION})
   IF(APPLE)
     # needed by homebrew on MacOS
     SET(QUAZIP_LIBRARY_NAMES ${QUAZIP_LIBRARY_NAMES} quazip)
@@ -33,10 +48,14 @@ ELSE(WIN32)
     NAMES ${QUAZIP_LIBRARY_NAMES}
     HINTS /usr/lib /usr/lib64 /usr/local/lib /opt/local/lib)
 
-  # special case when using Qt5 on unix
+  # special case when using Qt on unix
   SET(QUAZIP_PATH_SUFFIXES
-      quazip5 quazip QuaZip-Qt5-1.0/quazip QuaZip-Qt5-1.1/quazip
-      QuaZip-Qt5-1.2/quazip QuaZip-Qt5-1.3/quazip)
+      quazip${QT_MAJOR_VERSION}
+      quazip
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.0/quazip
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.1/quazip
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.2/quazip
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.3/quazip)
   FIND_PATH(
     QUAZIP_INCLUDE_DIR quazip.h
     HINTS /usr/include /usr/local/include /usr/local/include/quazip
