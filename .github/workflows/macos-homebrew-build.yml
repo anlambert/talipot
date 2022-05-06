@@ -32,7 +32,7 @@ jobs:
           freetype
           fribidi
           fontconfig
-          qt5
+          qt6
           quazip
       - name: Prepare ccache timestamp
         id: get-current-date
@@ -73,7 +73,8 @@ jobs:
         working-directory: ./build
         run: cmake .
           -DTALIPOT_BUILD_CORE_ONLY=OFF
-          -DCMAKE_PREFIX_PATH=/usr/local/opt/qt5
+          -DCMAKE_PREFIX_PATH=/usr/local/opt/qt6
+          -DTALIPOT_USE_QT6=ON
       - name: Talipot complete build
         working-directory: ./build
         run: make -j4
