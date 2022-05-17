@@ -8,6 +8,10 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
       - name: Checkout Talipot code
         uses: actions/checkout@v2
       - name: Configure pagefile

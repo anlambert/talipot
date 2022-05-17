@@ -7,6 +7,10 @@ jobs:
     env:
       LD_LIBRARY_PATH: /opt/Qt/6.2.0/gcc_64/lib
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
       - name: Checkout Talipot code
         uses: actions/checkout@v2
       - name: Apt update

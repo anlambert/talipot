@@ -13,6 +13,10 @@ jobs:
           - name: Talipot AppImage build on CentOS 8
             docker-image: tgagor/centos-stream:8
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
       - name: Checkout Talipot code
         uses: actions/checkout@v2
       - name: Get current date

@@ -11,6 +11,10 @@ jobs:
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
       - name: Checkout Talipot code
         uses: actions/checkout@v2
       - name: Get wheel next dev version
