@@ -129,6 +129,7 @@ ADD_CUSTOM_COMMAND(
     ${CMAKE_SOURCE_DIR}/utils/scripts/fonticons/generate_font_icons_data.py
     ${CMAKE_SOURCE_DIR}/utils/scripts/fonticons/fa-icons.json
     ${CMAKE_SOURCE_DIR}/utils/scripts/fonticons/md-icons.json
+    ${CMAKE_SOURCE_DIR}/header.txt
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 SET_SOURCE_FILES_PROPERTIES(
