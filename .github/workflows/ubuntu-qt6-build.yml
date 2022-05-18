@@ -5,7 +5,7 @@ jobs:
     name: Talipot Qt6 build on Ubuntu 20.04
     runs-on: ubuntu-20.04
     env:
-      LD_LIBRARY_PATH: /opt/Qt/6.2.0/gcc_64/lib
+      LD_LIBRARY_PATH: /opt/Qt/6.3.0/gcc_64/lib
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -55,7 +55,7 @@ jobs:
         run: |
           curl -O https://raw.githubusercontent.com/anlambert/qbs/install-script-fixes/scripts/install-qt.sh
           chmod +x install-qt.sh
-          sudo ./install-qt.sh --version 6.2.0 \
+          sudo ./install-qt.sh --version 6.3.0 \
             qtbase \
             icu \
             qt5compat \
@@ -88,7 +88,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_INSTALL_PREFIX=$PWD/install
           -DTALIPOT_USE_QT6=ON
-          -DCMAKE_PREFIX_PATH=/opt/Qt/6.2.0/gcc_64
+          -DCMAKE_PREFIX_PATH=/opt/Qt/6.3.0/gcc_64
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_USE_CCACHE=ON
       - name: Talipot build
