@@ -9,8 +9,6 @@ jobs:
         uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{ github.token }}
-      - name: Set Swap Space
-        uses: pierotofy/set-swap-space@master
       - name: Checkout Talipot code
         uses: actions/checkout@v2
       - name: Get current date

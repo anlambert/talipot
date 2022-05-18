@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <climits>
+#include <cstring>
 #include <random>
 #include <string_view>
 
@@ -288,6 +289,24 @@ constexpr std::string_view type_name() {
   constexpr auto type_name_length = wrapped_name.length() - prefix_length - suffix_length;
   return wrapped_name.substr(prefix_length, type_name_length);
 }
+
+struct LesserString {
+  bool operator()(const char *lhs, const char *rhs) const {
+    return std::strcmp(lhs, rhs) < 0;
+  }
+};
+
+struct HashString {
+  std::size_t operator()(const char *arg) const {
+    return std::hash<std::string>()(arg);
+  }
+};
+
+struct EqualString {
+  bool operator()(const char *lhs, const char *rhs) const {
+    return !std::strcmp(lhs, rhs);
+  }
+};
 
 }
 #endif // TALIPOT_TLP_TOOLS_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,7 +35,7 @@ string FontAwesome::getWOFF2Location(const string &iconName) {
 }
 
 bool FontAwesome::isIconSupported(const string &iconName) {
-  return iconCodePoint.find(iconName) != iconCodePoint.end();
+  return iconCodePoint.find(iconName.c_str()) != iconCodePoint.end();
 }
 
 const vector<string> &FontAwesome::getSupportedIcons() {
@@ -49,7 +49,7 @@ const vector<string> &FontAwesome::getSupportedIcons() {
 }
 
 uint FontAwesome::getIconCodePoint(const string &iconName) {
-  if (const auto it = iconCodePoint.find(iconName); it != iconCodePoint.end()) {
+  if (const auto it = iconCodePoint.find(iconName.c_str()); it != iconCodePoint.end()) {
     return it->second;
   }
   return 0;
@@ -65,7 +65,7 @@ string FontAwesome::getIconFamily(const string &iconName) {
 
 string FontAwesome::getIconUtf8String(const string &iconName) {
   try {
-    return utf32to8(u32string(1, static_cast<char32_t>(iconCodePoint.at(iconName))));
+    return utf32to8(u32string(1, static_cast<char32_t>(iconCodePoint.at(iconName.c_str()))));
   } catch (std::out_of_range &) {
     tlp::warning() << iconName << " icon does not exist, falling back to "
                    << FontAwesome::Solid::QuestionCircle << std::endl;

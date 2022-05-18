@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -34,7 +34,7 @@ string MaterialDesignIcons::getWOFF2Location() {
 }
 
 bool MaterialDesignIcons::isIconSupported(const string &iconName) {
-  return iconCodePoint.find(iconName) != iconCodePoint.end();
+  return iconCodePoint.find(iconName.c_str()) != iconCodePoint.end();
 }
 
 const vector<string> &MaterialDesignIcons::getSupportedIcons() {
@@ -48,7 +48,7 @@ const vector<string> &MaterialDesignIcons::getSupportedIcons() {
 }
 
 uint MaterialDesignIcons::getIconCodePoint(const string &iconName) {
-  if (const auto it = iconCodePoint.find(iconName); it != iconCodePoint.end()) {
+  if (const auto it = iconCodePoint.find(iconName.c_str()); it != iconCodePoint.end()) {
     return it->second;
   }
   return 0;
@@ -60,7 +60,7 @@ string MaterialDesignIcons::getIconFamily(const string &) {
 
 string MaterialDesignIcons::getIconUtf8String(const string &iconName) {
   try {
-    return utf32to8(u32string(1, static_cast<char32_t>(iconCodePoint.at(iconName))));
+    return utf32to8(u32string(1, static_cast<char32_t>(iconCodePoint.at(iconName.c_str()))));
   } catch (std::out_of_range &) {
     tlp::warning() << iconName << " icon does not exist, falling back to "
                    << MaterialDesignIcons::HelpCircle << std::endl;
