@@ -407,7 +407,8 @@
     "aliases": [],
     "tags": [
       "Account \/ User",
-      "Banking"
+      "Banking",
+      "Currency"
     ],
     "author": "Jacob Wright",
     "version": "4.2.95"
@@ -419,7 +420,8 @@
     "aliases": [],
     "tags": [
       "Account \/ User",
-      "Banking"
+      "Banking",
+      "Currency"
     ],
     "author": "Jacob Wright",
     "version": "4.2.95"
@@ -693,7 +695,8 @@
     "codepoint": "F0FFB",
     "aliases": [],
     "tags": [
-      "Account \/ User"
+      "Account \/ User",
+      "Edit \/ Modify"
     ],
     "author": "Michael Richins",
     "version": "4.0.96"
@@ -1485,7 +1488,8 @@
     "codepoint": "F10C9",
     "aliases": [],
     "tags": [
-      "Account \/ User"
+      "Account \/ User",
+      "Settings"
     ],
     "author": "Sascha Wohlgemuth",
     "version": "4.3.95"
@@ -1632,7 +1636,8 @@
       "user-tie"
     ],
     "tags": [
-      "Account \/ User"
+      "Account \/ User",
+      "People \/ Family"
     ],
     "author": "Michael Irigoyen",
     "version": "3.3.92"
@@ -1742,7 +1747,9 @@
     "name": "account-voice-off",
     "codepoint": "F0ED4",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Account \/ User"
+    ],
     "author": "Google",
     "version": "3.7.95"
   },
@@ -1938,7 +1945,8 @@
     "codepoint": "F187A",
     "aliases": [],
     "tags": [
-      "Transportation + Flying"
+      "Transportation + Flying",
+      "Alert \/ Error"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -1964,7 +1972,8 @@
       "airplane-date"
     ],
     "tags": [
-      "Transportation + Flying"
+      "Transportation + Flying",
+      "Date \/ Time"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -1977,7 +1986,8 @@
       "airplane-settings"
     ],
     "tags": [
-      "Transportation + Flying"
+      "Transportation + Flying",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -1988,7 +1998,8 @@
     "codepoint": "F187E",
     "aliases": [],
     "tags": [
-      "Transportation + Flying"
+      "Transportation + Flying",
+      "Edit \/ Modify"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -2017,7 +2028,8 @@
       "airplane-gps"
     ],
     "tags": [
-      "Transportation + Flying"
+      "Transportation + Flying",
+      "Navigation"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -2090,7 +2102,8 @@
     "codepoint": "F1884",
     "aliases": [],
     "tags": [
-      "Transportation + Flying"
+      "Transportation + Flying",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -4983,7 +4996,9 @@
     "name": "api-off",
     "codepoint": "F1257",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
     "author": "sergiocarlotto",
     "version": "4.6.95"
   },
@@ -5210,7 +5225,9 @@
     "aliases": [
       "iframe-edit"
     ],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify"
+    ],
     "author": "Michael Irigoyen",
     "version": "1.5.54"
   },
@@ -5221,7 +5238,9 @@
     "aliases": [
       "iframe-edit-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify"
+    ],
     "author": "Michael Irigoyen",
     "version": "1.6.50"
   },
@@ -5292,7 +5311,9 @@
     "aliases": [
       "iframe-settings"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Michael Irigoyen",
     "version": "3.0.39"
   },
@@ -5526,7 +5547,9 @@
       "box-time",
       "archive-time"
     ],
-    "tags": [],
+    "tags": [
+      "Date \/ Time"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5539,7 +5562,9 @@
       "box-time-outline",
       "archive-time-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Date \/ Time"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5572,7 +5597,9 @@
     "aliases": [
       "box-edit"
     ],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5583,7 +5610,9 @@
     "aliases": [
       "box-edit-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5620,7 +5649,9 @@
     "aliases": [
       "box-lock"
     ],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5631,7 +5662,9 @@
     "aliases": [
       "box-lock-open"
     ],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5642,7 +5675,9 @@
     "aliases": [
       "box-lock-open-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5653,7 +5688,9 @@
     "aliases": [
       "box-lock-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5666,7 +5703,9 @@
       "box-marker",
       "box-location"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5679,7 +5718,9 @@
       "box-marker-outline",
       "box-location-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5712,7 +5753,9 @@
     "aliases": [
       "box-music"
     ],
-    "tags": [],
+    "tags": [
+      "Music"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5723,7 +5766,9 @@
     "aliases": [
       "box-music-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Music"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5859,7 +5904,9 @@
     "aliases": [
       "box-settings"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5870,7 +5917,9 @@
     "aliases": [
       "box-settings-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -7993,7 +8042,9 @@
     "aliases": [
       "paperclip-lock"
     ],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Simran",
     "version": "6.6.96"
   },
@@ -8038,7 +8089,8 @@
       "av-receiver"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Audio"
     ],
     "author": "Michael Richins",
     "version": "2.4.85"
@@ -8051,7 +8103,8 @@
       "av-receiver-off"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Audio"
     ],
     "author": "Michael Irigoyen",
     "version": "4.5.95"
@@ -9147,6 +9200,19 @@
     "version": "1.5.54"
   },
   {
+    "id": "DBEE4FC0-D708-4293-B06B-E46FAC217031",
+    "name": "barrel-outline",
+    "codepoint": "F1A28",
+    "aliases": [
+      "oil-barrel-outline",
+      "fossil-fuel-outline",
+      "energy-outline"
+    ],
+    "tags": [],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
     "id": "EDAC5CB7-39B3-4DAD-89ED-38D7EA914211",
     "name": "baseball",
     "codepoint": "F0852",
@@ -9747,7 +9813,9 @@
     "name": "battery-arrow-down",
     "codepoint": "F17DE",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -9756,7 +9824,9 @@
     "name": "battery-arrow-down-outline",
     "codepoint": "F17DF",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -9765,7 +9835,9 @@
     "name": "battery-arrow-up",
     "codepoint": "F17E0",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -9774,7 +9846,9 @@
     "name": "battery-arrow-up-outline",
     "codepoint": "F17E1",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -10148,7 +10222,9 @@
     "name": "battery-check",
     "codepoint": "F17E2",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -10157,7 +10233,9 @@
     "name": "battery-check-outline",
     "codepoint": "F17E3",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -10171,7 +10249,8 @@
     ],
     "tags": [
       "Battery",
-      "Home Automation"
+      "Home Automation",
+      "Date \/ Time"
     ],
     "author": "Colton Wiscombe",
     "version": "6.6.96"
@@ -10186,7 +10265,8 @@
     ],
     "tags": [
       "Battery",
-      "Home Automation"
+      "Home Automation",
+      "Date \/ Time"
     ],
     "author": "Colton Wiscombe",
     "version": "6.6.96"
@@ -10241,7 +10321,8 @@
     "codepoint": "F179C",
     "aliases": [],
     "tags": [
-      "Battery"
+      "Battery",
+      "Lock"
     ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
@@ -10252,7 +10333,8 @@
     "codepoint": "F179D",
     "aliases": [],
     "tags": [
-      "Battery"
+      "Battery",
+      "Lock"
     ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
@@ -10284,7 +10366,9 @@
     "name": "battery-minus",
     "codepoint": "F17E4",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -10293,7 +10377,9 @@
     "name": "battery-minus-outline",
     "codepoint": "F17E5",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -10364,7 +10450,9 @@
     "name": "battery-plus",
     "codepoint": "F17E6",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -10373,7 +10461,9 @@
     "name": "battery-plus-outline",
     "codepoint": "F17E7",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -10409,7 +10499,9 @@
     "name": "battery-remove",
     "codepoint": "F17E8",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -10418,7 +10510,9 @@
     "name": "battery-remove-outline",
     "codepoint": "F17E9",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Battery"
+    ],
     "author": "Fran\u00e7ois Risoud",
     "version": "6.1.95"
   },
@@ -11039,6 +11133,36 @@
     "version": "3.4.93"
   },
   {
+    "id": "8191437C-298C-4A5F-8EC3-A2DA4584BF0D",
+    "name": "bell-cog",
+    "codepoint": "F1A29",
+    "aliases": [
+      "bell-settings",
+      "notification-settings"
+    ],
+    "tags": [
+      "Notification",
+      "Settings"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.7.96"
+  },
+  {
+    "id": "51BF300C-2921-4364-B362-56E4D81DA629",
+    "name": "bell-cog-outline",
+    "codepoint": "F1A2A",
+    "aliases": [
+      "bell-settings-outline",
+      "notification-settings-outline"
+    ],
+    "tags": [
+      "Notification",
+      "Settings"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "6.7.96"
+  },
+  {
     "id": "C25507E4-8865-47BF-A6AB-D97978AB4397",
     "name": "bell-minus",
     "codepoint": "F13E9",
@@ -11093,7 +11217,8 @@
     ],
     "tags": [
       "Notification",
-      "Music"
+      "Music",
+      "Home Automation"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -11224,7 +11349,8 @@
       "human-biathlon"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "3.6.95"
@@ -11496,6 +11622,35 @@
     "version": "1.5.54"
   },
   {
+    "id": "2E6100FD-8F6C-423C-BC18-372F8D57DC59",
+    "name": "blinds-horizontal",
+    "codepoint": "F1A2B",
+    "aliases": [
+      "blinds-open",
+      "mini-blinds",
+      "window-open"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "18949103-543E-4756-83E4-394E60DD1036",
+    "name": "blinds-horizontal-closed",
+    "codepoint": "F1A2C",
+    "aliases": [
+      "mini-blinds",
+      "window-closed"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
     "id": "5DCCF3FA-F418-4052-9B93-6FA85C2659F5",
     "name": "blinds-open",
     "codepoint": "F1011",
@@ -11508,6 +11663,32 @@
     ],
     "author": "idevo89",
     "version": "4.1.95"
+  },
+  {
+    "id": "F57CEB13-5A41-498C-BCF5-D7036E7B1122",
+    "name": "blinds-vertical",
+    "codepoint": "F1A2D",
+    "aliases": [
+      "window"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "293F404C-5568-4F17-A6EB-0750931EE2B6",
+    "name": "blinds-vertical-closed",
+    "codepoint": "F1A2E",
+    "aliases": [
+      "window-closed"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
   },
   {
     "id": "5832B598-DAAA-4497-B995-CF940A1C7F20",
@@ -11662,7 +11843,9 @@
     "name": "bomb-off",
     "codepoint": "F06C5",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Gaming \/ RPG"
+    ],
     "author": "Roberto Graham",
     "version": "1.8.36"
   },
@@ -11872,7 +12055,9 @@
       "book-schedule",
       "book-time"
     ],
-    "tags": [],
+    "tags": [
+      "Date \/ Time"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -11884,7 +12069,9 @@
       "book-schedule",
       "book-time"
     ],
-    "tags": [],
+    "tags": [
+      "Date \/ Time"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -11895,7 +12082,9 @@
     "aliases": [
       "book-settings"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -11906,7 +12095,9 @@
     "aliases": [
       "book-settings-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -11928,7 +12119,9 @@
     "name": "book-edit",
     "codepoint": "F168C",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -11937,7 +12130,9 @@
     "name": "book-edit-outline",
     "codepoint": "F168D",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -12025,7 +12220,9 @@
     "name": "book-lock-open-outline",
     "codepoint": "F168E",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -12036,7 +12233,9 @@
     "aliases": [
       "book-secure-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -12047,7 +12246,9 @@
     "aliases": [
       "book-location"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -12058,7 +12259,9 @@
     "aliases": [
       "book-location-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -12128,7 +12331,8 @@
       "audio-book"
     ],
     "tags": [
-      "Audio"
+      "Audio",
+      "Music"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -12138,7 +12342,9 @@
     "name": "book-music-outline",
     "codepoint": "F1693",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Music"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -12368,7 +12574,9 @@
     "name": "book-settings",
     "codepoint": "F169A",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -12377,7 +12585,9 @@
     "name": "book-settings-outline",
     "codepoint": "F169B",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -12517,7 +12727,9 @@
     "name": "bookmark-music",
     "codepoint": "F00C2",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Music"
+    ],
     "author": "Austin Andrews",
     "version": "1.5.54"
   },
@@ -12526,7 +12738,9 @@
     "name": "bookmark-music-outline",
     "codepoint": "F1379",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Music"
+    ],
     "author": "Simran",
     "version": "4.9.95"
   },
@@ -12621,7 +12835,8 @@
       "automatic-gate"
     ],
     "tags": [
-      "Transportation + Road"
+      "Transportation + Road",
+      "Home Automation"
     ],
     "author": "Michael Richins",
     "version": "3.7.94"
@@ -12742,7 +12957,8 @@
       "automatic-gate-outline"
     ],
     "tags": [
-      "Transportation + Road"
+      "Transportation + Road",
+      "Home Automation"
     ],
     "author": "Michael Richins",
     "version": "3.7.94"
@@ -13080,7 +13296,9 @@
     "aliases": [
       "flask"
     ],
-    "tags": [],
+    "tags": [
+      "Science"
+    ],
     "author": "Michael Irigoyen",
     "version": "4.4.95"
   },
@@ -13091,7 +13309,9 @@
     "aliases": [
       "flask-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Science"
+    ],
     "author": "Michael Irigoyen",
     "version": "4.4.95"
   },
@@ -13941,6 +14161,17 @@
     "version": "3.5.94"
   },
   {
+    "id": "5CCE8821-5952-49CA-A3C2-53AB5E50CA19",
+    "name": "bulkhead-light",
+    "codepoint": "F1A2F",
+    "aliases": [],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "76D6F847-8DC7-41CB-B88C-9407CC2B18AA",
     "name": "bulldozer",
     "codepoint": "F0B22",
@@ -14177,7 +14408,9 @@
       "bus-location",
       "bus-stop"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Michael Richins",
     "version": "4.6.95"
   },
@@ -14584,7 +14817,9 @@
     "name": "calendar-clock-outline",
     "codepoint": "F16E1",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Date \/ Time"
+    ],
     "author": "GreenTurtwig",
     "version": "5.9.55"
   },
@@ -14658,6 +14893,30 @@
     "version": "2.8.94"
   },
   {
+    "id": "56F3CE33-D13F-43F3-B626-2728FF09D778",
+    "name": "calendar-filter",
+    "codepoint": "F1A32",
+    "aliases": [],
+    "tags": [
+      "Date \/ Time"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "0EE2D0EE-8A23-4A80-98AC-0AEE15333062",
+    "name": "calendar-filter-outline",
+    "codepoint": "F1A33",
+    "aliases": [
+      "event-week-end-outline"
+    ],
+    "tags": [
+      "Date \/ Time"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "EF6AC5FE-7E6E-47AC-B5D8-E802CBB94E3B",
     "name": "calendar-heart",
     "codepoint": "F09D2",
@@ -14687,7 +14946,8 @@
     "codepoint": "F1641",
     "aliases": [],
     "tags": [
-      "Date \/ Time"
+      "Date \/ Time",
+      "Lock"
     ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
@@ -14698,7 +14958,8 @@
     "codepoint": "F1642",
     "aliases": [],
     "tags": [
-      "Date \/ Time"
+      "Date \/ Time",
+      "Lock"
     ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
@@ -15013,6 +15274,19 @@
     "version": "1.5.54"
   },
   {
+    "id": "9ACB9882-BE7B-44A3-AFCC-FDA2A5061EF1",
+    "name": "calendar-today-outline",
+    "codepoint": "F1A30",
+    "aliases": [
+      "calendar-day-outline"
+    ],
+    "tags": [
+      "Date \/ Time"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "F2D23B1E-EA12-4EF5-9365-E698D1CD1319",
     "name": "calendar-week",
     "codepoint": "F0A33",
@@ -15037,6 +15311,32 @@
     ],
     "author": "Simran",
     "version": "2.6.95"
+  },
+  {
+    "id": "420E6A80-6C58-48A6-A8A8-8119D53633D7",
+    "name": "calendar-week-begin-outline",
+    "codepoint": "F1A31",
+    "aliases": [
+      "event-week-begin-outline"
+    ],
+    "tags": [
+      "Date \/ Time"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "9B0A106E-1157-40C2-9A68-97E1BA92A658",
+    "name": "calendar-week-outline",
+    "codepoint": "F1A34",
+    "aliases": [
+      "event-week-outline"
+    ],
+    "tags": [
+      "Date \/ Time"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "E873A542-F4E7-44F4-B7CD-19474188D5BC",
@@ -15337,7 +15637,8 @@
     "codepoint": "F1A14",
     "aliases": [],
     "tags": [
-      "Photography"
+      "Photography",
+      "Lock"
     ],
     "author": "Austin Andrews",
     "version": "6.6.96"
@@ -15348,7 +15649,8 @@
     "codepoint": "F1A15",
     "aliases": [],
     "tags": [
-      "Photography"
+      "Photography",
+      "Lock"
     ],
     "author": "Austin Andrews",
     "version": "6.6.96"
@@ -15361,7 +15663,8 @@
       "camera-location"
     ],
     "tags": [
-      "Photography"
+      "Photography",
+      "Navigation"
     ],
     "author": "Simran",
     "version": "6.5.95"
@@ -15374,7 +15677,8 @@
       "camera-location-outline"
     ],
     "tags": [
-      "Photography"
+      "Photography",
+      "Navigation"
     ],
     "author": "Simran",
     "version": "6.5.95"
@@ -15662,7 +15966,8 @@
       "candle-fire"
     ],
     "tags": [
-      "Holiday"
+      "Holiday",
+      "Home Automation"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -16000,7 +16305,10 @@
     "name": "car-clock",
     "codepoint": "F1974",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Date \/ Time",
+      "Automotive"
+    ],
     "author": "Michael Irigoyen",
     "version": "6.5.95"
   },
@@ -16139,7 +16447,8 @@
     "codepoint": "F15B5",
     "aliases": [],
     "tags": [
-      "Transportation + Road"
+      "Transportation + Road",
+      "Automotive"
     ],
     "author": "Google",
     "version": "5.6.55"
@@ -16152,7 +16461,8 @@
       "car-police"
     ],
     "tags": [
-      "Transportation + Road"
+      "Transportation + Road",
+      "Automotive"
     ],
     "author": "GreenTurtwig",
     "version": "5.6.55"
@@ -16569,7 +16879,8 @@
       "mechanic"
     ],
     "tags": [
-      "Automotive"
+      "Automotive",
+      "Hardware \/ Tools"
     ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
@@ -17488,7 +17799,10 @@
     "name": "cash-check",
     "codepoint": "F14EE",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Currency",
+      "Banking"
+    ],
     "author": "Lucas Crivellari Macieira",
     "version": "5.4.55"
   },
@@ -17514,7 +17828,9 @@
     "codepoint": "F14EA",
     "aliases": [],
     "tags": [
-      "Lock"
+      "Lock",
+      "Currency",
+      "Banking"
     ],
     "author": "Austin Andrews",
     "version": "5.4.55"
@@ -17525,7 +17841,9 @@
     "codepoint": "F14EB",
     "aliases": [],
     "tags": [
-      "Lock"
+      "Lock",
+      "Currency",
+      "Banking"
     ],
     "author": "Austin Andrews",
     "version": "5.4.55"
@@ -17540,7 +17858,9 @@
       "cash-location"
     ],
     "tags": [
-      "Banking"
+      "Banking",
+      "Currency",
+      "Navigation"
     ],
     "author": "Michael Irigoyen",
     "version": "3.5.94"
@@ -17550,7 +17870,10 @@
     "name": "cash-minus",
     "codepoint": "F1260",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Currency",
+      "Banking"
+    ],
     "author": "sergiocarlotto",
     "version": "4.7.95"
   },
@@ -17573,7 +17896,10 @@
     "name": "cash-plus",
     "codepoint": "F1261",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Currency",
+      "Banking"
+    ],
     "author": "sergiocarlotto",
     "version": "4.7.95"
   },
@@ -17586,7 +17912,8 @@
       "cash-chargeback"
     ],
     "tags": [
-      "Banking"
+      "Banking",
+      "Currency"
     ],
     "author": "Michael Richins",
     "version": "2.7.94"
@@ -17599,7 +17926,8 @@
       "till"
     ],
     "tags": [
-      "Shopping"
+      "Shopping",
+      "Banking"
     ],
     "author": "TheManuz",
     "version": "3.3.92"
@@ -17609,7 +17937,10 @@
     "name": "cash-remove",
     "codepoint": "F1262",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Currency",
+      "Banking"
+    ],
     "author": "Austin Andrews",
     "version": "4.7.95"
   },
@@ -17903,7 +18234,9 @@
     "name": "cellphone-charging",
     "codepoint": "F1397",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Cellphone \/ Phone"
+    ],
     "author": "Moma Design Studio",
     "version": "5.0.45"
   },
@@ -17912,7 +18245,9 @@
     "name": "cellphone-check",
     "codepoint": "F17FD",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Cellphone \/ Phone"
+    ],
     "author": "Michael Irigoyen",
     "version": "6.1.95"
   },
@@ -18037,7 +18372,8 @@
       "cellphone-gps"
     ],
     "tags": [
-      "Cellphone \/ Phone"
+      "Cellphone \/ Phone",
+      "Navigation"
     ],
     "author": "Michael Irigoyen",
     "version": "6.2.95"
@@ -18742,7 +19078,9 @@
       "widget-line-shimmer",
       "graph-line-shimmer"
     ],
-    "tags": [],
+    "tags": [
+      "Math"
+    ],
     "author": "Google",
     "version": "5.6.55"
   },
@@ -18765,7 +19103,9 @@
     "name": "chart-waterfall",
     "codepoint": "F1918",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Math"
+    ],
     "author": "Michael Irigoyen",
     "version": "6.4.95"
   },
@@ -19874,7 +20214,9 @@
     "name": "chili-alert",
     "codepoint": "F17EA",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Alert \/ Error"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -19883,7 +20225,9 @@
     "name": "chili-alert-outline",
     "codepoint": "F17EB",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Alert \/ Error"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -20004,7 +20348,7 @@
       "Religion",
       "Places"
     ],
-    "author": "Austin Andrews",
+    "author": "Google",
     "version": "1.5.54"
   },
   {
@@ -20512,7 +20856,9 @@
     "name": "clipboard-clock",
     "codepoint": "F16E2",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Date \/ Time"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
   },
@@ -20521,7 +20867,9 @@
     "name": "clipboard-clock-outline",
     "codepoint": "F16E3",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Date \/ Time"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
   },
@@ -20552,7 +20900,9 @@
     "name": "clipboard-file",
     "codepoint": "F1265",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "frankgrinaert",
     "version": "4.7.95"
   },
@@ -20561,7 +20911,9 @@
     "name": "clipboard-file-outline",
     "codepoint": "F1266",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "frankgrinaert",
     "version": "4.7.95"
   },
@@ -20802,7 +21154,9 @@
       "clipboard-text-time",
       "clipboard-text-history"
     ],
-    "tags": [],
+    "tags": [
+      "Date \/ Time"
+    ],
     "author": "Michael Irigoyen",
     "version": "6.3.95"
   },
@@ -20815,7 +21169,9 @@
       "clipboard-text-time-outline",
       "clipboard-text-history-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Date \/ Time"
+    ],
     "author": "Michael Irigoyen",
     "version": "6.3.95"
   },
@@ -20990,7 +21346,8 @@
     "codepoint": "F19BA",
     "aliases": [],
     "tags": [
-      "Date \/ Time"
+      "Date \/ Time",
+      "Edit \/ Modify"
     ],
     "author": "Sidney Alcantara",
     "version": "6.5.95"
@@ -21001,7 +21358,8 @@
     "codepoint": "F19BB",
     "aliases": [],
     "tags": [
-      "Date \/ Time"
+      "Date \/ Time",
+      "Edit \/ Modify"
     ],
     "author": "Sidney Alcantara",
     "version": "6.5.95"
@@ -21701,7 +22059,8 @@
       "cloud-json"
     ],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Developer \/ Languages"
     ],
     "author": "Andy Martinez",
     "version": "2.0.46"
@@ -21814,6 +22173,40 @@
     "version": "1.5.54"
   },
   {
+    "id": "63C6361B-587A-4EF6-9308-8E54DD1BB68E",
+    "name": "cloud-percent",
+    "codepoint": "F1A35",
+    "aliases": [
+      "humidity",
+      "rain-chance",
+      "cloud-discount"
+    ],
+    "tags": [
+      "Weather",
+      "Cloud",
+      "Nature"
+    ],
+    "author": "Simran",
+    "version": "6.7.96"
+  },
+  {
+    "id": "CB1A76AC-F998-48D8-A4DC-C29CD02CDFF7",
+    "name": "cloud-percent-outline",
+    "codepoint": "F1A36",
+    "aliases": [
+      "cloud-discount-outline",
+      "humidity-outline",
+      "rain-chance-outline"
+    ],
+    "tags": [
+      "Weather",
+      "Cloud",
+      "Nature"
+    ],
+    "author": "Simran",
+    "version": "6.7.96"
+  },
+  {
     "id": "DB32F759-BA18-488B-9260-9A38529BE7A8",
     "name": "cloud-print",
     "codepoint": "F0165",
@@ -21855,7 +22248,9 @@
     "name": "cloud-refresh",
     "codepoint": "F052A",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Cloud"
+    ],
     "author": "Austin Andrews",
     "version": "1.5.54"
   },
@@ -21971,6 +22366,21 @@
     "version": "4.1.95"
   },
   {
+    "id": "D4A857FB-53DF-4726-9B49-986C83844E40",
+    "name": "coach-lamp-variant",
+    "codepoint": "F1A37",
+    "aliases": [
+      "coach-light",
+      "carriage-light",
+      "carriage-lamp"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Borre Haugen",
+    "version": "6.7.96"
+  },
+  {
     "id": "21D89E60-3522-4F1F-A1D2-60E67B2C9552",
     "name": "coat-rack",
     "codepoint": "F109E",
@@ -22076,7 +22486,9 @@
     "name": "code-json",
     "codepoint": "F0626",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
     "author": "Austin Andrews",
     "version": "1.6.50"
   },
@@ -23263,6 +23675,18 @@
     "version": "4.9.95"
   },
   {
+    "id": "75C5A894-CC25-4326-A270-6F70BE0D8AAB",
+    "name": "compost",
+    "codepoint": "F1A38",
+    "aliases": [],
+    "tags": [
+      "Agriculture",
+      "Nature"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
     "id": "4819FE23-EEAA-496B-A8DC-C4101A1AC994",
     "name": "cone",
     "codepoint": "F194C",
@@ -23433,7 +23857,9 @@
     "name": "content-copy",
     "codepoint": "F018F",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Text \/ Content \/ Format"
+    ],
     "author": "Google",
     "version": "1.5.54"
   },
@@ -23446,7 +23872,8 @@
       "clip"
     ],
     "tags": [
-      "Health \/ Beauty"
+      "Health \/ Beauty",
+      "Text \/ Content \/ Format"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -23465,7 +23892,9 @@
     "name": "content-paste",
     "codepoint": "F0192",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Text \/ Content \/ Format"
+    ],
     "author": "Google",
     "version": "1.5.54"
   },
@@ -23802,7 +24231,8 @@
       "biscuit-clock"
     ],
     "tags": [
-      "Food \/ Drink"
+      "Food \/ Drink",
+      "Date \/ Time"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -23815,7 +24245,8 @@
       "biscuit-clock-outline"
     ],
     "tags": [
-      "Food \/ Drink"
+      "Food \/ Drink",
+      "Date \/ Time"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -23854,7 +24285,8 @@
       "biscuit-edit"
     ],
     "tags": [
-      "Food \/ Drink"
+      "Food \/ Drink",
+      "Edit \/ Modify"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -23867,7 +24299,8 @@
       "biscuit-edit-outline"
     ],
     "tags": [
-      "Food \/ Drink"
+      "Food \/ Drink",
+      "Edit \/ Modify"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -23880,7 +24313,8 @@
       "biscuit-lock"
     ],
     "tags": [
-      "Food \/ Drink"
+      "Food \/ Drink",
+      "Lock"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -23893,7 +24327,8 @@
       "biscuit-lock-outline"
     ],
     "tags": [
-      "Food \/ Drink"
+      "Food \/ Drink",
+      "Lock"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -24051,7 +24486,8 @@
       "biscuit-crumbs"
     ],
     "tags": [
-      "Food \/ Drink"
+      "Food \/ Drink",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
@@ -24066,7 +24502,8 @@
       "biscuit-crumbs-outline"
     ],
     "tags": [
-      "Food \/ Drink"
+      "Food \/ Drink",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
@@ -24402,7 +24839,10 @@
     "name": "credit-card-edit",
     "codepoint": "F17D7",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify",
+      "Banking"
+    ],
     "author": "Jeff Anders",
     "version": "6.1.95"
   },
@@ -24411,7 +24851,10 @@
     "name": "credit-card-edit-outline",
     "codepoint": "F17D8",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify",
+      "Banking"
+    ],
     "author": "Jeff Anders",
     "version": "6.1.95"
   },
@@ -24447,7 +24890,8 @@
     "codepoint": "F18E7",
     "aliases": [],
     "tags": [
-      "Banking"
+      "Banking",
+      "Lock"
     ],
     "author": "Michael Irigoyen",
     "version": "6.3.95"
@@ -24458,7 +24902,8 @@
     "codepoint": "F18E8",
     "aliases": [],
     "tags": [
-      "Banking"
+      "Banking",
+      "Lock"
     ],
     "author": "Michael Irigoyen",
     "version": "6.3.95"
@@ -24472,7 +24917,8 @@
       "payment-on-delivery"
     ],
     "tags": [
-      "Banking"
+      "Banking",
+      "Navigation"
     ],
     "author": "Michael Irigoyen",
     "version": "1.7.12"
@@ -24487,7 +24933,8 @@
       "credit-card-location-outline"
     ],
     "tags": [
-      "Banking"
+      "Banking",
+      "Navigation"
     ],
     "author": "Michael Irigoyen",
     "version": "3.5.94"
@@ -25354,10 +25801,23 @@
     "codepoint": "F1315",
     "aliases": [],
     "tags": [
-      "Currency"
+      "Currency",
+      "Banking"
     ],
     "author": "Michael Irigoyen",
     "version": "4.8.95"
+  },
+  {
+    "id": "7FFA202C-D65F-4F9C-AC9B-6A17AB4C611E",
+    "name": "currency-fra",
+    "codepoint": "F1A39",
+    "aliases": [],
+    "tags": [
+      "Currency",
+      "Banking"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
   },
   {
     "id": "F9BD830F-EBB6-45A4-A576-0DEC27084A95",
@@ -25450,7 +25910,8 @@
       "currency-mongolian-tugrug"
     ],
     "tags": [
-      "Currency"
+      "Currency",
+      "Banking"
     ],
     "author": "Colton Wiscombe",
     "version": "5.4.55"
@@ -25526,7 +25987,8 @@
       "currency-inr"
     ],
     "tags": [
-      "Banking"
+      "Banking",
+      "Currency"
     ],
     "author": "Google",
     "version": "6.5.95"
@@ -25767,7 +26229,9 @@
     "aliases": [
       "human-dance-ballroom"
     ],
-    "tags": [],
+    "tags": [
+      "People \/ Family"
+    ],
     "author": "Michael Irigoyen",
     "version": "5.6.55"
   },
@@ -25780,7 +26244,8 @@
       "human-dance-pole"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Haley Halcyon",
     "version": "5.5.55"
@@ -25998,7 +26463,8 @@
     "codepoint": "F163F",
     "aliases": [],
     "tags": [
-      "Database"
+      "Database",
+      "Date \/ Time"
     ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
@@ -26009,7 +26475,8 @@
     "codepoint": "F162A",
     "aliases": [],
     "tags": [
-      "Database"
+      "Database",
+      "Date \/ Time"
     ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
@@ -26055,7 +26522,8 @@
     "codepoint": "F162B",
     "aliases": [],
     "tags": [
-      "Database"
+      "Database",
+      "Edit \/ Modify"
     ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
@@ -26177,7 +26645,8 @@
     "codepoint": "F162E",
     "aliases": [],
     "tags": [
-      "Database"
+      "Database",
+      "Lock"
     ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
@@ -26191,7 +26660,8 @@
     ],
     "tags": [
       "Geographic Information System",
-      "Database"
+      "Database",
+      "Navigation"
     ],
     "author": "Michael Irigoyen",
     "version": "4.8.95"
@@ -26204,7 +26674,8 @@
       "database-location-outline"
     ],
     "tags": [
-      "Database"
+      "Database",
+      "Navigation"
     ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
@@ -26379,7 +26850,8 @@
     "codepoint": "F1637",
     "aliases": [],
     "tags": [
-      "Database"
+      "Database",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
@@ -27386,7 +27858,9 @@
     "name": "digital-ocean",
     "codepoint": "F1237",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
     "author": "Michael Richins",
     "version": "4.6.95"
   },
@@ -27467,7 +27941,8 @@
       "Gaming \/ RPG"
     ],
     "author": "Contributors",
-    "version": "1.6.50"
+    "version": "1.6.50",
+    "deprecated": true
   },
   {
     "id": "41CB517E-41F5-47D4-A8A2-E9512CB065DD",
@@ -27586,7 +28061,8 @@
       "human-diving"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "6.5.95"
@@ -28556,7 +29032,9 @@
     "name": "ear-hearing",
     "codepoint": "F07C5",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Medical \/ Hospital"
+    ],
     "author": "Google",
     "version": "2.0.46"
   },
@@ -28567,7 +29045,9 @@
     "aliases": [
       "hearing-impaired"
     ],
-    "tags": [],
+    "tags": [
+      "Medical \/ Hospital"
+    ],
     "author": "Henrique C\u00e9sar Madeira",
     "version": "2.6.95"
   },
@@ -28579,7 +29059,8 @@
       "headphones"
     ],
     "tags": [
-      "Audio"
+      "Audio",
+      "Music"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -28592,7 +29073,8 @@
       "headphones-off"
     ],
     "tags": [
-      "Audio"
+      "Audio",
+      "Music"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -28605,7 +29087,8 @@
       "headphones-off-outline"
     ],
     "tags": [
-      "Audio"
+      "Audio",
+      "Music"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -28618,7 +29101,8 @@
       "headphones-outline"
     ],
     "tags": [
-      "Audio"
+      "Audio",
+      "Music"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -28634,7 +29118,8 @@
       "world"
     ],
     "tags": [
-      "Geographic Information System"
+      "Geographic Information System",
+      "Navigation"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -28648,7 +29133,9 @@
       "world-arrow-right",
       "planet-arrow-right"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Michael Irigoyen",
     "version": "4.8.95"
   },
@@ -28661,7 +29148,9 @@
       "world-box",
       "planet-box"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "GreenTurtwig",
     "version": "1.8.36"
   },
@@ -28674,7 +29163,9 @@
       "world-box-minus",
       "planet-box-minus"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Muhammet Balsoy",
     "version": "5.1.45"
   },
@@ -28687,7 +29178,9 @@
       "world-box-off",
       "planet-box-off"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "GreenTurtwig",
     "version": "1.8.36"
   },
@@ -28700,7 +29193,9 @@
       "world-box-plus",
       "planet-box-plus"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Muhammet Balsoy",
     "version": "5.1.45"
   },
@@ -28713,7 +29208,9 @@
       "world-box-remove",
       "planet-box-remove"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Muhammet Balsoy",
     "version": "5.1.45"
   },
@@ -28726,7 +29223,9 @@
       "world-minus",
       "planet-minus"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Muhammet Balsoy",
     "version": "5.1.45"
   },
@@ -28740,7 +29239,8 @@
       "planet-off"
     ],
     "tags": [
-      "Geographic Information System"
+      "Geographic Information System",
+      "Navigation"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -28754,7 +29254,9 @@
       "world-plus",
       "planet-plus"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Muhammet Balsoy",
     "version": "5.1.45"
   },
@@ -28767,7 +29269,9 @@
       "world-remove",
       "planet-remove"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Muhammet Balsoy",
     "version": "5.1.45"
   },
@@ -31188,6 +31692,22 @@
     "version": "5.2.45"
   },
   {
+    "id": "BF3F7855-4971-4FA7-9BB8-8ED99E697D7A",
+    "name": "fan-clock",
+    "codepoint": "F1A3A",
+    "aliases": [
+      "fan-clock",
+      "fan-schedule",
+      "fan-timer"
+    ],
+    "tags": [
+      "Home Automation",
+      "Date \/ Time"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "FB53FDB5-A8D0-42F6-882F-63C1A683577E",
     "name": "fan-minus",
     "codepoint": "F1470",
@@ -31746,7 +32266,8 @@
     "codepoint": "F022E",
     "aliases": [],
     "tags": [
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Developer \/ Languages"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -31872,7 +32393,9 @@
     "name": "file-document-multiple",
     "codepoint": "F1517",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "Robbert Gurdeep Singh",
     "version": "5.4.55"
   },
@@ -31881,7 +32404,9 @@
     "name": "file-document-multiple-outline",
     "codepoint": "F1518",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "Michael Irigoyen",
     "version": "5.4.55"
   },
@@ -32060,7 +32585,9 @@
     "name": "file-gif-box",
     "codepoint": "F0D78",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "Michael Irigoyen",
     "version": "3.4.93"
   },
@@ -32093,7 +32620,10 @@
     "aliases": [
       "file-image-location"
     ],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders",
+      "Navigation"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -32104,7 +32634,10 @@
     "aliases": [
       "file-image-location-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders",
+      "Navigation"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -32325,7 +32858,10 @@
     "aliases": [
       "file-location"
     ],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders",
+      "Navigation"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -32336,7 +32872,10 @@
     "aliases": [
       "file-location-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders",
+      "Navigation"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -32392,7 +32931,8 @@
     "codepoint": "F0223",
     "aliases": [],
     "tags": [
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Music"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -32403,7 +32943,8 @@
     "codepoint": "F0E2A",
     "aliases": [],
     "tags": [
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Music"
     ],
     "author": "Terren",
     "version": "3.6.95"
@@ -32596,7 +33137,9 @@
     "name": "file-refresh",
     "codepoint": "F0918",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "Austin Andrews",
     "version": "2.3.50"
   },
@@ -32605,7 +33148,9 @@
     "name": "file-refresh-outline",
     "codepoint": "F0541",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "Austin Andrews",
     "version": "1.5.54"
   },
@@ -32676,6 +33221,60 @@
     ],
     "author": "Terren",
     "version": "4.1.95"
+  },
+  {
+    "id": "1111BC67-6DD5-4AE2-9541-9D5E890D823A",
+    "name": "file-rotate-left",
+    "codepoint": "F1A3B",
+    "aliases": [
+      "file-rotate-counter-clockwise",
+      "file-rotate-ccw"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "7DC8418D-3AE2-4BC3-9A5B-068FE316D172",
+    "name": "file-rotate-left-outline",
+    "codepoint": "F1A3C",
+    "aliases": [
+      "file-rotate-counter-clockwise-outline",
+      "file-rotate-ccw-outline"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "599A2E2D-E84A-4BF5-A835-9B13E2765606",
+    "name": "file-rotate-right",
+    "codepoint": "F1A3D",
+    "aliases": [
+      "file-rotate-clockwise"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "221C1942-DB8B-40D9-AED7-B202C0085832",
+    "name": "file-rotate-right-outline",
+    "codepoint": "F1A3E",
+    "aliases": [
+      "file-rotate-clockwise"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "8FA2DBB9-E874-4CBB-A466-2691223D0FEF",
@@ -32756,7 +33355,8 @@
       "document-sign"
     ],
     "tags": [
-      "Banking"
+      "Banking",
+      "Files \/ Folders"
     ],
     "author": "Michael Irigoyen",
     "version": "6.5.95"
@@ -32818,7 +33418,9 @@
     "name": "file-sync",
     "codepoint": "F1216",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "Michael Irigoyen",
     "version": "4.6.95"
   },
@@ -32827,7 +33429,9 @@
     "name": "file-sync-outline",
     "codepoint": "F1217",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "Michael Irigoyen",
     "version": "4.6.95"
   },
@@ -32915,7 +33519,9 @@
     "name": "file-tree-outline",
     "codepoint": "F13D2",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "Michael Irigoyen",
     "version": "5.1.45"
   },
@@ -33168,6 +33774,28 @@
     "version": "3.8.95"
   },
   {
+    "id": "EC7474F7-BE1F-4076-8CDB-DD5779095168",
+    "name": "filter-multiple",
+    "codepoint": "F1A3F",
+    "aliases": [
+      "funnel-multiple"
+    ],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.7.96"
+  },
+  {
+    "id": "9124AC57-0F66-4F90-ABF4-167CDA8E46BC",
+    "name": "filter-multiple-outline",
+    "codepoint": "F1A40",
+    "aliases": [
+      "funnel-multiple-outline"
+    ],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.7.96"
+  },
+  {
     "id": "049BC23B-DE87-4AB6-AFC3-38AC296045A3",
     "name": "filter-off",
     "codepoint": "F14EF",
@@ -33346,7 +33974,8 @@
       "flame-alert"
     ],
     "tags": [
-      "Alert \/ Error"
+      "Alert \/ Error",
+      "Home Automation"
     ],
     "author": "Colton Wiscombe",
     "version": "5.6.55"
@@ -33373,7 +34002,8 @@
     "codepoint": "F0EF2",
     "aliases": [],
     "tags": [
-      "Hardware \/ Tools"
+      "Hardware \/ Tools",
+      "Home Automation"
     ],
     "author": "Simran",
     "version": "3.8.95"
@@ -33414,7 +34044,9 @@
     "aliases": [
       "flame-off"
     ],
-    "tags": [],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "Michael Irigoyen",
     "version": "5.9.55"
   },
@@ -34794,7 +35426,9 @@
     "name": "folder-eye",
     "codepoint": "F178A",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "Michael Irigoyen",
     "version": "6.1.95"
   },
@@ -34803,7 +35437,9 @@
     "name": "folder-eye-outline",
     "codepoint": "F178B",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "Michael Irigoyen",
     "version": "6.1.95"
   },
@@ -34869,7 +35505,9 @@
     "name": "folder-hidden",
     "codepoint": "F179E",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Files \/ Folders"
+    ],
     "author": "Michael Irigoyen",
     "version": "6.1.95"
   },
@@ -34879,7 +35517,8 @@
     "codepoint": "F10B5",
     "aliases": [],
     "tags": [
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Home Automation"
     ],
     "author": "Mitch Berninger",
     "version": "4.2.95"
@@ -34890,7 +35529,8 @@
     "codepoint": "F10B6",
     "aliases": [],
     "tags": [
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Home Automation"
     ],
     "author": "Mitch Berninger",
     "version": "4.2.95"
@@ -35005,7 +35645,8 @@
     ],
     "tags": [
       "Geographic Information System",
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Navigation"
     ],
     "author": "Andrea Antonello",
     "version": "4.7.95"
@@ -35019,7 +35660,8 @@
     ],
     "tags": [
       "Geographic Information System",
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Navigation"
     ],
     "author": "Andrea Antonello",
     "version": "4.7.95"
@@ -35114,7 +35756,8 @@
     "codepoint": "F1359",
     "aliases": [],
     "tags": [
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Music"
     ],
     "author": "\u00d6zg\u00fcr G\u00f6rg\u00fcl\u00fc",
     "version": "4.9.95"
@@ -35125,7 +35768,8 @@
     "codepoint": "F135A",
     "aliases": [],
     "tags": [
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Music"
     ],
     "author": "\u00d6zg\u00fcr G\u00f6rg\u00fcl\u00fc",
     "version": "4.9.95"
@@ -35275,7 +35919,8 @@
       "folder-hash"
     ],
     "tags": [
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Developer \/ Languages"
     ],
     "author": "Michael Irigoyen",
     "version": "3.3.92"
@@ -35288,7 +35933,8 @@
       "folder-hash-outline"
     ],
     "tags": [
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Developer \/ Languages"
     ],
     "author": "Michael Irigoyen",
     "version": "3.3.92"
@@ -38237,7 +38883,8 @@
     "codepoint": "F17FB",
     "aliases": [],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Lock"
     ],
     "author": "Michael Irigoyen",
     "version": "6.1.95"
@@ -38281,7 +38928,8 @@
     "codepoint": "F17FC",
     "aliases": [],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Lock"
     ],
     "author": "Michael Irigoyen",
     "version": "6.1.95"
@@ -38382,7 +39030,8 @@
     "codepoint": "F17F8",
     "aliases": [],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Alert \/ Error"
     ],
     "author": "Michael Irigoyen",
     "version": "6.1.95"
@@ -38951,7 +39600,8 @@
     "codepoint": "F02A2",
     "aliases": [],
     "tags": [
-      "Brand \/ Logo"
+      "Brand \/ Logo",
+      "Developer \/ Languages"
     ],
     "author": "Contributors",
     "version": "1.5.54"
@@ -38975,7 +39625,9 @@
     "name": "gitlab",
     "codepoint": "F0BA0",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
     "author": "Contributors",
     "version": "3.0.39"
   },
@@ -39942,6 +40594,17 @@
     "version": "2.1.19"
   },
   {
+    "id": "450F9873-EC55-4361-99EB-BBFF202647C6",
+    "name": "gymnastics",
+    "codepoint": "F1A41",
+    "aliases": [],
+    "tags": [
+      "Sport"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
     "id": "B4AC04DD-9F29-4F55-ABB6-A4AE4F272EC4",
     "name": "hail",
     "codepoint": "F0AC1",
@@ -40210,6 +40873,17 @@
     "version": "6.4.95"
   },
   {
+    "id": "9B126394-E75C-416A-8959-F76B5FE2A5E0",
+    "name": "hand-clap-off",
+    "codepoint": "F1A42",
+    "aliases": [
+      "applause-off"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "861C015B-47CA-41A6-8994-E43D980ECD58",
     "name": "hand-coin",
     "codepoint": "F188F",
@@ -40461,7 +41135,8 @@
       "human-handball"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "3.9.97"
@@ -41189,7 +41864,9 @@
     "name": "heart-off",
     "codepoint": "F0759",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Medical \/ Hospital"
+    ],
     "author": "Austin Andrews",
     "version": "1.9.32"
   },
@@ -41198,7 +41875,9 @@
     "name": "heart-off-outline",
     "codepoint": "F1434",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Medical \/ Hospital"
+    ],
     "author": "Michael Irigoyen",
     "version": "5.2.45"
   },
@@ -41214,7 +41893,8 @@
     ],
     "tags": [
       "Shape",
-      "Gaming \/ RPG"
+      "Gaming \/ RPG",
+      "Medical \/ Hospital"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -41273,7 +41953,9 @@
     "name": "heart-settings",
     "codepoint": "F1665",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
   },
@@ -41282,9 +41964,48 @@
     "name": "heart-settings-outline",
     "codepoint": "F1666",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
+  },
+  {
+    "id": "12F2787E-C3CE-4321-98D5-3376DFD0606D",
+    "name": "heat-pump",
+    "codepoint": "F1A43",
+    "aliases": [],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "926E83A9-0AF9-4933-B30E-E7D17680B611",
+    "name": "heat-pump-outline",
+    "codepoint": "F1A44",
+    "aliases": [],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "8AD5E52C-320C-4071-B891-552B4D71A42C",
+    "name": "heat-wave",
+    "codepoint": "F1A45",
+    "aliases": [
+      "keep-warm",
+      "warmth"
+    ],
+    "tags": [
+      "Home Automation",
+      "Weather"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "47397A0C-273D-4D13-A4FD-61572F3E4953",
@@ -41576,7 +42297,8 @@
       "human-hiking"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "3.4.93"
@@ -41788,7 +42510,9 @@
     "aliases": [
       "house-city"
     ],
-    "tags": [],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "Google",
     "version": "3.3.92"
   },
@@ -41799,7 +42523,9 @@
     "aliases": [
       "house-city-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "Google",
     "version": "3.3.92"
   },
@@ -41812,7 +42538,8 @@
       "home-schedule"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Date \/ Time"
     ],
     "author": "Colton Wiscombe",
     "version": "6.6.96"
@@ -41826,7 +42553,8 @@
       "home-schedule-outline"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Date \/ Time"
     ],
     "author": "Colton Wiscombe",
     "version": "6.6.96"
@@ -42233,6 +42961,32 @@
     "version": "1.5.54"
   },
   {
+    "id": "D9B08A72-EDEB-459D-89C9-C12DFB088E98",
+    "name": "home-off",
+    "codepoint": "F1A46",
+    "aliases": [
+      "house-off"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "8AFA6E09-694A-4C0B-9F34-6567B3CA1690",
+    "name": "home-off-outline",
+    "codepoint": "F1A47",
+    "aliases": [
+      "house-off-outline"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "B4E2287E-8872-48AD-B765-83D82AF66CA3",
     "name": "home-outline",
     "codepoint": "F06A1",
@@ -42240,7 +42994,8 @@
       "house-outline"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Places"
     ],
     "author": "Google",
     "version": "1.7.12"
@@ -42495,7 +43250,8 @@
     ],
     "tags": [
       "Transportation + Other",
-      "Agriculture"
+      "Agriculture",
+      "People \/ Family"
     ],
     "author": "Colton Wiscombe",
     "version": "5.6.55"
@@ -42603,7 +43359,8 @@
       "hospital-location"
     ],
     "tags": [
-      "Medical \/ Hospital"
+      "Medical \/ Hospital",
+      "Navigation"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -42681,7 +43438,8 @@
       "elderly"
     ],
     "tags": [
-      "Medical \/ Hospital"
+      "Medical \/ Hospital",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "5.5.55"
@@ -42787,7 +43545,9 @@
     "aliases": [
       "ballet"
     ],
-    "tags": [],
+    "tags": [
+      "People \/ Family"
+    ],
     "author": "Michael Richins",
     "version": "5.6.55"
   },
@@ -42910,7 +43670,9 @@
       "whiteboard",
       "human-man-board"
     ],
-    "tags": [],
+    "tags": [
+      "People \/ Family"
+    ],
     "author": "Michael Richins",
     "version": "2.1.99"
   },
@@ -42921,7 +43683,9 @@
     "aliases": [
       "teach-poll"
     ],
-    "tags": [],
+    "tags": [
+      "People \/ Family"
+    ],
     "author": "MaksUr",
     "version": "2.1.19"
   },
@@ -43000,7 +43764,8 @@
     "codepoint": "F0EFB",
     "aliases": [],
     "tags": [
-      "Medical \/ Hospital"
+      "Medical \/ Hospital",
+      "People \/ Family"
     ],
     "author": "Michael Richins",
     "version": "3.8.95"
@@ -43011,7 +43776,8 @@
     "codepoint": "F0EFC",
     "aliases": [],
     "tags": [
-      "Medical \/ Hospital"
+      "Medical \/ Hospital",
+      "People \/ Family"
     ],
     "author": "Michael Richins",
     "version": "3.8.95"
@@ -43077,7 +43843,8 @@
     "aliases": [],
     "tags": [
       "Sport",
-      "Transportation + Other"
+      "Transportation + Other",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "4.5.95"
@@ -43090,7 +43857,8 @@
       "human-accessible"
     ],
     "tags": [
-      "People \/ Family"
+      "People \/ Family",
+      "Medical \/ Hospital"
     ],
     "author": "Moma Design Studio",
     "version": "5.0.45"
@@ -43103,7 +43871,8 @@
       "human-blind"
     ],
     "tags": [
-      "People \/ Family"
+      "People \/ Family",
+      "Medical \/ Hospital"
     ],
     "author": "Michael Irigoyen",
     "version": "6.5.95"
@@ -43143,7 +43912,9 @@
       "ventilation-off",
       "air-conditioning-off"
     ],
-    "tags": [],
+    "tags": [
+      "Home Automation"
+    ],
     "author": "Michael Irigoyen",
     "version": "5.5.55"
   },
@@ -43325,7 +44096,9 @@
     "id": "F528B8DF-1FE3-47C0-B406-70FAC5718CE1",
     "name": "image-auto-adjust",
     "codepoint": "F0FC1",
-    "aliases": [],
+    "aliases": [
+      "image-filter"
+    ],
     "tags": [
       "Photography"
     ],
@@ -43529,7 +44302,9 @@
     "aliases": [
       "image-location"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -43540,7 +44315,9 @@
     "aliases": [
       "image-location-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -44282,7 +45059,8 @@
       "human-kabaddi"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "3.4.93"
@@ -44310,7 +45088,8 @@
       "human-karate"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "2.1.19"
@@ -44323,7 +45102,8 @@
       "human-kayaking"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "2.2.43"
@@ -44507,7 +45287,9 @@
     "name": "key-alert",
     "codepoint": "F1983",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Alert \/ Error"
+    ],
     "author": "Michael Irigoyen",
     "version": "6.5.95"
   },
@@ -44516,7 +45298,9 @@
     "name": "key-alert-outline",
     "codepoint": "F1984",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Alert \/ Error"
+    ],
     "author": "Michael Irigoyen",
     "version": "6.5.95"
   },
@@ -45253,6 +46037,34 @@
     "version": "1.5.54"
   },
   {
+    "id": "AD048AA5-6C71-49DF-B5B2-427F634C3538",
+    "name": "landslide",
+    "codepoint": "F1A48",
+    "aliases": [
+      "avalanche",
+      "mudslide"
+    ],
+    "tags": [
+      "Nature"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "847329AA-B841-48A2-9700-6363FA219184",
+    "name": "landslide-outline",
+    "codepoint": "F1A49",
+    "aliases": [
+      "avalanche-outline",
+      "mudslide-outline"
+    ],
+    "tags": [
+      "Nature"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
     "id": "082F25B3-8413-4CC7-B908-8BBD40BB32D8",
     "name": "language-c",
     "codepoint": "F0671",
@@ -45301,7 +46113,9 @@
     "name": "language-fortran",
     "codepoint": "F121A",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
     "author": "Contributors",
     "version": "4.6.95"
   },
@@ -45365,7 +46179,9 @@
     "name": "language-kotlin",
     "codepoint": "F1219",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
     "author": "Contributors",
     "version": "4.6.95"
   },
@@ -45442,7 +46258,9 @@
     "name": "language-ruby",
     "codepoint": "F0D2D",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
     "author": "Contributors",
     "version": "3.3.92"
   },
@@ -45498,7 +46316,9 @@
       "xaml",
       "microsoft-xaml"
     ],
-    "tags": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
     "author": "Contributors",
     "version": "1.6.50"
   },
@@ -45515,6 +46335,22 @@
     ],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "63808048-CB00-41F6-AE66-3CB683197A9E",
+    "name": "laptop-account",
+    "codepoint": "F1A4A",
+    "aliases": [
+      "teleconference",
+      "virtual-meeting",
+      "video-chat"
+    ],
+    "tags": [
+      "Account \/ User",
+      "Device \/ Tech"
+    ],
+    "author": "John Brissette",
+    "version": "6.7.96"
   },
   {
     "id": "C9A08F85-B996-498D-ADDC-20A9B77B5489",
@@ -45614,7 +46450,8 @@
     "codepoint": "F1892",
     "aliases": [],
     "tags": [
-      "Geographic Information System"
+      "Geographic Information System",
+      "Edit \/ Modify"
     ],
     "author": "ButchMonkey",
     "version": "6.2.95"
@@ -45843,7 +46680,8 @@
     "aliases": [
       "podium",
       "dais",
-      "rostrum"
+      "rostrum",
+      "lectern"
     ],
     "tags": [],
     "author": "Michael Irigoyen",
@@ -45907,6 +46745,19 @@
     ],
     "author": "Borre Haugen",
     "version": "4.1.95"
+  },
+  {
+    "id": "6EAFDD56-E5C5-459A-B31A-0BAC693931E0",
+    "name": "led-strip-variant-off",
+    "codepoint": "F1A4B",
+    "aliases": [
+      "light-strip-variant-off"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "BBDD4244-D5C9-4150-9936-31C775AA463F",
@@ -46132,7 +46983,8 @@
       "lightbulb-error"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Alert \/ Error"
     ],
     "author": "Michael Irigoyen",
     "version": "6.6.96"
@@ -46145,7 +46997,8 @@
       "lightbulb-error-outline"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Alert \/ Error"
     ],
     "author": "Michael Irigoyen",
     "version": "6.6.96"
@@ -46365,6 +47218,36 @@
     "version": "4.6.95"
   },
   {
+    "id": "E544DBA9-FBF4-4563-82BB-2D6F37788E2F",
+    "name": "lightbulb-night",
+    "codepoint": "F1A4C",
+    "aliases": [
+      "night-light",
+      "nite-light",
+      "lightbulb-moon-star"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "2C6EE261-B451-4F1F-A260-D34AA0EB341A",
+    "name": "lightbulb-night-outline",
+    "codepoint": "F1A4D",
+    "aliases": [
+      "night-light-outline",
+      "nite-light-outline",
+      "lightbulb-moon-star-outline"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "14D09F5A-C467-428B-9C5A-F2B3939D1678",
     "name": "lightbulb-off",
     "codepoint": "F0E4F",
@@ -46404,6 +47287,123 @@
     ],
     "author": "Austin Andrews",
     "version": "1.8.36"
+  },
+  {
+    "id": "5AF7B110-A35F-437B-B4F2-5DAED54DE86F",
+    "name": "lightbulb-on-10",
+    "codepoint": "F1A4E",
+    "aliases": [
+      "lightbulb-dimmer-10"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "00B793C1-0C24-417A-8332-EAECCB47021D",
+    "name": "lightbulb-on-20",
+    "codepoint": "F1A4F",
+    "aliases": [
+      "lightbulb-dimmer-20"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "F0353E04-7AA3-4C04-981B-FE96F8659B23",
+    "name": "lightbulb-on-30",
+    "codepoint": "F1A50",
+    "aliases": [
+      "lightbulb-dimmer-30"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "D0ADCBE7-2C7B-4A9F-A20B-F094AE655227",
+    "name": "lightbulb-on-40",
+    "codepoint": "F1A51",
+    "aliases": [
+      "lightbulb-dimmer-40"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "5E462F24-AED9-49A6-ACAE-6137F79179D3",
+    "name": "lightbulb-on-50",
+    "codepoint": "F1A52",
+    "aliases": [
+      "lightbulb-dimmer-50"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "A2914A9E-96D7-4B17-9340-8194656F4201",
+    "name": "lightbulb-on-60",
+    "codepoint": "F1A53",
+    "aliases": [
+      "lightbulb-dimmer-60"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "20E12565-5814-472B-8F9D-B37296DF345E",
+    "name": "lightbulb-on-70",
+    "codepoint": "F1A54",
+    "aliases": [
+      "lightbulb-dimmer-70"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "F3C06B83-1208-4E69-A039-692D4B870B5A",
+    "name": "lightbulb-on-80",
+    "codepoint": "F1A55",
+    "aliases": [
+      "lightbulb-dimmer-80"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "33D9D6A7-250C-46B6-9FD2-81A6477CC8EC",
+    "name": "lightbulb-on-90",
+    "codepoint": "F1A56",
+    "aliases": [
+      "lightbulb-dimmer-90"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "1FDA626F-5858-43AE-92A0-9CCE7168F08F",
@@ -46548,7 +47548,8 @@
       "electricity"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Weather"
     ],
     "author": "Brooke Clifton",
     "version": "5.1.45"
@@ -46583,7 +47584,8 @@
       "electricity-outline"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Weather"
     ],
     "author": "Brooke Clifton",
     "version": "5.1.45"
@@ -47985,7 +48987,8 @@
     "codepoint": "F18E3",
     "aliases": [],
     "tags": [
-      "Navigation"
+      "Navigation",
+      "Account \/ User"
     ],
     "author": "Google",
     "version": "6.3.95"
@@ -47996,7 +48999,8 @@
     "codepoint": "F18E4",
     "aliases": [],
     "tags": [
-      "Navigation"
+      "Navigation",
+      "Account \/ User"
     ],
     "author": "Google",
     "version": "6.3.95"
@@ -48614,7 +49618,8 @@
     ],
     "tags": [
       "Math",
-      "Drawing \/ Art"
+      "Drawing \/ Art",
+      "Navigation"
     ],
     "author": "Gabriel",
     "version": "1.5.54"
@@ -48780,7 +49785,8 @@
       "human-meditation"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "4.4.95"
@@ -49068,7 +50074,9 @@
       "message-unread",
       "message-notification"
     ],
-    "tags": [],
+    "tags": [
+      "Notification"
+    ],
     "author": "Google",
     "version": "6.4.95"
   },
@@ -49080,7 +50088,9 @@
       "message-unread-outline",
       "message-notification-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Notification"
+    ],
     "author": "Google",
     "version": "6.4.95"
   },
@@ -49537,6 +50547,60 @@
     "version": "1.6.50"
   },
   {
+    "id": "A42A0B48-3570-4056-9745-6FEC4CE8EB8E",
+    "name": "meter-electric",
+    "codepoint": "F1A57",
+    "aliases": [
+      "power-meter",
+      "electricity"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "463AE2E1-1BA3-444B-9182-D252575B2C8E",
+    "name": "meter-electric-outline",
+    "codepoint": "F1A58",
+    "aliases": [
+      "power-meter-outline",
+      "electricity-outline"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "44BDA87A-AB07-4DC1-89FB-0D1F55B6622F",
+    "name": "meter-gas",
+    "codepoint": "F1A59",
+    "aliases": [
+      "natural-gas"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "7960EDB3-0C0D-47C8-B837-C606FEA6B524",
+    "name": "meter-gas-outline",
+    "codepoint": "F1A5A",
+    "aliases": [
+      "natural-gas-outline"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
     "id": "13256CBF-E284-4229-AAB9-5612FBADD060",
     "name": "metronome",
     "codepoint": "F07DA",
@@ -49908,7 +50972,9 @@
     "aliases": [
       "vs-code"
     ],
-    "tags": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
     "author": "Contributors",
     "version": "2.5.94"
   },
@@ -50506,6 +51572,22 @@
     ],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "F40F74F4-288D-495A-9B2E-1C9D3160B272",
+    "name": "monitor-account",
+    "codepoint": "F1A5B",
+    "aliases": [
+      "teleconference",
+      "virtual-meeting",
+      "video-chat"
+    ],
+    "tags": [
+      "Account \/ User",
+      "Device \/ Tech"
+    ],
+    "author": "John Brissette",
+    "version": "6.7.96"
   },
   {
     "id": "8C772F38-CA90-4CAD-BC26-DE68A84FD6F4",
@@ -51415,7 +52497,8 @@
       "film-open-edit"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Edit \/ Modify"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -51430,7 +52513,8 @@
       "film-open-edit-outline"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Edit \/ Modify"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -51611,7 +52695,8 @@
       "film-open-settings"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -51626,7 +52711,8 @@
       "film-open-settings-outline"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -51786,7 +52872,9 @@
     "name": "movie-search",
     "codepoint": "F11D2",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Video \/ Movie"
+    ],
     "author": "frankgrinaert",
     "version": "4.5.95"
   },
@@ -51795,7 +52883,9 @@
     "name": "movie-search-outline",
     "codepoint": "F11D3",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Video \/ Movie"
+    ],
     "author": "frankgrinaert",
     "version": "4.5.95"
   },
@@ -51809,7 +52899,8 @@
       "film-settings"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -51824,7 +52915,8 @@
       "film-settings-outline"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -52191,7 +53283,8 @@
     "codepoint": "F05FE",
     "aliases": [],
     "tags": [
-      "Audio"
+      "Audio",
+      "Music"
     ],
     "author": "Simran",
     "version": "1.5.54"
@@ -52202,7 +53295,8 @@
     "codepoint": "F05FF",
     "aliases": [],
     "tags": [
-      "Audio"
+      "Audio",
+      "Music"
     ],
     "author": "Simran",
     "version": "1.5.54"
@@ -52968,7 +54062,9 @@
     "name": "nintendo-game-boy",
     "codepoint": "F1393",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Gaming \/ RPG"
+    ],
     "author": "GreenTurtwig",
     "version": "5.0.45"
   },
@@ -53148,7 +54244,9 @@
       "sticky-note-edit",
       "post-it-note-edit"
     ],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -53161,7 +54259,9 @@
       "sticky-note-edit-outline",
       "post-it-note-edit-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -55015,7 +56115,10 @@
     "aliases": [
       "office-building-location"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation",
+      "Places"
+    ],
     "author": "Joshua Solomon",
     "version": "5.4.55"
   },
@@ -55026,7 +56129,10 @@
     "aliases": [
       "office-building-location-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation",
+      "Places"
+    ],
     "author": "Joshua Solomon",
     "version": "5.4.55"
   },
@@ -55035,7 +56141,9 @@
     "name": "office-building-outline",
     "codepoint": "F151F",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Places"
+    ],
     "author": "Joshua Solomon",
     "version": "5.4.55"
   },
@@ -56220,7 +57328,9 @@
     "aliases": [
       "attachment-lock"
     ],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Simran",
     "version": "6.6.96"
   },
@@ -57126,7 +58236,8 @@
       "phone-time"
     ],
     "tags": [
-      "Cellphone \/ Phone"
+      "Cellphone \/ Phone",
+      "Date \/ Time"
     ],
     "author": "Simran",
     "version": "6.6.96"
@@ -57772,7 +58883,8 @@
     "codepoint": "F0888",
     "aliases": [],
     "tags": [
-      "Transportation + Water"
+      "Transportation + Water",
+      "Places"
     ],
     "author": "Michael Irigoyen",
     "version": "2.1.99"
@@ -57853,6 +58965,22 @@
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
+  },
+  {
+    "id": "70E290E6-75B8-4976-8206-C066C02C5344",
+    "name": "pill-off",
+    "codepoint": "F1A5C",
+    "aliases": [
+      "medicine-off",
+      "capsule-off",
+      "drug-off",
+      "pharmaceutical-off"
+    ],
+    "tags": [
+      "Medical \/ Hospital"
+    ],
+    "author": "Contributors",
+    "version": "6.7.96"
   },
   {
     "id": "AD451D24-BA4B-466E-8146-D3FBBDA6E275",
@@ -57945,7 +59073,9 @@
     "name": "pine-tree-fire",
     "codepoint": "F141A",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Nature"
+    ],
     "author": "Austin Andrews",
     "version": "5.2.45"
   },
@@ -58124,7 +59254,8 @@
     "codepoint": "F1A16",
     "aliases": [],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Lock"
     ],
     "author": "Simran",
     "version": "6.6.96"
@@ -58135,7 +59266,8 @@
     "codepoint": "F1A17",
     "aliases": [],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Lock"
     ],
     "author": "Simran",
     "version": "6.6.96"
@@ -58146,7 +59278,8 @@
     "codepoint": "F1A18",
     "aliases": [],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Lock"
     ],
     "author": "Simran",
     "version": "6.6.96"
@@ -58157,7 +59290,8 @@
     "codepoint": "F1A19",
     "aliases": [],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Lock"
     ],
     "author": "Simran",
     "version": "6.6.96"
@@ -58312,7 +59446,9 @@
       "playlist-note",
       "queue-music"
     ],
-    "tags": [],
+    "tags": [
+      "Music"
+    ],
     "author": "Google",
     "version": "3.2.89"
   },
@@ -58324,7 +59460,9 @@
       "playlist-note-outline",
       "queue-music-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Music"
+    ],
     "author": "Google",
     "version": "3.2.89"
   },
@@ -58497,6 +59635,30 @@
     "tags": [],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "04ACEC00-DCEE-4FC8-9608-A2875F7A92A1",
+    "name": "plus-lock",
+    "codepoint": "F1A5D",
+    "aliases": [
+      "plus-secure"
+    ],
+    "tags": [
+      "Lock"
+    ],
+    "author": "Contributors",
+    "version": "6.7.96"
+  },
+  {
+    "id": "A147BEF7-1952-44F9-98EB-BF2D2F4F625E",
+    "name": "plus-lock-open",
+    "codepoint": "F1A5E",
+    "aliases": [],
+    "tags": [
+      "Lock"
+    ],
+    "author": "Contributors",
+    "version": "6.7.96"
   },
   {
     "id": "34BDA78C-9BF6-441A-9924-E8619719C333",
@@ -58771,6 +59933,19 @@
     "version": "1.5.54"
   },
   {
+    "id": "7216DA73-CAB3-46A6-8940-809FFE3DBD26",
+    "name": "pool-thermometer",
+    "codepoint": "F1A5F",
+    "aliases": [
+      "pool-temperature"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "3401BCC7-DECF-4A92-9B6C-34AF063B2FED",
     "name": "popcorn",
     "codepoint": "F0422",
@@ -58791,6 +59966,19 @@
     "tags": [],
     "author": "Google",
     "version": "4.0.96"
+  },
+  {
+    "id": "DA9F3CE2-81E2-4113-B8E7-64CE579D0890",
+    "name": "post-lamp",
+    "codepoint": "F1A60",
+    "aliases": [
+      "post-light"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "benjocaz45",
+    "version": "6.7.96"
   },
   {
     "id": "A7CB61B3-B3C5-4EEE-AC94-D0B2347FFA1B",
@@ -59284,7 +60472,8 @@
     "codepoint": "F11C0",
     "aliases": [],
     "tags": [
-      "Alert \/ Error"
+      "Alert \/ Error",
+      "Printer"
     ],
     "author": "Austin Andrews",
     "version": "4.5.95"
@@ -59295,7 +60484,8 @@
     "codepoint": "F11C1",
     "aliases": [],
     "tags": [
-      "Alert \/ Error"
+      "Alert \/ Error",
+      "Printer"
     ],
     "author": "Austin Andrews",
     "version": "4.5.95"
@@ -59582,7 +60772,9 @@
     "aliases": [
       "progress-spanner"
     ],
-    "tags": [],
+    "tags": [
+      "Hardware \/ Tools"
+    ],
     "author": "Michael Irigoyen",
     "version": "3.2.89"
   },
@@ -60152,10 +61344,47 @@
       "hare"
     ],
     "tags": [
-      "Animal"
+      "Animal",
+      "Nature"
     ],
     "author": "Augustin Ursu",
     "version": "2.3.50"
+  },
+  {
+    "id": "8CEA8CC8-F495-4F1B-B28B-BAA2D2F2EA44",
+    "name": "rabbit-variant",
+    "codepoint": "F1A61",
+    "aliases": [
+      "bunny",
+      "easter",
+      "hare",
+      "cruelty-free"
+    ],
+    "tags": [
+      "Animal",
+      "Holiday",
+      "Nature"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "3A22546F-5A22-4E53-A13D-05FB82BAB08F",
+    "name": "rabbit-variant-outline",
+    "codepoint": "F1A62",
+    "aliases": [
+      "easter-outline",
+      "bunny-outline",
+      "hare-outline",
+      "cruelty-free-outline"
+    ],
+    "tags": [
+      "Animal",
+      "Holiday",
+      "Nature"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
   },
   {
     "id": "59B7D141-A76F-4794-A484-CE089FCF7C46",
@@ -60432,7 +61661,11 @@
     "id": "7FC3FA6E-ED0B-4BCD-AF44-1125CC2CE3C4",
     "name": "railroad-light",
     "codepoint": "F0F1E",
-    "aliases": [],
+    "aliases": [
+      "railroad-crossing-light",
+      "train-crossing-light",
+      "level-crossing-signals"
+    ],
     "tags": [
       "Transportation + Other"
     ],
@@ -60552,7 +61785,8 @@
     "codepoint": "F1997",
     "aliases": [],
     "tags": [
-      "Health \/ Beauty"
+      "Health \/ Beauty",
+      "Hardware \/ Tools"
     ],
     "author": "Simran",
     "version": "6.5.95"
@@ -60610,6 +61844,98 @@
     "tags": [],
     "author": "Google",
     "version": "6.6.96"
+  },
+  {
+    "id": "9B57706E-4682-4A41-8E2E-D05601DE5FC4",
+    "name": "receipt-text-check",
+    "codepoint": "F1A63",
+    "aliases": [
+      "invoice-check"
+    ],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.7.96"
+  },
+  {
+    "id": "14E01759-3C9F-42FE-8831-4634FFF35029",
+    "name": "receipt-text-check-outline",
+    "codepoint": "F1A64",
+    "aliases": [
+      "invoice-check-outline"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "E923B212-FD3F-40F0-AFD5-1C91F3649E68",
+    "name": "receipt-text-minus",
+    "codepoint": "F1A65",
+    "aliases": [
+      "invoice-minus"
+    ],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.7.96"
+  },
+  {
+    "id": "0AED24B5-1FC4-4E34-8617-A80675E9B2E4",
+    "name": "receipt-text-minus-outline",
+    "codepoint": "F1A66",
+    "aliases": [
+      "invoice-minus-outline"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "044F6733-211D-496D-B957-F523D80A6F91",
+    "name": "receipt-text-plus",
+    "codepoint": "F1A67",
+    "aliases": [
+      "invoice-plus",
+      "invoice-add",
+      "receipt-text-add"
+    ],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.7.96"
+  },
+  {
+    "id": "E376A548-0B7B-4493-9984-842CFC18A87E",
+    "name": "receipt-text-plus-outline",
+    "codepoint": "F1A68",
+    "aliases": [
+      "invoice-plus",
+      "invoice-add",
+      "receipt-text-add"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "66F972AC-ADC8-4583-B358-C5D6FD241316",
+    "name": "receipt-text-remove",
+    "codepoint": "F1A69",
+    "aliases": [
+      "invoice-remove"
+    ],
+    "tags": [],
+    "author": "Simran",
+    "version": "6.7.96"
+  },
+  {
+    "id": "5FDC843B-FE27-461B-B511-D78947092DF3",
+    "name": "receipt-text-remove-outline",
+    "codepoint": "F1A6A",
+    "aliases": [
+      "invoice-remove-outline"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "F84F1E59-868C-42CE-80EA-159588E83462",
@@ -62139,6 +63465,34 @@
     "version": "4.9.95"
   },
   {
+    "id": "223BB690-0799-4F91-A756-5425358A7C4D",
+    "name": "roller-shade",
+    "codepoint": "F1A6B",
+    "aliases": [
+      "blinds-open",
+      "window-open"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "796C645E-B8C8-4898-AE15-981077DEC280",
+    "name": "roller-shade-closed",
+    "codepoint": "F1A6C",
+    "aliases": [
+      "blinds-closed",
+      "window-closed"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
     "id": "6EFB213D-87A6-454A-AB37-AB87CE853E4B",
     "name": "roller-skate",
     "codepoint": "F0D2B",
@@ -62498,7 +63852,8 @@
     ],
     "tags": [
       "Sport",
-      "Transportation + Water"
+      "Transportation + Water",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -62612,7 +63967,8 @@
       "human-run"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "1.8.36"
@@ -62627,7 +63983,8 @@
     ],
     "tags": [
       "Home Automation",
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -63517,6 +64874,34 @@
     "version": "3.6.95"
   },
   {
+    "id": "06E48E27-F112-4D54-ABE4-95FB216A5DEB",
+    "name": "seed-plus",
+    "codepoint": "F1A6D",
+    "aliases": [
+      "seed-add"
+    ],
+    "tags": [
+      "Agriculture",
+      "Nature"
+    ],
+    "author": "Jeff Anders",
+    "version": "6.7.96"
+  },
+  {
+    "id": "01263D30-0B40-46AA-A17B-31EABA51DD48",
+    "name": "seed-plus-outline",
+    "codepoint": "F1A6E",
+    "aliases": [
+      "seed-add-outline"
+    ],
+    "tags": [
+      "Agriculture",
+      "Nature"
+    ],
+    "author": "Jeff Anders",
+    "version": "6.7.96"
+  },
+  {
     "id": "B2FB9E28-A275-4BC8-AFD9-8A8D90153ED9",
     "name": "seesaw",
     "codepoint": "F15A4",
@@ -63612,7 +64997,9 @@
     "aliases": [
       "select-location"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Austin Andrews",
     "version": "4.7.95"
   },
@@ -63632,7 +65019,9 @@
     "aliases": [
       "select-multiple-location"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Austin Andrews",
     "version": "4.7.95"
   },
@@ -63724,7 +65113,9 @@
     "aliases": [
       "selection-location"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Austin Andrews",
     "version": "4.7.95"
   },
@@ -63744,7 +65135,9 @@
     "aliases": [
       "selection-multiple-location"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Austin Andrews",
     "version": "4.7.95"
   },
@@ -64826,7 +66219,8 @@
       "shield-unlocked"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Lock"
     ],
     "author": "Michael Irigoyen",
     "version": "6.5.95"
@@ -64839,7 +66233,8 @@
       "shield-unlocked-outline"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Lock"
     ],
     "author": "Michael Irigoyen",
     "version": "6.5.95"
@@ -65229,6 +66624,17 @@
     ],
     "author": "Michael Richins",
     "version": "3.9.97"
+  },
+  {
+    "id": "68885584-9904-492E-AEC4-0FEC2C266F6E",
+    "name": "shopping-search-outline",
+    "codepoint": "F1A6F",
+    "aliases": [],
+    "tags": [
+      "Shopping"
+    ],
+    "author": "Ken Gregory",
+    "version": "6.7.96"
   },
   {
     "id": "9F0501F0-7F2C-4806-8AC4-F8D76AA194CD",
@@ -66027,7 +67433,8 @@
       "human-skateboarding"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -66066,7 +67473,8 @@
       "human-ski"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "4.8.95"
@@ -66080,7 +67488,8 @@
       "human-ski-cross-country"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "4.8.95"
@@ -66093,7 +67502,9 @@
       "human-ski-water"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family",
+      "Transportation + Water"
     ],
     "author": "Michael Irigoyen",
     "version": "4.8.95"
@@ -66371,7 +67782,8 @@
       "human-sledding"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -66555,7 +67967,8 @@
     "codepoint": "F192E",
     "aliases": [],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Alert \/ Error"
     ],
     "author": "Michael Irigoyen",
     "version": "6.4.95"
@@ -66566,7 +67979,8 @@
     "codepoint": "F192F",
     "aliases": [],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Alert \/ Error"
     ],
     "author": "Michael Irigoyen",
     "version": "6.4.95"
@@ -66621,7 +68035,8 @@
     "codepoint": "F1930",
     "aliases": [],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Alert \/ Error"
     ],
     "author": "Michael Irigoyen",
     "version": "6.4.95"
@@ -66728,7 +68143,8 @@
       "human-snowboard"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "4.8.95"
@@ -66763,6 +68179,19 @@
     "version": "3.8.95"
   },
   {
+    "id": "F489E6B1-12CD-4847-B039-8577751B2DFE",
+    "name": "snowflake-check",
+    "codepoint": "F1A70",
+    "aliases": [
+      "snowflake-approve"
+    ],
+    "tags": [
+      "Weather"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "017BAEB6-E5B4-4BEF-8CA3-D0ABA689DE2C",
     "name": "snowflake-melt",
     "codepoint": "F12CB",
@@ -66785,6 +68214,22 @@
     ],
     "author": "Michael Irigoyen",
     "version": "5.4.55"
+  },
+  {
+    "id": "C9E4ABED-D38C-45EC-9340-C6C8ADAD1CDF",
+    "name": "snowflake-thermometer",
+    "codepoint": "F1A71",
+    "aliases": [
+      "frost-point",
+      "freezing-point",
+      "snowflake-temperature"
+    ],
+    "tags": [
+      "Weather",
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "50B6D484-E7DC-4B88-9981-9C962C9A9EB6",
@@ -66815,11 +68260,22 @@
     "codepoint": "F06DD",
     "aliases": [],
     "tags": [
-      "Transportation + Flying",
+      "Transportation + Other",
       "Sport"
     ],
     "author": "Google",
     "version": "1.8.36"
+  },
+  {
+    "id": "D9F59FE2-7B27-4B54-8935-AC2A83CE084B",
+    "name": "snowshoeing",
+    "codepoint": "F1A72",
+    "aliases": [],
+    "tags": [
+      "Sport"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
   },
   {
     "id": "B4AFB6A4-C315-4B06-AE4D-AC633F3ED0A7",
@@ -66976,6 +68432,34 @@
     ],
     "author": "Michael Richins",
     "version": "2.6.95"
+  },
+  {
+    "id": "9A0563D4-0CEB-4F7F-8CA2-27606F24603F",
+    "name": "solar-power-variant",
+    "codepoint": "F1A73",
+    "aliases": [
+      "solar-energy",
+      "solar-electricity"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "3EF2EC63-DBE4-4825-9AFD-5567C0A081E2",
+    "name": "solar-power-variant-outline",
+    "codepoint": "F1A74",
+    "aliases": [
+      "solar-energy-outline",
+      "solar-electricity-outline"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
   },
   {
     "id": "4A90CB52-2637-4E5D-8333-467DD85B36F6",
@@ -68128,7 +69612,8 @@
       "push-notification"
     ],
     "tags": [
-      "Shape"
+      "Shape",
+      "Notification"
     ],
     "author": "Jeff Anders",
     "version": "6.6.96"
@@ -68142,7 +69627,8 @@
       "push-notification-outline"
     ],
     "tags": [
-      "Shape"
+      "Shape",
+      "Notification"
     ],
     "author": "Jeff Anders",
     "version": "6.6.96"
@@ -68237,8 +69723,13 @@
     "id": "5FDB24B6-FF16-4575-A794-E5CCEB95CC81",
     "name": "stadium",
     "codepoint": "F0FF9",
-    "aliases": [],
-    "tags": [],
+    "aliases": [
+      "arena"
+    ],
+    "tags": [
+      "Sport",
+      "Places"
+    ],
     "author": "Google",
     "version": "4.0.96"
   },
@@ -68666,7 +70157,9 @@
     "aliases": [
       "favorite-settings"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
   },
@@ -68677,7 +70170,9 @@
     "aliases": [
       "favorite-settings-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
   },
@@ -69041,6 +70536,30 @@
     "version": "1.6.50"
   },
   {
+    "id": "2C19B9EA-AB7C-401A-B84F-A0DCD2336BBE",
+    "name": "storage-tank",
+    "codepoint": "F1A75",
+    "aliases": [
+      "propane-tank",
+      "gas-tank"
+    ],
+    "tags": [],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "6140C9BE-C66B-4ADC-957F-74A59541EA1A",
+    "name": "storage-tank-outline",
+    "codepoint": "F1A76",
+    "aliases": [
+      "propane-tank-outline",
+      "gas-tank-outline"
+    ],
+    "tags": [],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
     "id": "3C3AEDE0-B6DA-4CB9-A686-869634678D5D",
     "name": "store",
     "codepoint": "F04DC",
@@ -69079,7 +70598,8 @@
     ],
     "tags": [
       "Places",
-      "Shopping"
+      "Shopping",
+      "Alert \/ Error"
     ],
     "author": "Colton Wiscombe",
     "version": "6.3.95"
@@ -69093,7 +70613,8 @@
     ],
     "tags": [
       "Places",
-      "Shopping"
+      "Shopping",
+      "Alert \/ Error"
     ],
     "author": "Colton Wiscombe",
     "version": "6.3.95"
@@ -69180,7 +70701,8 @@
     ],
     "tags": [
       "Places",
-      "Shopping"
+      "Shopping",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "6.3.95"
@@ -69196,7 +70718,8 @@
     ],
     "tags": [
       "Places",
-      "Shopping"
+      "Shopping",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "6.3.95"
@@ -69210,7 +70733,8 @@
     ],
     "tags": [
       "Places",
-      "Shopping"
+      "Shopping",
+      "Edit \/ Modify"
     ],
     "author": "Colton Wiscombe",
     "version": "6.3.95"
@@ -69224,7 +70748,8 @@
     ],
     "tags": [
       "Places",
-      "Shopping"
+      "Shopping",
+      "Edit \/ Modify"
     ],
     "author": "Colton Wiscombe",
     "version": "6.3.95"
@@ -69240,7 +70765,8 @@
     ],
     "tags": [
       "Places",
-      "Shopping"
+      "Shopping",
+      "Navigation"
     ],
     "author": "Colton Wiscombe",
     "version": "6.3.95"
@@ -69256,7 +70782,8 @@
     ],
     "tags": [
       "Places",
-      "Shopping"
+      "Shopping",
+      "Navigation"
     ],
     "author": "Colton Wiscombe",
     "version": "6.3.95"
@@ -69441,7 +70968,8 @@
     ],
     "tags": [
       "Places",
-      "Shopping"
+      "Shopping",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "6.3.95"
@@ -69455,7 +70983,8 @@
     ],
     "tags": [
       "Places",
-      "Shopping"
+      "Shopping",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "6.3.95"
@@ -69467,7 +70996,9 @@
     "aliases": [
       "awning"
     ],
-    "tags": [],
+    "tags": [
+      "Places"
+    ],
     "author": "Simran",
     "version": "2.0.46"
   },
@@ -69479,7 +71010,8 @@
       "awning"
     ],
     "tags": [
-      "Shopping"
+      "Shopping",
+      "Places"
     ],
     "author": "Google",
     "version": "4.2.95"
@@ -69673,6 +71205,36 @@
     "version": "1.9.32"
   },
   {
+    "id": "B467AA69-1E9D-444C-B6E4-764F1D180140",
+    "name": "sun-clock",
+    "codepoint": "F1A77",
+    "aliases": [
+      "sun-schedule",
+      "sun-time",
+      "time-of-day"
+    ],
+    "tags": [
+      "Weather"
+    ],
+    "author": "Hans B\u00f6hm",
+    "version": "6.7.96"
+  },
+  {
+    "id": "39AB9880-94EC-44BF-96FC-D5ACA1AA3356",
+    "name": "sun-clock-outline",
+    "codepoint": "F1A78",
+    "aliases": [
+      "sun-schedule-outline",
+      "sun-time-outline",
+      "time-of-day-outline"
+    ],
+    "tags": [
+      "Weather"
+    ],
+    "author": "Hans B\u00f6hm",
+    "version": "6.7.96"
+  },
+  {
     "id": "1F513D40-444E-475D-9C1F-E5A95CE61A02",
     "name": "sun-compass",
     "codepoint": "F19A5",
@@ -69682,7 +71244,9 @@
       "solar-asimuth"
     ],
     "tags": [
-      "Weather"
+      "Weather",
+      "Home Automation",
+      "Navigation"
     ],
     "author": "Michael Irigoyen",
     "version": "6.5.95"
@@ -69701,6 +71265,21 @@
     ],
     "author": "Google",
     "version": "6.1.95"
+  },
+  {
+    "id": "57D0B351-8C4C-4F9C-9D62-23DE9E00C9AA",
+    "name": "sun-snowflake-variant",
+    "codepoint": "F1A79",
+    "aliases": [
+      "hot-cold",
+      "heat-cool"
+    ],
+    "tags": [
+      "Home Automation",
+      "Weather"
+    ],
+    "author": "Hans B\u00f6hm",
+    "version": "6.7.96"
   },
   {
     "id": "A915898D-3218-4A0E-9732-CEB0701DADA1",
@@ -70936,6 +72515,28 @@
     "version": "5.9.55"
   },
   {
+    "id": "A15E3DAA-A545-434C-A876-C141B28A074D",
+    "name": "tag-check",
+    "codepoint": "F1A7A",
+    "aliases": [
+      "tag-approve"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "1E060329-9C85-4470-8140-DD96F6877E76",
+    "name": "tag-check-outline",
+    "codepoint": "F1A7B",
+    "aliases": [
+      "tag-approve-outline"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "5DCE0F4D-F740-4D9A-AC93-281D3477E9AF",
     "name": "tag-faces",
     "codepoint": "F04FA",
@@ -71562,7 +73163,9 @@
     "aliases": [
       "notes"
     ],
-    "tags": [],
+    "tags": [
+      "Text \/ Content \/ Format"
+    ],
     "author": "Google",
     "version": "2.4.85"
   },
@@ -71621,6 +73224,30 @@
     ],
     "author": "mocking-mike",
     "version": "3.7.94"
+  },
+  {
+    "id": "1AB9A345-F896-42F2-A7AF-5E61A8F17D15",
+    "name": "text-box-edit",
+    "codepoint": "F1A7C",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders",
+      "Edit \/ Modify"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "694846A9-15AD-4FA3-9130-20863F5ED8EE",
+    "name": "text-box-edit-outline",
+    "codepoint": "F1A7D",
+    "aliases": [],
+    "tags": [
+      "Files \/ Folders",
+      "Edit \/ Modify"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "60E9BECF-1FDF-4077-9BD7-F7B1863C2F66",
@@ -71799,6 +73426,17 @@
     "version": "5.1.45"
   },
   {
+    "id": "B1B403FA-FBA6-4219-8561-23DE3833029F",
+    "name": "text-search-variant",
+    "codepoint": "F1A7E",
+    "aliases": [
+      "notes-search-variant"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "4595BB97-16B7-4B19-8AC5-9C33167A6D20",
     "name": "text-shadow",
     "codepoint": "F0669",
@@ -71884,7 +73522,9 @@
     "aliases": [
       "sun-moon-stars"
     ],
-    "tags": [],
+    "tags": [
+      "Weather"
+    ],
     "author": "Austin Andrews",
     "version": "1.5.54"
   },
@@ -71934,6 +73574,22 @@
     ],
     "author": "Michael Irigoyen",
     "version": "6.2.95"
+  },
+  {
+    "id": "E01A628C-01EA-4F7E-B150-FCCDBED99EF9",
+    "name": "thermometer-check",
+    "codepoint": "F1A7F",
+    "aliases": [
+      "thermometer-approve",
+      "temperature-check",
+      "temperature-approve"
+    ],
+    "tags": [
+      "Weather",
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "C888E2C1-306A-4BCB-821E-5B33AC93572D",
@@ -72033,7 +73689,8 @@
       "temperature-off"
     ],
     "tags": [
-      "Weather"
+      "Weather",
+      "Home Automation"
     ],
     "author": "Colton Wiscombe",
     "version": "5.4.55"
@@ -72055,6 +73712,22 @@
     ],
     "author": "Michael Richins",
     "version": "3.5.94"
+  },
+  {
+    "id": "23736622-5488-4BE7-BB70-225F5F17AF2B",
+    "name": "thermometer-water",
+    "codepoint": "F1A80",
+    "aliases": [
+      "dew-point",
+      "water-temperature",
+      "boiling-point"
+    ],
+    "tags": [
+      "Weather",
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "628D16E2-7E57-43CA-8451-012B8AB852DA",
@@ -72516,7 +74189,8 @@
       "timer-settings"
     ],
     "tags": [
-      "Date \/ Time"
+      "Date \/ Time",
+      "Settings"
     ],
     "author": "Michael Irigoyen",
     "version": "6.4.95"
@@ -72529,7 +74203,8 @@
       "timer-settings-outline"
     ],
     "tags": [
-      "Date \/ Time"
+      "Date \/ Time",
+      "Settings"
     ],
     "author": "Michael Irigoyen",
     "version": "6.4.95"
@@ -72645,7 +74320,8 @@
     "codepoint": "F1923",
     "aliases": [],
     "tags": [
-      "Date \/ Time"
+      "Date \/ Time",
+      "Settings"
     ],
     "author": "Michael Irigoyen",
     "version": "6.4.95"
@@ -72656,7 +74332,8 @@
     "codepoint": "F1924",
     "aliases": [],
     "tags": [
-      "Date \/ Time"
+      "Date \/ Time",
+      "Settings"
     ],
     "author": "Michael Irigoyen",
     "version": "6.4.95"
@@ -72874,7 +74551,8 @@
       "find-my-phone"
     ],
     "tags": [
-      "Cellphone \/ Phone"
+      "Cellphone \/ Phone",
+      "Tooltip"
     ],
     "author": "Michael Irigoyen",
     "version": "6.2.95"
@@ -73069,7 +74747,9 @@
     "name": "tooth-outline",
     "codepoint": "F0529",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Medical \/ Hospital"
+    ],
     "author": "Christopher Schreiner",
     "version": "1.5.54"
   },
@@ -73238,7 +74918,9 @@
       "lego-location",
       "toy-brick-location"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Michael Richins",
     "version": "4.7.95"
   },
@@ -73253,7 +74935,9 @@
       "plugin-outline",
       "lego-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Michael Richins",
     "version": "4.7.95"
   },
@@ -74227,7 +75911,8 @@
       "truck-error"
     ],
     "tags": [
-      "Transportation + Road"
+      "Transportation + Road",
+      "Alert \/ Error"
     ],
     "author": "Simran",
     "version": "6.6.96"
@@ -74240,7 +75925,8 @@
       "truck-error-outline"
     ],
     "tags": [
-      "Transportation + Road"
+      "Transportation + Road",
+      "Alert \/ Error"
     ],
     "author": "Simran",
     "version": "6.6.96"
@@ -74267,7 +75953,9 @@
       "lorry-check",
       "courier-check"
     ],
-    "tags": [],
+    "tags": [
+      "Transportation + Road"
+    ],
     "author": "Austin Andrews",
     "version": "3.2.89"
   },
@@ -74276,7 +75964,9 @@
     "name": "truck-check-outline",
     "codepoint": "F129A",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Transportation + Road"
+    ],
     "author": "Austin Andrews",
     "version": "4.7.95"
   },
@@ -74298,7 +75988,9 @@
     "name": "truck-delivery-outline",
     "codepoint": "F129B",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Transportation + Road"
+    ],
     "author": "Austin Andrews",
     "version": "4.7.95"
   },
@@ -74321,7 +76013,9 @@
     "name": "truck-fast-outline",
     "codepoint": "F129C",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Transportation + Road"
+    ],
     "author": "Austin Andrews",
     "version": "4.7.95"
   },
@@ -74333,7 +76027,8 @@
       "truck-flatbed-tow"
     ],
     "tags": [
-      "Automotive"
+      "Automotive",
+      "Transportation + Road"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -74369,7 +76064,9 @@
     "name": "truck-outline",
     "codepoint": "F129D",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Transportation + Road"
+    ],
     "author": "Google",
     "version": "4.7.95"
   },
@@ -74381,7 +76078,8 @@
       "truck-add"
     ],
     "tags": [
-      "Transportation + Road"
+      "Transportation + Road",
+      "Medical \/ Hospital"
     ],
     "author": "Michael Richins",
     "version": "6.5.95"
@@ -74394,7 +76092,8 @@
       "truck-add-outline"
     ],
     "tags": [
-      "Transportation + Road"
+      "Transportation + Road",
+      "Medical \/ Hospital"
     ],
     "author": "Colton Wiscombe",
     "version": "6.5.95"
@@ -74510,6 +76209,18 @@
     "version": "1.5.54"
   },
   {
+    "id": "23DCD596-6B2A-4556-AF71-A37AE9FE4D99",
+    "name": "tsunami",
+    "codepoint": "F1A81",
+    "aliases": [],
+    "tags": [
+      "Nature",
+      "Weather"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
     "id": "7796F195-34DA-4CAA-8F58-1179343EFB18",
     "name": "tumble-dryer",
     "codepoint": "F0917",
@@ -74574,7 +76285,8 @@
       "equalizer"
     ],
     "tags": [
-      "Audio"
+      "Audio",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.4.55"
@@ -74605,7 +76317,8 @@
       "equalizer-vertical"
     ],
     "tags": [
-      "Audio"
+      "Audio",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.4.55"
@@ -74633,6 +76346,20 @@
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
+  },
+  {
+    "id": "1F12944F-0802-431A-AA2C-7E0FEB23829B",
+    "name": "turbine",
+    "codepoint": "F1A82",
+    "aliases": [
+      "jet-engine",
+      "wind-turbine"
+    ],
+    "tags": [
+      "Transportation + Flying"
+    ],
+    "author": "Hans B\u00f6hm",
+    "version": "6.7.96"
   },
   {
     "id": "2BD0CF2B-70B8-4CFB-9350-A613C189EE7D",
@@ -74956,7 +76683,9 @@
     "name": "unicode",
     "codepoint": "F0ED0",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
     "author": "Contributors",
     "version": "3.7.94"
   },
@@ -75294,7 +77023,9 @@
     "name": "variable-box",
     "codepoint": "F1111",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
     "author": "Michael Irigoyen",
     "version": "4.3.95"
   },
@@ -75620,7 +77351,8 @@
     "codepoint": "F18D9",
     "aliases": [],
     "tags": [
-      "Vector"
+      "Vector",
+      "Edit \/ Modify"
     ],
     "author": "Andrea Antonello",
     "version": "6.3.95"
@@ -75960,7 +77692,8 @@
       "video-location"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Navigation"
     ],
     "author": "Simran",
     "version": "6.5.95"
@@ -75973,7 +77706,8 @@
       "video-location-outline"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Navigation"
     ],
     "author": "Simran",
     "version": "6.5.95"
@@ -76289,7 +78023,8 @@
     "codepoint": "F1947",
     "aliases": [],
     "tags": [
-      "View"
+      "View",
+      "Edit \/ Modify"
     ],
     "author": "Michael Irigoyen",
     "version": "6.4.95"
@@ -76300,7 +78035,8 @@
     "codepoint": "F1948",
     "aliases": [],
     "tags": [
-      "View"
+      "View",
+      "Edit \/ Modify"
     ],
     "author": "Michael Irigoyen",
     "version": "6.4.95"
@@ -76715,6 +78451,32 @@
     "version": "1.5.54"
   },
   {
+    "id": "F319008C-CAC3-4D75-8DED-8164D252A015",
+    "name": "volcano",
+    "codepoint": "F1A83",
+    "aliases": [
+      "eruption"
+    ],
+    "tags": [
+      "Nature"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "EF1E667D-78DD-4460-BD7B-B5E7A70BDF54",
+    "name": "volcano-outline",
+    "codepoint": "F1A84",
+    "aliases": [
+      "eruption-outline"
+    ],
+    "tags": [
+      "Nature"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
     "id": "3978DABC-FC98-4D3E-A971-88716AD5D600",
     "name": "volleyball",
     "codepoint": "F09B4",
@@ -76938,7 +78700,8 @@
     ],
     "tags": [
       "Sport",
-      "Transportation + Other"
+      "Transportation + Other",
+      "People \/ Family"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -77378,7 +79141,8 @@
     "tags": [
       "Home Automation",
       "Health \/ Beauty",
-      "Food \/ Drink"
+      "Food \/ Drink",
+      "Weather"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -77570,7 +79334,8 @@
     ],
     "tags": [
       "Home Automation",
-      "Drawing \/ Art"
+      "Drawing \/ Art",
+      "Weather"
     ],
     "author": "Michael Irigoyen",
     "version": "6.2.95"
@@ -77586,7 +79351,8 @@
       "ink-outline"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Weather"
     ],
     "author": "GreenTurtwig",
     "version": "3.5.94"
@@ -77601,7 +79367,8 @@
     ],
     "tags": [
       "Weather",
-      "Home Automation"
+      "Home Automation",
+      "Nature"
     ],
     "author": "Simran",
     "version": "1.5.54"
@@ -77615,7 +79382,8 @@
       "ink-percent-alert"
     ],
     "tags": [
-      "Alert \/ Error"
+      "Alert \/ Error",
+      "Nature"
     ],
     "author": "Colton Wiscombe",
     "version": "5.4.55"
@@ -77728,6 +79496,38 @@
     ],
     "author": "Hans B\u00f6hm",
     "version": "6.1.95"
+  },
+  {
+    "id": "276FDABE-30C6-406C-BAED-FF6BFC10B6BA",
+    "name": "water-thermometer",
+    "codepoint": "F1A85",
+    "aliases": [
+      "boil-point",
+      "water-temperature",
+      "dew-point"
+    ],
+    "tags": [
+      "Weather",
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
+    "id": "D69A4155-E2D7-4A9F-82CD-904D346E8A6E",
+    "name": "water-thermometer-outline",
+    "codepoint": "F1A86",
+    "aliases": [
+      "dew-point-outline",
+      "water-temperature-outline",
+      "boil-point-outline"
+    ],
+    "tags": [
+      "Weather",
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "4EE62E99-C30B-4A90-B89D-ADF4C26EF888",
@@ -77941,7 +79741,8 @@
       "weather-date"
     ],
     "tags": [
-      "Weather"
+      "Weather",
+      "Cloud"
     ],
     "author": "Michael Irigoyen",
     "version": "6.3.95"
@@ -77989,7 +79790,8 @@
       "cyclone"
     ],
     "tags": [
-      "Weather"
+      "Weather",
+      "Nature"
     ],
     "author": "Michael Richins",
     "version": "2.1.99"
@@ -78194,7 +79996,8 @@
     ],
     "tags": [
       "Weather",
-      "Alert \/ Error"
+      "Alert \/ Error",
+      "Home Automation"
     ],
     "author": "Michael Irigoyen",
     "version": "3.8.95"
@@ -78496,7 +80299,8 @@
       "human-barbell"
     ],
     "tags": [
-      "Sport"
+      "Sport",
+      "People \/ Family"
     ],
     "author": "Michael Irigoyen",
     "version": "4.4.95"
@@ -78533,6 +80337,22 @@
     ],
     "author": "Michael Irigoyen",
     "version": "5.4.55"
+  },
+  {
+    "id": "1984D53A-267C-4E05-956A-ABED5B2029BE",
+    "name": "wheelchair",
+    "codepoint": "F1A87",
+    "aliases": [
+      "accessible",
+      "isa",
+      "international-symbol-of-access"
+    ],
+    "tags": [
+      "Medical \/ Hospital",
+      "People \/ Family"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "FB4E1390-EFB1-4364-B6EE-F936C5715163",
@@ -78745,7 +80565,9 @@
     "name": "wifi-lock",
     "codepoint": "F16BF",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -78754,7 +80576,9 @@
     "name": "wifi-lock-open",
     "codepoint": "F16C0",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -78765,7 +80589,9 @@
     "aliases": [
       "wifi-location"
     ],
-    "tags": [],
+    "tags": [
+      "Navigation"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -78819,7 +80645,9 @@
     "name": "wifi-settings",
     "codepoint": "F16C6",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -78875,7 +80703,9 @@
     "name": "wifi-strength-1-lock-open",
     "codepoint": "F16CB",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -78917,7 +80747,9 @@
     "name": "wifi-strength-2-lock-open",
     "codepoint": "F16CC",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -78959,7 +80791,9 @@
     "name": "wifi-strength-3-lock-open",
     "codepoint": "F16CD",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -79001,7 +80835,9 @@
     "name": "wifi-strength-4-lock-open",
     "codepoint": "F16CE",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -79025,7 +80861,9 @@
     "name": "wifi-strength-lock-open-outline",
     "codepoint": "F16CF",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Lock"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -79092,6 +80930,34 @@
     "version": "1.5.54"
   },
   {
+    "id": "4A21CDF6-CF3E-46DB-8A1E-A5F51225DDE3",
+    "name": "wind-power",
+    "codepoint": "F1A88",
+    "aliases": [
+      "wind-energy",
+      "wind-electricity"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
+    "id": "4ED15D1F-9A58-4E07-BA71-3DCEAC67F59D",
+    "name": "wind-power-outline",
+    "codepoint": "F1A89",
+    "aliases": [
+      "wind-energy-outline",
+      "wind-electricity-outline"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Google",
+    "version": "6.7.96"
+  },
+  {
     "id": "9DABF133-FBE0-416C-82D8-F47E8A559E12",
     "name": "wind-turbine",
     "codepoint": "F0DA5",
@@ -79114,7 +80980,8 @@
       "wind-turbine-warning"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Alert \/ Error"
     ],
     "author": "Michael Irigoyen",
     "version": "6.5.95"
@@ -79241,6 +81108,20 @@
     "version": "4.3.95"
   },
   {
+    "id": "E71049A9-FDB3-47BD-A1CA-9CA952627DDE",
+    "name": "window-shutter-cog",
+    "codepoint": "F1A8A",
+    "aliases": [
+      "window-shutter-settings"
+    ],
+    "tags": [
+      "Home Automation",
+      "Settings"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
+  },
+  {
     "id": "955A5813-3414-4712-ADF4-62878A42D3B9",
     "name": "window-shutter-open",
     "codepoint": "F111E",
@@ -79250,6 +81131,18 @@
     ],
     "author": "idevo89",
     "version": "4.3.95"
+  },
+  {
+    "id": "1361AC2A-CE62-44C5-99BE-3DBA2B14D318",
+    "name": "window-shutter-settings",
+    "codepoint": "F1A8B",
+    "aliases": [],
+    "tags": [
+      "Home Automation",
+      "Settings"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "6.7.96"
   },
   {
     "id": "0D2A52AA-2CAE-427F-887E-6198929D6855",
@@ -79370,7 +81263,8 @@
       "tool-clock"
     ],
     "tags": [
-      "Date \/ Time"
+      "Date \/ Time",
+      "Hardware \/ Tools"
     ],
     "author": "Simran",
     "version": "6.5.95"
