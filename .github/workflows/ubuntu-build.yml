@@ -12,6 +12,8 @@ jobs:
             os: ubuntu-18.04
           - name: Talipot build on Ubuntu 20.04
             os: ubuntu-20.04
+          - name: Talipot build on Ubuntu 22.04
+            os: ubuntu-22.04
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -19,11 +21,6 @@ jobs:
           access_token: ${{ github.token }}
       - name: Checkout Talipot code
         uses: actions/checkout@v2
-      - if: matrix.config.os == 'ubuntu-20.04'
-        name: Add KDE Neon repository to get recent Qt5
-        run: |
-          wget -qO - http://archive.neon.kde.org/public.key | sudo apt-key add -
-          sudo add-apt-repository http://archive.neon.kde.org/user/
       - name: Apt update
         run: sudo apt update
       - name: Install Talipot build dependencies
@@ -39,7 +36,7 @@ jobs:
           binutils-dev
           libzstd-dev
           libgit2-dev
-          qt5-default
+          qtbase5-dev
           libqt5webkit5-dev
           libquazip5-dev
           libglew-dev
