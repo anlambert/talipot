@@ -59,7 +59,8 @@ AboutPage::AboutPage(QWidget *parent) : QWidget(parent), _ui(new Ui::AboutPage()
   </body>
 </html>)";
 
-  _ui->logolabel->setPixmap(QPixmap(tlpStringToQString(TalipotBitmapDir + "/logo.png")));
+  _ui->logolabel->setPixmap(QPixmap(tlpStringToQString(TalipotBitmapDir + "/logo.png"))
+                                .scaled(200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
   _ui->TalipotLabel->setText(titleTemplate.arg(title, TalipotRepoUrl));
 
   bool openGlOk = GlOffscreenRenderer::instance().getOpenGLContext()->isValid();

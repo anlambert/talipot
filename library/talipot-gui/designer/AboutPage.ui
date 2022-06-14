@@ -6,14 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>598</width>
-    <height>532</height>
+    <width>700</width>
+    <height>546</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>About Talipot</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetDefaultConstraint</enum>
+   </property>
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -38,8 +41,23 @@
       <layout class="QVBoxLayout" name="verticalLayout_8">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
          <item>
           <widget class="QLabel" name="logolabel">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>200</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>200</width>
+             <height>200</height>
+            </size>
+           </property>
            <property name="text">
             <string>Talipot logo</string>
            </property>

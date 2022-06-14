@@ -1621,7 +1621,8 @@ void TalipotMainWindow::showAboutPage() {
   layout->addWidget(aboutPage);
   layout->setContentsMargins(0, 0, 0, 0);
   aboutDialog.setLayout(layout);
-  aboutDialog.resize(800, 600);
+  aboutDialog.adjustSize();
+  aboutDialog.setMaximumSize(aboutDialog.size());
   aboutDialog.exec();
 }
 
