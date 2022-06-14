@@ -249,22 +249,34 @@ public:
 };
 
 static FontIconData defaultFontIconData;
-static unordered_map<string, FontIconData> FontIconDatas;
+static unordered_map<string, FontIconData> fontIconsData;
 
-static FontIconData &getFontIconData(const string &iconName) {
-  if (iconName.empty() || !IconicFont::isIconSupported(iconName)) {
+static FontIconData &getFontIconData(const string &iconName, ElementType eltType, uint eltId) {
+  auto it = fontIconsData.find(iconName);
+  if (it == fontIconsData.end()) {
+    it = fontIconsData.insert({iconName, FontIconData(iconName)}).first;
+  }
+
+  if (it->second.iconCodePoint == 0) {
     // initialization of defaultFontIconData is delayed
     if (defaultFontIconData.iconCodePoint == 0) {
       static const std::string defaultIconName = FontAwesome::Solid::QuestionCircle;
       defaultFontIconData.iconCodePoint = IconicFont::getIconCodePoint(defaultIconName);
       defaultFontIconData.fontFile = IconicFont::getTTFLocation(defaultIconName);
     }
+
+    if (iconName.empty()) {
+      tlp::warning() << "Icon name for " << (eltType == NODE ? "node " : "edge ") << eltId
+                     << " is empty." << std::endl;
+    } else {
+      tlp::warning() << "Icon name '" << iconName << "' for "
+                     << (eltType == NODE ? "node " : "edge ") << eltId << " does not exist."
+                     << std::endl;
+    }
+
     return defaultFontIconData;
   }
-  auto it = FontIconDatas.find(iconName);
-  if (FontIconDatas.find(iconName) == FontIconDatas.end()) {
-    it = FontIconDatas.insert({iconName, FontIconData(iconName)}).first;
-  }
+
   return it->second;
 }
 
@@ -306,7 +318,7 @@ private:
   FontIconData &getNodeFontIconData(node n) {
     StringProperty *viewIcon = glGraphInputData->icons();
     const string &iconName = viewIcon->getNodeValue(n);
-    return getFontIconData(iconName);
+    return getFontIconData(iconName, NODE, n.id);
   }
 };
 
@@ -341,7 +353,8 @@ public:
     // icon must be mirrored along its Y axis to get a correct rendering
     glScalef(-1.0f, 1.0f, 1.0f);
 
-    drawIcon(getFontIconData(iconName), glyphColor, borderColor, borderWidth, edgeTexture);
+    drawIcon(getFontIconData(iconName, EDGE, e.id), glyphColor, borderColor, borderWidth,
+             edgeTexture);
   }
 };
 
