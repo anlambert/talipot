@@ -8,8 +8,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: Talipot build on Ubuntu 18.04
-            os: ubuntu-18.04
           - name: Talipot build on Ubuntu 20.04
             os: ubuntu-20.04
           - name: Talipot build on Ubuntu 22.04
@@ -47,13 +45,6 @@ jobs:
           python3-pip
           doxygen
           graphviz
-      - if: matrix.config.os == 'ubuntu-18.04'
-        name: Install GCC 8 on Ubuntu 18.04
-        run: |
-          sudo apt install gcc-8 g++-8
-          sudo update-alternatives \
-            --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 \
-            --slave /usr/bin/g++ g++ /usr/bin/g++-8
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
