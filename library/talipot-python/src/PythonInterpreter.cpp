@@ -151,31 +151,6 @@ const char *PythonInterpreter::pythonKeywords[] = {
     "break",   "continue", "as",    "lambda", "del",  "try",   "except", "raise",
     "finally", "yield",    "async", "await",  nullptr};
 
-#ifdef _MSC_VER
-extern "C" {
-BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
-  switch (ul_reason_for_call) {
-  case DLL_PROCESS_ATTACH:
-
-    if (QApplication::instance()) {
-      PythonInterpreter::instance().initConsoleOutput();
-    }
-
-    break;
-
-  case DLL_THREAD_ATTACH:
-  case DLL_THREAD_DETACH:
-    break;
-
-  case DLL_PROCESS_DETACH:
-    break;
-  }
-
-  return TRUE;
-}
-}
-#endif
-
 PythonInterpreter::PythonInterpreter()
     : _wasInit(false), _runningScript(false), _defaultConsoleWidget(nullptr),
       _pythonVersion(PythonVersionChecker::compiledVersion()), _outputEnabled(true),
@@ -278,9 +253,7 @@ PythonInterpreter::PythonInterpreter()
 
 #endif
 
-#if !defined(_MSC_VER)
     initConsoleOutput();
-#endif
 
     if (interpreterInit()) {
 
