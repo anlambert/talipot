@@ -148,6 +148,13 @@ setup(
 
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
 
+        'Operating System :: POSIX :: Linux',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows :: Windows 11',
+        'Operating System :: Microsoft :: Windows :: Windows 10',
+        'Operating System :: Microsoft :: Windows :: Windows 8',
+        'Operating System :: Microsoft :: Windows :: Windows 7',
+
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
