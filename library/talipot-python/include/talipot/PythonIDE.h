@@ -66,11 +66,11 @@ class TLP_PYTHON_SCOPE PythonIDE : public QWidget {
   bool loadPythonPlugin(const QString &fileName, bool clear = true);
   bool loadPythonPluginFromSrcCode(const QString &moduleName, const QString &pluginSrcCode,
                                    bool clear = true);
-  void savePythonPlugin(int tabIdx);
+  void savePythonPlugin(int tabIdx, bool saveAs = false);
   bool indicateErrors() const;
   void clearErrorIndicators() const;
   bool loadModule(const QString &fileName);
-  void saveModule(int tabIdx);
+  void saveModule(int tabIdx, bool saveAs = false);
 
   bool reloadAllModules() const;
   void createProjectPythonPaths();
@@ -113,7 +113,7 @@ private:
   int addPluginEditor(const QString &fileName = "");
 
   bool loadScript(const QString &fileName, bool clear = true);
-  void saveScript(int tabIdx, bool clear = true, bool showFileDialog = false);
+  void saveScript(int tabIdx, bool clear = true, bool showFileDialog = false, bool saveAs = false);
 
   tlp::PythonCodeEditor *getCurrentMainScriptEditor() const;
   tlp::PythonCodeEditor *getMainScriptEditor(int idx) const;
@@ -143,6 +143,7 @@ private slots:
   void currentTabChanged(int index);
   void loadPythonPlugin();
   void savePythonPlugin();
+  void savePythonPluginAs();
   void saveAllPlugins();
   void registerPythonPlugin(bool clear = true);
   void removePythonPlugin();
@@ -150,6 +151,7 @@ private slots:
   void newStringModule();
   void loadModule();
   void saveModule();
+  void saveModuleAs();
   void saveAllModules();
   void scrollToEditorLine(const QUrl &);
   void increaseFontSize();
@@ -162,6 +164,7 @@ private slots:
   void newScript();
   void loadScript();
   void saveScript();
+  void saveScriptAs();
   void saveAllScripts();
   void currentScriptPaused();
 

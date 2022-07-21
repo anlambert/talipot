@@ -347,6 +347,8 @@ PythonIDE::PythonIDE(QWidget *parent)
       FontIcon::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
   _ui->saveMainScriptButton->setIcon(
       FontIcon::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
+  _ui->saveMainScriptAsButton->setIcon(
+      FontIcon::icon(MaterialDesignIcons::FileExportOutline, QColor(Qt::white)));
   _ui->newStringModuleButton->setIcon(
       FontIcon::icon(MaterialDesignIcons::FilePlus, QColor(Qt::white)));
   _ui->newPluginButton->setIcon(FontIcon::icon(MaterialDesignIcons::File, QColor(Qt::white)));
@@ -354,11 +356,15 @@ PythonIDE::PythonIDE(QWidget *parent)
       FontIcon::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
   _ui->savePluginButton->setIcon(
       FontIcon::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
+  _ui->savePluginAsButton->setIcon(
+      FontIcon::icon(MaterialDesignIcons::FileExportOutline, QColor(Qt::white)));
   _ui->newModuleButton->setIcon(FontIcon::icon(MaterialDesignIcons::File, QColor(Qt::white)));
   _ui->loadModuleButton->setIcon(
       FontIcon::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
   _ui->saveModuleButton->setIcon(
       FontIcon::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
+  _ui->saveModuleAsButton->setIcon(
+      FontIcon::icon(MaterialDesignIcons::FileExportOutline, QColor(Qt::white)));
   _ui->decreaseFontSizeButton->setIcon(FontIcon::icon(MaterialDesignIcons::MinusCircle, Qt::black));
   _ui->increaseFontSizeButton->setIcon(FontIcon::icon(MaterialDesignIcons::PlusCircle, Qt::black));
   _ui->runScriptButton->setIcon(FontIcon::icon(MaterialDesignIcons::Play, QColor(Qt::white)));
@@ -413,11 +419,13 @@ PythonIDE::PythonIDE(QWidget *parent)
           QOverload<>::of(&PythonIDE::loadModule));
   connect(_ui->saveModuleButton, &QAbstractButton::clicked, this,
           QOverload<>::of(&PythonIDE::saveModule));
+  connect(_ui->saveModuleAsButton, &QAbstractButton::clicked, this, &PythonIDE::saveModuleAs);
   connect(_ui->newPluginButton, &QAbstractButton::clicked, this, &PythonIDE::newPythonPlugin);
   connect(_ui->loadPluginButton, &QAbstractButton::clicked, this,
           QOverload<>::of(&PythonIDE::loadPythonPlugin));
   connect(_ui->savePluginButton, &QAbstractButton::clicked, this,
           QOverload<>::of(&PythonIDE::savePythonPlugin));
+  connect(_ui->savePluginAsButton, &QAbstractButton::clicked, this, &PythonIDE::savePythonPluginAs);
   connect(_ui->registerPluginButton, &QAbstractButton::clicked, this,
           &PythonIDE::registerPythonPlugin);
   connect(_ui->removePluginButton, &QAbstractButton::clicked, this, &PythonIDE::removePythonPlugin);
@@ -448,6 +456,7 @@ PythonIDE::PythonIDE(QWidget *parent)
           QOverload<>::of(&PythonIDE::loadScript));
   connect(_ui->saveMainScriptButton, &QAbstractButton::clicked, this,
           QOverload<>::of(&PythonIDE::saveScript));
+  connect(_ui->saveMainScriptAsButton, &QAbstractButton::clicked, this, &PythonIDE::saveScriptAs);
   connect(_ui->graphComboBox, &TreeViewComboBox::currentItemChanged, this,
           &PythonIDE::graphComboBoxIndexChanged);
 
@@ -555,7 +564,7 @@ bool PythonIDE::loadModule(const QString &fileName) {
   return true;
 }
 
-void PythonIDE::saveModule(int tabIdx) {
+void PythonIDE::saveModule(int tabIdx, bool saveAs) {
   if (tabIdx >= 0 && tabIdx < _ui->modulesTabWidget->count()) {
     QString moduleNameExt = _ui->modulesTabWidget->tabText(tabIdx);
     QString moduleName;
@@ -565,9 +574,22 @@ void PythonIDE::saveModule(int tabIdx) {
     // remove character added by qt
     moduleName = moduleName.replace("&", "");
 
+    QString fileName;
+    if (saveAs) {
+      fileName =
+          QFileDialog::getSaveFileName(this, tr("Set module filename"), "", "Python script (*.py)");
+      if (fileName.isEmpty()) {
+        return;
+      }
+      if (!fileName.endsWith(".py")) {
+        fileName += ".py";
+      }
+      getModuleEditor(tabIdx)->setFileName(fileName);
+    } else {
+      fileName = getModuleEditor(tabIdx)->getFileName();
+    }
+
     _pythonInterpreter->deleteModule(moduleName);
-    _ui->modulesTabWidget->setTabText(tabIdx, moduleName + ".py");
-    QString fileName = getModuleEditor(tabIdx)->getFileName();
 
     // string module special case
     if (fileName.isEmpty()) {
@@ -576,6 +598,9 @@ void PythonIDE::saveModule(int tabIdx) {
     }
 
     QFileInfo fileInfo(fileName);
+    moduleName = fileInfo.baseName();
+
+    _ui->modulesTabWidget->setTabText(tabIdx, moduleName + ".py");
 
     if (getModuleEditor(tabIdx)->saveCodeToFile()) {
       _ui->modulesTabWidget->setTabToolTip(tabIdx, fileInfo.absoluteFilePath());
@@ -640,6 +665,16 @@ void PythonIDE::saveModule() {
   saveModule(curModule);
 }
 
+void PythonIDE::saveModuleAs() {
+  int curModule = _ui->modulesTabWidget->currentIndex();
+
+  if (curModule == -1) {
+    return;
+  }
+
+  saveModule(curModule, true);
+}
+
 void PythonIDE::saveAllModules() {
   for (int i = 0; i < _ui->modulesTabWidget->count(); ++i) {
     saveModule(i);
@@ -690,9 +725,8 @@ void PythonIDE::newPythonPlugin() {
     int editorId = addPluginEditor(fileInfo.absoluteFilePath());
     _ui->pluginsTabWidget->setTabToolTip(editorId, fileInfo.absoluteFilePath());
     PythonInterpreter::instance().addModuleSearchPath(modulePath);
-    _ui->pluginsTabWidget->setTabText(editorId, QString("[") +
-                                                    pluginCreationDialog.getPluginType() +
-                                                    QString("] ") + fileInfo.fileName());
+    _ui->pluginsTabWidget->setTabText(editorId, "[" + pluginCreationDialog.getPluginType() + "] " +
+                                                    fileInfo.fileName());
 
     QString pluginFile = fileInfo.absoluteFilePath();
     _editedPluginsClassName[pluginFile] = pluginCreationDialog.getPluginClassName();
@@ -836,8 +870,7 @@ bool PythonIDE::loadPythonPlugin(const QString &fileName, bool clear) {
       int editorId = addPluginEditor(fileInfo.absoluteFilePath());
       _pythonInterpreter->addModuleSearchPath(modulePath);
       _ui->pluginsTabWidget->setTabToolTip(editorId, fileInfo.absoluteFilePath());
-      _ui->pluginsTabWidget->setTabText(editorId, QString("[") + pluginType + QString("] ") +
-                                                      fileInfo.fileName());
+      _ui->pluginsTabWidget->setTabText(editorId, "[" + pluginType + "] " + fileInfo.fileName());
       QString pluginFile = fileInfo.absoluteFilePath();
       _editedPluginsClassName[pluginFile] = pluginClassName;
       _editedPluginsType[pluginFile] = pluginType;
@@ -924,7 +957,11 @@ void PythonIDE::savePythonPlugin() {
   savePythonPlugin(_ui->pluginsTabWidget->currentIndex());
 }
 
-void PythonIDE::savePythonPlugin(int tabIdx) {
+void PythonIDE::savePythonPluginAs() {
+  savePythonPlugin(_ui->pluginsTabWidget->currentIndex(), true);
+}
+
+void PythonIDE::savePythonPlugin(int tabIdx, bool saveAs) {
 
   if (tabIdx >= 0 && tabIdx < _ui->pluginsTabWidget->count()) {
 
@@ -936,9 +973,34 @@ void PythonIDE::savePythonPlugin(int tabIdx) {
     // remove character added by qt
     moduleName = moduleName.replace("&", "");
 
-    _ui->pluginsTabWidget->setTabText(tabIdx, moduleName + ".py");
-    QFile file(getPluginEditor(tabIdx)->getFileName());
-    QFileInfo fileInfo(file);
+    QString pluginFile = getPluginEditor(tabIdx)->getFileName();
+    QString pluginClassName = _editedPluginsClassName[pluginFile];
+    QString pluginType = _editedPluginsType[pluginFile];
+    QString pluginName = _editedPluginsName[pluginFile];
+
+    QString fileName;
+    if (saveAs) {
+      fileName =
+          QFileDialog::getSaveFileName(this, tr("Set plugin filename"), "", "Python script (*.py)");
+      if (fileName.isEmpty()) {
+        return;
+      }
+      if (!fileName.endsWith(".py")) {
+        fileName += ".py";
+      }
+      getPluginEditor(tabIdx)->setFileName(fileName);
+    } else {
+      fileName = getPluginEditor(tabIdx)->getFileName();
+    }
+
+    QFileInfo fileInfo(fileName);
+    moduleName = fileInfo.baseName();
+    pluginFile = fileInfo.absoluteFilePath();
+
+    _ui->pluginsTabWidget->setTabText(tabIdx, "[" + pluginType + "] " + fileInfo.fileName());
+    _editedPluginsClassName[pluginFile] = pluginClassName;
+    _editedPluginsType[pluginFile] = pluginType;
+    _editedPluginsName[pluginFile] = pluginName;
 
     getPluginEditor(tabIdx)->saveCodeToFile();
     _ui->pluginsTabWidget->setTabToolTip(tabIdx, getPluginEditor(tabIdx)->getFileName());
@@ -1682,7 +1744,11 @@ void PythonIDE::saveScript() {
   saveScript(_ui->mainScriptsTabWidget->currentIndex(), true, true);
 }
 
-void PythonIDE::saveScript(int tabIdx, bool clear, bool showFileDialog) {
+void PythonIDE::saveScriptAs() {
+  saveScript(_ui->mainScriptsTabWidget->currentIndex(), true, false, true);
+}
+
+void PythonIDE::saveScript(int tabIdx, bool clear, bool showFileDialog, bool saveAs) {
   if (tabIdx >= 0 && tabIdx < _ui->mainScriptsTabWidget->count()) {
     QString fileName;
     QString mainScriptFileName = getMainScriptEditor(tabIdx)->getFileName();
@@ -1692,7 +1758,7 @@ void PythonIDE::saveScript(int tabIdx, bool clear, bool showFileDialog) {
     // remove character added by qt
     tabText = tabText.replace("&", "");
 
-    if (mainScriptFileName.isEmpty() && showFileDialog) {
+    if ((mainScriptFileName.isEmpty() && showFileDialog) || saveAs) {
       QString dir = "";
 
       if (!tabText.startsWith("[")) {
@@ -1739,6 +1805,7 @@ void PythonIDE::saveScript(int tabIdx, bool clear, bool showFileDialog) {
 
       if (tabText.contains(".py")) {
         fileName = tabText;
+        tabText.replace(".py*", "");
         tabText.replace(".py", "");
         _pythonInterpreter->setOutputEnabled(false);
         _pythonInterpreter->registerNewModuleFromString(
