@@ -8,10 +8,10 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: Talipot build on MacOS 10.15
-            os: macos-10.15
-          - name: Talipot build on MacOS 11.0
-            os: macos-11.0
+          - name: Talipot build on macOS 11
+            os: macos-11
+          - name: Talipot build on macOS 12
+            os: macos-12
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
