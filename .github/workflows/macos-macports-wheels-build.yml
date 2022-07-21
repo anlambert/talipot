@@ -5,7 +5,7 @@ jobs:
     name: Talipot Python wheels build on MacOS
     runs-on: macos-10.15
     env:
-      CLANG_VERSION: 13
+      CLANG_VERSION: 14
       MACOSX_DEPLOYMENT_TARGET: 10.9
       TWINE_REPOSITORY: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
