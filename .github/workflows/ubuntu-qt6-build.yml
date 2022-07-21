@@ -50,7 +50,12 @@ jobs:
           libxcb-keysyms1-dev
           libxcb-randr0-dev
           libxcb-render-util0-dev
+          libxcb-shape0-dev
+          libxcb-shm0-dev
+          libxcb-sync-dev
+          libxcb-xfixes0-dev
           libxcb-xkb-dev
+
       - name: Install Qt6
         run: |
           curl -O https://raw.githubusercontent.com/anlambert/qbs/install-script-fixes/scripts/install-qt.sh
