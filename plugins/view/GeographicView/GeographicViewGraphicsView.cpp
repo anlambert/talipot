@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -80,8 +80,8 @@ GlComposite *readPolyFile(QString fileName) {
 
     bool findLng = false;
     bool findLat = false;
-    float lng;
-    float lat;
+    float lng = 0;
+    float lat = 0;
 
     for (const auto &s : strList) {
       s.toDouble(&ok);
