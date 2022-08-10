@@ -3,7 +3,7 @@ on: [push, pull_request]
 jobs:
   manylinux:
     name: Talipot manylinux Python wheel build on CentOS 7.9
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       DOCKER_IMAGE: quay.io/pypa/manylinux2014_x86_64
     steps:
