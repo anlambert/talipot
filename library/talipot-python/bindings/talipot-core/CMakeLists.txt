@@ -127,8 +127,8 @@ ADD_CUSTOM_COMMAND(
 
 DISABLE_COMPILER_WARNINGS()
 
-# Force to use SIP and headers located in thirdparty instead of those installed
-# in the system
+# Force to use SIP headers located in build folder instead of those installed in
+# the system
 INCLUDE_DIRECTORIES(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/build)
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIR} ${PYTHON_INCLUDE_PATH})
 INCLUDE_DIRECTORIES(${TalipotCoreBuildInclude} ${TalipotCoreInclude}
@@ -253,11 +253,21 @@ IF(APPLE AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
       INSTALL_RPATH
       "${CURRENT_INSTALL_RPATHS};@loader_path/${TalipotLibsInstallRelPath};@loader_path/../../../../Frameworks"
   )
+  SET_TARGET_PROPERTIES(
+    sip
+    PROPERTIES
+      INSTALL_RPATH
+      "${CURRENT_INSTALL_RPATHS};@loader_path/${TalipotLibsInstallRelPath};@loader_path/../../../../Frameworks"
+  )
 ELSEIF(LINUX AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
   GET_TARGET_PROPERTY(CURRENT_INSTALL_RPATHS
                       ${LibTalipotCorePythonBindingsName} INSTALL_RPATH)
   SET_TARGET_PROPERTIES(
     ${LibTalipotCorePythonBindingsName}
+    PROPERTIES INSTALL_RPATH
+               "${CURRENT_INSTALL_RPATHS}:$ORIGIN/${TalipotLibsInstallRelPath}")
+  SET_TARGET_PROPERTIES(
+    sip
     PROPERTIES INSTALL_RPATH
                "${CURRENT_INSTALL_RPATHS}:$ORIGIN/${TalipotLibsInstallRelPath}")
 ENDIF(APPLE AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
