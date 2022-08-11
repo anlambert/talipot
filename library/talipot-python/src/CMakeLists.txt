@@ -59,8 +59,6 @@ ADD_LIBRARY(
 
 TARGET_LINK_LIBRARIES(${LibTalipotPythonName} ${LibTalipotCoreName})
 TARGET_LINK_LIBRARIES(${LibTalipotPythonName} ${LibTalipotGUIName})
-TARGET_LINK_LIBRARIES(${LibTalipotPythonName}
-                      ${LibTalipotCorePythonBindingsName})
 TARGET_LINK_LIBRARIES(${LibTalipotPythonName} ${QT_LIBRARIES})
 TARGET_LINK_LIBRARIES(${LibTalipotPythonName} ${PYTHON_LIBRARY})
 
