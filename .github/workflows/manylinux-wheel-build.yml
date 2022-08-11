@@ -43,7 +43,7 @@ jobs:
           ${{ secrets.TEST_PYPI_API_TOKEN }}
           ${{ github.ref }}"
       - name: Install pip
-        run: sudo apt install python-pip python3-pip
+        run: sudo apt install python3-pip
       - name: Test uploaded wheel
         working-directory: tests/python
         run: |
