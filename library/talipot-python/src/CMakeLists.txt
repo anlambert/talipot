@@ -57,6 +57,8 @@ ADD_LIBRARY(
   ${${LibTalipotPythonName}_LIB_SRCS} ${${LibTalipotPythonName}_MOC_SRCS}
   ${${LibTalipotPythonName}_UI_SRCS})
 
+ADD_DEPENDENCIES(${LibTalipotPythonName} ${LibTalipotCorePythonBindingsName})
+
 TARGET_LINK_LIBRARIES(${LibTalipotPythonName} ${LibTalipotCoreName})
 TARGET_LINK_LIBRARIES(${LibTalipotPythonName} ${LibTalipotGUIName})
 TARGET_LINK_LIBRARIES(${LibTalipotPythonName} ${QT_LIBRARIES})
