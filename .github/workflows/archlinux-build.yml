@@ -59,6 +59,7 @@ jobs:
               qt6-webengine \
               quazip-qt6 \
               glew \
+              glu \
               freetype2 \
               fribidi \
               fontconfig \
