@@ -107,3 +107,8 @@ jobs:
         with:
           working-directory: ./build
           run: ninja tests
+      - name: Check Talipot application can be executed
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          working-directory: ./build/install/bin
+          run: ./talipot --check-application-starts

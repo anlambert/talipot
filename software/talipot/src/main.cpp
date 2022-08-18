@@ -144,6 +144,7 @@ int main(int argc, char **argv) {
   QStringList args = QApplication::arguments();
 
   bool debugPluginsLoad = false;
+  bool checkApplicationStarts = false;
 
   for (int i = 1; i < args.size(); ++i) {
     QString a = args[i];
@@ -152,6 +153,8 @@ int main(int argc, char **argv) {
       usage("");
     } else if (a == "--debug-plugins-load") {
       debugPluginsLoad = true;
+    } else if (a == "--check-application-starts") {
+      checkApplicationStarts = true;
     } else if (a.indexOf(extraParametersRegexp, 0, &match) && match.hasMatch()) {
       extraParams[match.captured(1)] = match.captured(2);
     } else {
@@ -198,7 +201,11 @@ int main(int argc, char **argv) {
   Settings::setFirstRun(false);
   Settings::setFirstTalipotMMRun(false);
 
-  int result = talipot.exec();
+  int result = 0;
+
+  if (!checkApplicationStarts) {
+    result = talipot.exec();
+  }
 
   mainWindow.deleteEarly();
 

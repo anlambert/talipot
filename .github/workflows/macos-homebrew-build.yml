@@ -89,6 +89,9 @@ jobs:
       - name: Run Talipot complete build unit tests
         working-directory: ./build
         run: make tests
+      - name: Check Talipot application can be executed
+        working-directory: ./build/install/bin
+        run: ./talipot --check-application-starts
       - name: Generate Talipot dmg bundle
         working-directory: ./build
         run: make bundle

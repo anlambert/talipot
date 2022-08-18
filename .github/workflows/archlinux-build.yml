@@ -79,3 +79,4 @@ jobs:
 
             make -j4 install
             xvfb-run  make -j4 tests
+            xvfb-run  ./install/bin/talipot --check-application-starts

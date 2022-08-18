@@ -15,7 +15,7 @@ set starttime=%time%
 
 rem let's compile clcache in order to speedup incremental builds
 cd C:/
-set PATH=%PYTHON_HOME%;%PYTHON_HOME%\Scripts;%PATH%
+set PATH=%PYTHON_HOME%;%PYTHON_HOME%\Scripts;C:/talipot/bin;%PATH%
 pip install --upgrade pip
 pip install clcache sip
 set CLCACHE_MSBUILD_CONF=/p:TrackFileAccess=false /p:CLToolExe=clcache.exe^
@@ -109,6 +109,11 @@ msbuild INSTALL.vcxproj /verbosity:minimal /m /p:Configuration=Release %CLCACHE_
 if %errorlevel% neq 0 exit /b %errorlevel%
 rem finally run Talipot tests
 ctest --force-new-ctest-process --output-on-failure --build-config "Release"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%TALIPOT_BUILD_CORE_ONLY%" == "0" (
+  talipot --check-application-starts || exit /b 1
+)
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%TALIPOT_BUILD_CORE_ONLY%" == "0" (
