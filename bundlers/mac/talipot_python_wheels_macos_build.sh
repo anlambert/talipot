@@ -86,7 +86,7 @@ do
 done
 
 # upload wheels to test PyPI
-if [ "$APPVEYOR_REPO_BRANCH" == "master" ]
+if [ "$APPVEYOR_REPO_TAG_NAME" == "dev-latest" ]
 then
   make test-wheel-upload
 fi

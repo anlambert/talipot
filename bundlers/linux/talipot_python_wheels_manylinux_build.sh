@@ -116,7 +116,7 @@ done
 
 if [ -n "$DEV_VERSION" ]
 then
-  if [ "$2" == "refs/heads/master" ]
+  if [ "$2" == "refs/tags/dev-latest" ]
   then
     make test-wheel-upload
   fi
