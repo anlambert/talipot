@@ -151,6 +151,11 @@ IF(WIN32)
         "${CMAKE_INSTALL_PREFIX}/bin/imageformats/qsvg.dll"
         "${CMAKE_INSTALL_PREFIX}/bin/platforms/qwindows.dll"
         "${FIXUP_BUNDLE_LIBS}")
+    IF(MSVC)
+      SET(FIXUP_BUNDLE_LIBS
+      "${CMAKE_INSTALL_PREFIX}/bin/OGDF-talipot-${TalipotMajorVersion}_${TalipotMinorVersion}.dll"
+      "${FIXUP_BUNDLE_LIBS}")
+    ENDIF(MSVC)
     STRING(REPLACE "\\" "/" FIXUP_BUNDLE_LIBS "${FIXUP_BUNDLE_LIBS}")
     STRING(REPLACE ";" "\;" FIXUP_BUNDLE_LIBS "${FIXUP_BUNDLE_LIBS}")
 
