@@ -84,7 +84,8 @@ FUNCTION(
   dirs
   resolved_item_var
   resolved)
-  IF(NOT EXISTS "${TALIPOT_NATIVE_PYTHON_PATH}/${item}")
+  IF(NOT EXISTS "${TALIPOT_NATIVE_PYTHON_PATH}/${item}" AND NOT item MATCHES
+                                                            "^python.*\\.dll")
     MESSAGE("Copying ${item} inside talipot Python module native folder")
     FILE(COPY ${${resolved_item_var}} DESTINATION ${TALIPOT_NATIVE_PYTHON_PATH})
   ENDIF()
