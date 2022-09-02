@@ -142,11 +142,11 @@ jobs:
             make -j4 test-wheel
           done
       - name: Upload Talipot Python wheels on test PyPI
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/tags/dev-latest'
         working-directory: ./build
         run: make test-wheel-upload
       - name: Test uploaded wheels in clean environment
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/tags/dev-latest'
         run: |
           sudo port -N -f uninstall \
             cmake \
