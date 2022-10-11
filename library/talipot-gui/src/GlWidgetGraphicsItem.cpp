@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -101,29 +101,29 @@ void GlWidgetGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 }
 
 void GlWidgetGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-  QMouseEvent eventModif(QEvent::MouseMove, QPoint(event->pos().x(), event->pos().y()),
+  QMouseEvent eventModif(QEvent::MouseMove, event->pos(), event->scenePos(), event->screenPos(),
                          Qt::NoButton, event->buttons(), event->modifiers());
   QApplication::sendEvent(_glWidget, &eventModif);
   event->setAccepted(eventModif.isAccepted());
 }
 
 void GlWidgetGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-  QMouseEvent eventModif(QEvent::MouseButtonPress, QPoint(event->pos().x(), event->pos().y()),
-                         event->button(), event->buttons(), event->modifiers());
+  QMouseEvent eventModif(QEvent::MouseButtonPress, event->pos(), event->scenePos(),
+                         event->screenPos(), event->button(), event->buttons(), event->modifiers());
   QApplication::sendEvent(_glWidget, &eventModif);
   event->setAccepted(eventModif.isAccepted());
 }
 
 void GlWidgetGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
-  QMouseEvent eventModif(QEvent::MouseButtonDblClick, QPoint(event->pos().x(), event->pos().y()),
-                         event->button(), event->buttons(), event->modifiers());
+  QMouseEvent eventModif(QEvent::MouseButtonDblClick, event->pos(), event->scenePos(),
+                         event->screenPos(), event->button(), event->buttons(), event->modifiers());
   QApplication::sendEvent(_glWidget, &eventModif);
   event->setAccepted(eventModif.isAccepted());
 }
 
 void GlWidgetGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-  QMouseEvent eventModif(QEvent::MouseButtonRelease, QPoint(event->pos().x(), event->pos().y()),
-                         event->button(), event->buttons(), event->modifiers());
+  QMouseEvent eventModif(QEvent::MouseButtonRelease, event->pos(), event->scenePos(),
+                         event->screenPos(), event->button(), event->buttons(), event->modifiers());
   QApplication::sendEvent(_glWidget, &eventModif);
   event->setAccepted(eventModif.isAccepted());
 }
@@ -144,7 +144,7 @@ void GlWidgetGraphicsItem::wheelEvent(QGraphicsSceneWheelEvent *event) {
 }
 
 void GlWidgetGraphicsItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
-  QMouseEvent eventModif(QEvent::MouseMove, QPoint(event->pos().x(), event->pos().y()),
+  QMouseEvent eventModif(QEvent::MouseMove, event->pos(), event->scenePos(), event->screenPos(),
                          Qt::NoButton, Qt::NoButton, event->modifiers());
   QApplication::sendEvent(_glWidget, &eventModif);
   event->setAccepted(eventModif.isAccepted());
@@ -152,7 +152,7 @@ void GlWidgetGraphicsItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
 
 void GlWidgetGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
   QContextMenuEvent eventModif(static_cast<QContextMenuEvent::Reason>(event->reason()),
-                               QPoint(event->pos().x(), event->pos().y()));
+                               QPoint(event->pos().x(), event->pos().y()), event->screenPos());
   QApplication::sendEvent(_glWidget, &eventModif);
   event->setAccepted(eventModif.isAccepted());
 }
