@@ -2,10 +2,8 @@ name: ubuntu-qt6-build
 on: [push, pull_request]
 jobs:
   ubuntu:
-    name: Talipot Qt6 build on Ubuntu 20.04
-    runs-on: ubuntu-20.04
-    env:
-      LD_LIBRARY_PATH: /opt/Qt/6.3.0/gcc_64/lib
+    name: Talipot Qt6 build on Ubuntu 22.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -37,40 +35,11 @@ jobs:
           python3-pip
           doxygen
           graphviz
-          libxcomposite-dev
-          libxtst-dev
-          libdbus-1-dev
-          libasound2-dev
-          libvulkan-dev
-          libxkbcommon-dev
-          libxkbcommon-x11-dev
-          libxcb1-dev
-          libxcb-image0-dev
-          libxcb-icccm4-dev
-          libxcb-keysyms1-dev
-          libxcb-randr0-dev
-          libxcb-render-util0-dev
-          libxcb-shape0-dev
-          libxcb-shm0-dev
-          libxcb-sync-dev
-          libxcb-xfixes0-dev
-          libxcb-xkb-dev
+          qt6-base-dev
+          libqt6core5compat6-dev
+          qt6-webengine-dev
+          qt6-webengine-dev-tools
 
-      - name: Install Qt6
-        run: |
-          curl -O https://raw.githubusercontent.com/anlambert/qbs/install-script-fixes/scripts/install-qt.sh
-          chmod +x install-qt.sh
-          sudo ./install-qt.sh --version 6.3.0 \
-            qtbase \
-            icu \
-            qt5compat \
-            qtimageformats \
-            qtpositioning \
-            qtdeclarative \
-            qtwebengine \
-            qtwebsockets \
-            qtwebchannel \
-            qtsvg
       - name: Install sphinx and sip
         run: sudo pip install sphinx sip
       - name: Prepare ccache timestamp
@@ -93,7 +62,6 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_INSTALL_PREFIX=$PWD/install
           -DTALIPOT_USE_QT6=ON
-          -DCMAKE_PREFIX_PATH=/opt/Qt/6.3.0/gcc_64
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_USE_CCACHE=ON
       - name: Talipot build
