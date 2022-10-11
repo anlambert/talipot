@@ -24,7 +24,7 @@ using namespace std;
 template <class F, class G, class H>
 auto compose_fn(F f, G g, H h) {
   return [f, g, h](auto &&...args) {
-    return f(g(forward<decltype(args)>(args)...), h(forward<decltype(args)>(args)...));
+    return f(g(std::forward<decltype(args)>(args)...), h(std::forward<decltype(args)>(args)...));
   };
 }
 
