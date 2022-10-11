@@ -172,8 +172,13 @@ void TalipotLogger::copy() {
 void TalipotLogger::showContextMenu(const QPoint &pos) {
   QMenu m;
   QAction *clear = m.addAction("Clear content", this, &TalipotLogger::clear);
+#if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)
   QAction *copy = m.addAction("Copy", this, &TalipotLogger::copy, QKeySequence::Copy);
   m.addAction("Close", this, &QWidget::close, QKeySequence::Close);
+#else
+  QAction *copy = m.addAction("Copy", QKeySequence::Copy, this, &TalipotLogger::copy);
+  m.addAction("Close", QKeySequence::Close, this, &QWidget::close);
+#endif
   copy->setEnabled(_ui->listWidget->count() != 0);
   clear->setEnabled(_ui->listWidget->count() != 0);
   m.exec(_ui->listWidget->mapToGlobal(pos));
