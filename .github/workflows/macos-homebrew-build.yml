@@ -14,11 +14,11 @@ jobs:
             os: macos-12
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
+        uses: styfle/cancel-workflow-action@0.10.1
         with:
           access_token: ${{ github.token }}
       - name: Checkout Talipot code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install Talipot build dependencies
         run: brew install
           ccache
@@ -45,7 +45,7 @@ jobs:
           echo "::set-output name=date::$(date -u "+%Y-%m-%d-%H-%m-%S")"
         shell: bash
       - name: Cache files
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /Users/runner/Library/Caches/ccache
           key: ${{ matrix.config.os }}-ccache-${{ steps.get-current-date.outputs.date }}

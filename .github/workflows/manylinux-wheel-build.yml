@@ -8,18 +8,18 @@ jobs:
       DOCKER_IMAGE: quay.io/pypa/manylinux2014_x86_64
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
+        uses: styfle/cancel-workflow-action@0.10.1
         with:
           access_token: ${{ github.token }}
       - name: Checkout Talipot code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Get current date
         id: get-current-date
         run: |
           echo "::set-output name=date::$(date -u "+%Y-%m-%d-%H-%m-%S")"
         shell: bash
       - name: Cache files
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/ccache
           key: manylinux2014-ccache-${{ steps.get-current-date.outputs.date }}
