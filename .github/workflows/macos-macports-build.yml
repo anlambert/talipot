@@ -2,19 +2,8 @@ name: macos-macports-build
 on: [push, pull_request]
 jobs:
   macos:
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
-    env:
-      CLANG_VERSION: 15
-      PYTHON_VERSION: "3.10"
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - name: Talipot build on macOS 11
-            os: macos-11
-          - name: Talipot build on macOS 12
-            os: macos-12
+    name: Talipot build on macOS 11 for arm64
+    runs-on: macos-11
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.10.1
@@ -22,10 +11,6 @@ jobs:
           access_token: ${{ github.token }}
       - name: Checkout Talipot code
         uses: actions/checkout@v2
-      - name: Compute environment variable
-        run: |
-          PYTHON_VERSION_NO_DOT=$(echo $PYTHON_VERSION | sed 's/\.//')
-          echo "PYTHON_VERSION_NO_DOT=$PYTHON_VERSION_NO_DOT" >> $GITHUB_ENV
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
@@ -37,81 +22,101 @@ jobs:
           path: |
             /Users/runner/Library/Caches/ccache
             /Users/runner/.macports-ci-ccache
-          key: ${{ matrix.config.os }}-ccache-${{ steps.get-current-date.outputs.date }}
+          key: macos-arm64-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             ${{ matrix.config.os }}-ccache-
+      - name: Install Qt6
+        run: |
+          function installdmg {
+            tempd=$(mktemp -d)
+            curl -L $1 > $tempd/pkg.dmg
+            listing=$(sudo hdiutil attach $tempd/pkg.dmg | grep Volumes)
+            volume=$(echo "$listing" | cut -f 3)
+            sudo cp -rf "$volume"/*.app /tmp
+            sudo hdiutil detach "$volume"
+            rm -rf $tempd
+          }
+
+          installdmg https://download.qt.io/official_releases/online_installers/qt-unified-mac-x64-online.dmg
+
+          sudo /tmp/qt-unified-macOS-*/Contents/MacOS/qt-unified-macOS-* \
+            --root /opt/Qt --accept-licenses --accept-obligations --default-answer \
+            --confirm-command --email "${{ secrets.QT_ACCOUNT_EMAIL }}" \
+            --pw "${{ secrets.QT_ACCOUNT_PASSWORD}}" \
+            install qt.qt6.640.clang_64 qt.qt6.640.qt5compat qt.qt6.640.addons.qtwebengine
+        shell: bash
       - name: Install MacPorts
         run: |
           curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
           source ./macports-ci install
           source ./macports-ci ccache
-      - name: Install Talipot build dependencies
+      - name: Install cmake, clang and ccache
         run: sudo port -N install
           cmake
-          clang-${{ env.CLANG_VERSION }}
           ccache
+          bison
+          pkgconfig
+      - name: Force install of arm64 ports
+        run: |
+          echo "build_arch arm64" | \
+            sudo tee -a /opt/local/etc/macports/macports.conf
+      - name: Install Talipot build dependencies
+        run: sudo port -N install
           zlib
           qhull
           yajl
           zstd
-          graphviz
           libgit2
-          python${{ env.PYTHON_VERSION_NO_DOT }}
-          py${{ env.PYTHON_VERSION_NO_DOT }}-sip
-          pkgconfig
-          cppunit
           freetype
           fontconfig
           fribidi
           glew
-          qt5-qtbase
-          qt5-qttools
-          qt5-qtwebkit
           quazip
-          py${{ env.PYTHON_VERSION_NO_DOT }}-pip
-      - name: Install Sphinx
-        run: pip-${{ env.PYTHON_VERSION }} install sphinx
+      - name: Build Graphviz from sources
+        run: |
+          git clone https://gitlab.com/graphviz/graphviz.git
+          cd graphviz
+          git checkout 2.49.0
+          mkdir build && cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=/opt/local \
+            -DCMAKE_OSX_ARCHITECTURES=arm64 \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+            -DBISON_EXECUTABLE=/opt/local/bin/bison \
+            -Denable_ltdl=OFF \
+            -Dwith_expat=OFF \
+            -DCMAKE_MACOSX_RPATH=OFF \
+            -DCMAKE_INSTALL_NAME_DIR=/opt/local/lib
+          make -j4
+          sudo make install
+      - name: Install Python
+        run: |
+          curl -LO https://www.python.org/ftp/python/3.10.8/python-3.10.8-macos11.pkg
+          sudo installer -pkg python-3.10.8-macos11.pkg -target /
+      - name: Install sphinx and sip
+        run: |
+          sudo /Library/Frameworks/Python.framework/Versions/3.10/bin/pip3 install sphinx
+          sudo /Library/Frameworks/Python.framework/Versions/3.10/bin/pip3 install sip
       - name: Save MacPorts ccache
         run: source ./macports-ci ccache --save
       - name: Create build directory
         run: mkdir build
-      - name: Configure Talipot core build with CMake
+      - name: Configure Talipot build with CMake
         working-directory: ./build
         run: cmake .. -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_INSTALL_PREFIX=$PWD/install
-          -DCMAKE_C_COMPILER=/opt/local/bin/clang-mp-${{ env.CLANG_VERSION }}
-          -DCMAKE_CXX_COMPILER=/opt/local/bin/clang++-mp-${{ env.CLANG_VERSION }}
-          -DPYTHON_EXECUTABLE=/opt/local/bin/python${{ env.PYTHON_VERSION }}
-          -DTALIPOT_BUILD_TESTS=ON
+          -DCMAKE_OSX_ARCHITECTURES=arm64
+          -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
+          -DPYTHON_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/3.10/bin/python3
+          -DCMAKE_PREFIX_PATH=/opt/Qt/6.4.0/macos
           -DTALIPOT_USE_CCACHE=ON
-          -DTALIPOT_BUILD_DOC=OFF
-          -DTALIPOT_BUILD_CORE_ONLY=ON
-      - name: Talipot core build
-        working-directory: ./build
-        run: make -j4
-      - name: Install Talipot core build
-        working-directory: ./build
-        run: make -j4 install
-      - name: Run Talipot core build unit tests
-        working-directory: ./build
-        run: make tests
-      - name: Configure Talipot complete build with CMake
-        working-directory: ./build
-        run: cmake .
-          -DTALIPOT_BUILD_CORE_ONLY=OFF
-          -DTALIPOT_BUILD_DOC=ON
+          -DTALIPOT_USE_QT6=ON
       - name: Talipot complete build
         working-directory: ./build
         run: make -j4
       - name: Install Talipot complete build
         working-directory: ./build
         run: make -j4 install
-      - name: Run Talipot complete build unit tests
-        working-directory: ./build
-        run: make tests
-      - name: Check Talipot application can be executed
-        working-directory: ./build/install/bin
-        run: ./talipot --check-application-starts
       - name: Generate Talipot dmg bundle
         working-directory: ./build
         run: make bundle
