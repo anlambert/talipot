@@ -12,7 +12,7 @@ jobs:
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.10.1
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{ github.token }}
       - name: Checkout Talipot code
@@ -47,7 +47,7 @@ jobs:
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
-          echo "::set-output name=date::$(date -u "+%Y-%m-%d-%H-%m-%S")"
+          echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
         shell: bash
       - name: Cache files
         uses: actions/cache@v3

@@ -9,7 +9,7 @@ jobs:
         shell: msys2 {0}
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.10.1
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{ github.token }}
       - name: Checkout Talipot code
@@ -43,11 +43,12 @@ jobs:
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
-          echo "::set-output name=date::$(date -u "+%Y-%m-%d-%H-%m-%S")"
+          echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
       - name: Get ccache directory
         id: get-cccache-dir
         run: |
-          echo "::set-output name=ccache-dir::$(ccache -sv | grep "Cache directory" | awk '{print $3}')"
+          ccache_dir=$(ccache -sv | grep "Cache directory" | awk '{print $3}')
+          echo "ccache-dir=$ccache_dir" >> $GITHUB_OUTPUT
       - name: Cache files
         uses: actions/cache@v3
         with:
