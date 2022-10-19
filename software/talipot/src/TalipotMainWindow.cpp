@@ -287,6 +287,10 @@ TalipotMainWindow::TalipotMainWindow()
   _ui->importButton->setToolTip("Display the Graph importing wizard");
   _ui->sidebarButton->setToolTip("Hide Sidebar");
   _ui->menubarButton->setToolTip("Hide Menubar");
+  _ui->fullscreenButton->setToolTip("Enter fullscreen");
+  _ui->fullscreenButton->setIcon(FontIcon::icon(MaterialDesignIcons::Fullscreen));
+  connect(_ui->fullscreenButton, &QPushButton::toggled,
+          [this](bool) { _ui->actionFull_screen->trigger(); });
   _ui->menuDelete->setToolTip("Delete elements of the current graph");
   _ui->menuOpen_recent_file->setToolTip(
       "Choose a file to open among the recently opened/saved graphs or projects");
@@ -1733,12 +1737,14 @@ void TalipotMainWindow::showFullScreen(bool f) {
   if (f) {
     _maximized = isMaximized();
     QMainWindow::showFullScreen();
+    _ui->fullscreenButton->setToolTip("Exit fullscreen");
   } else {
     showNormal();
 
     if (_maximized) {
       showMaximized();
     }
+    _ui->fullscreenButton->setToolTip("Enter fullscreen");
   }
 }
 
