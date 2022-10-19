@@ -1597,6 +1597,7 @@ void TalipotMainWindow::showHideSideBar(bool forceShow) {
   bool newState = forceShow || !_ui->docksWidget->isVisible();
   _ui->docksWidget->setVisible(newState);
   _ui->sidebarButton->setToolTip(newState ? "Hide Sidebar" : "Show Sidebar");
+  _ui->sidebarButton->setChecked(newState);
 
   if (_logger->anchored()) {
     resetLoggerDialogPosition();

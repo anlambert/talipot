@@ -897,10 +897,10 @@
               <normaloff>:/talipot/gui/ui/sidebar.png</normaloff>:/talipot/gui/ui/sidebar.png</iconset>
             </property>
             <property name="checkable">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="checked">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="flat">
              <bool>true</bool>
@@ -929,10 +929,10 @@
               <normaloff>:/talipot/gui/ui/menubar.png</normaloff>:/talipot/gui/ui/menubar.png</iconset>
             </property>
             <property name="checkable">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="checked">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="flat">
              <bool>true</bool>
