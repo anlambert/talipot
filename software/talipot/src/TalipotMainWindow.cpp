@@ -1602,6 +1602,22 @@ void TalipotMainWindow::showHideSideBar(bool forceShow) {
   if (_logger->anchored()) {
     resetLoggerDialogPosition();
   }
+
+  static const QMap<QWidget *, QToolButton *> widgetToButton = {
+      {_ui->docksWidget->widget(0), _ui->graphsButton},
+      {_ui->docksWidget->widget(1), _ui->algorithmsButton},
+      {_ui->docksWidget->widget(2), _ui->searchButton},
+      {_pythonIDE, _ui->pythonButton}};
+
+  if (!newState) {
+    for (auto *button : widgetToButton.values()) {
+      button->setChecked(false);
+    }
+  } else {
+    for (auto *widget : widgetToButton.keys()) {
+      widgetToButton[widget]->setChecked(_ui->docksWidget->currentWidget() == widget);
+    }
+  }
 }
 
 void TalipotMainWindow::showHideMenuBar() {
@@ -1643,7 +1659,7 @@ void TalipotMainWindow::showHideDockWidget(QToolButton *button, bool forceShow) 
     if (dockButton != button) {
       if (dockButton == _ui->pythonButton && _pythonIDE->isAnchored()) {
         dockButton->setChecked(false);
-      } else {
+      } else if (_pythonIDE->isAnchored()) {
         dockButton->setChecked(false);
       }
     }
@@ -1657,8 +1673,8 @@ void TalipotMainWindow::showHideDockWidget(QToolButton *button, bool forceShow) 
     } else {
       button->setChecked(newState);
     }
-    showHideSideBar(newState);
     _ui->docksWidget->setCurrentIndex(dockButtons.indexOf(button));
+    showHideSideBar(newState);
   }
 }
 
