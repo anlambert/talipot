@@ -26,7 +26,6 @@ then
   # install GCC 8 on CentOS 7
   yum -y install centos-release-scl
   yum -y install devtoolset-8-gcc devtoolset-8-gcc-c++
-  yum -y install cmake3
   # needed for qt5 gtk3 platform theme
   yum -y install gtk3-devel
 else
@@ -36,7 +35,6 @@ else
   yum -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarch.rpm
   yum -y install cmake
 fi
-
 
 # install talipot deps
 yum -y install zlib-devel libzstd-devel qhull-devel yajl-devel \
@@ -50,28 +48,34 @@ else
   yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
     quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing --nobest
 fi
+
 # install recent Python
 yum -y groupinstall "Development Tools"
-yum -y install openssl-devel libffi-devel bzip2-devel
+yum -y install openssl-devel libffi-devel bzip2-devel libsqlite3x-devel
 
 if [ "$centos7" = true ]
 then
-  wget https://www.python.org/ftp/python/3.9.9/Python-3.9.9.tgz
-  tar xzf Python-3.9.9.tgz
-  cd Python-3.9.9
   PYTHON_VERSION=3.9
+  PYTHON_FULL_VERSION=$PYTHON_VERSION.15
 else
-  wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz
-  tar xzf Python-3.10.0.tgz
-  cd Python-3.10.0
-  PYTHON_VERSION=3.10
+  PYTHON_VERSION=3.11
+  PYTHON_FULL_VERSION=$PYTHON_VERSION.0
 fi
+
+wget https://www.python.org/ftp/python/$PYTHON_FULL_VERSION/Python-$PYTHON_FULL_VERSION.tgz
+tar xzf Python-$PYTHON_FULL_VERSION.tgz
+cd Python-$PYTHON_FULL_VERSION
 
 ./configure --enable-optimizations \
   --with-system-ffi --with-computed-gotos \
   --enable-loadable-sqlite-extensions \
   --enable-shared LDFLAGS="-Wl,-rpath /usr/local/lib" \
   CC="ccache gcc"
+
+if [ "$centos8" = true ]
+then
+  make -j4
+fi
 make -j4 altinstall
 cd ..
 
@@ -94,6 +98,7 @@ cd /talipot/build
 
 if [ "$centos7" = true ]
 then
+  yum -y install cmake3
   cmake3 -DCMAKE_BUILD_TYPE=Release \
          -DCMAKE_C_COMPILER=/opt/rh/devtoolset-8/root/usr/bin/gcc \
          -DCMAKE_CXX_COMPILER=/opt/rh/devtoolset-8/root/usr/bin/g++ \
