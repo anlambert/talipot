@@ -56,7 +56,7 @@ yum -y install openssl-devel libffi-devel bzip2-devel libsqlite3x-devel
 if [ "$centos7" = true ]
 then
   PYTHON_VERSION=3.9
-  PYTHON_FULL_VERSION=$PYTHON_VERSION.15
+  PYTHON_FULL_VERSION=$PYTHON_VERSION.9
   wget https://www.python.org/ftp/python/$PYTHON_FULL_VERSION/Python-$PYTHON_FULL_VERSION.tgz
   tar xzf Python-$PYTHON_FULL_VERSION.tgz
   cd Python-$PYTHON_FULL_VERSION

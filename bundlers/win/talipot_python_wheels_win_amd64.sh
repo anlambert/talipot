@@ -44,7 +44,7 @@ pacman --noconfirm -S --needed \
 # Build wheels for each supported Python version
 cd $APPVEYOR_BUILD_FOLDER
 mkdir build && cd build
-for pyVersion in 37 38 39 310
+for pyVersion in 37 38 39 310 311
 do
   export PATH=/c/Python$pyVersion-x64/:/c/Python$pyVersion-x64/Scripts/:$PATH
   pip install wheel twine sip
@@ -73,7 +73,7 @@ print('Talipot %s successfully imported in Python %s' %
 
   nb_minutes_elapsed=$(($SECONDS / 60))
   echo "$nb_minutes_elapsed elapsed since script started"
-  if [ "$nb_minutes_elapsed" -ge "50" ]
+  if [ "$nb_minutes_elapsed" -ge "45" ]
   then
     # exit early when appveyor build timeout is close to save compiled
     # object files in appveyor cache to speedup next builds
@@ -99,7 +99,7 @@ then
     mingw-w64-$MSYS2_ARCH-qhull \
     mingw-w64-$MSYS2_ARCH-graphviz
 
-  for pyVersion in 37 38 39 310
+  for pyVersion in 37 38 39 310 311
   do
     export PATH=/c/Python$pyVersion-x64/:/c/Python$pyVersion-x64/Scripts/:$PATH
     pip install --index-url https://test.pypi.org/simple/ talipot
