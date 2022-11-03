@@ -17,8 +17,8 @@
 #include <QRegularExpression>
 
 // Current Python versions
-static const char *pythonVersion[] = {"3.10", "3.9", "3.8", "3.7", "3.6", "3.5",
-                                      "3.4",  "3.3", "3.2", "3.1", "3.0", nullptr};
+static const char *pythonVersion[] = {"3.11", "3.10", "3.9", "3.8", "3.7", "3.6",  "3.5",
+                                      "3.4",  "3.3",  "3.2", "3.1", "3.0", nullptr};
 
 // Windows specific functions
 #ifdef WIN32
