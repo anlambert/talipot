@@ -347,12 +347,6 @@ PyObject *getPyObjectFromDataType(const DataType *dataType, bool noCopy) {
     }                                                                              \
   }
 
-#define CHECK_SIP_ENUM_CONVERSION(SIP_TYPE_STR)                              \
-  if (sipCanConvertToType(pyObj, sipFindType(SIP_TYPE_STR), SIP_NOT_NONE)) { \
-    valSetter.setValue(sipConvertToEnum(pyObj, sipFindType(SIP_TYPE_STR)));  \
-    return true;                                                             \
-  }
-
 #define CHECK_SIP_POINTER_TYPE_CONVERSION(CPP_TYPE, SIP_TYPE_STR)                    \
   if (sipCanConvertToType(pyObj, sipFindType(SIP_TYPE_STR), 0)) {                    \
     if (!dataType || dataType->getTypeName() == string(typeid(CPP_TYPE *).name())) { \
