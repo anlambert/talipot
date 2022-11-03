@@ -1,0 +1,140 @@
+name: windows-wheels-build
+on: [push, pull_request]
+jobs:
+  windows:
+    name: ${{ matrix.config.name }}
+    runs-on: windows-latest
+    env:
+      TWINE_REPOSITORY: https://test.pypi.org/legacy/
+      TWINE_USERNAME: __token__
+      TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+    defaults:
+      run:
+        shell: msys2 {0}
+    strategy:
+      matrix:
+        config:
+          - name: Talipot Python 3.7 wheel build on windows
+            python-version: "3.7"
+          - name: Talipot Python 3.8 wheel build on windows
+            python-version: "3.8"
+          - name: Talipot Python 3.9 wheel build on windows
+            python-version: "3.9"
+          - name: Talipot Python 3.10 wheel build on windows
+            python-version: "3.10"
+          - name: Talipot Python 3.11 wheel build on windows
+            python-version: "3.11"
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{ github.token }}
+      - name: Checkout Talipot code
+        uses: actions/checkout@v3
+      - name: Install mingw64 and Talipot build dependencies
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: git
+            base-devel
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ccache
+            mingw-w64-x86_64-yajl
+            mingw-w64-x86_64-zstd
+            mingw-w64-x86_64-qhull
+            mingw-w64-x86_64-graphviz
+            mingw-w64-x86_64-libgit2
+      - name: Install Python ${{ matrix.config.python-version }}
+        uses: actions/setup-python@v4
+        id: python-install
+        with:
+          python-version: ${{ matrix.config.python-version }}
+      - name: Install sip, twine and wheel Python packages
+        run: |
+          PYTHON_PATH=$(echo '${{ steps.python-install.outputs.python-path }}')
+          export PATH=$(cygpath -u "$(dirname $PYTHON_PATH)\Scripts"):$PATH
+          echo $PATH
+          pip install sip twine wheel
+      - name: Get wheel next dev version
+        run: |
+          PYTHON_PATH=$(echo '${{ steps.python-install.outputs.python-path }}')
+          export PATH=$(cygpath -u "$(dirname $PYTHON_PATH)"):$PATH
+          JSON=$(curl -s 'https://test.pypi.org/pypi/talipot/json')
+          LAST_VERSION=$(echo $JSON | python -c "
+          import sys, json
+          print(json.load(sys.stdin)['info']['version'])" 2>/dev/null)
+          if [ $? -ne 0 ]
+          then
+            DEV_VERSION=1
+          else
+            echo last wheel dev version = $LAST_VERSION
+            # check if dev wheel version needs to be incremented
+            VERSION_INCREMENT=$(echo $JSON | python -c "
+          import sys, json
+          releases = json.load(sys.stdin)['releases']['$LAST_VERSION']
+          print(any(['win_amd64' in r['filename'] for r in releases]))")
+            DEV_VERSION=$(echo $LAST_VERSION | cut -f4 -d '.' | sed 's/dev//')
+            if [ "$VERSION_INCREMENT" == "True" ]
+            then
+              let DEV_VERSION+=1
+            fi
+          fi
+          echo current wheel dev version = $DEV_VERSION
+          echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_ENV
+      - name: Prepare ccache timestamp
+        id: get-current-date
+        run: |
+          echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
+      - name: Get ccache directory
+        id: get-cccache-dir
+        run: |
+          ccache_dir=$(ccache -sv | grep "Cache directory" | awk '{print $3}')
+          echo "ccache-dir=$ccache_dir" >> $GITHUB_OUTPUT
+      - name: Cache files
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.get-cccache-dir.outputs.ccache-dir }}
+          key:
+            windows-wheel-${{ steps.python-install.outputs.python-version }}-build-ccache
+            -${{ steps.get-current-date.outputs.date }}
+          restore-keys: |
+            windows-wheel-${{ steps.python-install.outputs.python-version }}-build-ccache
+      - name: Create build directory
+        run: mkdir build
+      - name: Configure Talipot Python wheel build with CMake
+        working-directory: ./build
+        run: cmake .. -G "MSYS Makefiles"
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_NEED_RESPONSE=ON
+          -DCMAKE_INSTALL_PREFIX=$PWD/install
+          -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON
+          -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a1.dev${{ env.DEV_VERSION }}
+          -DPYTHON_EXECUTABLE=$(cygpath -u "${{ steps.python-install.outputs.python-path }}")
+          -DTALIPOT_USE_CCACHE=ON
+          -DTALIPOT_BUILD_CORE_ONLY=ON
+          -DTALIPOT_BUILD_DOC=OFF
+      - name: Talipot Python wheel build
+        working-directory: ./build
+        run: make -j4 test-wheel
+      - name: Upload Talipot Python wheel on test PyPI
+        if: github.ref == 'refs/tags/dev-latest'
+        working-directory: ./build
+        run: make test-wheel-upload
+      - name: Test uploaded wheel in clean environment
+        if: github.ref == 'refs/tags/dev-latest'
+        run: |
+          PYTHON_PATH=$(echo '${{ steps.python-install.outputs.python-path }}')
+          export PATH=$(cygpath -u "$(dirname $PYTHON_PATH)\Scripts"):$PATH
+          pacman --noconfirm -Rc \
+            mingw-w64-$MSYS2_ARCH-toolchain \
+            mingw-w64-$MSYS2_ARCH-cmake \
+            mingw-w64-$MSYS2_ARCH-ccache \
+            mingw-w64-$MSYS2_ARCH-zlib \
+            mingw-w64-$MSYS2_ARCH-yajl \
+            mingw-w64-$MSYS2_ARCH-zstd \
+            mingw-w64-$MSYS2_ARCH-qhull \
+            mingw-w64-$MSYS2_ARCH-graphviz
+          pip install --index-url https://test.pypi.org/simple/ talipot
+          python -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
