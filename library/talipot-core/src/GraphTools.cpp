@@ -11,12 +11,12 @@
  *
  */
 
-#include <talipot/GraphMeasure.h>
-#include <talipot/TreeTest.h>
 #include <talipot/DoubleProperty.h>
 #include <talipot/IntegerProperty.h>
 #include <talipot/Ordering.h>
 #include <talipot/Dijkstra.h>
+#include <talipot/GraphMeasure.h>
+#include <talipot/TreeTest.h>
 #ifndef NDEBUG
 #include <talipot/AcyclicTest.h>
 #include <talipot/ConnectedTest.h>

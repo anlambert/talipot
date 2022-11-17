@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2020  The Talipot developers
+ * Copyright (C) 2020-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,15 +22,15 @@ namespace tlp {
 template <typename T>
 class Singleton {
 private:
-  Singleton<T>(const Singleton<T> &) = delete;
-  Singleton<T> &operator=(const Singleton<T> &) = delete;
+  Singleton(const Singleton<T> &) = delete;
+  Singleton &operator=(const Singleton<T> &) = delete;
 
   static std::unique_ptr<T> _instance;
   static std::once_flag _once;
 
 public:
-  Singleton<T>() = default;
-  virtual ~Singleton<T>() = default;
+  Singleton() = default;
+  virtual ~Singleton() = default;
 
   static T &instance() {
     std::call_once(_once, []() { _instance.reset(new T); });
@@ -38,7 +38,7 @@ public:
   }
 
   template <typename... Args>
-  static T &instance(Args &&... args) {
+  static T &instance(Args &&...args) {
     std::call_once(_once, [&]() { _instance.reset(new T(std::forward<Args>(args)...)); });
     return *(_instance.get());
   }

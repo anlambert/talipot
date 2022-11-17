@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -60,27 +60,27 @@ inline double tlpsqrt<double, long double>(long double a) {
 template <typename TYPE, size_t SIZE, typename OTYPE = double, typename DTYPE = TYPE>
 class Vector : public Array<TYPE, SIZE> {
 public:
-  VECTOR();
+  Vector();
 
-  VECTOR(const Vector<TYPE, SIZE, OTYPE, DTYPE> &v);
+  Vector(const Vector<TYPE, SIZE, OTYPE, DTYPE> &v);
 
-  VECTOR(Vector<TYPE, SIZE, OTYPE, DTYPE> &&v);
+  Vector(Vector<TYPE, SIZE, OTYPE, DTYPE> &&v);
 
-  VECTOR(const Vector<TYPE, SIZE + 1, OTYPE> &v);
+  Vector(const Vector<TYPE, SIZE + 1, OTYPE> &v);
 
-  VECTOR(const TYPE x);
+  Vector(const TYPE x);
 
-  VECTOR(const TYPE x, const TYPE y);
+  Vector(const TYPE x, const TYPE y);
 
-  VECTOR(const TYPE x, const TYPE y, const TYPE z);
+  Vector(const TYPE x, const TYPE y, const TYPE z);
 
-  VECTOR(const Vector<TYPE, 2, OTYPE> &v, const TYPE z);
+  Vector(const Vector<TYPE, 2, OTYPE> &v, const TYPE z);
 
-  VECTOR(const TYPE x, const TYPE y, const TYPE z, const TYPE w);
+  Vector(const TYPE x, const TYPE y, const TYPE z, const TYPE w);
 
-  VECTOR(const Vector<TYPE, 2, OTYPE> &v, const TYPE z, const TYPE w);
+  Vector(const Vector<TYPE, 2, OTYPE> &v, const TYPE z, const TYPE w);
 
-  VECTOR(const Vector<TYPE, 3, OTYPE> &v, const TYPE w);
+  Vector(const Vector<TYPE, 3, OTYPE> &v, const TYPE w);
 
   void set(const TYPE x);
 

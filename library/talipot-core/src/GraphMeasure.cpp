@@ -11,8 +11,8 @@
  *
  */
 
-#include <talipot/GraphMeasure.h>
 #include <talipot/Dijkstra.h>
+#include <talipot/GraphMeasure.h>
 
 using namespace std;
 using namespace tlp;

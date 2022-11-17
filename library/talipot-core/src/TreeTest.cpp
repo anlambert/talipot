@@ -11,11 +11,11 @@
  *
  */
 
+#include <talipot/BooleanProperty.h>
 #include <talipot/ConnectedTest.h>
 #include <talipot/TreeTest.h>
 #include <talipot/AcyclicTest.h>
 #include <talipot/GraphTools.h>
-#include <talipot/BooleanProperty.h>
 
 using namespace std;
 using namespace tlp;

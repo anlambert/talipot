@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -124,7 +124,7 @@ tlp::MutableContainer<TYPE, INDEX_TYPE>::MutableContainer()
       compressing(false) {}
 //===================================================================
 template <typename TYPE, typename INDEX_TYPE>
-tlp::MutableContainer<TYPE, INDEX_TYPE>::~MutableContainer<TYPE, INDEX_TYPE>() {
+tlp::MutableContainer<TYPE, INDEX_TYPE>::~MutableContainer() {
   switch (state) {
   case VECT:
 

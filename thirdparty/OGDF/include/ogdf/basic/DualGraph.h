@@ -132,7 +132,7 @@ public:
 	}
 
 	//! Destructor
-	~DualGraphBase<isConst>()
+	~DualGraphBase()
 	{
 		clear();
 		delete m_cpGraph;
