@@ -24,13 +24,13 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CMAKE_VS_GENERATOR: Visual Studio 16 2019
       MSVC_ARCH: x64
-      QT5_DIR: C:/Qt/5.15/msvc2019_64
+      QT_DIR: C:/Qt/6.4/msvc2019_64
       PYTHON_HOME: C:\Python311-x64
     # Windows MSVC complete build
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CMAKE_VS_GENERATOR: Visual Studio 16 2019
       MSVC_ARCH: x64
-      QT5_DIR: C:/Qt/5.15/msvc2019_64
+      QT_DIR: C:/Qt/6.4/msvc2019_64
       PYTHON_HOME: C:\Python311-x64
 
     # # Windows MSYS2 GCC Python wheels build

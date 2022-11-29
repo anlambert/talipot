@@ -52,14 +52,14 @@ vcpkg install --recurse --triplet x64-windows freetype glew fontconfig fribidi
 
 rem get, compile and install quazip
 cd C:/talipot_dependencies
-curl -LO https://github.com/stachenov/quazip/archive/refs/tags/v1.2.zip
-7z x v1.2.zip
-cd quazip-1.2
+curl -LO https://github.com/stachenov/quazip/archive/refs/tags/v1.3.zip
+7z x v1.3.zip
+cd quazip-1.3
 md build && cd build
 cmake -G "%CMAKE_VS_GENERATOR%"^
   -A "%MSVC_ARCH%"^
   -DCMAKE_INSTALL_PREFIX="C:/talipot_dependencies"^
-  -DCMAKE_PREFIX_PATH="%QT5_DIR%"^
+  -DCMAKE_PREFIX_PATH="%QT_DIR%"^
   -DCMAKE_INCLUDE_PATH="C:/Tools/vcpkg/installed/x64-windows/include"^
   -DCMAKE_LIBRARY_PATH="C:/Tools/vcpkg/installed/x64-windows/lib" ..
 if %errorlevel% neq 0 exit /b %errorlevel%
@@ -103,9 +103,10 @@ cmake -G "%CMAKE_VS_GENERATOR%"^
   -DCMAKE_INSTALL_PREFIX="C:/talipot"^
   -DCMAKE_INCLUDE_PATH="%INCLUDE_PATH%"^
   -DCMAKE_LIBRARY_PATH="%LIBRARY_PATH%"^
-  -DCMAKE_PREFIX_PATH="%QT5_DIR%"^
+  -DCMAKE_PREFIX_PATH="%QT_DIR%"^
   -DPYTHON_EXECUTABLE="%PYTHON_HOME%/python.exe"^
   -DTALIPOT_BUILD_CORE_ONLY=%TALIPOT_BUILD_CORE_ONLY%^
+  -DTALIPOT_USE_QT6=ON^
   -DTALIPOT_BUILD_DOC=OFF^
   -DTALIPOT_BUILD_TESTS=ON ..
 if %errorlevel% neq 0 exit /b %errorlevel%
