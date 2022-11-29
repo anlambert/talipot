@@ -16,8 +16,11 @@ set starttime=%time%
 rem let's compile clcache in order to speedup incremental builds
 cd C:/
 set PATH=%PYTHON_HOME%;%PYTHON_HOME%\Scripts;C:/talipot/bin;%PATH%
-pip install --upgrade pip
-pip install clcache sip
+pip install --user --upgrade pip
+pip install scandir
+pip install git+https://github.com/anlambert/pyuv@master#egg=pyuv
+set SETUPTOOLS_SCM_PRETEND_VERSION=v4.3.2
+pip install git+https://github.com/dgehri/clcache@master#egg=clcache
 set CLCACHE_MSBUILD_CONF=/p:TrackFileAccess=false /p:CLToolExe=clcache.exe^
   /p:CLToolPath=%PYTHON_HOME%\Scripts
 
@@ -33,6 +36,7 @@ call bootstrap-vcpkg.bat
 
 rem install talipot core build dependencies
 vcpkg install --triplet x64-windows zlib zstd qhull yajl graphviz libgit2 cppunit
+pip install sip
 
 if "%TALIPOT_BUILD_CORE_ONLY%" == "0" (
   goto install_complete_talipot_build_dependencies
