@@ -21,14 +21,14 @@ environment:
     #   BUILD_WHEELS: "false"
 
     # Windows MSVC core build
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      CMAKE_VS_GENERATOR: Visual Studio 16 2019
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+      CMAKE_VS_GENERATOR: Visual Studio 17 2022
       MSVC_ARCH: x64
       QT_DIR: C:/Qt/6.4/msvc2019_64
       PYTHON_HOME: C:\Python311-x64
     # Windows MSVC complete build
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      CMAKE_VS_GENERATOR: Visual Studio 16 2019
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+      CMAKE_VS_GENERATOR: Visual Studio 17 2022
       MSVC_ARCH: x64
       QT_DIR: C:/Qt/6.4/msvc2019_64
       PYTHON_HOME: C:\Python311-x64
@@ -65,7 +65,7 @@ environment:
 for:
   - matrix:
       only:
-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
 
     cache:
       - C:\Users\appveyor\AppData\Local\ccache

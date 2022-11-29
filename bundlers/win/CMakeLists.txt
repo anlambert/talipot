@@ -47,21 +47,29 @@ IF(MSVC)
         PROGRAMS
           "${MSVC_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC140.OPENMP/vcomp140.dll"
         DESTINATION ${TalipotBinInstallDir})
-      # for Visual Studio 15.0 2017
     ELSEIF(MSVC_VERSION EQUAL 1910)
+      # Visual Studio 2017
       INSTALL(
         PROGRAMS
           "${MSVC_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC150.OPENMP/vcomp140.dll"
         DESTINATION ${TalipotBinInstallDir})
+
     ELSEIF(MSVC_VERSION GREATER 1910 AND MSVC_VERSION LESS 1920)
+      # Visual Studio 2019
       INSTALL(
         PROGRAMS
           "${MSVC_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC141.OPENMP/vcomp140.dll"
         DESTINATION ${TalipotBinInstallDir})
-    ELSEIF(MSVC_VERSION GREATER_EQUAL 1920)
+    ELSEIF(MSVC_VERSION GREATER_EQUAL 1920 AND MSVC_VERSION LESS 1930)
       INSTALL(
         PROGRAMS
           "${MSVC_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC142.OPENMP/vcomp140.dll"
+        DESTINATION ${TalipotBinInstallDir})
+    ELSEIF(MSVC_VERSION GREATER_EQUAL 1930)
+      # Visual Studio 2022
+      INSTALL(
+        PROGRAMS
+          "${MSVC_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC143.OPENMP/vcomp140.dll"
         DESTINATION ${TalipotBinInstallDir})
     ENDIF()
   ENDIF(OPENMP_FOUND)
