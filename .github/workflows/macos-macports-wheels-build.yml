@@ -6,7 +6,7 @@ jobs:
     runs-on: macos-11
     env:
       CLANG_VERSION: 15
-      MACOSX_DEPLOYMENT_TARGET: 10.9
+      MACOSX_DEPLOYMENT_TARGET: "11.0"
       TWINE_REPOSITORY: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
@@ -62,50 +62,18 @@ jobs:
         run: |
           curl -LO https://raw.githubusercontent.com/anlambert/macports-ci/master/macports-ci
           source ./macports-ci install
-      - name: Install CMake and Clang
+      - name: Install Talipot build dependencies
         run: sudo port -N install
           cmake
           clang-${{ env.CLANG_VERSION }}
           bison
-      - name: Force ports build to MACOSX_DEPLOYMENT_TARGET
-        run: |
-          echo "macosx_deployment_target ${{ env.MACOSX_DEPLOYMENT_TARGET }}" | \
-            sudo tee -a /opt/local/etc/macports/macports.conf
-          echo "buildfromsource always" | \
-            sudo tee -a /opt/local/etc/macports/macports.conf
-      - name: Install Talipot build dependencies
-        run: |
-          # force rebuild of already installed dependencies
-          sudo port -N uninstall -f \
-            zlib \
-            zstd \
-            libomp
-          # build dependencies
-          sudo port -N install \
-            zlib \
-            zstd \
-            libomp \
-            qhull \
-            yajl \
-            libgit2
-      - name: Build Graphviz from sources
-        run: |
-          git clone https://gitlab.com/graphviz/graphviz.git
-          cd graphviz
-          git checkout 2.49.0
-          mkdir build && cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_INSTALL_PREFIX=/opt/local \
-            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-            -DCMAKE_C_COMPILER=/opt/local/bin/clang-mp-${{ env.CLANG_VERSION }} \
-            -DCMAKE_CXX_COMPILER=/opt/local/bin/clang++-mp-${{ env.CLANG_VERSION }} \
-            -DBISON_EXECUTABLE=/opt/local/bin/bison \
-            -Denable_ltdl=OFF \
-            -Dwith_expat=OFF \
-            -DCMAKE_MACOSX_RPATH=OFF \
-            -DCMAKE_INSTALL_NAME_DIR=/opt/local/lib
-          make -j4
-          sudo make install
+          zlib
+          zstd
+          libomp
+          qhull
+          yajl
+          libgit2
+          graphviz
       - name: Install Python versions to build wheels against
         run: |
           curl -LO https://www.python.org/ftp/python/3.7.6/python-3.7.6-macosx10.9.pkg
@@ -156,7 +124,8 @@ jobs:
             clang-${CLANG_VERSION} \
             qhull \
             yajl \
-            libgit2
+            libgit2 \
+            graphviz
 
           sudo pip3.7 install --index-url https://test.pypi.org/simple/ talipot
           python3.7 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
