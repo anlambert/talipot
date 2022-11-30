@@ -177,27 +177,20 @@ PythonInterpreter::PythonInterpreter()
     Py_OptimizeFlag = 1;
     Py_NoSiteFlag = 1;
 
-#ifdef __MINGW32__
-    // Fix for GDB debugging on windows when compiling with MinGW.
-    // GDB contains an embedded Python interpreter that messes up Python Home value.
-    // When Talipot is compiled with a version of Python different from the one embedded in GDB,
-    // it crashes at startup when running it through GDB.
-    // So reset correct one to be able to debug it.
-    QString pythonHome = PythonVersionChecker::getPythonHome();
-    if (!pythonHome.isEmpty()) {
-      static std::wstring pythonHomeWString = pythonHome.toStdWString();
-      Py_SetPythonHome(const_cast<wchar_t *>(pythonHomeWString.c_str()));
-    }
-#endif
-
 #ifdef WIN32
-    // Adjust Python home when Talipot has been installed through a Windows installer,
-    // in order to locate standard library
+    QString pythonHome = PythonVersionChecker::getPythonHome();
     static const std::string tlpPythonHome = tlp::TalipotLibDir + "/..";
     static const std::wstring tlpPythonHomeW = utf8to16(tlpPythonHome);
     if (QDir(tlpStringToQString(tlpPythonHome) + "/lib/python" + _pythonVersion).exists() ||
         QDir(tlpStringToQString(tlpPythonHome) + "/DLLs").exists()) {
+      // Adjust Python home when Talipot has been installed through a Windows installer,
+      // in order to locate standard library
       Py_SetPythonHome(const_cast<wchar_t *>(tlpPythonHomeW.c_str()));
+    } else if (!pythonHome.isEmpty()) {
+      // Adjust Python home when Talipot has been compiled against official Python distribution
+      // in order to locate standard library
+      static std::wstring pythonHomeWString = pythonHome.toStdWString();
+      Py_SetPythonHome(const_cast<wchar_t *>(pythonHomeWString.c_str()));
     }
 #endif
 
