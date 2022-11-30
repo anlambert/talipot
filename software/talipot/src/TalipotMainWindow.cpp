@@ -288,7 +288,8 @@ TalipotMainWindow::TalipotMainWindow()
   _ui->sidebarButton->setToolTip("Hide Sidebar");
   _ui->menubarButton->setToolTip("Hide Menubar");
   _ui->fullscreenButton->setToolTip("Enter fullscreen");
-  _ui->fullscreenButton->setIcon(FontIcon::icon(MaterialDesignIcons::Fullscreen));
+  _ui->fullscreenButton->setIcon(
+      FontIcon::icon(MaterialDesignIcons::Fullscreen, QColor(Qt::white)));
   connect(_ui->fullscreenButton, &QPushButton::toggled,
           [this](bool) { _ui->actionFull_screen->trigger(); });
   _ui->menuDelete->setToolTip("Delete elements of the current graph");
