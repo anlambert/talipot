@@ -90,10 +90,24 @@ for:
           $env:TALIPOT_VERSION=(bash -c "bash build/talipot-config --version | sed 's/_/./g'")
           echo TALIPOT_VERSION=$env:TALIPOT_VERSION
 
-    # set generated installers as artifacts to deploy
+    # set generated installer as artifacts to deploy
     artifacts:
       - path: build\*.exe
         name: talipot_installers
+
+    # deploy installer on GH release when pushing tag
+    deploy:
+      release: dev-latest
+      description: Talipot development build
+      provider: GitHub
+      auth_token:
+        secure: 8W4WpuPR5ygd+SUhKnwBbj1WfvZUzV2pBZnee4Q6aKk2J1eNpSVv1wEjzcfOWP9/
+      artifact: build\Talipot*.exe
+      prerelease: true
+      force_update: true
+      on:
+        branch: master
+        APPVEYOR_REPO_TAG: true
 
   - matrix:
       only:
