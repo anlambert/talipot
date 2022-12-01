@@ -115,6 +115,7 @@ jobs:
         if: github.ref == 'refs/tags/dev-latest'
         run: |
           PYTHON_PATH=$(echo '${{ steps.python-install.outputs.python-path }}')
+          export PATH=$(cygpath -u "$(dirname $PYTHON_PATH)"):$PATH
           export PATH=$(cygpath -u "$(dirname $PYTHON_PATH)\Scripts"):$PATH
           pacman --noconfirm -Rc \
             mingw-w64-x86_64-toolchain \
