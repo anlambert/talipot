@@ -117,13 +117,13 @@ jobs:
           PYTHON_PATH=$(echo '${{ steps.python-install.outputs.python-path }}')
           export PATH=$(cygpath -u "$(dirname $PYTHON_PATH)\Scripts"):$PATH
           pacman --noconfirm -Rc \
-            mingw-w64-$MSYS2_ARCH-toolchain \
-            mingw-w64-$MSYS2_ARCH-cmake \
-            mingw-w64-$MSYS2_ARCH-ccache \
-            mingw-w64-$MSYS2_ARCH-zlib \
-            mingw-w64-$MSYS2_ARCH-yajl \
-            mingw-w64-$MSYS2_ARCH-zstd \
-            mingw-w64-$MSYS2_ARCH-qhull \
-            mingw-w64-$MSYS2_ARCH-graphviz
+            mingw-w64-x86_64-toolchain \
+            mingw-w64-x86_64-cmake \
+            mingw-w64-x86_64-ccache \
+            mingw-w64-x86_64-zlib \
+            mingw-w64-x86_64-yajl \
+            mingw-w64-x86_64-zstd \
+            mingw-w64-x86_64-qhull \
+            mingw-w64-x86_64-graphviz
           pip install --index-url https://test.pypi.org/simple/ talipot
           python -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
