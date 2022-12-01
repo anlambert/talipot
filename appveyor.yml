@@ -102,7 +102,7 @@ for:
       provider: GitHub
       auth_token:
         secure: 8W4WpuPR5ygd+SUhKnwBbj1WfvZUzV2pBZnee4Q6aKk2J1eNpSVv1wEjzcfOWP9/
-      artifact: /build\Talipot.*\.exe/
+      artifact: /build\\Talipot.*\.exe/
       prerelease: true
       force_update: true
       on:
