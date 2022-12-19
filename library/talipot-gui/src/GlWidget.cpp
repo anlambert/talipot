@@ -21,6 +21,8 @@
 #include <QOpenGLFramebufferObject>
 #define __GLEW_H__
 
+#include <QMainWindow>
+
 #include <talipot/TlpQtTools.h>
 #include <talipot/Settings.h>
 #include <talipot/GlTextureManager.h>
@@ -63,6 +65,11 @@ GlWidget::GlWidget(QWidget *parent, View *view)
   scene()->setViewOrtho(Settings::isViewOrtho());
   OpenGlConfigManager::initExtensions();
   QOpenGLWidget::doneCurrent();
+  // this GlWidget is likely to be embedded in a GlWidgetGraphicsItem with no
+  // windows attached to it, making device pixel ratio value unreliable so we
+  // grab a pointer to the adequate main window to override the implementation
+  // of the devicePixelRatio method
+  _windows = window()->windowHandle() ? window() : getMainWindow();
 }
 //==================================================
 GlWidget::~GlWidget() {

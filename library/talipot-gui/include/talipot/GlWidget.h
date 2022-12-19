@@ -282,6 +282,12 @@ public:
   void zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const double duration = 1000,
                            AdditionalGlSceneAnimation *additionalAnimation = nullptr);
 
+  // devicePixelRatio() must be overridden because the inherited QWidget
+  // method always returns 1 when the widget is no attached to a window
+  qreal devicePixelRatio() const {
+    return _windows->devicePixelRatio();
+  }
+
 private:
   void createFramebuffers(int width, int height);
   void deleteFramebuffers();
@@ -297,6 +303,7 @@ private:
   bool keepPointOfViewOnSubgraphChanging;
   bool advancedAntiAliasing;
   std::string sceneTextureId;
+  QWidget *_windows;
 
 public slots:
   /**
