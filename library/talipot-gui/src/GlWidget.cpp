@@ -394,11 +394,10 @@ QImage GlWidget::createPicture(int width, int height, bool center, QImage::Forma
   QOpenGLFramebufferObjectFormat fboFormat;
   fboFormat.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
   fboFormat.setSamples(OpenGlConfigManager::maxNumberOfSamples());
-  auto *frameBuf = new QOpenGLFramebufferObject(width, height, fboFormat);
-  auto *frameBuf2 = new QOpenGLFramebufferObject(width, height);
+  QOpenGLFramebufferObject frameBuf{width, height, fboFormat};
 
-  if (frameBuf->isValid() && frameBuf2->isValid()) {
-    frameBuf->bind();
+  if (frameBuf.isValid()) {
+    frameBuf.bind();
 
     int oldWidth = _scene.getViewport()[2];
     int oldHeight = _scene.getViewport()[3];
@@ -422,12 +421,9 @@ QImage GlWidget::createPicture(int width, int height, bool center, QImage::Forma
     computeInteractors();
     _scene.draw();
     drawInteractors();
-    frameBuf->release();
+    frameBuf.release();
 
-    QOpenGLFramebufferObject::blitFramebuffer(frameBuf2, QRect(0, 0, width, height), frameBuf,
-                                              QRect(0, 0, width, height));
-
-    resultImage = frameBuf2->toImage();
+    resultImage = frameBuf.toImage();
 
     _scene.setViewport(0, 0, oldWidth, oldHeight);
 
@@ -449,15 +445,9 @@ QImage GlWidget::createPicture(int width, int height, bool center, QImage::Forma
     }
   }
 
-  delete frameBuf;
-  delete frameBuf2;
-
-  // The QOpenGLFramebufferObject returns the wrong image format
-  // QImage::Format_ARGB32_Premultiplied. We need to create an image from original data with the
-  // right format QImage::Format_ARGB32. We need to clone the data as when the image var will be
-  // destroy at the end of the function it's data will be destroyed too and the newly created image
-  // object will have invalid data pointer.
-  return QImage(resultImage.bits(), resultImage.width(), resultImage.height(),
+  // The QOpenGLFramebufferObject has an image format of QImage::Format_ARGB32_Premultiplied
+  // so need to create an image from original data with the right format QImage::Format_ARGB32.
+  return QImage(resultImage.constBits(), resultImage.width(), resultImage.height(),
                 QImage::Format_ARGB32)
       .convertToFormat(format);
 }
