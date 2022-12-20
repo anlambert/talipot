@@ -88,7 +88,10 @@
     "id": "45F0D360-E817-4152-A66E-EF019E10ED47",
     "name": "access-point-check",
     "codepoint": "F1538",
-    "aliases": [],
+    "aliases": [
+      "access-point-success",
+      "access-point-tick"
+    ],
     "tags": [],
     "author": "Colton Wiscombe",
     "version": "5.4.55"
@@ -486,7 +489,8 @@
       "user-tick",
       "person-check",
       "person-tick",
-      "how-to-reg"
+      "how-to-reg",
+      "account-success"
     ],
     "tags": [
       "Account \/ User"
@@ -504,7 +508,8 @@
       "user-tick-outline",
       "person-check-outline",
       "person-tick-outline",
-      "how-to-reg-outline"
+      "how-to-reg-outline",
+      "account-success-outline"
     ],
     "tags": [
       "Account \/ User"
@@ -847,7 +852,8 @@
       "accounts-group"
     ],
     "tags": [
-      "Account \/ User"
+      "Account \/ User",
+      "Home Automation"
     ],
     "author": "GreenTurtwig",
     "version": "2.1.99"
@@ -932,7 +938,8 @@
     "name": "account-injury",
     "codepoint": "F1815",
     "aliases": [
-      "account-disability"
+      "account-disability",
+      "patient"
     ],
     "tags": [
       "Medical \/ Hospital",
@@ -946,7 +953,8 @@
     "name": "account-injury-outline",
     "codepoint": "F1816",
     "aliases": [
-      "account-disability-outline"
+      "account-disability-outline",
+      "patient-outline"
     ],
     "tags": [
       "Account \/ User",
@@ -1110,7 +1118,8 @@
       "person-multiple-check",
       "person-multiple-tick",
       "people-check",
-      "people-tick"
+      "people-tick",
+      "account-multiple-success"
     ],
     "tags": [
       "Account \/ User"
@@ -1133,7 +1142,8 @@
       "person-multiple-check-outline",
       "person-multiple-tick-outline",
       "people-check-outline",
-      "people-tick-outline"
+      "people-tick-outline",
+      "account-multiple-success-outline"
     ],
     "tags": [
       "Account \/ User"
@@ -1730,6 +1740,28 @@
     "version": "6.4.95"
   },
   {
+    "id": "CD3C08D4-514C-4F3C-B3D7-EF6F74F79817",
+    "name": "account-tag",
+    "codepoint": "F1C1B",
+    "aliases": [],
+    "tags": [
+      "Account \/ User"
+    ],
+    "author": "Matthew Terry",
+    "version": "7.1.96"
+  },
+  {
+    "id": "253469B8-B07E-44ED-A834-1CA67428169E",
+    "name": "account-tag-outline",
+    "codepoint": "F1C1C",
+    "aliases": [],
+    "tags": [
+      "Account \/ User"
+    ],
+    "author": "Matthew Terry",
+    "version": "7.1.96"
+  },
+  {
     "id": "5EF0B9EA-FECB-409C-999C-FE1ECF0C8B01",
     "name": "account-tie",
     "codepoint": "F0CE3",
@@ -2082,7 +2114,10 @@
     "id": "3771D65E-17FD-41E0-B8E7-D1136B28D672",
     "name": "airplane-check",
     "codepoint": "F187B",
-    "aliases": [],
+    "aliases": [
+      "airplace-success",
+      "airplane-tick"
+    ],
     "tags": [
       "Transportation + Flying"
     ],
@@ -2296,7 +2331,8 @@
       "alarm-on",
       "alarm-tick",
       "alarm-clock-check",
-      "alarm-clock-tick"
+      "alarm-clock-tick",
+      "alarm-success"
     ],
     "tags": [
       "Date \/ Time"
@@ -2518,7 +2554,9 @@
     "id": "68F19F47-B38B-4370-B299-4EE2BF2619A5",
     "name": "alert-circle-check",
     "codepoint": "F11ED",
-    "aliases": [],
+    "aliases": [
+      "alert-circle-success"
+    ],
     "tags": [
       "Alert \/ Error"
     ],
@@ -2529,7 +2567,9 @@
     "id": "BB715CDA-DE45-4983-A33F-10C6141F4FEA",
     "name": "alert-circle-check-outline",
     "codepoint": "F11EE",
-    "aliases": [],
+    "aliases": [
+      "alert-circle-success-outline"
+    ],
     "tags": [
       "Alert \/ Error"
     ],
@@ -5331,7 +5371,9 @@
     "aliases": [
       "iframe-cog"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Michael Irigoyen",
     "version": "1.7.12"
   },
@@ -5653,7 +5695,9 @@
     "name": "archive-check",
     "codepoint": "F174D",
     "aliases": [
-      "box-check"
+      "box-check",
+      "archive-success",
+      "box-success"
     ],
     "tags": [],
     "author": "Colton Wiscombe",
@@ -5664,7 +5708,9 @@
     "name": "archive-check-outline",
     "codepoint": "F174E",
     "aliases": [
-      "box-check-outline"
+      "box-check-outline",
+      "archive-success-outline",
+      "box-success-outline"
     ],
     "tags": [],
     "author": "Colton Wiscombe",
@@ -5707,7 +5753,9 @@
     "aliases": [
       "box-cog"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -5718,7 +5766,9 @@
     "aliases": [
       "box-cog-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "6.1.95"
   },
@@ -8348,6 +8398,24 @@
     "version": "2.1.99"
   },
   {
+    "id": "3ED13D0F-1EC7-4EBF-99F4-B686272A00AC",
+    "name": "aurora",
+    "codepoint": "F1BB9",
+    "aliases": [
+      "aurora-borealis",
+      "aurora-australis",
+      "northern-lights",
+      "southern-lights",
+      "polar-lights"
+    ],
+    "tags": [
+      "Science",
+      "Weather"
+    ],
+    "author": "Jeff Anders",
+    "version": "7.1.96"
+  },
+  {
     "id": "2EAC4201-2055-4755-84A9-958FDDF7732B",
     "name": "auto-download",
     "codepoint": "F137E",
@@ -9301,6 +9369,28 @@
     ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
+  },
+  {
+    "id": "B8F96A7D-408E-4AB0-A137-E89DD4EC743E",
+    "name": "bank-circle",
+    "codepoint": "F1C03",
+    "aliases": [],
+    "tags": [
+      "Banking"
+    ],
+    "author": "Jeff Anders",
+    "version": "7.1.96"
+  },
+  {
+    "id": "43EACF91-9449-480F-9F4B-C3EECD964C4D",
+    "name": "bank-circle-outline",
+    "codepoint": "F1C04",
+    "aliases": [],
+    "tags": [
+      "Banking"
+    ],
+    "author": "Jeff Anders",
+    "version": "7.1.96"
   },
   {
     "id": "DAC4946E-1A07-44B4-977F-E51D740DA5FB",
@@ -12990,7 +13080,8 @@
     "name": "bookmark-check",
     "codepoint": "F00C1",
     "aliases": [
-      "bookmark-tick"
+      "bookmark-tick",
+      "bookmark-success"
     ],
     "tags": [],
     "author": "Google",
@@ -13000,7 +13091,9 @@
     "id": "EFBBDF1F-1497-4BA3-AE93-614B2BB496F7",
     "name": "bookmark-check-outline",
     "codepoint": "F137B",
-    "aliases": [],
+    "aliases": [
+      "bookmark-success-outline"
+    ],
     "tags": [],
     "author": "Simran",
     "version": "4.9.95"
@@ -15393,7 +15486,8 @@
     "codepoint": "F1B65",
     "aliases": [],
     "tags": [
-      "Date \/ Time"
+      "Date \/ Time",
+      "Edit \/ Modify"
     ],
     "author": "Michael Irigoyen",
     "version": "7.0.96"
@@ -15729,7 +15823,8 @@
     "codepoint": "F0692",
     "aliases": [
       "calendar-rsvp",
-      "event-question"
+      "event-question",
+      "calendar-help"
     ],
     "tags": [
       "Date \/ Time"
@@ -15741,7 +15836,9 @@
     "id": "38D715EB-E9A7-48E9-A283-0F09D440AD9F",
     "name": "calendar-question-outline",
     "codepoint": "F1B6D",
-    "aliases": [],
+    "aliases": [
+      "calendar-help-outline"
+    ],
     "tags": [
       "Date \/ Time"
     ],
@@ -16337,6 +16434,28 @@
     ],
     "author": "Austin Andrews",
     "version": "6.6.96"
+  },
+  {
+    "id": "2CB53F43-4731-40F1-993B-90F7D92A4789",
+    "name": "camera-lock-open",
+    "codepoint": "F1C0D",
+    "aliases": [],
+    "tags": [
+      "Photography"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "7.1.96"
+  },
+  {
+    "id": "26438E72-F4E7-4C38-B373-0661EC4C1616",
+    "name": "camera-lock-open-outline",
+    "codepoint": "F1C0E",
+    "aliases": [],
+    "tags": [
+      "Photography"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "7.1.96"
   },
   {
     "id": "662A0A34-3FEC-47DB-BD66-608D95F912EF",
@@ -17234,7 +17353,8 @@
     "codepoint": "F152D",
     "aliases": [],
     "tags": [
-      "Automotive"
+      "Automotive",
+      "Agriculture"
     ],
     "author": "Austin Andrews",
     "version": "5.4.55"
@@ -17356,7 +17476,8 @@
     "aliases": [],
     "tags": [
       "Transportation + Road",
-      "Automotive"
+      "Automotive",
+      "Agriculture"
     ],
     "author": "GreenTurtwig",
     "version": "2.0.46"
@@ -19728,6 +19849,21 @@
     "version": "1.5.54"
   },
   {
+    "id": "B7CE40ED-002C-475A-ADAC-8110FE260F65",
+    "name": "chart-pie-outline",
+    "codepoint": "F1BDF",
+    "aliases": [
+      "report-pie-outline",
+      "widget-pie-outline",
+      "graph-pie-outline"
+    ],
+    "tags": [
+      "Math"
+    ],
+    "author": "Google",
+    "version": "7.1.96"
+  },
+  {
     "id": "42A6B073-CC7E-4539-9313-E60FAE81BC70",
     "name": "chart-ppf",
     "codepoint": "F1380",
@@ -19987,7 +20123,9 @@
     "id": "8B7833C6-EB36-4F0C-A554-AF7189A7AB34",
     "name": "chat-question",
     "codepoint": "F1738",
-    "aliases": [],
+    "aliases": [
+      "chat-help"
+    ],
     "tags": [],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -19996,7 +20134,9 @@
     "id": "7EC5A46D-1E6A-475C-A76F-19F9F4B9CD90",
     "name": "chat-question-outline",
     "codepoint": "F1739",
-    "aliases": [],
+    "aliases": [
+      "chat-help-outline"
+    ],
     "tags": [],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -20043,7 +20183,8 @@
     "codepoint": "F012C",
     "aliases": [
       "tick",
-      "done"
+      "done",
+      "success"
     ],
     "tags": [],
     "author": "Google",
@@ -20069,7 +20210,9 @@
     "name": "check-bold",
     "codepoint": "F0E1E",
     "aliases": [
-      "check-thick"
+      "check-thick",
+      "success-thick",
+      "success-bold"
     ],
     "tags": [],
     "author": "Michael Richins",
@@ -20080,7 +20223,8 @@
     "name": "check-circle",
     "codepoint": "F05E0",
     "aliases": [
-      "tick-circle"
+      "tick-circle",
+      "success-circle"
     ],
     "tags": [],
     "author": "Google",
@@ -20091,7 +20235,8 @@
     "name": "check-circle-outline",
     "codepoint": "F05E1",
     "aliases": [
-      "tick-circle-outline"
+      "tick-circle-outline",
+      "success-circle-outline"
     ],
     "tags": [],
     "author": "Google",
@@ -20153,7 +20298,8 @@
     "codepoint": "F0855",
     "aliases": [
       "done-outline",
-      "tick-outline"
+      "tick-outline",
+      "sucess-outline"
     ],
     "tags": [],
     "author": "Google",
@@ -22850,6 +22996,114 @@
     "version": "2.5.94"
   },
   {
+    "id": "3FC7BE84-D3FE-4DF8-88D2-19E85A7BF661",
+    "name": "cloud-alert-outline",
+    "codepoint": "F1BE0",
+    "aliases": [],
+    "tags": [
+      "Weather",
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "19C8B174-393F-4E5B-ADC4-C5598DE914F8",
+    "name": "cloud-arrow-down",
+    "codepoint": "F1BE1",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "5F0D6116-B303-4C57-82F0-224ADA97EBD5",
+    "name": "cloud-arrow-down-outline",
+    "codepoint": "F1BE2",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "6FD0F6B8-7E48-4EAB-99C4-AFD58D95E942",
+    "name": "cloud-arrow-left",
+    "codepoint": "F1BE3",
+    "aliases": [],
+    "tags": [
+      "Weather",
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "DD5C0F60-69F6-469D-A285-3527C9CBCEC9",
+    "name": "cloud-arrow-left-outline",
+    "codepoint": "F1BE4",
+    "aliases": [],
+    "tags": [
+      "Weather",
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "3B3EF4D2-339A-43D7-AAEE-394D74AA7C85",
+    "name": "cloud-arrow-right",
+    "codepoint": "F1BE5",
+    "aliases": [],
+    "tags": [
+      "Weather",
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "043852F0-723D-45FF-8C83-D7C87009089F",
+    "name": "cloud-arrow-right-outline",
+    "codepoint": "F1BE6",
+    "aliases": [],
+    "tags": [
+      "Weather",
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "043AFCE7-AA8A-4E51-AD77-96957407218E",
+    "name": "cloud-arrow-up",
+    "codepoint": "F1BE7",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "B1E36C6D-4638-4FE5-854E-B6E3DCB6D6D1",
+    "name": "cloud-arrow-up-outline",
+    "codepoint": "F1BE8",
+    "aliases": [],
+    "tags": [
+      "Weather",
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
     "id": "6ED02FDD-323E-4004-9D7B-336F2402DF8E",
     "name": "cloud-braces",
     "codepoint": "F07B5",
@@ -22864,26 +23118,76 @@
     "version": "2.0.46"
   },
   {
-    "id": "5B607B90-B492-43AD-A5B0-4AC800A9F7DA",
+    "id": "8F5247BF-407F-4460-9C6E-3C7A467DF01A",
+    "name": "cloud-cancel",
+    "codepoint": "F1BE9",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "52D9AC34-84C1-4DF6-A173-3F7726954A71",
+    "name": "cloud-cancel-outline",
+    "codepoint": "F1BEA",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "29F10EFC-FC56-4D02-88E6-FC856F54390D",
     "name": "cloud-check",
+    "codepoint": "F1BEB",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "B99F649D-4AB4-4A56-97EA-A52B6CE26B16",
+    "name": "cloud-check-outline",
+    "codepoint": "F1BEC",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "5B607B90-B492-43AD-A5B0-4AC800A9F7DA",
+    "name": "cloud-check-variant",
     "codepoint": "F0160",
     "aliases": [
       "cloud-done",
       "cloud-tick"
     ],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Google",
     "version": "1.5.54"
   },
   {
     "id": "A56D0A20-FC19-455F-B1E8-3CA24270957A",
-    "name": "cloud-check-outline",
+    "name": "cloud-check-variant-outline",
     "codepoint": "F12CC",
     "aliases": [],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Michael Irigoyen",
     "version": "4.8.95"
@@ -22894,10 +23198,71 @@
     "codepoint": "F0161",
     "aliases": [],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "451E7715-6D54-47B1-9228-DBD53D8CBF07",
+    "name": "cloud-circle-outline",
+    "codepoint": "F1BED",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Google",
+    "version": "7.1.96"
+  },
+  {
+    "id": "F718D38F-3628-42E3-864B-787F62811754",
+    "name": "cloud-clock",
+    "codepoint": "F1BEE",
+    "aliases": [],
+    "tags": [
+      "Weather",
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "0BE13210-76BC-47EA-8506-E42859826A01",
+    "name": "cloud-clock-outline",
+    "codepoint": "F1BEF",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "DFCB974D-269A-4ADE-BFDF-58C4D12E947C",
+    "name": "cloud-cog",
+    "codepoint": "F1BF0",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "D03FD5FA-4F08-491D-8459-1EDFE1CED4C6",
+    "name": "cloud-cog-outline",
+    "codepoint": "F1BF1",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
   },
   {
     "id": "D8C49CD8-61B2-4F34-A4B8-543396B4A610",
@@ -22905,7 +23270,8 @@
     "codepoint": "F0162",
     "aliases": [],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -22916,7 +23282,8 @@
     "codepoint": "F0B7D",
     "aliases": [],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Google",
     "version": "3.0.39"
@@ -22934,6 +23301,28 @@
     "version": "4.5.95"
   },
   {
+    "id": "5985650B-077C-4473-8749-A98E0F731EB9",
+    "name": "cloud-lock-open",
+    "codepoint": "F1BF2",
+    "aliases": [],
+    "tags": [
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "54073599-B365-465E-89D6-2081A5D0EB1F",
+    "name": "cloud-lock-open-outline",
+    "codepoint": "F1BF3",
+    "aliases": [],
+    "tags": [
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
     "id": "9ADC05C4-6BC2-4D66-80B0-CB6677A08271",
     "name": "cloud-lock-outline",
     "codepoint": "F11F2",
@@ -22946,12 +23335,47 @@
     "version": "4.5.95"
   },
   {
+    "id": "EC87820F-EE63-45B9-9F7C-6AC83EECCDA8",
+    "name": "cloud-minus",
+    "codepoint": "F1BF4",
+    "aliases": [],
+    "tags": [
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "B6D110F4-1A69-4C3E-9045-E14E28AB1EF6",
+    "name": "cloud-minus-outline",
+    "codepoint": "F1BF5",
+    "aliases": [],
+    "tags": [
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "EFE048B4-42B0-40BD-A7BB-E0E20FB0D80F",
+    "name": "cloud-off",
+    "codepoint": "F1BF6",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Google",
+    "version": "7.1.96"
+  },
+  {
     "id": "E19C3062-FFE5-441C-91C8-B1792E3AA3CA",
     "name": "cloud-off-outline",
     "codepoint": "F0164",
     "aliases": [],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -23005,6 +23429,28 @@
     "version": "6.7.96"
   },
   {
+    "id": "392BB6A6-E468-4F36-8F7B-8259754E80C4",
+    "name": "cloud-plus",
+    "codepoint": "F1BF7",
+    "aliases": [],
+    "tags": [
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "278039EE-3E18-4BBC-924E-F8785DA32520",
+    "name": "cloud-plus-outline",
+    "codepoint": "F1BF8",
+    "aliases": [],
+    "tags": [
+      "Cloud"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
     "id": "DB32F759-BA18-488B-9260-9A38529BE7A8",
     "name": "cloud-print",
     "codepoint": "F0165",
@@ -23036,21 +23482,94 @@
     "codepoint": "F0A39",
     "aliases": [],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Michael Irigoyen",
     "version": "2.6.95"
   },
   {
-    "id": "1771EA83-96FC-4A06-8A03-E4048C9F9C27",
+    "id": "9114B506-531D-4840-9803-E541F716995C",
+    "name": "cloud-question-outline",
+    "codepoint": "F1BF9",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "546F9706-77E9-4C0A-9B7F-A035A0F1DB8C",
     "name": "cloud-refresh",
+    "codepoint": "F1BFA",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "59C1725E-CC9E-4AF1-B215-8FECD1E93A39",
+    "name": "cloud-refresh-outline",
+    "codepoint": "F1BFB",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "1771EA83-96FC-4A06-8A03-E4048C9F9C27",
+    "name": "cloud-refresh-variant",
     "codepoint": "F052A",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Austin Andrews",
+    "version": "1.5.54"
+  },
+  {
+    "id": "79C50275-0698-42E7-998B-3B0F8E093362",
+    "name": "cloud-refresh-variant-outline",
+    "codepoint": "F1BFC",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "31A2A45B-65A1-46F4-BE9A-573F7469E390",
+    "name": "cloud-remove",
+    "codepoint": "F1BFD",
     "aliases": [],
     "tags": [
       "Cloud"
     ],
-    "author": "Austin Andrews",
-    "version": "1.5.54"
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "DFA9EF34-6410-46FB-8126-F10449D71D31",
+    "name": "cloud-remove-outline",
+    "codepoint": "F1BFE",
+    "aliases": [],
+    "tags": [
+      "Cloud",
+      "Weather"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
   },
   {
     "id": "BF384FFB-7E5D-4C2E-ADC5-4BEEAF61A81C",
@@ -23058,7 +23577,8 @@
     "codepoint": "F0956",
     "aliases": [],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Michael Richins",
     "version": "2.4.85"
@@ -23069,7 +23589,8 @@
     "codepoint": "F0957",
     "aliases": [],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Michael Richins",
     "version": "2.4.85"
@@ -23080,7 +23601,8 @@
     "codepoint": "F063F",
     "aliases": [],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Michael Irigoyen",
     "version": "1.6.50"
@@ -23091,7 +23613,8 @@
     "codepoint": "F12D6",
     "aliases": [],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Michael Irigoyen",
     "version": "4.8.95"
@@ -23117,7 +23640,8 @@
       "backup"
     ],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -23130,7 +23654,8 @@
       "backup-outline"
     ],
     "tags": [
-      "Cloud"
+      "Cloud",
+      "Weather"
     ],
     "author": "Google",
     "version": "3.0.39"
@@ -23141,7 +23666,8 @@
     "codepoint": "F1B95",
     "aliases": [],
     "tags": [
-      "Weather"
+      "Weather",
+      "Cloud"
     ],
     "author": "Michael Irigoyen",
     "version": "7.0.96"
@@ -24269,7 +24795,9 @@
     "id": "49412CCB-C5F6-460F-A2DB-76BCCB668BCC",
     "name": "comment-question",
     "codepoint": "F0817",
-    "aliases": [],
+    "aliases": [
+      "comment-help"
+    ],
     "tags": [],
     "author": "Austin Andrews",
     "version": "2.1.19"
@@ -24278,7 +24806,9 @@
     "id": "7BD335A6-C4A7-48F1-B04F-F1457B7B1F20",
     "name": "comment-question-outline",
     "codepoint": "F0186",
-    "aliases": [],
+    "aliases": [
+      "comment-help-outline"
+    ],
     "tags": [],
     "author": "Simran",
     "version": "1.5.54"
@@ -24488,7 +25018,10 @@
     "id": "75C5A894-CC25-4326-A270-6F70BE0D8AAB",
     "name": "compost",
     "codepoint": "F1A38",
-    "aliases": [],
+    "aliases": [
+      "regeneration",
+      "regenerative-agriculture"
+    ],
     "tags": [
       "Agriculture",
       "Nature"
@@ -25135,7 +25668,8 @@
       "biscuit-cog"
     ],
     "tags": [
-      "Food \/ Drink"
+      "Food \/ Drink",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
@@ -25148,7 +25682,8 @@
       "biscuit-cog-outline"
     ],
     "tags": [
-      "Food \/ Drink"
+      "Food \/ Drink",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
@@ -26887,6 +27422,19 @@
     "version": "2.0.46"
   },
   {
+    "id": "F9875997-F68E-4AE3-9B85-E8DFB6E0D054",
+    "name": "currency-thb",
+    "codepoint": "F1C05",
+    "aliases": [
+      "currency-thai-baht"
+    ],
+    "tags": [
+      "Banking"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "7.1.96"
+  },
+  {
     "id": "94DAFCB6-FA70-4DAE-B3DF-A107031F81E8",
     "name": "currency-try",
     "codepoint": "F01B2",
@@ -27380,7 +27928,8 @@
     "codepoint": "F164B",
     "aliases": [],
     "tags": [
-      "Database"
+      "Database",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
@@ -27391,7 +27940,8 @@
     "codepoint": "F164C",
     "aliases": [],
     "tags": [
-      "Database"
+      "Database",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
@@ -32091,6 +32641,42 @@
     "version": "3.0.39"
   },
   {
+    "id": "D0F73A84-81BB-47B2-993B-0FB019C854B4",
+    "name": "eye-lock",
+    "codepoint": "F1C06",
+    "aliases": [],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "7.1.96"
+  },
+  {
+    "id": "BC6FEA4D-DD3C-4EAD-9402-CF1153E8AE52",
+    "name": "eye-lock-open",
+    "codepoint": "F1C07",
+    "aliases": [],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "7.1.96"
+  },
+  {
+    "id": "89FC8E98-DF54-42AA-99BA-4AC234151FC6",
+    "name": "eye-lock-open-outline",
+    "codepoint": "F1C08",
+    "aliases": [],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "7.1.96"
+  },
+  {
+    "id": "EA9ACDD8-28EF-41E1-BE27-64979D52FB0D",
+    "name": "eye-lock-outline",
+    "codepoint": "F1C09",
+    "aliases": [],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "7.1.96"
+  },
+  {
     "id": "67AEA391-FE01-41D0-B594-36433AAB099E",
     "name": "eye-minus",
     "codepoint": "F1026",
@@ -32928,7 +33514,8 @@
       "train-track"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Agriculture"
     ],
     "author": "Michael Irigoyen",
     "version": "6.1.95"
@@ -32942,7 +33529,8 @@
       "train-track-electric"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Agriculture"
     ],
     "author": "Michael Irigoyen",
     "version": "6.1.95"
@@ -33453,6 +34041,32 @@
     ],
     "author": "Simran",
     "version": "6.8.96"
+  },
+  {
+    "id": "31314AE5-195A-4F48-847C-AC6D8A69360D",
+    "name": "file-document-arrow-right",
+    "codepoint": "F1C0F",
+    "aliases": [
+      "file-document-move"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Andrej Sharapov",
+    "version": "7.1.96"
+  },
+  {
+    "id": "DF8391C4-0B76-4A72-A39E-4DDB40092B8C",
+    "name": "file-document-arrow-right-outline",
+    "codepoint": "F1C10",
+    "aliases": [
+      "file-document-move-outline"
+    ],
+    "tags": [
+      "Files \/ Folders"
+    ],
+    "author": "Andrej Sharapov",
+    "version": "7.1.96"
   },
   {
     "id": "F51E0270-13FD-4DA5-945B-FE8C4C45AF60",
@@ -34220,7 +34834,8 @@
     "codepoint": "F1179",
     "aliases": [],
     "tags": [
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Cellphone \/ Phone"
     ],
     "author": "Victor",
     "version": "4.4.95"
@@ -34231,7 +34846,8 @@
     "codepoint": "F117A",
     "aliases": [],
     "tags": [
-      "Files \/ Folders"
+      "Files \/ Folders",
+      "Cellphone \/ Phone"
     ],
     "author": "Victor",
     "version": "4.4.95"
@@ -36334,7 +36950,8 @@
       "plant"
     ],
     "tags": [
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -36348,7 +36965,8 @@
       "plant"
     ],
     "tags": [
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Google",
     "version": "2.5.94"
@@ -36361,7 +36979,8 @@
       "allergy"
     ],
     "tags": [
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -36374,7 +36993,8 @@
       "allergy-outline"
     ],
     "tags": [
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Colton Wiscombe",
     "version": "6.2.95"
@@ -36387,7 +37007,8 @@
       "plant"
     ],
     "tags": [
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Colton Wiscombe",
     "version": "3.3.92"
@@ -36400,7 +37021,8 @@
       "plant"
     ],
     "tags": [
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Michael Richins",
     "version": "2.5.94"
@@ -36413,7 +37035,8 @@
       "plant"
     ],
     "tags": [
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Michael Richins",
     "version": "2.5.94"
@@ -38077,10 +38700,12 @@
     "name": "forest",
     "codepoint": "F1897",
     "aliases": [
-      "pine-tree"
+      "forestry",
+      "pine-tree-multiple"
     ],
     "tags": [
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Google",
     "version": "6.2.95"
@@ -41970,7 +42595,8 @@
     "aliases": [],
     "tags": [
       "Photography",
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Agriculture"
     ],
     "author": "Google",
     "version": "3.4.93"
@@ -43403,7 +44029,9 @@
     "name": "heart-cog",
     "codepoint": "F1663",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
   },
@@ -43412,7 +44040,9 @@
     "name": "heart-cog-outline",
     "codepoint": "F1664",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
   },
@@ -43646,7 +44276,8 @@
     ],
     "tags": [
       "Home Automation",
-      "Weather"
+      "Weather",
+      "Agriculture"
     ],
     "author": "Michael Irigoyen",
     "version": "6.7.96"
@@ -43697,6 +44328,41 @@
     "tags": [],
     "author": "Austin Andrews",
     "version": "1.9.32"
+  },
+  {
+    "id": "52053B96-D72E-4C97-8841-EC5F646F08BB",
+    "name": "help-box-multiple",
+    "codepoint": "F1C0A",
+    "aliases": [
+      "quiz",
+      "question-box-multiple"
+    ],
+    "tags": [],
+    "author": "Andrej Sharapov",
+    "version": "7.1.96"
+  },
+  {
+    "id": "F2D1319A-DF90-41CD-8791-B9B5685EFAC8",
+    "name": "help-box-multiple-outline",
+    "codepoint": "F1C0B",
+    "aliases": [
+      "quiz-outline",
+      "question-box-multiple-outline"
+    ],
+    "tags": [],
+    "author": "Andrej Sharapov",
+    "version": "7.1.96"
+  },
+  {
+    "id": "C7559D85-14BB-4C5C-B37C-D37E85FEE258",
+    "name": "help-box-outline",
+    "codepoint": "F1C0C",
+    "aliases": [
+      "question-box-outline"
+    ],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "7.1.96"
   },
   {
     "id": "49B41103-DD15-4FF4-A18A-44D8586704B6",
@@ -44833,6 +45499,7 @@
       "farm-home"
     ],
     "tags": [
+      "Home Automation",
       "Agriculture"
     ],
     "author": "Jeff Anders",
@@ -44847,7 +45514,8 @@
       "farm-home-outline"
     ],
     "tags": [
-      "Agriculture"
+      "Agriculture",
+      "Home Automation"
     ],
     "author": "Jeff Anders",
     "version": "7.0.96"
@@ -45744,7 +46412,8 @@
       "watermill"
     ],
     "tags": [
-      "Device \/ Tech"
+      "Device \/ Tech",
+      "Agriculture"
     ],
     "author": "Hans B\u00f6hm",
     "version": "4.8.95"
@@ -46027,10 +46696,24 @@
     "aliases": [],
     "tags": [
       "Photography",
-      "Nature"
+      "Nature",
+      "Cloud"
     ],
     "author": "Google",
     "version": "1.5.54"
+  },
+  {
+    "id": "D4F6DC2A-643B-4690-8E0A-BF56C4585BC4",
+    "name": "image-filter-drama-outline",
+    "codepoint": "F1BFF",
+    "aliases": [],
+    "tags": [
+      "Photography",
+      "Nature",
+      "Cloud"
+    ],
+    "author": "Google",
+    "version": "7.1.96"
   },
   {
     "id": "8EC8847F-E96F-4D14-BF88-F4BE47856865",
@@ -47348,6 +48031,17 @@
     "version": "1.5.54"
   },
   {
+    "id": "6F1662E0-9571-4412-9075-6982D2636788",
+    "name": "keyboard-close-outline",
+    "codepoint": "F1C00",
+    "aliases": [
+      "keyboard-hide-outline"
+    ],
+    "tags": [],
+    "author": "mpardieck",
+    "version": "7.1.96"
+  },
+  {
     "id": "3EB07099-2309-466E-8BC0-EA835C273E37",
     "name": "keyboard-esc",
     "codepoint": "F12B7",
@@ -48605,7 +49299,8 @@
     "name": "leaf-circle",
     "codepoint": "F1905",
     "aliases": [
-      "green-circle"
+      "green-circle",
+      "organic"
     ],
     "tags": [
       "Nature",
@@ -48619,7 +49314,8 @@
     "name": "leaf-circle-outline",
     "codepoint": "F1906",
     "aliases": [
-      "green-circle-outline"
+      "green-circle-outline",
+      "organic-outline"
     ],
     "tags": [
       "Agriculture",
@@ -49580,7 +50276,8 @@
       "storm-circle"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Weather"
     ],
     "author": "Google",
     "version": "2.1.19"
@@ -50340,6 +51037,72 @@
     "tags": [],
     "author": "Haley Halcyon",
     "version": "1.8.36"
+  },
+  {
+    "id": "2FFF3573-6379-4712-AC2D-0FDDFECE2103",
+    "name": "lock-percent",
+    "codepoint": "F1C12",
+    "aliases": [
+      "lock-rate"
+    ],
+    "tags": [],
+    "author": "mocking-mike",
+    "version": "7.1.96"
+  },
+  {
+    "id": "D37BC87E-8B6E-4D69-A35C-2C2EE9B85243",
+    "name": "lock-percent-open",
+    "codepoint": "F1C13",
+    "aliases": [
+      "lock-rate-open"
+    ],
+    "tags": [],
+    "author": "mocking-mike",
+    "version": "7.1.96"
+  },
+  {
+    "id": "AF474E3E-6D21-4C03-9D59-F784287C35AC",
+    "name": "lock-percent-open-outline",
+    "codepoint": "F1C14",
+    "aliases": [
+      "lock-rate-open-outline"
+    ],
+    "tags": [],
+    "author": "mocking-mike",
+    "version": "7.1.96"
+  },
+  {
+    "id": "4F6E68BA-D1BA-4AD7-AA6D-A80E04CC2D6F",
+    "name": "lock-percent-open-variant",
+    "codepoint": "F1C15",
+    "aliases": [
+      "lock-rate-open-variant"
+    ],
+    "tags": [],
+    "author": "mocking-mike",
+    "version": "7.1.96"
+  },
+  {
+    "id": "8E4A2141-8B43-4CC8-9DC4-C48251A0ECCF",
+    "name": "lock-percent-open-variant-outline",
+    "codepoint": "F1C16",
+    "aliases": [
+      "lock-rate-open-variant-outline"
+    ],
+    "tags": [],
+    "author": "mocking-mike",
+    "version": "7.1.96"
+  },
+  {
+    "id": "E83F528B-42AE-49BE-9236-18C6212ACA9D",
+    "name": "lock-percent-outline",
+    "codepoint": "F1C17",
+    "aliases": [
+      "lock-rate-outline"
+    ],
+    "tags": [],
+    "author": "mocking-mike",
+    "version": "7.1.96"
   },
   {
     "id": "BA4D2E1E-2BCB-4B17-AC02-52C8F34FAEAE",
@@ -54471,7 +55234,8 @@
       "film-cog"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -54486,7 +55250,8 @@
       "film-cog-outline"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -54661,7 +55426,8 @@
       "film-open-cog"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -54676,7 +55442,8 @@
       "film-open-cog-outline"
     ],
     "tags": [
-      "Video \/ Movie"
+      "Video \/ Movie",
+      "Settings"
     ],
     "author": "Colton Wiscombe",
     "version": "5.9.55"
@@ -60353,6 +61120,17 @@
     "version": "4.9.95"
   },
   {
+    "id": "1D79B079-87DB-4956-A68D-DE69EE3C371E",
+    "name": "pencil-ruler-outline",
+    "codepoint": "F1C11",
+    "aliases": [],
+    "tags": [
+      "Drawing \/ Art"
+    ],
+    "author": "frankgrinaert",
+    "version": "7.1.96"
+  },
+  {
     "id": "B2649A8A-D1EC-43AF-9C99-F233AF709155",
     "name": "penguin",
     "codepoint": "F0EC0",
@@ -61532,7 +62310,8 @@
     "tags": [
       "Holiday",
       "Nature",
-      "Places"
+      "Places",
+      "Agriculture"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -61546,7 +62325,8 @@
     ],
     "tags": [
       "Holiday",
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -61555,9 +62335,13 @@
     "id": "707539BB-56A1-4346-B907-95DEE51799A3",
     "name": "pine-tree-fire",
     "codepoint": "F141A",
-    "aliases": [],
+    "aliases": [
+      "wildfire",
+      "controlled-burn"
+    ],
     "tags": [
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Austin Andrews",
     "version": "5.2.45"
@@ -63154,13 +63938,506 @@
     "name": "printer-pos",
     "codepoint": "F1057",
     "aliases": [
-      "printer-point-of-sale"
+      "printer-point-of-sale",
+      "printer-receipt"
     ],
     "tags": [
       "Printer"
     ],
     "author": "Michael Richins",
     "version": "4.1.95"
+  },
+  {
+    "id": "8303B276-1999-4F62-8C48-22EBA47B5781",
+    "name": "printer-pos-alert",
+    "codepoint": "F1BBC",
+    "aliases": [
+      "printer-point-of-sale-alert",
+      "printer-receipt-alert"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "EACC7108-609E-4681-BAE9-BEB8EBBFF77F",
+    "name": "printer-pos-alert-outline",
+    "codepoint": "F1BBD",
+    "aliases": [
+      "printer-point-of-sale-alert-outline",
+      "printer-receipt-alert-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "CF5532E5-1956-430A-A661-A5361A8BEBF1",
+    "name": "printer-pos-cancel",
+    "codepoint": "F1BBE",
+    "aliases": [
+      "printer-point-of-sale-cancel",
+      "printer-receipt-cancel"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "7D88DD62-B00E-4950-8A0A-CF5C895578E7",
+    "name": "printer-pos-cancel-outline",
+    "codepoint": "F1BBF",
+    "aliases": [
+      "printer-point-of-sale-cancel-outline",
+      "printer-receipt-cancel-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "77D3FA23-E73B-4FF9-89A3-D507B44D113C",
+    "name": "printer-pos-check",
+    "codepoint": "F1BC0",
+    "aliases": [
+      "printer-point-of-sale-check",
+      "printer-receipt-check"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "A48714B0-4E0D-480D-9766-C73919F28B73",
+    "name": "printer-pos-check-outline",
+    "codepoint": "F1BC1",
+    "aliases": [
+      "printer-point-of-sale-check-outline",
+      "printer-receipt-check-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "6566732F-0DDF-4F23-B478-AC3A93B822BE",
+    "name": "printer-pos-cog",
+    "codepoint": "F1BC2",
+    "aliases": [
+      "printer-point-of-sale-cog",
+      "printer-receipt-cog"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "7D634FE7-3A63-4850-9AC4-B62775160D58",
+    "name": "printer-pos-cog-outline",
+    "codepoint": "F1BC3",
+    "aliases": [
+      "printer-point-of-sale-cog-outline",
+      "printer-receipt-cog-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "954D4E9A-A4EF-414E-9AC3-0B07DA479BE9",
+    "name": "printer-pos-edit",
+    "codepoint": "F1BC4",
+    "aliases": [
+      "printer-point-of-sale-edit",
+      "printer-receipt-edit"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "401FC546-94DF-4C01-9B08-24EEB602A4C3",
+    "name": "printer-pos-edit-outline",
+    "codepoint": "F1BC5",
+    "aliases": [
+      "printer-point-of-sale-edit-outline",
+      "printer-receipt-edit-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "636E0D3E-A92D-4369-9C04-00C92DB0C1B2",
+    "name": "printer-pos-minus",
+    "codepoint": "F1BC6",
+    "aliases": [
+      "printer-point-of-sale-minus",
+      "printer-receipt-minus"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "DD9AE6D3-6DF8-4CBC-A40F-CA25E4E6B310",
+    "name": "printer-pos-minus-outline",
+    "codepoint": "F1BC7",
+    "aliases": [
+      "printer-point-of-sale-minus-outline",
+      "printer-receipt-minus-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "B91F589E-8733-47ED-8B29-7D1BBCFBC98F",
+    "name": "printer-pos-network",
+    "codepoint": "F1BC8",
+    "aliases": [
+      "printer-point-of-sale-network",
+      "printer-receipt-network"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "3FD6D2F6-5BBB-45D9-BE28-1B216BEB4D5E",
+    "name": "printer-pos-network-outline",
+    "codepoint": "F1BC9",
+    "aliases": [
+      "printer-point-of-sale-network-outline",
+      "printer-receipt-network-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "50590358-DEC9-4F92-B1AF-0F005C35A3DA",
+    "name": "printer-pos-off",
+    "codepoint": "F1BCA",
+    "aliases": [
+      "printer-point-of-sale-off",
+      "printer-receipt-off"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "B5A792CB-A191-44B7-AC15-148FC242803E",
+    "name": "printer-pos-off-outline",
+    "codepoint": "F1BCB",
+    "aliases": [
+      "printer-point-of-sale-off-outline",
+      "printer-receipt-off-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "4206F292-9583-42F9-91CD-2DEA9F273C9F",
+    "name": "printer-pos-outline",
+    "codepoint": "F1BCC",
+    "aliases": [
+      "printer-point-of-sale-outline",
+      "printer-receipt-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "FC8CF9C9-3DCD-46DC-8B3C-A4000A7B00DD",
+    "name": "printer-pos-pause",
+    "codepoint": "F1BCD",
+    "aliases": [
+      "printer-point-of-sale-pause",
+      "printer-receipt-pause"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "FCF57215-34E5-44F7-9DF9-BDFF862CAAF6",
+    "name": "printer-pos-pause-outline",
+    "codepoint": "F1BCE",
+    "aliases": [
+      "printer-point-of-sale-pause-outline",
+      "printer-receipt-pause-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "6737548E-6689-4D50-B84A-186B16B1CE9C",
+    "name": "printer-pos-play",
+    "codepoint": "F1BCF",
+    "aliases": [
+      "printer-point-of-sale-play",
+      "printer-receipt-play"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "C725674B-6092-43B7-9F0D-D878910CE943",
+    "name": "printer-pos-play-outline",
+    "codepoint": "F1BD0",
+    "aliases": [
+      "printer-point-of-sale-play-outline",
+      "printer-receipt-play-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "45895F8B-BD11-410E-859F-E48AC25AA0EF",
+    "name": "printer-pos-plus",
+    "codepoint": "F1BD1",
+    "aliases": [
+      "printer-point-of-sale-plus",
+      "printer-receipt-plus"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "B842534E-FF25-45A4-B2E1-F5FC581FD017",
+    "name": "printer-pos-plus-outline",
+    "codepoint": "F1BD2",
+    "aliases": [
+      "printer-point-of-sale-plus-outline",
+      "printer-receipt-plus-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "9C26E188-105E-45DE-A8D3-42DA8829FE34",
+    "name": "printer-pos-refresh",
+    "codepoint": "F1BD3",
+    "aliases": [
+      "printer-point-of-sale-refresh",
+      "printer-receipt-refresh"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "D5843C28-5203-42D5-A874-8BE28012EFA8",
+    "name": "printer-pos-refresh-outline",
+    "codepoint": "F1BD4",
+    "aliases": [
+      "printer-point-of-sale-refresh-outline",
+      "printer-receipt-refresh-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "21A677FB-E227-4D63-A4FE-08FE9A1D7065",
+    "name": "printer-pos-remove",
+    "codepoint": "F1BD5",
+    "aliases": [
+      "printer-point-of-sale-remove",
+      "printer-receipt-remove"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "796FA5DE-0B9F-4CC4-9FC9-6361639B8751",
+    "name": "printer-pos-remove-outline",
+    "codepoint": "F1BD6",
+    "aliases": [
+      "printer-point-of-sale-remove-outline",
+      "printer-receipt-remove-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "6771B76B-C7D3-4F4A-B8AA-1656DF5C445A",
+    "name": "printer-pos-star",
+    "codepoint": "F1BD7",
+    "aliases": [
+      "printer-point-of-sale-star",
+      "printer-receipt-star",
+      "printer-favorite",
+      "printer-primary"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "E7889DB0-6E76-4CA9-BD0B-92B7E8304381",
+    "name": "printer-pos-star-outline",
+    "codepoint": "F1BD8",
+    "aliases": [
+      "printer-point-of-sale-star-outline",
+      "printer-receipt-star-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "8DE1FE3F-D679-44B4-AECA-7A9B5F0CC2A7",
+    "name": "printer-pos-stop",
+    "codepoint": "F1BD9",
+    "aliases": [
+      "printer-point-of-sale-stop",
+      "printer-receipt-stop"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "E789327B-828B-4E02-976E-1522B0E92151",
+    "name": "printer-pos-stop-outline",
+    "codepoint": "F1BDA",
+    "aliases": [
+      "printer-point-of-sale-stop-outline",
+      "printer-receipt-stop-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "E8726305-549E-45BE-9E41-D624A57B5D6A",
+    "name": "printer-pos-sync",
+    "codepoint": "F1BDB",
+    "aliases": [
+      "printer-point-of-sale-sync",
+      "printer-receipt-sync"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "0F86AA93-8706-4290-B11A-FDC58392F543",
+    "name": "printer-pos-sync-outline",
+    "codepoint": "F1BDC",
+    "aliases": [
+      "printer-point-of-sale-sync-outline",
+      "printer-receipt-sync-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "458EB3B4-89F2-4E46-A6D6-485A2081F627",
+    "name": "printer-pos-wrench",
+    "codepoint": "F1BDD",
+    "aliases": [
+      "printer-point-of-sale-wrench",
+      "printer-receipt-wrench"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
+  },
+  {
+    "id": "C998386E-C3FA-44DC-9513-D2BFA68D7D12",
+    "name": "printer-pos-wrench-outline",
+    "codepoint": "F1BDE",
+    "aliases": [
+      "printer-point-of-sale-wrench-outline",
+      "printer-receipt-wrench-outline"
+    ],
+    "tags": [
+      "Printer"
+    ],
+    "author": "Colton Wiscombe",
+    "version": "7.1.96"
   },
   {
     "id": "18383BEA-BF9A-43AD-87BB-F47CEC92F9C3",
@@ -65258,13 +66535,40 @@
     "version": "3.7.94"
   },
   {
+    "id": "43D55245-34B8-4F1B-953A-CCE75AF35866",
+    "name": "rename",
+    "codepoint": "F1C18",
+    "aliases": [],
+    "tags": [],
+    "author": "Google",
+    "version": "7.1.96"
+  },
+  {
     "id": "1DFADA84-47E4-40EF-B1F8-D0A34D1482BA",
     "name": "rename-box",
     "codepoint": "F0455",
     "aliases": [],
     "tags": [],
-    "author": "Google",
+    "author": "frankgrinaert",
     "version": "1.5.54"
+  },
+  {
+    "id": "7EDB6900-E536-4424-96D4-71C36753BE76",
+    "name": "rename-box-outline",
+    "codepoint": "F1C19",
+    "aliases": [],
+    "tags": [],
+    "author": "Michael Irigoyen",
+    "version": "7.1.96"
+  },
+  {
+    "id": "1F4744E0-37F4-4D51-82FF-B332A0CCE347",
+    "name": "rename-outline",
+    "codepoint": "F1C1A",
+    "aliases": [],
+    "tags": [],
+    "author": "Google",
+    "version": "7.1.96"
   },
   {
     "id": "08CB23B7-EC19-4FE5-9CBB-C308CC89C10B",
@@ -66012,6 +67316,17 @@
     "version": "7.0.96"
   },
   {
+    "id": "0EF94574-EBEE-40D6-8D73-613C2D108B75",
+    "name": "robot-vacuum-off",
+    "codepoint": "F1C01",
+    "aliases": [],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "7.1.96"
+  },
+  {
     "id": "C7938632-FA58-4686-9B82-5E9CCDD0EC83",
     "name": "robot-vacuum-variant",
     "codepoint": "F0908",
@@ -66037,6 +67352,17 @@
     ],
     "author": "Michael Irigoyen",
     "version": "7.0.96"
+  },
+  {
+    "id": "03508026-E2C8-4A8F-A13E-9D685EF26E14",
+    "name": "robot-vacuum-variant-off",
+    "codepoint": "F1C02",
+    "aliases": [],
+    "tags": [
+      "Home Automation"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "7.1.96"
   },
   {
     "id": "96BE0E43-42AB-4F93-8045-0C7B61BF69CC",
@@ -66319,7 +67645,9 @@
     "id": "C525BD2B-2BA8-4158-AC0A-FAEE9E353047",
     "name": "room-service",
     "codepoint": "F088D",
-    "aliases": [],
+    "aliases": [
+      "call-bell"
+    ],
     "tags": [],
     "author": "Google",
     "version": "2.1.99"
@@ -66328,7 +67656,9 @@
     "id": "A94493FF-30FD-4490-8ABC-F6F03F958D17",
     "name": "room-service-outline",
     "codepoint": "F0D97",
-    "aliases": [],
+    "aliases": [
+      "call-bell-outline"
+    ],
     "tags": [],
     "author": "Google",
     "version": "3.4.93"
@@ -67478,7 +68808,12 @@
     "id": "0C2F3617-9710-4265-AFB5-29C52AD2FBE0",
     "name": "security",
     "codepoint": "F0483",
-    "aliases": [],
+    "aliases": [
+      "shield",
+      "uac",
+      "user-access-control",
+      "administrator"
+    ],
     "tags": [],
     "author": "Google",
     "version": "1.5.54"
@@ -67487,7 +68822,11 @@
     "id": "C9FA8517-7CD1-4AB7-86AD-0A2BF1016466",
     "name": "security-network",
     "codepoint": "F0484",
-    "aliases": [],
+    "aliases": [
+      "shield-network",
+      "uac-network",
+      "administrator-network"
+    ],
     "tags": [],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -68066,7 +69405,9 @@
     "id": "E42A523C-D28D-4AAB-8A86-4816DD872B78",
     "name": "server-security",
     "codepoint": "F0492",
-    "aliases": [],
+    "aliases": [
+      "server-shield"
+    ],
     "tags": [],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -69099,7 +70440,9 @@
     "aliases": [
       "sun-protection"
     ],
-    "tags": [],
+    "tags": [
+      "Weather"
+    ],
     "author": "Perth Totty",
     "version": "4.1.95"
   },
@@ -69110,7 +70453,9 @@
     "aliases": [
       "sun-protection-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Weather"
+    ],
     "author": "Perth Totty",
     "version": "4.1.95"
   },
@@ -72254,7 +73599,9 @@
     "codepoint": "F0E66",
     "aliases": [
       "seedling",
-      "plant"
+      "plant",
+      "ecology",
+      "environment"
     ],
     "tags": [
       "Agriculture",
@@ -72269,7 +73616,9 @@
     "codepoint": "F0E67",
     "aliases": [
       "seedling-outline",
-      "plant-outline"
+      "plant-outline",
+      "ecology-outline",
+      "environment-outline"
     ],
     "tags": [
       "Agriculture",
@@ -72747,7 +74096,9 @@
     "aliases": [
       "favorite-cog"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
   },
@@ -72758,7 +74109,9 @@
     "aliases": [
       "favorite-cog-outline"
     ],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.7.55"
   },
@@ -73509,7 +74862,8 @@
     ],
     "tags": [
       "Places",
-      "Shopping"
+      "Shopping",
+      "Date \/ Time"
     ],
     "author": "Colton Wiscombe",
     "version": "6.3.95"
@@ -73848,7 +75202,9 @@
     "name": "storefront-edit",
     "codepoint": "F1B7F",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify"
+    ],
     "author": "Jeff Anders",
     "version": "7.0.96"
   },
@@ -73857,7 +75213,9 @@
     "name": "storefront-edit-outline",
     "codepoint": "F1B80",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Edit \/ Modify"
+    ],
     "author": "Jeff Anders",
     "version": "7.0.96"
   },
@@ -74170,7 +75528,8 @@
     ],
     "tags": [
       "Weather",
-      "Home Automation"
+      "Home Automation",
+      "Date \/ Time"
     ],
     "author": "Hans B\u00f6hm",
     "version": "6.7.96"
@@ -76679,7 +78038,8 @@
       "temperature-auto"
     ],
     "tags": [
-      "Home Automation"
+      "Home Automation",
+      "Weather"
     ],
     "author": "Hans B\u00f6hm",
     "version": "6.9.96"
@@ -78336,6 +79696,32 @@
     "version": "1.5.54"
   },
   {
+    "id": "99CABA6D-9506-4EC7-8721-8CE38B157E75",
+    "name": "tooltip-question",
+    "codepoint": "F1BBA",
+    "aliases": [
+      "tooltip-help"
+    ],
+    "tags": [
+      "Tooltip"
+    ],
+    "author": "Jeff Anders",
+    "version": "7.1.96"
+  },
+  {
+    "id": "CD2A99C9-F223-42EB-BD90-5786EACF9A52",
+    "name": "tooltip-question-outline",
+    "codepoint": "F1BBB",
+    "aliases": [
+      "tooltip-help-outline"
+    ],
+    "tags": [
+      "Tooltip"
+    ],
+    "author": "Jeff Anders",
+    "version": "7.1.96"
+  },
+  {
     "id": "A54A45EF-9C4B-4AFB-8734-610B14D521A5",
     "name": "tooltip-remove",
     "codepoint": "F1560",
@@ -79552,7 +80938,8 @@
       "plant"
     ],
     "tags": [
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -79565,7 +80952,8 @@
       "plant"
     ],
     "tags": [
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Simran",
     "version": "3.6.95"
@@ -81096,7 +82484,8 @@
     "codepoint": "F09E8",
     "aliases": [],
     "tags": [
-      "Vector"
+      "Vector",
+      "Edit \/ Modify"
     ],
     "author": "Andrea Antonello",
     "version": "2.5.94"
@@ -83085,7 +84474,8 @@
       "Home Automation",
       "Health \/ Beauty",
       "Food \/ Drink",
-      "Weather"
+      "Weather",
+      "Agriculture"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -83100,7 +84490,8 @@
       "ink-alert"
     ],
     "tags": [
-      "Alert \/ Error"
+      "Alert \/ Error",
+      "Agriculture"
     ],
     "author": "Colton Wiscombe",
     "version": "5.4.55"
@@ -83115,7 +84506,8 @@
       "ink-alert-outline"
     ],
     "tags": [
-      "Alert \/ Error"
+      "Alert \/ Error",
+      "Agriculture"
     ],
     "author": "Colton Wiscombe",
     "version": "5.4.55"
@@ -83588,7 +84980,8 @@
     ],
     "tags": [
       "Weather",
-      "Transportation + Water"
+      "Transportation + Water",
+      "Agriculture"
     ],
     "author": "Michael Irigoyen",
     "version": "1.9.32"
@@ -83660,7 +85053,8 @@
     "aliases": [],
     "tags": [
       "Weather",
-      "Cloud"
+      "Cloud",
+      "Agriculture"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -83715,7 +85109,8 @@
       "windy"
     ],
     "tags": [
-      "Weather"
+      "Weather",
+      "Agriculture"
     ],
     "author": "Andrej Sharapov",
     "version": "7.0.96"
@@ -83728,7 +85123,8 @@
       "weather-mist"
     ],
     "tags": [
-      "Weather"
+      "Weather",
+      "Agriculture"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -83739,7 +85135,8 @@
     "codepoint": "F0592",
     "aliases": [],
     "tags": [
-      "Weather"
+      "Weather",
+      "Agriculture"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -83750,7 +85147,8 @@
     "codepoint": "F0F30",
     "aliases": [],
     "tags": [
-      "Weather"
+      "Weather",
+      "Agriculture"
     ],
     "author": "Michael Irigoyen",
     "version": "3.8.95"
@@ -83764,7 +85162,8 @@
     ],
     "tags": [
       "Weather",
-      "Nature"
+      "Nature",
+      "Agriculture"
     ],
     "author": "Michael Richins",
     "version": "2.1.99"
@@ -83779,7 +85178,8 @@
       "weather-flash"
     ],
     "tags": [
-      "Weather"
+      "Weather",
+      "Agriculture"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -83891,7 +85291,8 @@
       "weather-heavy-rain"
     ],
     "tags": [
-      "Weather"
+      "Weather",
+      "Agriculture"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -83905,7 +85306,8 @@
       "weather-spitting"
     ],
     "tags": [
-      "Weather"
+      "Weather",
+      "Agriculture"
     ],
     "author": "Austin Andrews",
     "version": "1.5.54"
@@ -84415,7 +85817,8 @@
       "wb-sunny"
     ],
     "tags": [
-      "Photography"
+      "Photography",
+      "Weather"
     ],
     "author": "Google",
     "version": "1.5.54"
@@ -84535,7 +85938,9 @@
     "name": "wifi-cog",
     "codepoint": "F16BE",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Settings"
+    ],
     "author": "Colton Wiscombe",
     "version": "5.8.55"
   },
@@ -85284,7 +86689,9 @@
     "name": "wrench-clock-outline",
     "codepoint": "F1B93",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Date \/ Time"
+    ],
     "author": "Michael Irigoyen",
     "version": "7.0.96"
   },
