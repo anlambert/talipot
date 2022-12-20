@@ -43,6 +43,26 @@
 using namespace std;
 using namespace tlp;
 
+static void talipotLogger(QtMsgType type, const QMessageLogContext &, const QString &msg) {
+  QStringList msgPrefixToFilter = {
+      "QSocketNotifier: Can only be used with threads started with QThread",
+      "This plugin does not support setting window opacity"};
+
+  for (const auto &prefix : msgPrefixToFilter) {
+    if (msg.startsWith(prefix)) {
+      return;
+    }
+  }
+  if (type == QtFatalMsg) {
+    std::cerr << msg.toStdString() << std::endl;
+    exit(1);
+  } else if (type == QtCriticalMsg) {
+    std::cerr << msg.toStdString() << std::endl;
+  } else {
+    std::cout << msg.toStdString() << std::endl;
+  }
+}
+
 void usage(const QString &error) {
   int returnCode = 0;
 
@@ -121,6 +141,7 @@ int main(int argc, char **argv) {
   QCoreApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
 #endif
 
+  qInstallMessageHandler(talipotLogger);
   QApplication talipot(argc, argv);
   talipot.setApplicationName("Talipot");
 
