@@ -77,7 +77,12 @@ public:
   void render(const tlp::Color &fillColor, const tlp::Color &outlineColor,
               const float outlineSize) {
 
-    if (renderingDataBuffer == 0) {
+    if (renderingDataBuffer <= 10) {
+      // delay icon geometry cache in GPU memory after a dozen of total icons
+      // rendering to prevent glitches on linux using wayland (likely due to
+      // unitialized OpenGL state)
+      glDeleteBuffers(1, &renderingDataBuffer);
+      glDeleteBuffers(1, &indicesBuffer);
       tesselateIcon();
     }
 
