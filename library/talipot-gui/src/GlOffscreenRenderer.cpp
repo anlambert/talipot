@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2022  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,12 +25,14 @@
 #define __GLEW_H__
 
 #include <QOffscreenSurface>
+#include <QMainWindow>
 
 #include <talipot/GlOffscreenRenderer.h>
 #include <talipot/GlWidget.h>
 #include <talipot/GlVertexArrayManager.h>
 #include <talipot/GlGraph.h>
 #include <talipot/OpenGlConfigManager.h>
+#include <talipot/TlpQtTools.h>
 
 using namespace std;
 using namespace tlp;
@@ -205,8 +207,10 @@ bool GlOffscreenRenderer::frameBufferOk() const {
 }
 
 static inline QImage convertImage(const QImage &image) {
-  return QImage(image.constBits(), image.width(), image.height(), QImage::Format_ARGB32)
-      .convertToFormat(QImage::Format_RGB32);
+  auto img = QImage(image.constBits(), image.width(), image.height(), QImage::Format_ARGB32)
+                 .convertToFormat(QImage::Format_RGB32);
+  img.setDevicePixelRatio(getMainWindow()->devicePixelRatio());
+  return img;
 }
 
 QImage GlOffscreenRenderer::getImage() {
