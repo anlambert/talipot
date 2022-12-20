@@ -777,7 +777,7 @@ void GraphHierarchiesModel::removeGraph(tlp::Graph *g) {
   if (_graphs.contains(g)) {
     int pos = _graphs.indexOf(g);
     beginRemoveRows(QModelIndex(), pos, pos);
-    _graphs.removeAll(g);
+    _graphs.removeAt(pos);
     GraphNeedsSavingObserver *s = _saveNeeded.take(g);
     delete s;
     endRemoveRows();
@@ -822,8 +822,7 @@ void GraphHierarchiesModel::treatEvent(const Event &e) {
   if (e.type() == EventType::TLP_DELETE && _graphs.contains(g)) { // A root graph has been deleted
     int pos = _graphs.indexOf(g);
     beginRemoveRows(QModelIndex(), pos, pos);
-
-    _graphs.removeAll(g);
+    _graphs.removeAt(pos);
     GraphNeedsSavingObserver *s = _saveNeeded.take(g);
     delete s;
 
