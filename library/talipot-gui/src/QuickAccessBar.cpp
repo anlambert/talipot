@@ -101,6 +101,7 @@ QuickAccessBarImpl::QuickAccessBarImpl(QGraphicsItem *quickAccessBarItem,
   connect(_ui->edgeBorderColorButton, &ColorButton::colorChanged, this,
           &QuickAccessBarImpl::setEdgeBorderColor);
   connect(_ui->nodeShapeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setNodeShape);
+  connect(_ui->nodeIconButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setNodeIcon);
   connect(_ui->edgeShapeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setEdgeShape);
   connect(_ui->nodeSizeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setNodeSize);
   connect(_ui->edgeSizeButton, &QPushButton::clicked, this, &QuickAccessBarImpl::setEdgeSize);
@@ -202,6 +203,10 @@ QuickAccessBarImpl::QuickAccessBarImpl(QGraphicsItem *quickAccessBarItem,
 
   if (!buttons.testFlag(SHOWNODES)) {
     _ui->showNodesToggle->hide();
+  }
+
+  if (!buttons.testFlag(NODEICON)) {
+    _ui->nodeIconButton->hide();
   }
 }
 
@@ -471,14 +476,14 @@ void QuickAccessBarImpl::setEdgeBorderColor(const QColor &c) {
   setAllColorValues(ElementType::EDGE, inputData()->borderColors(), QColorToColor(c));
 }
 
-void QuickAccessBarImpl::setAllValues(ElementType eltType, PropertyInterface *prop) {
+bool QuickAccessBarImpl::setAllValues(ElementType eltType, PropertyInterface *prop) {
   QVariant val = ItemDelegate::showEditorDialog(static_cast<tlp::ElementType>(eltType), prop,
                                                 _mainView->graph(), delegate,
                                                 _mainView->graphicsView()->window());
 
   // Check if edition has been cancelled
   if (!val.isValid()) {
-    return;
+    return false;
   }
 
   BooleanProperty *selected = inputData()->selection();
@@ -511,10 +516,18 @@ void QuickAccessBarImpl::setAllValues(ElementType eltType, PropertyInterface *pr
   Observable::unholdObservers();
   _mainView->graph()->popIfNoUpdates();
   emit settingsChanged();
+
+  return true;
 }
 
 void QuickAccessBarImpl::setNodeShape() {
   setAllValues(ElementType::NODE, inputData()->shapes());
+}
+
+void QuickAccessBarImpl::setNodeIcon() {
+  if (setAllValues(ElementType::NODE, inputData()->icons())) {
+    inputData()->shapes()->setAllNodeValue(NodeShape::Icon);
+  }
 }
 
 void QuickAccessBarImpl::setEdgeShape() {

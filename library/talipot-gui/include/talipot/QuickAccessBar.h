@@ -95,6 +95,7 @@ public:
     NODELABELPOSITION = 0x100000,
     SELECTFONT = 0x200000,
     SHOWNODES = 0x400000,
+    NODEICON = 0x400000,
     ALLBUTTONS = 0xFFFFFF
   };
   Q_DECLARE_FLAGS(QuickAccessButtons, QuickAccessButton)
@@ -116,7 +117,7 @@ protected:
   void addSeparator();
   void updateFontButtonStyle();
   void showHideCaption(CaptionItem::CaptionType captionType);
-  void setAllValues(ElementType eltType, PropertyInterface *prop);
+  bool setAllValues(ElementType eltType, PropertyInterface *prop);
   void setAllColorValues(ElementType eltType, ColorProperty *prop, const Color &color);
 
 public slots:
@@ -130,6 +131,7 @@ public slots:
   void setEdgeColor(const QColor &);
   void setEdgeBorderColor(const QColor &);
   void setNodeShape();
+  void setNodeIcon();
   void setEdgeShape();
   void setNodeSize();
   void setEdgeSize();

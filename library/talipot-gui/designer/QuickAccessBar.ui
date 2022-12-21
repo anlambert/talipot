@@ -525,6 +525,33 @@ Only nodes of the visualized graph will have their value modified.</string>
     </widget>
    </item>
    <item>
+    <widget class="QPushButton" name="nodeIconButton">
+     <property name="minimumSize">
+      <size>
+       <width>23</width>
+       <height>23</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>23</width>
+       <height>23</height>
+      </size>
+     </property>
+     <property name="toolTip">
+      <string>Set icon of selected nodes if any, of all nodes if not.
+Only nodes of the visualized graph will have their value modified.</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../resources/TalipotGUIResource.qrc">
+       <normaloff>:/talipot/gui/icons/32/set_node_icon.png</normaloff>:/talipot/gui/icons/32/set_node_icon.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QPushButton" name="edgeShapeButton">
      <property name="minimumSize">
       <size>
