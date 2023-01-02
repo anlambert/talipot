@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -382,11 +382,17 @@ void LeafletMaps::setMapBounds(Graph *graph,
       }
     }
 
-    QString code = "mapBounds = [];";
-    code += QString("mapBounds.push(L.latLng(%1, %2));").arg(minLatLng.first).arg(minLatLng.second);
-    code += QString("mapBounds.push(L.latLng(%1, %2));").arg(maxLatLng.first).arg(maxLatLng.second);
-    code += "setMapBounds(mapBounds);";
-    executeJavascript(code);
+    zoomOnBounds(minLatLng, maxLatLng);
   }
+}
+
+void LeafletMaps::zoomOnBounds(const std::pair<double, double> &minLatLng,
+                               const std::pair<double, double> &maxLatLng) {
+  auto code = QString("setMapBounds([L.latLng(%1, %2), L.latLng(%3, %4)])")
+                  .arg(minLatLng.first)
+                  .arg(minLatLng.second)
+                  .arg(maxLatLng.first)
+                  .arg(maxLatLng.second);
+  executeJavascript(code);
 }
 }

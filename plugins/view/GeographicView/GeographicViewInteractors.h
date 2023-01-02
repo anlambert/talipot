@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -119,6 +119,19 @@ public:
   void construct() override;
 
   bool isCompatible(const std::string &viewName) const override;
+};
+
+class GeographicViewInteractorRectangleZoom : public GeographicViewInteractor {
+
+public:
+  PLUGININFORMATION("InteractorRectangleZoomGeographicView", "Tulip Team", "14/11/2022",
+                    "Geographic View Rectangle Zoom Interactor", "1.0", "Navigation")
+
+  GeographicViewInteractorRectangleZoom(const PluginContext *);
+
+  void construct() override;
+
+  uint priority() const override;
 };
 
 #endif // GEOGRAPHIC_VIEW_INTERACTORS_H

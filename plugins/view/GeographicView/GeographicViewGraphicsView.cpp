@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,12 +32,20 @@
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLPaintDevice>
 #include <QPushButton>
+#include <QMouseEvent>
 
 using namespace std;
 
 namespace tlp {
 
 const string planisphereTextureId = ":/talipot/view/geographic/planisphere.jpg";
+
+class CustomGlWidget : public GlWidget {
+public:
+  CustomGlWidget(QWidget *parent = nullptr, View *view = nullptr) : GlWidget(parent, view) {}
+  void zoomAndPanAnimation(const tlp::BoundingBox &, const double,
+                           AdditionalGlSceneAnimation *) override {}
+};
 
 GlComposite *readPolyFile(QString fileName) {
   auto *composite = new GlComposite;
@@ -301,7 +309,7 @@ GeographicViewGraphicsView::GeographicViewGraphicsView(GeographicView *geoView,
   proxyGM->setPos(0, 0);
   proxyGM->setParentItem(_placeholderItem);
 
-  _glWidget = new GlWidget(nullptr, geoView);
+  _glWidget = new CustomGlWidget(nullptr, geoView);
   delete _glWidget->scene()->getCalculator();
   _glWidget->scene()->setCalculator(new GlCPULODCalculator());
   _glWidget->scene()->setBackgroundColor(Color::White);

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,8 +16,10 @@
 #include <talipot/MouseSelector.h>
 #include <talipot/MouseSelectionEditor.h>
 #include <talipot/MouseEdgeBendEditor.h>
+#include <talipot/MouseBoxZoomer.h>
 
 #include "GeographicViewInteractors.h"
+#include "GeographicViewGraphicsView.h"
 
 #include "../../utils/StandardInteractorPriority.h"
 #include "../../utils/InteractorIcons.h"
@@ -284,3 +286,55 @@ bool GeographicViewInteractorEditEdgeBends::isCompatible(const std::string &view
 }
 
 PLUGIN(GeographicViewInteractorEditEdgeBends)
+
+class GeographicViewMouseBoxZoomer : public MouseBoxZoomer {
+public:
+  GeographicViewMouseBoxZoomer(Qt::MouseButton button = Qt::LeftButton,
+                               Qt::KeyboardModifier modifier = Qt::NoModifier)
+      : MouseBoxZoomer(button, modifier) {}
+
+  bool eventFilter(QObject *widget, QEvent *event) override {
+    GeographicView *geoView = static_cast<GeographicView *>(view());
+
+    if (geoView->viewType() > GeographicView::LeafletCustomTileLayer) {
+      return false;
+    }
+
+    if (event->type() == QEvent::MouseButtonDblClick) {
+      geoView->centerView();
+      return true;
+    }
+
+    if (started) {
+      bool ok = MouseBoxZoomer::eventFilter(widget, event);
+
+      auto *leafletMaps = geoView->getGeographicViewGraphicsView()->getLeafletMapsPage();
+      auto *qMouseEv = static_cast<QMouseEvent *>(event);
+
+      if (ok && !started && (event->type() == QEvent::MouseButtonRelease) && graph &&
+          (qMouseEv->button() & mButton)) {
+        auto *glWidget = static_cast<GlWidget *>(widget);
+        auto minBound = leafletMaps->getLatLngForPixelPosOnScreen(x, glWidget->height() - y + h);
+        auto maxBound = leafletMaps->getLatLngForPixelPosOnScreen(x + w, glWidget->height() - y);
+        leafletMaps->zoomOnBounds(minBound, maxBound);
+      }
+      return ok;
+    }
+    return MouseBoxZoomer::eventFilter(widget, event);
+  }
+};
+
+GeographicViewInteractorRectangleZoom::GeographicViewInteractorRectangleZoom(const PluginContext *)
+    : GeographicViewInteractor(interactorIcon(InteractorType::RectangleZoom), "Zoom on rectangle") {
+}
+
+void GeographicViewInteractorRectangleZoom::construct() {
+  push_back(new GeographicViewNavigator);
+  push_back(new GeographicViewMouseBoxZoomer);
+}
+
+uint GeographicViewInteractorRectangleZoom::priority() const {
+  return StandardInteractorPriority::ZoomOnRectangle;
+}
+
+PLUGIN(GeographicViewInteractorRectangleZoom)

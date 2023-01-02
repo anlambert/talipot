@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -83,6 +83,9 @@ public:
 
   void setMapBounds(Graph *graph,
                     const std::unordered_map<node, std::pair<double, double>> &nodesLatLngs);
+
+  void zoomOnBounds(const std::pair<double, double> &minLatLng,
+                    const std::pair<double, double> &maxLatLng);
 
   void switchToTileLayer(const QString &layerName);
 

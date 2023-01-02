@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -279,8 +279,9 @@ public:
    * bounding box.
    * @param duration the animation duration in msecs
    */
-  void zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const double duration = 1000,
-                           AdditionalGlSceneAnimation *additionalAnimation = nullptr);
+  virtual void zoomAndPanAnimation(const tlp::BoundingBox &boundingBox,
+                                   const double duration = 1000,
+                                   AdditionalGlSceneAnimation *additionalAnimation = nullptr);
 
   // devicePixelRatio() must be overridden because the inherited QWidget
   // method always returns 1 when the widget is no attached to a window

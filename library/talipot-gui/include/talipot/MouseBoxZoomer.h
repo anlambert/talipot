@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,9 +24,6 @@ namespace tlp {
 class Graph;
 
 class TLP_QT_SCOPE MouseBoxZoomer : public GLInteractorComponent {
-private:
-  Qt::MouseButton mButton;
-  Qt::KeyboardModifier kModifier;
 
 public:
   MouseBoxZoomer(Qt::MouseButton button = Qt::LeftButton,
@@ -35,7 +32,9 @@ public:
   bool draw(GlWidget *) override;
   bool eventFilter(QObject *, QEvent *) override;
 
-private:
+protected:
+  Qt::MouseButton mButton;
+  Qt::KeyboardModifier kModifier;
   uint x, y;
   int w, h;
   bool started;
