@@ -27,19 +27,17 @@
 using namespace std;
 using namespace tlp;
 
-GeographicViewInteractor::GeographicViewInteractor(const QIcon &icon, const QString &text)
-    : GLInteractorComposite(icon, text) {}
+GeographicViewInteractor::GeographicViewInteractor(const QIcon &icon, const QString &text,
+                                                   uint priority)
+    : NodeLinkDiagramViewInteractor(icon, text, priority) {}
 
 bool GeographicViewInteractor::isCompatible(const std::string &viewName) const {
   return (viewName == ViewName::GeographicViewName);
 }
 
 GeographicViewInteractorNavigation::GeographicViewInteractorNavigation(const PluginContext *)
-    : GeographicViewInteractor(interactorIcon(InteractorType::Navigation), "Navigate in view") {}
-
-uint GeographicViewInteractorNavigation::priority() const {
-  return StandardInteractorPriority::Navigation;
-}
+    : GeographicViewInteractor(interactorIcon(InteractorType::Navigation), "Navigate in view",
+                               StandardInteractorPriority::Navigation) {}
 
 void GeographicViewInteractorNavigation::construct() {
   push_back(new GeographicViewNavigator);
@@ -50,7 +48,8 @@ QWidget *GeographicViewInteractorNavigation::configurationWidget() const {
 }
 
 GeographicViewInteractorSelection::GeographicViewInteractorSelection(const PluginContext *)
-    : GeographicViewInteractor(interactorIcon(InteractorType::Selection), "selection in view") {}
+    : GeographicViewInteractor(interactorIcon(InteractorType::Selection), "selection in view",
+                               StandardInteractorPriority::RectangleSelection) {}
 
 void GeographicViewInteractorSelection::construct() {
   push_back(new GeographicViewNavigator);
@@ -65,16 +64,13 @@ QCursor GeographicViewInteractorSelection::cursor() const {
   return Qt::CrossCursor;
 }
 
-uint GeographicViewInteractorSelection::priority() const {
-  return StandardInteractorPriority::RectangleSelection;
-}
-
 PLUGIN(GeographicViewInteractorSelection)
 
 GeographicViewInteractorSelectionEditor::GeographicViewInteractorSelectionEditor(
     const PluginContext *)
     : GeographicViewInteractor(interactorIcon(InteractorType::SelectionModifier),
-                               "selection edition in view") {}
+                               "selection edition in view",
+                               StandardInteractorPriority::RectangleSelectionModifier) {}
 
 void GeographicViewInteractorSelectionEditor::construct() {
   push_back(new GeographicViewNavigator);
@@ -88,10 +84,6 @@ QWidget *GeographicViewInteractorSelectionEditor::configurationWidget() const {
 
 QCursor GeographicViewInteractorSelectionEditor::cursor() const {
   return Qt::CrossCursor;
-}
-
-uint GeographicViewInteractorSelectionEditor::priority() const {
-  return StandardInteractorPriority::RectangleSelectionModifier;
 }
 
 PLUGIN(GeographicViewInteractorSelectionEditor)
@@ -246,8 +238,8 @@ bool GeographicViewNavigator::eventFilter(QObject *widget, QEvent *e) {
 PLUGIN(GeographicViewInteractorNavigation)
 
 GeographicViewInteractorAddEdges::GeographicViewInteractorAddEdges(const PluginContext *)
-    : NodeLinkDiagramViewInteractor(interactorIcon(InteractorType::AddEdge), "Add nodes/edges",
-                                    StandardInteractorPriority::AddNodesOrEdges) {}
+    : GeographicViewInteractor(interactorIcon(InteractorType::AddEdge), "Add nodes/edges",
+                               StandardInteractorPriority::AddNodesOrEdges) {}
 
 void GeographicViewInteractorAddEdges::construct() {
   setConfigurationWidgetText("<h3>Add nodes/edges</h3>To add a node: <b>Mouse left</b> click "
@@ -265,24 +257,16 @@ QCursor GeographicViewInteractorAddEdges::cursor() const {
   return QCursor(Qt::PointingHandCursor);
 }
 
-bool GeographicViewInteractorAddEdges::isCompatible(const std::string &viewName) const {
-  return (viewName == ViewName::GeographicViewName);
-}
-
 PLUGIN(GeographicViewInteractorAddEdges)
 
 GeographicViewInteractorEditEdgeBends::GeographicViewInteractorEditEdgeBends(const PluginContext *)
-    : NodeLinkDiagramViewInteractor(interactorIcon(InteractorType::EditEdgeBends),
-                                    "Edit edge bends", StandardInteractorPriority::EditEdgeBends) {}
+    : GeographicViewInteractor(interactorIcon(InteractorType::EditEdgeBends), "Edit edge bends",
+                               StandardInteractorPriority::EditEdgeBends) {}
 
 void GeographicViewInteractorEditEdgeBends::construct() {
   push_back(new GeographicViewNavigator);
   push_back(new MouseSelector);
   push_back(new MouseEdgeBendEditor);
-}
-
-bool GeographicViewInteractorEditEdgeBends::isCompatible(const std::string &viewName) const {
-  return (viewName == ViewName::GeographicViewName);
 }
 
 PLUGIN(GeographicViewInteractorEditEdgeBends)
@@ -325,16 +309,12 @@ public:
 };
 
 GeographicViewInteractorRectangleZoom::GeographicViewInteractorRectangleZoom(const PluginContext *)
-    : GeographicViewInteractor(interactorIcon(InteractorType::RectangleZoom), "Zoom on rectangle") {
-}
+    : GeographicViewInteractor(interactorIcon(InteractorType::RectangleZoom), "Zoom on rectangle",
+                               StandardInteractorPriority::ZoomOnRectangle) {}
 
 void GeographicViewInteractorRectangleZoom::construct() {
   push_back(new GeographicViewNavigator);
   push_back(new GeographicViewMouseBoxZoomer);
-}
-
-uint GeographicViewInteractorRectangleZoom::priority() const {
-  return StandardInteractorPriority::ZoomOnRectangle;
 }
 
 PLUGIN(GeographicViewInteractorRectangleZoom)

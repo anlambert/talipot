@@ -22,10 +22,10 @@
 
 using namespace tlp;
 
-class GeographicViewInteractor : public GLInteractorComposite {
+class GeographicViewInteractor : public NodeLinkDiagramViewInteractor {
 
 public:
-  GeographicViewInteractor(const QIcon &icon, const QString &text);
+  GeographicViewInteractor(const QIcon &icon, const QString &text, uint priority = 0);
 
   bool isCompatible(const std::string &viewName) const override;
 };
@@ -56,7 +56,6 @@ public:
   void construct() override;
 
   QWidget *configurationWidget() const override;
-  uint priority() const override;
 };
 
 class GeographicViewInteractorSelection : public GeographicViewInteractor {
@@ -72,8 +71,6 @@ public:
   QWidget *configurationWidget() const override;
 
   QCursor cursor() const override;
-
-  uint priority() const override;
 };
 
 class GeographicViewInteractorSelectionEditor : public GeographicViewInteractor {
@@ -89,11 +86,9 @@ public:
   QWidget *configurationWidget() const override;
 
   QCursor cursor() const override;
-
-  uint priority() const override;
 };
 
-class GeographicViewInteractorAddEdges : public NodeLinkDiagramViewInteractor {
+class GeographicViewInteractorAddEdges : public GeographicViewInteractor {
 
 public:
   PLUGININFORMATION("InteractorAddEdgesGeographicView", "Tulip Team", "02/06/2017",
@@ -104,11 +99,9 @@ public:
   void construct() override;
 
   QCursor cursor() const override;
-
-  bool isCompatible(const std::string &viewName) const override;
 };
 
-class GeographicViewInteractorEditEdgeBends : public NodeLinkDiagramViewInteractor {
+class GeographicViewInteractorEditEdgeBends : public GeographicViewInteractor {
 
 public:
   PLUGININFORMATION("InteractorEditEdgeBendsGeographicView", "Tulip Team", "02/06/2017",
@@ -117,8 +110,6 @@ public:
   GeographicViewInteractorEditEdgeBends(const PluginContext *);
 
   void construct() override;
-
-  bool isCompatible(const std::string &viewName) const override;
 };
 
 class GeographicViewInteractorRectangleZoom : public GeographicViewInteractor {
@@ -130,8 +121,6 @@ public:
   GeographicViewInteractorRectangleZoom(const PluginContext *);
 
   void construct() override;
-
-  uint priority() const override;
 };
 
 #endif // GEOGRAPHIC_VIEW_INTERACTORS_H
