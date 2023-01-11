@@ -45,6 +45,7 @@ jobs:
           python3-pip
           doxygen
           graphviz
+          xvfb
       - name: Install sip
         run: |
           sudo pip3 install --upgrade pip
@@ -95,12 +96,8 @@ jobs:
         working-directory: ./build
         run: ninja -j4 install
       - name: Run Talipot complete build unit tests
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          working-directory: ./build
-          run: ninja tests
+        working-directory: ./build
+        run: xvfb-run ninja tests
       - name: Check Talipot application can be executed
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          working-directory: ./build/install/bin
-          run: ./talipot --check-application-starts
+        working-directory: ./build/install/bin
+        run: xvfb-run ./talipot --check-application-starts

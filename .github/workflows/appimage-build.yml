@@ -53,13 +53,11 @@ jobs:
       - name: Install required dependencies to run AppImage
         run: |
           sudo apt update
-          sudo apt install qtbase5-dev
+          sudo apt install qtbase5-dev xvfb
         shell: bash
       - name: Check Talipot AppImage can be executed
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          working-directory: ./build
-          run: bash -c "./$(ls Talipot*.AppImage) --check-application-starts"
+        working-directory: ./build
+        run: xvfb-run bash -c "./$(ls Talipot*.AppImage) --check-application-starts"
       - name: Upload Taliot AppImage to GitHub Actions artifacts
         uses: actions/upload-artifact@v2
         with:

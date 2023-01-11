@@ -39,7 +39,7 @@ jobs:
           libqt6core5compat6-dev
           qt6-webengine-dev
           qt6-webengine-dev-tools
-
+          xvfb
       - name: Install sphinx and sip
         run: sudo pip install sphinx sip
       - name: Prepare ccache timestamp
@@ -71,12 +71,8 @@ jobs:
         working-directory: ./build
         run: ninja -j4 install
       - name: Run Talipot unit tests
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          working-directory: ./build
-          run: ninja tests
+        working-directory: ./build
+        run: xvfb-run ninja tests
       - name: Check Talipot application can be executed
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          working-directory: ./build/install/bin
-          run: ./talipot --check-application-starts
+        working-directory: ./build/install/bin
+        run: xvfb-run ./talipot --check-application-starts
