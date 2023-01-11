@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -56,7 +56,7 @@ double EccentricityMetric::compute(uint nPos) {
 
   NodeVectorProperty<double> distance(graph);
   distance.setAll(0);
-  double val = tlp::maxDistance(graph, nPos, distance, weight,
+  double val = tlp::maxDistance(graph, graph->nodes()[nPos], distance, weight,
                                 directed ? EdgeType::DIRECTED : EdgeType::UNDIRECTED);
 
   if (!allPaths) {

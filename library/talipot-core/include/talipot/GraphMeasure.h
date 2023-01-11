@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -74,18 +74,17 @@ TLP_SCOPE uint maxDegree(const Graph *);
 // return the minimum value of the degree of the graph's nodes
 TLP_SCOPE uint minDegree(const Graph *);
 /*
- * compute the maximum distance from the n (graph->nodes[nPos]) to all the other nodes of graph
+ * compute the maximum distance from the node n to all the other nodes of graph
  * and store it into distance, (stored value is UINT_MAX for non connected nodes),
  * if direction is set to EdgeType::UNDIRECTED use undirected graph, EdgeType::DIRECTED use directed
  * graph and EdgeType::INV_DIRECTED use reverse directed graph (ie. all edges are reversed) all the
  * edge's weight is set to 1. (it uses a bfs thus the complexity is o(m), m = |E|).
  */
-TLP_SCOPE uint maxDistance(const Graph *graph, const uint nPos,
-                           tlp::NodeVectorProperty<uint> &distance,
+TLP_SCOPE uint maxDistance(const Graph *graph, node n, tlp::NodeVectorProperty<uint> &distance,
                            EdgeType direction = EdgeType::UNDIRECTED);
 
 /*
- * compute the maximum distance from the n (graph->nodes[nPos]) to all the other nodes of graph
+ * compute the maximum distance from the node n to all the other nodes of graph
  * and store it into distance, (stored value is DBL_MAX for non connected nodes),
  * if direction is set to EdgeType::UNDIRECTED use undirected graph, EdgeType::DIRECTED use directed
  * graph and EdgeType::INV_DIRECTED use reverse directed graph (ie. all edges are reversed) Edge
@@ -93,8 +92,7 @@ TLP_SCOPE uint maxDistance(const Graph *graph, const uint nPos,
  * otherwise all the edge's weight is set to 1. (it uses a bfs thus the complexity is o(m), m =
  * |E|).
  */
-TLP_SCOPE double maxDistance(const Graph *graph, const uint nPos,
-                             tlp::NodeVectorProperty<double> &distance,
+TLP_SCOPE double maxDistance(const Graph *graph, node n, tlp::NodeVectorProperty<double> &distance,
                              const NumericProperty *const weights,
                              EdgeType direction = EdgeType::UNDIRECTED);
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,25 +18,23 @@ using namespace std;
 using namespace tlp;
 
 //================================================================
-uint tlp::maxDistance(const Graph *graph, uint nPos, tlp::NodeVectorProperty<uint> &distance,
+uint tlp::maxDistance(const Graph *graph, node n, tlp::NodeVectorProperty<uint> &distance,
                       EdgeType direction) {
-  deque<uint> fifo;
+  deque<node> fifo;
   distance.setAll(UINT_MAX);
-  fifo.push_back(nPos);
-  distance[nPos] = 0;
-  const std::vector<node> &nodes = graph->nodes();
+  fifo.push_back(n);
+  distance[n] = 0;
   uint maxDist = 0;
 
   while (!fifo.empty()) {
-    uint curPos = fifo.front();
+    node curNode = fifo.front();
     fifo.pop_front();
-    uint nDist = distance[curPos] + 1;
+    uint nDist = distance[curNode] + 1;
 
-    for (auto n : getAdjacentNodesIterator(graph, nodes[curPos], direction)) {
-      nPos = graph->nodePos(n);
-      if (distance[nPos] == UINT_MAX) {
-        fifo.push_back(nPos);
-        distance[nPos] = nDist;
+    for (auto n : getAdjacentNodesIterator(graph, curNode, direction)) {
+      if (distance[n] == UINT_MAX) {
+        fifo.push_back(n);
+        distance[n] = nDist;
         maxDist = std::max(maxDist, nDist);
       }
     }
@@ -45,14 +43,13 @@ uint tlp::maxDistance(const Graph *graph, uint nPos, tlp::NodeVectorProperty<uin
   return maxDist;
 }
 //================================================================
-double tlp::maxDistance(const Graph *graph, const uint nPos,
-                        tlp::NodeVectorProperty<double> &distance,
+double tlp::maxDistance(const Graph *graph, node n, tlp::NodeVectorProperty<double> &distance,
                         const NumericProperty *const weights, EdgeType direction) {
   if (!weights) {
     NodeVectorProperty<uint> dist_int(graph);
     dist_int.setAll(0);
-    uint res = maxDistance(graph, nPos, dist_int, direction);
-    for (auto n : graph->getNodes()) {
+    uint res = maxDistance(graph, n, dist_int, direction);
+    for (auto n : graph->nodes()) {
       distance[n] = double(dist_int[n]);
     }
     return double(res);
@@ -62,15 +59,14 @@ double tlp::maxDistance(const Graph *graph, const uint nPos,
   eWeights.copyFromNumericProperty(weights);
 
   std::stack<node> queueNode;
-  MutableContainer<int> nb_paths;
-  Dijkstra dijkstra(graph, graph->nodes()[nPos], eWeights, distance, direction, &queueNode,
-                    &nb_paths);
+  MutableContainer<int> nbPaths;
+  Dijkstra dijkstra(graph, n, eWeights, distance, direction, &queueNode, &nbPaths);
   // compute max distance from graph->nodes()[nPos]
   // by taking first reachable node in the queue
   while (!queueNode.empty()) {
     node n = queueNode.top();
     queueNode.pop();
-    if (nb_paths.get(n.id) > 0) {
+    if (nbPaths.get(n.id) > 0) {
       return distance[n];
     }
   }
@@ -87,24 +83,24 @@ double tlp::averagePathLength(const Graph *graph) {
     return result;
   }
 
-  TLP_PARALLEL_MAP_INDICES(nbNodes, [&](uint i) {
+  TLP_PARALLEL_MAP_NODES(graph, [&](node n) {
     tlp::NodeVectorProperty<uint> distance(graph);
-    maxDistance(graph, i, distance, EdgeType::UNDIRECTED);
+    maxDistance(graph, n, distance, EdgeType::UNDIRECTED);
 
-    double tmp_result = 0;
+    double tmp = 0;
 
-    for (uint j = 0; j < nbNodes; ++j) {
-      if (j == i) {
+    for (auto nn : graph->nodes()) {
+      if (nn == n) {
         continue;
       }
-
-      uint d = distance[j];
+      uint d = distance[nn];
       if (d != UINT_MAX) {
-        tmp_result += d;
+        tmp += d;
       }
     }
+
     TLP_LOCK_SECTION(SUMPATH) {
-      result += tmp_result;
+      result += tmp;
     }
     TLP_UNLOCK_SECTION(SUMPATH);
   });

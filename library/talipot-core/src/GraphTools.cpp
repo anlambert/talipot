@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -151,29 +151,24 @@ vector<vector<node>> computeCanonicalOrdering(PlanarConMap *carte, std::vector<e
 std::vector<node> computeGraphCenters(Graph *graph) {
   assert(ConnectedTest::isConnected(graph));
   tlp::NodeVectorProperty<uint> dist(graph);
-  const std::vector<node> &nodes = graph->nodes();
-  uint nbNodes = nodes.size();
   uint minD = UINT_MAX;
-  uint minPos = 0;
 
-  TLP_PARALLEL_MAP_INDICES(nbNodes, [&](uint i) {
+  TLP_PARALLEL_MAP_NODES(graph, [&](node n) {
     tlp::NodeVectorProperty<uint> tmp(graph);
-    uint maxD = tlp::maxDistance(graph, i, tmp, EdgeType::UNDIRECTED);
-    dist[i] = maxD;
+    uint maxD = tlp::maxDistance(graph, n, tmp, EdgeType::UNDIRECTED);
+    dist[n] = maxD;
     TLP_LOCK_SECTION(COMPUTE_MIN) {
       if (minD > maxD) {
         minD = maxD;
-        minPos = i;
       }
     }
     TLP_UNLOCK_SECTION(COMPUTE_MIN);
   });
 
   vector<node> result;
-
-  for (uint i = minPos; i < nbNodes; ++i) {
-    if (dist[i] == minD) {
-      result.push_back(nodes[i]);
+  for (auto n : graph->nodes()) {
+    if (dist[n] == minD) {
+      result.push_back(n);
     }
   }
 
@@ -189,14 +184,15 @@ node graphCenterHeuristic(Graph *graph, PluginProgress *pluginProgress) {
     return node();
   }
 
-  const vector<node> &nodes = graph->nodes();
   tlp::NodeVectorProperty<bool> toTreat(graph);
   toTreat.setAll(true);
   tlp::NodeVectorProperty<uint> dist(graph);
-  uint i = 0, n = 0, result = 0;
   uint cDist = UINT_MAX - 2;
   uint nbTry = 2 + sqrt(nbNodes);
   uint maxTries = nbTry;
+
+  node n = graph->nodes()[0];
+  node result = n;
 
   while (nbTry) {
     --nbTry;
@@ -210,7 +206,6 @@ node graphCenterHeuristic(Graph *graph, PluginProgress *pluginProgress) {
     }
 
     if (toTreat[n]) {
-      ++i;
       uint di = tlp::maxDistance(graph, n, dist);
       toTreat[n] = false;
 
@@ -220,7 +215,7 @@ node graphCenterHeuristic(Graph *graph, PluginProgress *pluginProgress) {
       } else {
         uint delta = di - cDist;
 
-        for (uint v = 0; v < nbNodes; v++) {
+        for (auto v : graph->nodes()) {
           if (dist[v] < delta) {
             // all the nodes at distance less than delta can't be center
             toTreat[v] = false;
@@ -230,7 +225,7 @@ node graphCenterHeuristic(Graph *graph, PluginProgress *pluginProgress) {
 
       uint nextMax = 0;
 
-      for (uint v = 0; v < nbNodes; v++) {
+      for (auto v : graph->nodes()) {
         if (dist[v] > (di / 2 + di % 2)) {
           toTreat[v] = false;
         } else {
@@ -254,7 +249,7 @@ node graphCenterHeuristic(Graph *graph, PluginProgress *pluginProgress) {
     pluginProgress->progress(100, 100);
   }
 
-  return nodes[result];
+  return result;
 }
 //======================================================================
 void selectSpanningForest(Graph *graph, BooleanProperty *selectionProperty,
