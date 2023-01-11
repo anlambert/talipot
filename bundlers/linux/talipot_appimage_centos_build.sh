@@ -44,14 +44,16 @@ if [ "$centos7" = true ]
 then
   yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
     quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing
+  yum -y install openssl-devel
 else
   yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
     quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing --nobest
+  yum -y install openssl3-devel
 fi
 
 # install recent Python
 yum -y groupinstall "Development Tools"
-yum -y install openssl-devel libffi-devel bzip2-devel libsqlite3x-devel
+yum -y install libffi-devel bzip2-devel libsqlite3x-devel
 
 if [ "$centos7" = true ]
 then
