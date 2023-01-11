@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -57,11 +57,11 @@ public:
                     "<b>Closeness Centrality</b> is the mean of shortest-paths lengths from a node "
                     "to others. The normalized values are computed using the reciprocal of the sum "
                     "of these distances.",
-                    "2.1", "Graph")
+                    "2.2", "Graph")
   EccentricityMetric(const tlp::PluginContext *context);
   ~EccentricityMetric() override;
   bool run() override;
-  double compute(uint nPos);
+  double compute(tlp::node n, tlp::NodeVectorProperty<double> &maxDistance);
 
 private:
   bool allPaths;
