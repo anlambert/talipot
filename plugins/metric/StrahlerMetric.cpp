@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,29 +17,6 @@ PLUGIN(StrahlerMetric)
 
 using namespace std;
 using namespace tlp;
-
-namespace std {
-struct couple {
-  int p, r;
-  bool operator==(const couple d) const {
-    return (p == d.p) && (r == d.r);
-  }
-};
-
-template <>
-struct equal_to<couple> {
-  bool operator()(const couple c, const couple d) {
-    return (c.r == d.r) && (c.p == d.p);
-  }
-};
-
-template <>
-struct less<couple> {
-  bool operator()(const couple c, const couple d) {
-    return (c.r < d.r) || ((c.r == d.r) && (c.p < d.p));
-  }
-};
-} // namespace std
 
 struct StackEval {
   StackEval(int f, int u) : freeS(f), usedS(u) {}
