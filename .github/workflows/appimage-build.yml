@@ -55,9 +55,20 @@ jobs:
           sudo apt update
           sudo apt install qtbase5-dev xvfb
         shell: bash
-      - name: Check Talipot AppImage can be executed
+      - name: Check Talipot AppImage can be executed on Ubuntu
         working-directory: ./build
         run: xvfb-run bash -c "./$(ls Talipot*.AppImage) --check-application-starts"
+      - name: Check Talipot AppImage can be executed on Fedora
+        uses: addnab/docker-run-action@v3
+        with:
+          image: fedora
+          shell: bash
+          options: --device /dev/fuse --privileged
+            -v ${{ github.workspace }}:/talipot:rw
+          run: |
+            dnf -y group install "Basic Desktop" GNOME
+            yum install -y xorg-x11-server-Xvfb
+            xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts
       - name: Upload Taliot AppImage to GitHub Actions artifacts
         uses: actions/upload-artifact@v2
         with:
