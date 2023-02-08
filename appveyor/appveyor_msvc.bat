@@ -16,11 +16,11 @@ set starttime=%time%
 rem let's compile clcache in order to speedup incremental builds
 cd C:/
 set PATH=%PYTHON_HOME%;%PYTHON_HOME%\Scripts;C:/talipot/bin;%PATH%
-pip install --user --upgrade pip
-pip install scandir
+python -m pip install --upgrade pip
+pip install scandir wheel
 pip install git+https://github.com/anlambert/pyuv@master#egg=pyuv
-set SETUPTOOLS_SCM_PRETEND_VERSION=v4.3.2
-pip install git+https://github.com/dgehri/clcache@master#egg=clcache
+set SETUPTOOLS_SCM_PRETEND_VERSION=v4.2.13
+pip install git+https://github.com/dgehri/clcache@v4.2.13-dehri#egg=clcache
 set CLCACHE_MSBUILD_CONF=/p:TrackFileAccess=false /p:CLToolExe=clcache.exe^
   /p:CLToolPath=%PYTHON_HOME%\Scripts
 
