@@ -75,4 +75,4 @@ jobs:
         run: xvfb-run ninja tests
       - name: Check Talipot application can be executed
         working-directory: ./build/install/bin
-        run: xvfb-run ./talipot --check-application-starts
+        run: xvfb-run ./talipot --check-application-starts --debug-plugins-load

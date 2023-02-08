@@ -57,7 +57,7 @@ jobs:
         shell: bash
       - name: Check Talipot AppImage can be executed on Ubuntu
         working-directory: ./build
-        run: xvfb-run bash -c "./$(ls Talipot*.AppImage) --check-application-starts"
+        run: xvfb-run bash -c "./$(ls Talipot*.AppImage) --check-application-starts --debug-plugins-load"
       - name: Check Talipot AppImage can be executed on Fedora
         uses: addnab/docker-run-action@v3
         with:
@@ -68,7 +68,7 @@ jobs:
           run: |
             dnf -y group install "Basic Desktop" GNOME
             yum install -y xorg-x11-server-Xvfb
-            xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts
+            xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts --debug-plugins-load
       - name: Check Talipot AppImage can be executed on ArchLinux
         uses: addnab/docker-run-action@v3
         with:
@@ -78,7 +78,7 @@ jobs:
             -v ${{ github.workspace }}:/talipot:rw
           run: |
             pacman -Syu --noconfirm fuse gnome qt5-base xorg-server-xvfb
-            xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts
+            xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts --debug-plugins-load
       - name: Check Talipot AppImage can be executed on openSUSE
         uses: addnab/docker-run-action@v3
         with:
@@ -89,7 +89,7 @@ jobs:
           run: |
             zypper install -y -t pattern kde kde_plasma
             zypper install -y fuse-devel xvfb-run
-            xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts
+            xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts --debug-plugins-load
       - name: Upload Taliot AppImage to GitHub Actions artifacts
         uses: actions/upload-artifact@v2
         with:

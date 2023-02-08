@@ -117,7 +117,7 @@ ctest --force-new-ctest-process --output-on-failure --build-config "Release"
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%TALIPOT_BUILD_CORE_ONLY%" == "0" (
-  talipot --check-application-starts || exit /b 1
+  talipot --check-application-starts --debug-plugins-load || exit /b 1
 )
 if %errorlevel% neq 0 exit /b %errorlevel%
 

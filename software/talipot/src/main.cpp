@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -204,6 +204,10 @@ int main(int argc, char **argv) {
   } catch (tlp::Exception &e) {
     QMessageBox::warning(nullptr, "Error", e.what());
     exit(1);
+  }
+
+  if (debugPluginsLoad && !pluginErrors.isEmpty()) {
+    return 1;
   }
 
   QFileInfo fileInfo(inputFilePath);

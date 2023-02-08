@@ -77,7 +77,7 @@ jobs:
         run: make tests
       - name: Check Talipot application can be executed
         working-directory: ./build/install/bin
-        run: ./talipot --check-application-starts
+        run: ./talipot --check-application-starts --debug-plugins-load
       - name: Generate Talipot NSIS installer
         working-directory: ./build
         run: make bundle
