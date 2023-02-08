@@ -79,6 +79,17 @@ jobs:
           run: |
             pacman -Syu --noconfirm fuse gnome qt5-base xorg-server-xvfb
             xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts
+      - name: Check Talipot AppImage can be executed on openSUSE
+        uses: addnab/docker-run-action@v3
+        with:
+          image: opensuse/tumbleweed
+          shell: bash
+          options: --device /dev/fuse --privileged
+            -v ${{ github.workspace }}:/talipot:rw
+          run: |
+            zypper install -y -t pattern kde kde_plasma
+            zypper install -y fuse-devel xvfb-run
+            xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts
       - name: Upload Taliot AppImage to GitHub Actions artifacts
         uses: actions/upload-artifact@v2
         with:
