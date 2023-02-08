@@ -1,7 +1,11 @@
 import sipbuild
-from sipbuild.module import abi_version
+from sipbuild.module.abi_version import (
+    resolve_abi_version,
+    get_sip_module_version
+)
 
 print("sip_version:%06.0x" % sipbuild.version.SIP_VERSION)
 print("sip_version_num:%d" % sipbuild.version.SIP_VERSION)
 print("sip_version_str:%s" % sipbuild.version.SIP_VERSION_STR)
-print("sip_abi_version:%s" % abi_version.resolve_abi_version(None) + ".0")
+abi_major_version = resolve_abi_version(abi_version=None).split('.')[0]
+print("sip_module_version:%s" % get_sip_module_version(abi_major_version))

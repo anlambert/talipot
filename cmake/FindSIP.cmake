@@ -12,8 +12,8 @@ IF(sip_config)
                        ${sip_config})
   STRING(REGEX REPLACE ".*\nsip_version_str:([^\n]+).*$" "\\1" SIP_VERSION_STR
                        ${sip_config})
-  STRING(REGEX REPLACE ".*\nsip_abi_version:([^\n]+).*$" "\\1" SIP_ABI_VERSION
-                       ${sip_config})
+  STRING(REGEX REPLACE ".*\nsip_module_version:([^\n]+).*$" "\\1"
+                       SIP_MODULE_VERSION ${sip_config})
   STRING(REGEX REPLACE ".*\ndefault_sip_dir:([^\n]+).*$" "\\1"
                        SIP_DEFAULT_SIP_DIR ${sip_config})
 

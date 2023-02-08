@@ -78,15 +78,15 @@ SET(TALIPOT_SIP_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/WithParameter.sip)
 
 SET(SIP_MODULE_SRC
-    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_array.c
-    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_bool.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_core.c
-    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_descriptors.c
-    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_enum.c
-    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_int_convertors.c
-    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_object_map.c
-    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_threads.c
-    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_ABI_VERSION}/sip_voidptr.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_array.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_bool.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_core.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_descriptors.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_enum.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_int_convertors.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_object_map.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_threads.c
+    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_voidptr.c
 )
 
 SET(TALIPOT_PYTHON_BINDINGS_SRC
@@ -107,7 +107,7 @@ ADD_CUSTOM_COMMAND(
   OUTPUT ${SIP_MODULE_SRC}
   COMMAND ${SIP_MODULE_EXECUTABLE} --sdist talipot.native.sip
   COMMAND ${CMAKE_COMMAND} -E tar xzf
-          talipot_native_sip-${SIP_ABI_VERSION}.tar.gz
+          talipot_native_sip-${SIP_MODULE_VERSION}.tar.gz
   COMMENT "Generating talipot.native.sip Python module source code"
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
