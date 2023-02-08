@@ -69,6 +69,16 @@ jobs:
             dnf -y group install "Basic Desktop" GNOME
             yum install -y xorg-x11-server-Xvfb
             xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts
+      - name: Check Talipot AppImage can be executed on ArchLinux
+        uses: addnab/docker-run-action@v3
+        with:
+          image: archlinux
+          shell: bash
+          options: --device /dev/fuse --privileged
+            -v ${{ github.workspace }}:/talipot:rw
+          run: |
+            pacman -Syu --noconfirm fuse gnome qt5-base xorg-server-xvfb
+            xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts
       - name: Upload Taliot AppImage to GitHub Actions artifacts
         uses: actions/upload-artifact@v2
         with:
