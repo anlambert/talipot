@@ -54,14 +54,22 @@ TARGET_LINK_LIBRARIES(crash_handler ${CMAKE_DL_LIBS})
 
 IF(BFD_FOUND)
 
-  TARGET_LINK_LIBRARIES(crash_handler ${BFD_LIBRARY})
+  TARGET_LINK_LIBRARIES(crash_handler ${BFD_LIBRARY} ${ZLIB_LIBRARY}
+                        ${Zstd_LIBRARIES})
 
   # some build environments requires the need to link against the intl library
   IF(INTL_LIBRARY)
 
-    TARGET_LINK_LIBRARIES(crash_handler ${INTL_LIBRARY} ${ZLIB_LIBRARY})
+    TARGET_LINK_LIBRARIES(crash_handler ${INTL_LIBRARY})
 
   ENDIF(INTL_LIBRARY)
+
+  # some build environments requires the need to link against the sframe library
+  IF(SFRAME_LIBRARY)
+
+    TARGET_LINK_LIBRARIES(crash_handler ${SFRAME_LIBRARY})
+
+  ENDIF(SFRAME_LIBRARY)
 
 ENDIF(BFD_FOUND)
 

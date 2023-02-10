@@ -223,10 +223,17 @@ IF(MINGW)
     INTL_LIBRARY intl
     PATHS ${MINGW_LIB_PATH} ${MINGW_LIB64_PATH}
     NO_DEFAULT_PATH)
+  # Check if libsframe is present in the MinGW build environment
+  FIND_LIBRARY(
+    SFRAME_LIBRARY sframe
+    PATHS ${MINGW_LIB_PATH} ${MINGW_LIB64_PATH}
+    NO_DEFAULT_PATH)
 ELSE(MINGW)
   FIND_LIBRARY(INTL_LIBRARY intl)
+  FIND_LIBRARY(SFRAME_LIBRARY sframe)
 ENDIF(MINGW)
 MARK_AS_ADVANCED(INTL_LIBRARY)
+MARK_AS_ADVANCED(SFRAME_LIBRARY)
 
 # Don't need to find zlib when compiling with emscripten as there is an
 # available emscripten port of it
