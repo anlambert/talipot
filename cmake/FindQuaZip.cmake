@@ -31,7 +31,8 @@ IF(WIN32)
       QuaZip-Qt${QT_MAJOR_VERSION}-1.0/quazip
       QuaZip-Qt${QT_MAJOR_VERSION}-1.1/quazip
       QuaZip-Qt${QT_MAJOR_VERSION}-1.2/quazip
-      QuaZip-Qt${QT_MAJOR_VERSION}-1.3/quazip)
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.3/quazip
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.4/quazip)
   FIND_PATH(QUAZIP_ZLIB_INCLUDE_DIR NAMES zlib.h)
 ELSE(WIN32)
 
@@ -55,7 +56,8 @@ ELSE(WIN32)
       QuaZip-Qt${QT_MAJOR_VERSION}-1.0/quazip
       QuaZip-Qt${QT_MAJOR_VERSION}-1.1/quazip
       QuaZip-Qt${QT_MAJOR_VERSION}-1.2/quazip
-      QuaZip-Qt${QT_MAJOR_VERSION}-1.3/quazip)
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.3/quazip
+      QuaZip-Qt${QT_MAJOR_VERSION}-1.4/quazip)
   FIND_PATH(
     QUAZIP_INCLUDE_DIR quazip.h
     HINTS /usr/include /usr/local/include /usr/local/include/quazip
