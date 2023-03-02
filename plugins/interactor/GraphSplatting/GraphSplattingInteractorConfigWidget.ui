@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>GraphSplattingInteractorConfigWidgetData</class>
+  <widget class="QWidget" name="GraphSplattingInteractorConfigWidgetData">
+    <property name="geometry">
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>324</width>
+        <height>859</height>
+      </rect>
+    </property>
+    <property name="windowTitle">
+      <string>Form</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_9">
+      <property name="spacing">
+        <number>0</number>
+      </property>
+      <property name="margin">
+        <number>0</number>
+      </property>
+      <item>
+        <widget class="QTabWidget" name="tabWidget">
+          <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+            <size>
+              <width>250</width>
+              <height>0</height>
+            </size>
+          </property>
+          <property name="maximumSize">
+            <size>
+              <width>16777215</width>
+              <height>16777215</height>
+            </size>
+          </property>
+          <property name="currentIndex">
+            <number>1</number>
+          </property>
+          <widget class="QWidget" name="tab">
+            <attribute name="title">
+              <string>Splatting configuration</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+              <item>
+                <widget class="QFrame" name="frame">
+                  <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_2">
+                    <property name="margin">
+                      <number>4</number>
+                    </property>
+                    <item>
+                      <widget class="QLabel" name="label">
+                        <property name="font">
+                          <font>
+                            <weight>75</weight>
+                            <bold>true</bold>
+                          </font>
+                        </property>
+                        <property name="text">
+                          <string>Splat field color mapping:</string>
+                        </property>
+                      </widget>
+                    </item>
+                    <item>
+                      <layout class="QVBoxLayout" name="verticalLayout">
+                        <item>
+                          <layout class="QHBoxLayout" name="horizontalLayout">
+                            <item>
+                              <widget class="QLabel" name="label_2">
+                                <property name="text">
+                                  <string>min</string>
+                                </property>
+                              </widget>
+                            </item>
+                            <item>
+                              <spacer name="horizontalSpacer">
+                                <property name="orientation">
+                                  <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                  <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                  </size>
+                                </property>
+                              </spacer>
+                            </item>
+                            <item>
+                              <widget class="QLabel" name="label_3">
+                                <property name="text">
+                                  <string>max</string>
+                                </property>
+                              </widget>
+                            </item>
+                          </layout>
+                        </item>
+                        <item>
+                          <widget class="ColorScaleWidget" name="colorScaleWidget" native="true">
+                            <property name="minimumSize">
+                              <size>
+                                <width>0</width>
+                                <height>30</height>
+                              </size>
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                    <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_2">
+                        <item>
+                          <widget class="QPushButton" name="configureColorScaleButton">
+                            <property name="text">
+                              <string>Configure color scale</string>
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                  </layout>
+                </widget>
+              </item>
+              <item>
+                <widget class="QGroupBox" name="groupBox_2">
+                  <property name="title">
+                    <string>Do splatting on :</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_5">
+                    <property name="margin">
+                      <number>4</number>
+                    </property>
+                    <item>
+                      <widget class="QRadioButton" name="edgeSplattingRB">
+                        <property name="text">
+                          <string>edges</string>
+                        </property>
+                        <property name="checked">
+                          <bool>true</bool>
+                        </property>
+                      </widget>
+                    </item>
+                    <item>
+                      <widget class="QRadioButton" name="nodeSplattingRB">
+                        <property name="text">
+                          <string>nodes</string>
+                        </property>
+                      </widget>
+                    </item>
+                  </layout>
+                </widget>
+              </item>
+              <item>
+                <widget class="QGroupBox" name="groupBox">
+                  <property name="title">
+                    <string>Mapping type :</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_3">
+                    <property name="spacing">
+                      <number>0</number>
+                    </property>
+                    <property name="margin">
+                      <number>4</number>
+                    </property>
+                    <item>
+                      <widget class="QRadioButton" name="logMappingRB">
+                        <property name="text">
+                          <string>logarithmic</string>
+                        </property>
+                        <property name="checked">
+                          <bool>true</bool>
+                        </property>
+                      </widget>
+                    </item>
+                    <item>
+                      <widget class="QRadioButton" name="linearMappingRB">
+                        <property name="text">
+                          <string>linear</string>
+                        </property>
+                      </widget>
+                    </item>
+                  </layout>
+                </widget>
+              </item>
+              <item>
+                <widget class="QGroupBox" name="diffuseSplattingGB">
+                  <property name="title">
+                    <string>Enable splatting</string>
+                  </property>
+                  <property name="checkable">
+                    <bool>true</bool>
+                  </property>
+                  <property name="checked">
+                    <bool>true</bool>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_4">
+                    <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_3">
+                        <item>
+                          <widget class="QLabel" name="label_4">
+                            <property name="text">
+                              <string>radius :</string>
+                            </property>
+                          </widget>
+                        </item>
+                        <item>
+                          <widget class="QSpinBox" name="diffuseRadiusSP">
+                            <property name="minimum">
+                              <number>1</number>
+                            </property>
+                            <property name="maximum">
+                              <number>1000000000</number>
+                            </property>
+                            <property name="value">
+                              <number>5</number>
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                    <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_4">
+                        <item>
+                          <widget class="QLabel" name="label_5">
+                            <property name="text">
+                              <string>standard deviation : </string>
+                            </property>
+                          </widget>
+                        </item>
+                        <item>
+                          <widget class="QDoubleSpinBox" name="edgesSplattingSigmaSP">
+                            <property name="decimals">
+                              <number>10</number>
+                            </property>
+                            <property name="minimum">
+                              <double>0.000000000000000</double>
+                            </property>
+                            <property name="maximum">
+                              <double>99999999.000000000000000</double>
+                            </property>
+                            <property name="singleStep">
+                              <double>1.000000000000000</double>
+                            </property>
+                            <property name="value">
+                              <double>3.000000000000000</double>
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                  </layout>
+                </widget>
+              </item>
+              <item>
+                <widget class="QCheckBox" name="adjustSplattingToZoomCB">
+                  <property name="text">
+                    <string>Adjust splatting to zoom</string>
+                  </property>
+                  <property name="checked">
+                    <bool>true</bool>
+                  </property>
+                </widget>
+              </item>
+              <item>
+                <widget class="QCheckBox" name="keepGraphImageCB">
+                  <property name="text">
+                    <string>Keep original graph image in background</string>
+                  </property>
+                  <property name="checked">
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item>
+                <widget class="QCheckBox" name="edgeSplattingRestrictionCB">
+                  <property name="text">
+                    <string>Don't splat edges with source and target
+                      node outside of the viewport</string>
+                  </property>
+                </widget>
+              </item>
+              <item>
+                <spacer name="verticalSpacer">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>263</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="tab_2">
+            <attribute name="title">
+              <string>Bumpmapping configuration</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+              <item>
+                <widget class="QGroupBox" name="bumpmapGB">
+                  <property name="title">
+                    <string>Enable bumpmapping</string>
+                  </property>
+                  <property name="checkable">
+                    <bool>true</bool>
+                  </property>
+                  <property name="checked">
+                    <bool>true</bool>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_10">
+                    <item>
+                      <widget class="QGroupBox" name="groupBox_3">
+                        <property name="title">
+                          <string>Select filter for normal map :</string>
+                        </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_10">
+                          <property name="margin">
+                            <number>4</number>
+                          </property>
+                          <item>
+                            <spacer name="horizontalSpacer_4">
+                              <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                              </property>
+                              <property name="sizeHint" stdset="0">
+                                <size>
+                                  <width>108</width>
+                                  <height>20</height>
+                                </size>
+                              </property>
+                            </spacer>
+                          </item>
+                          <item>
+                            <widget class="QComboBox" name="normalMapFilterCB" />
+                          </item>
+                          <item>
+                            <spacer name="horizontalSpacer_5">
+                              <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                              </property>
+                              <property name="sizeHint" stdset="0">
+                                <size>
+                                  <width>108</width>
+                                  <height>20</height>
+                                </size>
+                              </property>
+                            </spacer>
+                          </item>
+                        </layout>
+                      </widget>
+                    </item>
+                    <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_5">
+                        <item>
+                          <widget class="QLabel" name="label_6">
+                            <property name="text">
+                              <string>Scale :</string>
+                            </property>
+                          </widget>
+                        </item>
+                        <item>
+                          <widget class="QDoubleSpinBox" name="scaleFactorSP">
+                            <property name="minimum">
+                              <double>-1000.000000000000000</double>
+                            </property>
+                            <property name="maximum">
+                              <double>1000.000000000000000</double>
+                            </property>
+                            <property name="value">
+                              <double>10.000000000000000</double>
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                  </layout>
+                </widget>
+              </item>
+              <item>
+                <widget class="QGroupBox" name="groupBox_4">
+                  <property name="title">
+                    <string>Select Diffuse Map :</string>
+                  </property>
+                </widget>
+              </item>
+              <item>
+                <widget class="QRadioButton" name="densityColorMappingRB">
+                  <property name="text">
+                    <string>Density color mapping</string>
+                  </property>
+                  <property name="checked">
+                    <bool>true</bool>
+                  </property>
+                </widget>
+              </item>
+              <item>
+                <widget class="QRadioButton" name="graphColorsRB">
+                  <property name="text">
+                    <string>Graph colors (edges only)</string>
+                  </property>
+                </widget>
+              </item>
+              <item>
+                <widget class="QRadioButton" name="meanGraphColorsRB">
+                  <property name="text">
+                    <string>Graph mean colors per pixel (edges only)</string>
+                  </property>
+                </widget>
+              </item>
+              <item>
+                <widget class="QGroupBox" name="groupBox_5">
+                  <property name="title">
+                    <string>Lighting configuration :</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_12">
+                    <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_6">
+                        <item>
+                          <widget class="QLabel" name="label_7">
+                            <property name="text">
+                              <string>Ambient color :</string>
+                            </property>
+                          </widget>
+                        </item>
+                        <item>
+                          <widget class="QPushButton" name="ambientButton">
+                            <property name="text">
+                              <string />
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                    <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_7">
+                        <item>
+                          <widget class="QLabel" name="label_8">
+                            <property name="text">
+                              <string>Diffuse color : </string>
+                            </property>
+                          </widget>
+                        </item>
+                        <item>
+                          <widget class="QPushButton" name="diffuseButton">
+                            <property name="text">
+                              <string />
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                    <item>
+                      <widget class="QCheckBox" name="specularCB">
+                        <property name="text">
+                          <string>Use specular</string>
+                        </property>
+                        <property name="checked">
+                          <bool>true</bool>
+                        </property>
+                      </widget>
+                    </item>
+                    <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_8">
+                        <item>
+                          <widget class="QLabel" name="label_9">
+                            <property name="text">
+                              <string>Specular color :</string>
+                            </property>
+                          </widget>
+                        </item>
+                        <item>
+                          <widget class="QPushButton" name="specularButton">
+                            <property name="text">
+                              <string />
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                    <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_9">
+                        <item>
+                          <widget class="QLabel" name="label_10">
+                            <property name="text">
+                              <string>Specular exponent :</string>
+                            </property>
+                          </widget>
+                        </item>
+                        <item>
+                          <widget class="QSpinBox" name="specularExponentSP">
+                            <property name="maximum">
+                              <number>10000</number>
+                            </property>
+                            <property name="value">
+                              <number>32</number>
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                  </layout>
+                </widget>
+              </item>
+              <item>
+                <spacer name="verticalSpacer_2">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>362</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+            </layout>
+          </widget>
+        </widget>
+      </item>
+    </layout>
+  </widget>
+  <customwidgets>
+    <customwidget>
+      <class>ColorScaleWidget</class>
+      <extends>QWidget</extends>
+      <header>ColorScaleWidget.h</header>
+      <container>1</container>
+    </customwidget>
+  </customwidgets>
+  <resources />
+  <connections />
+</ui>

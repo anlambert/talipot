@@ -1,6 +1,7 @@
 QTX_SET_INCLUDES_AND_DEFINITIONS()
 
 ADD_SUBDIRECTORY(Fisheye)
+ADD_SUBDIRECTORY(GraphSplatting)
 ADD_SUBDIRECTORY(MouseMagnifyingGlass)
 ADD_SUBDIRECTORY(MouseLassoNodesSelector)
 ADD_SUBDIRECTORY(NeighborhoodHighlighter)

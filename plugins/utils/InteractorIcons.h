@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2020-2022  The Talipot developers
+ * Copyright (C) 2020-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,6 +25,7 @@ enum InteractorType {
   EditEdgeBends,
   Fisheye,
   GetInformation,
+  GraphSplatting,
   Lasso,
   MagnifyingGlass,
   Navigation,
@@ -60,6 +61,10 @@ static QIcon interactorIcon(InteractorType interactorType, const QColor &iconCol
     QIcon frontIcon =
         FontIcon::icon(MaterialDesignIcons::Help, iconColor, 0.6, 0, QPointF(40, -20));
     icon = FontIcon::stackIcons(backIcon, frontIcon);
+    break;
+  }
+  case GraphSplatting: {
+    icon = FontIcon::icon(MaterialDesignIcons::LiquidSpot, iconColor);
     break;
   }
   case Lasso: {
