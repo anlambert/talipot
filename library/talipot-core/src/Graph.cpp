@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1683,8 +1683,9 @@ Graph *Graph::getNthSubGraph(uint n) const {
 }
 
 const std::string &GraphEvent::getPropertyName() const {
-  assert((evtType > GraphEventType::TLP_AFTER_DEL_SUBGRAPH && evtType < TLP_BEFORE_SET_ATTRIBUTE) ||
-         evtType > TLP_REMOVE_ATTRIBUTE);
+  assert((evtType > GraphEventType::TLP_AFTER_DEL_SUBGRAPH &&
+          evtType < GraphEventType::TLP_BEFORE_SET_ATTRIBUTE) ||
+         evtType > GraphEventType::TLP_REMOVE_ATTRIBUTE);
 
   if (evtType == GraphEventType::TLP_BEFORE_RENAME_LOCAL_PROPERTY ||
       evtType == GraphEventType::TLP_AFTER_RENAME_LOCAL_PROPERTY) {

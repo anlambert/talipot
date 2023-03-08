@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -2172,12 +2172,12 @@ public:
   }
 
   node getNode() const {
-    assert(evtType < TLP_ADD_EDGE);
+    assert(evtType < GraphEventType::TLP_ADD_EDGE);
     return node(info.eltId);
   }
 
   edge getEdge() const {
-    assert(evtType > TLP_DEL_NODE && evtType < GraphEventType::TLP_ADD_NODES);
+    assert(evtType > GraphEventType::TLP_DEL_NODE && evtType < GraphEventType::TLP_ADD_NODES);
     return edge(info.eltId);
   }
 
@@ -2196,12 +2196,13 @@ public:
   }
 
   const Graph *getSubGraph() const {
-    assert(evtType > GraphEventType::TLP_ADD_EDGES && evtType < TLP_ADD_LOCAL_PROPERTY);
+    assert(evtType > GraphEventType::TLP_ADD_EDGES &&
+           evtType < GraphEventType::TLP_ADD_LOCAL_PROPERTY);
     return info.subGraph;
   }
 
   const std::string &getAttributeName() const {
-    assert(evtType > TLP_AFTER_DEL_INHERITED_PROPERTY);
+    assert(evtType > GraphEventType::TLP_AFTER_DEL_INHERITED_PROPERTY);
     return *(info.name);
   }
 

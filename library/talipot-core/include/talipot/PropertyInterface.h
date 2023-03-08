@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,7 +20,7 @@
 
 #include <talipot/config.h>
 #include <talipot/Observable.h>
-//#include <talipot/Node.h>
+// #include <talipot/Node.h>
 #include <talipot/Edge.h>
 
 namespace tlp {
@@ -649,12 +649,12 @@ public:
   }
 
   node getNode() const {
-    assert(evtType < TLP_BEFORE_SET_ALL_NODE_VALUE);
+    assert(evtType < PropertyEventType::TLP_BEFORE_SET_ALL_NODE_VALUE);
     return node(eltId);
   }
 
   edge getEdge() const {
-    assert(evtType > TLP_AFTER_SET_ALL_EDGE_VALUE);
+    assert(evtType > PropertyEventType::TLP_AFTER_SET_ALL_EDGE_VALUE);
     return edge(eltId);
   }
 
