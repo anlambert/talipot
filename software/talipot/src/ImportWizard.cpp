@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,6 +21,8 @@
 #include <talipot/PluginModel.h>
 #include <talipot/Settings.h>
 
+#include <QSortFilterProxyModel>
+
 using namespace tlp;
 using namespace std;
 
@@ -29,9 +31,15 @@ ImportWizard::ImportWizard(QWidget *parent) : QWizard(parent), _ui(new Ui::Impor
   setWizardStyle(QWizard::ClassicStyle);
 
   auto *model = new PluginModel<tlp::ImportModule>(_ui->importModules);
+  _filterModel = new QSortFilterProxyModel(this);
+  _filterModel->setSourceModel(model);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+  _filterModel->setRecursiveFilteringEnabled(true);
+#endif
+  _filterModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
-  _ui->importModules->setModel(model);
-  _ui->importModules->setRootIndex(model->index(0, 0));
+  _ui->importModules->setModel(_filterModel);
+  _ui->importModules->setRootIndex(_filterModel->index(0, 0));
   _ui->importModules->expandAll();
   connect(_ui->importModules->selectionModel(), &QItemSelectionModel::currentChanged, this,
           &ImportWizard::algorithmSelected);
@@ -40,6 +48,7 @@ ImportWizard::ImportWizard(QWidget *parent) : QWizard(parent), _ui(new Ui::Impor
   _ui->parametersList->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
   connect(_ui->importModules, &QAbstractItemView::doubleClicked, button(QWizard::FinishButton),
           &QAbstractButton::click);
+  connect(_ui->filterLineEdit, &QLineEdit::textChanged, this, &ImportWizard::filterTextChanged);
   // display OK instead of Finish
   setButtonText(QWizard::FinishButton, "OK");
 
@@ -119,4 +128,9 @@ tlp::DataSet ImportWizard::parameters() const {
 
 void ImportWizard::updateFinishButton() {
   button(QWizard::FinishButton)->setEnabled(_ui->parametersList->model() != nullptr);
+}
+
+void ImportWizard::filterTextChanged(const QString &text) {
+  _filterModel->setFilterFixedString(text);
+  _ui->importModules->expandAll();
 }

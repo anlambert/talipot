@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,10 +26,13 @@ namespace tlp {
 class GraphHierarchiesModel;
 }
 
+class QSortFilterProxyModel;
+
 class ImportWizard : public QWizard {
   Q_OBJECT
 
   Ui::ImportWizard *_ui;
+  QSortFilterProxyModel *_filterModel;
 
 public:
   explicit ImportWizard(QWidget *parent = nullptr);
@@ -41,6 +44,7 @@ public:
 protected slots:
   void algorithmSelected(const QModelIndex &index);
   void updateFinishButton();
+  void filterTextChanged(const QString &);
 };
 
 #endif // IMPORT_WIZARD_H
