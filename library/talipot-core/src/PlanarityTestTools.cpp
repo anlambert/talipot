@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -645,7 +645,7 @@ node PlanarityTestImpl::findNodeWithLabelBGreaterThanDfsN(bool saveLastNodeTrave
       nl2.push_back(v);
       b[v] = labelB.get(v.id); // saves info
 
-      if (embed) { // needed to calculate obstruction edges;
+      if (embed) {             // needed to calculate obstruction edges;
         nb[v] = nodeLabelB.get(v.id);
       }
 

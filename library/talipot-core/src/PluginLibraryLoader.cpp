@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -134,8 +134,8 @@ bool PluginLibraryLoader::loadPluginLibrary(const std::string &filename, PluginL
       char *msg;
       DWORD dwErrCode = GetLastError();
       FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-                    nullptr,   // no source buffer needed
-                    dwErrCode, // error code for this message
+                    nullptr,                        // no source buffer needed
+                    dwErrCode,                      // error code for this message
                     MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                     reinterpret_cast<LPTSTR>(&msg), // allocated by fcn
                     0,                              // minimum size of buffer

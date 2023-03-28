@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,8 +26,8 @@ public:
   RectangleRelativePositionList *firstSequence; /**< List which is useful for the stocking of the
                                                    first sequence of the even sequence. */
 
-  int *placesOfRectanglesInSecondSequence; /**< Array which is used for the stocking of the
-                                              positions of the rectangles in the second sequence. */
+  int *placesOfRectanglesInSecondSequence;      /**< Array which is used for the stocking of the
+                                                   positions of the rectangles in the second sequence. */
 
   int numberOfPositionnedRectangles; /**< Current value of the number of packed rectangles. */
   int numberOfRectangles;            /**< Value of the number of rectangles to pack. */
@@ -37,13 +37,13 @@ public:
   int bestPlaceInSecondSequence; /**< Current best position of a new rectangle to pack, in the
                                     second sequence, since the beginning of the position tests. */
 
-  float newRectangleWidth;  /**< Width of a new rectangle to pack. */
-  float newRectangleHeight; /**< Height of a new rectangle to pack. */
+  float newRectangleWidth;       /**< Width of a new rectangle to pack. */
+  float newRectangleHeight;      /**< Height of a new rectangle to pack. */
 
-  float newRectangleLeftAbscissa; /**< Left abscissa of a new rectangle to pack, for a tested
-                                     position. */
-  float newRectangleLowOrdinate;  /**< Low ordinate of a new rectangle to pack, for a tested
-                                     position. */
+  float newRectangleLeftAbscissa;  /**< Left abscissa of a new rectangle to pack, for a tested
+                                      position. */
+  float newRectangleLowOrdinate;   /**< Low ordinate of a new rectangle to pack, for a tested
+                                      position. */
 
   float bestRectangleLeftAbscissa; /**< Best left abscissa of a new rectangle to pack since the
                                       beginning of the position tests. */

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -651,7 +651,7 @@ bool ExportSvg::createEdge(const tlp::EdgeShape::EdgeShapes &type, const vector<
 
   if (bends.empty()) { // If there is no checkpoints, it will be a simple line
     points += " L";
-  } else { // Otherwise, we draw it according to its type
+  } else {             // Otherwise, we draw it according to its type
     vector<Coord> controlPoints;
     controlPoints.push_back(edgeVertice[0]);
     controlPoints.insert(controlPoints.end(), bends.begin(), bends.end());

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -305,7 +305,7 @@ std::string tlp::demangleClassName(const std::string &className, bool hideTlp) {
 #error define symbols demangling function
 #endif
 
-#else // __EMSCRIPTEN__
+#else  // __EMSCRIPTEN__
 
 void initTalipotLib(const char *) {}
 

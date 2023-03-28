@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -111,7 +111,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
       BooleanProperty *selection = glWidget->inputData()->selection();
       bool revertSelection = false; // add to selection
       bool boolVal = true;
-      bool needPush = true; // undo management
+      bool needPush = true;         // undo management
 
       if (mousePressModifier !=
 #if defined(__APPLE__)

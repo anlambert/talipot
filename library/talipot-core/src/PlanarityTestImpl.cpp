@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -384,7 +384,7 @@ bool PlanarityTestImpl::findObstruction(Graph *sG, node n, list<node> &terminalN
 
         if (t1 == t12 && t2 == t22 && countMin >= 2 && vv == parent.get(m.id)) { // m is c-node;
           obstructionEdgesK5(sG, n, m, t1, t2, NULL_NODE);
-        } else if (mm != NULL_NODE) { // m is c-node;
+        } else if (mm != NULL_NODE) {                                            // m is c-node;
           if (t2 != t22 || vv != parent.get(m.id)) {
             node q = t22, k = parent.get(m.id);
 
@@ -420,13 +420,13 @@ bool PlanarityTestImpl::findObstruction(Graph *sG, node n, list<node> &terminalN
       calcInfo3Terminals(t1, t2, t3, countMin, countF, cNode, q);
 
       if (countF == 3 && countMin >= 2) {
-        obstructionEdgesK5(sG, n, cNode, t1, t2, t3); // K5, bcycle;
+        obstructionEdgesK5(sG, n, cNode, t1, t2, t3);                       // K5, bcycle;
       } else if (countF == 3) {
-        obstructionEdgesCountMin1(sG, n, cNode, t1, t2, t3); // bcycle;
+        obstructionEdgesCountMin1(sG, n, cNode, t1, t2, t3);                // bcycle;
       } else if (cNode != NULL_NODE) {
         obstructionEdgesCountMin23(sG, n, cNode, t1, t2, t3, q, NULL_NODE); // bcycle;
       } else {
-        obstructionEdgesT0(sG, n, t1, t2, t3, NULL_NODE); // T0;
+        obstructionEdgesT0(sG, n, t1, t2, t3, NULL_NODE);                   // T0;
       }
     }
 
@@ -454,7 +454,7 @@ void PlanarityTestImpl::setInfoForNewCNode(Graph *sG, node n, node newCNode,
 
   if (lastNodeInQLinha != NULL_NODE) { // see find_node_with_label_b_greater_than_dfs_n;
     parent.set(lastNodeInQLinha.id, newCNode);
-    lastNodeInQLinha = NULL_NODE; // resets global variable;
+    lastNodeInQLinha = NULL_NODE;      // resets global variable;
   }
 
   RBC[newCNode].push(n);

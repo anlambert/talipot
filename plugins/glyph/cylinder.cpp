@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -161,8 +161,7 @@ public:
                    NodeShape::Cylinder)
   Cylinder(const tlp::PluginContext *context = nullptr);
   ~Cylinder() override;
-  BoundingBox getIncludeBoundingBox(node)
-  override;
+  BoundingBox getIncludeBoundingBox(node) override;
   void draw(node n, float lod) override;
   Coord getAnchor(const Coord &vector) const override;
 };
@@ -231,8 +230,7 @@ public:
                    "1.0", NodeShape::HalfCylinder)
   HalfCylinder(const tlp::PluginContext *context = nullptr);
   ~HalfCylinder() override;
-  BoundingBox getIncludeBoundingBox(node)
-  override;
+  BoundingBox getIncludeBoundingBox(node) override;
   void draw(node n, float lod) override;
   Coord getAnchor(const Coord &vector) const override;
 

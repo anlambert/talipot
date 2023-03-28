@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -390,9 +390,9 @@ void GlComplexPolygon::runTessellation() {
         // if we did not encounter the vertex so far, add it in the verticesData vector
         if (vidx.find(p) == vidx.end()) {
           vidx[p] = verticesData.size() / nbFloatPerVertex;
-          verticesData.push_back(p[0]); // x
-          verticesData.push_back(p[1]); // y
-          verticesData.push_back(p[2]); // z
+          verticesData.push_back(p[0]);        // x
+          verticesData.push_back(p[1]);        // y
+          verticesData.push_back(p[2]);        // z
           verticesData.push_back(((p[0] - boundingBox[0][0]) / boundingBox.width()) /
                                  textureZoom); // s
           verticesData.push_back(((p[1] - boundingBox[0][1]) / boundingBox.height()) /

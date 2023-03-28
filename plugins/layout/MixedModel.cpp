@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -444,7 +444,7 @@ void MixedModel::initPartition() {
 //====================================================
 void MixedModel::assignInOutPoints() { // on considère qu'il n'y a pas d'arc double
   assert(carte);
-  vector<node> C; // chemin courant
+  vector<node> C;                      // chemin courant
 
   // empirical feedback (95% -> 99%)
   int minProgress = 950, deltaProgress = 40;
@@ -650,7 +650,7 @@ void MixedModel::assignInOutPoints() { // on considère qu'il n'y a pas d'arc do
         dl = dr = 0;
         out_l = outMoins;
         out_r = outPlus;
-      } else { // case nbIn == 1
+      } else {          // case nbIn == 1
         if (k == 0) {
           if (i == 0) { // (Z0,Z1), existe forcément par définition
             dl = 0;
@@ -885,7 +885,7 @@ void MixedModel::computeCoords() {
 
   for (uint k = 1; k < size_V; ++k) { // parcours de chaque partition
 
-    uint p = V[k].size(); // taille de la partition Vk
+    uint p = V[k].size();             // taille de la partition Vk
     node cl = leftV(k),
          cr = rightV(k); // recherche du left et right de Vk, qui est cherché à l'aide de EdgesIN
 

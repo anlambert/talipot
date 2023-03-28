@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -145,7 +145,7 @@ Coord GEMLayout::computeForces(uint v, float shake, float gravity, bool testPlac
 
   // repulsive forces (magnetic)
   for (uint u = 0; u < _nbNodes; ++u) {
-    if (!testPlaced || _particules[u].in > 0) { // test whether the node is already placed
+    if (!testPlaced || _particules[u].in > 0) {          // test whether the node is already placed
       Coord d = vPos - _particules[u].pos;
       float n = d[0] * d[0] + d[1] * d[1] + d[2] * d[2]; // d.norm() * d.norm();
 

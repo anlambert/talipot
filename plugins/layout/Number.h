@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,7 +20,7 @@
  */
 class Number {
 public:
-  float value; /**< Contain the value of the number. */
+  float value;         /**< Contain the value of the number. */
 
   static float infini; /**< contain our value of infinity. */
 

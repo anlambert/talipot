@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -230,8 +230,7 @@ public:
   void writeNodeDefaultValue(std::ostream &) const override;
   void writeNodeValue(std::ostream &, node) const override;
   bool readNodeDefaultValue(std::istream &) override;
-  bool readNodeValue(std::istream &, node)
-  override;
+  bool readNodeValue(std::istream &, node) override;
   tlp::Iterator<edge> *getNonDefaultValuatedEdges(const Graph *g = nullptr) const override;
   bool hasNonDefaultValuatedEdges(const Graph *g = nullptr) const override;
   uint numberOfNonDefaultValuatedEdges(const Graph * = nullptr) const override;
@@ -239,8 +238,7 @@ public:
   void writeEdgeDefaultValue(std::ostream &) const override;
   void writeEdgeValue(std::ostream &, edge) const override;
   bool readEdgeDefaultValue(std::istream &) override;
-  bool readEdgeValue(std::istream &, edge)
-  override;
+  bool readEdgeValue(std::istream &, edge) override;
   bool copy(const node destination, const node source, PropertyInterface *property,
             bool ifNotDefault = false) override;
   bool copy(const edge destination, const edge source, PropertyInterface *property,

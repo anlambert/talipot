@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,7 +35,7 @@ double g(int k, double width, double amplitude) {
     return 0;
   } else {
     if (k < 0) {
-      return k * slope + amplitude; // partie croissante du signal triangulaire
+      return k * slope + amplitude;  // partie croissante du signal triangulaire
     } else {
       return -k * slope + amplitude; // partie décroissante du signal triangulaire
     }

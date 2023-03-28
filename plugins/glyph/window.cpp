@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,10 +36,8 @@ public:
   GLYPHINFORMATION("2D - Window", "David Auber", "28/05/2010", "Window with a title bar", "1.0",
                    NodeShape::Window)
   Window(const tlp::PluginContext *context);
-  BoundingBox getIncludeBoundingBox(node)
-  override;
-  BoundingBox getTextBoundingBox(node)
-  override;
+  BoundingBox getIncludeBoundingBox(node) override;
+  BoundingBox getTextBoundingBox(node) override;
   void draw(node n, float lod) override;
   Coord getAnchor(const Coord &vector) const override;
 
