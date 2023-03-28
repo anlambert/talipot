@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1730,38 +1730,22 @@ void PythonCodeEditor::setPlainText(const QString &text) {
 }
 
 qreal PythonCodeEditor::tabWidth() const {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 10, 0))
-  return tabStopWidth();
-#else
   return tabStopDistance();
-#endif
 }
 
 void PythonCodeEditor::setTabWidth(qreal width) {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 10, 0))
-  setTabStopWidth(width);
-#else
   setTabStopDistance(width);
-#endif
 }
 
 int PythonCodeEditor::charWidth(char c) const {
   if (c == '\t') {
     return textWidth("    ");
   }
-#if (QT_VERSION < QT_VERSION_CHECK(5, 11, 0))
-  return fontMetrics().width(QLatin1Char(c));
-#else
   return fontMetrics().horizontalAdvance(QLatin1Char(c));
-#endif
 }
 
 int PythonCodeEditor::textWidth(const QString &text) const {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 11, 0))
-  return fontMetrics().width(QString(text).replace('\t', "    "));
-#else
   return fontMetrics().horizontalAdvance(QString(text).replace('\t', "    "));
-#endif
 }
 
 void PythonCodeEditor::guiThemeChanged() {

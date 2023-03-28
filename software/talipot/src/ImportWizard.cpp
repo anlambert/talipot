@@ -33,9 +33,7 @@ ImportWizard::ImportWizard(QWidget *parent) : QWizard(parent), _ui(new Ui::Impor
   auto *model = new PluginModel<tlp::ImportModule>(_ui->importModules);
   _filterModel = new QSortFilterProxyModel(this);
   _filterModel->setSourceModel(model);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
   _filterModel->setRecursiveFilteringEnabled(true);
-#endif
   _filterModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
   _ui->importModules->setModel(_filterModel);

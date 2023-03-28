@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -274,7 +274,7 @@ void GlWidget::doneCurrent() {
 bool GlWidget::pickGlEntities(const int x, const int y, const int width, const int height,
                               std::vector<SelectedEntity> &pickedEntities, GlLayer *layer) {
   makeCurrent();
-#if defined(Q_OS_MAC) && QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#if defined(Q_OS_MAC)
   glFrameBuf->bind();
 #endif
 
@@ -283,7 +283,7 @@ bool GlWidget::pickGlEntities(const int x, const int y, const int width, const i
       screenToViewport(x), screenToViewport(y), screenToViewport(width), screenToViewport(height),
       layer, pickedEntities);
 
-#if defined(Q_OS_MAC) && QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#if defined(Q_OS_MAC)
   glFrameBuf->release();
 #endif
 
@@ -300,7 +300,7 @@ void GlWidget::pickNodesEdges(const int x, const int y, const int width, const i
                               std::vector<SelectedEntity> &selectedEdges, GlLayer *layer,
                               bool pickNodes, bool pickEdges) {
   makeCurrent();
-#if defined(Q_OS_MAC) && QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#if defined(Q_OS_MAC)
   glFrameBuf->bind();
 #endif
 
@@ -318,7 +318,7 @@ void GlWidget::pickNodesEdges(const int x, const int y, const int width, const i
         layer, selectedEdges);
   }
 
-#if defined(Q_OS_MAC) && QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#if defined(Q_OS_MAC)
   glFrameBuf->release();
 #endif
 }
@@ -326,7 +326,7 @@ void GlWidget::pickNodesEdges(const int x, const int y, const int width, const i
 bool GlWidget::pickNodesEdges(const int x, const int y, SelectedEntity &selectedEntity,
                               GlLayer *layer, bool pickNodes, bool pickEdges) {
   makeCurrent();
-#if defined(Q_OS_MAC) && QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#if defined(Q_OS_MAC)
   glFrameBuf->bind();
 #endif
 
@@ -350,7 +350,7 @@ bool GlWidget::pickNodesEdges(const int x, const int y, SelectedEntity &selected
     elementPicked = true;
   }
 
-#if defined(Q_OS_MAC) && QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#if defined(Q_OS_MAC)
   glFrameBuf->release();
 #endif
 

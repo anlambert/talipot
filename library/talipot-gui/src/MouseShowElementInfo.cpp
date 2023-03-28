@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -54,11 +54,7 @@ void MouseShowElementInfo::showVisualProp(bool show) {
     // filter out properties whose name starts with "view"
     regexp = "^(?!view[A-Z]).?";
   }
-#if (QT_VERSION < QT_VERSION_CHECK(5, 12, 0))
-  _model->setFilterRegExp(regexp);
-#else
   _model->setFilterRegularExpression(regexp);
-#endif
   _show = show;
 }
 

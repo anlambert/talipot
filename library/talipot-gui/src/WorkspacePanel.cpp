@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -41,11 +41,7 @@ public:
 protected:
   QSize tabSizeHint(int index) const {
     int width = QTabBar::tabSizeHint(index).width();
-#if (QT_VERSION < QT_VERSION_CHECK(5, 11, 0))
-    return QSize(width, fontMetrics().width(tabText(index)) * 2 + iconSize().width());
-#else
     return QSize(width, fontMetrics().horizontalAdvance(tabText(index)) * 2 + iconSize().width());
-#endif
   }
 };
 

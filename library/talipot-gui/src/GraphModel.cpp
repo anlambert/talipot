@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -946,20 +946,12 @@ bool GraphSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelInde
     return false;
   }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 12, 0))
-  if (filterRegExp().isEmpty()) {
-#else
   if (filterRegularExpression().pattern().isEmpty()) {
-#endif
     return true;
   }
 
   for (auto *pi : _properties) {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 12, 0))
-    if (graphModel->stringValue(id, pi).contains(filterRegExp())) {
-#else
     if (graphModel->stringValue(id, pi).contains(filterRegularExpression())) {
-#endif
       return true;
     }
   }

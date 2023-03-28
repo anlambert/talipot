@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -397,11 +397,7 @@ void TableView::filterChanged() {
   }
 
   sortModel->setProperties(props);
-#if (QT_VERSION < QT_VERSION_CHECK(5, 12, 0))
-  sortModel->setFilterRegExp(filter);
-#else
   sortModel->setFilterRegularExpression(filter);
-#endif
   sortModel->setFilterCaseSensitivity(_ui->filtercase->isChecked() ? Qt::CaseSensitive
                                                                    : Qt::CaseInsensitive);
 }
