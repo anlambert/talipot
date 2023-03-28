@@ -8,8 +8,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: Talipot AppImage build on CentOS 7
-            docker-image: centos:7
           - name: Talipot AppImage build on CentOS 8
             docker-image: tgagor/centos-stream:8
     steps:

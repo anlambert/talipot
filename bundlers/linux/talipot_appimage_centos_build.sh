@@ -1,14 +1,6 @@
 #!/bin/bash
 
-# this script should only be run in a centos:[7|8] docker image
-
-centos7=true
-centos8=false
-if grep -q "CentOS Stream release 8" /etc/centos-release
-then
-  centos7=false
-  centos8=true
-fi
+# this script should only be run in a CentOS Stream 8.x docker image
 
 cd
 
@@ -21,48 +13,31 @@ yum -y update
 yum -y install epel-release
 yum -y install xz tar gzip make wget ccache
 
-if [ "$centos7" = true ]
-then
-  # install GCC 8 on CentOS 7
-  yum -y install centos-release-scl
-  yum -y install devtoolset-8-gcc devtoolset-8-gcc-c++
-  # needed for qt5 gtk3 platform theme
-  yum -y install gtk3-devel
-else
-  # add extra CentOS 8 repositories to get some build dependencies
-  yum -y install dnf-plugins-core
-  yum config-manager --set-enabled powertools
-  yum -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarch.rpm
-  yum -y install cmake
-fi
+
+# add extra CentOS 8 repositories to get some build dependencies
+yum -y install dnf-plugins-core
+yum config-manager --set-enabled powertools
+yum -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarch.rpm
+yum -y install cmake
+
 
 # install talipot deps
 yum -y install zlib-devel libzstd-devel qhull-devel yajl-devel \
   graphviz-devel libgit2-devel binutils-devel
 yum -y install freetype-devel fontconfig-devel glew-devel fribidi-devel
-if [ "$centos7" = true ]
-then
-  yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
-    quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing
-  yum -y install openssl-devel
-else
-  yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
-    quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing --nobest
-  yum -y install openssl3-devel
-fi
+yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
+  quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing --nobest
+yum -y install openssl3-devel
+
 
 # install recent Python
 yum -y groupinstall "Development Tools"
 yum -y install libffi-devel bzip2-devel libsqlite3x-devel
 
-if [ "$centos7" = true ]
-then
-  PYTHON_VERSION=3.9
-  PYTHON_FULL_VERSION=$PYTHON_VERSION.15
-else
-  PYTHON_VERSION=3.11
-  PYTHON_FULL_VERSION=$PYTHON_VERSION.1
-fi
+
+PYTHON_VERSION=3.11
+PYTHON_FULL_VERSION=$PYTHON_VERSION.1
+
 
 wget https://www.python.org/ftp/python/$PYTHON_FULL_VERSION/Python-$PYTHON_FULL_VERSION.tgz
 tar xzf Python-$PYTHON_FULL_VERSION.tgz
@@ -74,10 +49,8 @@ cd Python-$PYTHON_FULL_VERSION
   --enable-shared LDFLAGS="-Wl,-rpath /usr/local/lib" \
   CC="ccache gcc"
 
-if [ "$centos8" = true ]
-then
-  make -j4
-fi
+
+make -j4
 make -j4 altinstall
 cd ..
 
@@ -98,29 +71,14 @@ fi
 mkdir /talipot/build
 cd /talipot/build
 
-if [ "$centos7" = true ]
-then
-  yum -y install cmake3
-  cmake3 -DCMAKE_BUILD_TYPE=Release \
-         -DCMAKE_C_COMPILER=/opt/rh/devtoolset-8/root/usr/bin/gcc \
-         -DCMAKE_CXX_COMPILER=/opt/rh/devtoolset-8/root/usr/bin/g++ \
-         -DCMAKE_INSTALL_PREFIX=$PWD/install \
-         -DPYTHON_EXECUTABLE=/usr/local/bin/python$PYTHON_VERSION \
-         -DTALIPOT_USE_CCACHE=ON \
-         -DTALIPOT_BUILD_FOR_APPIMAGE=ON \
-         -DTALIPOT_BUILD_TESTS=ON \
-         -DOpenMP_C_FLAGS=-fopenmp \
-         -DOpenMP_CXX_FLAGS=-fopenmp ..
-else
-  cmake -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX=$PWD/install \
-        -DPYTHON_EXECUTABLE=/usr/local/bin/python$PYTHON_VERSION \
-        -DTALIPOT_USE_CCACHE=ON \
-        -DTALIPOT_BUILD_FOR_APPIMAGE=ON \
-        -DTALIPOT_BUILD_TESTS=ON \
-        -DOpenMP_C_FLAGS=-fopenmp \
-        -DOpenMP_CXX_FLAGS=-fopenmp ..
-fi
+cmake -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=$PWD/install \
+      -DPYTHON_EXECUTABLE=/usr/local/bin/python$PYTHON_VERSION \
+      -DTALIPOT_USE_CCACHE=ON \
+      -DTALIPOT_BUILD_FOR_APPIMAGE=ON \
+      -DTALIPOT_BUILD_TESTS=ON \
+      -DOpenMP_C_FLAGS=-fopenmp \
+      -DOpenMP_CXX_FLAGS=-fopenmp ..
 
 xvfb-run make -j4 install
 
@@ -136,7 +94,7 @@ continuous/appimagetool-$(uname -p).AppImage"
 chmod a+x appimagetool-$(uname -p).AppImage
 
 # finally build the portable app
-TALIPOT_APPIMAGE=Talipot-$(sh talipot-config --version)-$(uname -p)-qt$(qmake-qt5 -query QT_VERSION).AppImage
+TALIPOT_APPIMAGE=Talipot-$(sh talipot-config --version)-$(uname -p).AppImage
 ./appimagetool-$(uname -p).AppImage --appimage-extract-and-run Talipot.AppDir $TALIPOT_APPIMAGE
 chmod +x $TALIPOT_APPIMAGE
 
