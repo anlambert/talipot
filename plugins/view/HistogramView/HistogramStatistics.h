@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,6 +16,7 @@
 
 #include <talipot/GLInteractor.h>
 #include <talipot/Coord.h>
+
 #include <map>
 
 #include <QString>
@@ -28,13 +29,7 @@ class HistogramView;
 class GlAxis;
 class GlQuantitativeAxis;
 
-class KernelFunction {
-
-public:
-  virtual ~KernelFunction() = default;
-
-  virtual double operator()(double val) = 0;
-};
+using KernelFunction = std::function<double(double)>;
 
 class HistogramStatistics : public GLInteractorComponent {
 
@@ -68,7 +63,7 @@ protected:
   double propertyMean;
   double propertyStandardDeviation;
   std::vector<Coord> densityEstimationCurvePoints;
-  std::map<QString, KernelFunction *> kernelFunctionsMap;
+  std::map<QString, KernelFunction> kernelFunctionsMap;
   GlQuantitativeAxis *densityAxis;
   GlAxis *meanAxis, *standardDeviationPosAxis, *standardDeviationNegAxis;
   GlAxis *standardDeviation2PosAxis, *standardDeviation2NegAxis;
