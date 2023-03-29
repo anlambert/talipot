@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,7 +28,7 @@ class QString;
   QuaZIPFacade contains only static methods, as it should only be used as a toolbox.
   */
 class TLP_QT_SCOPE QuaZIPFacade {
-  //  QuaZIPFacade();
+
 public:
   /**
     @brief Compress (ZIPs) a directory into an archive.

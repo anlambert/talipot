@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,14 +20,12 @@
 
 #include <quazipfile.h>
 
-// QuaZIPFacade::QuaZIPFacade() {
-//}
-
 void copy(QIODevice &in, QIODevice &out) {
-  char buffer[40960];
+  const size_t size = 40960;
+  char buffer[size];
   int cnt;
 
-  while ((cnt = in.read(buffer, 40960))) {
+  while ((cnt = in.read(buffer, size))) {
     out.write(buffer, cnt);
   }
 
