@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,15 +15,16 @@ namespace tlp {
 
 class Color {
 %Docstring
-This class represents a color using the RGBA color space. It can be instantiated the following way::
+This class represents a color using the RGBA color space. It can be instantiated the following way:
 
-  # Each component must be in the range [0, 255]
-  redOpaque = tlp.Color(255, 0, 0)
+.. code::
 
-  blueTranslucent = tlp.Color(0, 0, 255, 100)
+   # Each component must be in the range [0, 255]
+   redOpaque = tlp.Color(255, 0, 0)
+
+   blueTranslucent = tlp.Color(0, 0, 255, 100)
 
 The value of each component can be read / written using the [] operator.
-
 %End
 
 %TypeHeaderCode
@@ -32,51 +33,52 @@ The value of each component can be read / written using the [] operator.
 
 // Convert Python list or tuple of integers to a tlp::Color
 %ConvertToTypeCode
-  // Check if type is compatible
-  if (sipIsErr == NULL) {
-    if (sipCanConvertToType(sipPy, sipFindType("tlp::Color"), SIP_NOT_NONE|SIP_NO_CONVERTORS)) {
-      return 1;
-    }
-
-    if (!PyTuple_Check(sipPy) || PyTuple_GET_SIZE(sipPy) < 3) {
-      return 0;
-    }
-
-    for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(sipPy); ++i) {
-      PyObject *item = PyTuple_GET_ITEM(sipPy, i);
-      if (PyBool_Check(item)) {
-        return 0;
-      }
-      if (!PyLong_Check(item)) {
-        return 0;
-      }
-    }
-
+// Check if type is compatible
+if (sipIsErr == NULL) {
+  if (sipCanConvertToType(sipPy, sipFindType("tlp::Color"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
     return 1;
   }
 
-  if (sipCanConvertToType(sipPy, sipFindType("tlp::Color"), SIP_NOT_NONE|SIP_NO_CONVERTORS)) {
-    int state=0, err=0;
-    const sipTypeDef *sipType  = sipFindType("tlp::Color");
-    tlp::Color *c = static_cast<tlp::Color*>(sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE|SIP_NO_CONVERTORS, &state, &err));
-    *sipCppPtr = new tlp::Color(*c);
-    sipReleaseType(c, sipType, state);
-  } else {
-    unsigned char r = 0;
-    unsigned char g = 0;
-    unsigned char b = 0;
-    unsigned char a = 255;
-
-    r = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 0)));
-    g = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 1)));
-    b = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 2)));
-    if (PyTuple_GET_SIZE(sipPy) > 3) {
-      a = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 3)));
-    }
-
-    *sipCppPtr = new tlp::Color(r, g, b, a);
+  if (!PyTuple_Check(sipPy) || PyTuple_GET_SIZE(sipPy) < 3) {
+    return 0;
   }
-  return sipGetState(sipTransferObj);
+
+  for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(sipPy); ++i) {
+    PyObject *item = PyTuple_GET_ITEM(sipPy, i);
+    if (PyBool_Check(item)) {
+      return 0;
+    }
+    if (!PyLong_Check(item)) {
+      return 0;
+    }
+  }
+
+  return 1;
+}
+
+if (sipCanConvertToType(sipPy, sipFindType("tlp::Color"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
+  int state = 0, err = 0;
+  const sipTypeDef *sipType = sipFindType("tlp::Color");
+  tlp::Color *c = static_cast<tlp::Color *>(
+      sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
+  *sipCppPtr = new tlp::Color(*c);
+  sipReleaseType(c, sipType, state);
+} else {
+  unsigned char r = 0;
+  unsigned char g = 0;
+  unsigned char b = 0;
+  unsigned char a = 255;
+
+  r = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 0)));
+  g = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 1)));
+  b = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 2)));
+  if (PyTuple_GET_SIZE(sipPy) > 3) {
+    a = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 3)));
+  }
+
+  *sipCppPtr = new tlp::Color(r, g, b, a);
+}
+return sipGetState(sipTransferObj);
 %End
 
 public:
@@ -89,14 +91,29 @@ tlp.Color.set(red, green, blue, alpha)
 
 Sets each component of the color. Each component must be in the range [0, 255].
 
-:param red: the red component value
-:type red: integer
-:param green: the green component value
-:type green: integer
-:param blue: the blue component value
-:type blue: integer
-:param alpha: the alpha component value
-:type alpha: integer
+:param red:
+   the red component value
+
+:type red:
+   integer
+
+:param green:
+   the green component value
+
+:type green:
+   integer
+
+:param blue:
+   the blue component value
+
+:type blue:
+   integer
+
+:param alpha:
+   the alpha component value
+
+:type alpha:
+   integer
 %End
 
   float getRGL() const;
@@ -105,7 +122,8 @@ tlp.Color.getRGL()
 
 Returns the red component of the color in the OpenGL format (a float value between 0.0 and 1.0).
 
-:rtype: float
+:rtype:
+   float
 %End
 
   float getGGL() const;
@@ -114,7 +132,8 @@ tlp.Color.getGGL()
 
 Returns the green component of the color in the OpenGL format (a float value between 0.0 and 1.0).
 
-:rtype: float
+:rtype:
+   float
 %End
 
   float getBGL() const;
@@ -123,7 +142,8 @@ tlp.Color.getBGL()
 
 Returns the blue component of the color in the OpenGL format (a float value between 0.0 and 1.0).
 
-:rtype: float
+:rtype:
+   float
 %End
 
   float getAGL() const;
@@ -132,7 +152,8 @@ tlp.Color.getAGL()
 
 Returns the alpha component of the color in the OpenGL format (a float value between 0.0 and 1.0).
 
-:rtype: float
+:rtype:
+   float
 %End
 
   unsigned short getR() const;
@@ -141,7 +162,8 @@ tlp.Color.getR()
 
 Returns the red component of the color.
 
-:rtype: integer
+:rtype:
+   integer
 %End
 
   unsigned short getG() const;
@@ -150,7 +172,8 @@ tlp.Color.getG()
 
 Returns the green component of the color.
 
-:rtype: integer
+:rtype:
+   integer
 %End
 
   unsigned short getB() const;
@@ -159,7 +182,8 @@ tlp.Color.getB()
 
 Returns the blue component of the color.
 
-:rtype: integer
+:rtype:
+   integer
 %End
 
   unsigned short getA() const;
@@ -168,7 +192,8 @@ tlp.Color.getA()
 
 Returns the alpha component of the color.
 
-:rtype: integer
+:rtype:
+   integer
 %End
 
   void setR(const unsigned short red);
@@ -177,8 +202,11 @@ tlp.Color.setR(red)
 
 Sets the red component of the color (must be in the range [0, 255]).
 
-:param red: the red component value
-:type red: integer
+:param red:
+   the red component value
+
+:type red:
+   integer
 %End
 
   void setG(const unsigned short green);
@@ -187,8 +215,11 @@ tlp.Color.setG(green)
 
 Sets the green component of the color (must be in the range [0, 255]).
 
-:param green: the green component value
-:type green: integer
+:param green:
+   the green component value
+
+:type green:
+   integer
 %End
 
   void setB(const unsigned short blue);
@@ -197,8 +228,11 @@ tlp.Color.setB(blue)
 
 Sets the blue component of the color (must be in the range [0, 255]).
 
-:param blue: the blue component value
-:type blue: integer
+:param blue:
+   the blue component value
+
+:type blue:
+   integer
 %End
 
   void setA(const unsigned short alpha);
@@ -207,8 +241,11 @@ tlp.Color.setA(alpha)
 
 Sets the alpha component of the color (must be in the range [0, 255]).
 
-:param alpha: the alpha component value
-:type alpha: integer
+:param alpha:
+   the alpha component value
+
+:type alpha:
+   integer
 %End
 
   int getH() const;
@@ -217,7 +254,8 @@ tlp.Color.getH()
 
 Returns the hue component (in the range [0, 360]) of the color in the HSV color space.
 
-:rtype: integer
+:rtype:
+   integer
 %End
 
   int getS() const;
@@ -226,7 +264,8 @@ tlp.Color.getS()
 
 Returns the saturation component (in the range [0, 255]) of the color in the HSV color space.
 
-:rtype: integer
+:rtype:
+   integer
 %End
 
   int getV() const;
@@ -235,7 +274,8 @@ tlp.Color.getH()
 
 Returns the value component (in the range [0, 255]) of the color in the HSV color space.
 
-:rtype: integer
+:rtype:
+   integer
 %End
 
   void setH(int hue);
@@ -244,9 +284,11 @@ tlp.Color.setH(hue)
 
 Sets the hue component of the color in the HSV color space (must be in the range [0, 360]).
 
-:param hue: the hue component value
-:type hue: integer
+:param hue:
+   the hue component value
 
+:type hue:
+   integer
 %End
 
   void setS(int saturation);
@@ -255,9 +297,11 @@ tlp.Color.setS(saturation)
 
 Sets the saturation component of the color in the HSV color space (must be in the range [0, 255]).
 
-:param saturation: the saturation component value
-:type saturation: integer
+:param saturation:
+   the saturation component value
 
+:type saturation:
+   integer
 %End
 
   void setV(int value);
@@ -266,29 +310,31 @@ tlp.Color.setV(value)
 
 Sets the value component of the color in the HSV color space (must be in the range [0, 255]).
 
-:param value: the value component value
-:type value: integer
+:param value:
+   the value component value
 
+:type value:
+   integer
 %End
 
   unsigned short operator[](const uint i) const;
 %MethodCode
-  if (a0 < 4) {
-    sipRes = (*sipCpp)[a0];
-  } else {
-    sipIsErr = -1;
-    PyErr_SetNone(PyExc_IndexError);
-  }
+if (a0 < 4) {
+  sipRes = (*sipCpp)[a0];
+} else {
+  sipIsErr = -1;
+  PyErr_SetNone(PyExc_IndexError);
+}
 %End
 
   void __setitem__(int i, const unsigned short &value);
 %MethodCode
-  if (a0 < 4) {
-    (*sipCpp)[a0] = a1;
-  } else {
-    sipIsErr = -1;
-    PyErr_SetNone(PyExc_IndexError);
-  }
+if (a0 < 4) {
+  (*sipCpp)[a0] = a1;
+} else {
+  sipIsErr = -1;
+  PyErr_SetNone(PyExc_IndexError);
+}
 %End
 
   bool operator!=(const tlp::Color &) const;
@@ -296,9 +342,9 @@ Sets the value component of the color in the HSV color space (must be in the ran
 
   std::string __repr__() const;
 %MethodCode
-  std::ostringstream oss;
-  oss << *sipCpp;
-  sipRes = new std::string(oss.str());
+std::ostringstream oss;
+oss << *sipCpp;
+sipRes = new std::string(oss.str());
 %End
 
   static const tlp::Color Amaranth;

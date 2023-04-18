@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,10 +15,10 @@ namespace tlp {
 
 class edge {
 %Docstring
-An instance of this class represent an edge in a Talipot graph. It encapsulates an integer identifier.
-Use specific methods in the :class:`tlp.Graph` class to get references on such objects (
-for instance :meth:`tlp.Graph.addEdge`, :meth:`tlp.Graph.getEdges`, :meth:`tlp.Graph.getInEdges`, ...).
-Edge objects can be used as keys in a Python dictionary.
+An instance of this class represent an edge in a Talipot graph. It encapsulates an integer
+identifier. Use specific methods in the :class:`tlp.Graph` class to get references on such objects (
+for instance :meth:`tlp.Graph.addEdge`, :meth:`tlp.Graph.getEdges`, :meth:`tlp.Graph.getInEdges`,
+...). Edge objects can be used as keys in a Python dictionary.
 
 The edge identifier can be accessed through the **id** class member.
 %End
@@ -45,29 +45,30 @@ tlp.edge.isValid()
 
 Returns :const:`True` if the edge is a valid one, meaning it is attached to a graph.
 
-:rtype: boolean
+:rtype:
+   boolean
 %End
 
   std::string __repr__() const;
 %MethodCode
-  std::ostringstream oss;
-  oss << "<edge " << sipCpp->id << ">";
-  sipRes = new std::string(oss.str());
+std::ostringstream oss;
+oss << "<edge " << sipCpp->id << ">";
+sipRes = new std::string(oss.str());
 %End
 
   Py_hash_t __hash__() const;
 %MethodCode
-  return static_cast<long>(sipCpp->id);
+return static_cast<long>(sipCpp->id);
 %End
 
   SIP_PYOBJECT __copy__() const;
 %MethodCode
-  sipRes = sipConvertFromNewType(new tlp::edge(sipCpp->id), sipFindType("tlp::edge"), NULL);
+sipRes = sipConvertFromNewType(new tlp::edge(sipCpp->id), sipFindType("tlp::edge"), NULL);
 %End
 
   SIP_PYOBJECT __deepcopy__(SIP_PYOBJECT) const;
 %MethodCode
-  sipRes = sipConvertFromNewType(new tlp::edge(sipCpp->id), sipFindType("tlp::edge"), NULL);
+sipRes = sipConvertFromNewType(new tlp::edge(sipCpp->id), sipFindType("tlp::edge"), NULL);
 %End
 };
 };

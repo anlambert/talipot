@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,12 +15,15 @@
 %Docstring
 tlp.BooleanProperty.reverse(graph = None)
 
-Reverses all values associated to graph elements,
-i.e :const:`True` => :const:`False`, :const:`False` => :const:`True`.
+Reverses all values associated to graph elements, i.e :const:`True` => :const:`False`,
+:const:`False` => :const:`True`.
 
-:param graph: a subgraph can be given in parameter, in that case reverse
-  only values of elements belonging to that subgraph
-:type graph: :class:`tlp.Graph`
+:param graph:
+   a subgraph can be given in parameter, in that case reverse only values of elements belonging to
+   that subgraph
+
+:type graph:
+   :class:`tlp.Graph`
 %End
 
 //===========================================================================================
@@ -29,12 +32,14 @@ i.e :const:`True` => :const:`False`, :const:`False` => :const:`True`.
 %Docstring
 tlp.BooleanProperty.reverseEdgeDirection(graph = None)
 
-Reverses all the direction of edges in the attached graph
-which are set to :const:`True` in this boolean property.
+Reverses all the direction of edges in the attached graph which are set to :const:`True` in this
+boolean property.
 
-:param graph: a subgraph can be given in parameter, in that case reverse
-  only the direction of edges belonging to it
-:type graph: :class:`tlp.Graph`
+:param graph:
+   a subgraph can be given in parameter, in that case reverse only the direction of edges belonging
+   to it
 
+:type graph:
+   :class:`tlp.Graph`
 %End
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,9 +17,15 @@ tlp.IntegerProperty.getNodeMin(subgraph=None)
 
 Returns the minimum value on the nodes for that integer property.
 
-:param subgraph: a subgraph can be given in parameter, in that case return the minimum value on the nodes belonging to that subgraph.
-:type subgraph: :class:`tlp.Graph`
-:rtype: integer
+:param subgraph:
+   a subgraph can be given in parameter, in that case return the minimum value on the nodes
+   belonging to that subgraph.
+
+:type subgraph:
+   :class:`tlp.Graph`
+
+:rtype:
+   integer
 %End
 
 //===========================================================================================
@@ -30,9 +36,15 @@ tlp.IntegerProperty.getNodeMax(subgraph=None)
 
 Returns the maximum value on the nodes for that integer property.
 
-:param subgraph: a subgraph can be given in parameter, in that case return the maximum value on the nodes belonging to that subgraph.
-:type subgraph: :class:`tlp.Graph`
-:rtype: integer
+:param subgraph:
+   a subgraph can be given in parameter, in that case return the maximum value on the nodes
+   belonging to that subgraph.
+
+:type subgraph:
+   :class:`tlp.Graph`
+
+:rtype:
+   integer
 %End
 
 //===========================================================================================
@@ -43,9 +55,15 @@ tlp.IntegerProperty.getEdgeMin(subgraph=None)
 
 Returns the minimum value on the edges for that integer property.
 
-:param subgraph: a subgraph can be given in parameter, in that case return the minimum value on the edges belonging to that subgraph.
-:type subgraph: :class:`tlp.Graph`
-:rtype: integer
+:param subgraph:
+   a subgraph can be given in parameter, in that case return the minimum value on the edges
+   belonging to that subgraph.
+
+:type subgraph:
+   :class:`tlp.Graph`
+
+:rtype:
+   integer
 %End
 
 //===========================================================================================
@@ -56,9 +74,15 @@ tlp.IntegerProperty.getEdgeMax(subgraph=None)
 
 Returns the maximum value on the edges for that integer property.
 
-:param subgraph: a subgraph can be given in parameter, in that case return the maximum value on the edges belonging to that subgraph.
-:type subgraph: :class:`tlp.Graph`
-:rtype: integer
+:param subgraph:
+   a subgraph can be given in parameter, in that case return the maximum value on the edges
+   belonging to that subgraph.
+
+:type subgraph:
+   :class:`tlp.Graph`
+
+:rtype:
+   integer
 %End
 
 private:

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,19 +27,26 @@ enum class PropertyEventType {
 class PropertyEvent : tlp::Event {
 %Docstring
 That class represents an event that happened on a :class:`tlp.PropertyInterface` derived instance.
-To get the property that sent the event, use the :meth:`tlp.PropertyEvent.getProperty`.
-The type of property event can be retrieved through the :meth:`tlp.PropertyEvent.getType` method.
-Below is an exhaustive list of those types :
+To get the property that sent the event, use the :meth:`tlp.PropertyEvent.getProperty`. The type of
+property event can be retrieved through the :meth:`tlp.PropertyEvent.getType` method. Below is an
+exhaustive list of those types :
 
-  * :const:`tlp.PropertyEventType.TLP_BEFORE_SET_NODE_VALUE` : the value of a node is about to be modified. Use :meth:`tlp.PropertyEvent.getNode()` to get the concerned node.
-  * :const:`tlp.PropertyEventType.TLP_AFTER_SET_NODE_VALUE` : the value of a node has been modified. Use :meth:`tlp.PropertyEvent.getNode()` to get the concerned node.
-  * :const:`tlp.PropertyEventType.TLP_BEFORE_SET_EDGE_VALUE` : the value of an edge is about to be modified. Use :meth:`tlp.PropertyEvent.getEdge()` to get the concerned edge.
-  * :const:`tlp.PropertyEventType.TLP_AFTER_SET_EDGE_VALUE` : the value of an edge has been modified. Use :meth:`tlp.PropertyEvent.getEdge()` to get the concerned edge.
-  * :const:`tlp.PropertyEventType.TLP_BEFORE_SET_ALL_NODE_VALUE` : the value of all nodes is about to be modified.
-  * :const:`tlp.PropertyEventType.TLP_AFTER_SET_ALL_NODE_VALUE` : the value of all nodes has been modified.
-  * :const:`tlp.PropertyEventType.TLP_BEFORE_SET_ALL_EDGE_VALUE` : the value of all edges is about to be modified.
-  * :const:`tlp.PropertyEventType.TLP_AFTER_SET_ALL_EDGE_VALUE` : the value of all edges has been modified.
-
+   -  :const:`tlp.PropertyEventType.TLP_BEFORE_SET_NODE_VALUE` : the value of a node is about to be
+      modified. Use :meth:`tlp.PropertyEvent.getNode()` to get the concerned node.
+   -  :const:`tlp.PropertyEventType.TLP_AFTER_SET_NODE_VALUE` : the value of a node has been
+      modified. Use :meth:`tlp.PropertyEvent.getNode()` to get the concerned node.
+   -  :const:`tlp.PropertyEventType.TLP_BEFORE_SET_EDGE_VALUE` : the value of an edge is about to be
+      modified. Use :meth:`tlp.PropertyEvent.getEdge()` to get the concerned edge.
+   -  :const:`tlp.PropertyEventType.TLP_AFTER_SET_EDGE_VALUE` : the value of an edge has been
+      modified. Use :meth:`tlp.PropertyEvent.getEdge()` to get the concerned edge.
+   -  :const:`tlp.PropertyEventType.TLP_BEFORE_SET_ALL_NODE_VALUE` : the value of all nodes is about
+      to be modified.
+   -  :const:`tlp.PropertyEventType.TLP_AFTER_SET_ALL_NODE_VALUE` : the value of all nodes has been
+      modified.
+   -  :const:`tlp.PropertyEventType.TLP_BEFORE_SET_ALL_EDGE_VALUE` : the value of all edges is about
+      to be modified.
+   -  :const:`tlp.PropertyEventType.TLP_AFTER_SET_ALL_EDGE_VALUE` : the value of all edges has been
+      modified.
 %End
 
 %TypeHeaderCode
@@ -47,11 +54,11 @@ Below is an exhaustive list of those types :
 %End
 
 %ConvertToSubClassCode
-  if (dynamic_cast<tlp::PropertyEvent*>(sipCpp)) {
-    sipType = sipFindType("tlp::PropertyEvent");
-  } else {
-    sipType = NULL;
-  }
+if (dynamic_cast<tlp::PropertyEvent *>(sipCpp)) {
+  sipType = sipFindType("tlp::PropertyEvent");
+} else {
+  sipType = NULL;
+}
 %End
 
 public:
@@ -68,7 +75,8 @@ tlp.PropertyEvent.getProperty()
 
 Returns the property concerned by the event.
 
-:rtype: derived instances of :class:`tlp.PropertyInterface`
+:rtype:
+   derived instances of :class:`tlp.PropertyInterface`
 %End
 
 // ========================================================================================
@@ -79,7 +87,8 @@ tlp.PropertyEvent.getNode()
 
 Returns the node concerned by the event (if any, otherwise return an invalid node)
 
-:rtype: :class:`tlp.node`
+:rtype:
+   :class:`tlp.node`
 %End
 
 // ========================================================================================
@@ -90,7 +99,8 @@ tlp.PropertyEvent.getEdge()
 
 Returns the edge concerned by the event (if any, otherwise return an invalid edge)
 
-:rtype: :class:`tlp.edge`
+:rtype:
+   :class:`tlp.edge`
 %End
 
 // ========================================================================================
@@ -101,7 +111,8 @@ tlp.Graph.getType()
 
 Returns the type of graph event.
 
-:rtype: :const:`tlp.GraphEventType.TLP_*` (cf. class description above)
+:rtype:
+   :const:`tlp.GraphEventType.TLP_*` (cf. class description above)
 %End
 
 };

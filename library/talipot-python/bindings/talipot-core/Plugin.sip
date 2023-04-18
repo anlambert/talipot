@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,7 +33,8 @@ tlp.Plugin.category()
 
 Returns the category of the plugin.
 
-:rtype: string
+:rtype:
+   string
 %End
 
   virtual std::string name() const = 0;
@@ -42,7 +43,8 @@ tlp.Plugin.name()
 
 Returns the name of the plugin.
 
-:rtype: string
+:rtype:
+   string
 %End
 
   virtual std::string group() const = 0;
@@ -51,7 +53,8 @@ tlp.Plugin.group()
 
 Returns the group of the plugin.
 
-:rtype: string
+:rtype:
+   string
 %End
 
   virtual std::string author() const = 0;
@@ -60,7 +63,8 @@ tlp.Plugin.author()
 
 Returns the author of the plugin.
 
-:rtype: string
+:rtype:
+   string
 %End
 
   virtual std::string date() const = 0;
@@ -69,7 +73,8 @@ tlp.Plugin.category()
 
 Returns the creation date of the plugin.
 
-:rtype: string
+:rtype:
+   string
 %End
 
   virtual std::string info() const = 0;
@@ -78,7 +83,8 @@ tlp.Plugin.category()
 
 Returns some information about the plugin.
 
-:rtype: string
+:rtype:
+   string
 %End
 
   virtual std::string release() const = 0;
@@ -87,7 +93,8 @@ tlp.Plugin.category()
 
 Returns the release number of the plugin.
 
-:rtype: string
+:rtype:
+   string
 %End
 
   virtual std::string talipotRelease() const = 0;
@@ -96,7 +103,8 @@ tlp.Plugin.category()
 
 Returns the Talipot release number.
 
-:rtype: string
+:rtype:
+   string
 %End
 
   virtual std::string icon() const;
@@ -105,7 +113,8 @@ tlp.Plugin.icon()
 
 Returns the icon file path associated to the plugin.
 
-:rtype: string
+:rtype:
+   string
 %End
 
   virtual std::string major() const;
@@ -133,7 +142,7 @@ public:
 
   void registerPlugin();
 %MethodCode
-  tlp::PluginsManager::registerPlugin(sipCpp);
+tlp::PluginsManager::registerPlugin(sipCpp);
 %End
 
 };

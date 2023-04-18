@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,7 +29,8 @@ The list will appear as a combo box in the Plugin Parameter Dialog from the Tali
 %End
 
 %ConvertFromTypeCode
-  return sipConvertFromNewType(new std::string(sipCpp->getCurrentString()), sipFindType("std::string"), NULL);
+return sipConvertFromNewType(new std::string(sipCpp->getCurrentString()),
+                             sipFindType("std::string"), NULL);
 %End
 
 public:
@@ -54,7 +55,8 @@ tlp.StringCollection.getCurrentString()
 
 Returns the current selected string value.
 
-:rtype: string
+:rtype:
+   string
 %End
 
 // ===========================================================================
@@ -63,12 +65,16 @@ Returns the current selected string value.
 %Docstring
 tlp.StringCollection.setCurrent(index)
 
-Sets the current selected string index.
-Returns :const:`True` if the provided index is valid.
+Sets the current selected string index. Returns :const:`True` if the provided index is valid.
 
-:param index: a valid index in the string collection
-:type index: integer
-:rtype: boolean
+:param index:
+   a valid index in the string collection
+
+:type index:
+   integer
+
+:rtype:
+   boolean
 %End
 
 // ===========================================================================
@@ -77,12 +83,17 @@ Returns :const:`True` if the provided index is valid.
 %Docstring
 tlp.StringCollection.setCurrent(value)
 
-Sets the current selected string value.
-Returns :const:`True` if the string value exists in the collection.
+Sets the current selected string value. Returns :const:`True` if the string value exists in the
+collection.
 
-:param value: a string value from the collection
-:type value: string
-:rtype: boolean
+:param value:
+   a string value from the collection
+
+:type value:
+   string
+
+:rtype:
+   boolean
 %End
 
 // ===========================================================================
@@ -93,7 +104,8 @@ tlp.StringCollection.getCurrent()
 
 Returns the index of the current selected string.
 
-:rtype: integer
+:rtype:
+   integer
 %End
 
 // ===========================================================================
@@ -104,8 +116,11 @@ tlp.StringCollection.push_back(element)
 
 Adds a string value to this string collection.
 
-:param element: the string to add to the collection
-:type element: string
+:param element:
+   the string to add to the collection
+
+:type element:
+   string
 %End
 
 // ===========================================================================
@@ -116,7 +131,8 @@ tlp.StringCollection.empty()
 
 Returns :const:`True` if the collection is empty.
 
-:rtype: boolean
+:rtype:
+   boolean
 %End
 
 // ===========================================================================
@@ -127,9 +143,14 @@ tlp.StringCollection.at(index)
 
 Returns the string element at a certain index in the collection.
 
-:param index: a valid index in the collection
-:type index: integer
-:rtype: string
+:param index:
+   a valid index in the collection
+
+:type index:
+   integer
+
+:rtype:
+   string
 %End
 
 // ===========================================================================
@@ -140,24 +161,25 @@ tlp.StringCollection.size()
 
 Returns the number of strings in the collection.
 
-:rtype: integer
+:rtype:
+   integer
 %End
 
 // ===========================================================================
 
   std::string operator[](const uint i) const;
 %MethodCode
-  if (a0 < sipCpp->size()) {
-    sipRes = new std::string((*sipCpp)[a0]);
-  } else {
-    sipIsErr = -1;
-    PyErr_SetNone(PyExc_IndexError);
-  }
+if (a0 < sipCpp->size()) {
+  sipRes = new std::string((*sipCpp)[a0]);
+} else {
+  sipIsErr = -1;
+  PyErr_SetNone(PyExc_IndexError);
+}
 %End
 
   void __setitem__(int i, const std::string &value);
 %MethodCode
-  (*sipCpp)[a0] = *a1;
+(*sipCpp)[a0] = *a1;
 %End
 
 };

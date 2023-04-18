@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,29 +20,29 @@ class Size : tlp::Vec3f /TypeHint="tlp.Size"/ {
 
 %ConvertToTypeCode
 
-  if (sipIsErr == NULL) {
-    if (sipCanConvertToType(sipPy, sipFindType("tlp::Size"), SIP_NOT_NONE|SIP_NO_CONVERTORS)) {
-      return 1;
-    }
-    if (isTupleAndCanConvertToVec3fType(sipPy)) {
-      return 1;
-    }
-    return 0;
+if (sipIsErr == NULL) {
+  if (sipCanConvertToType(sipPy, sipFindType("tlp::Size"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
+    return 1;
   }
-
-  int state=0, err=0;
-
-  if (sipCanConvertToType(sipPy, sipFindType("tlp::Size"), SIP_NOT_NONE|SIP_NO_CONVERTORS)) {
-    const sipTypeDef *sipType = sipFindType("tlp::Size");
-    tlp::Size *ps = static_cast<tlp::Size*>(sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE|SIP_NO_CONVERTORS, &state, &err));
-    *sipCppPtr = new tlp::Size(*ps);
-    sipReleaseType(ps, sipType, state);
-  } else {
-    *sipCppPtr = convertToVec3fType<tlp::Size>(sipPy, 1);
+  if (isTupleAndCanConvertToVec3fType(sipPy)) {
+    return 1;
   }
+  return 0;
+}
 
-  return sipGetState(sipTransferObj);
+int state = 0, err = 0;
 
+if (sipCanConvertToType(sipPy, sipFindType("tlp::Size"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
+  const sipTypeDef *sipType = sipFindType("tlp::Size");
+  tlp::Size *ps = static_cast<tlp::Size *>(
+      sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
+  *sipCppPtr = new tlp::Size(*ps);
+  sipReleaseType(ps, sipType, state);
+} else {
+  *sipCppPtr = convertToVec3fType<tlp::Size>(sipPy, 1);
+}
+
+return sipGetState(sipTransferObj);
 %End
 
 
@@ -58,8 +58,11 @@ tlp.Vec3f.setW(width)
 
 Convenient method. Sets the first component of the vector.
 
-:param width: a value
-:type width: float
+:param width:
+   a value
+
+:type width:
+   float
 %End
 
   void setH(const float height);
@@ -68,8 +71,11 @@ tlp.Vec3f.setH(height)
 
 Convenient method. Sets the second component of the vector.
 
-:param height: a value
-:type height: float
+:param height:
+   a value
+
+:type height:
+   float
 %End
 
   void setD(const float depth);
@@ -78,8 +84,11 @@ tlp.Vec3f.setD(depth)
 
 Convenient method. Sets the third component of the vector.
 
-:param depth: a value
-:type depth: float
+:param depth:
+   a value
+
+:type depth:
+   float
 %End
 
   float getW() const;
@@ -88,7 +97,8 @@ tlp.Vec3f.getW()
 
 Convenient method. Returns the first component of the vector.
 
-:rtype: float
+:rtype:
+   float
 %End
 
   float getH() const;
@@ -97,7 +107,8 @@ tlp.Vec3f.getH()
 
 Convenient method. Returns the second component of the vector.
 
-:rtype: float
+:rtype:
+   float
 %End
 
   float getD() const;
@@ -106,7 +117,8 @@ tlp.Vec3f.getD()
 
 Convenient method. Returns the third component of the vector.
 
-:rtype: float
+:rtype:
+   float
 %End
 
   float width() const;
@@ -115,7 +127,8 @@ tlp.Vec3f.width()
 
 Convenient method. Returns the first component of the vector.
 
-:rtype: float
+:rtype:
+   float
 %End
 
   float height() const;
@@ -124,7 +137,8 @@ tlp.Vec3f.height()
 
 Convenient method. Returns the second component of the vector.
 
-:rtype: float
+:rtype:
+   float
 %End
 
   float depth() const;
@@ -133,7 +147,8 @@ tlp.Vec3f.depth()
 
 Convenient method. Returns the third component of the vector.
 
-:rtype: float
+:rtype:
+   float
 %End
 
 };

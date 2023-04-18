@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,11 +33,20 @@ tlp.SimpleTest.isSimple(graph,directed = false)
 Returns :const:`True` if the graph is simple (i.e. it contains no loops or parallel edges),
 :const:`False` otherwise.
 
-:param graph: the graph on which to perform the simple test
-:type graph: :class:`tlp.Graph`
-:param directed: Indicates if the graph should be considered as directed or not
-:type directed: boolean
-:rtype: boolean
+:param graph:
+   the graph on which to perform the simple test
+
+:type graph:
+   :class:`tlp.Graph`
+
+:param directed:
+   Indicates if the graph should be considered as directed or not
+
+:type directed:
+   boolean
+
+:rtype:
+   boolean
 %End
 
 //===========================================================================================
@@ -46,14 +55,23 @@ Returns :const:`True` if the graph is simple (i.e. it contains no loops or paral
 %Docstring
 tlp.SimpleTest.makeSimple(graph,directed = false)
 
-Makes the graph  simple by removing self loops and parallel edges if any.
-Returns a list of removed edges.
+Makes the graph simple by removing self loops and parallel edges if any. Returns a list of removed
+edges.
 
-:param graph: the graph to make simple
-:type graph: :class:`tlp.Graph`
-:param directed: Indicates if the graph should be considered as directed or not
-:type directed: boolean
-:rtype: list of :class:`tlp.edge`
+:param graph:
+   the graph to make simple
+
+:type graph:
+   :class:`tlp.Graph`
+
+:param directed:
+   Indicates if the graph should be considered as directed or not
+
+:type directed:
+   boolean
+
+:rtype:
+   list of :class:`tlp.edge`
 %End
 
 //===========================================================================================
@@ -65,11 +83,20 @@ tlp.SimpleTest.getLoopsAndParallelEdges(graph, bool directed = false)
 
 Performs a simple test and returns found loops and parallel edges.
 
-:param graph: the graph on which to perform the simple test
-:type graph: :class:`tlp.Graph`
-:param directed: Indicates if the graph should be considered as directed or not
-:type directed: boolean
-:rtype: (list of :class:`tlp.edge`, list of :class:`tlp.edge`)
+:param graph:
+   the graph on which to perform the simple test
+
+:type graph:
+   :class:`tlp.Graph`
+
+:param directed:
+   Indicates if the graph should be considered as directed or not
+
+:type directed:
+   boolean
+
+:rtype:
+   (list of :class:`tlp.edge`, list of :class:`tlp.edge`)
 %End
 
 private:

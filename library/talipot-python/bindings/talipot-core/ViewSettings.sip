@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,7 +19,6 @@ namespace tlp {
 class NodeShapeConstants {
 
 public:
-
   static const int Billboard = 7;
   static const int Circle = 14;
   static const int Cone = 3;
@@ -42,13 +41,11 @@ public:
   static const int Star = 19;
   static const int FontAwesomeIcon = 20;
   static const int Icon = 20;
-
 };
 
 class EdgeShapeConstants {
 
 public:
-
   static const int Polyline = 0;
   static const int BezierCurve = 4;
   static const int CatmullRomCurve = 8;
@@ -58,7 +55,6 @@ public:
 class EdgeExtremityShapeConstants {
 
 public:
-
   static const int None = -1;
   static const int Arrow = 50;
   static const int Circle = 14;
@@ -77,13 +73,11 @@ public:
   static const int Star = 19;
   static const int FontAwesomeIcon = 20;
   static const int Icon = 20;
-
 };
 
 class LabelPositionConstants {
 
 public:
-
   static const int Center = 0;
   static const int Top = 1;
   static const int Bottom = 2;
@@ -91,9 +85,7 @@ public:
   static const int Right = 4;
 };
 
-
 }
-
 %End
 
 namespace tlp {
@@ -287,11 +279,11 @@ class ViewSettingsEvent : public tlp::Event /NoDefaultCtors/ {
 %End
 
 %ConvertToSubClassCode
-  if (dynamic_cast<tlp::ViewSettingsEvent*>(sipCpp)) {
-    sipType = sipFindType("tlp::ViewSettingsEvent");
-  } else {
-    sipType = NULL;
-  }
+if (dynamic_cast<tlp::ViewSettingsEvent *>(sipCpp)) {
+  sipType = sipFindType("tlp::ViewSettingsEvent");
+} else {
+  sipType = NULL;
+}
 %End
 
 public:

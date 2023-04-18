@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,9 +17,15 @@ tlp.DoubleProperty.getNodeMin(subgraph=None)
 
 Returns the minimum value on the nodes for that double property.
 
-:param subgraph: a subgraph can be given in parameter, in that case return the minimum value on the nodes belonging to that subgraph.
-:type subgraph: :class:`tlp.Graph`
-:rtype: float
+:param subgraph:
+   a subgraph can be given in parameter, in that case return the minimum value on the nodes
+   belonging to that subgraph.
+
+:type subgraph:
+   :class:`tlp.Graph`
+
+:rtype:
+   float
 %End
 
 //===========================================================================================
@@ -30,9 +36,15 @@ tlp.DoubleProperty.getNodeMax(subgraph=None)
 
 Returns the maximum value on the nodes for that double property.
 
-:param subgraph: a subgraph can be given in parameter, in that case return the maximum value on the nodes belonging to that subgraph.
-:type subgraph: :class:`tlp.Graph`
-:rtype: float
+:param subgraph:
+   a subgraph can be given in parameter, in that case return the maximum value on the nodes
+   belonging to that subgraph.
+
+:type subgraph:
+   :class:`tlp.Graph`
+
+:rtype:
+   float
 %End
 
 //===========================================================================================
@@ -43,9 +55,15 @@ tlp.DoubleProperty.getEdgeMin(subgraph=None)
 
 Returns the minimum value on the edges for that double property.
 
-:param subgraph: a subgraph can be given in parameter, in that case return the minimum value on the edges belonging to that subgraph.
-:type subgraph: :class:`tlp.Graph`
-:rtype: float
+:param subgraph:
+   a subgraph can be given in parameter, in that case return the minimum value on the edges
+   belonging to that subgraph.
+
+:type subgraph:
+   :class:`tlp.Graph`
+
+:rtype:
+   float
 %End
 
 //===========================================================================================
@@ -56,9 +74,15 @@ tlp.DoubleProperty.getEdgeMax(subgraph = None)
 
 Returns the maximum value on the edges for that double property.
 
-:param subgraph: a subgraph can be given in parameter, in that case return the maximum value on the edges belonging to that subgraph.
-:type subgraph: :class:`tlp.Graph`
-:rtype: float
+:param subgraph:
+   a subgraph can be given in parameter, in that case return the maximum value on the edges
+   belonging to that subgraph.
+
+:type subgraph:
+   :class:`tlp.Graph`
+
+:rtype:
+   float
 %End
 
 //===========================================================================================
@@ -67,13 +91,20 @@ Returns the maximum value on the edges for that double property.
 %Docstring
 tlp.DoubleProperty.uniformQuantification(n)
 
-Performs an uniform quantification on nodes and edges based on the values stored in that double property.
-An uniform quantification tries to separate the nodes and edges in n classes of equivalent size according to theirs values in increasing order.
+Performs an uniform quantification on nodes and edges based on the values stored in that double
+property. An uniform quantification tries to separate the nodes and edges in n classes of equivalent
+size according to theirs values in increasing order.
 
-:param n: the number of desired classes
-:type n: integer
+:param n:
+   the number of desired classes
 
-.. warning:: All previous values on nodes and edges will be erased and replaced by the id of the class they belong to.
+:type n:
+   integer
+
+.. warning::
+
+   All previous values on nodes and edges will be erased and replaced by the id of the class they
+   belong to.
 %End
 
 //===========================================================================================
@@ -82,13 +113,19 @@ An uniform quantification tries to separate the nodes and edges in n classes of 
 %Docstring
 tlp.DoubleProperty.nodesUniformQuantification(n)
 
-Performs an uniform quantification on nodes based on the values stored in that double property.
-An uniform quantification tries to separate the nodes in n classes of equivalent size according to theirs values in increasing order.
+Performs an uniform quantification on nodes based on the values stored in that double property. An
+uniform quantification tries to separate the nodes in n classes of equivalent size according to
+theirs values in increasing order.
 
-:param n: the number of desired classes
-:type n: integer
+:param n:
+   the number of desired classes
 
-.. warning:: All previous values on nodes will be erased and replaced by the id of the class they belong to.
+:type n:
+   integer
+
+.. warning::
+
+   All previous values on nodes will be erased and replaced by the id of the class they belong to.
 %End
 
 //===========================================================================================
@@ -97,13 +134,19 @@ An uniform quantification tries to separate the nodes in n classes of equivalent
 %Docstring
 tlp.DoubleProperty.edgesUniformQuantification(n)
 
-Performs an uniform quantification on edges based on the values stored in that double property.
-An uniform quantification tries to separate the edges in n classes of equivalent size according to theirs values in increasing order.
+Performs an uniform quantification on edges based on the values stored in that double property. An
+uniform quantification tries to separate the edges in n classes of equivalent size according to
+theirs values in increasing order.
 
-:param n: the number of desired classes
-:type n: integer
+:param n:
+   the number of desired classes
 
-.. warning:: All previous values on edges will be erased and replaced by the id of the class they belong to.
+:type n:
+   integer
+
+.. warning::
+
+   All previous values on edges will be erased and replaced by the id of the class they belong to.
 %End
 
 private:

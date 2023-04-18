@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,18 +29,17 @@ This abstract class describes an import plugin.
 
 .. py:attribute:: graph
 
-	An empty :class:`tlp.Graph` to populate when running the import process
+   An empty :class:`tlp.Graph` to populate when running the import process
 
 .. py:attribute:: dataSet
 
-	A dictionary containing parameters for this import plugin, if any
+   A dictionary containing parameters for this import plugin, if any
 
 .. py:attribute:: pluginProgress
 
-	A :class:`tlp.PluginProgress` to give feedback to the user. It can be :const:`None`, so use with caution
+   A :class:`tlp.PluginProgress` to give feedback to the user. It can be :const:`None`, so use with caution
 
 .. rubric:: class methods
-
 %End
 
 %TypeHeaderCode
@@ -58,22 +57,24 @@ public:
 %Docstring
 tlp.ImportModule.fileExtensions()
 
-This method returns the extensions of file formats this plugin can import.
-Derived classes can implement it in order for the plugin to be automatically called
-by the :func:`tlp.loadGraph` function.
+This method returns the extensions of file formats this plugin can import. Derived classes can
+implement it in order for the plugin to be automatically called by the :func:`tlp.loadGraph`
+function.
 
-:rtype: list of string
+:rtype:
+   list of string
 %End
 
   virtual std::list<std::string> gzipFileExtensions() const;
 %Docstring
 tlp.ImportModule.gzipFileExtensions()
 
-This method returns the extensions of gzipped file formats this plugin can import.
-Derived classes can implement it in order for the plugin to be automatically called
-by the :func:`tlp.loadGraph` function.
+This method returns the extensions of gzipped file formats this plugin can import. Derived classes
+can implement it in order for the plugin to be automatically called by the :func:`tlp.loadGraph`
+function.
 
-:rtype: list of string
+:rtype:
+   list of string
 %End
 
   std::list<std::string> allFileExtensions() const;
@@ -82,18 +83,19 @@ tlp.ImportModule.allFileExtensions()
 
 This method returns all the extensions (normal and gzipped) of file formats this plugin can import.
 
-:rtype: list of string
+:rtype:
+   list of string
 %End
 
   virtual bool importGraph() = 0;
 %Docstring
 tlp.ImportModule.importGraph()
 
-This method is called to import a graph.
-Derived classes must implement it. A boolean must also be returned
-to indicate if the import was successful.
+This method is called to import a graph. Derived classes must implement it. A boolean must also be
+returned to indicate if the import was successful.
 
-:rtype: boolean
+:rtype:
+   boolean
 %End
 
   tlp::Graph *graph;
@@ -101,23 +103,24 @@ to indicate if the import was successful.
   tlp::DataSet *dataSet
   {
 %GetCode
-  // add file parameters to the dataset without the special prefix used internally by Tulip
-  std::vector<std::string> filesPrefixes;
-  filesPrefixes.push_back("file::");
-  filesPrefixes.push_back("anyfile::");
-  filesPrefixes.push_back("dir::");
-  for(const std::pair<std::string, tlp::DataType*> &entry :
-      tlp::stableIterator(sipCpp->dataSet->getValues())) {
-    for (size_t i = 0 ; i < filesPrefixes.size() ; ++i) {
-      if (entry.first.length() > filesPrefixes[i].length() && entry.first.substr(0, filesPrefixes[i].length()) == filesPrefixes[i]) {
-        std::string paramName = entry.first.substr(filesPrefixes[i].length());
-        if (!sipCpp->dataSet->exists(paramName)) {
-          sipCpp->dataSet->set(paramName, *(static_cast<std::string*>(entry.second->value)));
-        }
+// add file parameters to the dataset without the special prefix used internally by Tulip
+std::vector<std::string> filesPrefixes;
+filesPrefixes.push_back("file::");
+filesPrefixes.push_back("anyfile::");
+filesPrefixes.push_back("dir::");
+for (const std::pair<std::string, tlp::DataType *> &entry :
+     tlp::stableIterator(sipCpp->dataSet->getValues())) {
+  for (size_t i = 0; i < filesPrefixes.size(); ++i) {
+    if (entry.first.length() > filesPrefixes[i].length() &&
+        entry.first.substr(0, filesPrefixes[i].length()) == filesPrefixes[i]) {
+      std::string paramName = entry.first.substr(filesPrefixes[i].length());
+      if (!sipCpp->dataSet->exists(paramName)) {
+        sipCpp->dataSet->set(paramName, *(static_cast<std::string *>(entry.second->value)));
       }
     }
   }
-  sipPy = sipConvertFromType(sipCpp->dataSet, sipFindType("tlp::DataSet"), NULL);
+}
+sipPy = sipConvertFromType(sipCpp->dataSet, sipFindType("tlp::DataSet"), NULL);
 %End
   };
 

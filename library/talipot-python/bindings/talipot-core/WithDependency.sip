@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -38,14 +38,21 @@ tlp.WithParameter.addBooleanAlgorithmDependency(algorithm, release )
 
 Add a dependency on a boolean algorithm.
 
-:param name: the name of the algorithm
-:type name: string
-:param release: the version of the algorithm
-:type release: string
+:param name:
+   the name of the algorithm
+
+:type name:
+   string
+
+:param release:
+   the version of the algorithm
+
+:type release:
+   string
 %End
 
 %MethodCode
-  sipCpp->addDependency((*a0).c_str(), (*a1).c_str());
+sipCpp->addDependency((*a0).c_str(), (*a1).c_str());
 %End
 };
 };

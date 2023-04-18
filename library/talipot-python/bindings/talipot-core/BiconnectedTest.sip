@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,9 +27,14 @@ tlp.BiconnectedTest.isBiconnected(graph)
 Returns :const:`True` if the graph is biconnected (ie. one must remove at least two nodes in order
 to disconnect the graph), :const:`False` otherwise.
 
-:param graph: the graph on which to perform the biconnected test
-:type graph: :class:`tlp.Graph`
-:rtype: boolean
+:param graph:
+   the graph on which to perform the biconnected test
+
+:type graph:
+   :class:`tlp.Graph`
+
+:rtype:
+   boolean
 %End
 
 //========================================================================================
@@ -38,12 +43,17 @@ to disconnect the graph), :const:`False` otherwise.
 %Docstring
 tlp.BiconnectedTest.makeBiconnected(graph)
 
-If the graph is not biconnected, adds edges in order to make the graph
-biconnected. Returns a list of added edges.
+If the graph is not biconnected, adds edges in order to make the graph biconnected. Returns a list
+of added edges.
 
-:param graph: the graph to make biconnected.
-:type graph: :class:`tlp.Graph`
-:rtype: list of :class:`tlp.edge`
+:param graph:
+   the graph to make biconnected.
+
+:type graph:
+   :class:`tlp.Graph`
+
+:rtype:
+   list of :class:`tlp.edge`
 %End
 
 private :

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,7 +36,7 @@ This class is the base interface for selection plugins.
 
 .. py:attribute:: result
 
-    The result of the algorithm must be stored in this :class:`tlp.BooleanProperty`.
+   The result of the algorithm must be stored in this :class:`tlp.BooleanProperty`.
 %End
 
 %TypeHeaderCode
@@ -66,7 +66,7 @@ This class is the base interface for color plugins.
 
 .. py:attribute:: result
 
-    The result of the algorithm must be stored in this :class:`tlp.ColorProperty`.
+   The result of the algorithm must be stored in this :class:`tlp.ColorProperty`.
 %End
 
 %TypeHeaderCode
@@ -95,7 +95,7 @@ This class is the base interface for metric plugins.
 
 .. py:attribute:: result
 
-    The result of the algorithm must be stored in this :class:`tlp.DoubleProperty`.
+   The result of the algorithm must be stored in this :class:`tlp.DoubleProperty`.
 %End
 
 %TypeHeaderCode
@@ -124,7 +124,7 @@ This class is the base interface for integer plugins.
 
 .. py:attribute:: result
 
-    The result of the algorithm must be stored in this :class:`tlp.IntegerProperty`.
+   The result of the algorithm must be stored in this :class:`tlp.IntegerProperty`.
 %End
 
 %TypeHeaderCode
@@ -152,7 +152,7 @@ This class is the base interface for layout plugins.
 
 .. py:attribute:: result
 
-    The result of the algorithm must be stored in this :class:`tlp.LayoutProperty`.
+   The result of the algorithm must be stored in this :class:`tlp.LayoutProperty`.
 %End
 
 %TypeHeaderCode
@@ -210,7 +210,7 @@ This class is the base interface for string plugins.
 
 .. py:attribute:: result
 
-    The result of the algorithm must be stored in this :class:`tlp.StringProperty`.
+   The result of the algorithm must be stored in this :class:`tlp.StringProperty`.
 %End
 
 %TypeHeaderCode
