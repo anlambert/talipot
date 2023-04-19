@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -127,11 +127,10 @@ vector<vector<node>> ConnectedTest::computeConnectedComponents(const tlp::Graph 
 
         // loop on all neighbours
         for (auto neighbour : graph->getInOutNodes(n)) {
-          uint neighPos = graph->nodePos(neighbour);
           // check if neighbour has been visited
-          if (!visited[neighPos]) {
+          if (!visited[neighbour]) {
             // mark neighbour as already visited
-            visited[neighPos] = true;
+            visited[neighbour] = true;
             // insert it in current component
             component.push_back(neighbour);
             // push it for further deeper exploration

@@ -296,10 +296,8 @@ void selectSpanningForest(Graph *graph, BooleanProperty *selectionProperty,
       fifo.pop_front();
       for (auto adjit : graph->getOutEdges(n1)) {
         node tgt = graph->target(adjit);
-        uint tgtPos = graph->nodePos(tgt);
-
-        if (!nodeFlag[tgtPos]) {
-          nodeFlag[tgtPos] = true;
+        if (!nodeFlag[tgt]) {
+          nodeFlag[tgt] = true;
           ++nbSelectedNodes;
           fifo.push_back(tgt);
         } else {

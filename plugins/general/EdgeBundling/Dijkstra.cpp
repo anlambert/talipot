@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -149,8 +149,7 @@ void Dijkstra::searchPaths(node n, EdgeVectorProperty<uint> &depth) {
     }
 
     resultEdges[e] = true;
-    auto ePos = depth.getGraph()->edgePos(e);
-    depth[ePos] += 1;
+    depth[e] += 1;
 
     if (!resultNodes[tgt]) {
       searchPaths(tgt, depth);

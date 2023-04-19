@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -166,13 +166,11 @@ bool KCores::run() {
               m = (src == n) ? tgt : src;
             }
 
-            uint mPos = graph->nodePos(m);
-
-            if (nodeDeleted[mPos]) {
+            if (nodeDeleted[m]) {
               continue;
             }
 
-            nodeK[mPos] -= metric ? metric->getEdgeDoubleValue(e) : 1;
+            nodeK[m] -= metric ? metric->getEdgeDoubleValue(e) : 1;
           }
 
           // mark node as deleted

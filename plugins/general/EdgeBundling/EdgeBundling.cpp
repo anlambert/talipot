@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -630,18 +630,16 @@ bool EdgeBundling::run() {
     // Adjust weights of routing grid.
     if (iteration < MAX_ITER - 1) {
       TLP_PARALLEL_MAP_EDGES(gridGraph, [&](edge e) {
-        auto ePos = graph->edgePos(e);
-
         if (ntype.getEdgeValue(e) == 2 && !edgeNodeOverlap) {
-          mWeights[ePos] = mWeightsInit[ePos];
+          mWeights[e] = mWeightsInit[e];
         } else {
           // double avgdepth = weightFactor * depth.getEdgeValue(e) + 1.;
           double avgdepth = depth.getEdgeValue(e);
 
           if (avgdepth > 0) {
-            mWeights[ePos] = mWeightsInit[ePos] / (log(avgdepth) + 1);
+            mWeights[e] = mWeightsInit[e] / (log(avgdepth) + 1);
           } else {
-            mWeights[ePos] = mWeightsInit[ePos];
+            mWeights[e] = mWeightsInit[e];
           }
         }
       });
