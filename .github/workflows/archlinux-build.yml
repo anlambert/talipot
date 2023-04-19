@@ -24,9 +24,9 @@ jobs:
           restore-keys: |
             archlinux-ccache-
       - name: Pull archlinux docker image
-        run: sudo docker pull archlinux
+        run: docker pull archlinux
       - name: Create ccache docker volume
-        run: sudo docker create
+        run: docker create
           -v ~/ccache:/ccache
           --name ccache
           archlinux

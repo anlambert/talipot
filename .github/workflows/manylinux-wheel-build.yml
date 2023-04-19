@@ -26,14 +26,14 @@ jobs:
           restore-keys: |
             manylinux2014-ccache-
       - name: Pull ${{ env.DOCKER_IMAGE }} docker image
-        run: sudo docker pull ${DOCKER_IMAGE}
+        run: docker pull ${DOCKER_IMAGE}
       - name: Create ccache docker volume
-        run: sudo docker create
+        run: docker create
           -v ~/ccache:/ccache
           --name ccache
           ${DOCKER_IMAGE}
       - name: Build and upload Talipot Python wheel
-        run: sudo docker run
+        run: docker run
           -e CCACHE_DIR=/ccache
           --volumes-from ccache
           -v `pwd`:/talipot:rw
