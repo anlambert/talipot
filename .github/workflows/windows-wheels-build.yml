@@ -99,7 +99,7 @@ jobs:
           -DCMAKE_NEED_RESPONSE=ON
           -DCMAKE_INSTALL_PREFIX=$PWD/install
           -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON
-          -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a1.dev${{ env.DEV_VERSION }}
+          -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a2.dev${{ env.DEV_VERSION }}
           -DPYTHON_EXECUTABLE=$(cygpath -u "${{ steps.python-install.outputs.python-path }}")
           -DTALIPOT_USE_CCACHE=ON
           -DTALIPOT_BUILD_CORE_ONLY=ON
