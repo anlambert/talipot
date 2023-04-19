@@ -30,14 +30,14 @@ jobs:
           restore-keys: |
             appimage-${{ matrix.config.docker-image }}-ccache-
       - name: Pull ${{ matrix.config.docker-image }} docker image
-        run: sudo docker pull ${{ matrix.config.docker-image }}
+        run: docker pull ${{ matrix.config.docker-image }}
       - name: Create ccache docker volume
-        run: sudo docker create
+        run: docker create
           -v ~/ccache:/ccache
           --name ccache
           ${{ matrix.config.docker-image }}
       - name: Build Talipot AppImage in CentOS
-        run: sudo docker run
+        run: docker run
           -e CCACHE_DIR=/ccache
           --volumes-from ccache
           -v `pwd`:/talipot:rw
