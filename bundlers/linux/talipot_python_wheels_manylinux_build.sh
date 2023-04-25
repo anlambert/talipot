@@ -105,6 +105,8 @@ from talipot import tlp
 from platform import python_version
 print('Talipot %s successfully imported in Python %s' %
       (tlp.getRelease(), python_version()))
+print(tlp.getLayoutAlgorithmPluginsList())
+print(tlp.getImportPluginsList())
 "
   if [ $? -ne 0 ]
   then
