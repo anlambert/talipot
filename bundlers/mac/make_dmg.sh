@@ -44,5 +44,5 @@ chmod -Rf go-w /Volumes/"${DMG}"
 sync
 sync
 hdiutil detach ${device}
-hdiutil convert "pack.temp.dmg" -format UDZO -imagekey zlib-level=9 -o "${DMG}"
+hdiutil convert "pack.temp.dmg" -format UDZO -imagekey zlib-level=6 -o "${DMG}"
 rm -f pack.temp.dmg
