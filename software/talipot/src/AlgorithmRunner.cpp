@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -77,7 +77,8 @@ void AlgorithmRunner::buildTreeUi(QWidget *w, PluginModel<tlp::Algorithm> *model
 
 void AlgorithmRunner::insertItem(QWidget *w, const QString &name) const {
 
-  const Plugin &plugin = PluginsManager::pluginInformation(QStringToTlpString(name));
+  std::string pluginName = QStringToTlpString(name);
+  const Plugin &plugin = PluginsManager::pluginInformation(pluginName);
   QString category = plugin.category().c_str();
   QString group = plugin.group().c_str();
 
