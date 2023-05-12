@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -65,10 +65,10 @@ static QSet<QString> getParametersListForPlugin(const QString &pluginName,
                                                 const QString &prefix = "") {
   QSet<QString> ret;
 
-  if (PluginsManager::pluginExists(QStringToTlpString(pluginName))) {
+  string pluginName_ = QStringToTlpString(pluginName);
+  if (PluginsManager::pluginExists(pluginName_)) {
 
-    const ParameterDescriptionList &parameters =
-        PluginsManager::getPluginParameters(QStringToTlpString(pluginName));
+    const ParameterDescriptionList &parameters = PluginsManager::getPluginParameters(pluginName_);
 
     for (const ParameterDescription &pd : parameters.getParameters()) {
       QString param = tlpStringToQString(pd.getName());
@@ -99,10 +99,9 @@ static QSet<QString> getStringCollectionEntriesForPlugin(const QString &pluginNa
                                                          const QString &strCollectionName,
                                                          const QString &prefix = "") {
   QSet<QString> ret;
-
-  if (PluginsManager::pluginExists(QStringToTlpString(pluginName))) {
-    const ParameterDescriptionList &parameters =
-        PluginsManager::getPluginParameters(QStringToTlpString(pluginName));
+  string pluginName_ = QStringToTlpString(pluginName);
+  if (PluginsManager::pluginExists(pluginName_)) {
+    const ParameterDescriptionList &parameters = PluginsManager::getPluginParameters(pluginName_);
     DataSet dataSet;
     parameters.buildDefaultDataSet(dataSet);
     StringCollection sc;

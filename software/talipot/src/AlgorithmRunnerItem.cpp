@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -43,7 +43,8 @@ AlgorithmRunnerItem::AlgorithmRunnerItem(QString pluginName, QWidget *parent)
   // initialize parameters only if needed
   _ui->parameters->setVisible(false);
 
-  const Plugin &plugin = PluginsManager::pluginInformation(QStringToTlpString(name()));
+  std::string pluginName_ = QStringToTlpString(name());
+  const Plugin &plugin = PluginsManager::pluginInformation(pluginName_);
 
   if (!plugin.getParameters().empty()) {
     _ui->parameters->setItemDelegate(new ItemDelegate(_ui->parameters));
@@ -469,7 +470,8 @@ void AlgorithmRunnerItem::mouseMoveEvent(QMouseEvent *ev) {
   }
 
   auto *drag = new QDrag(this);
-  const Plugin &p = PluginsManager::pluginInformation(QStringToTlpString(_pluginName));
+  std::string pluginName = QStringToTlpString(_pluginName);
+  const Plugin &p = PluginsManager::pluginInformation(pluginName);
   QPixmap icon;
   if (IconicFont::isIconSupported(p.icon())) {
     icon = FontIcon::icon(tlp::tlpStringToQString(p.icon())).pixmap(QSize(64, 64));

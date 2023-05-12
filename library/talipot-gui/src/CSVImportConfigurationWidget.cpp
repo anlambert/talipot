@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -95,8 +95,8 @@ void PropertyConfigurationWidget::typeCBChanged(const QString &type) {
   for (int i = 1; i < nbItems; ++i) {
     ui->nameCB->removeItem(1);
   }
-  const std::set<std::string> &props =
-      CSVImportConfigurationWidget::getPropsForTypename(propertyTypeLabelToPropertyType(type));
+  std::string typeName = propertyTypeLabelToPropertyType(type);
+  const std::set<std::string> &props = CSVImportConfigurationWidget::getPropsForTypename(typeName);
   for (const std::string &prop : props) {
     ui->nameCB->addItem(tlpStringToQString(prop));
   }

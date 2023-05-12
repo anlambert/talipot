@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021  The Talipot developers
+ * Copyright (C) 2021-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,15 +20,16 @@ using namespace tlp;
 // ill-formed utf8 chars (ascii or windows 1252 chars)
 // latex special chars
 // and to replace them by the corresponding utf8 sequence
+static char c3[2] = {'\303', ' '};
+static char c4[2] = {'\304', ' '};
+static char c5[2] = {'\305', ' '};
 static char *utf8seq;
 static char *seq(char cc[2]) {
   return utf8seq = cc;
 }
 
 string &forceUtf8String(string &str) {
-  char c3[2] = {'\303', ' '};
-  char c4[2] = {'\304', ' '};
-  char c5[2] = {'\305', ' '};
+
   char charComposing = 0;
 
   for (uint i = 0; i < str.size(); ++i) {

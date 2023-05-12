@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -96,7 +96,8 @@ class PluginModel : public tlp::Model {
         std::sort(pluginTree[cat][group].begin(), pluginTree[cat][group].end(), QStringCaseCmp);
 
         for (const QString &alg : pluginTree[cat][group]) {
-          const Plugin &plugin = PluginsManager::pluginInformation(tlp::QStringToTlpString(alg));
+          std::string algName = tlp::QStringToTlpString(alg);
+          const Plugin &plugin = PluginsManager::pluginInformation(algName);
           std::string info = plugin.info();
 
           // set info only if they contain more than one word
@@ -193,14 +194,15 @@ public:
       QFont f;
       f.setBold(true);
       return f;
-    } else if (role == Qt::DecorationRole && item->children.isEmpty() &&
-               tlp::PluginsManager::pluginExists(tlp::QStringToTlpString(item->name))) {
-      const tlp::Plugin &p =
-          tlp::PluginsManager::pluginInformation(tlp::QStringToTlpString(item->name));
-      if (IconicFont::isIconSupported(p.icon())) {
-        return FontIcon::icon(tlp::tlpStringToQString(p.icon()));
-      } else {
-        return QIcon(tlp::tlpStringToQString(p.icon()));
+    } else if (role == Qt::DecorationRole && item->children.isEmpty()) {
+      std::string pluginName = tlp::QStringToTlpString(item->name);
+      if (tlp::PluginsManager::pluginExists(pluginName)) {
+        const tlp::Plugin &p = tlp::PluginsManager::pluginInformation(pluginName);
+        if (IconicFont::isIconSupported(p.icon())) {
+          return FontIcon::icon(tlp::tlpStringToQString(p.icon()));
+        } else {
+          return QIcon(tlp::tlpStringToQString(p.icon()));
+        }
       }
     }
 

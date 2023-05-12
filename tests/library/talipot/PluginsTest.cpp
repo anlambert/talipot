@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -41,16 +41,17 @@ void PluginsTest::tearDown() {
 }
 //==========================================================
 void PluginsTest::testloadPlugin() {
+  string pluginName = "Test";
   // plugin does not exist yet
-  CPPUNIT_ASSERT(!tlp::PluginsManager::pluginExists("Test"));
+  CPPUNIT_ASSERT(!tlp::PluginsManager::pluginExists(pluginName));
   PluginLoaderTxt loader;
   PluginLibraryLoader::loadPluginLibrary("./testPlugin." + suffix, &loader);
   // plugin should exist now
-  CPPUNIT_ASSERT(tlp::PluginsManager::pluginExists("Test"));
-  const list<Dependency> &deps = tlp::PluginsManager::getPluginDependencies("Test");
+  CPPUNIT_ASSERT(tlp::PluginsManager::pluginExists(pluginName));
+  const list<Dependency> &deps = tlp::PluginsManager::getPluginDependencies(pluginName);
   // only one dependency (see testPlugin.cpp)
   CPPUNIT_ASSERT_EQUAL(size_t(1), deps.size());
-  CPPUNIT_ASSERT_EQUAL(string("Test"), deps.front().pluginName);
+  CPPUNIT_ASSERT_EQUAL(pluginName, deps.front().pluginName);
 }
 //==========================================================
 void PluginsTest::testCircularPlugin() {
@@ -121,14 +122,15 @@ void PluginsTest::availablePlugins() {
 }
 
 void PluginsTest::pluginInformation() {
-  CPPUNIT_ASSERT_MESSAGE("'Test' plugin must be loaded", PluginsManager::pluginExists("Test"));
+  string pluginName = "Test";
+  CPPUNIT_ASSERT_MESSAGE("'Test' plugin must be loaded", PluginsManager::pluginExists(pluginName));
 
-  std::list<Dependency> dependencies = PluginsManager::getPluginDependencies("Test");
+  std::list<Dependency> dependencies = PluginsManager::getPluginDependencies(pluginName);
   CPPUNIT_ASSERT_EQUAL(size_t(1), dependencies.size());
-  CPPUNIT_ASSERT_EQUAL(string("Test"), dependencies.begin()->pluginName);
+  CPPUNIT_ASSERT_EQUAL(pluginName, dependencies.begin()->pluginName);
   CPPUNIT_ASSERT_EQUAL(string("1.0"), dependencies.begin()->pluginRelease);
 
-  tlp::ParameterDescriptionList parameters = PluginsManager::getPluginParameters("Test");
+  tlp::ParameterDescriptionList parameters = PluginsManager::getPluginParameters(pluginName);
 
   Iterator<ParameterDescription> *it = parameters.getParameters();
   CPPUNIT_ASSERT_MESSAGE("Test plugin has no parameters", it->hasNext());
@@ -145,14 +147,14 @@ void PluginsTest::pluginInformation() {
 #endif
   delete it;
 
-  const Plugin &factory(PluginsManager::pluginInformation("Test"));
+  const Plugin &factory(PluginsManager::pluginInformation(pluginName));
   CPPUNIT_ASSERT_EQUAL(string("Jezequel"), factory.author());
   CPPUNIT_ASSERT_EQUAL(string("03/11/2004"), factory.date());
   CPPUNIT_ASSERT_EQUAL(string(""), factory.group());
   CPPUNIT_ASSERT_EQUAL(0, factory.id());
   CPPUNIT_ASSERT_EQUAL(string("1"), factory.major());
   CPPUNIT_ASSERT_EQUAL(string("0"), factory.minor());
-  CPPUNIT_ASSERT_EQUAL(string("Test"), factory.name());
+  CPPUNIT_ASSERT_EQUAL(pluginName, factory.name());
   CPPUNIT_ASSERT_EQUAL(string("1.0"), factory.release());
   CPPUNIT_ASSERT_EQUAL(tlp::getMajor(TALIPOT_VERSION), factory.talipotMajor());
   CPPUNIT_ASSERT_EQUAL(tlp::getMinor(TALIPOT_VERSION), factory.talipotMinor());

@@ -305,7 +305,7 @@ std::string tlp::demangleClassName(const std::string &className, bool hideTlp) {
 #error define symbols demangling function
 #endif
 
-#else  // __EMSCRIPTEN__
+#else // __EMSCRIPTEN__
 
 void initTalipotLib(const char *) {}
 
@@ -394,7 +394,7 @@ bool tlp::pathExists(const std::string &pathname) {
 
 std::istream *tlp::getInputFileStream(const std::string &filename, std::ios_base::openmode mode) {
 #ifdef WIN32
-  return new std::ifstream(filesystem::u8path(filename), mode);
+  return new std::ifstream(filesystem::path(filename), mode);
 #else
   return new std::ifstream(filename, mode);
 #endif
@@ -404,7 +404,7 @@ std::istream *tlp::getInputFileStream(const std::string &filename, std::ios_base
 
 std::ostream *tlp::getOutputFileStream(const std::string &filename, std::ios_base::openmode mode) {
 #ifdef WIN32
-  return new std::ofstream(filesystem::u8path(filename), mode);
+  return new std::ofstream(filesystem::path(filename), mode);
 #else
   return new std::ofstream(filename, mode);
 #endif
