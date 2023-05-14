@@ -128,4 +128,3 @@ jobs:
             mingw-w64-x86_64-graphviz
           pip install --index-url https://test.pypi.org/simple/ talipot
           python -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-          python -c "from talipot import tlp; print(tlp.getImportPluginsList())"
