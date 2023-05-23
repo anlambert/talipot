@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -70,7 +70,6 @@ void IdManager::free(const uint id) {
   }
 }
 //-----------------------------------------------------------
-#ifndef TLP_NO_IDS_REUSE
 uint IdManager::getFreeId() {
   auto it = state.freeIds.begin();
   assert(it != state.freeIds.end());
@@ -78,9 +77,8 @@ uint IdManager::getFreeId() {
   state.freeIds.erase(it);
   return tmp;
 }
-#endif
 //-----------------------------------------------------------
-void IdManager::getFreeId(uint id) {
+void IdManager::updateFreeIds(uint id) {
   assert(id > state.firstId);
 
   if (id >= state.nextId) {
@@ -93,8 +91,7 @@ void IdManager::getFreeId(uint id) {
     }
 
     state.nextId = id + 1;
-  } else {
-    assert(state.freeIds.find(id) != state.freeIds.end());
+  } else if (state.freeIds.find(id) != state.freeIds.end()) {
     state.freeIds.erase(state.freeIds.find(id));
   }
 }

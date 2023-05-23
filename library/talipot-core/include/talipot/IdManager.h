@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -69,25 +69,20 @@ public:
    * Returns a new id.
    */
   uint get() {
-#ifdef TLP_NO_IDS_REUSE
-    return state.nextId++;
-#else
     return state.firstId ? --state.firstId : (state.freeIds.empty() ? state.nextId++ : getFreeId());
-#endif
   }
 
-#ifndef TLP_NO_IDS_REUSE
   /**
    * remove and return the first available id from the free ids
    */
   uint getFreeId();
-#endif
+
   /**
    * assuming the given id is free.
    * remove it from free ids
    * (used to ensure the same id when loading a graph with subgraphs)
    */
-  void getFreeId(uint id);
+  void updateFreeIds(uint id);
   /**
    * return the current state of the Id manager
    */
