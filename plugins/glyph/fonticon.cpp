@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -80,7 +80,7 @@ public:
     if (renderingDataBuffer <= 10) {
       // delay icon geometry cache in GPU memory after a dozen of total icons
       // rendering to prevent glitches on linux using wayland (likely due to
-      // unitialized OpenGL state)
+      // uninitialized OpenGL state)
       glDeleteBuffers(1, &renderingDataBuffer);
       glDeleteBuffers(1, &indicesBuffer);
       tesselateIcon();

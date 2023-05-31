@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -332,7 +332,7 @@ public:
           }
 
           // insert one of the opposite meta edges in edgesToDel
-          // and insert its undelying edges in the set of the remaining one
+          // and insert its underlying edges in the set of the remaining one
           edge meToKeep(mE.id), meToDel(op.id);
 
           if (opOK) {

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -226,7 +226,7 @@ static const char *allowedPositionsValuesDescription =
     "a range depending on the number of nodes and<br>"
     "the average ideal edge length)</i><br>"
     "<b>Exponent</b> <i>(Only integer positions in a range of<br>"
-    "[-2^MaxIntPosExponent, 2^MaxIntPosExponent] are alllowed)</i>";
+    "[-2^MaxIntPosExponent, 2^MaxIntPosExponent] are allowed)</i>";
 
 class OGDFFm3 : public tlp::OGDFLayoutPluginBase {
 

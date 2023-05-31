@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -41,7 +41,7 @@ static constexpr std::string_view paramHelp[] = {
 class BuWangZhouModel : public ImportModule {
 public:
   PLUGININFORMATION("Bu Wang Zhou Model", "sallaberry", "20/06/2011",
-                    "Randomly generates a scale-free graph unsing the model described "
+                    "Randomly generates a scale-free graph using the model described "
                     "in<br/>Shouliang Bu, Bing-Hong Wang, Tao Zhou.<br/><b>Gaining scale-free and "
                     "high clustering complex networks.</b><br/>Physica A, 374, 864--868, 2007.",
                     "1.0", "Social network")
