@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -837,7 +837,7 @@ void Ordering::selectAndUpdate(node n) {
   vector<node> res;
   vector<node> noeuds;
   vector<Face> faces = vector<Face>();
-  vector<bool> splited;
+  vector<bool> split;
   MutableContainer<bool> on_cont;
   node n1;
 
@@ -995,7 +995,7 @@ void Ordering::selectAndUpdate(node n) {
       n2 = Gp->opposite(e, n1);
     }
 
-    splited.push_back(spli);
+    split.push_back(spli);
     spli = false;
   }
 
@@ -1035,7 +1035,7 @@ void Ordering::selectAndUpdate(node n) {
   update_seqp.setAll(false);
 
   for (int i = 0; uint(i) < faces.size(); i++) {
-    if (splited[i]) {
+    if (split[i]) {
       outv.set((faces[i]).id, 0);
       oute.set((faces[i]).id, 0);
       seqP.set((faces[i]).id, seqp(faces[i]));
@@ -1426,7 +1426,7 @@ Ordering::Ordering(PlanarConMap *G, PluginProgress *pluginProgress, int minProgr
       break;
     }
 
-    // search for a non-visited and selectable node, occur when no visited node or face has beeen
+    // search for a non-visited and selectable node, occur when no visited node or face has been
     // selected
     bool selNode = false;
 

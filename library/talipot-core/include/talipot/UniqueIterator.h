@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -44,7 +44,7 @@ struct CheckAllFunctor {
  * @param checkFunctor a functor or a lambda function that enables to indicate whether or not the
  *element could be duplicated (default test all elements)
  *
- * The functor function shoul have the following form
+ * The functor function should have the following form
  * @code
  * template <typename T>
  * class ACheckFunctor {

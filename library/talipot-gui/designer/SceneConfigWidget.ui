@@ -958,7 +958,7 @@ of the scene remains unchanged.</string>
                <string>Parallel lines are preserved.</string>
               </property>
               <property name="text">
-               <string>Or&amp;thogonal (no shape distorsion)</string>
+               <string>Or&amp;thogonal (no shape distortion)</string>
               </property>
              </widget>
             </item>
@@ -968,7 +968,7 @@ of the scene remains unchanged.</string>
                <string>&lt;p&gt;As in the human view perception,&lt;br/&gt;parallel lines are not necessarily represented as parallel&lt;br/&gt;and closer the nodes are, the bigger they are represented.&lt;/p&gt;</string>
               </property>
               <property name="text">
-               <string>&amp;Central perspective (shape distorsion)</string>
+               <string>&amp;Central perspective (shape distortion)</string>
               </property>
              </widget>
             </item>

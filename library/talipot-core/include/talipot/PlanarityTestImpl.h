@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -170,7 +170,7 @@ private:
   MutableContainer<int> largestNeighbor;
 
   // for each node u in T,
-  // label_b[u] = max{largest_neighbor[v] : v is a descendat of u in T_u}
+  // label_b[u] = max{largest_neighbor[v] : v is a descendant of u in T_u}
   // where T_u is the subtree of T rooted at u;
   MutableContainer<int> labelB;
 

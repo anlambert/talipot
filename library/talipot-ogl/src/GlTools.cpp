@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -198,7 +198,7 @@ GLfloat projectSize(const BoundingBox &bb, const MatrixGL &projectionMatrix,
   float width = fabs(x1 - x2);
   float size = pow(2. * width, 2);
 
-  // Test of visibily
+  // Test of visibility
   x2 += viewport[0];
   float y2 = (proj2[1] / proj2[3] * 0.5 + 0.5) * viewport[3] + viewport[1];
   Vector<float, 2> upleft;

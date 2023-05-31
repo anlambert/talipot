@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -152,7 +152,7 @@ void TalipotToOGDF::makeOGDFGraphSimple() {
   for (auto e : parallelEdges) {
     auto [src, tgt] = talipotGraph->ends(e);
     auto ee = talipotGraph->existEdge(src, tgt, false);
-    // an edge can be a loop and a paralell one
+    // an edge can be a loop and a parallel one
     if (ogdfEdges.find(e) != ogdfEdges.end()) {
       ogdfGraph.delEdge(ogdfEdges[e]);
       ogdfEdges[e] = ogdfEdges[ee];

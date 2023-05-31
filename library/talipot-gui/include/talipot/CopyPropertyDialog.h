@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -63,7 +63,7 @@ public:
   tlp::PropertyInterface *copyProperty(QString &errorMsg);
 
   /**
-   * @brief Get the name of the destintation property.
+   * @brief Get the name of the destination property.
    **/
   QString destinationPropertyName() const;
 

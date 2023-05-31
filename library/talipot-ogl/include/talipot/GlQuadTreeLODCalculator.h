@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,7 +32,7 @@ class Graph;
 class GlLayer;
 
 /**
- * Class use to compute bounding boxs of a vector of GlEntity
+ * Class used to compute bounding box of a vector of GlEntity
  */
 class TLP_GL_SCOPE GlQuadTreeLODCalculator : public GlCPULODCalculator, private Observable {
 

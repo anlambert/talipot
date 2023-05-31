@@ -315,7 +315,7 @@ public slots:
    * This function is given for optimisation purpose only. If the hardware enable it,
    * it enables to redraw only the Augmented display and the interactors and not the graph
    * it is really useful for interactors such as zoom box etc..
-   * Warning, if you change the graph or the porperties of element (Colors, size, etc...)
+   * Warning, if you change the graph or the properties of elements (Colors, size, etc...)
    * applying that function will not display the change, in that case, use the draw function.
    */
   void redraw();

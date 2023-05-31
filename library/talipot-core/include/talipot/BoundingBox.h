@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -60,7 +60,7 @@ namespace tlp {
 struct TLP_SCOPE BoundingBox : public Array<Coord, 2> {
 
   /**
-   * @brief Creates an invalid boundig box.
+   * @brief Creates an invalid bounding box.
    * The minimum is (1, 1, 1) and the maximum is (-1, -1, -1).
    *
    **/
