@@ -430,7 +430,7 @@ Creates and returns a new named subgraph of this graph.
 
   tlp::Graph* addCloneSubGraph(const std::string& name = "unnamed", bool addSibling = false, bool addSiblingProperties = false);
 %Docstring
-tlp.Graph.addCloneSubGraph(name="unnamed", addSibling=False, addSiblinProperties=False)
+tlp.Graph.addCloneSubGraph(name="unnamed", addSibling=False, addSiblingProperties=False)
 
 Creates and returns a subgraph of this graph (or the parent of this graph) that contains all its
 elements.
