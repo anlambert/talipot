@@ -652,3 +652,14 @@ void SuperGraphTest::testGetNodesEqualTo() {
     CPPUNIT_ASSERT(subGraph->isElement(n));
   }
 }
+//==========================================================
+void SuperGraphTest::testInducedSubGraph() {
+  auto nodes = graph->addNodes(3);
+  edge e1 = graph->addEdge(nodes[0], nodes[1]);
+  edge e2 = graph->addEdge(nodes[1], nodes[2]);
+  (*graph)["viewSelection"][e1] = true;
+  (*graph)["viewSelection"][e2] = true;
+  auto *sg = graph->inducedSubGraph(graph->getBooleanProperty("viewSelection"));
+  CPPUNIT_ASSERT_EQUAL(3u, sg->numberOfNodes());
+  CPPUNIT_ASSERT_EQUAL(2u, sg->numberOfEdges());
+}

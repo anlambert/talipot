@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,6 +17,7 @@
 #include <talipot/FilterIterator.h>
 #include <talipot/GraphView.h>
 #include <talipot/PropertyManager.h>
+#include <talipot/UniqueIterator.h>
 
 using namespace std;
 namespace tlp {
@@ -180,7 +181,7 @@ void GraphView::addNodes(const vector<node> &addedNodes) {
 
   nodes.reserve(addedNodes.size());
   superNodes.reserve(addedNodes.size());
-  for (auto n : addedNodes) {
+  for (auto n : uniqueIterator(addedNodes)) {
     if (!isElement(n)) {
       nodes.push_back(n);
 
@@ -264,7 +265,7 @@ void GraphView::addEdges(const vector<edge> &addedEdges) {
 
   edges.reserve(addedEdges.size());
   superEdges.reserve(addedEdges.size());
-  for (auto e : addedEdges) {
+  for (auto e : uniqueIterator(addedEdges)) {
     assert(getRootImpl()->isElement(e));
     assert(isElement(source(e)));
     assert(isElement(target(e)));

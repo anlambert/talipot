@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,6 +33,7 @@ class SuperGraphTest : public CppUnit::TestFixture {
   CPPUNIT_TEST(testDegree);
   CPPUNIT_TEST(testAttributes);
   CPPUNIT_TEST(testGetNodesEqualTo);
+  CPPUNIT_TEST(testInducedSubGraph);
   CPPUNIT_TEST_SUITE_END();
 
 private:
@@ -54,6 +55,7 @@ public:
   void testDegree();
   void testAttributes();
   void testGetNodesEqualTo();
+  void testInducedSubGraph();
 
 private:
   void build(uint, uint);
