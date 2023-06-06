@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,7 +49,6 @@ void SuperGraphTest::build(uint nbNodes, uint edgeRatio) {
 }
 //==========================================================
 void SuperGraphTest::testIterators() {
-  graph->clear();
   size_t NB_NODES = 100;
   uint EDGE_RATIO = 100;
   size_t NB_EDGES = EDGE_RATIO * NB_NODES;
@@ -106,7 +105,6 @@ void degreeCheck(Graph *graph) {
 }
 //==========================================================
 void SuperGraphTest::testDegree() {
-  graph->clear();
   build(100, 100);
   degreeCheck(graph);
   Graph *gr = graph->addCloneSubGraph();
@@ -284,7 +282,6 @@ void SuperGraphTest::testClear() {
 }
 //==========================================================
 void SuperGraphTest::testOrderEdgeAndSwap() {
-  graph->clear();
   size_t NB_NODES = 100;
   size_t NB_EDGES = NB_NODES - 1;
 
@@ -320,12 +317,9 @@ void SuperGraphTest::testOrderEdgeAndSwap() {
 
   CPPUNIT_ASSERT_EQUAL(edges, iteratorVector(graph->getInOutEdges(nodes[0])));
   CPPUNIT_ASSERT_EQUAL(edges, graph->incidence(nodes[0]));
-
-  graph->clear();
 }
 //==========================================================
 void SuperGraphTest::testDeleteSubgraph() {
-  graph->clear();
   Graph *g1, *g2, *g3, *g4;
   g1 = graph->addSubGraph();
   g2 = graph->addSubGraph();
@@ -362,11 +356,9 @@ void SuperGraphTest::testDeleteSubgraph() {
   Iterator<Graph *> *itGr = g1->getSubGraphs();
   CPPUNIT_ASSERT(!itGr->hasNext());
   delete itGr;
-  graph->clear();
 }
 //==========================================================
 void SuperGraphTest::testSubgraphId() {
-  graph->clear();
   BooleanProperty sel(graph);
   Graph *g1 = graph->addSubGraph(&sel);
   uint id = g1->getId();
@@ -386,7 +378,6 @@ void SuperGraphTest::testSubgraphId() {
 }
 //==========================================================
 void SuperGraphTest::testSubgraph() {
-  graph->clear();
   Graph *g1, *g2, *g3, *g4;
   g1 = graph->addSubGraph();
   g2 = graph->addSubGraph();
@@ -481,19 +472,18 @@ void SuperGraphTest::testSubgraph() {
   CPPUNIT_ASSERT(!graph->isElement(n2) && !graph->isElement(e));
   graph->clear();
 
-  g1 = graph->addSubGraph();
-  g2 = graph;
-  graph = g1;
+  graph = graph->addSubGraph();
   testAddDel();
-  testClear();
-  testOrderEdgeAndSwap();
-  testIterators();
-  graph = g2;
   graph->clear();
+  testClear();
+  graph->clear();
+  testOrderEdgeAndSwap();
+  graph->clear();
+  testIterators();
+  graph = graph->getSuperGraph();
 }
 //==========================================================
 void SuperGraphTest::testInheritance() {
-  graph->clear();
   Graph *g1, *g2, *g3, *g4;
 
   g1 = graph->addSubGraph();
@@ -541,12 +531,9 @@ void SuperGraphTest::testInheritance() {
   CPPUNIT_ASSERT_EQUAL(g2->existLocalProperty("metric1"), false);
   CPPUNIT_ASSERT_EQUAL(g3->existLocalProperty("metric1"), false);
   CPPUNIT_ASSERT_EQUAL(g4->existLocalProperty("metric1"), false);
-
-  graph->clear();
 }
 //==========================================================
 void SuperGraphTest::testPropertiesIteration() {
-  graph->clear();
   Graph *g1, *g2, *g3, *g4;
   set<string> propList1;
   set<string> propList2;
@@ -629,13 +616,10 @@ void SuperGraphTest::testPropertiesIteration() {
                      propList2.find(str) != propList2.end());
     }
   }
-
-  graph->clear();
 }
 
 //==========================================================
 void SuperGraphTest::testAttributes() {
-  graph->clear();
   float f = 12.12f;
   CPPUNIT_ASSERT(!graph->getAttribute("f", f));
   graph->setAttribute("name", string("The Graph"));
