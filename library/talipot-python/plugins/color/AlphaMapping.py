@@ -1,4 +1,4 @@
-# Copyright (C) 2019-2021  The Talipot developers
+# Copyright (C) 2019-2023  The Talipot developers
 #
 # Talipot is a fork of Tulip, created by David Auber
 # and the Tulip development Team from LaBRI, University of Bordeaux
@@ -12,9 +12,11 @@
 # the graph elements transparency according to the values
 # stored in a numeric property of a graph.
 
-from talipot import tlp
-import talipotplugins
 import math
+
+import talipotplugins
+
+from talipot import tlp
 
 
 def clamp(n, smallest, largest):
@@ -101,11 +103,11 @@ class AlphaMapping(tlp.ColorAlgorithm):
 
         elif mappingType == 'logarithmic':
             inputMetric = inputMetric.copyProperty(self.graph)
-            minN = inputMetric.getNodeDoubleMin()
-            minE = inputMetric.getEdgeDoubleMin()
-            for n in self.graph.getNodes():
+            minN = inputMetric.getNodeDoubleMin(self.graph)
+            minE = inputMetric.getEdgeDoubleMin(self.graph)
+            for n in self.graph.nodes():
                 inputMetric[n] = math.log(1+inputMetric[n]-minN)
-            for e in self.graph.getEdges():
+            for e in self.graph.edges():
                 inputMetric[e] = math.log(1+inputMetric[e]-minE)
 
         if target in ('nodes', 'both'):

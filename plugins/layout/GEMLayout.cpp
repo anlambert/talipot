@@ -136,7 +136,7 @@ Coord GEMLayout::computeForces(uint v, float shake, float gravity, bool testPlac
   double maxEdgeLength;
 
   if (_useLength) {
-    maxEdgeLength = std::max(2.0, metric->getEdgeDoubleMin());
+    maxEdgeLength = std::max(2.0, metric->getEdgeDoubleMin(graph));
   } else {
     maxEdgeLength = EDGELENGTH;
   }
@@ -145,7 +145,7 @@ Coord GEMLayout::computeForces(uint v, float shake, float gravity, bool testPlac
 
   // repulsive forces (magnetic)
   for (uint u = 0; u < _nbNodes; ++u) {
-    if (!testPlaced || _particules[u].in > 0) {          // test whether the node is already placed
+    if (!testPlaced || _particules[u].in > 0) { // test whether the node is already placed
       Coord d = vPos - _particules[u].pos;
       float n = d[0] * d[0] + d[1] * d[1] + d[2] * d[2]; // d.norm() * d.norm();
 
@@ -328,7 +328,7 @@ void GEMLayout::arrange() {
   double maxEdgeLength;
 
   if (_useLength) {
-    maxEdgeLength = std::max(2.0, metric->getEdgeDoubleMin());
+    maxEdgeLength = std::max(2.0, metric->getEdgeDoubleMin(graph));
   } else {
     maxEdgeLength = EDGELENGTH;
   }

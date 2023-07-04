@@ -74,7 +74,7 @@ double EccentricityMetric::compute(node n, NodeVectorProperty<double> &maxDistan
   uint nbNodes = graph->numberOfNodes();
   double maxDist = nbNodes;
   if (weight) {
-    maxDist = nbNodes * weight->getEdgeDoubleMax();
+    maxDist = nbNodes * weight->getEdgeDoubleMax(graph);
   }
 
   for (auto nn : graph->nodes()) {

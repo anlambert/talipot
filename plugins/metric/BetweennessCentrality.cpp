@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -99,8 +99,8 @@ public:
     }
 
     // Edges weights should be positive
-    if (weight && weight->getEdgeDoubleMin() <= 0) {
-      pluginProgress->setError("Edges weights should be positive.");
+    if (weight && weight->getEdgeDoubleMin(graph) <= 0) {
+      pluginProgress->setError("Edges weights must be positive.");
       return false;
     }
 

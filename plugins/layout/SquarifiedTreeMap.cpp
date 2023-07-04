@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -73,8 +73,8 @@ bool SquarifiedTreeMap::check(std::string &errorMsg) {
   if (!metric && graph->existProperty("viewMetric")) {
     metric = graph->getDoubleProperty("viewMetric");
 
-    if (metric->getNodeDoubleMin() < 0.) {
-      errorMsg = "Graph's nodes must have a positive metric.";
+    if (metric->getNodeDoubleMin(graph) < 0.) {
+      errorMsg = "Graph nodes must have a positive metric.";
       return false;
     }
   }
@@ -84,11 +84,6 @@ bool SquarifiedTreeMap::check(std::string &errorMsg) {
 }
 
 //====================================================================
-/**
- *
- *  @todo manage correctly parameters remove texture mode, enable to choose bordersize + header
- * size
- */
 bool SquarifiedTreeMap::run() {
   double aspectRatio = DEFAULT_RATIO;
   shneidermanTreeMap = false;
