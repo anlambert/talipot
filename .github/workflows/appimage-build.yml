@@ -36,7 +36,7 @@ jobs:
           -v ~/ccache:/ccache
           --name ccache
           ${{ matrix.config.docker-image }}
-      - name: Build Talipot AppImage in CentOS
+      - name: Build Talipot AppImage on CentOS
         run: docker run
           -e CCACHE_DIR=/ccache
           --volumes-from ccache
@@ -75,7 +75,10 @@ jobs:
           options: --device /dev/fuse --privileged
             -v ${{ github.workspace }}:/talipot:rw
           run: |
-            pacman -Syu --noconfirm fuse gnome qt5-base xorg-server-xvfb
+            until pacman -Syu --noconfirm fuse gnome qt5-base xorg-server-xvfb
+            do
+              echo "Some packages could not be downloaded, retrying"
+            done
             xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts --debug-plugins-load
       - name: Check Talipot AppImage can be executed on openSUSE
         uses: addnab/docker-run-action@v3
