@@ -1305,11 +1305,7 @@ QSet<QString> AutoCompletionDataBase::getAllDictForType(const QString &type, con
   ret = _apiDb->getDictContentForType(type, prefix);
 
   if (!root) {
-    for (const QString &entry : ret) {
-      if (entry[0].isUpper()) {
-        ret.remove(entry);
-      }
-    }
+    ::erase_if(ret, [](const auto &entry) { return entry[0].isUpper(); });
   }
 
   QVector<QString> baseTypes = PythonInterpreter::instance().getBaseTypesForType(type);
@@ -1456,11 +1452,7 @@ QSet<QString> AutoCompletionDataBase::getAutoCompletionListForContext(const QStr
           ((_varToType.find(editedFunction) != _varToType.end() &&
             _varToType[editedFunction].find(expr) != _varToType[editedFunction].end()) ||
            (!_apiDb->typeExists(expr) && _apiDb->getFullTypeName(expr).isEmpty()))) {
-        for (const QString &entry : ret) {
-          if (entry[0].isUpper()) {
-            ret.remove(entry);
-          }
-        }
+        ::erase_if(ret, [](const auto &entry) { return entry[0].isUpper(); });
       }
     } else if (!dotContext) {
       ret = _apiDb->getAllDictEntriesStartingWithPrefix(prefix);

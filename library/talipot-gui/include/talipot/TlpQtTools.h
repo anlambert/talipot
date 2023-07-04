@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -163,5 +163,24 @@ inline void setToolTipWithCtrlShortcut(QElt *elt, const QString &tt, const QStri
   elt->setToolTip(tt + " [Ctrl+" + sc + "]");
 #endif
 }
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 1, 0)
+// taken from Qt6 source code
+template <typename T, typename Predicate>
+qsizetype erase_if(QSet<T> &set, Predicate pred) {
+  qsizetype result = 0;
+  auto it = set.begin();
+  const auto e = set.end();
+  while (it != e) {
+    if (pred(*it)) {
+      ++result;
+      it = set.erase(it);
+    } else {
+      ++it;
+    }
+  }
+  return result;
+}
+#endif
 
 #endif // TALIPOT_TLP_QT_TOOLS_H
