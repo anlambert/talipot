@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,6 +13,8 @@
 
 #include "PluginInformationListItem.h"
 #include "ui_PluginInformationListItem.h"
+
+#include <QRegularExpression>
 
 #include <talipot/IconicFont.h>
 #include <talipot/FontIcon.h>
@@ -31,7 +33,9 @@ PluginInformationListItem::PluginInformationListItem(const Plugin &plugin, QWidg
   _ui->icon->setPixmap(pix);
   _ui->name->setText(tlpStringToQString(plugin.name()) + " " +
                      tlpStringToQString(plugin.release()));
-  _ui->desc->setText(tlpStringToQString(plugin.info()) +
+
+  QRegularExpression regexp("(https?://[^\\) ]+)");
+  _ui->desc->setText(tlpStringToQString(plugin.info()).replace(regexp, "<a href=\"\\1\">\\1</a>") +
                      "\n\nAuthor: " + tlpStringToQString(plugin.author()));
 }
 
