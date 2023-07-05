@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -104,11 +104,9 @@ public:
   PLUGININFORMATION("Pajek", "Patrick Mary", "09/05/2011",
                     "<p>Supported extensions: net, paj</p><p>Imports a new graph from a file "
                     "(.net) in Pajek input format<br/>as it is described in the Pajek manual "
-                    "(<b>http://pajek.imfm.si/lib/exe/fetch.php?media=dl:pajekman203.pdf</b>)<br/"
-                    ">from the Pajek wiki page "
-                    "<b>http://pajek.imfm.si/doku.php?id=download</b>.<br/>Warning: the "
-                    "description of the edges with Matrix (adjacency lists)<br/>is not yet "
-                    "supported.</p>",
+                    "(http://vlado.fmf.uni-lj.si/pub/networks/pajek/doc/draweps.htm)<br/>"
+                    "<br/>Warning: the description of the edges with Matrix (adjacency lists)"
+                    "<br/>is not yet supported.</p>",
                     "1.0", "File")
   std::list<std::string> fileExtensions() const override {
     return {"net", "paj"};

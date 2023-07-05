@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -976,8 +976,7 @@ public:
                     "<p>Supported extensions: tlp, tlpz (compressed), tlp.gz "
                     "(compressed)</p><p>Imports a graph recorded in a file using the TLP format "
                     "(Tulip Software Graph Format).<br/>See "
-                    "<b>http://tulip.labri.fr->Framework->TLP File Format</b> for "
-                    "description.",
+                    "https://tulip.labri.fr/site/?q=tlp-file-format for description.</p>",
                     "1.0", "File")
   std::list<std::string> fileExtensions() const override {
     return {"tlp"};

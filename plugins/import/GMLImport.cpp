@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -571,7 +571,9 @@ public:
   PLUGININFORMATION("GML", "Auber", "04/07/2001",
                     "<p>Supported extension: gml</p><p>Imports a new graph from a file (.gml) in "
                     "the GML input format (used by Graphlet).<br/>See "
-                    "<b>www.infosun.fmi.uni-passau.de/Graphlet/GML/</b> for details.</p>",
+                    "https://github.com/GunterMueller/UNI_PASSAU_FMI_Graph_Drawing/blob/master/GML/"
+                    "gml-technical-report.pdf"
+                    " for details.</p>",
                     "1.1", "File")
   std::list<std::string> fileExtensions() const override {
     return {"gml"};
