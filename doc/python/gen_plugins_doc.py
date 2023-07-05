@@ -1,11 +1,19 @@
-# automatically generates the file talipotpluginsdocumentation.rst
-# by dynamically introspecting the Talipot plugins metadata
+# Copyright (C) 2019-2023  The Talipot developers
+#
+# Talipot is a fork of Tulip, created by David Auber
+# and the Tulip development Team from LaBRI, University of Bordeaux
+#
+# See the AUTHORS file at the top-level directory of this distribution
+# License: GNU General Public License version 3, or any later version
+# See top-level LICENSE file for more information
 
-from __future__ import print_function
-from talipot import tlp
-import tabulate
-import re
 import os
+import re
+import textwrap
+
+import tabulate
+
+from talipot import tlp
 
 talipot_build_dir = os.environ['TALIPOT_BUILD_DIR']
 tlp.loadTalipotPluginsFromDir('%s/plugins/clustering' % talipot_build_dir)
@@ -280,8 +288,10 @@ for cat in sorted(plugins.keys()):
                 paramDefValue = paramDefValue.replace('true', ':const:`True`')
             nonBreakingSpace = u'\xa0'
             if len(paramValues) > 0:
-                paramDefValue += (u' |br| |br| |bstart| Values: |bend| |br| %s'
-                                  % paramValues)
+                paramDefValue += (
+                    u' |br| |br| |bstart| Values: |bend| |br| %s'
+                    % paramValues.replace("|bstart|", "").replace("|bend|", "")
+                )
             valuesDoc = False
 
             paramName = param.getName().replace(
@@ -294,8 +304,9 @@ for cat in sorted(plugins.keys()):
                                 paramHelp])
         if len(paramsTable) > 0:
             writeSection('Parameters', '"')
-            print(tabulate.tabulate(paramsTable, headers,
-                                    tablefmt='grid') + '\n', file=f)
+            print(".. container:: plugin-parameters\n", file=f)
+            table = tabulate.tabulate(paramsTable, headers, tablefmt='grid')
+            print(textwrap.indent(table + '\n', "  "), file=f)
         writeSection('Calling the plugin from Python', '"')
         print(('To call that plugin from Python, use the following '
                'code snippet::\n'), file=f)
@@ -308,8 +319,8 @@ for cat in sorted(plugins.keys()):
         else:
             print('  params = tlp.getDefaultPluginParameters(\'%s\')\n'
                   % p.name(), file=f)
-        if nbInParams > 0 and not(len(paramsTable) == 1 and
-                                  paramsTable[0][0] == 'result'):
+        if nbInParams > 0 and not (len(paramsTable) == 1 and
+                                   paramsTable[0][0] == 'result'):
             print('  # set any input parameter value if needed', file=f)
             for paramData in paramsTable:
                 print('  # params[\'%s\'] = ...' % paramData[0], file=f)

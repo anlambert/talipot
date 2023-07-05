@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -100,7 +100,7 @@ public:
         overrideMinInput(false) {
     addInParameter<StringCollection>(
         ELT_TYPE, paramHelp[0].data(), ELT_TYPES, true,
-        "<b>linear<b/> <br> <b>uniform</b> <br> <b>enumerated</b> <br> <b>logarithmic</b>");
+        "<b>linear</b> <br> <b>uniform</b> <br> <b>enumerated</b> <br> <b>logarithmic</b>");
     addInParameter<PropertyInterface *>("input property", paramHelp[1].data(), "viewMetric");
     addInParameter<StringCollection>(TARGET_TYPE, paramHelp[2].data(), TARGET_TYPES, true,
                                      "<b>nodes</b> <br> <b>edges</b>");

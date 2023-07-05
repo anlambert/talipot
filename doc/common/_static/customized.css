@@ -1,5 +1,5 @@
 /*
- * 
+ *
  * Inspired by Sphinx stylesheet -- agogo theme.
  *
  * :copyright: Copyright 2007-2013 by the Sphinx team, see AUTHORS.
@@ -512,4 +512,12 @@ table.citation {
 
 table.citation td {
     border-bottom: none;
+}
+
+.plugin-parameters {
+  margin-bottom: 1em;
+}
+
+.plugin-parameters thead p {
+  margin-top: 0;
 }
