@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,6 +13,7 @@
 
 #include <talipot/GlLines.h>
 #include <talipot/ColorScalesManager.h>
+#include <talipot/TlpQtTools.h>
 
 #include <QMenu>
 
@@ -804,7 +805,7 @@ bool HistogramMetricMapping::eventFilter(QObject *widget, QEvent *e) {
       if (selectedAnchor != nullptr) {
         glWidget->setCursor(QCursor(Qt::OpenHandCursor));
       } else if (pointerColorScale) {
-        glWidget->setCursor(QCursor(Qt::WhatsThisCursor));
+        glWidget->setCursor(QCursor(whatsThisCursor()));
       } else {
         glWidget->setCursor(QCursor(Qt::ArrowCursor));
       }

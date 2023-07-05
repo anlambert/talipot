@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -505,6 +505,15 @@ void clearLayout(QLayout *layout, bool deleteWidgets) {
 
     delete item;
   }
+}
+
+QCursor whatsThisCursor() {
+#ifndef __APPLE__
+  static auto cursor = QCursor(Qt::WhatsThisCursor);
+#else
+  static auto cursor = QCursor(QPixmap(":/talipot/gui/icons/20/whats_this.png"), 2, 4);
+#endif
+  return cursor;
 }
 
 }

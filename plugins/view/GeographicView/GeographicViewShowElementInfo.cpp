@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -140,7 +140,7 @@ bool GeographicViewShowElementInfo::eventFilter(QObject *widget, QEvent *e) {
 
     if (e->type() == QEvent::MouseMove) {
       if (pick(qMouseEv->pos().x(), qMouseEv->pos().y(), selectedEntity)) {
-        geoView->getGeographicViewGraphicsView()->glWidget()->setCursor(Qt::WhatsThisCursor);
+        geoView->getGeographicViewGraphicsView()->glWidget()->setCursor(whatsThisCursor());
       } else {
         geoView->getGeographicViewGraphicsView()->glWidget()->setCursor(QCursor());
       }

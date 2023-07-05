@@ -15,6 +15,7 @@
 #define TALIPOT_TLP_QT_TOOLS_H
 
 #include <QColor>
+#include <QCursor>
 #include <QDebug>
 
 #include <talipot/Color.h>
@@ -145,6 +146,8 @@ TLP_QT_SCOPE void addFontToQFontDatabase(const Font &font);
 TLP_QT_SCOPE void removeFontFromQFontDatabase(const std::string &fontFile);
 
 TLP_QT_SCOPE void clearLayout(QLayout *layout, bool deleteWidgets = true);
+
+TLP_QT_SCOPE QCursor whatsThisCursor();
 
 }
 
