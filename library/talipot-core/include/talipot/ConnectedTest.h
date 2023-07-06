@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -76,16 +76,6 @@ public:
    * @return The bridges that were found as a vector of edges.
    **/
   static std::vector<tlp::edge> computeBridges(const Graph *graph);
-
-private:
-  /**
-   * @brief Makes the graph connected.
-   *
-   * @param graph The graph to make connected.
-   * @param toLink The nodes that need to be linked so the graph is connected.
-   * @return void
-   **/
-  static void connect(const Graph *const, std::vector<node> &toLink);
 };
 }
 

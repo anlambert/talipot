@@ -20,31 +20,6 @@ using namespace tlp;
 //=================================================================
 static ConnectedTestListener instance;
 //=================================================================
-static uint connectedTest(const Graph *const graph, node n, NodeVectorProperty<bool> &visited) {
-  list<node> nodesToVisit;
-  visited[n] = true;
-  nodesToVisit.push_front(n);
-  uint count = 1;
-
-  while (!nodesToVisit.empty()) {
-    node r = nodesToVisit.front();
-    nodesToVisit.pop_front();
-    // loop on all neighbours
-    for (auto neighbour : graph->getInOutNodes(r)) {
-      // check if neighbour has been visited
-      if (!visited[neighbour]) {
-        // mark neighbour as already visited
-        visited[neighbour] = true;
-        // push it for further deeper exploration
-        nodesToVisit.push_back(neighbour);
-        ++count;
-      }
-    }
-  }
-
-  return count;
-}
-//=================================================================
 bool ConnectedTest::isConnected(const tlp::Graph *const graph) {
   if (instance.resultsBuffer.find(graph) != instance.resultsBuffer.end()) {
     return instance.resultsBuffer[graph];
@@ -61,24 +36,25 @@ bool ConnectedTest::isConnected(const tlp::Graph *const graph) {
 
   NodeVectorProperty<bool> visited(graph);
   visited.setAll(false);
-  uint count = connectedTest(graph, graph->getOneNode(), visited);
-  bool result = (count == graph->numberOfNodes());
+  uint count = graph->bfs().size();
   graph->addListener(instance);
-  return instance.resultsBuffer[graph] = result;
+  return instance.resultsBuffer[graph] = (count == graph->numberOfNodes());
 }
 //=================================================================
 vector<edge> ConnectedTest::makeConnected(Graph *graph) {
   vector<edge> addedEdges;
-  graph->removeListener(instance);
-  instance.resultsBuffer.erase(graph);
-  vector<node> toLink;
-  connect(graph, toLink);
-
-  for (uint i = 1; i < toLink.size(); ++i) {
-    addedEdges.push_back(graph->addEdge(toLink[i - 1], toLink[i]));
+  if (!isConnected(graph)) {
+    graph->removeListener(instance);
+    instance.resultsBuffer.erase(graph);
+    auto components = computeConnectedComponents(graph);
+    for (uint i = 1; i < components.size(); ++i) {
+      addedEdges.push_back(graph->addEdge(components[i - 1][0], components[i][0]));
+    }
+    graph->addListener(instance);
   }
 
   assert(isConnected(graph));
+  instance.resultsBuffer[graph] = true;
   return addedEdges;
 }
 //=================================================================
@@ -86,19 +62,8 @@ uint ConnectedTest::numberOfConnectedComponents(const tlp::Graph *const graph) {
   if (graph->isEmpty()) {
     return 0u;
   }
-
   graph->removeListener(instance);
-  vector<node> toLink;
-  connect(graph, toLink);
-  uint result;
-
-  if (!toLink.empty()) {
-    result = toLink.size();
-  } else {
-    result = 1u;
-  }
-
-  instance.resultsBuffer[graph] = (result == 1u);
+  uint result = computeConnectedComponents(graph).size();
   graph->addListener(instance);
   return result;
 }
@@ -108,63 +73,20 @@ vector<vector<node>> ConnectedTest::computeConnectedComponents(const tlp::Graph 
   NodeVectorProperty<bool> visited(graph);
   visited.setAll(false);
   // do a bfs traversal for each node
-  TLP_MAP_NODES_AND_INDICES(graph, [&](node n, uint i) {
+  for (auto n : graph->nodes()) {
     // check if curNode has been already visited
-    if (!visited[i]) {
-      // add a new component
-      components.push_back(std::vector<node>());
-      std::vector<node> &component = components.back();
-      // and initialize it with current node
-      component.push_back(n);
-      // do a bfs traversal this node
-      list<node> nodesToVisit;
-      visited[i] = true;
-      nodesToVisit.push_front(n);
-
-      while (!nodesToVisit.empty()) {
-        n = nodesToVisit.front();
-        nodesToVisit.pop_front();
-
-        // loop on all neighbours
-        for (auto neighbour : graph->getInOutNodes(n)) {
-          // check if neighbour has been visited
-          if (!visited[neighbour]) {
-            // mark neighbour as already visited
-            visited[neighbour] = true;
-            // insert it in current component
-            component.push_back(neighbour);
-            // push it for further deeper exploration
-            nodesToVisit.push_back(neighbour);
-          }
-        }
+    if (!visited[n]) {
+      // add a new component by doing a bfs traversal from this node
+      components.push_back(graph->bfs(n));
+      for (auto n : components.back()) {
+        visited[n] = true;
       }
     }
-  });
+  }
+  instance.resultsBuffer[graph] = (components.size() == 1);
   return components;
 }
 //=================================================================
-void ConnectedTest::connect(const tlp::Graph *const graph, vector<node> &toLink) {
-
-  if (const auto it = instance.resultsBuffer.find(graph); it != instance.resultsBuffer.end()) {
-    if (it->second) {
-      return;
-    }
-  }
-
-  if (graph->isEmpty()) {
-    return;
-  }
-
-  NodeVectorProperty<bool> visited(graph);
-  visited.setAll(false);
-
-  TLP_MAP_NODES_AND_INDICES(graph, [&](node n, uint i) {
-    if (!visited[i]) {
-      toLink.push_back(n);
-      connectedTest(graph, n, visited);
-    }
-  });
-}
 
 // algorithm implementation adapted from https://cp-algorithms.com/graph/bridge-searching.html
 vector<edge> ConnectedTest::computeBridges(const Graph *graph) {
