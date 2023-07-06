@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021  The Talipot developers
+ * Copyright (C) 2021-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -62,11 +62,11 @@ public:
      */
     vector<tlp::node> dfs = {nodes[0], nodes[1], nodes[2], nodes[3],  nodes[4],  nodes[5], nodes[6],
                              nodes[7], nodes[8], nodes[9], nodes[10], nodes[11], nodes[12]};
-    CPPUNIT_ASSERT_EQUAL(dfs, iteratorVector(graph->dfs()));
+    CPPUNIT_ASSERT_EQUAL(dfs, graph->dfs());
 
     vector<tlp::node> dfsRootedDirected = {nodes[1], nodes[2], nodes[3],
                                            nodes[4], nodes[5], nodes[6]};
-    CPPUNIT_ASSERT_EQUAL(dfsRootedDirected, iteratorVector(graph->dfs(nodes[1], true)));
+    CPPUNIT_ASSERT_EQUAL(dfsRootedDirected, graph->dfs(nodes[1], true));
   }
 
   void testDFSEdges() {
@@ -78,14 +78,14 @@ public:
         graph->existEdge(nodes[0], nodes[9]),   graph->existEdge(nodes[9], nodes[10]),
         graph->existEdge(nodes[10], nodes[11]), graph->existEdge(nodes[9], nodes[12]),
     };
-    CPPUNIT_ASSERT_EQUAL(dfsEdges, iteratorVector(graph->dfsEdges()));
+    CPPUNIT_ASSERT_EQUAL(dfsEdges, graph->dfsEdges());
 
     vector<tlp::edge> dfsEdgesRootedDirected = {
         graph->existEdge(nodes[1], nodes[2]), graph->existEdge(nodes[1], nodes[3]),
         graph->existEdge(nodes[3], nodes[4]), graph->existEdge(nodes[4], nodes[5]),
         graph->existEdge(nodes[1], nodes[6]),
     };
-    CPPUNIT_ASSERT_EQUAL(dfsEdgesRootedDirected, iteratorVector(graph->dfsEdges(nodes[1], true)));
+    CPPUNIT_ASSERT_EQUAL(dfsEdgesRootedDirected, graph->dfsEdges(nodes[1], true));
   }
 
   void testBFS() {
@@ -116,11 +116,11 @@ public:
     vector<tlp::node> bfs = {nodes[0], nodes[1],  nodes[7], nodes[8],  nodes[9],
                              nodes[2], nodes[3],  nodes[6], nodes[10], nodes[12],
                              nodes[4], nodes[11], nodes[5]};
-    CPPUNIT_ASSERT_EQUAL(bfs, iteratorVector(graph->bfs()));
+    CPPUNIT_ASSERT_EQUAL(bfs, graph->bfs());
 
     vector<tlp::node> bfsRootedDirected = {nodes[1], nodes[2], nodes[3],
                                            nodes[6], nodes[4], nodes[5]};
-    CPPUNIT_ASSERT_EQUAL(bfsRootedDirected, iteratorVector(graph->bfs(nodes[1], true)));
+    CPPUNIT_ASSERT_EQUAL(bfsRootedDirected, graph->bfs(nodes[1], true));
   }
 
   void testBFSEdges() {
@@ -132,14 +132,14 @@ public:
         graph->existEdge(nodes[9], nodes[12]),  graph->existEdge(nodes[3], nodes[4]),
         graph->existEdge(nodes[10], nodes[11]), graph->existEdge(nodes[4], nodes[5]),
     };
-    CPPUNIT_ASSERT_EQUAL(bfsEdges, iteratorVector(graph->bfsEdges()));
+    CPPUNIT_ASSERT_EQUAL(bfsEdges, graph->bfsEdges());
 
     vector<tlp::edge> bfsEdgesRootedDirected = {
         graph->existEdge(nodes[1], nodes[2]), graph->existEdge(nodes[1], nodes[3]),
         graph->existEdge(nodes[1], nodes[6]), graph->existEdge(nodes[3], nodes[4]),
         graph->existEdge(nodes[4], nodes[5]),
     };
-    CPPUNIT_ASSERT_EQUAL(bfsEdgesRootedDirected, iteratorVector(graph->bfsEdges(nodes[1], true)));
+    CPPUNIT_ASSERT_EQUAL(bfsEdgesRootedDirected, graph->bfsEdges(nodes[1], true));
   }
 
 private:

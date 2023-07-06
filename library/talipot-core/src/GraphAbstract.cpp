@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -491,18 +491,18 @@ std::string GraphAbstract::getName() const {
   return name;
 }
 
-Iterator<node> *GraphAbstract::bfs(const node root, bool directed) const {
-  return stableIterator(tlp::bfs(this, root, directed));
+std::vector<node> GraphAbstract::bfs(const node root, bool directed) const {
+  return tlp::bfs(this, root, directed);
 }
 
-Iterator<node> *GraphAbstract::dfs(const node root, bool directed) const {
-  return stableIterator(tlp::dfs(this, root, directed));
+std::vector<node> GraphAbstract::dfs(const node root, bool directed) const {
+  return tlp::dfs(this, root, directed);
 }
 
-Iterator<edge> *GraphAbstract::bfsEdges(const node root, bool directed) const {
-  return stableIterator(tlp::bfsEdges(this, root, directed));
+std::vector<edge> GraphAbstract::bfsEdges(const node root, bool directed) const {
+  return tlp::bfsEdges(this, root, directed);
 }
 
-Iterator<edge> *GraphAbstract::dfsEdges(const node root, bool directed) const {
-  return stableIterator(tlp::dfsEdges(this, root, directed));
+std::vector<edge> GraphAbstract::dfsEdges(const node root, bool directed) const {
+  return tlp::dfsEdges(this, root, directed);
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021-2022  The Talipot developers
+ * Copyright (C) 2021-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -422,7 +422,7 @@ public:
           rootSg = tagsSg;
         }
         if (rootSg) {
-          vector<node> refCommits = iteratorVector(commitsSg->bfs(it->second, true));
+          vector<node> refCommits = commitsSg->bfs(it->second, true);
           rootSg->inducedSubGraph(refCommits, nullptr, refName);
         }
       }
@@ -459,7 +459,7 @@ public:
           tagsSg = commitsSg->addCloneSubGraph("tags");
         }
 
-        vector<node> refCommits = iteratorVector(commitsSg->bfs(it->second, true));
+        vector<node> refCommits = commitsSg->bfs(it->second, true);
         tagsSg->inducedSubGraph(refCommits, nullptr, tagName);
       }
     }

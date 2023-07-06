@@ -943,9 +943,9 @@ public:
    * node will be assigned to a source node in the graph (node with input degree equals to 0).
    * If there is no source node in the graph, a random node will be picked.
    * @param directed if true only follow output edges, follow all edges otherwise
-   * @return A stable iterator over the graph nodes in the BFS order.
+   * @return A vector of graph nodes in the BFS order.
    */
-  virtual Iterator<node> *bfs(const node root = node(), bool directed = false) const = 0;
+  virtual std::vector<node> bfs(const node root = node(), bool directed = false) const = 0;
 
   /**
    * @brief Gets an iterator performing a breadth-first search on the graph.
@@ -953,9 +953,9 @@ public:
    * node will be assigned to a source node in the graph (node with input degree equals to 0).
    * If there is no source node in the graph, a random node will be picked.
    * @param directed if true only follow output edges, follow all edges otherwise
-   * @return A stable iterator over the graph edges in the BFS order.
+   * @return A vector of graph edges in the BFS order.
    */
-  virtual Iterator<edge> *bfsEdges(const node root = node(), bool directed = false) const = 0;
+  virtual std::vector<edge> bfsEdges(const node root = node(), bool directed = false) const = 0;
 
   /**
    * @brief Gets an iterator performing a depth-first search on the graph.
@@ -963,9 +963,9 @@ public:
    * node will be assigned to a source node in the graph (node with input degree equals to 0).
    * If there is no source node in the graph, a random node will be picked.
    * @param directed if true only follow output edges, follow all edges otherwise
-   * @return A stable iterator over the graph nodes in the DFS order.
+   * @return A vector of graph nodes in the DFS order.
    */
-  virtual Iterator<node> *dfs(const node root = node(), bool directed = false) const = 0;
+  virtual std::vector<node> dfs(const node root = node(), bool directed = false) const = 0;
 
   /**
    * @brief Gets an iterator performing a depth-first search on the graph.
@@ -973,9 +973,9 @@ public:
    * node will be assigned to a source node in the graph (node with input degree equals to 0).
    * If there is no source node in the graph, a random node will be picked.
    * @param directed if true only follow output edges, follow all edges otherwise
-   * @return A stable iterator over the graph edges in the DFS order.
+   * @return A vector of graph edges in the DFS order.
    */
-  virtual Iterator<edge> *dfsEdges(const node root = node(), bool directed = false) const = 0;
+  virtual std::vector<edge> dfsEdges(const node root = node(), bool directed = false) const = 0;
 
   /**
    * @brief Gets the underlying graph of a meta node.

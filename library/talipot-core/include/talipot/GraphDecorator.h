@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -110,10 +110,10 @@ public:
   Iterator<node> *getInNodes(const node n) const override;
   Iterator<node> *getOutNodes(const node n) const override;
   Iterator<node> *getInOutNodes(const node n) const override;
-  Iterator<node> *bfs(const node root = node(), bool directed = false) const override;
-  Iterator<node> *dfs(const node root = node(), bool directed = false) const override;
-  Iterator<edge> *bfsEdges(const node root = node(), bool directed = false) const override;
-  Iterator<edge> *dfsEdges(const node root = node(), bool directed = false) const override;
+  std::vector<node> bfs(const node root = node(), bool directed = false) const override;
+  std::vector<node> dfs(const node root = node(), bool directed = false) const override;
+  std::vector<edge> bfsEdges(const node root = node(), bool directed = false) const override;
+  std::vector<edge> dfsEdges(const node root = node(), bool directed = false) const override;
   const std::vector<edge> &edges() const override;
   uint edgePos(const edge) const override;
   Iterator<edge> *getEdges() const override;
