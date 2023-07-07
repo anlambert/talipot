@@ -11,6 +11,8 @@
  *
  */
 
+#include <queue>
+
 #include <talipot/DoubleProperty.h>
 #include <talipot/IntegerProperty.h>
 #include <talipot/Ordering.h>
@@ -500,12 +502,12 @@ static void bfs(const Graph *graph, node root, NodeVectorProperty<bool> &visited
   edges.reserve(edges.size() + graph->numberOfEdges());
 
   visited[root] = true;
-  list<node> queue;
-  queue.push_back(root);
+  queue<node> queue;
+  queue.push(root);
 
   while (!queue.empty()) {
     node current = queue.front();
-    queue.pop_front();
+    queue.pop();
     nodes.push_back(current);
 
     for (auto e : getIncidentEdgesIterator(graph, current,
@@ -513,7 +515,7 @@ static void bfs(const Graph *graph, node root, NodeVectorProperty<bool> &visited
       auto neigh = graph->opposite(e, current);
       if (!visited[neigh]) {
         visited[neigh] = true;
-        queue.push_back(neigh);
+        queue.push(neigh);
         edges.push_back(e);
       }
     }
