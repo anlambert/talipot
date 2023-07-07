@@ -29,16 +29,13 @@ bool ConnectedTest::isConnected(const tlp::Graph *const graph) {
     return true;
   }
 
-  // graph can not be connected with that configuration
+  // graph cannot be connected with that configuration
   if (graph->numberOfEdges() < graph->numberOfNodes() - 1) {
     return false;
   }
 
-  NodeVectorProperty<bool> visited(graph);
-  visited.setAll(false);
-  uint count = graph->bfs().size();
   graph->addListener(instance);
-  return instance.resultsBuffer[graph] = (count == graph->numberOfNodes());
+  return instance.resultsBuffer[graph] = (graph->bfs().size() == graph->numberOfNodes());
 }
 //=================================================================
 vector<edge> ConnectedTest::makeConnected(Graph *graph) {
@@ -70,7 +67,7 @@ uint ConnectedTest::numberOfConnectedComponents(const tlp::Graph *const graph) {
 //======================================================================
 vector<vector<node>> ConnectedTest::computeConnectedComponents(const tlp::Graph *graph) {
   vector<vector<node>> components;
-  NodeVectorProperty<bool> visited(graph);
+  auto visited = NodeVectorProperty<bool>(graph);
   visited.setAll(false);
   // do a bfs traversal for each node
   for (auto n : graph->nodes()) {
@@ -78,21 +75,21 @@ vector<vector<node>> ConnectedTest::computeConnectedComponents(const tlp::Graph 
     if (!visited[n]) {
       // add a new component by doing a bfs traversal from this node
       components.push_back(graph->bfs(n));
-      for (auto n : components.back()) {
-        visited[n] = true;
+      for (auto nc : components.back()) {
+        visited[nc] = true;
       }
     }
   }
-  instance.resultsBuffer[graph] = (components.size() == 1);
   return components;
 }
 //=================================================================
 
 // algorithm implementation adapted from https://cp-algorithms.com/graph/bridge-searching.html
 vector<edge> ConnectedTest::computeBridges(const Graph *graph) {
-  NodeVectorProperty<bool> visited(graph);
-  NodeVectorProperty<int> tin(graph), low(graph);
-  int timer = 0;
+  auto visited = NodeVectorProperty<bool>(graph);
+  auto tin = NodeVectorProperty<uint>(graph);
+  auto low = NodeVectorProperty<uint>(graph);
+  uint timer = 0;
   vector<edge> bridges;
 
   function<void(node, node)> dfsBridges = [&](node n, node p) {
