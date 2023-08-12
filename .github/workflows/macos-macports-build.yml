@@ -64,10 +64,10 @@ jobs:
           fontconfig
           fribidi
           glew
-          qt5-qtbase
-          qt5-qttools
-          qt5-qtwebkit
-          quazip
+          qt6-qtbase
+          qt6-qt5compat
+          qt6-qttools
+          qt6-qtwebengine
           py${{ env.PYTHON_VERSION_NO_DOT }}-pip
       - name: Install Sphinx
         run: pip-${{ env.PYTHON_VERSION }} install sphinx
@@ -100,6 +100,7 @@ jobs:
         run: cmake .
           -DTALIPOT_BUILD_CORE_ONLY=OFF
           -DTALIPOT_BUILD_DOC=ON
+          -DTALIPOT_USE_QT6=ON
       - name: Talipot complete build
         working-directory: ./build
         run: make -j4
