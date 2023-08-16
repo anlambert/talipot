@@ -107,12 +107,13 @@ EOF
 # make it executable
 chmod +x MacOS/Talipot
 
+MACOS_VERSION=$(echo @MACOS_VERSION@ | cut -c1-2)
+
 # generate dmg
 echo 'Generating DMG'
 cd "${DEST_DIR}"
-sh "${SRC_DIR}/make_dmg.sh" ${APP_NAME} "@TalipotVersion@" "${DEST_DIR}/application"
+sh "${SRC_DIR}/make_dmg.sh" ${APP_NAME} "@TalipotVersion@" "${DEST_DIR}/application" "${MACOS_VERSION}"
 
 # rename dmg
-MACOS_VERSION=$(echo @MACOS_VERSION@ | cut -c1-2)
 echo "${APP_NAME}-@TalipotVersion@-macOS-${MACOS_VERSION}.dmg has been successfully generated in ${DEST_DIR}"
 mv ${APP_NAME}-@TalipotVersion@.dmg ${APP_NAME}-@TalipotVersion@-macOS-${MACOS_VERSION}.dmg

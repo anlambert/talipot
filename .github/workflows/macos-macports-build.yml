@@ -15,6 +15,8 @@ jobs:
             os: macos-11
           - name: Talipot build on macOS 12
             os: macos-12
+          - name: Talipot build on macOS 13
+            os: macos-13
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.11.0

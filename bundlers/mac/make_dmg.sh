@@ -12,13 +12,21 @@
 NAME=$1
 VERSION=$2
 SRC_DIR=$3
+MACOS_VERSION=$4
 
 DMG=$NAME-$VERSION
 
 SIZE=$(du -ms $SRC_DIR | cut -f 1)
 SIZE=$((SIZE + 20))
-hdiutil create -srcfolder "${SRC_DIR}" -volname "${DMG}" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -megabytes ${SIZE} pack.temp.dmg
-device=$(hdiutil attach -readwrite -noverify -noautoopen "pack.temp.dmg" | egrep '^/dev/' | sed 1q | awk '{print $1}')
+
+if [ "${MACOS_VERSION}" = "13" ]
+then
+  hdiutil create -srcfolder "${SRC_DIR}" -volname "${DMG}" -format UDRW -megabytes ${SIZE} pack.temp.dmg
+else
+  hdiutil create -srcfolder "${SRC_DIR}" -volname "${DMG}" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -megabytes ${SIZE} pack.temp.dmg
+fi
+
+hdiutil attach -readwrite -noverify -noautoopen "pack.temp.dmg"
 echo '
    tell application "Finder"
      tell disk "'${DMG}'"
@@ -40,9 +48,7 @@ echo '
      end tell
    end tell
 ' | osascript
-chmod -Rf go-w /Volumes/"${DMG}"
 sync
 sync
-hdiutil detach ${device}
 hdiutil convert "pack.temp.dmg" -format UDZO -imagekey zlib-level=6 -o "${DMG}"
 rm -f pack.temp.dmg
