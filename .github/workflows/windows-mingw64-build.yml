@@ -82,7 +82,7 @@ jobs:
         working-directory: ./build
         run: make bundle
       - name: Upload Talipot installer to GitHub Actions artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Talipot NSIS installers
           path: ./build/Talipot*.exe

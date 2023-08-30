@@ -92,7 +92,7 @@ jobs:
             zypper install -y fuse-devel xvfb-run
             xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts --debug-plugins-load
       - name: Upload Taliot AppImage to GitHub Actions artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Talipot AppImages
           path: ./build/Talipot*.AppImage
