@@ -1,0 +1,22 @@
+version: 2.1
+
+jobs:
+  macos-m1:
+    macos:
+      xcode: "14.2.0"
+    resource_class: macos.m1.medium.gen1
+    environment:
+      CLANG_VERSION: 15
+      PYTHON_VERSION: "3.10"
+    steps:
+      - checkout
+      - run:
+          name: Install MacPorts
+          command: |
+            curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
+            source ./macports-ci install
+
+workflows:
+  macos-m1-workflow:
+    jobs:
+      - macos-m1
