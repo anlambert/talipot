@@ -33,7 +33,6 @@ using namespace tlp;
 std::string PluginLibraryLoader::_message, PluginLibraryLoader::_pluginPath,
     PluginLibraryLoader::_currentPluginLibrary;
 
-#ifndef EMSCRIPTEN
 void PluginLibraryLoader::loadPlugins(PluginLoader *loader, const std::string &folder) {
   std::vector<std::string> paths;
   std::stringstream ss(TalipotPluginsPath);
@@ -134,8 +133,8 @@ bool PluginLibraryLoader::loadPluginLibrary(const std::string &filename, PluginL
       char *msg;
       DWORD dwErrCode = GetLastError();
       FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-                    nullptr,                        // no source buffer needed
-                    dwErrCode,                      // error code for this message
+                    nullptr,   // no source buffer needed
+                    dwErrCode, // error code for this message
                     MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                     reinterpret_cast<LPTSTR>(&msg), // allocated by fcn
                     0,                              // minimum size of buffer
@@ -457,4 +456,3 @@ bool PluginLibraryLoader::initPluginDir(PluginLoader *loader, bool recursive,
 #endif
   return true;
 }
-#endif // EMSCRIPTEN

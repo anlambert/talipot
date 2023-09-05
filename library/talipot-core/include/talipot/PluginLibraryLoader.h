@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,7 +35,6 @@ struct PluginLoader;
  **/
 class TLP_SCOPE PluginLibraryLoader {
 public:
-#ifndef EMSCRIPTEN
   /**
    * @brief Loads all the plugins in each directory contained in TalipotPluginsPath.
    * This function will not look into subfolders of the specified folder.
@@ -90,7 +89,6 @@ public:
    * @return bool Whether the plugin was successfully loaded.
    **/
   static bool loadPluginLibrary(const std::string &filename, PluginLoader *loader = nullptr);
-#endif // EMSCRIPTEN
 
   /**
    * @brief Gets the name of the plug-in library being loaded.
@@ -104,10 +102,9 @@ public:
 
 private:
   PluginLibraryLoader() = default;
-#ifndef EMSCRIPTEN
+
   static bool initPluginDir(PluginLoader *loader, bool recursive = false,
                             const std::string &userPluginsPath = "");
-#endif
 
   static std::string _message;
   static std::string _pluginPath;

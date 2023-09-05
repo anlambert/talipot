@@ -87,17 +87,6 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
                               COMPILE_FLAGS -fno-var-tracking)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
-IF(EMSCRIPTEN)
-  SET(talipot_LIB_SRCS
-      ${talipot_LIB_SRCS}
-      ../../../plugins/layout/DatasetTools.cpp
-      ../../../plugins/layout/OrientableCoord.cpp
-      ../../../plugins/layout/OrientableLayout.cpp
-      ../../../plugins/layout/OrientableSize.cpp
-      ../../../plugins/layout/OrientableSizeProxy.cpp
-      ../../../plugins/layout/Orientation.cpp)
-ENDIF(EMSCRIPTEN)
-
 IF(HAVE_REENTRANT_QHULL)
   ADD_DEFINITIONS("-DHAVE_REENTRANT_QHULL")
 ENDIF(HAVE_REENTRANT_QHULL)

@@ -154,7 +154,7 @@ STRING(TIMESTAMP CurrentYear "%Y")
 # CORE ONLY this used to have a minimal build of Talipot without any of the
 # opengl, qt or python components
 # ========================================================
-IF(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake/FindQtX.cmake OR EMSCRIPTEN)
+IF(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake/FindQtX.cmake)
   SET(TALIPOT_BUILD_CORE_ONLY ON)
   MESSAGE("You can only configure a core build of Talipot.")
 ELSE()
@@ -235,14 +235,8 @@ ENDIF(MINGW)
 MARK_AS_ADVANCED(INTL_LIBRARY)
 MARK_AS_ADVANCED(SFRAME_LIBRARY)
 
-# Don't need to find zlib when compiling with emscripten as there is an
-# available emscripten port of it
-IF(NOT EMSCRIPTEN)
-
-  # ZLIB
-  FIND_PACKAGE(ZLIB REQUIRED)
-
-ENDIF(NOT EMSCRIPTEN)
+# ZLIB
+FIND_PACKAGE(ZLIB REQUIRED)
 
 # Zstd
 FIND_PACKAGE(Zstd REQUIRED)

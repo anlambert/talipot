@@ -8,15 +8,11 @@ INCLUDE_DIRECTORIES(${TalipotCoreBuildInclude} ${TalipotCoreInclude})
 SET(LayoutUtils_SRCS DatasetTools.cpp OrientableCoord.cpp OrientableLayout.cpp
                      OrientableSize.cpp OrientableSizeProxy.cpp Orientation.cpp)
 
-IF(NOT EMSCRIPTEN)
-  SET(LayoutUtilsLibraryName LayoutUtils)
-  ADD_LIBRARY(${LayoutUtilsLibraryName} STATIC ${LayoutUtils_SRCS})
-  SET_TARGET_PROPERTIES(${LayoutUtilsLibraryName}
-                        PROPERTIES POSITION_INDEPENDENT_CODE ON)
-  ADD_DEPENDENCIES(${LayoutUtilsLibraryName} ${LibTalipotCoreName})
-ELSE(NOT EMSCRIPTEN)
-  SET(LayoutUtilsLibraryName "")
-ENDIF(NOT EMSCRIPTEN)
+SET(LayoutUtilsLibraryName LayoutUtils)
+ADD_LIBRARY(${LayoutUtilsLibraryName} STATIC ${LayoutUtils_SRCS})
+SET_TARGET_PROPERTIES(${LayoutUtilsLibraryName}
+                      PROPERTIES POSITION_INDEPENDENT_CODE ON)
+ADD_DEPENDENCIES(${LayoutUtilsLibraryName} ${LibTalipotCoreName})
 
 # ------------------------------------------------------------------------------
 TALIPOT_ADD_PLUGIN(

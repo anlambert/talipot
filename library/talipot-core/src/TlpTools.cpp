@@ -45,9 +45,7 @@
 using namespace std;
 using namespace tlp;
 
-#ifndef __EMSCRIPTEN__
 static const char *TALIPOT_PLUGINS_PATH_VARIABLE = "TLP_PLUGINS_PATH";
-#endif
 
 // the relative path (a string), from the install dir
 // of the directory where the talipot libraries are installed
@@ -63,7 +61,6 @@ const char tlp::PATH_DELIMITER = ';';
 const char tlp::PATH_DELIMITER = ':';
 #endif
 
-#ifndef __EMSCRIPTEN__
 inline std::string getTalipotLibName() {
 #ifdef _WIN32
 #ifdef __MINGW32__
@@ -304,16 +301,6 @@ std::string tlp::demangleClassName(const std::string &className, bool hideTlp) {
 #else
 #error define symbols demangling function
 #endif
-
-#else // __EMSCRIPTEN__
-
-void initTalipotLib(const char *) {}
-
-std::string tlp::demangleClassName(const std::string &className, bool) {
-  return className;
-}
-
-#endif // __EMSCRIPTEN__
 
 // random sequence management
 //=========================================================

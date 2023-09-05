@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -145,10 +145,10 @@ void DataSet::registerDataTypeSerializer(const std::string &typeName, DataTypeSe
 void DataSet::writeData(std::ostream &os, const std::string &prop, const DataType *dt) const {
   if (const auto it = serializerContainer.tnTodts.find(dt->getTypeName());
       it == serializerContainer.tnTodts.end()) {
-#ifndef EMSCRIPTEN
+
     tlp::warning() << "Write error: No data serializer found for type "
                    << demangleClassName(dt->getTypeName()) << std::endl;
-#endif
+
     return;
   } else {
     DataTypeSerializer *dts = (*it).second;
