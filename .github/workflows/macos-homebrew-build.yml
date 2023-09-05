@@ -62,7 +62,7 @@ jobs:
           -DCMAKE_C_COMPILER=/usr/local/opt/llvm/bin/clang
           -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm/bin/clang++
           -DCMAKE_RANLIB=/usr/bin/ranlib
-          -DPYTHON_EXECUTABLE=/usr/local/opt/python@3.11/bin/python3.11
+          -DPython3_EXECUTABLE=/usr/local/opt/python@3.11/bin/python3.11
           -DTALIPOT_BUILD_CORE_ONLY=ON
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_BUILD_DOC=OFF

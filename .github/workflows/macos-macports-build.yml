@@ -83,7 +83,7 @@ jobs:
           -DCMAKE_INSTALL_PREFIX=$PWD/install
           -DCMAKE_C_COMPILER=/opt/local/bin/clang-mp-${{ env.CLANG_VERSION }}
           -DCMAKE_CXX_COMPILER=/opt/local/bin/clang++-mp-${{ env.CLANG_VERSION }}
-          -DPYTHON_EXECUTABLE=/opt/local/bin/python${{ env.PYTHON_VERSION }}
+          -DPython3_EXECUTABLE=/opt/local/bin/python${{ env.PYTHON_VERSION }}
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_USE_CCACHE=ON
           -DTALIPOT_BUILD_DOC=OFF

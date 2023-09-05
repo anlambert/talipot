@@ -55,7 +55,7 @@ do
     -DTALIPOT_BUILD_DOC=OFF \
     -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON \
     -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a2.dev${DEV_VERSION} \
-    -DPYTHON_EXECUTABLE=/c/Python$pyVersion-x64/python.exe \
+    -DPython3_EXECUTABLE=/c/Python$pyVersion-x64/python.exe \
     -DTALIPOT_USE_CCACHE=ON ..
   make -j4 test-wheel
 

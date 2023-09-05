@@ -73,7 +73,7 @@ cd /talipot/build
 
 cmake -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=$PWD/install \
-      -DPYTHON_EXECUTABLE=/usr/local/bin/python$PYTHON_VERSION \
+      -DPython3_EXECUTABLE=/usr/local/bin/python$PYTHON_VERSION \
       -DTALIPOT_USE_CCACHE=ON \
       -DTALIPOT_BUILD_FOR_APPIMAGE=ON \
       -DTALIPOT_BUILD_TESTS=ON \

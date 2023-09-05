@@ -78,7 +78,7 @@ do
     -DCMAKE_CXX_COMPILER=/opt/local/bin/clang++-mp-${CLANG_VERSION} \
     -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON \
     -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a2.dev$DEV_VERSION \
-    -DPYTHON_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/$py3Version/bin/python3 \
+    -DPython3_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/$py3Version/bin/python3 \
     -DTALIPOT_USE_CCACHE=ON \
     -DTALIPOT_BUILD_CORE_ONLY=ON \
     -DTALIPOT_BUILD_DOC=OFF

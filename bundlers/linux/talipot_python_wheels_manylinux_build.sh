@@ -11,9 +11,6 @@ yum -y install zlib-devel libzstd-devel yajl-devel qhull-devel graphviz-devel li
 # required to build upstream python cffi from pip
 yum -y install libffi-devel
 
-# ensure python library from based system is present, even if we do
-# not link to it, as cmake will fail to find PythonLibs otherwise
-yum -y install python36-devel
 
 JSON=$(curl -s 'https://test.pypi.org/pypi/talipot/json')
 LAST_VERSION=$(echo $JSON | python3 -c "
@@ -81,7 +78,7 @@ do
   cmake ${TALIPOT_SRC} \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=/tmp/talipot_install \
-        -DPYTHON_EXECUTABLE=${CPYBIN}/python \
+        -DPython3_EXECUTABLE=${CPYBIN}/python \
         -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON \
         -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a2.dev$DEV_VERSION \
         -DTALIPOT_BUILD_DOC=OFF \
