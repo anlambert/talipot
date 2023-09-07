@@ -510,30 +510,6 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
     }
   }
 
-  // the selected nodes
-  Iterator<node> *nodeIt = nullptr;
-  // the number of selected nodes
-  uint nbSelNodes = 0;
-
-  if (inSel) {
-    nodeIt = inSel->getNonDefaultValuatedNodes(inG);
-    if (!nodeIt->hasNext()) {
-      delete nodeIt;
-      return;
-    }
-    nbSelNodes = inSel->numberOfNonDefaultValuatedNodes(inG);
-  } else {
-    nodeIt = inG->getNodes();
-    if (!nodeIt->hasNext()) {
-      delete nodeIt;
-      return;
-    }
-    nbSelNodes = inG->numberOfNodes();
-  }
-
-  // reserve space for nodes
-  outG->reserveNodes(outG->numberOfNodes() + nbSelNodes);
-
   // get properties
   std::vector<std::pair<PropertyInterface *, PropertyInterface *>> properties;
   for (PropertyInterface *src : inG->getObjectProperties()) {
@@ -545,10 +521,21 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
     }
   }
 
-  MutableContainer<node> nodeTrl;
-  nodeTrl.setAll(node());
+  // the number of selected nodes
+  uint nbSelNodes = 0;
+
+  if (inSel) {
+    nbSelNodes = inSel->numberOfNonDefaultValuatedNodes(inG);
+  } else {
+    nbSelNodes = inG->numberOfNodes();
+  }
+
+  // reserve space for nodes
+  outG->reserveNodes(outG->numberOfNodes() + nbSelNodes);
+
+  MutableContainer<node, node> nodeTrl;
   // loop on nodes
-  for (auto nIn : nodeIt) {
+  for (auto nIn : inSel ? inSel->getNonDefaultValuatedNodes(inG) : inG->getNodes()) {
     // add outG corresponding node
     node nOut = outG->addNode();
 
@@ -558,7 +545,7 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
     }
 
     // add to translation tab
-    nodeTrl.set(nIn.id, nOut);
+    nodeTrl.set(nIn, nOut);
 
     // copy node properties
     for (const auto &[srcProp, tgtProp] : properties) {
@@ -566,22 +553,23 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
     }
   }
 
-  // get selected edges
-  Iterator<edge> *edgeIt = nullptr;
+  // the number of selected edges
+  uint nbSelEdges = 0;
 
   if (inSel) {
-    edgeIt = inSel->getNonDefaultValuatedEdges(inG);
-    outG->reserveEdges(outG->numberOfEdges() + inSel->numberOfNonDefaultValuatedEdges(inG));
+    nbSelEdges = inSel->numberOfNonDefaultValuatedEdges(inG);
   } else {
-    edgeIt = inG->getEdges();
-    outG->reserveEdges(outG->numberOfEdges() + inG->numberOfEdges());
+    nbSelEdges = inG->numberOfEdges();
   }
 
+  // reserve space for edges
+  outG->reserveEdges(outG->numberOfEdges() + nbSelEdges);
+
   // loop on edges
-  for (auto eIn : edgeIt) {
+  for (auto eIn : inSel ? inSel->getNonDefaultValuatedEdges(inG) : inG->getEdges()) {
     const auto &[src, tgt] = inG->ends(eIn);
     // add outG corresponding edge
-    edge eOut = outG->addEdge(nodeTrl.get(src.id), nodeTrl.get(tgt.id));
+    edge eOut = outG->addEdge(nodeTrl.get(src), nodeTrl.get(tgt));
 
     // select added edge
     if (outSel) {
