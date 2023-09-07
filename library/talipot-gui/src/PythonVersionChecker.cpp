@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,8 +17,8 @@
 #include <QRegularExpression>
 
 // Current Python versions
-static const char *pythonVersion[] = {"3.11", "3.10", "3.9", "3.8", "3.7", "3.6",  "3.5",
-                                      "3.4",  "3.3",  "3.2", "3.1", "3.0", nullptr};
+static const char *pythonVersion[] = {"3.12", "3.11", "3.10", "3.9", "3.8", "3.7", "3.6",
+                                      "3.5",  "3.4",  "3.3",  "3.2", "3.1", "3.0", nullptr};
 
 // Windows specific functions
 #ifdef WIN32
@@ -75,7 +75,7 @@ static QString pythonHome(const QString &pythonVersion) {
 
   QString winRegKeyAllUsers, winRegKeyCurrentUser;
 
-// 32 bit Python
+  // 32 bit Python
 #ifndef X86_64
 
   // on windows 64 bit
@@ -94,7 +94,7 @@ static QString pythonHome(const QString &pythonVersion) {
                            pythonVersion + QString("\\InstallPath");
   }
 
-// 64 bit Python
+  // 64 bit Python
 #else
 
   winRegKeyAllUsers = QString("HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\") +

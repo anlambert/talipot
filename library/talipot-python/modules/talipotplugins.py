@@ -1,4 +1,4 @@
-# Copyright (C) 2019-2021  The Talipot developers
+# Copyright (C) 2019-2023  The Talipot developers
 #
 # Talipot is a fork of Tulip, created by David Auber
 # and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,7 +15,7 @@ in Python in the plugins database.
 import atexit
 import sys
 import traceback
-from imp import reload # noqa
+from importlib import reload  # noqa
 
 pluginFactory = {}
 pluginModules = {}
