@@ -97,7 +97,7 @@ jobs:
       - name: Build Talipot Python wheels
         working-directory: ./build
         run: |
-          for py3Version in 3.7 3.8 3.9 3.10 3.11
+          for py3Version in 3.8 3.9 3.10 3.11
           do
             rm -f CMakeCache.txt || true
             sudo /Library/Frameworks/Python.framework/Versions/$py3Version/bin/pip3 install sip
