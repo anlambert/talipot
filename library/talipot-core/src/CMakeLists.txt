@@ -107,7 +107,7 @@ ADD_CUSTOM_COMMAND(
     ${CMAKE_CURRENT_SOURCE_DIR}/FontAwesomeData.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MaterialDesignIconsData.cpp
     ${CMAKE_SOURCE_DIR}/library/talipot-core/include/talipot/FontAwesomeConstants.h
-    ${CMAKE_SOURCE_DIR}/library/talipot-core/include/talipot/MaterialDesignIcons.h
+    ${CMAKE_SOURCE_DIR}/library/talipot-core/include/talipot/MaterialDesignIconsConstants.h
     ${CMAKE_SOURCE_DIR}/library/talipot-python/bindings/talipot-core/FontAwesome.sip
     ${CMAKE_SOURCE_DIR}/library/talipot-python/bindings/talipot-core/MaterialDesignIcons.sip
   COMMAND
