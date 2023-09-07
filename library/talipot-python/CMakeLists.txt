@@ -18,7 +18,7 @@ ADD_SUBDIRECTORY(plugins)
 
 # libtalipot-python is not needed when not building talipot gui
 IF(NOT TALIPOT_BUILD_CORE_ONLY)
-  ADD_SUBDIRECTORY(api)
   ADD_SUBDIRECTORY(include)
   ADD_SUBDIRECTORY(src)
+  INSTALL(DIRECTORY api DESTINATION ${TalipotShareInstallDir})
 ENDIF(NOT TALIPOT_BUILD_CORE_ONLY)

@@ -295,7 +295,7 @@ TALIPOT_INSTALL_PYTHON_FILES(talipot/native sip
                              ${LibTalipotCorePythonBindingsName})
 
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot.api
-        DESTINATION ${TalipotShareInstallDir}/apiFiles)
+        DESTINATION ${TalipotShareInstallDir}/api)
 
 SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES
                                     ${CMAKE_CURRENT_SOURCE_DIR}/build)

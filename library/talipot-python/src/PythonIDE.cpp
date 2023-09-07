@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -493,9 +493,8 @@ PythonIDE::PythonIDE(QWidget *parent)
           [this] { _splitterState = _ui->splitter->saveState(); });
 
   APIDataBase::instance().loadApiFile(tlpStringToQString(tlp::TalipotShareDir) +
-                                      "/apiFiles/talipot.api");
-  APIDataBase::instance().loadApiFile(tlpStringToQString(tlp::TalipotShareDir) +
-                                      "/apiFiles/Python-" +
+                                      "/api/talipot.api");
+  APIDataBase::instance().loadApiFile(tlpStringToQString(tlp::TalipotShareDir) + "/api/Python-" +
                                       PythonInterpreter::instance().getPythonVersionStr() + ".api");
 }
 
