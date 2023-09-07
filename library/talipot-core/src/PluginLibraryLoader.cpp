@@ -141,8 +141,9 @@ bool PluginLibraryLoader::loadPluginLibrary(const std::string &filename, PluginL
                     nullptr);                       // no inserts
 
       if (!msg) {
-        char scode[128];
-        sprintf(scode, "%s: unable to load(error %d)", filename.c_str(), int(dwErrCode));
+        const size_t size = 128;
+        char scode[size];
+        snprintf(scode, size, "%s: unable to load(error %d)", filename.c_str(), int(dwErrCode));
         loader->aborted(filename, std::string(scode));
       } else {
         loader->aborted(filename, filename + ": " + msg);

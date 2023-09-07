@@ -39,15 +39,16 @@ int backtrace(void **buffer, int size) {
 
 char *getStackFrameDetails(void *address) {
   Dl_info dli;
-  char tmp[1024];
+  const size_t size = 1024;
+  char tmp[size];
 
   if (dladdr(address, &dli)) {
     int64_t function_offset =
         reinterpret_cast<int64_t>(address) - reinterpret_cast<int64_t>(dli.dli_saddr);
-    sprintf(tmp, "%s(%s+%p)[%p]", dli.dli_fname, dli.dli_sname,
-            reinterpret_cast<void *>(function_offset), address);
+    snprintf(tmp, size, "%s(%s+%p)[%p]", dli.dli_fname, dli.dli_sname,
+             reinterpret_cast<void *>(function_offset), address);
   } else {
-    sprintf(tmp, "%s(%s+%s)[%p]", "???", "???", "???", address);
+    snprintf(tmp, size, "%s(%s+%s)[%p]", "???", "???", "???", address);
   }
 
   char *ret = new char[strlen(tmp) + 1];
