@@ -115,15 +115,19 @@ jobs:
         working-directory: ./build/install/bin
         run: ./talipot --check-application-starts --debug-plugins-load
       - name: Generate Talipot dmg bundle
+        if: matrix.config.os == 'macos-11'
         working-directory: ./build
         run: make bundle
       - name: Upload Talipot bundle to GitHub Actions artifacts
+        if: matrix.config.os == 'macos-11'
         uses: actions/upload-artifact@v3
         with:
           name: Talipot macOS bundles
           path: ./build/Talipot*.dmg
       - name: Upload Talipot bundle to dev-latest prerelease
-        if: github.ref == 'refs/tags/dev-latest'
+        if: |
+          github.ref == 'refs/tags/dev-latest' &&
+            matrix.config.os == 'macos-11'
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
