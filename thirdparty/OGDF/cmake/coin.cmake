@@ -55,7 +55,7 @@ else()
   set(COIN_SOLVER_IS_EXTERNAL 1)
 endif()
 
-# # installation
+# installation
 # set(COIN_INSTALL_LIBRARY_DIR "lib/${CMAKE_LIBRARY_ARCHITECTURE}" CACHE PATH "Installation path of COIN library")
 # set(COIN_INSTALL_BIN_DIR "bin" CACHE PATH "Installation path of COIN runtime targets")
 # set(COIN_INSTALL_INCLUDE_DIR "include" CACHE PATH "Installation path of COIN header files (creates subdirectory)")

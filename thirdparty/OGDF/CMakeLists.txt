@@ -16,7 +16,15 @@ else()
   endif()
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${BUILD_TYPES})
 endif()
-set(CMAKE_CXX_STANDARD 11)
+
+set(OGDF_INCLUDE_CGAL OFF CACHE BOOL "Indicates whether components that require CGAL ({src,include}/ogdf/geometric) should be built. Requires OpenMP and C++17 support")
+
+if (OGDF_INCLUDE_CGAL)
+  set(CMAKE_CXX_STANDARD 17)
+else()
+  set(CMAKE_CXX_STANDARD 11)
+endif()
+
 
 include(compiler-specifics)
 include(group-files)

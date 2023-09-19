@@ -3,6 +3,7 @@ include(CheckCXXSourceCompiles)
 if(NOT MSVC)
   set(CMAKE_REQUIRED_FLAGS -msse3)
 endif()
+
 check_cxx_source_compiles("
 #include <pmmintrin.h>
 int main() {
@@ -12,7 +13,7 @@ int main() {
 }" has_sse3_pmmintrin)
 
 if (NOT has_sse3_pmmintrin)
-	if(NOT MSVC)
+  if(NOT MSVC)
 		set(CMAKE_REQUIRED_FLAGS -sse3)
 	endif()
   check_cxx_source_compiles("
