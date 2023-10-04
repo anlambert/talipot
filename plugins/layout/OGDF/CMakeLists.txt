@@ -21,7 +21,8 @@ SET(PLUGINS_SRCS
     OGDFPivotMDS.cpp
     OGDFTileToRowsPacking.cpp
     OGDFPlanarizationLayout.cpp
-    OGDFDTreeMultilevelEmbedder.cpp)
+    OGDFDTreeMultilevelEmbedder.cpp
+    OGDFRadialTreeLayout.cpp)
 
 DISABLE_COMPILER_WARNINGS()
 
