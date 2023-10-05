@@ -43,11 +43,6 @@ jobs:
           -v `pwd`:/talipot:rw
           ${{ matrix.config.docker-image }}
           /bin/bash -c "bash -xe /talipot/bundlers/linux/talipot_appimage_centos_build.sh"
-      - name: Get Talipot version
-        id: get-talipot-version
-        run: |
-          echo "version=$(bash build/talipot-config --version)" >> $GITHUB_OUTPUT
-        shell: bash
       - name: Install required dependencies to run AppImage
         run: |
           sudo apt update
