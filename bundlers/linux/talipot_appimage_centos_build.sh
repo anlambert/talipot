@@ -40,6 +40,9 @@ yum -y install fuse fuse-libs file
 # needed for generating the doc
 yum -y install doxygen graphviz
 
+# install recent GCC
+yum -y install gcc-toolset-13
+
 # needed to build and run tests
 yum -y install cppunit-devel xorg-x11-server-Xvfb
 
@@ -51,6 +54,8 @@ mkdir /talipot/build
 cd /talipot/build
 
 cmake -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_C_COMPILER=/opt/rh/gcc-toolset-13/root/bin/gcc \
+      -DCMAKE_CXX_COMPILER=/opt/rh/gcc-toolset-13/root/bin/g++ \
       -DCMAKE_INSTALL_PREFIX=$PWD/install \
       -DPython3_EXECUTABLE=/usr/bin/python3.11 \
       -DTALIPOT_USE_CCACHE=ON \
