@@ -30,36 +30,15 @@ yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
 yum -y install openssl3-devel
 
 
-# install recent Python
-yum -y groupinstall "Development Tools"
-yum -y install libffi-devel bzip2-devel libsqlite3x-devel
-
-
-PYTHON_VERSION=3.11
-PYTHON_FULL_VERSION=$PYTHON_VERSION.1
-
-
-wget https://www.python.org/ftp/python/$PYTHON_FULL_VERSION/Python-$PYTHON_FULL_VERSION.tgz
-tar xzf Python-$PYTHON_FULL_VERSION.tgz
-cd Python-$PYTHON_FULL_VERSION
-
-./configure --enable-optimizations \
-  --with-system-ffi --with-computed-gotos \
-  --enable-loadable-sqlite-extensions \
-  --enable-shared LDFLAGS="-Wl,-rpath /usr/local/lib" \
-  CC="ccache gcc"
-
-
-make -j4
-make -j4 altinstall
-cd ..
+# install Python 3, Sphinx and SIP
+yum -y install python3.11-devel python3.11-pip
+pip3.11 install sphinx sip
 
 # needed for generating the AppImage
 yum -y install fuse fuse-libs file
 
 # needed for generating the doc
 yum -y install doxygen graphviz
-pip$PYTHON_VERSION install sphinx sip
 
 # needed to build and run tests
 yum -y install cppunit-devel xorg-x11-server-Xvfb
@@ -73,7 +52,7 @@ cd /talipot/build
 
 cmake -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=$PWD/install \
-      -DPython3_EXECUTABLE=/usr/local/bin/python$PYTHON_VERSION \
+      -DPython3_EXECUTABLE=/usr/bin/python3.11 \
       -DTALIPOT_USE_CCACHE=ON \
       -DTALIPOT_BUILD_FOR_APPIMAGE=ON \
       -DTALIPOT_BUILD_TESTS=ON \
