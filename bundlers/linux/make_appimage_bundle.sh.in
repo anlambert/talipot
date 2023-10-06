@@ -8,14 +8,7 @@ TALIPOT_INSTALL_DIR=@CMAKE_INSTALL_PREFIX@
 OUTPUT_DIR=/tmp
 QMAKE=@QT_QMAKE_EXECUTABLE@
 
-centos7=true
-if grep -q "CentOS Linux release 8" /etc/centos-release
-then
-  centos7=false
-fi
-
-usage()
-{
+usage() {
   echo "Usage: $(basename $0) [OPTIONS]"
   cat <<EOF
 Options:
@@ -64,13 +57,6 @@ echo "#!/bin/sh" > $APPRUN_FILE
 echo "BUNDLE_DIR=\"\$(dirname \$0)\"" >> $APPRUN_FILE
 echo "export PYTHONHOME=\${BUNDLE_DIR}/usr" >> $APPRUN_FILE
 echo "export TLP_DIR=\${BUNDLE_DIR}/usr/lib" >> $APPRUN_FILE
-if [ "$centos7" = true ]
-then
-  # configure GDK2 for AppImage environment
-  # (needed for qt5 gtk3 platformthemes plugin)
-  echo "export GDK_PIXBUF_MODULE_FILE=\
-\${BUNDLE_DIR}/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache" >> $APPRUN_FILE
-fi
 echo "\${BUNDLE_DIR}/usr/bin/talipot \$*" >> $APPRUN_FILE
 chmod 755 $APPRUN_FILE
 
@@ -105,34 +91,12 @@ rm -rf $BUNDLE_LIB_DIR/cmake
 echo "copying $TALIPOT_INSTALL_DIR/share files into $BUNDLE_SHARE_DIR"
 cp -Rp $TALIPOT_INSTALL_DIR/share $BUNDLE_USR_DIR
 
-# copy required qt plugins
-mkdir $BUNDLE_USR_DIR/plugins
-cp -v -Rp @QT_PLUGINS_DIR@/imageformats $BUNDLE_USR_DIR/plugins
-cp -v -Rp @QT_PLUGINS_DIR@/platforms $BUNDLE_USR_DIR/plugins
-if [ "$centos7" = true ]
-then
-  cp -v -Rp @QT_PLUGINS_DIR@/platformthemes $BUNDLE_USR_DIR/plugins
-fi
-cp -v -Rp @QT_PLUGINS_DIR@/xcbglintegrations $BUNDLE_USR_DIR/plugins
-
-if [ "$centos7" = true ]
-then
-  # add gdk-2.0 plugins directory (needed for qt5 gtk3 platformthemes plugin)
-  cp -v -Rp /usr/lib64/gdk-pixbuf-2.0 $BUNDLE_LIB_DIR
-fi
-
 # copy graphviz plugins needed by talipot plugins wrapping graphviz layouts
 cp -v -Rp /usr/lib64/graphviz $BUNDLE_LIB_DIR/graphviz
 
 # set up LD_LIBRARY_PATH with the installation path of the Qt libs used
 export QT_INSTALL_LIBS_DIR=$(${QMAKE} -query QT_INSTALL_LIBS)
 export LD_LIBRARY_PATH=${QT_INSTALL_LIBS_DIR}:${LD_LIBRARY_PATH}
-
-# copy talipot needed libs
-pushd $BUNDLE_DIR > /dev/null 2>&1
-ldd $BUNDLE_BIN_DIR/talipot | grep "=> /" | awk '{print $3}' | \
-  grep -v talipot | xargs -I '{}' cp -v '{}' ./usr/lib || true
-popd > /dev/null 2>&1
 
 # extend LD_LIBRARY_PATH to ensure PYTHON_LIBRARY can be found
 # even if a non standard installation is in use
@@ -166,48 +130,15 @@ if [ "$PYTHON_LIB" != "" ]; then
   popd > /dev/null 2>&1
 fi
 
-function looking_for_plugin_dependencies() {
-  LIBS_DIR=$1
-  for PLUGIN in $(find $LIBS_DIR -name "*.so")
-  do
-    echo "looking for $(basename $PLUGIN) dependencies"
-    for LIB in $(ldd $PLUGIN | grep "=> /" | awk '{print $3}')
-    do
-      if [ ! -e $BUNDLE_LIB_DIR/$(basename $LIB) ]; then
-        cp -v --preserve=mode $LIB $BUNDLE_LIB_DIR
-      fi
-    done
-  done
-}
+# copy required shared libs using linuxdeployqt tool
+wget "https://github.com/probonopd/linuxdeployqt/releases/download/\
+continuous/linuxdeployqt-continuous-x86_64.AppImage"
+chmod a+x linuxdeployqt-continuous-x86_64.AppImage
 
-# copy other common libs needed by talipot plugins
-looking_for_plugin_dependencies $BUNDLE_LIB_DIR/talipot
-
-# copy other common libs needed by qt plugins
-looking_for_plugin_dependencies $BUNDLE_USR_DIR/plugins
-
-# copy other common libs needed by graphviz plugins
-looking_for_plugin_dependencies $BUNDLE_LIB_DIR/graphviz
-
-# copy other common libs needed by python modules
-looking_for_plugin_dependencies $PYTHON_PACKAGE_BUNDLE_DIR/lib-dynload
+./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract-and-run \
+  $BUNDLE_BIN_DIR/talipot -bundle-non-qt-libs -no-translations
 
 pushd $BUNDLE_LIB_DIR > /dev/null 2>&1
-# remove unneeded libs
-LIBS=$(ls libc.* libdbus*.* libdl.* libdrm.* libexpat.* libEGL.* \
-libfontconfig.* libfreetype.* libgio-*.* libglib-*.* libgmodule-*.* libgobject-*.* \
-libgcc_s.* libGL.* libGLdispatch.* libharfbuzz.* libm.* libnsl.* libpthread.* libresolv.* \
-librt.* libstdc++.* libutil.*  libuuid.* libxcb*.* libX*.* libz.* 2> /dev/null)
-if [ "$LIBS" != "" ]; then
-  rm $LIBS
-fi
-
-if [ "$centos7" = false ]
-then
-  # copy some missing libs
-  cp -v --preserve=mode $(/sbin/ldconfig -p | grep libxcb-xinput.so | \
-    cut -d ">" -f 2 | xargs) .
-fi
 
 popd > /dev/null 2>&1
 
@@ -218,11 +149,3 @@ pushd $BUNDLE_USR_DIR > /dev/null 2>&1
 ln -s lib @CMAKE_INSTALL_LIBDIR@ 2>/dev/null
 
 popd > /dev/null 2>&1
-
-# tweak OS/ABI header part of libraries (System V instead of Linux)
-for LIB in $(find $BUNDLE_LIB_DIR -name '*.so*')
-do
-  # LIB may be in read only mode, make it writable before stripping it
-  chmod +w $LIB
-  strip --strip-unneeded $LIB
-done
