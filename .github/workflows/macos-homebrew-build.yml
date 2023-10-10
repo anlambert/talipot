@@ -40,7 +40,7 @@ jobs:
           fontconfig
           qt6
           quazip
-          sip
+          sip || brew link --overwrite python@3.11
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
