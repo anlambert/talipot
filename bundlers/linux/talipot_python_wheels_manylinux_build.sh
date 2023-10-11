@@ -13,7 +13,7 @@ yum -y install libffi-devel
 
 
 JSON=$(curl -s 'https://test.pypi.org/pypi/talipot/json')
-LAST_VERSION=$(echo $JSON | python3 -c "
+LAST_VERSION=$(echo $JSON | /opt/python/cp311-cp311/bin/python3 -c "
 import sys, json
 print(json.load(sys.stdin)['info']['version'])" 2>/dev/null)
 if [ $? -ne 0 ]
