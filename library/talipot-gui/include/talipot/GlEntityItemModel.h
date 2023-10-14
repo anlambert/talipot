@@ -74,7 +74,7 @@ class TLP_QT_SCOPE GlEntityItemModel : public QAbstractItemModel {
   Q_ENUMS(EntityRole)
 
 public:
-  enum EntityRole { EntityRole = Qt::UserRole + 1 };
+  enum class EntityRole { EntityRole = Qt::UserRole + 1 };
 
   GlEntityItemModel(GlEntityItemEditor *itemEditor, QObject *parent = nullptr);
   ~GlEntityItemModel() override;
