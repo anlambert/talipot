@@ -1096,6 +1096,54 @@
     "deprecated": false
   },
   {
+    "id": "F0FA7981-9900-4267-B720-183597FF7B86",
+    "baseIconId": "F0FA7981-9900-4267-B720-183597FF7B86",
+    "name": "account-file",
+    "codepoint": "F1CA7",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Contributors",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "6C725BE6-E00C-4CBA-8495-2CFC066C1DBE",
+    "baseIconId": "6C725BE6-E00C-4CBA-8495-2CFC066C1DBE",
+    "name": "account-file-outline",
+    "codepoint": "F1CA8",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Contributors",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "D69C4A63-5031-472F-B4D1-0958FF55E703",
+    "baseIconId": "D69C4A63-5031-472F-B4D1-0958FF55E703",
+    "name": "account-file-text",
+    "codepoint": "F1CA9",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Contributors",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "91B63E1C-736B-4892-858D-772B5D197DC8",
+    "baseIconId": "91B63E1C-736B-4892-858D-772B5D197DC8",
+    "name": "account-file-text-outline",
+    "codepoint": "F1CAA",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Contributors",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "839928F4-21EA-472B-94A0-C7DFBD6C263A",
     "baseIconId": "E76EC23F-AB71-49B3-9173-841544527A20",
     "name": "account-filter",
@@ -1263,7 +1311,8 @@
     "codepoint": "F1815",
     "aliases": [
       "account-disability",
-      "patient"
+      "patient",
+      "person-injury"
     ],
     "tags": [
       "Medical \/ Hospital",
@@ -1283,7 +1332,8 @@
     "codepoint": "F1816",
     "aliases": [
       "account-disability-outline",
-      "patient-outline"
+      "patient-outline",
+      "person-injury-outline"
     ],
     "tags": [
       "Account \/ User",
@@ -9719,6 +9769,36 @@
     "deprecated": false
   },
   {
+    "id": "8EF4AC1A-24B5-42C7-9D6B-5F35227788E4",
+    "baseIconId": "8EF4AC1A-24B5-42C7-9D6B-5F35227788E4",
+    "name": "arrow-oscillating",
+    "codepoint": "F1C91",
+    "aliases": [],
+    "tags": [
+      "Home Automation"
+    ],
+    "styles": [],
+    "author": "Matthias de Baat",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "40B085E6-3993-403C-9F55-B61AEBDBA17A",
+    "baseIconId": "8EF4AC1A-24B5-42C7-9D6B-5F35227788E4",
+    "name": "arrow-oscillating-off",
+    "codepoint": "F1C92",
+    "aliases": [],
+    "tags": [
+      "Home Automation"
+    ],
+    "styles": [
+      "off"
+    ],
+    "author": "Matthias de Baat",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "A673515F-F8A6-41DC-9CB2-05C315FBDA53",
     "baseIconId": "A673515F-F8A6-41DC-9CB2-05C315FBDA53",
     "name": "arrow-projectile",
@@ -12432,6 +12512,43 @@
     ],
     "author": "Michael Richins",
     "version": "3.6.95",
+    "deprecated": false
+  },
+  {
+    "id": "254FBC4D-1BB7-425B-8FB3-A9BB08106C82",
+    "baseIconId": "FB55F27F-9D0D-4EA7-ACD7-22C85E799248",
+    "name": "bag-personal-plus",
+    "codepoint": "F1CA4",
+    "aliases": [
+      "bag-personal-add",
+      "backpack-add",
+      "backpack-plus"
+    ],
+    "tags": [],
+    "styles": [
+      "plus"
+    ],
+    "author": "Matthew Terry",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "A34CE341-A59D-45C8-9F26-F4A9837915FF",
+    "baseIconId": "FB55F27F-9D0D-4EA7-ACD7-22C85E799248",
+    "name": "bag-personal-plus-outline",
+    "codepoint": "F1CA5",
+    "aliases": [
+      "backpack-plus-outline",
+      "backpack-add-outline",
+      "bag-personal-add-outline"
+    ],
+    "tags": [],
+    "styles": [
+      "outline",
+      "plus"
+    ],
+    "author": "Matthew Terry",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -20451,6 +20568,18 @@
     "deprecated": false
   },
   {
+    "id": "F78F2CE4-8F69-48F7-9BA2-C806A3723E74",
+    "baseIconId": "F6516F38-B29E-4CC9-A7E2-706817121D45",
+    "name": "bus-sign",
+    "codepoint": "F1CC1",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "79F04208-0844-4987-9CFA-8870EBB6CD1D",
     "baseIconId": "79F04208-0844-4987-9CFA-8870EBB6CD1D",
     "name": "bus-stop",
@@ -20497,6 +20626,18 @@
     ],
     "author": "Michael Richins",
     "version": "4.1.95",
+    "deprecated": false
+  },
+  {
+    "id": "B8B29CB6-A4EA-40C5-B5AC-2388653D1724",
+    "baseIconId": "F6516F38-B29E-4CC9-A7E2-706817121D45",
+    "name": "bus-wrench",
+    "codepoint": "F1CC2",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -23526,6 +23667,23 @@
     "deprecated": false
   },
   {
+    "id": "9558FFAF-0865-47B4-BC3D-32E34266E2F0",
+    "baseIconId": "AA43B04E-7C56-4DFB-83FC-081E3A4A3F48",
+    "name": "car-door-lock-open",
+    "codepoint": "F1C81",
+    "aliases": [],
+    "tags": [
+      "Automotive",
+      "Lock"
+    ],
+    "styles": [
+      "lock"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "48583637-1477-451A-8E75-765EC4EB0585",
     "baseIconId": "FCF4FF57-4547-4C11-A20A-3D26252780EC",
     "name": "car-electric",
@@ -23822,7 +23980,9 @@
     "baseIconId": "CB49A868-3317-4445-BFED-13CB6533000E",
     "name": "car-pickup",
     "codepoint": "F07AA",
-    "aliases": [],
+    "aliases": [
+      "truck-pickup"
+    ],
     "tags": [
       "Transportation + Road",
       "Automotive",
@@ -24176,7 +24336,10 @@
     "baseIconId": "CB49A868-3317-4445-BFED-13CB6533000E",
     "name": "caravan",
     "codepoint": "F07AD",
-    "aliases": [],
+    "aliases": [
+      "holiday",
+      "camping"
+    ],
     "tags": [
       "Transportation + Road",
       "Home Automation",
@@ -25468,6 +25631,18 @@
     "deprecated": false
   },
   {
+    "id": "9E3DA25C-D9A8-4009-A08D-5D98E3B3DCC9",
+    "baseIconId": "9E3DA25C-D9A8-4009-A08D-5D98E3B3DCC9",
+    "name": "cash-edit",
+    "codepoint": "F1CAB",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Jeff Anders",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "A10E9739-AA80-4671-B744-ECB9934BB7E4",
     "baseIconId": "59956D81-BF6B-4DCA-ABAD-A890412F22F1",
     "name": "cash-fast",
@@ -26565,6 +26740,20 @@
     "deprecated": false
   },
   {
+    "id": "2306EC7A-612C-4847-83D6-495CECA5AA5D",
+    "baseIconId": "B5589411-20E7-4552-BEC5-A394068B23A7",
+    "name": "charity-search",
+    "codepoint": "F1C82",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "search"
+    ],
+    "author": "Ryan Donahue",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "98939E5B-1528-4A2F-B35A-C37C60C75D93",
     "baseIconId": "98939E5B-1528-4A2F-B35A-C37C60C75D93",
     "name": "chart-arc",
@@ -27174,7 +27363,11 @@
     "baseIconId": "7FF15164-E575-4024-ABAC-A183179F0217",
     "name": "chat",
     "codepoint": "F0B79",
-    "aliases": [],
+    "aliases": [
+      "message",
+      "message-bubble",
+      "speak"
+    ],
     "tags": [],
     "styles": [],
     "author": "Austin Andrews",
@@ -27250,7 +27443,11 @@
     "baseIconId": "7FF15164-E575-4024-ABAC-A183179F0217",
     "name": "chat-outline",
     "codepoint": "F0EDE",
-    "aliases": [],
+    "aliases": [
+      "message-outline",
+      "message-bubble-outline",
+      "speak-outline"
+    ],
     "tags": [],
     "styles": [
       "outline"
@@ -31903,6 +32100,44 @@
     "deprecated": false
   },
   {
+    "id": "3694A84E-0A8D-420F-98C3-C892312B29D4",
+    "baseIconId": "CF07C502-388E-4A65-BD89-FACCFD00C245",
+    "name": "cloud-key",
+    "codepoint": "F1CA1",
+    "aliases": [
+      "cloud-security",
+      "cloud-access"
+    ],
+    "tags": [
+      "Cloud"
+    ],
+    "styles": [
+      "key"
+    ],
+    "author": "frankgrinaert",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "CB6C6880-11B8-4BE6-9EA5-6F4D53EF98EC",
+    "baseIconId": "CF07C502-388E-4A65-BD89-FACCFD00C245",
+    "name": "cloud-key-outline",
+    "codepoint": "F1CA2",
+    "aliases": [
+      "cloud-security-outline",
+      "cloud-access-outline"
+    ],
+    "tags": [
+      "Cloud"
+    ],
+    "styles": [
+      "key"
+    ],
+    "author": "frankgrinaert",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "8F0ED421-A552-4920-A46D-13F246A25689",
     "baseIconId": "CF07C502-388E-4A65-BD89-FACCFD00C245",
     "name": "cloud-lock",
@@ -32547,6 +32782,70 @@
     "styles": [],
     "author": "Austin Andrews",
     "version": "1.5.54",
+    "deprecated": false
+  },
+  {
+    "id": "C74E1367-3799-4422-8065-A200D4CAB498",
+    "baseIconId": "1F6661BC-6538-4EF0-92B5-46EFAE5E0C77",
+    "name": "code-block-braces",
+    "codepoint": "F1C83",
+    "aliases": [
+      "code-block-tag",
+      "code-block-json"
+    ],
+    "tags": [
+      "Developer \/ Languages"
+    ],
+    "styles": [],
+    "author": "frankgrinaert",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "5138F119-7F73-4A34-ACB8-CDB00042AAB6",
+    "baseIconId": "C08498C1-E43B-4E79-817C-121AD2827689",
+    "name": "code-block-brackets",
+    "codepoint": "F1C84",
+    "aliases": [
+      "code-block-square"
+    ],
+    "tags": [
+      "Developer \/ Languages"
+    ],
+    "styles": [],
+    "author": "frankgrinaert",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "8E35BF13-D1D3-4F97-ACBE-87E07DCE9FC3",
+    "baseIconId": "A4E1DE1B-754D-4884-9902-8D5DDE2182B0",
+    "name": "code-block-parentheses",
+    "codepoint": "F1C85",
+    "aliases": [],
+    "tags": [
+      "Developer \/ Languages"
+    ],
+    "styles": [],
+    "author": "frankgrinaert",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "E13525B2-A482-46B5-B01E-5CE520FC2C1D",
+    "baseIconId": "609A0AB0-05EE-4824-BD40-A4E78F4A74D3",
+    "name": "code-block-tags",
+    "codepoint": "F1C86",
+    "aliases": [
+      "code-block-html",
+      "code-block-xml"
+    ],
+    "tags": [
+      "Developer \/ Languages"
+    ],
+    "styles": [],
+    "author": "frankgrinaert",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -35716,7 +36015,10 @@
     "name": "creation",
     "codepoint": "F0674",
     "aliases": [
-      "auto-awesome"
+      "auto-awesome",
+      "sparkles",
+      "stars",
+      "shimmer"
     ],
     "tags": [],
     "styles": [],
@@ -35730,7 +36032,10 @@
     "name": "creation-outline",
     "codepoint": "F1C2B",
     "aliases": [
-      "auto-awesome-outline"
+      "auto-awesome-outline",
+      "sparkles-outline",
+      "stars-outline",
+      "shimmer-outline"
     ],
     "tags": [],
     "styles": [
@@ -40621,6 +40926,26 @@
     "deprecated": false
   },
   {
+    "id": "4F2F0F07-CF86-40E1-A204-E5BAB501B5F5",
+    "baseIconId": "858F8782-5001-4950-96F2-65032091A847",
+    "name": "door-closed-cancel",
+    "codepoint": "F1C93",
+    "aliases": [
+      "door-forbidden",
+      "door-do-not-enter",
+      "door-unavailable"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "styles": [
+      "cancel"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "792A98B0-E031-43CF-AF8B-ACF21C97C4C2",
     "baseIconId": "858F8782-5001-4950-96F2-65032091A847",
     "name": "door-closed-lock",
@@ -41508,6 +41833,42 @@
     "deprecated": false
   },
   {
+    "id": "7EAEFA1D-7544-43E9-A93E-3869A3E50CB4",
+    "baseIconId": "0D1618BF-A3AD-4B4A-92EA-5DBF93BF7625",
+    "name": "earth-arrow-down",
+    "codepoint": "F1C87",
+    "aliases": [
+      "globe-arrow-down",
+      "world-arrow-down",
+      "planet-arrow-down"
+    ],
+    "tags": [],
+    "styles": [
+      "arrow"
+    ],
+    "author": "frankgrinaert",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "01449F7D-91CD-46C4-A645-654860CEB1E0",
+    "baseIconId": "01449F7D-91CD-46C4-A645-654860CEB1E0",
+    "name": "earth-arrow-left",
+    "codepoint": "F1C88",
+    "aliases": [
+      "globe-arrow-left",
+      "world-arrow-left",
+      "planet-arrow-left"
+    ],
+    "tags": [],
+    "styles": [
+      "arrow"
+    ],
+    "author": "frankgrinaert",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "E6C7261B-1CC0-41EA-844B-0DA761CDCC12",
     "baseIconId": "0D1618BF-A3AD-4B4A-92EA-5DBF93BF7625",
     "name": "earth-arrow-right",
@@ -41525,6 +41886,24 @@
     ],
     "author": "Michael Irigoyen",
     "version": "4.8.95",
+    "deprecated": false
+  },
+  {
+    "id": "9D8CB6F6-F5F6-4D11-8194-F392B52601F3",
+    "baseIconId": "0D1618BF-A3AD-4B4A-92EA-5DBF93BF7625",
+    "name": "earth-arrow-up",
+    "codepoint": "F1C89",
+    "aliases": [
+      "globe-arrow-up",
+      "planet-arrow-up",
+      "world-arrow-up"
+    ],
+    "tags": [],
+    "styles": [
+      "arrow"
+    ],
+    "author": "frankgrinaert",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -43223,6 +43602,30 @@
     "deprecated": false
   },
   {
+    "id": "5B0AC9D6-D90F-4014-9EEF-A549321B0E1E",
+    "baseIconId": "5B0AC9D6-D90F-4014-9EEF-A549321B0E1E",
+    "name": "emoticon-minus",
+    "codepoint": "F1CB2",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Austin Andrews",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "47E88450-34FB-4AC3-B497-3724490AC75C",
+    "baseIconId": "47E88450-34FB-4AC3-B497-3724490AC75C",
+    "name": "emoticon-minus-outline",
+    "codepoint": "F1CB3",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Austin Andrews",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "922B06B7-9C78-452C-AF29-79A47F0F6931",
     "baseIconId": "922B06B7-9C78-452C-AF29-79A47F0F6931",
     "name": "emoticon-neutral",
@@ -43283,6 +43686,30 @@
     "deprecated": false
   },
   {
+    "id": "977CB7BF-C5B2-41F1-A530-13C3E2944CBB",
+    "baseIconId": "977CB7BF-C5B2-41F1-A530-13C3E2944CBB",
+    "name": "emoticon-plus",
+    "codepoint": "F1CB4",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "bakotamas",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "2DBE55DC-10B6-446B-A380-D9E0637D7430",
+    "baseIconId": "2DBE55DC-10B6-446B-A380-D9E0637D7430",
+    "name": "emoticon-plus-outline",
+    "codepoint": "F1CB5",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "bakotamas",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "968319FB-0E94-4F04-A6D8-9E71DF200E1F",
     "baseIconId": "968319FB-0E94-4F04-A6D8-9E71DF200E1F",
     "name": "emoticon-poop",
@@ -43317,6 +43744,30 @@
     ],
     "author": "Michael Irigoyen",
     "version": "3.2.89",
+    "deprecated": false
+  },
+  {
+    "id": "A86DA248-7217-4896-9A5C-2AD6B8A91829",
+    "baseIconId": "A86DA248-7217-4896-9A5C-2AD6B8A91829",
+    "name": "emoticon-remove",
+    "codepoint": "F1CB6",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Austin Andrews",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "63755E6E-F437-4241-AFFE-AAD2FEF98906",
+    "baseIconId": "63755E6E-F437-4241-AFFE-AAD2FEF98906",
+    "name": "emoticon-remove-outline",
+    "codepoint": "F1CB7",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Austin Andrews",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -43908,7 +44359,8 @@
     "codepoint": "F1025",
     "aliases": [],
     "tags": [
-      "Hardware \/ Tools"
+      "Hardware \/ Tools",
+      "Transportation + Other"
     ],
     "styles": [],
     "author": "Michael Irigoyen",
@@ -44241,6 +44693,21 @@
     "styles": [],
     "author": "Michael Richins",
     "version": "3.0.39",
+    "deprecated": false
+  },
+  {
+    "id": "81421142-BE10-4918-8720-5858B7BC2E4B",
+    "baseIconId": "3C2B7DF3-97FE-4EC4-B6A9-69A75FB26B67",
+    "name": "eye-closed",
+    "codepoint": "F1CA3",
+    "aliases": [
+      "eye-shut",
+      "visibility-hidden"
+    ],
+    "tags": [],
+    "styles": [],
+    "author": "joshua-maros",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -48876,6 +49343,18 @@
     ],
     "author": "Michael Irigoyen",
     "version": "5.9.55",
+    "deprecated": false
+  },
+  {
+    "id": "95D900A4-8DDB-4235-9204-333DF520CD14",
+    "baseIconId": "95D900A4-8DDB-4235-9204-333DF520CD14",
+    "name": "fire-station",
+    "codepoint": "F1CC3",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -55800,7 +56279,9 @@
     "aliases": [
       "stove-burner",
       "cooktop-burner",
-      "grill"
+      "grill",
+      "natural-gas",
+      "energy"
     ],
     "tags": [
       "Home Automation"
@@ -55845,6 +56326,30 @@
     "styles": [],
     "author": "Google",
     "version": "1.5.54",
+    "deprecated": false
+  },
+  {
+    "id": "B744E076-E4B1-43E6-9F3C-26F083D68075",
+    "baseIconId": "50E30598-BCD8-4167-BDAC-FF6971E745D7",
+    "name": "gas-station-in-use",
+    "codepoint": "F1CC4",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "29FEB55C-C480-4B50-A5CE-D2B2FA9F72B2",
+    "baseIconId": "50E30598-BCD8-4167-BDAC-FF6971E745D7",
+    "name": "gas-station-in-use-outline",
+    "codepoint": "F1CC5",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -56242,6 +56747,58 @@
     "styles": [],
     "author": "Austin Andrews",
     "version": "1.5.54",
+    "deprecated": false
+  },
+  {
+    "id": "D97956CD-8749-401C-A45B-04D6D20017A9",
+    "baseIconId": "D97956CD-8749-401C-A45B-04D6D20017A9",
+    "name": "generator-mobile",
+    "codepoint": "F1C8A",
+    "aliases": [
+      "power-generator",
+      "electricity-generator"
+    ],
+    "tags": [
+      "Home Automation",
+      "Transportation + Other"
+    ],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "E2964412-DEC3-4D20-AFD3-C70CB191BAA2",
+    "baseIconId": "E2964412-DEC3-4D20-AFD3-C70CB191BAA2",
+    "name": "generator-portable",
+    "codepoint": "F1C8B",
+    "aliases": [
+      "power-generator",
+      "electricity-generator"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "3E1998B7-F3FC-44A6-A20D-33E492E963D4",
+    "baseIconId": "3E1998B7-F3FC-44A6-A20D-33E492E963D4",
+    "name": "generator-stationary",
+    "codepoint": "F1C8C",
+    "aliases": [
+      "power-generator",
+      "electricity-generator"
+    ],
+    "tags": [
+      "Home Automation"
+    ],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -59701,6 +60258,22 @@
     "deprecated": false
   },
   {
+    "id": "FC5F1079-0F24-415E-9364-573853A4BD34",
+    "baseIconId": "32B56DB2-B6BF-4B54-AD0C-9444106B1C1D",
+    "name": "heart-search",
+    "codepoint": "F1C8D",
+    "aliases": [
+      "find-love"
+    ],
+    "tags": [],
+    "styles": [
+      "search"
+    ],
+    "author": "Ryan Donahue",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "E0A4635A-2115-425E-8103-4C88CBDB10F3",
     "baseIconId": "32B56DB2-B6BF-4B54-AD0C-9444106B1C1D",
     "name": "heart-settings",
@@ -61850,6 +62423,20 @@
     "deprecated": false
   },
   {
+    "id": "A2BB919C-0296-4CAE-83EA-07AD9A9A378C",
+    "baseIconId": "A2BB919C-0296-4CAE-83EA-07AD9A9A378C",
+    "name": "hours-12",
+    "codepoint": "F1C94",
+    "aliases": [],
+    "tags": [
+      "Date \/ Time"
+    ],
+    "styles": [],
+    "author": "circa1665",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "0AAC6125-3343-4D4A-AF22-69BC930FA96F",
     "baseIconId": "0AAC6125-3343-4D4A-AF22-69BC930FA96F",
     "name": "hours-24",
@@ -61861,6 +62448,32 @@
     "styles": [],
     "author": "Haley Halcyon",
     "version": "5.2.45",
+    "deprecated": false
+  },
+  {
+    "id": "0BEA7CE4-5642-406D-A995-E2502E85D184",
+    "baseIconId": "0BEA7CE4-5642-406D-A995-E2502E85D184",
+    "name": "hub",
+    "codepoint": "F1C95",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Google",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "64A2362A-CC88-40D3-B071-09207B9CE7E0",
+    "baseIconId": "0BEA7CE4-5642-406D-A995-E2502E85D184",
+    "name": "hub-outline",
+    "codepoint": "F1C96",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "outline"
+    ],
+    "author": "Google",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -62084,6 +62697,22 @@
     "styles": [],
     "author": "Henrique C\u00e9sar Madeira",
     "version": "2.6.95",
+    "deprecated": false
+  },
+  {
+    "id": "51D1E4B3-A76C-4CA6-A389-177B6A7EFDBB",
+    "baseIconId": "B05E458D-886A-491D-9969-156562C52105",
+    "name": "human-female-female-child",
+    "codepoint": "F1C8E",
+    "aliases": [
+      "family"
+    ],
+    "tags": [
+      "People \/ Family"
+    ],
+    "styles": [],
+    "author": "Michael Irigoyen",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -62370,6 +62999,22 @@
     "styles": [],
     "author": "Henrique C\u00e9sar Madeira",
     "version": "2.6.95",
+    "deprecated": false
+  },
+  {
+    "id": "67F4CFA6-CBE2-4915-931B-D43AFBB11F97",
+    "baseIconId": "B05E458D-886A-491D-9969-156562C52105",
+    "name": "human-male-male-child",
+    "codepoint": "F1C8F",
+    "aliases": [
+      "family"
+    ],
+    "tags": [
+      "People \/ Family"
+    ],
+    "styles": [],
+    "author": "Michael Irigoyen",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -63360,7 +64005,9 @@
     "codepoint": "F1418",
     "aliases": [],
     "tags": [],
-    "styles": [],
+    "styles": [
+      "remove"
+    ],
     "author": "Austin Andrews",
     "version": "5.1.45",
     "deprecated": false
@@ -63371,7 +64018,9 @@
     "name": "image-remove-outline",
     "codepoint": "F1B48",
     "aliases": [],
-    "tags": [],
+    "tags": [
+      "Photography"
+    ],
     "styles": [
       "outline",
       "remove"
@@ -64342,6 +64991,20 @@
     "styles": [],
     "author": "Michael Irigoyen",
     "version": "4.1.95",
+    "deprecated": false
+  },
+  {
+    "id": "E449645E-ECE6-442D-AC75-D611FED70EF6",
+    "baseIconId": "A39024B8-5991-409C-8E68-DC9562D52F86",
+    "name": "island-variant",
+    "codepoint": "F1CC6",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "variant"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -68071,6 +68734,49 @@
     "deprecated": false
   },
   {
+    "id": "066651C5-8C77-4952-94EA-260C497156BA",
+    "baseIconId": "462769C2-0A30-4B31-B66C-55168B10D705",
+    "name": "link-circle",
+    "codepoint": "F1CAC",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "circle"
+    ],
+    "author": "Jeff Anders",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "FB44C69D-EA72-40ED-BD30-D5AA9DF491C8",
+    "baseIconId": "462769C2-0A30-4B31-B66C-55168B10D705",
+    "name": "link-circle-outline",
+    "codepoint": "F1CAD",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "circle",
+      "outline"
+    ],
+    "author": "Jeff Anders",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "E64CEF49-951E-4842-98DE-CBB615BFAB3A",
+    "baseIconId": "462769C2-0A30-4B31-B66C-55168B10D705",
+    "name": "link-edit",
+    "codepoint": "F1CAE",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "edit"
+    ],
+    "author": "Jeff Anders",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "CDEA2CC8-FD08-49E6-AC29-A5DD70956C35",
     "baseIconId": "462769C2-0A30-4B31-B66C-55168B10D705",
     "name": "link-lock",
@@ -69139,7 +69845,7 @@
     ],
     "tags": [],
     "styles": [],
-    "author": "Austin Andrews",
+    "author": "Google",
     "version": "1.5.54",
     "deprecated": false
   },
@@ -69169,7 +69875,7 @@
     ],
     "tags": [],
     "styles": [],
-    "author": "Austin Andrews",
+    "author": "Google",
     "version": "1.5.54",
     "deprecated": false
   },
@@ -70955,6 +71661,22 @@
     "deprecated": false
   },
   {
+    "id": "6F7286C3-4653-4443-A5A4-400D42A101C5",
+    "baseIconId": "E404434E-17DB-4E90-9D97-5355258E1FCF",
+    "name": "memory-arrow-down",
+    "codepoint": "F1CA6",
+    "aliases": [
+      "chip-arrow-down"
+    ],
+    "tags": [],
+    "styles": [
+      "arrow"
+    ],
+    "author": "Michael Irigoyen",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "7D2EBF4F-6B48-4DAE-B5B5-005B4FC7C9BC",
     "baseIconId": "7D2EBF4F-6B48-4DAE-B5B5-005B4FC7C9BC",
     "name": "menorah",
@@ -71008,6 +71730,22 @@
     "styles": [],
     "author": "Google",
     "version": "1.5.54",
+    "deprecated": false
+  },
+  {
+    "id": "04E66167-8706-4CEF-8748-63BDAAF0F19C",
+    "baseIconId": "0BD2CD08-CCFB-4EC3-B96D-08B0B8230A91",
+    "name": "menu-close",
+    "codepoint": "F1C90",
+    "aliases": [
+      "hamburger-close"
+    ],
+    "tags": [
+      "Navigation"
+    ],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -71080,7 +71818,9 @@
     "baseIconId": "0BD2CD08-CCFB-4EC3-B96D-08B0B8230A91",
     "name": "menu-open",
     "codepoint": "F0BAB",
-    "aliases": [],
+    "aliases": [
+      "hamburger-open"
+    ],
     "tags": [],
     "styles": [],
     "author": "Google",
@@ -81499,6 +82239,20 @@
     "deprecated": false
   },
   {
+    "id": "54BBE5BD-DFF9-41A9-A982-45DAF4B29DE4",
+    "baseIconId": "31BE5768-FCE0-46D5-A20B-E8CBFED471E0",
+    "name": "passport-alert",
+    "codepoint": "F1CB8",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "alert"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "86A974C4-6E5A-48F6-A3B9-35B3DCD1DE7A",
     "baseIconId": "31BE5768-FCE0-46D5-A20B-E8CBFED471E0",
     "name": "passport-biometric",
@@ -81510,6 +82264,76 @@
     "styles": [],
     "author": "GreenTurtwig",
     "version": "3.5.94",
+    "deprecated": false
+  },
+  {
+    "id": "F8A93094-948E-4F4F-B616-3E20AAB8CA30",
+    "baseIconId": "31BE5768-FCE0-46D5-A20B-E8CBFED471E0",
+    "name": "passport-cancel",
+    "codepoint": "F1CB9",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "cancel"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "EE9F9B1F-B218-457D-9008-F3B574C6D9B5",
+    "baseIconId": "31BE5768-FCE0-46D5-A20B-E8CBFED471E0",
+    "name": "passport-check",
+    "codepoint": "F1CBA",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "check"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "2B26DE7C-B15A-4F19-B7D8-37513184E8D8",
+    "baseIconId": "31BE5768-FCE0-46D5-A20B-E8CBFED471E0",
+    "name": "passport-minus",
+    "codepoint": "F1CBB",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "minus"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "7E0B87C0-4F09-4903-8D7E-9D8FD5E09315",
+    "baseIconId": "31BE5768-FCE0-46D5-A20B-E8CBFED471E0",
+    "name": "passport-plus",
+    "codepoint": "F1CBC",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "plus"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "616F54F4-F38D-4848-82F9-9D32D4F02D82",
+    "baseIconId": "31BE5768-FCE0-46D5-A20B-E8CBFED471E0",
+    "name": "passport-remove",
+    "codepoint": "F1CBD",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "remove"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -84859,6 +85683,18 @@
     "deprecated": false
   },
   {
+    "id": "D4BAB490-2216-4AE7-8DBC-26F4B2F5F9AC",
+    "baseIconId": "D4BAB490-2216-4AE7-8DBC-26F4B2F5F9AC",
+    "name": "pocket",
+    "codepoint": "F1CBE",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Contributors",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "56B37BA8-E973-4B53-812A-7F47BCFF217A",
     "baseIconId": "56B37BA8-E973-4B53-812A-7F47BCFF217A",
     "name": "podcast",
@@ -87733,6 +88569,18 @@
     "styles": [],
     "author": "Michael Irigoyen",
     "version": "2.5.94",
+    "deprecated": false
+  },
+  {
+    "id": "7835022B-E173-4160-ADC0-20047213D506",
+    "baseIconId": "7835022B-E173-4160-ADC0-20047213D506",
+    "name": "queue-first-in-last-out",
+    "codepoint": "F1CAF",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "mschutti",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -91405,6 +92253,24 @@
     "deprecated": false
   },
   {
+    "id": "331F3E71-198F-4A8D-95B2-EA348B4F55C3",
+    "baseIconId": "8CCE5060-8983-4F75-B672-32B7599F1082",
+    "name": "router-network-wireless",
+    "codepoint": "F1C97",
+    "aliases": [
+      "wireless-router"
+    ],
+    "tags": [
+      "Device \/ Tech"
+    ],
+    "styles": [
+      "network"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "3244EAC8-8349-4CFB-BE35-A0812368CEDA",
     "baseIconId": "3244EAC8-8349-4CFB-BE35-A0812368CEDA",
     "name": "router-wireless",
@@ -93558,6 +94424,23 @@
     "deprecated": false
   },
   {
+    "id": "1BFB5C91-DDE1-4902-A46F-27E80C5502E3",
+    "baseIconId": "692F85E2-79A8-4207-ACF7-DEC8D675BE38",
+    "name": "server-minus-outline",
+    "codepoint": "F1C98",
+    "aliases": [
+      "server-remove-outline"
+    ],
+    "tags": [],
+    "styles": [
+      "minus",
+      "outline"
+    ],
+    "author": "Kadensvw",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "21F268BE-CC44-49CE-B59A-121D073ADBA5",
     "baseIconId": "692F85E2-79A8-4207-ACF7-DEC8D675BE38",
     "name": "server-network",
@@ -93582,6 +94465,21 @@
     "deprecated": false
   },
   {
+    "id": "273CC459-F7EC-4296-9436-7BD1A8F805DF",
+    "baseIconId": "692F85E2-79A8-4207-ACF7-DEC8D675BE38",
+    "name": "server-network-outline",
+    "codepoint": "F1C99",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "network",
+      "outline"
+    ],
+    "author": "Kadensvw",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "578A1213-5F0D-4C6B-A929-9157D126A9F8",
     "baseIconId": "692F85E2-79A8-4207-ACF7-DEC8D675BE38",
     "name": "server-off",
@@ -93591,6 +94489,20 @@
     "styles": [],
     "author": "Austin Andrews",
     "version": "1.5.54",
+    "deprecated": false
+  },
+  {
+    "id": "02EE1E63-F47D-4BFE-8B6B-C8CB6DED24D3",
+    "baseIconId": "692F85E2-79A8-4207-ACF7-DEC8D675BE38",
+    "name": "server-outline",
+    "codepoint": "F1C9A",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "outline"
+    ],
+    "author": "Kadensvw",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -93605,6 +94517,23 @@
     "styles": [],
     "author": "Austin Andrews",
     "version": "1.5.54",
+    "deprecated": false
+  },
+  {
+    "id": "9F0E48B8-D7E7-40D9-A985-76FBDC113F4D",
+    "baseIconId": "692F85E2-79A8-4207-ACF7-DEC8D675BE38",
+    "name": "server-plus-outline",
+    "codepoint": "F1C9B",
+    "aliases": [
+      "server-add-outline"
+    ],
+    "tags": [],
+    "styles": [
+      "outline",
+      "plus"
+    ],
+    "author": "Kadensvw",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -97415,7 +98344,9 @@
     "baseIconId": "5675A747-D467-473E-9A1D-1C61E1B5C619",
     "name": "snowflake",
     "codepoint": "F0717",
-    "aliases": [],
+    "aliases": [
+      "power-hibernate"
+    ],
     "tags": [
       "Weather",
       "Holiday",
@@ -103770,6 +104701,35 @@
     "deprecated": false
   },
   {
+    "id": "73C1CBA6-4848-4AE0-82D4-4A7FDD29F12C",
+    "baseIconId": "0BE85AB2-0D51-411C-B119-789E9E317216",
+    "name": "tag-edit",
+    "codepoint": "F1C9C",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "edit"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "5181F023-E6E2-424F-B35B-9E3219A0C25D",
+    "baseIconId": "0BE85AB2-0D51-411C-B119-789E9E317216",
+    "name": "tag-edit-outline",
+    "codepoint": "F1C9D",
+    "aliases": [],
+    "tags": [],
+    "styles": [
+      "edit",
+      "outline"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "5DCE0F4D-F740-4D9A-AC93-281D3477E9AF",
     "baseIconId": "0BE85AB2-0D51-411C-B119-789E9E317216",
     "name": "tag-faces",
@@ -104736,7 +105696,8 @@
     "name": "tent",
     "codepoint": "F0508",
     "aliases": [
-      "camping"
+      "camping",
+      "holiday"
     ],
     "tags": [],
     "styles": [],
@@ -108327,6 +109288,18 @@
     "deprecated": false
   },
   {
+    "id": "6ABBD1FA-2A08-4361-94D0-9D4ECABE03D4",
+    "baseIconId": "B6E1232A-3A43-4200-BE34-1BC436B34BF1",
+    "name": "train-bus",
+    "codepoint": "F1CC7",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "20588836-2EC7-467D-9E72-15D3C4FE7C93",
     "baseIconId": "B6E1232A-3A43-4200-BE34-1BC436B34BF1",
     "name": "train-car",
@@ -109810,6 +110783,36 @@
     "deprecated": false
   },
   {
+    "id": "BFDBF912-A62A-4E06-AC82-F0356BA02188",
+    "baseIconId": "A0B91DEA-DB9A-4737-B2F4-26B805B88648",
+    "name": "truck-off-road",
+    "codepoint": "F1C9E",
+    "aliases": [],
+    "tags": [
+      "Transportation + Other"
+    ],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "654D7249-607D-453A-A514-5DB3F5FFF86F",
+    "baseIconId": "A0B91DEA-DB9A-4737-B2F4-26B805B88648",
+    "name": "truck-off-road-off",
+    "codepoint": "F1C9F",
+    "aliases": [],
+    "tags": [
+      "Transportation + Other"
+    ],
+    "styles": [
+      "off"
+    ],
+    "author": "Michael Richins",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
     "id": "09111629-7960-46BA-A70E-DC85128E4F4A",
     "baseIconId": "A0B91DEA-DB9A-4737-B2F4-26B805B88648",
     "name": "truck-outline",
@@ -110869,6 +111872,18 @@
     "styles": [],
     "author": "Google",
     "version": "1.5.54",
+    "deprecated": false
+  },
+  {
+    "id": "BD068EC8-751D-46FA-9A88-4D6B9452720C",
+    "baseIconId": "BD068EC8-751D-46FA-9A88-4D6B9452720C",
+    "name": "usb-c-port",
+    "codepoint": "F1CBF",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Austin Andrews",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -112175,6 +113190,23 @@
     "styles": [],
     "author": "Google",
     "version": "2.3.50",
+    "deprecated": false
+  },
+  {
+    "id": "EAEE3AC5-7C61-4513-9AB1-692E20E99F9E",
+    "baseIconId": "B1337ECC-EF1F-481B-9E75-6A8DB7A01BB9",
+    "name": "video-standard-definition",
+    "codepoint": "F1CA0",
+    "aliases": [
+      "video-sd",
+      "video-quality-sd"
+    ],
+    "tags": [
+      "Video \/ Movie"
+    ],
+    "styles": [],
+    "author": "Michael Richins",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
@@ -114621,6 +115653,42 @@
     "styles": [],
     "author": "Michael Irigoyen",
     "version": "3.8.95",
+    "deprecated": false
+  },
+  {
+    "id": "64FB01DD-0D60-4985-A367-02DAB7F66C59",
+    "baseIconId": "64FB01DD-0D60-4985-A367-02DAB7F66C59",
+    "name": "wave-arrow-down",
+    "codepoint": "F1CB0",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Contributors",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "DA42C58D-710B-45E1-BED5-B153143C6177",
+    "baseIconId": "DA42C58D-710B-45E1-BED5-B153143C6177",
+    "name": "wave-arrow-up",
+    "codepoint": "F1CB1",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Contributors",
+    "version": "7.3.67",
+    "deprecated": false
+  },
+  {
+    "id": "03713E38-C509-4252-B797-5899A04B8A43",
+    "baseIconId": "03713E38-C509-4252-B797-5899A04B8A43",
+    "name": "wave-undercurrent",
+    "codepoint": "F1CC0",
+    "aliases": [],
+    "tags": [],
+    "styles": [],
+    "author": "Austin Andrews",
+    "version": "7.3.67",
     "deprecated": false
   },
   {
