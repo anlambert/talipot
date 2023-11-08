@@ -12,8 +12,10 @@ jobs:
             os: macos-11
           - name: Talipot build on macOS 12
             os: macos-12
+            pyver: "3.11"
           - name: Talipot build on macOS 13
             os: macos-13
+            pyver: "3.12"
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.11.0
@@ -31,7 +33,7 @@ jobs:
           zstd
           graphviz
           libgit2
-          python@3.11
+          python@${{ matrix.config.pyver }}
           cppunit
           pkg-config
           glew
@@ -40,7 +42,7 @@ jobs:
           fontconfig
           qt6
           quazip
-          sip || brew link --overwrite python@3.11
+          sip || brew link --overwrite python@${{ matrix.config.pyver }}
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
@@ -62,7 +64,7 @@ jobs:
           -DCMAKE_C_COMPILER=/usr/local/opt/llvm/bin/clang
           -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm/bin/clang++
           -DCMAKE_RANLIB=/usr/bin/ranlib
-          -DPython3_EXECUTABLE=/usr/local/opt/python@3.11/bin/python3.11
+          -DPython3_EXECUTABLE=/usr/local/opt/python@${{ matrix.config.pyver }}/bin/python${{ matrix.config.pyver }}
           -DTALIPOT_BUILD_CORE_ONLY=ON
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_BUILD_DOC=OFF
