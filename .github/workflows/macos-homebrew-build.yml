@@ -8,8 +8,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: Talipot build on macOS 11
-            os: macos-11
           - name: Talipot build on macOS 12
             os: macos-12
             pyver: "3.11"
@@ -97,11 +95,11 @@ jobs:
         working-directory: ./build/install/bin
         run: ./talipot --check-application-starts --debug-plugins-load
       - name: Generate Talipot dmg bundle
-        if: matrix.config.os == 'macos-11'
+        if: matrix.config.os == 'macos-12'
         working-directory: ./build
         run: make bundle
       - name: Upload Talipot bundle to GitHub Actions artifacts
-        if: matrix.config.os == 'macos-11'
+        if: matrix.config.os == 'macos-12'
         uses: actions/upload-artifact@v3
         with:
           name: Talipot macOS bundles
