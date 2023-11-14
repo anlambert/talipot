@@ -135,3 +135,24 @@ class TestTalipotPlugins(unittest.TestCase):
 
             for e in graph.edges():
                 self.assertEqual(colorProp[e], edgeColorAfter)
+
+    def random_general_tree_test(self, min_size, max_size, max_degree):
+        plugin_name = "Random General Tree"
+        params = tlp.getDefaultPluginParameters(plugin_name)
+        params["Minimum size"] = min_size
+        params["Maximum size"] = max_size
+        params["Maximal node's degree"] = max_degree
+
+        graph = tlp.importGraph(plugin_name, params)
+
+        self.assertTrue(graph.numberOfNodes() == graph.numberOfEdges() + 1)
+        self.assertTrue(graph.numberOfNodes() >= min_size)
+        self.assertTrue(graph.numberOfNodes() <= max_size)
+
+        self.assertTrue(all(graph.outdeg(n) <= max_degree for n in graph.nodes()))
+
+    def test_random_general_tree(self):
+        self.random_general_tree_test(min_size=1000, max_size=2000, max_degree=20)
+
+    def test_random_general_tree_fixed_size(self):
+        self.random_general_tree_test(min_size=1000, max_size=1000, max_degree=5)

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,43 +29,19 @@ static constexpr std::string_view paramHelp[] = {
     // tree layout
     "If true, the generated tree is drawn with the 'Tree Leaf' layout algorithm."};
 
-/// Random General Tree - Import of a random general tree
-/** This plugin enables to create a random general tree
+/**
+ * This plugin enables to create a random general tree.
  *
  *  User can specify the minimal/maximal number of nodes and the maximal degree.
+ *
+ * The implementation is freely inspired from the randomTree function implemented
+ * in OGDF.
  */
 class RandomTreeGeneral : public ImportModule {
 
-  bool buildNode(node n, uint sizeM, int arityMax) {
-    if (graph->numberOfNodes() >= sizeM) {
-      return true;
-    }
-
-    bool result = true;
-    int randNumber = randomInteger(RAND_MAX);
-    int i = 0;
-
-    while (randNumber < RAND_MAX / pow(2.0, 1.0 + i)) {
-      ++i;
-    }
-
-    i = i % arityMax;
-    graph->reserveNodes(i);
-    graph->reserveEdges(i);
-
-    for (; i > 0; --i) {
-      node n1;
-      n1 = graph->addNode();
-      graph->addEdge(n, n1);
-      result = result && buildNode(n1, sizeM, arityMax);
-    }
-
-    return result;
-  }
-
 public:
   PLUGININFORMATION("Random General Tree", "Auber", "16/02/2001",
-                    "Imports a new randomly generated tree.", "1.1", "Graph")
+                    "Imports a new randomly generated tree.", "2.0", "Graph")
   RandomTreeGeneral(tlp::PluginContext *context) : ImportModule(context) {
     addInParameter<unsigned>("Minimum size", paramHelp[0].data(), "10");
     addInParameter<unsigned>("Maximum size", paramHelp[1].data(), "100");
@@ -124,31 +100,28 @@ public:
       return false;
     }
 
-    bool ok = true;
-    int i = 0;
-    uint nbTest = 0;
+    graph->clear();
 
-    while (ok) {
-      ++nbTest;
+    uint n = sizeMin + randomUnsignedInteger(sizeMax - sizeMin);
 
-      if (nbTest % 100 == 0) {
-        if (pluginProgress->progress((i / 100) % 100, 100) != ProgressState::TLP_CONTINUE) {
-          break;
-        }
+    uint max = 0;
+    vector<node> possible(n);
+    possible[0] = graph->addNode();
+    --n;
+
+    while (n > 0) {
+      uint i = randomUnsignedInteger(max);
+      node v = possible[i];
+
+      if (v.isValid() && graph->outdeg(v) + 1 == arityMax) {
+        possible[i] = possible[max--];
       }
 
-      ++i;
-      graph->clear();
-      node n = graph->addNode();
-      ok = !buildNode(n, sizeMax, arityMax);
+      node w = graph->addNode();
+      possible[++max] = w;
+      graph->addEdge(v, w);
 
-      if (graph->numberOfNodes() < sizeMin) {
-        ok = true;
-      }
-    }
-
-    if (pluginProgress->progress(100, 100) == ProgressState::TLP_CANCEL) {
-      return false;
+      --n;
     }
 
     if (needLayout) {
