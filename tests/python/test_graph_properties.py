@@ -1,4 +1,4 @@
-# Copyright (C) 2019-2020  The Talipot developers
+# Copyright (C) 2019-2023  The Talipot developers
 #
 # Talipot is a fork of Tulip, created by David Auber
 # and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,7 +16,7 @@ import unittest
 from talipot import tlp
 
 int_max = 32767
-flt_max = 3.40282347e+38
+flt_max = 3.40282347e38
 
 
 def rand_int():
@@ -64,15 +64,16 @@ def random_size():
 
 
 def random_string():
-    return ''.join([random.choice(string.ascii_letters + string.digits)
-                    for _ in range(32)])
+    return "".join(
+        [random.choice(string.ascii_letters + string.digits) for _ in range(32)]
+    )
 
 
 max_list_size = 30
 
 
 def random_boolean_list(val=False):
-    size = random.randint(max_list_size, max_list_size*2)
+    size = random.randint(max_list_size, max_list_size * 2)
     return [val for i in range(size)]
 
 
@@ -122,19 +123,19 @@ def random_string_list():
 
 
 class TestGraphProperties(unittest.TestCase):
-
     @classmethod
     def setUpClass(cls):
         tlp.loadTalipotPluginsFromDir(
-            os.environ['TALIPOT_BUILD_DIR'] + '/plugins/import')
+            os.environ["TALIPOT_BUILD_DIR"] + "/plugins/import"
+        )
 
     def setUp(self):
-        self.prop_name = 'test_prop'
+        self.prop_name = "test_prop"
         self.prop = None
-        self.graph = tlp.importGraph('Grid')
+        self.graph = tlp.importGraph("Grid")
         self.n = self.graph.getRandomNode()
         self.e = self.graph.getRandomEdge()
-        sg_nodes = [tlp.node(i) for i in range(self.graph.numberOfNodes()//2)]
+        sg_nodes = [tlp.node(i) for i in range(self.graph.numberOfNodes() // 2)]
         self.sub_graph = self.graph.inducedSubGraph(sg_nodes)
 
     def tearDown(self):
@@ -145,16 +146,20 @@ class TestGraphProperties(unittest.TestCase):
         self.n = None
         self.e = None
 
-    def generic_property_test(self, prop_type, node_default_value,
-                              edge_default_value, node_value, edge_value,
-                              check_type_inference=True):
+    def generic_property_test(
+        self,
+        prop_type,
+        node_default_value,
+        edge_default_value,
+        node_value,
+        edge_value,
+        check_type_inference=True,
+    ):
         # test some basic operations on property
         self.assertTrue(self.graph.existProperty(self.prop_name))
-        self.assertTrue(
-            isinstance(self.graph.getProperty(self.prop_name), prop_type))
+        self.assertTrue(isinstance(self.graph.getProperty(self.prop_name), prop_type))
         self.prop.setAllNodeValue(node_default_value)
-        self.assertEqual(
-            self.prop[self.graph.getRandomNode()], node_default_value)
+        self.assertEqual(self.prop[self.graph.getRandomNode()], node_default_value)
         self.prop[self.n] = node_value
         self.prop[self.e] = edge_value
         self.assertEqual(self.prop[self.n], node_value)
@@ -189,7 +194,8 @@ class TestGraphProperties(unittest.TestCase):
         self.assertFalse(self.graph.existProperty(self.prop_name))
 
         with self.assertRaisesRegex(
-                RuntimeError, 'wrapped C/C\\+\\+ object .* has been deleted'):
+            RuntimeError, "wrapped C/C\\+\\+ object .* has been deleted"
+        ):
             self.prop.setAllEdgeValue(edge_default_value)
 
         if not check_type_inference:
@@ -203,145 +209,211 @@ class TestGraphProperties(unittest.TestCase):
         self.prop.setAllEdgeValue(edge_value)
         self.assertEqual(self.prop[self.graph.getRandomNode()], node_value)
         self.assertEqual(self.prop[self.graph.getRandomEdge()], edge_value)
-        self.assertTrue(
-            isinstance(self.graph.getProperty(self.prop_name), prop_type))
+        self.assertTrue(isinstance(self.graph.getProperty(self.prop_name), prop_type))
         self.assertTrue(self.graph.existProperty(self.prop_name))
 
     def test_boolean_property(self):
         self.prop = self.graph.getBooleanProperty(self.prop_name)
-        self.generic_property_test(
-            tlp.BooleanProperty, True, False, False, True)
+        self.generic_property_test(tlp.BooleanProperty, True, False, False, True)
 
     def test_color_property(self):
         self.prop = self.graph.getColorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.ColorProperty, random_color(), random_color(), random_color(),
-            random_color())
+            tlp.ColorProperty,
+            random_color(),
+            random_color(),
+            random_color(),
+            random_color(),
+        )
 
     def test_color_property_tuple(self):
         self.prop = self.graph.getColorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.ColorProperty, random_color_tuple(), random_color_tuple(),
-            random_color_tuple(), random_color_tuple())
+            tlp.ColorProperty,
+            random_color_tuple(),
+            random_color_tuple(),
+            random_color_tuple(),
+            random_color_tuple(),
+        )
 
     def test_double_property(self):
         self.prop = self.graph.getDoubleProperty(self.prop_name)
         self.generic_property_test(
-            tlp.DoubleProperty, rand_float(), rand_float(), rand_float(),
-            rand_float())
+            tlp.DoubleProperty, rand_float(), rand_float(), rand_float(), rand_float()
+        )
 
     def test_integer_property(self):
         self.prop = self.graph.getIntegerProperty(self.prop_name)
         self.generic_property_test(
-            tlp.IntegerProperty, rand_int(), rand_int(), rand_int(),
-            rand_int())
+            tlp.IntegerProperty, rand_int(), rand_int(), rand_int(), rand_int()
+        )
 
     def test_layout_property(self):
         self.prop = self.graph.getLayoutProperty(self.prop_name)
         self.generic_property_test(
-            tlp.LayoutProperty, random_coord(), random_coord_list(),
-            random_coord(), random_coord_list())
+            tlp.LayoutProperty,
+            random_coord(),
+            random_coord_list(),
+            random_coord(),
+            random_coord_list(),
+        )
 
     def test_layout_property_tuple(self):
         self.prop = self.graph.getLayoutProperty(self.prop_name)
         self.generic_property_test(
-            tlp.LayoutProperty, random_coord_tuple(),
-            random_coord_tuple_list(), random_coord_tuple(),
-            random_coord_tuple_list())
+            tlp.LayoutProperty,
+            random_coord_tuple(),
+            random_coord_tuple_list(),
+            random_coord_tuple(),
+            random_coord_tuple_list(),
+        )
 
     def test_layout_property_tuple_int(self):
         self.prop = self.graph.getLayoutProperty(self.prop_name)
         self.generic_property_test(
-            tlp.LayoutProperty, random_coord_tuple_int(),
-            random_coord_tuple_list(), random_coord_tuple_int(),
-            random_coord_tuple_list(), check_type_inference=False)
+            tlp.LayoutProperty,
+            random_coord_tuple_int(),
+            random_coord_tuple_list(),
+            random_coord_tuple_int(),
+            random_coord_tuple_list(),
+            check_type_inference=False,
+        )
 
     def test_size_property(self):
         self.prop = self.graph.getSizeProperty(self.prop_name)
         self.generic_property_test(
-            tlp.SizeProperty, random_size(), random_size(), random_size(),
-            random_size())
+            tlp.SizeProperty, random_size(), random_size(), random_size(), random_size()
+        )
 
     def test_size_property_tuple_int(self):
         self.prop = self.graph.getSizeProperty(self.prop_name)
         self.generic_property_test(
-            tlp.SizeProperty, random_coord_tuple_int(),
-            random_coord_tuple_int(), random_coord_tuple_int(),
-            random_coord_tuple_int(), check_type_inference=False)
+            tlp.SizeProperty,
+            random_coord_tuple_int(),
+            random_coord_tuple_int(),
+            random_coord_tuple_int(),
+            random_coord_tuple_int(),
+            check_type_inference=False,
+        )
 
     def test_string_property(self):
         self.prop = self.graph.getStringProperty(self.prop_name)
         self.generic_property_test(
-            tlp.StringProperty, random_string(), random_string(),
-            random_string(), random_string())
+            tlp.StringProperty,
+            random_string(),
+            random_string(),
+            random_string(),
+            random_string(),
+        )
 
     def test_boolean_vector_property(self):
         self.prop = self.graph.getBooleanVectorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.BooleanVectorProperty, random_boolean_list(),
-            random_boolean_list(), random_boolean_list(True),
-            random_boolean_list(True))
+            tlp.BooleanVectorProperty,
+            random_boolean_list(),
+            random_boolean_list(),
+            random_boolean_list(True),
+            random_boolean_list(True),
+        )
 
     def test_color_vector_property(self):
         self.prop = self.graph.getColorVectorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.ColorVectorProperty, random_color_list(), random_color_list(),
-            random_color_list(), random_color_list())
+            tlp.ColorVectorProperty,
+            random_color_list(),
+            random_color_list(),
+            random_color_list(),
+            random_color_list(),
+        )
 
     def test_color_tuple_vector_property(self):
         self.prop = self.graph.getColorVectorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.ColorVectorProperty, random_color_tuple_list(),
-            random_color_tuple_list(), random_color_tuple_list(),
-            random_color_tuple_list())
+            tlp.ColorVectorProperty,
+            random_color_tuple_list(),
+            random_color_tuple_list(),
+            random_color_tuple_list(),
+            random_color_tuple_list(),
+        )
 
     def test_coord_vector_property(self):
         self.prop = self.graph.getCoordVectorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.CoordVectorProperty, random_coord_list(), random_coord_list(),
-            random_coord_list(), random_coord_list())
+            tlp.CoordVectorProperty,
+            random_coord_list(),
+            random_coord_list(),
+            random_coord_list(),
+            random_coord_list(),
+        )
 
     def test_coord_tuple_vector_property(self):
         self.prop = self.graph.getCoordVectorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.CoordVectorProperty, random_coord_tuple_list(),
-            random_coord_tuple_list(), random_coord_tuple_list(),
-            random_coord_tuple_list())
+            tlp.CoordVectorProperty,
+            random_coord_tuple_list(),
+            random_coord_tuple_list(),
+            random_coord_tuple_list(),
+            random_coord_tuple_list(),
+        )
 
     def test_coord_tuple_int_vector_property(self):
         self.prop = self.graph.getCoordVectorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.CoordVectorProperty, random_coord_tuple_int_list(),
-            random_coord_tuple_int_list(), random_coord_tuple_int_list(),
-            random_coord_tuple_int_list(), check_type_inference=False)
+            tlp.CoordVectorProperty,
+            random_coord_tuple_int_list(),
+            random_coord_tuple_int_list(),
+            random_coord_tuple_int_list(),
+            random_coord_tuple_int_list(),
+            check_type_inference=False,
+        )
 
     def test_double_vector_property(self):
         self.prop = self.graph.getDoubleVectorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.DoubleVectorProperty, random_double_list(),
-            random_double_list(), random_double_list(), random_double_list())
+            tlp.DoubleVectorProperty,
+            random_double_list(),
+            random_double_list(),
+            random_double_list(),
+            random_double_list(),
+        )
 
     def test_int_vector_property(self):
         self.prop = self.graph.getIntegerVectorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.IntegerVectorProperty, random_int_list(), random_int_list(),
-            random_int_list(), random_int_list())
+            tlp.IntegerVectorProperty,
+            random_int_list(),
+            random_int_list(),
+            random_int_list(),
+            random_int_list(),
+        )
 
     def test_size_vector_property(self):
         self.prop = self.graph.getSizeVectorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.SizeVectorProperty, random_size_list(), random_size_list(),
-            random_size_list(), random_size_list())
+            tlp.SizeVectorProperty,
+            random_size_list(),
+            random_size_list(),
+            random_size_list(),
+            random_size_list(),
+        )
 
     def test_size_tuple_int_vector_property(self):
         self.prop = self.graph.getSizeVectorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.SizeVectorProperty, random_coord_tuple_int_list(),
-            random_coord_tuple_int_list(), random_coord_tuple_int_list(),
-            random_coord_tuple_int_list(), check_type_inference=False)
+            tlp.SizeVectorProperty,
+            random_coord_tuple_int_list(),
+            random_coord_tuple_int_list(),
+            random_coord_tuple_int_list(),
+            random_coord_tuple_int_list(),
+            check_type_inference=False,
+        )
 
     def test_string_vector_property(self):
         self.prop = self.graph.getStringVectorProperty(self.prop_name)
         self.generic_property_test(
-            tlp.StringVectorProperty, random_string_list(),
-            random_string_list(), random_string_list(), random_string_list())
+            tlp.StringVectorProperty,
+            random_string_list(),
+            random_string_list(),
+            random_string_list(),
+            random_string_list(),
+        )
