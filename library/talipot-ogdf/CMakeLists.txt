@@ -7,7 +7,8 @@ ENDIF(WIN32)
 
 DISABLE_COMPILER_WARNINGS()
 
-SET(TalipotOGDF_SRCS src/TalipotToOGDF.cpp src/OGDFLayoutPluginBase.cpp)
+SET(TalipotOGDF_SRCS src/TalipotToOGDF.cpp src/OGDFLayoutPluginBase.cpp
+                     src/OGDFUtils.cpp)
 
 ADD_LIBRARY(${LibTalipotOGDFName} SHARED ${TalipotOGDF_SRCS})
 
@@ -21,7 +22,7 @@ INSTALL(
   ARCHIVE DESTINATION ${TalipotLibInstallDir})
 
 INSTALL(FILES include/talipot/OGDFLayoutPluginBase.h
-              include/talipot/TalipotToOGDF.h
+              include/talipot/TalipotToOGDF.h include/talipot/OGDFUtils.h
         DESTINATION ${TalipotIncludeInstallDir}/talipot/)
 
 IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)

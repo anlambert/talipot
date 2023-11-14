@@ -2,6 +2,7 @@ ADD_SUBDIRECTORY(SocialNetwork)
 ADD_SUBDIRECTORY(BibTeX)
 ADD_SUBDIRECTORY(Graphviz)
 ADD_SUBDIRECTORY(Git)
+ADD_SUBDIRECTORY(OGDF)
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR} ${TalipotCoreBuildInclude}
                     ${TalipotCoreInclude} ${TalipotGUIInclude})
