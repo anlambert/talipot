@@ -89,29 +89,30 @@ done
 if [ "$APPVEYOR_REPO_TAG_NAME" == "dev-latest" ]
 then
   make test-wheel-upload
+  # test uploaded wheels in clean environment
+  sudo port -N -f uninstall \
+    cmake \
+    clang-${CLANG_VERSION} \
+    ccache \
+    qhull \
+    yajl
+
+  sudo pip3.7 install --index-url https://test.pypi.org/simple/ talipot
+  python3.7 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+
+  sudo port -N install \
+    python39 \
+    py39-pip \
+    python310 \
+    py310-pip
+
+  sudo pip-3.9 install --index-url https://test.pypi.org/simple/ talipot
+  python3.9 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+
+  sudo pip-3.10 install --index-url https://test.pypi.org/simple/ talipot
+  python3.10 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
 fi
 
-# test uploaded wheels in clean environment
-sudo port -N -f uninstall \
-  cmake \
-  clang-${CLANG_VERSION} \
-  ccache \
-  qhull \
-  yajl
 
-sudo pip3.7 install --index-url https://test.pypi.org/simple/ talipot
-python3.7 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-
-sudo port -N install \
-  python39 \
-  py39-pip \
-  python310 \
-  py310-pip
-
-sudo pip-3.9 install --index-url https://test.pypi.org/simple/ talipot
-python3.9 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-
-sudo pip-3.10 install --index-url https://test.pypi.org/simple/ talipot
-python3.10 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
 
 
