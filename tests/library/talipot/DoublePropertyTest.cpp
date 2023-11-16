@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -185,8 +185,8 @@ void DoublePropertyTest::testDoublePropertySetAllValue() {
   sg->addNode(graph->target(e1));
   sg->addEdge(e1);
 
-  const double v1 = tlp::randomDouble();
-  const double v2 = tlp::randomDouble();
+  const double v1 = tlp::randomNumber();
+  const double v2 = tlp::randomNumber();
 
   // create a double property and set all values for nodes and edges
   DoubleProperty *prop = graph->getLocalDoubleProperty(doublePropertyName);
@@ -244,8 +244,8 @@ void DoublePropertyTest::testDoublePropertySetAllValue() {
 
 void DoublePropertyTest::testDoublePropertySetDefaultValue() {
 
-  const double v1 = tlp::randomDouble();
-  const double v2 = tlp::randomDouble();
+  const double v1 = tlp::randomNumber();
+  const double v2 = tlp::randomNumber();
 
   // create a double property and set all values for nodes and edges
   DoubleProperty *prop = graph->getLocalDoubleProperty(doublePropertyName);
@@ -325,7 +325,7 @@ void DoublePropertyTest::testDoublePropertySetDefaultValue() {
   // check that after pushing a graph, adding a new node and changing the default property value
   // the node property value gets restored to the default value of the property the time the node
   // was created
-  double v3 = tlp::randomDouble();
+  double v3 = tlp::randomNumber();
   // push graph state
   graph->push();
   // add a node, its property value should be v2
@@ -357,7 +357,7 @@ void DoublePropertyTest::testVectorDoublePropertyCopyFrom() {
     CPPUNIT_ASSERT(nVectorProp[n] == prop->getNodeValue(n));
   }
   for (auto e : graph->edges()) {
-    prop->setEdgeValue(e, tlp::randomDouble());
+    prop->setEdgeValue(e, tlp::randomNumber());
   }
   EdgeVectorProperty<double> eVectorProp(graph);
   eVectorProp.copyFromProperty(prop);

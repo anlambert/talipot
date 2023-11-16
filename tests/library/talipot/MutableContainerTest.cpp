@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -218,7 +218,7 @@ void MutableContainerTest::testSetGet() {
   mutString->setAll("Sophie");
 
   for (uint i = 0; i < NBTEST * 10; ++i) {
-    uint rando = randomUnsignedInteger(NBTEST - 1);
+    uint rando = randomNumber(NBTEST - 1);
     mutBool->set(rando, true);
     mutDouble->set(rando, rando);
     mutString->set(rando, string("David"));
@@ -230,13 +230,13 @@ void MutableContainerTest::testSetGet() {
   mutBool->setAll(true);
 
   for (uint i = 0; i < NBTEST * 10; ++i) {
-    uint rando = randomUnsignedInteger(NBTEST - 1);
+    uint rando = randomNumber(NBTEST - 1);
     mutBool->set(rando, false);
     CPPUNIT_ASSERT(!mutBool->get(rando));
   }
 
   for (uint i = 0; i < NBTEST * 10; ++i) {
-    uint rando = randomUnsignedInteger(NBTEST - 1);
+    uint rando = randomNumber(NBTEST - 1);
     bool isNotDefault = true;
     mutBool->set(rando, true);
     CPPUNIT_ASSERT(mutBool->get(rando, isNotDefault));

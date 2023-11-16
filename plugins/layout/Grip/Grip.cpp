@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -171,7 +171,7 @@ void Grip::firstNodesPlacement() {
     g->addNode(n1);
     g->addNode(n2);
     g->addNode(n3);
-    result->rotateX(3.14159 / 2. - (3.14159 * randomInteger(1)), g->getNodes(), g->getEdges());
+    result->rotateX(3.14159 / 2. - (3.14159 * randomNumber(1)), g->getNodes(), g->getEdges());
     currentGraph->delSubGraph(g);
 
     const Coord &c1 = result->getNodeValue(n1);
@@ -248,10 +248,10 @@ void Grip::initialPlacement(uint start, uint end) {
       nbConsidered += 1.;
     }
 
-    double alpha = edgeLength / 6.0 * randomDouble();
+    double alpha = edgeLength / 6.0 * randomNumber();
     Coord alea =
-        Coord(alpha - (2. * alpha * randomInteger(1)), alpha - (2. * alpha * randomInteger(1)),
-              (alpha - (2. * alpha * randomInteger(1))));
+        Coord(alpha - (2. * alpha * randomNumber(1)), alpha - (2. * alpha * randomNumber(1)),
+              (alpha - (2. * alpha * randomNumber(1))));
 
     if (_dim == 2) {
       alea[2] = 0.;
@@ -381,10 +381,10 @@ void Grip::fr_reffinement(uint start, uint end) {
         }
 
         if (!(euclidian_dist_sqr > 1E-4)) {
-          double alpha = randomDouble(2.0);
-          c_tmp = Coord(alpha - (2. * alpha * randomInteger(1)),
-                        alpha - (2. * alpha * randomInteger(1)),
-                        alpha - (2. * alpha * randomInteger(1)));
+          double alpha = randomNumber(2.0);
+          c_tmp =
+              Coord(alpha - (2. * alpha * randomNumber(1)), alpha - (2. * alpha * randomNumber(1)),
+                    alpha - (2. * alpha * randomNumber(1)));
 
           if (_dim == 2) {
             c_tmp[2] = 0.;
@@ -457,8 +457,8 @@ void Grip::init() {
 
   double diam = sqrt(currentGraph->numberOfNodes());
   for (auto n : currentGraph->nodes()) {
-    Coord alea = Coord(diam - (2. * diam * randomInteger(1)), diam - (2. * diam * randomInteger(1)),
-                       diam - (2. * diam * randomInteger(1)));
+    Coord alea = Coord(diam - (2. * diam * randomNumber(1)), diam - (2. * diam * randomNumber(1)),
+                       diam - (2. * diam * randomNumber(1)));
 
     if (_dim == 2) {
       alea[2] = 0.;

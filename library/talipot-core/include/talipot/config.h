@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,6 +27,8 @@
 
 // some useful typedefs
 typedef unsigned int uint;
+typedef unsigned long ulong;
+typedef unsigned long long ullong;
 typedef unsigned char uchar;
 
 #if defined(_MSC_VER)

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -73,7 +73,7 @@ struct BollobasModel : public ImportModule {
     for (uint v = 0; v < n; ++v) {
       for (uint i = 0; i < d; ++i) {
         M[2 * (v * d + i)] = v;
-        int r = tlp::randomInteger(2 * (v * d + i) + 1);
+        int r = tlp::randomNumber(2 * (v * d + i) + 1);
         M[2 * (v * d + i) + 1] = M[r];
       }
 

@@ -97,7 +97,7 @@ public:
 
         // Random type
         do {
-          random_type = tlp::randomUnsignedInteger(types_of_nodes - 1);
+          random_type = tlp::randomNumber(types_of_nodes - 1);
         } while (random_type == i % types_of_nodes);
 
         // Random node
@@ -108,7 +108,7 @@ public:
           k_sum += graph->deg(nodes[random_type][random_node]);
         }
 
-        pr = tlp::randomDouble();
+        pr = tlp::randomNumber();
         random_node = 0;
 
         while (pr_sum < pr && nodes[random_type].size() > (random_node + 1)) {

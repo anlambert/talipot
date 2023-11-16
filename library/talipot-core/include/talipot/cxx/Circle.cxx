@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -320,7 +320,7 @@ tlp::Circle<Obj, OTYPE> tlp::enclosingCircle(const std::vector<tlp::Circle<Obj, 
       }
 
       for (unsigned i = circlesSet.size(); i > 0;) {
-        unsigned idx = tlp::randomUnsignedInteger(i - 1);
+        unsigned idx = tlp::randomNumber(i - 1);
         --i;
         std::swap(enclosedCircles[idx], enclosedCircles[i]);
       }

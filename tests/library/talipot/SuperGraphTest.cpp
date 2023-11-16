@@ -297,8 +297,8 @@ void SuperGraphTest::testOrderEdgeAndSwap() {
 
   // change edges order
   for (uint j = 0; j < NB_EDGES; ++j) {
-    uint u = randomUnsignedInteger(NB_EDGES - 1);
-    uint v = randomUnsignedInteger(NB_EDGES - 1);
+    uint u = randomNumber(NB_EDGES - 1);
+    uint v = randomNumber(NB_EDGES - 1);
     std::swap(edges[u], edges[v]);
   }
 
@@ -309,8 +309,8 @@ void SuperGraphTest::testOrderEdgeAndSwap() {
 
   // swap two edges
   for (uint j = 0; j < NB_EDGES; ++j) {
-    uint u = randomUnsignedInteger(NB_EDGES - 1);
-    uint v = randomUnsignedInteger(NB_EDGES - 1);
+    uint u = randomNumber(NB_EDGES - 1);
+    uint v = randomNumber(NB_EDGES - 1);
     graph->swapEdgeOrder(nodes[0], edges[u], edges[v]);
     std::swap(edges[u], edges[v]);
   }

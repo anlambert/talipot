@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -95,8 +95,8 @@ public:
     NodeVectorProperty<double> pIntroduceProperty(graph);
 
     for (uint i = 0; i < nbNodes; ++i) {
-      pAttractProperty[i] = ((1 - alpha) > randomDouble(1.0)) ? 0 : randomDouble(1.0);
-      pIntroduceProperty[i] = (beta > randomDouble(1.0)) ? 1 : 0;
+      pAttractProperty[i] = ((1 - alpha) > randomNumber(1.0)) ? 0 : randomNumber(1.0);
+      pIntroduceProperty[i] = (beta > randomNumber(1.0)) ? 1 : 0;
 
       if (i++ % 1000 == 0) {
         if (pluginProgress->progress(i, iterations) != ProgressState::TLP_CONTINUE) {
@@ -109,31 +109,31 @@ public:
     const vector<node> &nodes = graph->nodes();
 
     while (tmpE < nbEdges) {
-      uint i = randomInteger(nbNodes - 1);
+      uint i = randomNumber(nbNodes - 1);
       uint j;
 
       do {
-        j = randomInteger(nbNodes - 1);
+        j = randomNumber(nbNodes - 1);
       } while (i == j);
 
       node nj = nodes[j];
 
-      if (pAttractProperty[j] > randomDouble(1.0)) {
+      if (pAttractProperty[j] > randomNumber(1.0)) {
         node ni = nodes[i];
 
-        if (pIntroduceProperty[i] > randomDouble(1.0)) {
+        if (pIntroduceProperty[i] > randomNumber(1.0)) {
           for (auto fd : graph->getInOutNodes(ni)) {
             if (fd == nj || graph->hasEdge(fd, nj, false)) {
               continue;
             }
 
-            if (pAttractProperty[j] > randomDouble(1.0)) {
+            if (pAttractProperty[j] > randomNumber(1.0)) {
               graph->addEdge(fd, nj);
               ++tmpE;
               continue;
             }
 
-            if (pAttractProperty[fd] > randomDouble(1.0)) {
+            if (pAttractProperty[fd] > randomNumber(1.0)) {
               graph->addEdge(nj, fd);
               ++tmpE;
             }

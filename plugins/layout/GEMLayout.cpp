@@ -90,7 +90,7 @@ GEMLayout::GEMLayout(const tlp::PluginContext *context)
 GEMLayout::~GEMLayout() = default;
 //=========================================================
 uint GEMLayout::select() {
-  return randomInteger(graph->numberOfNodes() - 1);
+  return randomNumber(graph->numberOfNodes() - 1);
 }
 //=========================================================
 void GEMLayout::vertexdata_init(const float starttemp) {
@@ -127,7 +127,7 @@ Coord GEMLayout::computeForces(uint v, float shake, float gravity, bool testPlac
 
   // Init force in a random position
   for (uint cnt = 0; cnt < _dim; ++cnt) {
-    force[cnt] = shake - float(randomDouble(2. * shake));
+    force[cnt] = shake - float(randomNumber(2. * shake));
   }
 
   // Add central force

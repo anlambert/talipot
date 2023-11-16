@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -99,7 +99,7 @@ struct Catanzaro : public ImportModule {
 
       for (j = 0; j < m; j++) {
 
-        double pr = tlp::randomDouble();
+        double pr = tlp::randomNumber();
         double pr_sum = 0;
         uint u = 0;
 
@@ -108,7 +108,7 @@ struct Catanzaro : public ImportModule {
           ++u;
         }
 
-        if (tlp::randomDouble() <= p) { // PA
+        if (tlp::randomNumber() <= p) { // PA
           if (!graph->hasEdge(nodes[i], nodes[u], false)) {
             graph->addEdge(nodes[i], nodes[u]);
           }
@@ -124,7 +124,7 @@ struct Catanzaro : public ImportModule {
             }
           }
 
-          pr = tlp::randomDouble(ceil(k_sum));
+          pr = tlp::randomNumber(ceil(k_sum));
 
           for (k = 0; k < i; ++k) {
             for (l = 0; l < k; ++l) {

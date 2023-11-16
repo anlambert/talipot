@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,7 +39,7 @@ class RandomTree : public ImportModule {
     }
 
     bool result = true;
-    int randNumber = randomInteger(RAND_MAX);
+    int randNumber = randomNumber(RAND_MAX);
 
     if (randNumber > RAND_MAX / 2) {
       node n1, n2;

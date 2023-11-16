@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -165,7 +165,7 @@ node SOMAlgorithm::findBMU(SOMMap *map, const DynamicVector<double> &input, doub
     n = matchList.front();
   } else {
     // Take randomly a vector in the matchlist.
-    unsigned int num = randomUnsignedInteger(matchList.size() - 1);
+    unsigned int num = randomNumber(matchList.size() - 1);
     assert(num < matchList.size());
     n = matchList[num];
   }

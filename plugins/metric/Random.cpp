@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -65,13 +65,13 @@ bool RandomMetric::run() {
 
   if (nodes) {
     for (auto n : graph->nodes()) {
-      result->setNodeValue(n, randomDouble());
+      result->setNodeValue(n, randomNumber());
     }
   }
 
   if (edges) {
     for (auto e : graph->edges()) {
-      result->setEdgeValue(e, randomDouble());
+      result->setEdgeValue(e, randomNumber());
     }
   }
 

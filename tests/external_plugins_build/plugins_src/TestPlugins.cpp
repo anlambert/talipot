@@ -63,8 +63,8 @@ public:
   TestDoubleAlgorithmPlugin(tlp::PluginContext *context) : tlp::DoubleAlgorithm(context) {}
 
   bool run() override {
-    result->setAllNodeValue(tlp::randomDouble());
-    result->setNodeValue(graph->getRandomNode(), tlp::randomDouble());
+    result->setAllNodeValue(tlp::randomNumber());
+    result->setNodeValue(graph->getRandomNode(), tlp::randomNumber());
     return true;
   }
 };
@@ -81,8 +81,8 @@ public:
   TestIntegerAlgorithmPlugin(tlp::PluginContext *context) : tlp::IntegerAlgorithm(context) {}
 
   bool run() override {
-    result->setAllNodeValue(tlp::randomInteger(10000));
-    result->setNodeValue(graph->getRandomNode(), tlp::randomInteger(10000));
+    result->setAllNodeValue(tlp::randomNumber(10000));
+    result->setNodeValue(graph->getRandomNode(), tlp::randomNumber(10000));
     return true;
   }
 };

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -135,17 +135,27 @@ TLP_SCOPE std::mt19937 &getRandomNumberGenerator();
  * @brief Returns a random integer in the range [0, max] if max is positive or in the range [max, 0]
  * if max is negative
  */
-TLP_SCOPE int randomInteger(int max);
+TLP_SCOPE int randomNumber(int max);
 
 /**
  * @brief Returns a random unsigned integer in the range [0, max]
  */
-TLP_SCOPE uint randomUnsignedInteger(uint max);
+TLP_SCOPE uint randomNumber(uint max);
+
+/**
+ * @brief Returns a random unsigned long in the range [0, max]
+ */
+TLP_SCOPE ulong randomNumber(ulong max);
+
+/**
+ * @brief Returns a random unsigned long long in the range [0, max]
+ */
+TLP_SCOPE ullong randomNumber(ullong max);
 
 /**
  * @brief Returns a random double in the range [0, max]
  */
-TLP_SCOPE double randomDouble(double max = 1.0);
+TLP_SCOPE double randomNumber(double max = 1.0);
 
 /**
  * @brief Cross-platform function to stat a path on a filesystem.

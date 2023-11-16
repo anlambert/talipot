@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -46,8 +46,8 @@ TLP_PYTHON_SCOPE PyObject *convertDoubleToPyObject(double cppObject);
 TLP_PYTHON_SCOPE bool convertPyObjectToLong(PyObject *pyObject, long &cppObject);
 TLP_PYTHON_SCOPE PyObject *convertLongToPyObject(long cppObject);
 
-TLP_PYTHON_SCOPE bool convertPyObjectToUnsignedLong(PyObject *pyObject, unsigned long &cppObject);
-TLP_PYTHON_SCOPE PyObject *convertUnsignedLongToPyObject(unsigned long cppObject);
+TLP_PYTHON_SCOPE bool convertPyObjectToUnsignedLong(PyObject *pyObject, ulong &cppObject);
+TLP_PYTHON_SCOPE PyObject *convertUnsignedLongToPyObject(ulong cppObject);
 
 class TLP_PYTHON_SCOPE ValueSetter {
 
@@ -176,9 +176,9 @@ public:
 };
 
 template <>
-class PyObjectToCppObjectConverter<unsigned long> {
+class PyObjectToCppObjectConverter<ulong> {
 public:
-  bool convert(PyObject *pyObject, unsigned long &cppObject) {
+  bool convert(PyObject *pyObject, ulong &cppObject) {
     return convertPyObjectToUnsignedLong(pyObject, cppObject);
   }
 };
@@ -187,8 +187,8 @@ template <>
 class PyObjectToCppObjectConverter<uint> {
 public:
   bool convert(PyObject *pyObject, uint &cppObject) {
-    unsigned long val = 0;
-    PyObjectToCppObjectConverter<unsigned long> converter;
+    ulong val = 0;
+    PyObjectToCppObjectConverter<ulong> converter;
     bool ok = converter.convert(pyObject, val);
     cppObject = val;
     return ok;
@@ -280,9 +280,9 @@ public:
 };
 
 template <>
-class CppObjectToPyObjectConverter<unsigned long> {
+class CppObjectToPyObjectConverter<ulong> {
 public:
-  bool convert(const unsigned long &cppObject, PyObject *&pyObject) {
+  bool convert(const ulong &cppObject, PyObject *&pyObject) {
     pyObject = convertUnsignedLongToPyObject(cppObject);
     return true;
   }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -66,8 +66,7 @@ public:
                          const LabelPosition &axisGradsLabelsPosition = LEFT_OR_BELOW,
                          const bool drawFirstLabel = true);
 
-  void setAxisParameters(const long long min, const long long max,
-                         const unsigned long long incrementStep,
+  void setAxisParameters(const long long min, const long long max, const ullong incrementStep,
                          const LabelPosition &axisGradsLabelsPosition = LEFT_OR_BELOW,
                          const bool drawFirstLabel = true);
 
@@ -75,8 +74,7 @@ public:
                          const LabelPosition &axisGradsLabelsPosition = LEFT_OR_BELOW,
                          const bool drawFirstLabel = true) {
     setAxisParameters(static_cast<long long>(min), static_cast<long long>(max),
-                      static_cast<unsigned long long>(incrementStep), axisGradsLabelsPosition,
-                      drawFirstLabel);
+                      static_cast<ullong>(incrementStep), axisGradsLabelsPosition, drawFirstLabel);
   }
 
   void setNbGraduations(const uint nbGraduations) {
@@ -151,7 +149,7 @@ private:
   bool logScale;
   uint logBase;
   bool integerScale;
-  unsigned long long incrementStep;
+  ullong incrementStep;
   bool minMaxSet;
 };
 }

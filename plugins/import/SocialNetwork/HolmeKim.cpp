@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -97,11 +97,11 @@ struct HolmeKim : public ImportModule {
         k_sum += graph->deg(nodes[j]);
       }
 
-      double proba = tlp::randomDouble();
+      double proba = tlp::randomNumber();
 
       for (uint j = 0; j < m; ++j) {
         // Preferential attachment
-        double pr = tlp::randomDouble();
+        double pr = tlp::randomNumber();
         double pr_sum = 0;
         double firstNeighbour = 0;
 
@@ -125,14 +125,14 @@ struct HolmeKim : public ImportModule {
 
           if (!freeNeighbours.empty()) {
             // randomly choose one of the free neighbours to connect with
-            uint randomNeighbour = tlp::randomUnsignedInteger(freeNeighbours.size() - 1);
+            uint randomNeighbour = tlp::randomNumber(freeNeighbours.size() - 1);
             graph->addEdge(nodes[i], freeNeighbours[randomNeighbour]);
             continue;
           }
         }
 
         // Preferential attachment
-        pr = tlp::randomDouble();
+        pr = tlp::randomNumber();
         pr_sum = 0;
         uint rn = 0;
 

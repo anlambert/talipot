@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -118,7 +118,7 @@ private:
    * GEM3D variables
    */
 
-  unsigned long Iteration;
+  ulong Iteration;
   float _temperature;
   tlp::Coord _center;
   float _maxtemp;

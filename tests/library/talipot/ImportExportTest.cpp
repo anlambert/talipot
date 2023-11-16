@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -222,18 +222,18 @@ void ImportExportTest::testSubGraphsImportExport() {
 }
 
 static Color genRandomColor() {
-  return Color(uchar(tlp::randomUnsignedInteger(255)), uchar(tlp::randomUnsignedInteger(255)),
-               uchar(tlp::randomUnsignedInteger(255)), uchar(tlp::randomUnsignedInteger(255)));
+  return Color(uchar(tlp::randomNumber(255)), uchar(tlp::randomNumber(255)),
+               uchar(tlp::randomNumber(255)), uchar(tlp::randomNumber(255)));
 }
 
 static Coord genRandomCoord() {
-  return tlp::Coord(float(tlp::randomDouble(1000)), float(tlp::randomDouble(1000)),
-                    float(tlp::randomDouble(1000)));
+  return tlp::Coord(float(tlp::randomNumber(1000)), float(tlp::randomNumber(1000)),
+                    float(tlp::randomNumber(1000)));
 }
 
 static Size genRandomSize() {
-  return tlp::Size(float(tlp::randomDouble(10)), float(tlp::randomDouble(10)),
-                   float(tlp::randomDouble(10)));
+  return tlp::Size(float(tlp::randomNumber(10)), float(tlp::randomNumber(10)),
+                   float(tlp::randomNumber(10)));
 }
 
 Graph *ImportExportTest::createSimpleGraph() const {
@@ -284,7 +284,7 @@ Graph *ImportExportTest::createSimpleGraph() const {
   std::ostringstream oss;
   for (auto n : original->nodes()) {
 
-    uint vecSize = tlp::randomUnsignedInteger(9) + 1;
+    uint vecSize = tlp::randomNumber(9) + 1;
     vector<bool> boolVec;
     vector<Color> colorVec;
     vector<Coord> coordVec;
@@ -296,18 +296,18 @@ Graph *ImportExportTest::createSimpleGraph() const {
       boolVec.push_back((n.id + i) % 2 == 0);
       coordVec.push_back(genRandomCoord());
       colorVec.push_back(genRandomColor());
-      doubleVec.push_back(tlp::randomDouble(DBL_MAX));
-      intVec.push_back(tlp::randomInteger(INT_MAX));
+      doubleVec.push_back(tlp::randomNumber(DBL_MAX));
+      intVec.push_back(tlp::randomNumber(INT_MAX));
       sizeVec.push_back(genRandomSize());
-      oss << tlp::randomDouble();
+      oss << tlp::randomNumber();
       stringVec.push_back(oss.str());
       oss.str("");
     }
 
     booleanProp->setNodeValue(n, n.id % 2 == 0);
     colorProp->setNodeValue(n, genRandomColor());
-    doubleProp->setNodeValue(n, tlp::randomDouble(DBL_MAX));
-    integerProp->setNodeValue(n, tlp::randomInteger(INT_MAX));
+    doubleProp->setNodeValue(n, tlp::randomNumber(DBL_MAX));
+    integerProp->setNodeValue(n, tlp::randomNumber(INT_MAX));
     layoutProp->setNodeValue(n, genRandomCoord());
     sizeProp->setNodeValue(n, genRandomSize());
     oss << "node " << n.id;
@@ -325,7 +325,7 @@ Graph *ImportExportTest::createSimpleGraph() const {
 
   for (auto e : original->edges()) {
 
-    uint vecSize = tlp::randomUnsignedInteger(9) + 1;
+    uint vecSize = tlp::randomNumber(9) + 1;
     vector<bool> boolVec;
     vector<Color> colorVec;
     vector<Coord> coordVec;
@@ -338,18 +338,18 @@ Graph *ImportExportTest::createSimpleGraph() const {
       boolVec.push_back((e.id + i) % 2 == 0);
       coordVec.push_back(genRandomCoord());
       colorVec.push_back(genRandomColor());
-      doubleVec.push_back(tlp::randomDouble(DBL_MAX));
-      intVec.push_back(tlp::randomInteger(INT_MAX));
+      doubleVec.push_back(tlp::randomNumber(DBL_MAX));
+      intVec.push_back(tlp::randomNumber(INT_MAX));
       sizeVec.push_back(genRandomSize());
-      oss << tlp::randomDouble();
+      oss << tlp::randomNumber();
       stringVec.push_back(oss.str());
       oss.str("");
     }
 
     booleanProp->setEdgeValue(e, e.id % 2 == 0);
     colorProp->setEdgeValue(e, genRandomColor());
-    doubleProp->setEdgeValue(e, tlp::randomDouble(DBL_MAX));
-    integerProp->setEdgeValue(e, tlp::randomInteger(INT_MAX));
+    doubleProp->setEdgeValue(e, tlp::randomNumber(DBL_MAX));
+    integerProp->setEdgeValue(e, tlp::randomNumber(INT_MAX));
     layoutProp->setEdgeValue(e, coordVec);
     sizeProp->setEdgeValue(e, genRandomSize());
     oss << "edge " << e.id;

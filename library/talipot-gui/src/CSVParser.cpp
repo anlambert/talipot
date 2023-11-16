@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -57,7 +57,7 @@ bool CSVSimpleParser::parse(CSVContentHandler *handler, PluginProgress *progress
 
     csvFile->seekg(0, std::ios_base::end);
     // get position = file size
-    unsigned long fileSize = csvFile->tellg(), readSize = 0;
+    ulong fileSize = csvFile->tellg(), readSize = 0;
     // reset position
     csvFile->seekg(0, std::ios_base::beg);
     string line;

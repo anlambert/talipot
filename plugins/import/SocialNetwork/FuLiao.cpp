@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -95,7 +95,7 @@ struct FuLiao : public ImportModule {
       // add first edge
       double pr_sum = 0;
       uint rn = 0;
-      double pr = tlp::randomDouble();
+      double pr = tlp::randomNumber();
 
       while (pr_sum < pr && rn < (i - 1)) {
         if (!graph->hasEdge(nodes[i], nodes[rn])) {
@@ -126,7 +126,7 @@ struct FuLiao : public ImportModule {
 
         pr_sum = 0;
         rn = 0;
-        pr = tlp::randomDouble();
+        pr = tlp::randomNumber();
 
         while (pr_sum < pr && rn < (i - 1)) {
           if (!graph->hasEdge(nodes[i], nodes[rn])) {

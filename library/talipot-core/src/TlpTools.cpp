@@ -333,7 +333,7 @@ TLP_SCOPE std::mt19937 &tlp::getRandomNumberGenerator() {
   return mt;
 }
 
-int tlp::randomInteger(int max) {
+int tlp::randomNumber(int max) {
   if (max == 0) {
     return 0;
   } else if (max > 0) {
@@ -345,7 +345,7 @@ int tlp::randomInteger(int max) {
   }
 }
 
-uint tlp::randomUnsignedInteger(uint max) {
+uint tlp::randomNumber(uint max) {
   if (max == 0) {
     return 0;
   } else {
@@ -354,7 +354,25 @@ uint tlp::randomUnsignedInteger(uint max) {
   }
 }
 
-double tlp::randomDouble(double max) {
+ulong tlp::randomNumber(ulong max) {
+  if (max == 0) {
+    return 0;
+  } else {
+    std::uniform_int_distribution<ulong> dist(0, max);
+    return dist(mt);
+  }
+}
+
+ullong tlp::randomNumber(ullong max) {
+  if (max == 0) {
+    return 0;
+  } else {
+    std::uniform_int_distribution<ullong> dist(0, max);
+    return dist(mt);
+  }
+}
+
+double tlp::randomNumber(double max) {
   std::uniform_real_distribution<double> dist(0, std::nextafter(max, DBL_MAX));
   return dist(mt);
 }

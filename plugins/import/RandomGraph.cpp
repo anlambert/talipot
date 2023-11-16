@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -149,12 +149,12 @@ public:
       }
 
       edgeS tmp;
-      tmp.source = randomUnsignedInteger(nbNodes - 1);
-      tmp.target = randomUnsignedInteger(nbNodes - 1);
+      tmp.source = randomNumber(nbNodes - 1);
+      tmp.target = randomNumber(nbNodes - 1);
 
       while (tmp.source == tmp.target) {
-        tmp.source = randomUnsignedInteger(nbNodes - 1);
-        tmp.target = randomUnsignedInteger(nbNodes - 1);
+        tmp.source = randomNumber(nbNodes - 1);
+        tmp.target = randomNumber(nbNodes - 1);
       }
 
       if ((myGraph.find(tmp) == myGraph.end()) && (myGraph.size() < nbEdges)) {

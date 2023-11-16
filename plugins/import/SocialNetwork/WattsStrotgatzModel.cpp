@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -130,11 +130,11 @@ struct WattsStrogatzModel : public ImportModule {
 
     if (original_model) {
       for (auto e : graph->edges()) {
-        if (tlp::randomDouble() < p) {
+        if (tlp::randomNumber() < p) {
           n1 = graph->source(e);
 
           do {
-            n2 = nodes[tlp::randomInteger(nbNodes - 1)];
+            n2 = nodes[tlp::randomNumber(nbNodes - 1)];
           } while (graph->hasEdge(n1, n2, false));
 
           // only reroute target; ensure to keep the graph connected
@@ -143,10 +143,10 @@ struct WattsStrogatzModel : public ImportModule {
       }
     } else {
       for (auto e : graph->edges()) {
-        if (tlp::randomDouble() < p) {
+        if (tlp::randomNumber() < p) {
           do {
-            n1 = nodes[tlp::randomInteger(nbNodes - 1)];
-            n2 = nodes[tlp::randomInteger(nbNodes - 1)];
+            n1 = nodes[tlp::randomNumber(nbNodes - 1)];
+            n2 = nodes[tlp::randomNumber(nbNodes - 1)];
           } while (graph->hasEdge(n1, n2, false));
 
           graph->setEnds(e, n1, n2);

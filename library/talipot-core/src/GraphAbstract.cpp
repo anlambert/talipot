@@ -280,7 +280,7 @@ node GraphAbstract::getRandomNode() const {
   const std::vector<node> &vNodes = nodes();
 
   if (!vNodes.empty()) {
-    return vNodes[randomUnsignedInteger(vNodes.size() - 1)];
+    return vNodes[randomNumber(vNodes.size() - 1)];
   }
 
   return node();
@@ -295,7 +295,7 @@ edge GraphAbstract::getRandomEdge() const {
   const std::vector<edge> &vEdges = edges();
 
   if (!vEdges.empty()) {
-    return vEdges[randomUnsignedInteger(vEdges.size() - 1)];
+    return vEdges[randomNumber(vEdges.size() - 1)];
   }
 
   return edge();

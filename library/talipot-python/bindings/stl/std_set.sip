@@ -517,7 +517,7 @@ return sipGetState(sipTransferObj);
 
 };
 
-%MappedType std::set<unsigned long> /TypeHint="Set[int]"/ {
+%MappedType std::set<ulong> /TypeHint="Set[int]"/ {
 %TypeHeaderCode
 #include <set>
 %End
@@ -532,7 +532,7 @@ if ((l = PySet_New(NULL)) == NULL) {
 
 // Go through each element in the C++ instance and convert it to a
 // wrapper object.
-for (unsigned long n : *sipCpp) {
+for (ulong n : *sipCpp) {
   // Add the wrapper to the list.
   PySet_Add(l, PyLong_FromUnsignedLong(n));
 }
@@ -561,8 +561,8 @@ if (sipIsErr == NULL) {
   return 1;
 }
 
-// Convert Python set of integers to a std::set<unsigned long>
-std::set<unsigned long> *s = new std::set<unsigned long>();
+// Convert Python set of integers to a std::set<ulong>
+std::set<ulong> *s = new std::set<ulong>();
 
 PyObject *iterator = PyObject_GetIter(sipPy);
 PyObject *item = NULL;

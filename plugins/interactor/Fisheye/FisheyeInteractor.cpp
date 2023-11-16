@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -116,14 +116,14 @@ unique_ptr<GlShaderProgram> FisheyeInteractorComponent::fisheyeShader;
 
 FisheyeInteractorComponent::FisheyeInteractorComponent(FisheyeConfigWidget *configWidget)
     : _configWidget(configWidget), _activateFisheye(false) {
-  _fboTextureId = "fisheyeTexture" + to_string(reinterpret_cast<unsigned long long>(this));
+  _fboTextureId = "fisheyeTexture" + to_string(reinterpret_cast<ullong>(this));
 }
 
 FisheyeInteractorComponent::FisheyeInteractorComponent(
     const FisheyeInteractorComponent &fisheyeInteractorComponent) {
   _configWidget = fisheyeInteractorComponent._configWidget;
   _activateFisheye = false;
-  _fboTextureId = "fisheyeTexture" + to_string(reinterpret_cast<unsigned long long>(this));
+  _fboTextureId = "fisheyeTexture" + to_string(reinterpret_cast<ullong>(this));
 }
 
 FisheyeInteractorComponent::~FisheyeInteractorComponent() {

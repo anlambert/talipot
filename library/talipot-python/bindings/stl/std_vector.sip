@@ -480,10 +480,10 @@ return sipGetState(sipTransferObj);
 };
 
 // ****************************************************
-// Specialization for std::vector<unsigned long>
+// Specialization for std::vector<ulong>
 // ****************************************************
 
-%MappedType std::vector<unsigned long> /TypeHint="List[int]"/ {
+%MappedType std::vector<ulong> /TypeHint="List[int]"/ {
 %TypeHeaderCode
 #include <vector>
 %End
@@ -523,7 +523,7 @@ if (sipIsErr == NULL) {
 }
 
 // Convert Python list of integers to a std::vector<int>
-std::vector<unsigned long> *v = new std::vector<unsigned long>();
+std::vector<ulong> *v = new std::vector<ulong>();
 v->reserve(PyList_GET_SIZE(sipPy));
 for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
   v->push_back(PyLong_AsUnsignedLong(PyList_GET_ITEM(sipPy, i)));

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -115,7 +115,7 @@ struct WangRong : public ImportModule {
       double k_sum = 2 * graph->numberOfEdges();
 
       for (i = nbNodes; i < (nbNodes + m); ++i) {
-        double pr = tlp::randomDouble();
+        double pr = tlp::randomNumber();
         double pr_sum = 0;
         uint rn = 0;
 

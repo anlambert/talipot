@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -91,8 +91,7 @@ public:
     const vector<node> &nodes = graph->nodes();
 
     for (auto n : nodes) {
-      newLayout->setNodeValue(n,
-                              Coord(float(randomInteger(WIDTH)), float(randomInteger(HEIGHT)), 0));
+      newLayout->setNodeValue(n, Coord(float(randomNumber(WIDTH)), float(randomNumber(HEIGHT)), 0));
     }
 
     // double minSize = DBL_MAX;
@@ -110,7 +109,7 @@ public:
           if (distance < maxDistance) {
             graph->addEdge(nodes[i], nodes[j]);
           } else if (!longEdge && enableLongEdge) {
-            double distrand = randomDouble();
+            double distrand = randomNumber();
 
             if (distrand < 1.0 / (2.0 + double(nbNodes - i - 1))) {
               longEdge = true;

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -171,7 +171,7 @@ bool convertPyObjectToLong(PyObject *pyObject, long &cppObject) {
   return false;
 }
 
-bool convertPyObjectToUnsignedLong(PyObject *pyObject, unsigned long &cppObject) {
+bool convertPyObjectToUnsignedLong(PyObject *pyObject, ulong &cppObject) {
   if (PyLong_Check(pyObject)) {
     cppObject = PyLong_AsUnsignedLong(pyObject);
     return true;
@@ -184,7 +184,7 @@ PyObject *convertLongToPyObject(long cppObject) {
   return PyLong_FromLong(cppObject);
 }
 
-PyObject *convertUnsignedLongToPyObject(unsigned long cppObject) {
+PyObject *convertUnsignedLongToPyObject(ulong cppObject) {
   return PyLong_FromUnsignedLong(cppObject);
 }
 
@@ -245,7 +245,7 @@ PyObject *getPyObjectFromDataType(const DataType *dataType, bool noCopy) {
   CHECK_BASE_CPP_TYPE_CONVERSION(int)
   CHECK_BASE_CPP_TYPE_CONVERSION(long)
   CHECK_BASE_CPP_TYPE_CONVERSION(uint)
-  CHECK_BASE_CPP_TYPE_CONVERSION(unsigned long)
+  CHECK_BASE_CPP_TYPE_CONVERSION(ulong)
   CHECK_BASE_CPP_TYPE_CONVERSION(double)
   CHECK_BASE_CPP_TYPE_CONVERSION(float)
   CHECK_BASE_CPP_TYPE_CONVERSION(string)
@@ -296,7 +296,7 @@ PyObject *getPyObjectFromDataType(const DataType *dataType, bool noCopy) {
   CHECK_SIP_CPP_TYPE_CONVERSION(vector<int>)
   CHECK_SIP_CPP_TYPE_CONVERSION(vector<long>)
   CHECK_SIP_CPP_TYPE_CONVERSION(vector<uint>)
-  CHECK_SIP_CPP_TYPE_CONVERSION(vector<unsigned long>)
+  CHECK_SIP_CPP_TYPE_CONVERSION(vector<ulong>)
   CHECK_SIP_CPP_TYPE_CONVERSION(vector<double>)
   CHECK_SIP_CPP_TYPE_CONVERSION(vector<float>)
   CHECK_SIP_CPP_TYPE_CONVERSION(set<Graph *>)
@@ -309,7 +309,7 @@ PyObject *getPyObjectFromDataType(const DataType *dataType, bool noCopy) {
   CHECK_SIP_CPP_TYPE_CONVERSION(set<int>)
   CHECK_SIP_CPP_TYPE_CONVERSION(set<long>)
   CHECK_SIP_CPP_TYPE_CONVERSION(set<uint>)
-  CHECK_SIP_CPP_TYPE_CONVERSION(set<unsigned long>)
+  CHECK_SIP_CPP_TYPE_CONVERSION(set<ulong>)
   CHECK_SIP_CPP_TYPE_CONVERSION(set<double>)
   CHECK_SIP_CPP_TYPE_CONVERSION(set<float>)
   CHECK_SIP_CPP_TYPE_CONVERSION(list<Graph *>)
@@ -333,7 +333,7 @@ PyObject *getPyObjectFromDataType(const DataType *dataType, bool noCopy) {
   CHECK_SIP_CPP_TYPE_CONVERSION(list<long>)
   CHECK_SIP_CPP_TYPE_CONVERSION(list<bool>)
   CHECK_SIP_CPP_TYPE_CONVERSION(list<uint>)
-  CHECK_SIP_CPP_TYPE_CONVERSION(list<unsigned long>)
+  CHECK_SIP_CPP_TYPE_CONVERSION(list<ulong>)
   CHECK_SIP_CPP_TYPE_CONVERSION(list<double>)
   CHECK_SIP_CPP_TYPE_CONVERSION(list<float>)
   return pyObj;
@@ -383,8 +383,8 @@ bool setCppValueFromPyObject(PyObject *pyObj, ValueSetter &valSetter, DataType *
       valSetter.setValue(getCppObjectFromPyObject<uint>(pyObj));
     } else if (dataType && dataType->getTypeName() == string(typeid(long).name())) {
       valSetter.setValue(val);
-    } else if (dataType && dataType->getTypeName() == string(typeid(unsigned long).name())) {
-      valSetter.setValue(getCppObjectFromPyObject<unsigned long>(pyObj));
+    } else if (dataType && dataType->getTypeName() == string(typeid(ulong).name())) {
+      valSetter.setValue(getCppObjectFromPyObject<ulong>(pyObj));
     } else if (dataType && dataType->getTypeName() == string(typeid(float).name())) {
       valSetter.setValue(float(val));
     } else if (dataType && dataType->getTypeName() == string(typeid(double).name())) {
@@ -415,9 +415,8 @@ bool setCppValueFromPyObject(PyObject *pyObj, ValueSetter &valSetter, DataType *
       valSetter.setValue(getCppObjectFromPyObject<vector<uint>>(pyObj));
     } else if (dataType && dataType->getTypeName() == string(typeid(vector<long>).name())) {
       valSetter.setValue(getCppObjectFromPyObject<vector<long>>(pyObj));
-    } else if (dataType &&
-               dataType->getTypeName() == string(typeid(vector<unsigned long>).name())) {
-      valSetter.setValue(getCppObjectFromPyObject<vector<unsigned long>>(pyObj));
+    } else if (dataType && dataType->getTypeName() == string(typeid(vector<ulong>).name())) {
+      valSetter.setValue(getCppObjectFromPyObject<vector<ulong>>(pyObj));
     } else if (dataType && dataType->getTypeName() == string(typeid(vector<float>).name())) {
       valSetter.setValue(getCppObjectFromPyObject<vector<float>>(pyObj));
     } else if (dataType && dataType->getTypeName() == string(typeid(vector<double>).name())) {
@@ -429,8 +428,8 @@ bool setCppValueFromPyObject(PyObject *pyObj, ValueSetter &valSetter, DataType *
       valSetter.setValue(getCppObjectFromPyObject<list<uint>>(pyObj));
     } else if (dataType && dataType->getTypeName() == string(typeid(list<long>).name())) {
       valSetter.setValue(getCppObjectFromPyObject<list<long>>(pyObj));
-    } else if (dataType && dataType->getTypeName() == string(typeid(list<unsigned long>).name())) {
-      valSetter.setValue(getCppObjectFromPyObject<list<unsigned long>>(pyObj));
+    } else if (dataType && dataType->getTypeName() == string(typeid(list<ulong>).name())) {
+      valSetter.setValue(getCppObjectFromPyObject<list<ulong>>(pyObj));
     } else if (dataType && dataType->getTypeName() == string(typeid(list<float>).name())) {
       valSetter.setValue(getCppObjectFromPyObject<list<float>>(pyObj));
     } else if (dataType && dataType->getTypeName() == string(typeid(list<double>).name())) {
@@ -463,8 +462,8 @@ bool setCppValueFromPyObject(PyObject *pyObj, ValueSetter &valSetter, DataType *
       valSetter.setValue(getCppObjectFromPyObject<set<uint>>(pyObj));
     } else if (dataType && dataType->getTypeName() == string(typeid(set<long>).name())) {
       valSetter.setValue(getCppObjectFromPyObject<set<long>>(pyObj));
-    } else if (dataType && dataType->getTypeName() == string(typeid(set<unsigned long>).name())) {
-      valSetter.setValue(getCppObjectFromPyObject<set<unsigned long>>(pyObj));
+    } else if (dataType && dataType->getTypeName() == string(typeid(set<ulong>).name())) {
+      valSetter.setValue(getCppObjectFromPyObject<set<ulong>>(pyObj));
     } else if (dataType && dataType->getTypeName() == string(typeid(set<float>).name())) {
       valSetter.setValue(getCppObjectFromPyObject<set<float>>(pyObj));
     } else if (dataType && dataType->getTypeName() == string(typeid(set<double>).name())) {

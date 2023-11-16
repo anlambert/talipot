@@ -186,10 +186,10 @@ int __talipot_select_libs(struct dirent *ent) {
 #endif
 #if !defined(__APPLE__)
   const char *suffix = ".so";
-  const unsigned long suffix_len = 3;
+  const ulong suffix_len = 3;
 #else
   const char *suffix = ".dylib";
-  const unsigned long suffix_len = 6;
+  const ulong suffix_len = 6;
 #endif
   int idx = strlen(ent->d_name) - suffix_len;
 
@@ -197,7 +197,7 @@ int __talipot_select_libs(struct dirent *ent) {
     return 0;
   }
 
-  for (unsigned long i = 0; i < suffix_len; ++i) {
+  for (ulong i = 0; i < suffix_len; ++i) {
     if ((ent->d_name[idx + i]) != suffix[i]) {
       return 0;
     }
@@ -263,7 +263,7 @@ bool PluginLibraryLoader::initPluginDir(PluginLoader *loader, bool recursive,
 
     if (loader != nullptr) {
       // count files loop
-      unsigned long nbFiles = 0;
+      ulong nbFiles = 0;
 
       if (hFind != INVALID_HANDLE_VALUE) {
         nbFiles = 1;

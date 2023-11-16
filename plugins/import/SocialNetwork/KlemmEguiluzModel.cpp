@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -105,10 +105,10 @@ struct KlemmEguiluzModel : public ImportModule {
       // the new node is connected to m nodes
       for (uint j = 0; j < i; ++j) {
         if (activated[j]) {
-          double proba = tlp::randomDouble();
+          double proba = tlp::randomNumber();
 
           if (proba < mu) { // rewire the edge to a random node chosen with preferential attachment
-            pr = tlp::randomDouble();
+            pr = tlp::randomNumber();
             pr_sum = 0;
             uint sn = 0;
 
@@ -136,7 +136,7 @@ struct KlemmEguiluzModel : public ImportModule {
         }
       }
 
-      pr = tlp::randomDouble();
+      pr = tlp::randomNumber();
       pr_sum = 0;
       uint sn = 0;
 

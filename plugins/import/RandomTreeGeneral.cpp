@@ -102,7 +102,7 @@ public:
 
     graph->clear();
 
-    uint n = sizeMin + randomUnsignedInteger(sizeMax - sizeMin);
+    uint n = sizeMin + randomNumber(sizeMax - sizeMin);
 
     uint max = 0;
     vector<node> possible(n);
@@ -110,7 +110,7 @@ public:
     --n;
 
     while (n > 0) {
-      uint i = randomUnsignedInteger(max);
+      uint i = randomNumber(max);
       node v = possible[i];
 
       if (v.isValid() && graph->outdeg(v) + 1 == arityMax) {
