@@ -103,7 +103,7 @@ class TestGraphStructure(unittest.TestCase):
     def test_add_invalid_edge(self):
         with self.assertRaises(Exception) as cm:
             self.graph.addEdge(tlp.node(NB_NODES), tlp.node(NB_NODES + 1))
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Node with id %s does not belong to graph "%s" (id %s)'
                 % (NB_NODES, self.graph.getName(), self.graph.getId()),
@@ -112,7 +112,7 @@ class TestGraphStructure(unittest.TestCase):
     def test_del_elements(self):
         with self.assertRaises(Exception) as cm:
             self.graph.delNode(tlp.node(NB_NODES))
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Node with id %s does not belong to graph "%s" (id %s)'
                 % (NB_NODES, self.graph.getName(), self.graph.getId()),
@@ -120,7 +120,7 @@ class TestGraphStructure(unittest.TestCase):
 
         with self.assertRaises(Exception) as cm:
             self.graph.delEdge(tlp.edge(NB_EDGES))
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Edge with id %s does not belong to graph "%s" (id %s)'
                 % (NB_EDGES, self.graph.getName(), self.graph.getId()),
@@ -140,7 +140,7 @@ class TestGraphStructure(unittest.TestCase):
         invalid_nodes = [tlp.node(NB_NODES), tlp.node(NB_NODES + 1)]
         with self.assertRaises(Exception) as cm:
             self.graph.delNodes(invalid_nodes)
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Node with id %s does not belong to graph "%s" (id %s)'
                 % (NB_NODES, self.graph.getName(), self.graph.getId()),
@@ -159,7 +159,7 @@ class TestGraphStructure(unittest.TestCase):
         invalid_edges = [tlp.edge(NB_EDGES), tlp.edge(NB_EDGES + 1)]
         with self.assertRaises(Exception) as cm:
             self.graph.delEdges(invalid_edges)
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Edge with id %s does not belong to graph "%s" (id %s)'
                 % (NB_EDGES, self.graph.getName(), self.graph.getId()),
@@ -193,7 +193,7 @@ class TestGraphStructure(unittest.TestCase):
 
         with self.assertRaises(Exception) as cm:
             self.graph.addEdges(invalid_edges)
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Node with id %s does not belong to graph "%s" (id %s)'
                 % (NB_NODES, self.graph.getName(), self.graph.getId()),
@@ -221,7 +221,7 @@ class TestGraphStructure(unittest.TestCase):
     def test_add_invalid_node_or_edge_to_root_graph(self):
         with self.assertRaises(Exception) as cm:
             self.graph.addNode(tlp.node(NB_NODES))
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Node with id %s does not belong to graph "%s" (id %s)'
                 % (NB_NODES, self.graph.getName(), self.graph.getId()),
@@ -229,7 +229,7 @@ class TestGraphStructure(unittest.TestCase):
 
         with self.assertRaises(Exception) as cm:
             self.graph.addEdge(tlp.edge(NB_EDGES))
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Edge with id %s does not belong to graph "%s" (id %s)'
                 % (NB_EDGES, self.graph.getName(), self.graph.getId()),
@@ -238,7 +238,7 @@ class TestGraphStructure(unittest.TestCase):
     def test_edge_orders(self):
         with self.assertRaises(Exception) as cm:
             self.graph.setEdgeOrder(tlp.node(NB_NODES), [])
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Node with id %s does not belong to graph "%s" (id %s)'
                 % (NB_NODES, self.graph.getName(), self.graph.getId()),
@@ -246,7 +246,7 @@ class TestGraphStructure(unittest.TestCase):
 
         with self.assertRaises(Exception) as cm:
             self.graph.swapEdgeOrder(tlp.node(NB_NODES), tlp.edge(), tlp.edge())
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Node with id %s does not belong to graph "%s" (id %s)'
                 % (NB_NODES, self.graph.getName(), self.graph.getId()),
@@ -256,7 +256,7 @@ class TestGraphStructure(unittest.TestCase):
             self.graph.swapEdgeOrder(
                 self.graph.getRandomNode(), tlp.edge(NB_EDGES), tlp.edge(NB_EDGES + 1)
             )
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Edge with id %s does not belong to graph "%s" (id %s)'
                 % (NB_EDGES, self.graph.getName(), self.graph.getId()),
@@ -277,7 +277,7 @@ class TestGraphStructure(unittest.TestCase):
     def test_edge_extremities_modification(self):
         with self.assertRaises(Exception) as cm:
             self.graph.ends(tlp.edge(NB_EDGES))
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Edge with id %s does not belong to graph "%s" (id %s)'
                 % (NB_EDGES, self.graph.getName(), self.graph.getId()),
@@ -285,7 +285,7 @@ class TestGraphStructure(unittest.TestCase):
 
         with self.assertRaises(Exception) as cm:
             self.graph.reverse(tlp.edge(NB_EDGES))
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Edge with id %s does not belong to graph "%s" (id %s)'
                 % (NB_EDGES, self.graph.getName(), self.graph.getId()),
@@ -293,7 +293,7 @@ class TestGraphStructure(unittest.TestCase):
 
         with self.assertRaises(Exception) as cm:
             self.graph.setSource(tlp.edge(NB_EDGES), tlp.node())
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Edge with id %s does not belong to graph "%s" (id %s)'
                 % (NB_EDGES, self.graph.getName(), self.graph.getId()),
@@ -301,7 +301,7 @@ class TestGraphStructure(unittest.TestCase):
 
         with self.assertRaises(Exception) as cm:
             self.graph.setTarget(tlp.edge(NB_EDGES), tlp.node())
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Edge with id %s does not belong to graph "%s" (id %s)'
                 % (NB_EDGES, self.graph.getName(), self.graph.getId()),
@@ -309,7 +309,7 @@ class TestGraphStructure(unittest.TestCase):
 
         with self.assertRaises(Exception) as cm:
             self.graph.setSource(self.graph.getRandomEdge(), tlp.node(NB_NODES))
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Node with id %s does not belong to graph "%s" (id %s)'
                 % (NB_NODES, self.graph.getName(), self.graph.getId()),
@@ -317,7 +317,7 @@ class TestGraphStructure(unittest.TestCase):
 
         with self.assertRaises(Exception) as cm:
             self.graph.setTarget(self.graph.getRandomEdge(), tlp.node(NB_NODES))
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Node with id %s does not belong to graph "%s" (id %s)'
                 % (NB_NODES, self.graph.getName(), self.graph.getId()),
@@ -325,7 +325,7 @@ class TestGraphStructure(unittest.TestCase):
 
         with self.assertRaises(Exception) as cm:
             self.graph.setEnds(tlp.edge(NB_EDGES), tlp.node(), tlp.node())
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Edge with id %s does not belong to graph "%s" (id %s)'
                 % (NB_EDGES, self.graph.getName(), self.graph.getId()),
@@ -335,7 +335,7 @@ class TestGraphStructure(unittest.TestCase):
             self.graph.setEnds(
                 self.graph.getRandomEdge(), tlp.node(NB_NODES), tlp.node(NB_NODES + 1)
             )
-            self.assertEquals(
+            self.assertEqual(
                 cm.exception.args[0],
                 'Node with id %s does not belong to graph "%s" (id %s)'
                 % (NB_NODES, self.graph.getName(), self.graph.getId()),
