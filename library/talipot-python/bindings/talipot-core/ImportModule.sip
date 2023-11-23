@@ -87,7 +87,7 @@ This method returns all the extensions (normal and gzipped) of file formats this
    list of string
 %End
 
-  virtual bool importGraph() = 0;
+  virtual bool importGraph() = 0 /VirtualErrorHandler=pass_through/;
 %Docstring
 tlp.ImportModule.importGraph()
 

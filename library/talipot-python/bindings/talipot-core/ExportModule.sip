@@ -87,7 +87,7 @@ saves to.
 
   virtual std::string category() const;
 
-  virtual bool exportGraph(std::ostream &os) = 0;
+  virtual bool exportGraph(std::ostream &os) = 0 /VirtualErrorHandler=pass_through/;
 %Docstring
 tlp.ExportModule.exportGraph(os)
 

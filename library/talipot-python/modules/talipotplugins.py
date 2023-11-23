@@ -85,15 +85,12 @@ def runPlugin(plugin):
     except Exception:
         if plugin.pluginProgress:
             plugin.pluginProgress.setError(traceback.format_exc())
-        # Case where the plugin execution has not been launched through the
-        # Talipot GUI, so print the stack trace to stderr
         from talipot import tlp
 
         if type(plugin.pluginProgress) == tlp.SimplePluginProgress:
-            sys.stdout.write(('There was an error when running Python plugin '
-                              'named "%s". See stack trace below.\n') %
-                             plugin.name())
-            traceback.print_exc()
+            # case where the plugin execution has not been launched through the
+            # Talipot GUI, raise exception again in that case
+            raise
     return ret
 
 
@@ -104,15 +101,12 @@ def importGraph(plugin):
     except Exception:
         if plugin.pluginProgress:
             plugin.pluginProgress.setError(traceback.format_exc())
-        # Case where the plugin execution has not been launched through
-        # the Talipot GUI, so print the stack trace to stderr
         from talipot import tlp
 
         if type(plugin.pluginProgress) == tlp.SimplePluginProgress:
-            sys.stdout.write(('There was an error when running Python plugin '
-                              'named "%s". See stack trace below.\n') %
-                             plugin.name())
-            traceback.print_exc()
+            # case where the plugin execution has not been launched through the
+            # Talipot GUI, raise exception again in that case
+            raise
     return ret
 
 
@@ -123,15 +117,12 @@ def exportGraph(plugin, os):
     except Exception:
         if plugin.pluginProgress:
             plugin.pluginProgress.setError(traceback.format_exc())
-        # Case where the plugin execution has not been launched through
-        # the Talipot GUI, so print the stack trace to stderr
         from talipot import tlp
 
         if type(plugin.pluginProgress) == tlp.SimplePluginProgress:
-            sys.stdout.write(('There was an error when running Python plugin '
-                              'named "%s". See stack trace below.\n') %
-                             plugin.name())
-            traceback.print_exc()
+            # case where the plugin execution has not been launched through the
+            # Talipot GUI, raise exception again in that case
+            raise
     return ret
 
 

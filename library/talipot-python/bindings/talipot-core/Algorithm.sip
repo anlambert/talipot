@@ -50,7 +50,7 @@ public:
 
   virtual ~Algorithm();
 
-  virtual bool run() = 0;
+  virtual bool run() = 0 /VirtualErrorHandler=pass_through/;
 %Docstring
 tlp.Algorithm.run()
 

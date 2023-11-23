@@ -353,13 +353,14 @@ Graph *tlp::importGraph(const std::string &format, DataSet &parameters, PluginPr
   setlocale(LC_NUMERIC, "C");
 
   // If the import failed and we created the graph then delete the graph
+  string pluginProgLang = newImportModule->programmingLanguage();
   if (!newImportModule->importGraph()) {
     if (newGraphP) {
       delete graph;
     }
     graph = nullptr;
     string errMsg = tmpProgress->getError();
-    if (!errMsg.empty()) {
+    if (!errMsg.empty() && !(pluginProgLang == "Python" && deletePluginProgress)) {
       tlp::error() << "[" << format << "] " << errMsg << std::endl;
     }
   } else {
@@ -411,11 +412,13 @@ bool tlp::exportGraph(Graph *graph, std::ostream &outputStream, const std::strin
     graph->setAttribute("file", filename);
   }
 
+  string pluginProgLang = newExportModule->programmingLanguage();
+
   result = newExportModule->exportGraph(outputStream);
 
   if (!result) {
     string errMsg = tmpProgress->getError();
-    if (!errMsg.empty()) {
+    if (!errMsg.empty() && !(pluginProgLang == "Python" && deletePluginProgress)) {
       tlp::error() << "[" << format << "] " << errMsg << std::endl;
     }
   }

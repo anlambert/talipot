@@ -109,8 +109,19 @@ class TestTGFImportPlugin(unittest.TestCase):
                         """
                     )
                 )
-            graph = tlp.importGraph(self.tgfPluginName, {"filename": tgfFile})
-            self.assertTrue(graph is None)
+            with self.assertRaises(ValueError) as cm:
+                tlp.importGraph(self.tgfPluginName, {"filename": tgfFile})
+            self.assertEqual(
+                cm.exception.args[0],
+                "Invalid edge definition: 4"
+            )
+
+            with self.assertRaises(ValueError) as cm:
+                tlp.loadGraph(tgfFile)
+            self.assertEqual(
+                cm.exception.args[0],
+                "Invalid edge definition: 4"
+            )
 
     def test_load_tgf_graph_invalid_node_id(self):
         with tempfile.TemporaryDirectory() as tgfDir:
@@ -128,5 +139,16 @@ class TestTGFImportPlugin(unittest.TestCase):
                         """
                     )
                 )
-            graph = tlp.importGraph(self.tgfPluginName, {"filename": tgfFile})
-            self.assertTrue(graph is None)
+            with self.assertRaises(ValueError) as cm:
+                tlp.importGraph(self.tgfPluginName, {"filename": tgfFile})
+            self.assertEqual(
+                cm.exception.args[0],
+                "Invalid node identifier found when parsing edges: 4"
+            )
+
+            with self.assertRaises(ValueError) as cm:
+                tlp.loadGraph(tgfFile)
+            self.assertEqual(
+                cm.exception.args[0],
+                "Invalid node identifier found when parsing edges: 4"
+            )

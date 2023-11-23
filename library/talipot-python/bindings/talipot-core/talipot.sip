@@ -32,6 +32,12 @@
   PyRun_SimpleString("import sys;globals()['talipot'] = sys.modules['talipot']");
 %End
 
+%VirtualErrorHandler pass_through
+// pass through virtual error handler used to not clear Python error indicator
+// in some Python implementation of C++ virtual methods
+%End
+
+
 %ModuleHeaderCode
 #include <talipot/Graph.h>
 #include <talipot/PluginsManager.h>
