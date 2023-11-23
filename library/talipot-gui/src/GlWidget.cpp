@@ -69,7 +69,7 @@ GlWidget::GlWidget(QWidget *parent, View *view)
   // windows attached to it, making device pixel ratio value unreliable so we
   // grab a pointer to the adequate main window to override the implementation
   // of the devicePixelRatio method
-  _windows = window()->windowHandle() ? window() : getMainWindow();
+  _windows = window()->windowHandle() ? nullptr : getMainWindow();
 }
 //==================================================
 GlWidget::~GlWidget() {

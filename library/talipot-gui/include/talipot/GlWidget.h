@@ -286,7 +286,11 @@ public:
   // devicePixelRatio() must be overridden because the inherited QWidget
   // method always returns 1 when the widget is no attached to a window
   qreal devicePixelRatio() const {
-    return _windows->devicePixelRatio();
+    if (_windows) {
+      return _windows->devicePixelRatio();
+    } else {
+      return QOpenGLWidget::devicePixelRatio();
+    }
   }
 
 private:
