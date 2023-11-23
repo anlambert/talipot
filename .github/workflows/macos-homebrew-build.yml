@@ -39,8 +39,9 @@ jobs:
           fribidi
           fontconfig
           qt6
-          quazip
-          sip || brew link --overwrite python@${{ matrix.config.pyver }}
+          quazip || brew link --overwrite python@${{ matrix.config.pyver }}
+      - name: Install SIP from source
+        run: brew install --build-from-source sip
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
