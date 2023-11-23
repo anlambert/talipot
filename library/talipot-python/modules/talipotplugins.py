@@ -29,23 +29,22 @@ def setTestMode(mode):
 
 def getCallingModuleName():
     import sys
+
     frames = list(sys._current_frames().values())
     for i in range(len(frames)):
         f = frames[i]
-        if f.f_globals['__name__'] == 'talipotplugins':
+        if f.f_globals["__name__"] == "talipotplugins":
             f = f.f_back
             break
-    while f.f_globals['__name__'] == 'talipotplugins':
+    while f.f_globals["__name__"] == "talipotplugins":
         f = f.f_back
-    return f.f_globals['__name__']
+    return f.f_globals["__name__"]
 
 
 def reloadTalipotPythonPlugin(pluginName):
     if pluginName in pluginModules:
         module = pluginModules[pluginName]
-        code = 'import %s\n' % module
-        code += 'reload(%s)\n' % module
-        exec(code)
+        exec(f"import {module}\nreload({module}\n")
 
 
 def reloadTalipotPythonPlugins():
@@ -55,6 +54,7 @@ def reloadTalipotPythonPlugins():
 
 def removePlugin(pluginName):
     from talipot import tlp
+
     if tlp.PluginsManager.pluginExists(pluginName):
         tlp.PluginsManager.removePlugin(pluginName)
 
@@ -73,6 +73,7 @@ atexit.register(destroyPlugins)
 
 def initFactory(self):
     from talipot import tlp
+
     tlp.FactoryInterface.__init__(self)
     self.registerPlugin()
 
@@ -87,6 +88,7 @@ def runPlugin(plugin):
         # Case where the plugin execution has not been launched through the
         # Talipot GUI, so print the stack trace to stderr
         from talipot import tlp
+
         if type(plugin.pluginProgress) == tlp.SimplePluginProgress:
             sys.stdout.write(('There was an error when running Python plugin '
                               'named "%s". See stack trace below.\n') %
@@ -105,6 +107,7 @@ def importGraph(plugin):
         # Case where the plugin execution has not been launched through
         # the Talipot GUI, so print the stack trace to stderr
         from talipot import tlp
+
         if type(plugin.pluginProgress) == tlp.SimplePluginProgress:
             sys.stdout.write(('There was an error when running Python plugin '
                               'named "%s". See stack trace below.\n') %
@@ -123,6 +126,7 @@ def exportGraph(plugin, os):
         # Case where the plugin execution has not been launched through
         # the Talipot GUI, so print the stack trace to stderr
         from talipot import tlp
+
         if type(plugin.pluginProgress) == tlp.SimplePluginProgress:
             sys.stdout.write(('There was an error when running Python plugin '
                               'named "%s". See stack trace below.\n') %
@@ -131,17 +135,25 @@ def exportGraph(plugin, os):
     return ret
 
 
-def createPlugin(context, pluginModule, pluginClassName, pluginName,
-                 author, date, info, release, group):
-    plugin = eval('%s.%s(context)' % (pluginModule, pluginClassName),
-                  globals(), locals())
-    if hasattr(plugin, 'run'):
+def createPlugin(
+    context,
+    pluginModule,
+    pluginClassName,
+    pluginName,
+    author,
+    date,
+    info,
+    release,
+    group,
+):
+    plugin = eval(f"{pluginModule}.{pluginClassName}(context)", globals(), locals())
+    if hasattr(plugin, "run"):
         plugin.real_run = plugin.run
         plugin.run = lambda: runPlugin(plugin)
-    elif hasattr(plugin, 'importGraph'):
+    elif hasattr(plugin, "importGraph"):
         plugin.real_importGraph = plugin.importGraph
         plugin.importGraph = lambda: importGraph(plugin)
-    elif hasattr(plugin, 'exportGraph'):
+    elif hasattr(plugin, "exportGraph"):
         plugin.real_exportGraph = plugin.exportGraph
         plugin.exportGraph = lambda os: exportGraph(plugin, os)
     plugin.name = lambda: pluginName
@@ -151,13 +163,15 @@ def createPlugin(context, pluginModule, pluginClassName, pluginName,
     plugin.info = lambda: info
     plugin.release = lambda: release
     from talipot import tlp
+
     plugin.talipotRelease = lambda: tlp.getRelease()
-    plugin.programmingLanguage = lambda: 'Python'
+    plugin.programmingLanguage = lambda: "Python"
     return plugin
 
 
-def registerPluginOfGroup(pluginClassName, pluginName, author, date, info,
-                          release, group):
+def registerPluginOfGroup(
+    pluginClassName, pluginName, author, date, info, release, group
+):
     """
     talipotplugins.registerPluginOfGroup(pluginClassName, pluginName, author, date, info, release, group)
 
@@ -179,33 +193,47 @@ def registerPluginOfGroup(pluginClassName, pluginName, author, date, info,
     :type release: string
     :param group: the name of the group in which the plugin will be inserted
     :type group: string
-    """ # noqa
+    """
 
     global pluginFactory
     removePlugin(pluginName)
     pluginModule = getCallingModuleName()
     try:
-        globals()[pluginModule] = __import__(pluginModule, globals(), locals(),
-                                             [], 0)
-        eval('%s.%s' % (pluginModule, pluginClassName), globals(), locals())
+        globals()[pluginModule] = __import__(pluginModule, globals(), locals(), [], 0)
+        eval(f"{pluginModule}.{pluginClassName}", globals(), locals())
         if testMode:
             return
         pluginModules[pluginName] = pluginModule
         from talipot import tlp
+
         pluginFactory[pluginName] = type(
-            '%sFactory' % pluginClassName, (tlp.FactoryInterface,),
+            f"{pluginClassName}Factory",
+            (tlp.FactoryInterface,),
             {
-                '__init__': (lambda self: initFactory(self)),
-                'createPluginObject': (lambda self, context: createPlugin(
-                    context, pluginModule, pluginClassName, pluginName, author,
-                    date, info, release, group))
-            }
+                "__init__": (lambda self: initFactory(self)),
+                "createPluginObject": (
+                    lambda self, context: createPlugin(
+                        context,
+                        pluginModule,
+                        pluginClassName,
+                        pluginName,
+                        author,
+                        date,
+                        info,
+                        release,
+                        group,
+                    )
+                ),
+            },
         )()
 
     except Exception:
-        sys.stdout.write(('There was an error when registering Python plugin '
-                          'named "%s". See stack trace below.\n') %
-                         pluginName)
+        sys.stdout.write(
+            (
+                "There was an error when registering Python plugin "
+                f'named "{pluginName}". See stack trace below.\n'
+            )
+        )
         raise
 
 
@@ -229,7 +257,6 @@ def registerPlugin(pluginClassName, pluginName, author, date, info, release):
     :type info: string
     :param release: the version number of the plugin in the form X.Y
     :type release: string
-    """ # noqa
+    """
 
-    registerPluginOfGroup(pluginClassName, pluginName, author, date, info,
-                          release, '')
+    registerPluginOfGroup(pluginClassName, pluginName, author, date, info, release, "")
