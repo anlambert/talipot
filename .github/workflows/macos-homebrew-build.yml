@@ -13,7 +13,7 @@ jobs:
             pyver: "3.11"
           - name: Talipot build on macOS 13
             os: macos-13
-            pyver: "3.12"
+            pyver: "3.11"
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.11.0
@@ -32,6 +32,7 @@ jobs:
           graphviz
           libgit2
           python@${{ matrix.config.pyver }}
+          sip
           cppunit
           pkg-config
           glew
@@ -40,8 +41,6 @@ jobs:
           fontconfig
           qt6
           quazip || brew link --overwrite python@${{ matrix.config.pyver }}
-      - name: Install SIP from source
-        run: brew install --build-from-source sip
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
