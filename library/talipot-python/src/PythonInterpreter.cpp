@@ -627,7 +627,7 @@ bool PythonInterpreter::reloadModule(const QString &moduleName) {
   QString pythonCode;
   QTextStream oss(&pythonCode);
   oss << "import sys\n";
-  oss << "from imp import reload\n";
+  oss << "from importlib import reload\n";
   oss << "import " << moduleName << "\n";
   oss << "reload(" << moduleName << ")\n";
   return runString(pythonCode);
