@@ -17,6 +17,7 @@
 #include <QColor>
 #include <QCursor>
 #include <QDebug>
+#include <QMessageBox>
 
 #include <talipot/Color.h>
 #include <talipot/config.h>
@@ -148,6 +149,12 @@ TLP_QT_SCOPE void removeFontFromQFontDatabase(const std::string &fontFile);
 TLP_QT_SCOPE void clearLayout(QLayout *layout, bool deleteWidgets = true);
 
 TLP_QT_SCOPE QCursor whatsThisCursor();
+
+TLP_QT_SCOPE void
+qDetailedMessageBox(QMessageBox::Icon icon, const QString &title, const QString &text,
+                    const QString &detailedText, QWidget *parent = nullptr,
+                    QMessageBox::StandardButtons buttons = QMessageBox::Ok,
+                    Qt::WindowFlags f = Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 
 }
 

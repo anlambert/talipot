@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -720,10 +720,10 @@ void TalipotMainWindow::exportGraph(Graph *g) {
   bool result = tlp::saveGraph(g, filename, prg, &data);
 
   if (!result) {
-    QMessageBox::critical(this, "Export error",
-                          QString("<i>") + wizard.algorithm() +
-                              "</i> failed to export graph.<br/><br/><b>" +
-                              tlp::tlpStringToQString(prg->getError()) + "</b>");
+    qDetailedMessageBox(QMessageBox::Critical, "Export error",
+                        QString("<b>%1</b> export module failed to export graph.")
+                            .arg(tlp::tlpStringToQString(exportPluginName)),
+                        tlp::tlpStringToQString(prg->getError()), this);
   } else {
     // log export plugin call
     if (Settings::logPluginCall() != Settings::NoLog) {
@@ -780,10 +780,10 @@ void TalipotMainWindow::importGraph(const std::string &module, DataSet &data) {
     g = tlp::importGraph(module, data, prg);
 
     if (g == nullptr) {
-      QMessageBox::critical(this, "Import error",
-                            QString("<i>") + tlp::tlpStringToQString(module) +
-                                "</i> failed to import data.<br/><br/><b>" +
-                                tlp::tlpStringToQString(prg->getError()) + "</b>");
+      qDetailedMessageBox(QMessageBox::Critical, "Import error",
+                          QString("<b>%1</b> import module failed to import graph.")
+                              .arg(tlp::tlpStringToQString(module)),
+                          tlp::tlpStringToQString(prg->getError()), this);
       delete prg;
       return;
     }

@@ -375,8 +375,9 @@ void AlgorithmRunnerItem::run(Graph *g) {
       tlp::warning() << QStringToTlpString(name()) << ": " << errorMessage;
       QMessageBox::warning(parentWidget(), name(), errorMessage.c_str());
     } else {
-      tlp::error() << QStringToTlpString(name()) << ": " << errorMessage;
-      QMessageBox::critical(parentWidget(), name(), errorMessage.c_str());
+      qDetailedMessageBox(QMessageBox::Critical, "Algorithm error",
+                          QString("<b>%1</b> algorithm execution failed.").arg(name()),
+                          tlp::tlpStringToQString(errorMessage), getMainWindow());
     }
     progress->setComment("Cancelling graph changes...");
     g->pop();

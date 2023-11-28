@@ -516,4 +516,25 @@ QCursor whatsThisCursor() {
   return cursor;
 }
 
+void qDetailedMessageBox(QMessageBox::Icon icon, const QString &title, const QString &text,
+                         const QString &detailedText, QWidget *parent,
+                         QMessageBox::StandardButtons buttons, Qt::WindowFlags f) {
+  QMessageBox msgBox(icon, title, text, buttons, parent, f);
+  if (!detailedText.isEmpty()) {
+    auto splitText = detailedText.split("\n");
+    int width = 0;
+    for (auto &s : splitText) {
+      width = max(width, msgBox.fontMetrics().horizontalAdvance(s));
+    }
+    msgBox.setDetailedText(detailedText);
+    QList<QTextEdit *> textBoxes = msgBox.findChildren<QTextEdit *>();
+    if (textBoxes.size()) {
+      textBoxes[0]->setMinimumWidth(min(width + 20, int(0.75 * getMainWindow()->width())));
+      textBoxes[0]->setFixedHeight(min(int(splitText.size() + 1) * msgBox.fontMetrics().height(),
+                                       int(0.75 * getMainWindow()->height())));
+    }
+  }
+  msgBox.exec();
+}
+
 }
