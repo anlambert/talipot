@@ -360,8 +360,12 @@ Graph *tlp::importGraph(const std::string &format, DataSet &parameters, PluginPr
     }
     graph = nullptr;
     string errMsg = tmpProgress->getError();
-    if (!errMsg.empty() && !(pluginProgLang == "Python" && deletePluginProgress)) {
-      tlp::error() << "[" << format << "] " << errMsg << std::endl;
+    string errorMessage = "\"" + format + "\" import module failed to import graph.";
+    if (!errMsg.empty()) {
+      errorMessage += ("\n" + errMsg);
+    }
+    if (!(pluginProgLang == "Python" && deletePluginProgress)) {
+      tlp::error() << errorMessage << std::endl;
     }
   } else {
     std::string filename;
@@ -418,8 +422,12 @@ bool tlp::exportGraph(Graph *graph, std::ostream &outputStream, const std::strin
 
   if (!result) {
     string errMsg = tmpProgress->getError();
-    if (!errMsg.empty() && !(pluginProgLang == "Python" && deletePluginProgress)) {
-      tlp::error() << "[" << format << "] " << errMsg << std::endl;
+    string errorMessage = "\"" + format + "\" export module failed to export graph.";
+    if (!errMsg.empty()) {
+      errorMessage += ("\n" + errMsg);
+    }
+    if (!(pluginProgLang == "Python" && deletePluginProgress)) {
+      tlp::error() << errorMessage << std::endl;
     }
   }
 

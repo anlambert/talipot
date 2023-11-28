@@ -375,6 +375,11 @@ void AlgorithmRunnerItem::run(Graph *g) {
       tlp::warning() << QStringToTlpString(name()) << ": " << errorMessage;
       QMessageBox::warning(parentWidget(), name(), errorMessage.c_str());
     } else {
+      std::string errorMsg = "\"" + QStringToTlpString(name()) + "\" algorithm execution failed.";
+      if (!errorMessage.empty()) {
+        errorMsg += ("\n" + errorMessage);
+      }
+      tlp::error() << errorMsg << std::endl;
       qDetailedMessageBox(QMessageBox::Critical, "Algorithm error",
                           QString("<b>%1</b> algorithm execution failed.").arg(name()),
                           tlp::tlpStringToQString(errorMessage), getMainWindow());
