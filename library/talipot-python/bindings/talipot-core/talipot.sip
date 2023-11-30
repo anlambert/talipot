@@ -230,7 +230,7 @@ int throwInvalidNodeException(const tlp::Graph *graph, tlp::node n) {
   std::ostringstream oss;
   oss << "Node with id " << n.id << " does not belong to graph \"" << graph->getName() << "\" (id "
       << graph->getId() << ")";
-  PyErr_SetString(PyExc_Exception, oss.str().c_str());
+  PyErr_SetString(PyExc_IndexError, oss.str().c_str());
   return -1;
 }
 
@@ -238,7 +238,7 @@ int throwInvalidEdgeException(const tlp::Graph *graph, tlp::edge e) {
   std::ostringstream oss;
   oss << "Edge with id " << e.id << " does not belong to graph \"" << graph->getName() << "\" (id "
       << graph->getId() << ")";
-  PyErr_SetString(PyExc_Exception, oss.str().c_str());
+  PyErr_SetString(PyExc_IndexError, oss.str().c_str());
   return -1;
 }
 
@@ -247,7 +247,7 @@ int throwInvalidSgException(const tlp::Graph *graph, const tlp::Graph *sg) {
   oss << "Graph \"" << sg->getName() << "\" (id " << sg->getId()
       << ") is not a subgraph of graph \"" << graph->getName() << "\" (id " << graph->getId()
       << ")";
-  PyErr_SetString(PyExc_Exception, oss.str().c_str());
+  PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   return -1;
 }
 
@@ -256,7 +256,7 @@ int throwPropertyNameExistsException(const tlp::Graph *graph, const std::string 
   std::ostringstream oss;
   oss << "A property named \"" << propertyName << "\" of type " << prop->getTypename()
       << " already exists in graph \"" << graph->getName() << "\" (id " << graph->getId() << ")";
-  PyErr_SetString(PyExc_Exception, oss.str().c_str());
+  PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   return -1;
 }
 

@@ -568,9 +568,9 @@ bool PythonInterpreter::runGraphScript(const QString &module, const QString &fun
     } catch (std::exception &e) {
       std::ostringstream oss;
       oss << "A C++ exception (" << e.what() << ") has been thrown while executing the script";
-      PyErr_SetString(PyExc_Exception, oss.str().c_str());
+      PyErr_SetString(PyExc_RuntimeError, oss.str().c_str());
     } catch (...) {
-      PyErr_SetString(PyExc_Exception,
+      PyErr_SetString(PyExc_RuntimeError,
                       "A C++ exception has been thrown while executing the script");
     }
 
@@ -601,7 +601,7 @@ bool PythonInterpreter::runGraphScript(const QString &module, const QString &fun
 }
 
 int stopScript(void *) {
-  PyErr_SetString(PyExc_Exception, "Script execution terminated by user");
+  PyErr_SetString(PyExc_ValueError, "Script execution terminated by user");
   return -1;
 }
 

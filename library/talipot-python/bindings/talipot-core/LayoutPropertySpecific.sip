@@ -40,7 +40,7 @@ if (a0) {
     oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -79,7 +79,7 @@ if (a0) {
     oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -120,7 +120,7 @@ if (a1) {
     oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -189,7 +189,7 @@ if (a1) {
     oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -258,7 +258,7 @@ if (a1) {
     oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -299,7 +299,7 @@ if (a1) {
     oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -340,7 +340,7 @@ if (a1) {
     oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -458,7 +458,7 @@ if (a0) {
     oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -499,7 +499,7 @@ if (a1) {
     oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -534,7 +534,7 @@ if (a0) {
     oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -619,7 +619,7 @@ if (a0) {
     oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 
@@ -659,7 +659,7 @@ if (a0) {
     oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 
@@ -707,7 +707,7 @@ if (a1) {
     oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -765,7 +765,7 @@ if (a1) {
     oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {
@@ -813,7 +813,7 @@ if (a0) {
     oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 
@@ -853,7 +853,7 @@ if (a1) {
     oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
     oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
         << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
   }
 }
 if (sipIsErr == 0) {

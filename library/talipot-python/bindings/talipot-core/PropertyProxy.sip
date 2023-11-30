@@ -668,7 +668,7 @@ if (sipCpp->getGraph()->isElement(*a0)) {
 std::string pythonType(a1->ob_type->tp_name);
 std::string errMsg =
     "Error : unable to create a graph property for Python type '" + pythonType + "'.";
-PyErr_SetString(PyExc_Exception, errMsg.c_str());
+PyErr_SetString(PyExc_TypeError, errMsg.c_str());
 sipIsErr = -1;
 %End
 
@@ -798,7 +798,7 @@ if (sipCpp->getGraph()->isElement(*a0)) {
 std::string pythonType(a1->ob_type->tp_name);
 std::string errMsg =
     "Error : unable to create a graph property for Python type '" + pythonType + "'.";
-PyErr_SetString(PyExc_Exception, errMsg.c_str());
+PyErr_SetString(PyExc_TypeError, errMsg.c_str());
 sipIsErr = -1;
 %End
 
@@ -902,7 +902,7 @@ void setAllNodeValue(SIP_PYOBJECT val);
 std::string pythonType(a0->ob_type->tp_name);
 std::string errMsg =
     "Error : unable to create a graph property for Python type '" + pythonType + "'.";
-PyErr_SetString(PyExc_Exception, errMsg.c_str());
+PyErr_SetString(PyExc_TypeError, errMsg.c_str());
 sipIsErr = -1;
 %End
 
@@ -980,7 +980,7 @@ sipCpp->setAllEdgeValue(*a0);
 std::string pythonType(a0->ob_type->tp_name);
 std::string errMsg =
     "Error : unable to create a graph property for Python type '" + pythonType + "'.";
-PyErr_SetString(PyExc_Exception, errMsg.c_str());
+PyErr_SetString(PyExc_TypeError, errMsg.c_str());
 sipIsErr = -1;
 %End
 
@@ -995,7 +995,7 @@ if (sipCpp->getProperty()) {
   Py_XDECREF(pyProp);
 } else {
   PyErr_SetString(
-      PyExc_Exception,
+      PyExc_RuntimeError,
       "Error : Unable to get node data as no graph property has been created through that proxy.");
   sipIsErr = 1;
 }
@@ -1012,7 +1012,7 @@ if (sipCpp->getProperty()) {
   Py_XDECREF(pyProp);
 } else {
   PyErr_SetString(
-      PyExc_Exception,
+      PyExc_RuntimeError,
       "Error : Unable to get edge data as no graph property has been created through that proxy.");
   sipIsErr = 1;
 }

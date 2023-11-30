@@ -678,7 +678,7 @@ Sets the value in the list attached to a particular node at the given index.
     } else {
       std::ostringstream oss;
       oss << "vector associated to node " << a0->id << " for vector property \"" << sipCpp->getName() << "\" has a size of " << v.size() << " and the requested index is " << a1 ;
-      PyErr_SetString(PyExc_Exception, oss.str().c_str());
+      PyErr_SetString(PyExc_IndexError, oss.str().c_str());
       sipIsErr = -1;
     }
   } else {
@@ -710,7 +710,7 @@ Returns the value in the list attached to a particular node at the given index.
     } else {
       std::ostringstream oss;
       oss << "vector associated to node " << a0->id << " for vector property \"" << sipCpp->getName() << "\" has a size of " << v.size() << " and the requested index is " << a1 ;
-      PyErr_SetString(PyExc_Exception, oss.str().c_str());
+      PyErr_SetString(PyExc_IndexError, oss.str().c_str());
       sipIsErr = -1;
     }
   } else {
@@ -835,7 +835,7 @@ Sets the value in the list attached to a particular edge at the given index.
     } else {
       std::ostringstream oss;
       oss << "vector associated to edge " << a0->id << " for vector property \"" << sipCpp->getName() << "\" has a size of " << v.size() << " and the requested index is " << a1 ;
-      PyErr_SetString(PyExc_Exception, oss.str().c_str());
+      PyErr_SetString(PyExc_IndexError, oss.str().c_str());
       sipIsErr = -1;
     }
   } else {
@@ -867,7 +867,7 @@ Returns the value in the list attached to a particular edge at the given index.
     } else {
       std::ostringstream oss;
       oss << "vector associated to edge " << a0->id << " for vector property \"" << sipCpp->getName() << "\" has a size of " << v.size() << " and the requested index is " << a1 ;
-      PyErr_SetString(PyExc_Exception, oss.str().c_str());
+      PyErr_SetString(PyExc_IndexError, oss.str().c_str());
       sipIsErr = -1;
     }
   } else {

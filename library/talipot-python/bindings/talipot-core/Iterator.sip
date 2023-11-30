@@ -29,7 +29,7 @@ if (sipCpp->hasNext()) {
   CppObjectToPyObjectConverter<TYPE> converter;
   converter.convert(sipCpp->next(), sipRes);
 } else {
-  PyErr_SetString(PyExc_Exception,
+  PyErr_SetString(PyExc_StopIteration,
                   "Iterator : next() has been called but there is no more elements to iterate on.");
   sipIsErr = -1;
 }

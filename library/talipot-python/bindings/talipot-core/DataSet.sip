@@ -101,7 +101,7 @@ bool setDataSetEntryFromPyObject(tlp::DataSet *dataSet, const std::string &key, 
           msg += ", ";
         }
       }
-      PyErr_SetString(PyExc_Exception, msg.c_str());
+      PyErr_SetString(PyExc_ValueError, msg.c_str());
       ret = false;
     }
   } else {
@@ -118,7 +118,7 @@ bool setDataSetEntryFromPyObject(tlp::DataSet *dataSet, const std::string &key, 
         msg += "Provided Python type is '" + std::string(value->ob_type->tp_name) + "'\n";
         msg += "Expected C++ type is '" + tlp::demangleClassName(dataType->getTypeName()) + "'";
       }
-      PyErr_SetString(PyExc_Exception, msg.c_str());
+      PyErr_SetString(PyExc_TypeError, msg.c_str());
       ret = false;
     }
   }

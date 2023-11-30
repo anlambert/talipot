@@ -270,7 +270,7 @@ if (tlp::PluginsManager::pluginExists(*a0)) {
   std::string msg = "No plugin named  ";
   msg += *a0;
   msg += ".";
-  PyErr_SetString(PyExc_Exception, msg.c_str());
+  PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 %End
 

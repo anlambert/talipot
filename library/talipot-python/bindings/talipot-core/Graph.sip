@@ -82,7 +82,7 @@ bool callGraphPropertyAlgorithm(tlp::Graph *graph, const std::string &algoName,
     std::string msg = "No Talipot " + propertyType + " algorithm plugin named ";
     msg += algoName;
     msg += ".";
-    PyErr_SetString(PyExc_Exception, msg.c_str());
+    PyErr_SetString(PyExc_ValueError, msg.c_str());
   }
   if (PyErr_Occurred()) {
     // propagate exceptions raised by talipot plugins written in Python
@@ -359,7 +359,7 @@ if (pluginExists<tlp::Algorithm>(*a0)) {
   std::string msg = "No Talipot algorithm plugin named ";
   msg += *a0;
   msg += ".";
-  PyErr_SetString(PyExc_Exception, msg.c_str());
+  PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
     // propagate exceptions raised by talipot plugins written in Python
@@ -411,7 +411,7 @@ if (!a0 || isValidGraphSelection(sipCpp, a0)) {
          "method is not valid."
       << std::endl;
   oss << "It means that some edges extremities are not in the selection." << std::endl;
-  PyErr_SetString(PyExc_Exception, oss.str().c_str());
+  PyErr_SetString(PyExc_ValueError, oss.str().c_str());
 }
 %End
 
@@ -1872,7 +1872,7 @@ Returns the ith predecessor of a node.
 %MethodCode
 if (sipCpp->isElement(*a0)) {
   if (a1 == 0) {
-    PyErr_SetString(PyExc_Exception, "Error : first index for tlp.Graph.getInNode is 1 not 0");
+    PyErr_SetString(PyExc_IndexError, "Error : first index for tlp.Graph.getInNode is 1 not 0");
     sipIsErr = -1;
   } else if (a1 <= sipCpp->indeg(*a0)) {
     sipRes = new tlp::node(sipCpp->getInNode(*a0, a1));
@@ -1883,7 +1883,7 @@ if (sipCpp->isElement(*a0)) {
     oss << "node with id " << a0->id << " belonging to graph \"" << graphName << "\" (id "
         << sipCpp->getId() << ") has " << sipCpp->indeg(*a0)
         << " predecessor nodes and the requested index is " << a1;
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
     sipIsErr = -1;
   }
 } else {
@@ -1951,7 +1951,7 @@ Returns the ith successor of a node.
 %MethodCode
 if (sipCpp->isElement(*a0)) {
   if (a1 == 0) {
-    PyErr_SetString(PyExc_Exception, "Error : first index for tlp.Graph.getOutNode is 1 not 0");
+    PyErr_SetString(PyExc_IndexError, "Error : first index for tlp.Graph.getOutNode is 1 not 0");
     sipIsErr = -1;
   } else if (a1 <= sipCpp->outdeg(*a0)) {
     sipRes = new tlp::node(sipCpp->getOutNode(*a0, a1));
@@ -1962,7 +1962,7 @@ if (sipCpp->isElement(*a0)) {
     oss << "node with id " << a0->id << " belonging to graph \"" << graphName << "\" (id "
         << sipCpp->getId() << ") has " << sipCpp->outdeg(*a0)
         << " successor nodes and the requested index is " << a1;
-    PyErr_SetString(PyExc_Exception, oss.str().c_str());
+    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
     sipIsErr = -1;
   }
 } else {
@@ -2685,7 +2685,7 @@ if (sipCpp->isElement(*a0)) {
   } else {
     std::ostringstream oss;
     oss << "node with id " << a1->id << " is not linked by the edge with id " << a0->id,
-        PyErr_SetString(PyExc_Exception, oss.str().c_str());
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
     sipIsErr = -1;
   }
 } else {
@@ -3861,7 +3861,7 @@ if (sipCpp->existLocalProperty(*a0)) {
   std::string msg = "No local graph property named  ";
   msg += *a0;
   msg += ".";
-  PyErr_SetString(PyExc_Exception, msg.c_str());
+  PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 %End
 
@@ -4667,7 +4667,7 @@ if (sipCpp->isDescendantGraph(a0)) {
   oss << "\"" << a0->getName() << "\" (id " << a0->getId() << ")";
   oss << " because it is a descendant of graph ";
   oss << "\"" << sipCpp->getName() << "\" (id " << sipCpp->getId() << ")";
-  PyErr_SetString(PyExc_Exception, oss.str().c_str());
+  PyErr_SetString(PyExc_ValueError, oss.str().c_str());
 } else {
   for (const tlp::node &n : a0->nodes()) {
     if (!sipCpp->isElement(n)) {
@@ -4829,7 +4829,7 @@ if (!setCppValueFromPyObject(a1, valSetter, dataType)) {
   std::string msg = "Object of type ";
   msg += std::string(a1->ob_type->tp_name);
   msg += " can not be store as graph attribute.";
-  PyErr_SetString(PyExc_Exception, msg.c_str());
+  PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 delete dataType;
 %End
@@ -5277,7 +5277,7 @@ if (ok) {
   std::string msg = "No file attached to the graph \"";
   msg += a0->getName();
   msg += "\".";
-  PyErr_SetString(PyExc_Exception, msg.c_str());
+  PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
     // propagate exceptions raised by talipot plugins written in Python
@@ -5298,7 +5298,7 @@ if (pluginExists<tlp::ImportModule>(*a0)) {
   std::string msg = "No Talipot import plugin named  ";
   msg += *a0;
   msg += ".";
-  PyErr_SetString(PyExc_Exception, msg.c_str());
+  PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
     // propagate exceptions raised by talipot plugins written in Python
@@ -5353,7 +5353,7 @@ if (pluginExists<tlp::ImportModule>(*a0)) {
   std::string msg = "No Talipot import plugin named  ";
   msg += *a0;
   msg += ".";
-  PyErr_SetString(PyExc_Exception, msg.c_str());
+  PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
     // propagate exceptions raised by talipot plugins written in Python
@@ -5412,7 +5412,7 @@ if (pluginExists<tlp::ImportModule>(*a0)) {
   std::string msg = "No Talipot import plugin named  ";
   msg += *a0;
   msg += ".";
-  PyErr_SetString(PyExc_Exception, msg.c_str());
+  PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
     // propagate exceptions raised by talipot plugins written in Python
@@ -5484,7 +5484,7 @@ if (pluginExists<tlp::ExportModule>(*a0)) {
   std::string msg = "No Talipot export plugin named  ";
   msg += *a0;
   msg += ".";
-  PyErr_SetString(PyExc_Exception, msg.c_str());
+  PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
     // propagate exceptions raised by talipot plugins written in Python
