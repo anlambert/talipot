@@ -32,7 +32,6 @@ jobs:
           graphviz
           libgit2
           python@${{ matrix.config.pyver }}
-          sip
           cppunit
           pkg-config
           glew
@@ -41,6 +40,10 @@ jobs:
           fontconfig
           qt6
           quazip || brew link --overwrite python@${{ matrix.config.pyver }}
+      - name: Install SIP < 6.8
+        run: |
+          export PATH=/usr/local/opt/python@${{ matrix.config.pyver }}/bin/:$PATH
+          pip${{ matrix.config.pyver }} install --break-system-packages 'sip<6.8'
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |

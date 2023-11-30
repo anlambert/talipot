@@ -41,7 +41,7 @@ jobs:
       - name: Install sip
         run: |
           sudo pip3 install --upgrade pip
-          sudo pip3 install sip
+          sudo pip3 install 'sip<6.8'
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |

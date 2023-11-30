@@ -73,7 +73,7 @@ do
   then
     continue
   fi
-  ${CPYBIN}/pip install twine sip
+  ${CPYBIN}/pip install twine 'sip<6.8'
   # configure and build python wheel with specific Python version
   cmake ${TALIPOT_SRC} \
         -DCMAKE_BUILD_TYPE=Release \

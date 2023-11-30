@@ -32,7 +32,7 @@ yum -y install openssl3-devel
 
 # install Python 3, Sphinx and SIP
 yum -y install python3.11-devel python3.11-pip
-pip3.11 install sphinx sip
+pip3.11 install sphinx 'sip<6.8'
 
 # needed for generating the AppImage
 yum -y install fuse fuse-libs file
