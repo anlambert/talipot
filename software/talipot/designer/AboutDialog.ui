@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AboutPage</class>
- <widget class="QWidget" name="AboutPage">
+ <class>AboutDialog</class>
+ <widget class="QDialog" name="AboutDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>546</height>
+    <width>600</width>
+    <height>500</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>500</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>About Talipot</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_5">
-   <property name="sizeConstraint">
-    <enum>QLayout::SetDefaultConstraint</enum>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -75,9 +78,9 @@
        <item>
         <layout class="QHBoxLayout" name="aboutVersionLayout">
          <item>
-          <widget class="QLabel" name="dependenciesInfo">
-           <property name="text">
-            <string>Dependencies information</string>
+          <widget class="QTextBrowser" name="dependenciesInfo">
+           <property name="openExternalLinks">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -117,8 +120,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../resources/TalipotGUIResource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

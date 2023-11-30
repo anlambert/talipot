@@ -11,31 +11,49 @@
  *
  */
 
-#include <talipot/AboutPage.h>
 #include <talipot/TlpQtTools.h>
 #include <talipot/Release.h>
 #include <talipot/OpenGlConfigManager.h>
 #include <talipot/PythonVersionChecker.h>
 #include <talipot/GlOffscreenRenderer.h>
 
-#include "ui_AboutPage.h"
+#include <ogdf/basic/internal/version.h>
+
+#include "AboutDialog.h"
+#include "ui_AboutDialog.h"
 
 #include <QFile>
 #include <QDesktopServices>
 #include <QOpenGLContext>
 
-namespace tlp {
-extern QString getSipVersion();
-extern QString getTalipotGitRevision();
-extern QString getCppStandard();
-extern QString getCppCompilerInfo();
-}
+using namespace tlp;
 
 const QString TalipotRepoUrl = "https://github.com/anlambert/talipot";
 
-using namespace tlp;
+QString getSipVersion() {
+  return SIP_VERSION;
+}
 
-AboutPage::AboutPage(QWidget *parent) : QWidget(parent), _ui(new Ui::AboutPage()) {
+QString getTalipotGitRevision() {
+  QFile gitCommitFile(tlpStringToQString(TalipotShareDir + "GIT_COMMIT"));
+
+  if (gitCommitFile.open(QFile::ReadOnly | QFile::Text)) {
+    QTextStream in(&gitCommitFile);
+    return in.readAll().replace("\n", "");
+  }
+  return "";
+}
+
+QString getCppStandard() {
+  return CPP_STANDARD;
+}
+
+QString getCppCompilerInfo() {
+  return QString(CPP_COMPILER_ID).replace("GNU", "GCC") + QString(" ") + CPP_COMPILER_VERSION;
+}
+
+AboutDialog::AboutDialog(QWidget *parent)
+    : QDialog(parent, Qt::Window), _ui(new Ui::AboutDialog()) {
   _ui->setupUi(this);
 
   QString title("Talipot ");
@@ -74,32 +92,34 @@ AboutPage::AboutPage(QWidget *parent) : QWidget(parent), _ui(new Ui::AboutPage()
   This free and open-source software is powered by:
   <ul>
     <li>
-      <b> C++ </b> %1:
-      <a href="https://www.cplusplus.com/">https://www.cplusplus.com/</a>
+      <b> C++ </b> %1
+      <br/>
+      <a href="https://www.cplusplus.com">https://www.cplusplus.com</a>
     </li>
     <li>
-      <b> Qt </b> %2:
+      <b> Qt </b> %2
+      <br/>
       <a href="https://www.qt.io">https://www.qt.io</a>
     </li>
     <li>
-      <b> OpenGL </b> %3:
+      <b> OpenGL </b> %3 (from vendor %4)
+      <br/>
       <a href="https://www.opengl.org">https://www.opengl.org</a>
-      <br/>
-      (from vendor %4)
     </li>
     <li>
-      <b>OGDF</b> v2023.09 (Elderberry):
-      <a href="http://www.ogdf.net">http://www.ogdf.net</a>
+      <b>OGDF</b> v%8 aka the <i>Open Graph Drawing Framework</i>
       <br/>
-      aka the Open Graph Drawing Framework
+      <a href="https://ogdf.uos.de">https://ogdf.uos.de</a>
     </li>
     <li>
-      <b> Python </b> %5:
+      <b> Python </b> %5
+      <br/>
       <a href="https://www.python.org">https://www.python.org</a>
     </li>
     <li>
-      <b> SIP </b> %6:
-      <a href="https://www.riverbankcomputing.com/software/sip/">
+      <b> SIP </b> %6
+      <br/>
+      <a href="https://www.riverbankcomputing.com/software/sip">
         https://www.riverbankcomputing.com/software/sip
       </a>
     </li>
@@ -115,40 +135,33 @@ AboutPage::AboutPage(QWidget *parent) : QWidget(parent), _ui(new Ui::AboutPage()
       (openGlOk ? tlpStringToQString(OpenGlConfigManager::getOpenGLVersionString())
                 : QString("?.?")),
       (openGlOk ? tlpStringToQString(OpenGlConfigManager::getOpenGLVendor()) : QString("unknown")),
-      PythonVersionChecker::compiledVersion(), getSipVersion(), getCppCompilerInfo());
+      PythonVersionChecker::compiledVersion(), getSipVersion(), getCppCompilerInfo(), OGDF_VERSION);
 
   if (openGlOk) {
     GlOffscreenRenderer::instance().doneOpenGLContextCurrent();
   }
 
   _ui->dependenciesInfo->setText(talipotDependenciesInfo);
-  connect(_ui->dependenciesInfo, &QLabel::linkActivated, this, &AboutPage::openUrlInBrowser);
-  connect(_ui->TalipotLabel, &QLabel::linkActivated, this, &AboutPage::openUrlInBrowser);
+  connect(_ui->TalipotLabel, &QLabel::linkActivated, this, &AboutDialog::openUrlInBrowser);
 
   QFile authorsFile(tlpStringToQString(TalipotShareDir + "AUTHORS"));
   QFile licenseFile(tlpStringToQString(TalipotShareDir + "LICENSE"));
 
   if (authorsFile.open(QFile::ReadOnly | QFile::Text)) {
     QTextStream in(&authorsFile);
-#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-    in.setCodec("UTF-8");
-#endif
     _ui->authorsTextEdit->setText(in.readAll());
   }
 
   if (licenseFile.open(QFile::ReadOnly | QFile::Text)) {
     QTextStream in(&licenseFile);
-#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-    in.setCodec("UTF-8");
-#endif
     _ui->licenseTextEdit->setText(in.readAll());
   }
 }
 
-AboutPage::~AboutPage() {
+AboutDialog::~AboutDialog() {
   delete _ui;
 }
 
-void AboutPage::openUrlInBrowser(const QString &url) {
+void AboutDialog::openUrlInBrowser(const QString &url) {
   QDesktopServices::openUrl(QUrl(url));
 }

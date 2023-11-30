@@ -86,7 +86,6 @@ SET(SRCS
     FileDownloader.cpp
     ColorScalesManager.cpp
     ScientificDoubleSpinBox.cpp
-    AboutPage.cpp
     FontIconDialog.cpp
     FontIcon.cpp
     ViewActionsManager.cpp
@@ -97,12 +96,7 @@ QTX_SET_INCLUDES_AND_DEFINITIONS()
 ADD_DEFINITIONS(-DQT_DLL -DQT_THREAD_SUPPORT)
 
 SET(PYTHON_PART_SRCS PythonVersionChecker.cpp)
-SET(TLPGUI_PYTHON_COMPILE_DEFINITIONS
-    TLP_PYTHON="${PYTHON_VERSION}"
-    SIP_VERSION="${SIP_VERSION_STR}"
-    CPP_STANDARD="${CMAKE_CXX_STANDARD}"
-    CPP_COMPILER_ID="${CMAKE_CXX_COMPILER_ID}"
-    CPP_COMPILER_VERSION="${CMAKE_CXX_COMPILER_VERSION}")
+SET(TLPGUI_PYTHON_COMPILE_DEFINITIONS TLP_PYTHON="${PYTHON_VERSION}")
 
 IF(MSYS2_PYTHON)
   SET(TLPGUI_PYTHON_COMPILE_DEFINITIONS
@@ -113,25 +107,14 @@ ENDIF(MSYS2_PYTHON)
 SET_SOURCE_FILES_PROPERTIES(
   PythonVersionChecker.cpp PROPERTIES COMPILE_DEFINITIONS
                                       "${TLPGUI_PYTHON_COMPILE_DEFINITIONS}")
-SET_SOURCE_FILES_PROPERTIES(
-  AboutPageUtils.cpp PROPERTIES COMPILE_DEFINITIONS
-                                "${TLPGUI_PYTHON_COMPILE_DEFINITIONS}")
 
 ADD_LIBRARY(talipot-gui-python STATIC ${PYTHON_PART_SRCS})
 
 TARGET_LINK_LIBRARIES(talipot-gui-python ${QT_LIBRARIES})
 SET_TARGET_PROPERTIES(talipot-gui-python PROPERTIES POSITION_INDEPENDENT_CODE
                                                     ON)
-
-ADD_LIBRARY(talipot-about-page-utils STATIC AboutPageUtils.cpp)
-
-TARGET_LINK_LIBRARIES(talipot-about-page-utils ${QT_LIBRARIES})
-SET_TARGET_PROPERTIES(talipot-about-page-utils
-                      PROPERTIES POSITION_INDEPENDENT_CODE ON)
-
 QT_WRAP_UI(
   UI_HEADERS
-  ../designer/AboutPage.ui
   ../designer/ColorScaleConfigDialog.ui
   ../designer/Vec3fEditor.ui
   ../designer/CopyPropertyDialog.ui
@@ -163,7 +146,6 @@ QT_WRAP_UI(
 
 QT_WRAP_CPP(
   MOC_SRCS
-  ../include/talipot/AboutPage.h
   ../include/talipot/CaptionGraphicsItem.h
   ../include/talipot/CaptionGraphicsSubItems.h
   ../include/talipot/CaptionItem.h
@@ -256,8 +238,6 @@ TARGET_LINK_LIBRARIES(
   ${LibTalipotOGLName} ${QUAZIP_LIBRARIES})
 
 TARGET_LINK_LIBRARIES(${LibTalipotGUIName} talipot-gui-python)
-
-TARGET_LINK_LIBRARIES(${LibTalipotGUIName} talipot-about-page-utils)
 
 INSTALL(
   TARGETS ${LibTalipotGUIName}

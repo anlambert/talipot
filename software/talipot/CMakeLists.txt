@@ -1,5 +1,6 @@
 SET(SRCS
     src/main.cpp
+    src/AboutDialog.cpp
     src/AlgorithmRunner.cpp
     src/AlgorithmRunnerItem.cpp
     src/ExpandableGroupBox.cpp
@@ -17,6 +18,15 @@ SET(SRCS
     src/TalipotMainWindow.cpp
     src/ThemeUtils.cpp)
 
+SET(ABOUT_COMPILE_DEFINITIONS
+    SIP_VERSION="${SIP_VERSION_STR}" CPP_STANDARD="${CMAKE_CXX_STANDARD}"
+    CPP_COMPILER_ID="${CMAKE_CXX_COMPILER_ID}"
+    CPP_COMPILER_VERSION="${CMAKE_CXX_COMPILER_VERSION}")
+
+SET_SOURCE_FILES_PROPERTIES(
+  src/AboutDialog.cpp PROPERTIES COMPILE_DEFINITIONS
+                                 "${ABOUT_COMPILE_DEFINITIONS}")
+
 QTX_SET_INCLUDES_AND_DEFINITIONS()
 QTXWEB_SET_INCLUDES_AND_DEFINITIONS()
 
@@ -24,6 +34,7 @@ QT_ADD_RESOURCES(RCC_SRCS resources/TalipotApp.qrc OPTIONS -name TalipotApp)
 
 QT_WRAP_CPP(
   MOC_SRCS
+  include/AboutDialog.h
   include/AlgorithmRunner.h
   include/AlgorithmRunnerItem.h
   include/ExpandableGroupBox.h
@@ -43,6 +54,7 @@ QT_WRAP_CPP(
 
 QT_WRAP_UI(
   UI_SRCS
+  designer/AboutDialog.ui
   designer/AlgorithmRunner.ui
   designer/AlgorithmRunnerItem.ui
   designer/GraphHierarchiesEditor.ui
@@ -60,13 +72,17 @@ INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/utils/crash_handler include/
                     ${CMAKE_CURRENT_BINARY_DIR})
 
 INCLUDE_DIRECTORIES(
-  ${TalipotCoreBuildInclude} ${TalipotCoreInclude} ${TalipotOGLInclude}
-  ${TalipotPythonInclude} ${TalipotGUIInclude} ${OPENGL_INCLUDE_DIR})
+  ${TalipotCoreBuildInclude}
+  ${TalipotCoreInclude}
+  ${TalipotOGLInclude}
+  ${TalipotPythonInclude}
+  ${TalipotGUIInclude}
+  ${OPENGL_INCLUDE_DIR}
+  ${OGDFInclude})
 
 TALIPOT_SET_CXX_FLAGS("${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 IF(WIN32)
-
   STRING(TIMESTAMP CURRENT_YEAR "%Y")
 
   INCLUDE(generate_product_version)
@@ -90,7 +106,6 @@ IF(WIN32)
     "talipot.exe")
 
   SET(SRCS ${SRCS} ${VersionFiles})
-
 ENDIF(WIN32)
 
 ADD_EXECUTABLE(talipot ${SRCS} ${RCC_SRCS} ${MOC_SRCS} ${UI_SRCS})
@@ -111,7 +126,6 @@ INSTALL(
   ARCHIVE DESTINATION ${TalipotLibInstallDir})
 
 IF(WIN32)
-
   SET(TALIPOT_FIXUP_BUNDLE
       ON
       CACHE
@@ -130,6 +144,7 @@ IF(WIN32)
             DESTINATION ${TalipotBinInstallDir})
     INSTALL(DIRECTORY ${QT_PLUGINS_DIR}/platforms
             DESTINATION ${TalipotBinInstallDir})
+
     IF(EXISTS ${QT_PLUGINS_DIR}/styles)
       INSTALL(DIRECTORY ${QT_PLUGINS_DIR}/styles
               DESTINATION ${TalipotBinInstallDir})
@@ -151,11 +166,13 @@ IF(WIN32)
         "${CMAKE_INSTALL_PREFIX}/bin/imageformats/qsvg.dll"
         "${CMAKE_INSTALL_PREFIX}/bin/platforms/qwindows.dll"
         "${FIXUP_BUNDLE_LIBS}")
+
     IF(MSVC)
       SET(FIXUP_BUNDLE_LIBS
-      "${CMAKE_INSTALL_PREFIX}/bin/OGDF-talipot-${TalipotMajorVersion}_${TalipotMinorVersion}.dll"
-      "${FIXUP_BUNDLE_LIBS}")
+          "${CMAKE_INSTALL_PREFIX}/bin/OGDF-talipot-${TalipotMajorVersion}_${TalipotMinorVersion}.dll"
+          "${FIXUP_BUNDLE_LIBS}")
     ENDIF(MSVC)
+
     STRING(REPLACE "\\" "/" FIXUP_BUNDLE_LIBS "${FIXUP_BUNDLE_LIBS}")
     STRING(REPLACE ";" "\;" FIXUP_BUNDLE_LIBS "${FIXUP_BUNDLE_LIBS}")
 
@@ -169,6 +186,7 @@ IF(WIN32)
             SET(ENV{PATH} \"${PYTHON_HOME_PATH}\;${PATH_ESCAPED}\")
             SET(gp_cmd_paths \"${GP_CMD_PATH}\")
             FIXUP_BUNDLE(\"${APP}\" \"${FIXUP_BUNDLE_LIBS}\" \"${LIB_DIRS}\")")
+
     # When generating Talipot installers using MSYS2, we need to bundle OpenSSL
     # libraries in order for the Geographic view to work correctly. As Qt5 does
     # not link directly to OpenSSL for license issue and thus use a dynamic
@@ -187,7 +205,6 @@ IF(WIN32)
 ENDIF(WIN32)
 
 IF(LINUX)
-
   SET(TALIPOT_LINUX_DESKTOP_REGISTRATION
       ON
       CACHE
@@ -196,7 +213,6 @@ IF(LINUX)
   )
 
   IF(TALIPOT_LINUX_DESKTOP_REGISTRATION)
-
     CONFIGURE_FILE(
       resources/linux_desktop/Talipot.desktop.in
       ${CMAKE_CURRENT_BINARY_DIR}/Talipot-${TalipotVersion}.desktop)
@@ -247,7 +263,5 @@ IF(LINUX)
           COMMAND update-desktop-database ${DESKTOP_CONFIG_INSTALL_PREFIX}/share/applications
           COMMAND update-mime-database ${DESKTOP_CONFIG_INSTALL_PREFIX}/share/mime
           OUTPUT_QUIET ERROR_QUIET)")
-
   ENDIF(TALIPOT_LINUX_DESKTOP_REGISTRATION)
-
 ENDIF(LINUX)

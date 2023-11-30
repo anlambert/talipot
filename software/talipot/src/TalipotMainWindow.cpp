@@ -20,6 +20,7 @@
 #include "PanelSelectionWizard.h"
 #include "PreferencesDialog.h"
 #include "PluginsCenter.h"
+#include "AboutDialog.h"
 
 #include <talipot/PythonIDE.h>
 #include <talipot/SimplePluginProgressWidget.h>
@@ -32,7 +33,6 @@
 #include <talipot/Project.h>
 #include <talipot/GraphTools.h>
 #include <talipot/ColorScaleConfigDialog.h>
-#include <talipot/AboutPage.h>
 #include <talipot/ColorScalesManager.h>
 #include <talipot/StableIterator.h>
 #include <talipot/TreeTest.h>
@@ -414,7 +414,7 @@ TalipotMainWindow::TalipotMainWindow()
 
   connect(_ui->actionPlugins_Center, &QAction::triggered, this,
           &TalipotMainWindow::showPluginsCenter);
-  connect(_ui->actionAbout_us, &QAction::triggered, this, &TalipotMainWindow::showAboutPage);
+  connect(_ui->actionAbout_us, &QAction::triggered, this, &TalipotMainWindow::showAboutDialog);
 
   auto showDockWidget = [this](QToolButton *button) {
     return [this, button]() { showHideDockWidget(button, true); };
@@ -1635,16 +1635,10 @@ void TalipotMainWindow::displayColorScalesDialog() {
   _colorScalesDialog->show();
 }
 
-void TalipotMainWindow::showAboutPage() {
-  auto *aboutPage = new tlp::AboutPage;
-  QDialog aboutDialog(this, Qt::Window);
-  aboutDialog.setWindowTitle("About Talipot");
-  auto *layout = new QVBoxLayout;
-  layout->addWidget(aboutPage);
-  layout->setContentsMargins(0, 0, 0, 0);
-  aboutDialog.setLayout(layout);
+void TalipotMainWindow::showAboutDialog() {
+  AboutDialog aboutDialog(this);
   aboutDialog.adjustSize();
-  aboutDialog.setMaximumSize(aboutDialog.size());
+  aboutDialog.setFixedSize(aboutDialog.size());
   aboutDialog.exec();
 }
 
