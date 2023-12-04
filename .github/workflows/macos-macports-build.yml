@@ -59,7 +59,6 @@ jobs:
           graphviz
           libgit2
           python${{ env.PYTHON_VERSION_NO_DOT }}
-          py${{ env.PYTHON_VERSION_NO_DOT }}-sip
           pkgconfig
           cppunit
           freetype
@@ -71,8 +70,10 @@ jobs:
           qt5-qtwebkit
           quazip
           py${{ env.PYTHON_VERSION_NO_DOT }}-pip
-      - name: Install Sphinx
-        run: pip-${{ env.PYTHON_VERSION }} install sphinx
+      - name: Install Sphinx and SIP < 6.8
+        run: pip-${{ env.PYTHON_VERSION }} install sphinx 'sip<6.8'
+      - name: 'Update PATH'
+        run: echo "/Users/runner/Library/Python/${{ env.PYTHON_VERSION }}/bin" >> $GITHUB_PATH
       - name: Save MacPorts ccache
         run: source ./macports-ci ccache --save
       - name: Create build directory
