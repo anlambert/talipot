@@ -179,7 +179,8 @@ PythonInterpreter::PythonInterpreter()
 
 #ifdef WIN32
     QString pythonHome = PythonVersionChecker::getPythonHome();
-    static const std::string tlpPythonHome = tlp::TalipotLibDir + "/..";
+    static const std::string tlpPythonHome =
+        QStringToTlpString(QDir(tlpStringToQString(tlp::TalipotLibDir + "/..")).absolutePath());
     static const std::wstring tlpPythonHomeW = utf8to16(tlpPythonHome);
     if (QDir(tlpStringToQString(tlpPythonHome) + "/lib/python" + _pythonVersion).exists() ||
         QDir(tlpStringToQString(tlpPythonHome) + "/DLLs").exists()) {
