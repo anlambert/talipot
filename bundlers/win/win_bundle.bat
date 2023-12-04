@@ -38,6 +38,10 @@ if EXIST "%PYTHON_STD_LIB_DEST_DIR%\\site-packages" (
   del /s /f /q "%PYTHON_STD_LIB_DEST_DIR%\\site-packages\\*.*" >nul 2>&1
   for /f %%f in ('dir /ad /b "%PYTHON_STD_LIB_DEST_DIR%\\site-packages"') do rd /s /q "%PYTHON_STD_LIB_DEST_DIR%\\site-packages\\%%f"
 )
+if EXIST "%PYTHON_STD_LIB_DEST_DIR%\\test" (
+  del /s /f /q "%PYTHON_STD_LIB_DEST_DIR%\\test\\*.*" >nul 2>&1
+  for /f %%f in ('dir /ad /b "%PYTHON_STD_LIB_DEST_DIR%\\test"') do rd /s /q "%PYTHON_STD_LIB_DEST_DIR%\\test\\%%f"
+)
 for /d /r "%PYTHON_STD_LIB_DEST_DIR%" %%d in (__pycache__) do @if exist "%%d" rd /s /q "%%d"
 
 echo 'Removing not needed dlls copied by fixup_bundle'
