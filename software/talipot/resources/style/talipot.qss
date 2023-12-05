@@ -94,13 +94,11 @@ QFrame[bottomFrame="true"] {
   background: #323232;
 }
 
-QFrame[bottomFrame="true"] * {
+QFrame[bottomFrame="true"] QPushButton,
+QFrame[bottomFrame="true"] QToolButton,
+QFrame[bottomFrame="true"] QLabel {
   color: white;
   font: bold 11px;
-}
-
-QFrame[bottomFrame="true"] QPushButton,
-QFrame[bottomFrame="true"] QToolButton {
   border: none;
   border-image: none;
 }
@@ -691,7 +689,9 @@ QFrame[header="true"] QComboBox QAbstractItemView {
   background: #323232;
 }
 
-#PythonIDE QWidget[pythonIDEBottomWidget="true"] * {
+#PythonIDE QWidget[pythonIDEBottomWidget="true"] QPushButton,
+#PythonIDE QWidget[pythonIDEBottomWidget="true"] QToolButton,
+#PythonIDE QWidget[pythonIDEBottomWidget="true"] QLabel {
   color: white;
   font: bold 11px;
 }
