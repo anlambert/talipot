@@ -49,22 +49,6 @@ if "%TALIPOT_BUILD_CORE_ONLY%" == "0" (
 
 rem install talipot complete build dependencies
 vcpkg install --recurse --triplet x64-windows freetype glew fontconfig fribidi
-
-rem get, compile and install quazip
-cd C:/talipot_dependencies
-curl -LO https://github.com/stachenov/quazip/archive/refs/tags/v1.3.zip
-7z x v1.3.zip
-cd quazip-1.3
-md build && cd build
-cmake -G "%CMAKE_VS_GENERATOR%"^
-  -A "%MSVC_ARCH%"^
-  -DCMAKE_INSTALL_PREFIX="C:/talipot_dependencies"^
-  -DCMAKE_PREFIX_PATH="%QT_DIR%"^
-  -DCMAKE_INCLUDE_PATH="C:/Tools/vcpkg/installed/x64-windows/include"^
-  -DCMAKE_LIBRARY_PATH="C:/Tools/vcpkg/installed/x64-windows/lib" ..
-if %errorlevel% neq 0 exit /b %errorlevel%
-msbuild INSTALL.vcxproj /clp:ErrorsOnly /p:Configuration=Release %CLCACHE_MSBUILD_CONF%
-if %errorlevel% neq 0 exit /b %errorlevel%
 goto talipot_build
 
 
