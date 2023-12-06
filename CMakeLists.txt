@@ -32,8 +32,10 @@ IF(NOT MSVC)
         BOOL
         "Do you want to use ccache to speed up incremental compilation ? [OFF|ON]"
   )
+
   IF(TALIPOT_USE_CCACHE)
     FIND_PROGRAM(CCACHE_PROGRAM ccache)
+
     IF(CCACHE_PROGRAM)
       SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
     ENDIF(CCACHE_PROGRAM)
@@ -89,9 +91,11 @@ SET(TalipotMinorVersion 0)
 SET(TalipotReleaseVersion 0)
 SET(TalipotVersionSuffix "-alpha2-dev")
 SET(TalipotVersionSeparator .)
+
 IF(MSVC) # specific options for Visual Studio
   SET(TalipotVersionSeparator _)
 ENDIF()
+
 SET(TalipotVersion "${TalipotMajorVersion}${TalipotVersionSeparator}")
 SET(TalipotVersion
     "${TalipotVersion}${TalipotMinorVersion}${TalipotVersionSeparator}")
@@ -100,15 +104,19 @@ SET(TalipotVersion
 SET(TalipotMMVersion
     "${TalipotMajorVersion}${TalipotVersionSeparator}${TalipotMinorVersion}")
 SET(TalipotMinorVersionTwoDigits "${TalipotMinorVersion}")
+
 # Use two digits for the minor version when generating the Talipot integer
 # version number as there was a 4.10 release that breaks preprocessor test like
 # TALIPOT_INT_VERSION >= 4100 since the 5.0 release (see
 # https://sourceforge.net/p/auber/bugs/869/)
 STRING(LENGTH "${TalipotMinorVersion}" TalipotMinorVersionNbDigits)
+
 IF(TalipotMinorVersionNbDigits LESS 2)
   SET(TalipotMinorVersionTwoDigits "0${TalipotMinorVersion}")
 ENDIF(TalipotMinorVersionNbDigits LESS 2)
+
 SET(TalipotIntMMVersion "${TalipotMajorVersion}${TalipotMinorVersionTwoDigits}")
+
 IF(TalipotReleaseVersion MATCHES "^[0-9]+$")
   SET(TalipotIntVersion
       "${TalipotMajorVersion}${TalipotMinorVersionTwoDigits}${TalipotReleaseVersion}"
@@ -117,13 +125,13 @@ ELSE(TalipotReleaseVersion MATCHES "^[0-9]+$")
   # just a hack to force the display of the full Talipot version in window title
   # bar when it contains non digit characters (like alpha, beta, dev, ...)
   SET(TalipotIntVersion "${TalipotMajorVersion}${TalipotMinorVersion}1")
-
 ENDIF(TalipotReleaseVersion MATCHES "^[0-9]+$")
 
 # ========================================================
 # Dump git commit id to file
 # ========================================================
 INCLUDE(cmake/GetGitRevisionDescription.cmake)
+
 IF(EXISTS ${PROJECT_SOURCE_DIR}/.git)
   SET(TALIPOT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
   GET_GIT_HEAD_REVISION(TALIPOT_REFSPEC TALIPOT_GIT_REVISION)
@@ -182,14 +190,17 @@ SET(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET
       BOOL
       "Add a wheel make target for generating Python talipot-core module wheel ?"
 )
+
 IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
   SET(TALIPOT_BUILD_CORE_ONLY ON)
+
   IF(APPLE)
     # build binaries with install rpath when generating Talipot Python wheels
     # for MacOs as we don't install the project in that case
     SET(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
   ELSEIF(LINUX)
     FILE(READ /etc/centos-release LINUX_ISSUE)
+
     IF(NOT "${LINUX_ISSUE}" MATCHES ".*CentOS Linux release 7\\.9.*"
        OR NOT EXISTS /usr/local/bin/auditwheel)
       MESSAGE(
@@ -200,6 +211,7 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
           "See https://github.com/pypa/manylinux for more details.")
     ENDIF(NOT "${LINUX_ISSUE}" MATCHES ".*CentOS Linux release 7\\.9.*"
           OR NOT EXISTS /usr/local/bin/auditwheel)
+
     # build binaries with install rpath when generating Talipot Python wheels
     # for Linux as we don't install the project in that case
     SET(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
@@ -223,6 +235,7 @@ IF(MINGW)
     INTL_LIBRARY intl
     PATHS ${MINGW_LIB_PATH} ${MINGW_LIB64_PATH}
     NO_DEFAULT_PATH)
+
   # Check if libsframe is present in the MinGW build environment
   FIND_LIBRARY(
     SFRAME_LIBRARY sframe
@@ -232,6 +245,7 @@ ELSE(MINGW)
   FIND_LIBRARY(INTL_LIBRARY intl)
   FIND_LIBRARY(SFRAME_LIBRARY sframe)
 ENDIF(MINGW)
+
 MARK_AS_ADVANCED(INTL_LIBRARY)
 MARK_AS_ADVANCED(SFRAME_LIBRARY)
 
@@ -254,18 +268,19 @@ FIND_PACKAGE(Graphviz REQUIRED)
 FIND_PACKAGE(Libgit2 REQUIRED)
 
 IF(NOT TALIPOT_BUILD_CORE_ONLY OR TALIPOT_BUILD_OGL)
-
   # OpenGL
   FIND_PACKAGE(OpenGL REQUIRED)
 
   # Glew
   FIND_PACKAGE(GLEW REQUIRED)
+
   # if needed, when using cmake 3.15, define some undefined glew variables
   IF(NOT ${CMAKE_VERSION} VERSION_LESS "3.15.0")
     IF(NOT GLEW_INCLUDE_DIR)
       GET_TARGET_PROPERTY(GLEW_INCLUDE_DIR GLEW::GLEW
                           INTERFACE_INCLUDE_DIRECTORIES)
     ENDIF(NOT GLEW_INCLUDE_DIR)
+
     IF(NOT GLEW_LIBRARY)
       SET(GLEW_LIBRARY GLEW::GLEW)
     ENDIF(NOT GLEW_LIBRARY)
@@ -276,7 +291,6 @@ IF(NOT TALIPOT_BUILD_CORE_ONLY OR TALIPOT_BUILD_OGL)
 ENDIF(NOT TALIPOT_BUILD_CORE_ONLY OR TALIPOT_BUILD_OGL)
 
 IF(NOT TALIPOT_BUILD_CORE_ONLY)
-
   # FontConfig
   FIND_PACKAGE(FontConfig REQUIRED)
 
@@ -288,7 +302,6 @@ IF(NOT TALIPOT_BUILD_CORE_ONLY)
 
   # Quazip
   FIND_PACKAGE(QuaZip)
-
 ENDIF(NOT TALIPOT_BUILD_CORE_ONLY)
 
 # Python
@@ -300,11 +313,13 @@ INCLUDE(cmake/TalipotPython.cmake)
 SET(GZStreamInclude ${PROJECT_SOURCE_DIR}/thirdparty/gzstream/)
 SET(GZStreamLibrary gzstream-talipot-${TalipotMMVersion})
 SET(ZstdStreamInclude ${PROJECT_SOURCE_DIR}/thirdparty/ZstdStream/)
+
 IF(NOT TALIPOT_BUILD_CORE_ONLY OR TALIPOT_BUILD_OGL)
   SET(FTGLInclude ${PROJECT_SOURCE_DIR}/thirdparty/ftgl/)
   SET(FTGLLibrary ftgl-talipot-${TalipotMMVersion})
   SET(Tess2Include ${PROJECT_SOURCE_DIR}/thirdparty/libtess2/Include)
   SET(Tess2Library tess2-talipot-${TalipotMMVersion})
+
   IF(NOT QUAZIP_FOUND)
     SET(QUAZIP_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/thirdparty/quazip-1.4/quazip)
     SET(QUAZIP_LIBRARIES QuaZip)
@@ -336,8 +351,10 @@ SET(TalipotPythonInclude ${PROJECT_SOURCE_DIR}/library/talipot-python/include)
 # be @rpath) This is already enabled by default for CMake >= 3.0 (see
 # http://www.cmake.org/cmake/help/v3.0/prop_tgt/MACOSX_RPATH.html)
 SET(CMAKE_MACOSX_RPATH ON)
+
 FUNCTION(ADD_LIBRARY name)
   _ADD_LIBRARY(${name} ${ARGN})
+
   IF(APPLE)
     # relative locations of Talipot dylibs dependencies are not the sames when
     # generating Python wheel
@@ -355,9 +372,11 @@ FUNCTION(ADD_LIBRARY name)
     # CMake >= 3.1.0 does not allow to set the INSTALL_RPATH property on
     # INTERFACE_LIBRARY target type
     GET_TARGET_PROPERTY(TARGET_TYPE ${name} TYPE)
+
     IF(NOT "${TARGET_TYPE}" STREQUAL "INTERFACE_LIBRARY")
       SET_TARGET_PROPERTIES(
         ${name} PROPERTIES INSTALL_RPATH "$ORIGIN:$ORIGIN/../:$ORIGIN/../../")
+
       IF(MSVC)
         SET_TARGET_PROPERTIES(${name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG
                                                  "${CMAKE_CURRENT_BINARY_DIR}")
@@ -370,8 +389,9 @@ FUNCTION(ADD_LIBRARY name)
         SET_TARGET_PROPERTIES(
           ${name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO
                              "${CMAKE_CURRENT_BINARY_DIR}")
+
         # MSVC linker PDB files are only generated for shared libraries
-        IF("${ARGV1}" STREQUAL "SHARED")
+        IF("${ARGV1}" STREQUAL "SHARED" AND NOT "${ARGV2}" STREQUAL "IMPORTED")
           SET_TARGET_PROPERTIES(${name} PROPERTIES PDB_NAME_DEBUG "${name}")
           SET_TARGET_PROPERTIES(${name} PROPERTIES PDB_NAME_RELWITHDEBINFO
                                                    "${name}")
@@ -389,10 +409,12 @@ FUNCTION(ADD_LIBRARY name)
             FILES $<TARGET_PDB_FILE:${name}>
             DESTINATION ${TalipotShareInstallDir}/pdb
             CONFIGURATIONS RelWithDebInfo)
-        ENDIF("${ARGV1}" STREQUAL "SHARED")
+        ENDIF("${ARGV1}" STREQUAL "SHARED" AND NOT "${ARGV2}" STREQUAL
+                                               "IMPORTED")
       ENDIF(MSVC)
     ENDIF(NOT "${TARGET_TYPE}" STREQUAL "INTERFACE_LIBRARY")
   ENDIF(APPLE)
+
   IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
     ADD_DEPENDENCIES(wheel ${name})
   ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
@@ -400,6 +422,7 @@ ENDFUNCTION()
 
 FUNCTION(ADD_EXECUTABLE name)
   _ADD_EXECUTABLE(${name} ${ARGN})
+
   IF(APPLE)
     SET_TARGET_PROPERTIES(
       ${name}
@@ -413,6 +436,7 @@ FUNCTION(ADD_EXECUTABLE name)
   ELSE()
     SET_TARGET_PROPERTIES(${name} PROPERTIES INSTALL_RPATH "$ORIGIN")
   ENDIF()
+
   IF(MSVC)
     SET_TARGET_PROPERTIES(${name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG
                                              "${CMAKE_CURRENT_BINARY_DIR}")
@@ -429,14 +453,17 @@ FUNCTION(ADD_EXECUTABLE name)
                                              "${CMAKE_CURRENT_BINARY_DIR}")
     SET_TARGET_PROPERTIES(${name} PROPERTIES PDB_OUTPUT_DIRECTORY_RELWITHDEBINFO
                                              "${CMAKE_CURRENT_BINARY_DIR}")
-    INSTALL(
-      FILES $<TARGET_PDB_FILE:${name}>
-      DESTINATION ${TalipotShareInstallDir}/pdb
-      CONFIGURATIONS Debug)
-    INSTALL(
-      FILES $<TARGET_PDB_FILE:${name}>
-      DESTINATION ${TalipotShareInstallDir}/pdb
-      CONFIGURATIONS RelWithDebInfo)
+
+    IF(NOT "${ARGV1}" STREQUAL "IMPORTED")
+      INSTALL(
+        FILES $<TARGET_PDB_FILE:${name}>
+        DESTINATION ${TalipotShareInstallDir}/pdb
+        CONFIGURATIONS Debug)
+      INSTALL(
+        FILES $<TARGET_PDB_FILE:${name}>
+        DESTINATION ${TalipotShareInstallDir}/pdb
+        CONFIGURATIONS RelWithDebInfo)
+    ENDIF(NOT "${ARGV1}" STREQUAL "IMPORTED")
   ENDIF(MSVC)
 ENDFUNCTION()
 
@@ -456,18 +483,19 @@ ENDIF()
 # ========================================================
 STRING(COMPARE EQUAL "${CMAKE_BUILD_TYPE}" "Release" result1)
 STRING(COMPARE EQUAL "${CMAKE_BUILD_TYPE}" "RelWithDebInfo" result2)
+
 IF(${result1} OR ${result2})
   SET(TalipotBuildIsRelease 1)
 ELSE()
   SET(TalipotBuildIsRelease 0)
 ENDIF()
+
 CONFIGURE_FILE("library/talipot-core/include/talipot/Release.h.in"
                "library/talipot-core/include/talipot/Release.h")
 
 # ========================================================
 # Configure file for uninstall target
 # ========================================================
-
 IF(LINUX)
   IF("${CMAKE_INSTALL_PREFIX}" MATCHES "^/home.*$")
     SET(DESKTOP_CONFIG_INSTALL_PREFIX "$ENV{HOME}/.local")
@@ -490,15 +518,18 @@ INCLUDE_DIRECTORIES(${ParallelHashmapInclude})
 ADD_SUBDIRECTORY(library)
 ADD_SUBDIRECTORY(plugins)
 ADD_SUBDIRECTORY(utils/crash_handler)
+
 IF(NOT TALIPOT_BUILD_CORE_ONLY)
   ADD_SUBDIRECTORY(demos)
   ADD_SUBDIRECTORY(software)
 ENDIF(NOT TALIPOT_BUILD_CORE_ONLY)
+
 ADD_SUBDIRECTORY(doc)
 
 IF(TALIPOT_BUILD_TESTS)
   INCLUDE(CTest)
   ENABLE_TESTING()
+
   IF(CMAKE_CONFIGURATION_TYPES)
     ADD_CUSTOM_TARGET(
       tests COMMAND ${CMAKE_CTEST_COMMAND} --force-new-ctest-process
@@ -508,6 +539,7 @@ IF(TALIPOT_BUILD_TESTS)
       tests COMMAND ${CMAKE_CTEST_COMMAND} --force-new-ctest-process
                     --output-on-failure)
   ENDIF(CMAKE_CONFIGURATION_TYPES)
+
   ADD_SUBDIRECTORY(tests)
 ENDIF(TALIPOT_BUILD_TESTS)
 
@@ -535,6 +567,7 @@ SET(libdir "\${prefix}/${TalipotLibInstallDir}")
 SET(libversion "${TalipotMMVersion}")
 SET(VERSION "${TalipotVersion}")
 SET(WIN_VERSION "${TalipotMajorVersion}.${TalipotMinorVersion}")
+
 IF(APPLE AND NOT "${CMAKE_OSX_SYSROOT}" STREQUAL "")
   TALIPOT_SET_CXX_FLAGS("-isysroot ${CMAKE_OSX_SYSROOT}")
 ENDIF(APPLE AND NOT "${CMAKE_OSX_SYSROOT}" STREQUAL "")
