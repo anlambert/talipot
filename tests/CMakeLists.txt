@@ -3,12 +3,15 @@ FIND_PACKAGE(CppUnit REQUIRED)
 MACRO(UNIT_TEST)
   SET(TEST_NAME ${ARGV0})
   UNSET(TEST_SRCS)
+
   FOREACH(loop_var ${ARGN})
     STRING(REGEX MATCH ".*\\.cpp" TEST_SRC_FILE ${loop_var})
+
     IF(TEST_SRC_FILE)
       SET(TEST_SRCS ${TEST_SRCS} ${loop_var})
     ENDIF(TEST_SRC_FILE)
   ENDFOREACH()
+
   # this is a cpp[unit] test
   IF(TEST_SRCS)
     INCLUDE_DIRECTORIES(
@@ -20,33 +23,14 @@ MACRO(UNIT_TEST)
     TARGET_LINK_LIBRARIES(${TEST_NAME} ${LibTalipotCoreName} crash_handler
                           ${CppUnit_LIBRARIES})
     ADD_TEST(NAME ${TEST_NAME} COMMAND ${TEST_NAME} ${TEST_NAME})
+
     # otherwise this is a Python test
   ELSE()
     SET(PYTHON_TEST_MODULE ${ARGV1})
-    ADD_TEST(
-      NAME ${TEST_NAME}
-      COMMAND
-        ${PYTHON_EXECUTABLE} -c "
-import os
-import platform
-import sys
-import unittest
-
-if platform.system() == 'Windows' and sys.version_info >= (3, 8):
-    for path in os.environ['PATH'].split(';'):
-        path = os.path.abspath(path)
-        if os.path.exists(path):
-            os.add_dll_directory(path)
-
-import ${PYTHON_TEST_MODULE}
-tests = unittest.defaultTestLoader.loadTestsFromModule(${PYTHON_TEST_MODULE})
-runner = unittest.TextTestRunner()
-if runner.run(tests).wasSuccessful():
-    sys.exit(0)
-else:
-    sys.exit(1)
-")
+    ADD_TEST(NAME ${TEST_NAME} COMMAND ${PYTHON_EXECUTABLE} -m unittest
+                                       ${PYTHON_TEST_MODULE})
   ENDIF()
+
   # In order to run the tests on windows, we need to add the paths of the dll
   # dependencies (cppunit, tulip, gzstream, yajl) in the PATH environment
   # variable
@@ -54,6 +38,7 @@ else:
     IF(MINGW)
       STRING(REGEX MATCH ".*dll\\.a" IMPORT_LIBRARY ${CppUnit_LIBRARIES})
       STRING(REGEX MATCH ".*dll" DLL_LIBRARY ${CppUnit_LIBRARIES})
+
       IF(IMPORT_LIBRARY)
         TALIPOT_GET_DLL_NAME_FROM_IMPORT_LIBRARY(${CppUnit_LIBRARIES}
                                                  CppUnitDllName)
@@ -64,12 +49,15 @@ else:
       TALIPOT_GET_DLL_NAME_FROM_IMPORT_LIBRARY(${CppUnit_LIBRARIES}
                                                CppUnitDllName)
     ENDIF(MINGW)
+
     IF(CppUnitDllName)
       TALIPOT_FIND_EXTERNAL_LIB(${CppUnitDllName} CppUnitDllPath)
+
       IF(CppUnitDllPath)
         GET_FILENAME_COMPONENT(CppUnitDllDir ${CppUnitDllPath} DIRECTORY)
       ENDIF(CppUnitDllPath)
     ENDIF()
+
     SET(NEWPATH
         ${CppUnitDllDir}
         ${CMAKE_LIBRARY_PATH}
@@ -81,6 +69,7 @@ else:
         ${CMAKE_BINARY_DIR}/library/talipot-gui/src
         ${CMAKE_BINARY_DIR}/thirdparty/libtess2
         ${CMAKE_BINARY_DIR}/thirdparty/OGDF
+        ${CMAKE_BINARY_DIR}/thirdparty/quazip-1.4/quazip
         ${CMAKE_BINARY_DIR}/library/talipot-ogdf
         ${CMAKE_BINARY_DIR}/library/talipot-python/src
         $ENV{PATH})
@@ -89,18 +78,20 @@ else:
   ELSE(WIN32)
     SET(NEWPATH "$ENV{PATH}")
   ENDIF(WIN32)
+
   # add Talipot modules path to PYTHONPATH in order to run the Python tests
   SET(PYTHONPATH
       ${CMAKE_CURRENT_SOURCE_DIR}
       ${CMAKE_SOURCE_DIR}/library/talipot-python/modules/
-      ${TALIPOT_PYTHON_ROOT_FOLDER}
-      ${CMAKE_BINARY_DIR}/thirdparty/sip-${SIP_VERSION_STR}/siplib)
+      ${TALIPOT_PYTHON_ROOT_FOLDER})
+
   IF(WIN32)
     STRING(REPLACE "\\;" ";" PYTHONPATH "${PYTHONPATH}")
     STRING(REPLACE ";" "\\;" PYTHONPATH "${PYTHONPATH}")
   ELSE(WIN32)
     STRING(REPLACE ";" ":" PYTHONPATH "${PYTHONPATH}")
   ENDIF(WIN32)
+
   # set tests environment
   SET_TESTS_PROPERTIES(
     ${TEST_NAME}
