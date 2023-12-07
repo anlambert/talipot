@@ -64,7 +64,7 @@ class TrivialGraphFormatImport(tlp.ImportModule):
 
 pluginDoc = """
 <p>Supported extension: tgf</p><p>Imports a graph from a file in the
-Trivial Graph Format (hhttps://en.wikipedia.org/wiki/Trivial_Graph_Format).
+Trivial Graph Format (https://en.wikipedia.org/wiki/Trivial_Graph_Format).
 The format consists of a list of node definitions, which map node IDs to labels,
 followed by a list of edges, which specify node pairs and an optional edge label.</p>
 """
