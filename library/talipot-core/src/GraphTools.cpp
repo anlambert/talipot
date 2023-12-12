@@ -812,9 +812,9 @@ bool selectShortestPaths(const Graph *const graph, node src, node tgt, ShortestP
   return dijkstra.searchPaths(tgt, result);
 }
 
-void markReachableNodes(const Graph *graph, const node startNode,
-                        std::unordered_map<node, bool> &result, uint maxDistance,
-                        EdgeType direction) {
+set<node> reachableNodes(const Graph *graph, const node startNode, uint maxDistance,
+                         EdgeType direction) {
+  set<node> result;
   deque<node> fifo;
   MutableContainer<bool> visited;
   MutableContainer<uint> distance;
@@ -833,13 +833,14 @@ void markReachableNodes(const Graph *graph, const node startNode,
       for (auto itn : getAdjacentNodesIterator(graph, current, direction)) {
         if (!visited.get(itn.id)) {
           fifo.push_back(itn);
-          result[itn] = true;
+          result.insert(itn);
           visited.set(itn.id, true);
           distance.set(itn.id, curDist + 1);
         }
       }
     }
   }
+  return result;
 }
 
 void computeDijkstra(const Graph *const graph, node src, const EdgeVectorProperty<double> &weights,

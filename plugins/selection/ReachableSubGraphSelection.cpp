@@ -115,20 +115,20 @@ bool ReachableSubGraphSelection::run() {
     Iterator<node> *itN = (result == startNodes) ? stableIterator(startNodes->getNodesEqualTo(true))
                                                  : startNodes->getNodesEqualTo(true);
 
-    std::unordered_map<node, bool> reachables;
+    std::set<node> reachables;
 
     result->setAllEdgeValue(false);
     result->setAllNodeValue(false);
 
     // iterate on startNodes add them and their reachables
     for (auto current : itN) {
-      reachables[current] = true;
-      markReachableNodes(graph, current, reachables, maxDistance, edgeDirection);
+      reachables.insert(current);
+      reachables.merge(reachableNodes(graph, current, maxDistance, edgeDirection));
     }
 
     // select nodes
-    for (const auto &itr : reachables) {
-      result->setNodeValue(itr.first, true);
+    for (const auto itr : reachables) {
+      result->setNodeValue(itr, true);
       ++num_nodes;
     }
 

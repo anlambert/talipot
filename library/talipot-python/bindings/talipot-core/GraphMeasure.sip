@@ -270,7 +270,7 @@ if (a0->isElement(*a1)) {
 
 //===========================================================================================
 
-  void reachableNodes(const tlp::Graph *graph, const tlp::node startNode, std::set<tlp::node> &result /Out/, uint maxDistance, tlp::EdgeType direction = tlp::EdgeType::UNDIRECTED);
+  std::set<tlp::node> reachableNodes(const tlp::Graph *graph, const tlp::node startNode, uint maxDistance, tlp::EdgeType direction = tlp::EdgeType::UNDIRECTED);
 %Docstring
 tlp.reachableNodes(graph, startNode, maxDistance, direction)
 
@@ -310,11 +310,7 @@ equal to a maximum one.
 
 %MethodCode
 if (a0->isElement(*a1)) {
-  std::unordered_map<tlp::node, bool> hResult;
-  markReachableNodes(a0, *a1, hResult, a3, a4);
-  for (const auto &itr : hResult) {
-    a2->insert(itr.first);
-  }
+  sipRes = new std::set(reachableNodes(a0, *a1, a2, a3));
 } else {
   sipIsErr = throwInvalidNodeException(a0, *a1);
 }

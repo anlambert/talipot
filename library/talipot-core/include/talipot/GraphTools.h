@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -249,16 +249,14 @@ TLP_SCOPE bool selectShortestPaths(const Graph *const graph, node src, node tgt,
                                    BooleanProperty *selection);
 
 /*
- * mark as reachable (set the corresponding value in "reachables" map to true),
- * all the nodes, according to direction,
+ * Return all reachable nodes, according to direction,
  * at distance less or equal to maxDistance of startNode.
  * If direction is set to EdgeType::UNDIRECTED use undirected graph,
  * EdgeType::DIRECTED use directed graph
  * and EdgeType::INV_DIRECTED use reverse directed graph (ie. all edges are reversed)
  */
-TLP_SCOPE void markReachableNodes(const Graph *graph, const node startNode,
-                                  std::unordered_map<node, bool> &reachables, uint maxDistance,
-                                  EdgeType direction = EdgeType::UNDIRECTED);
+TLP_SCOPE std::set<node> reachableNodes(const Graph *graph, const node startNode, uint maxDistance,
+                                        EdgeType direction = EdgeType::UNDIRECTED);
 
 TLP_SCOPE void computeDijkstra(const Graph *const graph, node src,
                                const EdgeVectorProperty<double> &weights,

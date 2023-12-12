@@ -142,12 +142,10 @@ void tlp::clusteringCoefficient(const Graph *graph, tlp::NodeVectorProperty<doub
                                 uint maxDepth) {
 
   TLP_PARALLEL_MAP_NODES(graph, [&](node n) {
-    std::unordered_map<node, bool> reachables;
-    markReachableNodes(graph, n, reachables, maxDepth);
-
+    set<node> reachables = reachableNodes(graph, n, maxDepth);
     double nbEdges = graph->deg(n);
-    for (const auto &[itn, reachable] : reachables) {
-      for (auto e : graph->incidence(itn)) {
+    for (const auto r : reachables) {
+      for (auto e : graph->incidence(r)) {
         auto [eSrc, eTgt] = graph->ends(e);
         if (reachables.contains(eSrc) && reachables.contains(eTgt)) {
           ++nbEdges;
