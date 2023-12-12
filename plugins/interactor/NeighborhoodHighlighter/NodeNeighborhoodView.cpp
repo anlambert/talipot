@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -169,7 +169,7 @@ void NodeNeighborhoodView::getOutNeighbors(node n, uint dist, bool noRecursion) 
 void NodeNeighborhoodView::updateWithDistance(const uint dist) {
   if (!computeReachableSubGraph) {
     if (dist > currentDist) {
-      if (nodesAtDist.find(dist) == nodesAtDist.end()) {
+      if (!nodesAtDist.contains(dist)) {
         for (auto n : nodesAtDist[currentDist]) {
           getNeighbors(n, dist, true);
         }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -47,7 +47,7 @@ public:
   }
 
   bool found(Observable *obs) {
-    return observables.find(obs) != observables.end();
+    return observables.contains(obs);
   }
 
   void treatEvents(const vector<Event> &events) override {
@@ -84,7 +84,7 @@ public:
   }
 
   bool found(PropertyInterface *prop) {
-    return properties.find(prop) != properties.end();
+    return properties.contains(prop);
   }
 
   node getNode() const {

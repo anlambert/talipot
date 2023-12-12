@@ -63,7 +63,7 @@ DataSet::~DataSet() {
 }
 
 bool DataSet::exists(const string &str) const {
-  return data.find(str) != data.end();
+  return data.contains(str);
 }
 
 std::string DataSet::getTypeName(const string &str) const {

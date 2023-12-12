@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -228,7 +228,7 @@ public:
     // in which the current node must be added
     node pn;
 
-    if (nodesMap.find(pid) == nodesMap.end()) {
+    if (!nodesMap.contains(pid)) {
       // create a fake meta node
       pn = graph->addNode();
       nodesMap[pid] = pn;
@@ -261,7 +261,7 @@ public:
     node n;
     string nodeId = QStringToTlpString(xmlReader.attributes().value("id").toString());
 
-    if (nodesMap.find(nodeId) == nodesMap.end()) {
+    if (!nodesMap.contains(nodeId)) {
       // if needed, add a node in the graph we are building
       n = g->addNode();
       // save mapping between gexf node id and created Talipot node
@@ -330,7 +330,7 @@ public:
         string attributeStrValue =
             QStringToTlpString(xmlReader.attributes().value("value").toString());
 
-        if (nodePropertiesMap.find(attributeId) != nodePropertiesMap.end()) {
+        if (nodePropertiesMap.contains(attributeId)) {
           nodePropertiesMap[attributeId]->setNodeStringValue(n, attributeStrValue);
         }
       }
@@ -409,7 +409,7 @@ public:
           string attributeStrValue =
               QStringToTlpString(xmlReader.attributes().value("value").toString());
 
-          if (edgePropertiesMap.find(attributeId) != edgePropertiesMap.end()) {
+          if (edgePropertiesMap.contains(attributeId)) {
             edgePropertiesMap[attributeId]->setEdgeStringValue(e, attributeStrValue);
           }
         }

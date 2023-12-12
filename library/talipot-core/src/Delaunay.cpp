@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -114,17 +114,17 @@ static bool runQHull(int dim, vector<double> &points, vector<pair<uint, uint>> &
         pair edge2 = {min(pointId1, pointId2), max(pointId1, pointId2)};
         pair edge3 = {min(pointId2, pointId0), max(pointId2, pointId0)};
 
-        if (placedEdges.find(edge1) == placedEdges.end()) {
+        if (!placedEdges.contains(edge1)) {
           edges.push_back(edge1);
           placedEdges.insert(edge1);
         }
 
-        if (placedEdges.find(edge2) == placedEdges.end()) {
+        if (!placedEdges.contains(edge2)) {
           edges.push_back(edge2);
           placedEdges.insert(edge2);
         }
 
-        if (placedEdges.find(edge3) == placedEdges.end()) {
+        if (!placedEdges.contains(edge3)) {
           edges.push_back(edge3);
           placedEdges.insert(edge3);
         }
@@ -140,17 +140,17 @@ static bool runQHull(int dim, vector<double> &points, vector<pair<uint, uint>> &
           pair edge5 = {min(pointId1, pointId3), max(pointId1, pointId3)};
           pair edge6 = {min(pointId2, pointId3), max(pointId2, pointId3)};
 
-          if (placedEdges.find(edge4) == placedEdges.end()) {
+          if (!placedEdges.contains(edge4)) {
             edges.push_back(edge4);
             placedEdges.insert(edge4);
           }
 
-          if (placedEdges.find(edge5) == placedEdges.end()) {
+          if (!placedEdges.contains(edge5)) {
             edges.push_back(edge5);
             placedEdges.insert(edge5);
           }
 
-          if (placedEdges.find(edge6) == placedEdges.end()) {
+          if (!placedEdges.contains(edge6)) {
             edges.push_back(edge6);
             placedEdges.insert(edge6);
           }
@@ -543,7 +543,7 @@ bool tlp::voronoiDiagram(vector<Coord> &sites, VoronoiDiagram &voronoiDiagram) {
 
       uint circumCenterIdx = 0;
 
-      if (circumCenterToIdx.find(circumCenterPos) != circumCenterToIdx.end()) {
+      if (circumCenterToIdx.contains(circumCenterPos)) {
         circumCenterIdx = circumCenterToIdx[circumCenterPos];
       } else {
         // add the voronoi vertex in the voronoi diagram

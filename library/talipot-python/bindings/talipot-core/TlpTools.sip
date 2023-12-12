@@ -42,14 +42,14 @@ namespace tlp {
 
 void setGlobalVar(const std::string &varName, const std::string &value) {
   initGlobalVars();
-  if (talipotGlobalVars.find(varName) != talipotGlobalVars.end()) {
+  if (talipotGlobalVars.contains(varName)) {
     *talipotGlobalVars[varName] = value;
   }
 }
 
 std::string getGlobalVar(const std::string &varName) {
   initGlobalVars();
-  if (talipotGlobalVars.find(varName) != talipotGlobalVars.end()) {
+  if (talipotGlobalVars.contains(varName)) {
     return *talipotGlobalVars[varName];
   } else {
     return "";

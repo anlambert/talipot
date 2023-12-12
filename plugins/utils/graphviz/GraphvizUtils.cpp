@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -770,7 +770,7 @@ bool decodeGraphvizColor(Color &outColor, const string &inValue) {
 
   // x11 name ?
   {
-    if (X11Colors.find(inValue) != X11Colors.end()) {
+    if (X11Colors.contains(inValue)) {
       outColor = X11Colors[inValue];
       return true;
     }

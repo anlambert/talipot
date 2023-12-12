@@ -85,7 +85,7 @@ Coord TalipotToOGDF::getNodeCoordFromOGDFGraphAttr(node nTlp) {
 
 vector<Coord> TalipotToOGDF::getEdgeCoordFromOGDFGraphAttr(edge eTlp) {
   vector<Coord> v;
-  if (ogdfEdges.find(eTlp) != ogdfEdges.end()) {
+  if (ogdfEdges.contains(eTlp)) {
 
     ogdf::edge e = ogdfEdges[eTlp];
 
@@ -153,7 +153,7 @@ void TalipotToOGDF::makeOGDFGraphSimple() {
     auto [src, tgt] = talipotGraph->ends(e);
     auto ee = talipotGraph->existEdge(src, tgt, false);
     // an edge can be a loop and a parallel one
-    if (ogdfEdges.find(e) != ogdfEdges.end()) {
+    if (ogdfEdges.contains(e)) {
       ogdfGraph.delEdge(ogdfEdges[e]);
       ogdfEdges[e] = ogdfEdges[ee];
     }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -652,7 +652,7 @@ void HistogramView::buildHistograms() {
     ostringstream oss;
     oss << "histogram overview for property " << selectedProperties[i];
 
-    if (histogramsMap.find(selectedProperties[i]) == histogramsMap.end()) {
+    if (!histogramsMap.contains(selectedProperties[i])) {
       auto *histoOverview = new Histogram(_histoGraph, edgeAsNodeGraph, edgeToNode,
                                           selectedProperties[i], dataLocation, overviewBLCorner,
                                           OVERVIEW_SIZE, backgroundColor, foregroundColor);
@@ -1003,7 +1003,7 @@ void HistogramView::afterSetNodeValue(PropertyInterface *p, const node n) {
 }
 
 void HistogramView::afterSetEdgeValue(PropertyInterface *p, const edge e) {
-  if (edgeToNode.find(e) == edgeToNode.end()) {
+  if (!edgeToNode.contains(e)) {
     return;
   }
 

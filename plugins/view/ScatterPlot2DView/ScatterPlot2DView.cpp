@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -537,7 +537,7 @@ void ScatterPlot2DView::buildScatterPlotsMatrix() {
               backgroundColor, foregroundColor);
           scatterPlotsMap[overviewsMapKey] = scatterOverview;
 
-          if (scatterPlotsGenMap.find(overviewsMapKey) == scatterPlotsGenMap.end()) {
+          if (!scatterPlotsGenMap.contains(overviewsMapKey)) {
             scatterPlotsGenMap[overviewsMapKey] = false;
           }
         }
@@ -1078,7 +1078,7 @@ void ScatterPlot2DView::afterSetNodeValue(PropertyInterface *p, const node n) {
 }
 
 void ScatterPlot2DView::afterSetEdgeValue(PropertyInterface *p, const edge e) {
-  if (edgeToNode.find(e) == edgeToNode.end()) {
+  if (!edgeToNode.contains(e)) {
     return;
   }
 

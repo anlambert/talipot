@@ -670,9 +670,9 @@ void GeographicViewGraphicsView::createLayoutWithAddresses(const string &address
       progressWidget->setComment("Retrieving latitude and longitude for address : \n" +
                                  tlpStringToQString(addr));
 
-      if (nodeLatLng.find(n) == nodeLatLng.end()) {
+      if (!nodeLatLng.contains(n)) {
 
-        if (addressesLatLngMap.find(addr) != addressesLatLngMap.end()) {
+        if (addressesLatLngMap.contains(addr)) {
           nodeLatLng[n] = addressesLatLngMap[addr];
 
           if (createLatAndLngProps) {
@@ -988,7 +988,7 @@ void GeographicViewGraphicsView::switchViewType() {
         geoViewSize->setNodeValue(n, nodeSize);
       }
 
-      if (nodeLatLng.find(n) != nodeLatLng.end()) {
+      if (nodeLatLng.contains(n)) {
         const auto &[lat, lng] = nodeLatLng[n];
         geoLayout->setNodeValue(n, Coord(lng * 2., latitudeToMercator(lat), 0));
       }
@@ -1044,7 +1044,7 @@ void GeographicViewGraphicsView::switchViewType() {
           geoViewSize->setNodeValue(n, nodeSize);
         }
 
-        if (nodeLatLng.find(n) != nodeLatLng.end()) {
+        if (nodeLatLng.contains(n)) {
           geoLayout->setNodeValue(n, projectLatLngToSphere(nodeLatLng[n], 50));
         }
       }

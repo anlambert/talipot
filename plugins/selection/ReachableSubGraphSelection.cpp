@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -135,7 +135,7 @@ bool ReachableSubGraphSelection::run() {
     // select corresponding edges
     for (auto e : graph->edges()) {
       const auto &[src, tgt] = graph->ends(e);
-      if (reachables.find(src) != reachables.end() && reachables.find(tgt) != reachables.end()) {
+      if (reachables.contains(src) && reachables.contains(tgt)) {
         result->setEdgeValue(e, true);
         ++num_edges;
       }

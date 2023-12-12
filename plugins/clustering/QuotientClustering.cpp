@@ -266,8 +266,7 @@ public:
       for (auto mE : quotientGraph->edges()) {
         edge op(opProp->getEdgeValue(mE));
 
-        if (op.isValid() && edgesToDel.find(mE) == edgesToDel.end() &&
-            edgesToDel.find(op) == edgesToDel.end()) {
+        if (op.isValid() && !edgesToDel.contains(mE) && !edgesToDel.contains(op)) {
           // if the opposite edge viewMetric associated value is greater
           // than the mE associated value than we will keep it instead of mE
           bool opOK = viewMetric->getEdgeValue(mE) < viewMetric->getEdgeValue(op);

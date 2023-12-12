@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -276,7 +276,7 @@ void TreeReingoldAndTilfordExtended::TreeLevelSizing(tlp::node n,
                                                      std::unordered_map<tlp::node, int> &levels) {
   levels[n] = level;
 
-  if (maxSize.find(level) != maxSize.end()) {
+  if (maxSize.contains(level)) {
     if (maxSize[level] < sizes->getNodeValue(n).getH()) {
       maxSize[level] = sizes->getNodeValue(n).getH();
     }

@@ -405,7 +405,7 @@ struct EdgeDirectionFilter {
   EdgeDirectionFilter(const GraphView *graph, node n) : graph(graph), n(n) {}
 
   bool operator()(edge e) {
-    bool seenLoop = loops.find(e) != loops.end();
+    bool seenLoop = loops.contains(e);
     if (graph->source(e) == graph->target(e)) {
       loops.insert(e);
     }

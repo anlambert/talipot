@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,7 +36,7 @@ double StrengthMetric::e(std::unordered_set<tlp::node> &U, std::unordered_set<tl
 
   for (auto n : *A) {
     for (auto n2 : graph->getInOutNodes(n)) {
-      if (B->find(n2) != B->end()) {
+      if (B->contains(n2)) {
         result += 1.0;
       }
     }
@@ -50,7 +50,7 @@ double StrengthMetric::e(const std::unordered_set<tlp::node> &U) {
 
   for (auto u : U) {
     for (auto n : graph->getInOutNodes(u)) {
-      if (U.find(n) != U.end()) {
+      if (U.contains(n)) {
         result += 1.0;
       }
     }
@@ -113,7 +113,7 @@ double StrengthMetric::getEdgeValue(const tlp::edge ee) {
   }
 
   for (auto na : *A) {
-    if (B->find(na) != B->end()) {
+    if (B->contains(na)) {
       Wuv.insert(na);
     }
   }

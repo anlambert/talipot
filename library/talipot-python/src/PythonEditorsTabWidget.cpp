@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -93,7 +93,7 @@ void PythonEditorsTabWidget::indicateErrors(const QMap<QString, QVector<int>> &e
   for (int i = 0; i < count(); ++i) {
     QString moduleFile = getEditor(i)->getFileName();
 
-    if (errorLines.find(moduleFile) != errorLines.end()) {
+    if (errorLines.contains(moduleFile)) {
       const QVector<int> &linesErrorNumbers = errorLines[moduleFile];
       PythonCodeEditor *codeEditor = getEditor(i);
 

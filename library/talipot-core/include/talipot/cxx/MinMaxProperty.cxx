@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -115,7 +115,7 @@ tlp::MinMaxProperty<NodeType, EdgeType, PropType>::computeMinMaxNode(const Graph
   // graph observation is now delayed
   // until we need to do some minmax computation
   // this will minimize the graph loading
-  if (_minMaxNode.find(sgi) == _minMaxNode.end() && _minMaxEdge.find(sgi) == _minMaxEdge.end()) {
+  if (!_minMaxNode.contains(sgi) && !_minMaxEdge.contains(sgi)) {
     // launch graph hierarchy observation
     graph->addListener(this);
   }
@@ -145,7 +145,7 @@ tlp::MinMaxProperty<NodeType, EdgeType, PropType>::computeMinMaxEdge(const Graph
   // graph observation is now delayed
   // until we need to do some minmax computation
   // this will minimize the graph loading time
-  if (_minMaxNode.find(sgi) == _minMaxNode.end() && _minMaxEdge.find(sgi) == _minMaxEdge.end()) {
+  if (!_minMaxNode.contains(sgi) && !_minMaxEdge.contains(sgi)) {
     // launch graph hierarchy observation
     graph->addListener(this);
   }
@@ -299,8 +299,7 @@ void tlp::MinMaxProperty<NodeType, EdgeType, PropType>::treatEvent(const tlp::Ev
         if ((oldV == it->second.first) || (oldV == it->second.second)) {
           _minMaxNode.erase(it);
 
-          if ((_minMaxEdge.find(sgi) == _minMaxEdge.end()) &&
-              (!_needGraphListener || (graph != PropType::graph))) {
+          if ((!_minMaxEdge.contains(sgi)) && (!_needGraphListener || (graph != PropType::graph))) {
             // graph observation is no longer needed
             graph->removeListener(this);
           }
@@ -324,8 +323,7 @@ void tlp::MinMaxProperty<NodeType, EdgeType, PropType>::treatEvent(const tlp::Ev
         if ((oldV == it->second.first) || (oldV == it->second.second)) {
           _minMaxEdge.erase(it);
 
-          if ((_minMaxNode.find(sgi) == _minMaxNode.end()) &&
-              (!_needGraphListener || (graph != PropType::graph))) {
+          if ((!_minMaxNode.contains(sgi)) && (!_needGraphListener || (graph != PropType::graph))) {
             // graph observation is no longer needed
             graph->removeListener(this);
           }

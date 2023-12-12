@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -66,14 +66,14 @@ static std::vector<Coord> computeGraphPoints(const Graph *graph, const std::vect
   for (auto e : edges) {
     if (!selection || selection->getEdgeValue(e)) {
       const auto &[src, tgt] = graph->ends(e);
-      if (processedNodes.find(src) == processedNodes.end()) {
+      if (!processedNodes.contains(src)) {
         gPoints.push_back(layout->getNodeValue(src));
         processedNodes.insert(src);
       }
       for (const Coord &coord : layout->getEdgeValue(e)) {
         gPoints.push_back(coord);
       }
-      if (processedNodes.find(tgt) == processedNodes.end()) {
+      if (!processedNodes.contains(tgt)) {
         gPoints.push_back(layout->getNodeValue(tgt));
         processedNodes.insert(tgt);
       }

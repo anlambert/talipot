@@ -100,7 +100,7 @@ void installSignalHandler(int sig, SigactionHandlerFunc *handler) {
 // if the signal is not treated by our custom handler, call the real signal function
 SignalHandlerFunc *signal(int sig, SignalHandlerFunc *handler) __THROW {
 
-  if (handledSignals.find(sig) != handledSignals.end()) {
+  if (handledSignals.contains(sig)) {
     return SIG_DFL;
   } else {
     // Init function if needed
@@ -118,7 +118,7 @@ SignalHandlerFunc *signal(int sig, SignalHandlerFunc *handler) __THROW {
 // if the signal is not treated by our custom handler, call the real sigset function
 SignalHandlerFunc *sigset(int sig, SignalHandlerFunc *handler) __THROW {
 
-  if (handledSignals.find(sig) != handledSignals.end()) {
+  if (handledSignals.contains(sig)) {
     return SIG_DFL;
   } else {
     // Init function if needed
@@ -136,7 +136,7 @@ SignalHandlerFunc *sigset(int sig, SignalHandlerFunc *handler) __THROW {
 // if the signal is not treated by our custom handler, call the real sigaction function
 int sigaction(int sig, const struct sigaction *act, struct sigaction *oact) __THROW {
 
-  if (handledSignals.find(sig) != handledSignals.end()) {
+  if (handledSignals.contains(sig)) {
     return 0;
   } else {
     // Init function if needed

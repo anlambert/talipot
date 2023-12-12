@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -64,7 +64,7 @@ void GradientManager::init(const std::vector<std::string> &properties) {
 }
 
 ColorScale *GradientManager::getColorScale(const std::string &propertyName) {
-  if (colorScaleMap.find(propertyName) != colorScaleMap.end()) {
+  if (colorScaleMap.contains(propertyName)) {
     return colorScaleMap[propertyName];
   } else {
     return nullptr;

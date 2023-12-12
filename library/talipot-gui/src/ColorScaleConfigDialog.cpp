@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -90,7 +90,7 @@ void ColorScaleConfigDialog::accept() {
     if (_ui->savedColorScalesList->count() > 0 && _ui->savedColorScalesList->currentItem()) {
       QString savedColorScaleId = _ui->savedColorScalesList->currentItem()->text();
 
-      if (talipotImageColorScales.find(savedColorScaleId) != talipotImageColorScales.end()) {
+      if (talipotImageColorScales.contains(savedColorScaleId)) {
         colors = talipotImageColorScales[savedColorScaleId];
       } else {
         Settings::instance().beginGroup("ColorScales");
@@ -211,7 +211,7 @@ void ColorScaleConfigDialog::displaySavedGradientPreview() {
     QString savedColorScaleId = _ui->savedColorScalesList->currentItem()->text();
     bool gradient = true;
 
-    if (talipotImageColorScales.find(savedColorScaleId) != talipotImageColorScales.end()) {
+    if (talipotImageColorScales.contains(savedColorScaleId)) {
       vector<Color> colors = talipotImageColorScales[savedColorScaleId];
       std::reverse(colors.begin(), colors.end());
 
@@ -421,7 +421,7 @@ void ColorScaleConfigDialog::reeditSaveColorScale(QListWidgetItem *savedColorSca
   vector<Color> colorsList;
   bool gradient = true;
 
-  if (talipotImageColorScales.find(savedColorScaleId) != talipotImageColorScales.end()) {
+  if (talipotImageColorScales.contains(savedColorScaleId)) {
     colorsList = talipotImageColorScales[savedColorScaleId];
   } else {
     Settings::instance().beginGroup("ColorScales");

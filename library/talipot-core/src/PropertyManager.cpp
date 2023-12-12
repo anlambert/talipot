@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,11 +49,11 @@ bool PropertyManager::existProperty(const string &str) const {
 }
 //==============================================================
 bool PropertyManager::existLocalProperty(const string &str) const {
-  return localProperties.find(str) != localProperties.end();
+  return localProperties.contains(str);
 }
 //==============================================================
 bool PropertyManager::existInheritedProperty(const string &str) const {
-  return inheritedProperties.find(str) != inheritedProperties.end();
+  return inheritedProperties.contains(str);
 }
 //==============================================================
 void PropertyManager::setLocalProperty(const string &str, PropertyInterface *p) {
@@ -169,7 +169,7 @@ bool PropertyManager::renameLocalProperty(PropertyInterface *prop, const string 
 //==============================================================
 void PropertyManager::setInheritedProperty(const string &str, PropertyInterface *p) {
   if (!existLocalProperty(str)) {
-    bool hasInheritedProperty = inheritedProperties.find(str) != inheritedProperties.end();
+    bool hasInheritedProperty = inheritedProperties.contains(str);
 
     if (p != nullptr) {
       static_cast<GraphAbstract *>(graph)->notifyBeforeAddInheritedProperty(str);

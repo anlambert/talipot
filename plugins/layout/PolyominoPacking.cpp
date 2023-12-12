@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -463,7 +463,7 @@ bool PolyominoPacking::polyominoFits(Polyomino &poly, int x, int y) {
     cell[0] += x;
     cell[1] += y;
 
-    if (pointsSet.find(cell) != pointsSet.end()) {
+    if (pointsSet.contains(cell)) {
       return false;
     }
   }

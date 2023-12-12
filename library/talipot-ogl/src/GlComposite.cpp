@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -98,7 +98,7 @@ void GlComposite::addGlEntity(GlEntity *entity, const string &key) {
 
   bool doSceneTreatment = false;
 
-  if (elements.find(key) == elements.end()) {
+  if (!elements.contains(key)) {
     elements[key] = entity;
     _sortedElements.push_back(entity);
     doSceneTreatment = true;

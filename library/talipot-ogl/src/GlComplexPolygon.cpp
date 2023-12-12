@@ -388,11 +388,11 @@ void GlComplexPolygon::runTessellation() {
         verticesTmp.push_back(p);
 
         // if we did not encounter the vertex so far, add it in the verticesData vector
-        if (vidx.find(p) == vidx.end()) {
+        if (!vidx.contains(p)) {
           vidx[p] = verticesData.size() / nbFloatPerVertex;
-          verticesData.push_back(p[0]);        // x
-          verticesData.push_back(p[1]);        // y
-          verticesData.push_back(p[2]);        // z
+          verticesData.push_back(p[0]); // x
+          verticesData.push_back(p[1]); // y
+          verticesData.push_back(p[2]); // z
           verticesData.push_back(((p[0] - boundingBox[0][0]) / boundingBox.width()) /
                                  textureZoom); // s
           verticesData.push_back(((p[1] - boundingBox[0][1]) / boundingBox.height()) /

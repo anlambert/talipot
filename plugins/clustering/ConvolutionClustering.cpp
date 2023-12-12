@@ -105,7 +105,7 @@ void ConvolutionClustering::autoSetParameter() {
   for (auto itn : graph->nodes()) {
     double tmp = metric->getNodeDoubleValue(itn);
 
-    if (histo.find(tmp) == histo.end()) {
+    if (!histo.contains(tmp)) {
       histo[tmp] = 1;
     } else {
       histo[tmp] += 1;
@@ -196,7 +196,7 @@ vector<double> *ConvolutionClustering::getHistogram() {
   for (auto n : graph->nodes()) {
     int tmp = int((metric->getNodeDoubleValue(n) - minVal) * histosize / maxMinRange);
 
-    if (histogramOfValues.find(tmp) == histogramOfValues.end()) {
+    if (!histogramOfValues.contains(tmp)) {
       histogramOfValues[tmp] = 1;
     } else {
       histogramOfValues[tmp] += 1;

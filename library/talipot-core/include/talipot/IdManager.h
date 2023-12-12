@@ -267,7 +267,7 @@ public:
   ~SGraphIdContainer() = default;
 
   bool isElement(ID_TYPE elt) const {
-    return pos.find(elt) != pos.end();
+    return pos.contains(elt);
   }
 
   uint getPos(ID_TYPE elt) const {

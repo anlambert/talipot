@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -52,7 +52,7 @@ double StrengthClustering::computeMQValue(const vector<unordered_set<node>> &par
     } else {
       pair pp = {srcClustId, tgtClustId};
 
-      if (nbExtraEdges.find(pp) != nbExtraEdges.end()) {
+      if (nbExtraEdges.contains(pp)) {
         nbExtraEdges[pp] += 1;
       } else {
         nbExtraEdges[pp] = 1;
@@ -115,7 +115,7 @@ void StrengthClustering::computeNodePartition(double threshold,
   for (auto e : graph->edges()) {
     const auto &[src, tgt] = graph->ends(e);
 
-    if (singleton.find(src) != singleton.end() && singleton.find(tgt) != singleton.end()) {
+    if (singleton.contains(src) && singleton.contains(tgt)) {
       tmpGraph->addEdge(e);
     }
   }
@@ -132,7 +132,7 @@ void StrengthClustering::computeNodePartition(double threshold,
   for (auto n : tmpGraph->nodes()) {
     double val = connected.getNodeValue(n);
 
-    if (resultIndex.find(val) != resultIndex.end()) {
+    if (resultIndex.contains(val)) {
       result[resultIndex[val]].insert(n);
     } else {
       unordered_set<node> tmp;

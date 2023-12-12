@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -151,7 +151,7 @@ pair<vector<edge>, vector<edge>> SimpleTest::getLoopsAndParallelEdges(const tlp:
         loops.push_back(e);
       }
 
-      if (seenOpposites.find(opposite) != seenOpposites.end()) { // parallel edge
+      if (seenOpposites.contains(opposite)) { // parallel edge
         parallelEdges.push_back(e);
       } else {
         seenOpposites.insert(opposite);

@@ -487,7 +487,7 @@ void addFontToQFontDatabase(const Font &font) {
 }
 
 void removeFontFromQFontDatabase(const string &fontFile) {
-  if (fontIds.find(fontFile) != fontIds.end()) {
+  if (fontIds.contains(fontFile)) {
     QFontDatabase::removeApplicationFont(fontIds[fontFile]);
     fontIds.erase(fontFile);
   }

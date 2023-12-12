@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -434,7 +434,7 @@ void ThresholdInteractor::performSelection(SOMView *view, tlp::Iterator<node> *i
     double nodeValue = currentProperty->getNodeDoubleValue(n);
 
     if (nodeValue <= rightSliderRealValue && nodeValue >= leftSliderRealValue) {
-      if (mappingTab.find(n) != mappingTab.end()) {
+      if (mappingTab.contains(n)) {
         for (auto v : mappingTab[n]) {
           selection->setNodeValue(v, true);
         }

@@ -483,7 +483,7 @@ bool EdgeBundling::run() {
 
       for (auto n : orderedNodes) {
 
-        if ((blockNodes.find(n) == blockNodes.end() || optimizationLevel < 3) &&
+        if ((!blockNodes.contains(n) || optimizationLevel < 3) &&
             (vertexCoverGraph->deg(n) > 0 || optimizationLevel < 2)) {
           bool addOk = true;
 

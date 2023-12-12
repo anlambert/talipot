@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -384,7 +384,7 @@ bool ParallelCoordsAxisBoxPlot::eventFilter(QObject *widget, QEvent *e) {
 
     if (selectedAxis != nullptr) {
       auto *qaxis = dynamic_cast<QuantitativeParallelAxis *>(selectedAxis);
-      if (qaxis && axisBoxPlotMap.find(qaxis) != axisBoxPlotMap.end()) {
+      if (qaxis && axisBoxPlotMap.contains(qaxis)) {
         if (parallelView->getLayoutType() == ParallelCoordinatesDrawing::CIRCULAR) {
           rotateVector(sceneCoords, -(selectedAxis->getRotationAngle()), Z_ROT);
         }

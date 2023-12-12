@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -179,7 +179,7 @@ public:
     };
 
     auto setNodeShapeFunc = [&](node n, const string &nodeVal) {
-      if (shapeMap.find(nodeVal) != shapeMap.end()) {
+      if (shapeMap.contains(nodeVal)) {
         viewShape->setNodeValue(n, shapeMap[nodeVal]);
       }
     };
@@ -230,7 +230,7 @@ public:
     // Utility function to add a node
     unordered_map<Agnode_t *, node> nodeMap;
     auto getTlpNode = [&](Agnode_t *n) {
-      if (nodeMap.find(n) == nodeMap.end()) {
+      if (!nodeMap.contains(n)) {
         node nTlp;
         nodeMap[n] = nTlp = graph->addNode();
         viewLabel->setNodeValue(nTlp, agnameof(n));
@@ -244,7 +244,7 @@ public:
           prop->setNodeDefaultValue(attrDefaultValue);
           prop->setNodeValue(nTlp, attrValue);
 
-          if (!attrValue.empty() && setNodePropertyMap.find(attrName) != setNodePropertyMap.end()) {
+          if (!attrValue.empty() && setNodePropertyMap.contains(attrName)) {
             setNodePropertyMap[attrName](nTlp, attrValue);
           }
         }
@@ -269,7 +269,7 @@ public:
           prop->setEdgeDefaultValue(attrDefaultValue);
           prop->setEdgeValue(eTlp, attrValue);
 
-          if (!attrValue.empty() && setEdgePropertyMap.find(attrName) != setEdgePropertyMap.end()) {
+          if (!attrValue.empty() && setEdgePropertyMap.contains(attrName)) {
             setEdgePropertyMap[attrName](eTlp, attrValue);
           }
         }

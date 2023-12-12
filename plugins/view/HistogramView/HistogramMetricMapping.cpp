@@ -934,7 +934,7 @@ bool HistogramMetricMapping::eventFilter(QObject *widget, QEvent *e) {
         oldCurvePoints.push_back(curve->getLastCurvePoint());
         curveShapeForMapping[oldMappingType] = oldCurvePoints;
 
-        if (curveShapeForMapping.find(mappingType) != curveShapeForMapping.end()) {
+        if (curveShapeForMapping.contains(mappingType)) {
           vector<Coord> curvePoints(curveShapeForMapping[mappingType]);
           curve->setCurveStartPoint(curvePoints[0]);
           curve->setLastCurvePoint(curvePoints[curvePoints.size() - 1]);

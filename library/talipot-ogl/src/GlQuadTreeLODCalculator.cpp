@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -609,7 +609,7 @@ void GlQuadTreeLODCalculator::initCamerasObservers() {
   set<Camera *> treatedCameras;
 
   for (auto *camera : cameras) {
-    if (treatedCameras.find(camera) == treatedCameras.end()) {
+    if (!treatedCameras.contains(camera)) {
       treatedCameras.insert(camera);
       camera->addListener(this);
     }
@@ -620,7 +620,7 @@ void GlQuadTreeLODCalculator::clearCamerasObservers() {
   set<Camera *> treatedCameras;
 
   for (auto *camera : cameras) {
-    if (treatedCameras.find(camera) == treatedCameras.end()) {
+    if (!treatedCameras.contains(camera)) {
       treatedCameras.insert(camera);
       camera->removeListener(this);
     }

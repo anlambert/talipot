@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -91,7 +91,7 @@ bool EqualValueClustering::computeClusters(NumericProperty *prop, bool onNodes, 
         double curValue = prop->getNodeDoubleValue(curNode);
         Graph *sg;
 
-        if (connected || (clusters.find(curValue) == clusters.end())) {
+        if (connected || (!clusters.contains(curValue))) {
           // add a new cluster
           sg = graph->addSubGraph();
           // set its name
@@ -192,7 +192,7 @@ bool EqualValueClustering::computeClusters(NumericProperty *prop, bool onNodes, 
         double curValue = prop->getEdgeDoubleValue(curEdge);
         Graph *sg;
 
-        if (connected || (clusters.find(curValue) == clusters.end())) {
+        if (connected || (!clusters.contains(curValue))) {
           // add a new cluster
           sg = graph->addSubGraph();
           // set its name
@@ -302,7 +302,7 @@ bool EqualValueClustering::computeClusters(PropertyInterface *prop, bool onNodes
         string curValue = prop->getNodeStringValue(curNode);
         Graph *sg;
 
-        if (connected || (clusters.find(curValue) == clusters.end())) {
+        if (connected || (!clusters.contains(curValue))) {
           // add a new cluster
           sg = graph->addSubGraph();
           // set its name
@@ -400,7 +400,7 @@ bool EqualValueClustering::computeClusters(PropertyInterface *prop, bool onNodes
         string curValue = prop->getEdgeStringValue(curEdge);
         Graph *sg;
 
-        if (connected || (clusters.find(curValue) == clusters.end())) {
+        if (connected || (!clusters.contains(curValue))) {
           // add a new cluster
           sg = graph->addSubGraph();
           // set its name

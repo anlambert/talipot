@@ -48,7 +48,7 @@ struct GMLGraphBuilder : public GMLTrue {
   ~GMLGraphBuilder() override = default;
   GMLGraphBuilder(Graph *graph) : _graph(graph) {}
   bool addNode(int id) {
-    if (nodeIndex.find(id) == nodeIndex.end()) {
+    if (!nodeIndex.contains(id)) {
       nodeIndex[id] = _graph->addNode();
     }
 

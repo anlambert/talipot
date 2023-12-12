@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -446,7 +446,7 @@ ColorProperty *SOMView::computePropertyColor(const string &propertyName, double 
   ColorProperty *propColor;
 
   // if don't exist create them
-  if (propertyToColorProperty.find(propertyName) == propertyToColorProperty.end()) {
+  if (!propertyToColorProperty.contains(propertyName)) {
     propColor = new ColorProperty(som);
 
     propertyToColorProperty[propertyName] = propColor;
@@ -735,7 +735,7 @@ void SOMView::removePropertyFromSelection(const string &propertyName) {
   if (selection == propertyName) {
     selection = "";
     refreshSOMMap();
-    assert(propertyToPreviews.find(propertyName) != propertyToPreviews.end());
+    assert(propertyToPreviews.contains(propertyName));
     draw();
   }
 }
@@ -755,8 +755,7 @@ NumericProperty *SOMView::getSelectedPropertyValues() {
 }
 
 ColorProperty *SOMView::getSelectedBaseSOMColors() {
-  if (!selection.empty() &&
-      propertyToColorProperty.find(selection) != propertyToColorProperty.end()) {
+  if (!selection.empty() && propertyToColorProperty.contains(selection)) {
     return propertyToColorProperty[selection];
   } else {
     return nullptr;
@@ -1023,7 +1022,7 @@ void SOMView::selectAllNodesInMask() {
     Observable::holdObservers();
     selection->setAllNodeValue(false);
     for (auto n : mask->getNodesEqualTo(true, som)) {
-      if (mappingTab.find(n) != mappingTab.end()) {
+      if (mappingTab.contains(n)) {
         for (auto v : mappingTab[n]) {
           selection->setNodeValue(v, true);
         }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,7 +22,7 @@ using namespace tlp;
 map<Graph *, NodeMetricSorter *> NodeMetricSorter::instances;
 
 NodeMetricSorter *NodeMetricSorter::instance(Graph *graph) {
-  if (instances.find(graph) == instances.end()) {
+  if (!instances.contains(graph)) {
     instances[graph] = new NodeMetricSorter(graph);
   }
 
@@ -56,7 +56,7 @@ void NodeMetricSorter::cleanupSortNodesForProperty(const std::string &propertyNa
 }
 
 node NodeMetricSorter::getNodeAtRankForProperty(const uint rank, const string &propertyName) {
-  if (nodeSortingMap.find(propertyName) == nodeSortingMap.end()) {
+  if (!nodeSortingMap.contains(propertyName)) {
     sortNodesForProperty(propertyName);
   }
 
@@ -64,7 +64,7 @@ node NodeMetricSorter::getNodeAtRankForProperty(const uint rank, const string &p
 }
 
 uint NodeMetricSorter::getNbValuesForProperty(const string &propertyName) {
-  if (nbValuesPropertyMap.find(propertyName) == nbValuesPropertyMap.end()) {
+  if (!nbValuesPropertyMap.contains(propertyName)) {
     uint count = 0;
     const string &propertyType = graph->getProperty(propertyName)->getTypename();
 
@@ -97,7 +97,7 @@ void NodeMetricSorter::reset() {
 }
 
 uint NodeMetricSorter::getNodeRankForProperty(tlp::node n, const string &propertyName) {
-  if (nodeSortingMap.find(propertyName) == nodeSortingMap.end()) {
+  if (!nodeSortingMap.contains(propertyName)) {
     sortNodesForProperty(propertyName);
   }
 

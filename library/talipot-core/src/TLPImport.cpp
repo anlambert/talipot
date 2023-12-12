@@ -320,7 +320,7 @@ struct TLPGraphBuilder : public TLPTrue {
         const char *startPtr = value.c_str();
         int result = strtol(startPtr, &endPtr, 10);
 
-        if ((endPtr == startPtr) || (clusterIndex.find(result) == clusterIndex.end())) {
+        if ((endPtr == startPtr) || (!clusterIndex.contains(result))) {
           std::stringstream ess;
           ess << "invalid node value for property " << prop->getName();
           parser->errorMsg = ess.str();
@@ -431,7 +431,7 @@ struct TLPGraphBuilder : public TLPTrue {
         result = 0; // use root graph
       }
 
-      if (clusterIndex.find(result) == clusterIndex.end()) {
+      if (!clusterIndex.contains(result)) {
         std::stringstream ess;
         ess << "invalid node value for property " << prop->getName();
         parser->errorMsg = ess.str();

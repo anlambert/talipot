@@ -357,7 +357,7 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
             QString pluginName = line.mid(pos, pos2 - pos);
 
             if (tlpPluginExists(pluginName)) {
-              if (_pluginParametersDataSet.find(fullName) == _pluginParametersDataSet.end()) {
+              if (!_pluginParametersDataSet.contains(fullName)) {
                 _pluginParametersDataSet[fullName] = QHash<QString, QSet<QString>>();
                 _varToPluginName[fullName] = QHash<QString, QString>();
               }
@@ -371,7 +371,7 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
                     param.mid(param.indexOf("(") + 1, param.indexOf(")") - param.indexOf("(") - 1);
                 QString dataSetVarName = varName + "[" + name + "]";
 
-                if (_varToType.find(fullName) == _varToType.end()) {
+                if (!_varToType.contains(fullName)) {
                   _varToType[fullName] = QHash<QString, QString>();
                 }
 
@@ -393,11 +393,11 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
       QVector<QString> types = _apiDb->findTypesContainingDictEntry(funcName);
 
       if (types.size() == 1) {
-        if (_varToType.find(fullName) == _varToType.end()) {
+        if (!_varToType.contains(fullName)) {
           _varToType[fullName] = QHash<QString, QString>();
         }
 
-        if (_varToType[fullName].find(varName) == _varToType[fullName].end()) {
+        if (!_varToType[fullName].contains(varName)) {
           _varToType[fullName][varName] = types.at(0);
         }
       }
@@ -416,7 +416,7 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
         if (pos != -1) {
           QString classEntry = varName.mid(pos + selfPattern.size());
 
-          if (_classContents.find(currentClassName) == _classContents.end()) {
+          if (!_classContents.contains(currentClassName)) {
             _classContents[currentClassName] = QSet<QString>();
           }
 
@@ -440,13 +440,13 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
 
       if (!type.isEmpty()) {
         if (currentClassName.isEmpty()) {
-          if (_varToType.find(fullName) == _varToType.end()) {
+          if (!_varToType.contains(fullName)) {
             _varToType[fullName] = QHash<QString, QString>();
           }
 
           _varToType[fullName][varName] = type;
         } else {
-          if (_classAttributeToType.find(currentClassName) == _classAttributeToType.end()) {
+          if (!_classAttributeToType.contains(currentClassName)) {
             _classAttributeToType[currentClassName] = QHash<QString, QString>();
           }
 
@@ -482,7 +482,7 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
 
       QString type = findTypeForExpr(expr, fullName);
 
-      if (_iteratorType.find(type) != _iteratorType.end()) {
+      if (_iteratorType.contains(type)) {
         type = _iteratorType[type];
       }
 
@@ -496,7 +496,7 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
       }
 
       if (!type.isEmpty()) {
-        if (_varToType.find(fullName) == _varToType.end()) {
+        if (!_varToType.contains(fullName)) {
           _varToType[fullName] = QHash<QString, QString>();
         }
 
@@ -516,13 +516,13 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
       if (!currentClassName.isEmpty()) {
         fullName = currentClassName + "." + fullName;
 
-        if (_varToType.find(fullName) == _varToType.end()) {
+        if (!_varToType.contains(fullName)) {
           _varToType[fullName] = QHash<QString, QString>();
         }
 
         _varToType[fullName]["self"] = currentClassName;
 
-        if (_classContents.find(currentClassName) == _classContents.end()) {
+        if (!_classContents.contains(currentClassName)) {
           _classContents[currentClassName] = QSet<QString>();
         }
 
@@ -553,7 +553,7 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
         _apiDb->addApiEntry(moduleName + "." + withParams);
       }
 
-      if (_functionAutoCompletionList.find(fullName) == _functionAutoCompletionList.end()) {
+      if (!_functionAutoCompletionList.contains(fullName)) {
         _functionAutoCompletionList[fullName] = QSet<QString>();
       }
 
@@ -607,7 +607,7 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
         if (pos2 != -1) {
           QString cType = line.mid(pos + 1, pos2 - pos - 1);
 
-          if (_classBases.find(className) == _classBases.end()) {
+          if (!_classBases.contains(className)) {
             _classBases[className] = QSet<QString>();
           }
 
@@ -622,7 +622,7 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
       } else {
         className = className.mid(6, className.indexOf(':') - 6);
 
-        if (_classBases.find(className) == _classBases.end()) {
+        if (!_classBases.contains(className)) {
           _classBases[className] = QSet<QString>();
         }
       }
@@ -648,7 +648,7 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
         QString type = getPythonTypeNameForGraphProperty(_graph->getRoot(), propName);
 
         if (!type.isEmpty()) {
-          if (_varToType.find(fullName) == _varToType.end()) {
+          if (!_varToType.contains(fullName)) {
             _varToType[fullName] = QHash<QString, QString>();
           }
 
@@ -682,7 +682,7 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
           }
 
           if (!type3.isEmpty()) {
-            if (_varToType.find(fullName) == _varToType.end()) {
+            if (!_varToType.contains(fullName)) {
               _varToType[fullName] = QHash<QString, QString>();
             }
 
@@ -712,7 +712,7 @@ void AutoCompletionDataBase::analyseCurrentScriptCode(const QString &code, const
         }
 
         if (!type3.isEmpty()) {
-          if (_varToType.find(fullName) == _varToType.end()) {
+          if (!_varToType.contains(fullName)) {
             _varToType[fullName] = QHash<QString, QString>();
           }
 
@@ -766,8 +766,8 @@ QString AutoCompletionDataBase::findTypeForExpr(const QString &expr,
 
     for (const QString &p : parts) {
       if (i == 0) {
-        if (_varToType.find(funcName) != _varToType.end()) {
-          if (_varToType[funcName].find(p) != _varToType[funcName].end()) {
+        if (_varToType.contains(funcName)) {
+          if (_varToType[funcName].contains(p)) {
             currentType = _varToType[funcName][p];
             ++i;
             continue;
@@ -815,8 +815,7 @@ QString AutoCompletionDataBase::findTypeForExpr(const QString &expr,
 
   if (currentType.isEmpty()) {
 
-    if (_varToType.find(funcName) != _varToType.end() &&
-        _varToType[funcName].find(expr) != _varToType[funcName].end()) {
+    if (_varToType.contains(funcName) && _varToType[funcName].contains(expr)) {
       currentType = _varToType[funcName][expr];
     } else if (_apiDb->typeExists(expr)) {
       currentType = expr;
@@ -895,7 +894,7 @@ AutoCompletionDataBase::getPluginParametersListIfContext(const QString &context,
                                                          const QString &editedFunction) const {
   QSet<QString> ret;
 
-  if (_pluginParametersDataSet.find(editedFunction) != _pluginParametersDataSet.end()) {
+  if (_pluginParametersDataSet.contains(editedFunction)) {
     int pos = context.lastIndexOf("[");
     QString varName = context.mid(0, pos);
     QString strCollecExpr = "] =";
@@ -1318,7 +1317,7 @@ QSet<QString> AutoCompletionDataBase::getAllDictForType(const QString &type, con
     }
   }
 
-  if (_classContents.find(type) != _classContents.end()) {
+  if (_classContents.contains(type)) {
     for (const QString &entry : _classContents[type]) {
       if (entry.toLower().startsWith(prefix.toLower())) {
         ret.insert(entry);
@@ -1326,7 +1325,7 @@ QSet<QString> AutoCompletionDataBase::getAllDictForType(const QString &type, con
     }
   }
 
-  if (_classBases.find(type) != _classBases.end()) {
+  if (_classBases.contains(type)) {
     for (const QString &baseType : _classBases[type]) {
       if (baseType != type) {
         ret += getAllDictForType(baseType, prefix, false);
@@ -1424,7 +1423,7 @@ QSet<QString> AutoCompletionDataBase::getAutoCompletionListForContext(const QStr
       }
     }
 
-    if (_functionAutoCompletionList.find(editedFunction) != _functionAutoCompletionList.end()) {
+    if (_functionAutoCompletionList.contains(editedFunction)) {
       for (const QString &s : _functionAutoCompletionList[editedFunction]) {
         if (s.toLower().startsWith(cleanContext.toLower())) {
           ret.insert(s);
@@ -1449,8 +1448,7 @@ QSet<QString> AutoCompletionDataBase::getAutoCompletionListForContext(const QStr
       ret = getAllDictForType(type, prefix);
 
       if (type != "tlp" &&
-          ((_varToType.find(editedFunction) != _varToType.end() &&
-            _varToType[editedFunction].find(expr) != _varToType[editedFunction].end()) ||
+          ((_varToType.contains(editedFunction) && _varToType[editedFunction].contains(expr)) ||
            (!_apiDb->typeExists(expr) && _apiDb->getFullTypeName(expr).isEmpty()))) {
         ::erase_if(ret, [](const auto &entry) { return entry[0].isUpper(); });
       }
@@ -1483,7 +1481,7 @@ AutoCompletionDataBase::getParamTypesForMethodOrFunction(const QString &type,
     }
   }
 
-  if (_classBases.find(type) != _classBases.end()) {
+  if (_classBases.contains(type)) {
     for (const QString &baseType : _classBases[type]) {
       if (baseType != type) {
         ret += getParamTypesForMethodOrFunction(baseType, funcName);
@@ -1517,7 +1515,7 @@ QString AutoCompletionDataBase::getReturnTypeForMethodOrFunction(const QString &
   }
 
   if (ret.isEmpty()) {
-    if (_classBases.find(type) != _classBases.end()) {
+    if (_classBases.contains(type)) {
       for (const QString &baseType : _classBases[type]) {
         if (baseType != type) {
           ret = getReturnTypeForMethodOrFunction(baseType, funcName);
@@ -1535,14 +1533,14 @@ QString AutoCompletionDataBase::getReturnTypeForMethodOrFunction(const QString &
 
 QString AutoCompletionDataBase::getClassAttributeType(const QString &className,
                                                       const QString &classAttribute) const {
-  if (_classAttributeToType.find(className) != _classAttributeToType.end()) {
+  if (_classAttributeToType.contains(className)) {
     if (_classAttributeToType[className].find(classAttribute) !=
         _classAttributeToType[className].end()) {
       return _classAttributeToType[className][classAttribute];
     }
   }
 
-  if (_classBases.find(className) != _classBases.end()) {
+  if (_classBases.contains(className)) {
     for (const QString &baseType : _classBases[className]) {
       if (baseType != className) {
         QString ret = getClassAttributeType(baseType, classAttribute);

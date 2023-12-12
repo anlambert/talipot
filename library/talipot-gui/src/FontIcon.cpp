@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -54,7 +54,7 @@ QFont &FontIconEngine::init(const QString &iconName) {
   _iconUtf8Str = tlpStringToQString(IconicFont::getIconUtf8String(iconName.toStdString()));
   // then get font
   QString fontFile = tlpStringToQString(IconicFont::getTTFLocation(iconName.toStdString()));
-  if (qFonts.find(fontFile) == qFonts.end()) {
+  if (!qFonts.contains(fontFile)) {
     // load the font file
     auto fontId = QFontDatabase::addApplicationFont(fontFile);
     if (fontId == -1) {
@@ -207,7 +207,7 @@ const QIcon &FontIcon::icon(const QString &iconName, const QColor &color,
   QString optionsString = getOptionsString(color, colorDisabled, colorActive, colorSelected,
                                            scaleFactor, rotation, translation);
   QString iconCacheKey = iconName + optionsString;
-  if (fontIconsCache.find(iconCacheKey) == fontIconsCache.end()) {
+  if (!fontIconsCache.contains(iconCacheKey)) {
     QIcon icon = QIcon(new FontIconEngine(iconName, options));
     if (rotation != 0) {
       QPixmap pix = icon.pixmap(QSize(128, 128));

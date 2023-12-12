@@ -120,7 +120,7 @@ public:
     unsigned int nbParents = git_commit_parentcount(commit);
     for (unsigned int i = 0; i < nbParents; ++i) {
       const git_oid parentOid = *git_commit_parent_id(commit, i);
-      if (oidNode.find(parentOid) != oidNode.end()) {
+      if (oidNode.contains(parentOid)) {
         // create node for parent commit
         commitsSg->addNodes({oidNode[parentOid], n});
         // connect commit node to parent node

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -491,7 +491,7 @@ void AbstractGlCurve::initShader(const std::string &shaderProgramName,
       curveFragmentShader->compileFromSourceCode(curveFragmentShaderSrc);
     }
 
-    if (curvesShadersMap.find(shaderProgramName) == curvesShadersMap.end()) {
+    if (!curvesShadersMap.contains(shaderProgramName)) {
       curvesShadersMap[shaderProgramName].reset(new GlShaderProgram(shaderProgramName));
       curvesShadersMap[shaderProgramName]->addShaderFromSourceCode(
           Vertex, commonUniformVariables + curveSpecificShaderCode);
@@ -501,8 +501,7 @@ void AbstractGlCurve::initShader(const std::string &shaderProgramName,
       curvesShadersMap[shaderProgramName]->printInfoLog();
     }
 
-    if (canUseGeometryShader &&
-        curvesGeometryShadersMap.find(shaderProgramName) == curvesGeometryShadersMap.end()) {
+    if (canUseGeometryShader && !curvesGeometryShadersMap.contains(shaderProgramName)) {
       auto *polygonShader = new GlShaderProgram(shaderProgramName);
       polygonShader->addShaderFromSourceCode(Vertex,
                                              commonUniformVariables + curveSpecificShaderCode);
@@ -538,7 +537,7 @@ void AbstractGlCurve::initShader(const std::string &shaderProgramName,
       curvesGeometryShadersMap[shaderProgramName].second.reset(lineShader);
     }
 
-    if (curvesBillboardShadersMap.find(shaderProgramName) == curvesBillboardShadersMap.end()) {
+    if (!curvesBillboardShadersMap.contains(shaderProgramName)) {
       curvesBillboardShadersMap[shaderProgramName].reset(new GlShaderProgram(shaderProgramName));
       curvesBillboardShadersMap[shaderProgramName]->addShaderFromSourceCode(
           Vertex, commonUniformVariables + curveSpecificShaderCode);
@@ -641,7 +640,7 @@ void AbstractGlCurve::drawCurve(std::vector<Coord> &controlPoints, const Color &
       geometryBillboardShaders = {p2.first.get(), p2.second.get()};
     }
 
-    if (curveVertexBuffersData.find(nbCurvePoints) == curveVertexBuffersData.end()) {
+    if (!curveVertexBuffersData.contains(nbCurvePoints)) {
       buildCurveVertexBuffers(nbCurvePoints, vboOk);
     }
 

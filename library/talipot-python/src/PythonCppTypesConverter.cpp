@@ -106,7 +106,7 @@ void *convertSipWrapperToCppType(PyObject *sipWrapper, const string &cppTypename
       sipTransferTo(pyObject, pyObject);
       return p;
     }
-  } else if (cppTypenameToSipTypename.find(cppTypename) != cppTypenameToSipTypename.end()) {
+  } else if (cppTypenameToSipTypename.contains(cppTypename)) {
     kTypeDef = sipFindType(cppTypenameToSipTypename.at(cppTypename).c_str());
 
     if (kTypeDef && sipCanConvertToType(pyObject, kTypeDef, transferTo ? 0 : SIP_NOT_NONE)) {
@@ -134,7 +134,7 @@ PyObject *convertCppTypeToSipWrapper(void *cppObj, const string &cppTypename, bo
     } else {
       return sipConvertFromType(cppObj, kTypeDef, nullptr);
     }
-  } else if (cppTypenameToSipTypename.find(cppTypename) != cppTypenameToSipTypename.end()) {
+  } else if (cppTypenameToSipTypename.contains(cppTypename)) {
     kTypeDef = sipFindType(cppTypenameToSipTypename.at(cppTypename).c_str());
 
     if (kTypeDef) {

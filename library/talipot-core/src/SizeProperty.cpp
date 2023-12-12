@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -102,7 +102,7 @@ Size SizeProperty::getMax(const Graph *sg) {
 
   uint sgi = sg->getId();
 
-  if (minMaxOk.find(sgi) == minMaxOk.end()) {
+  if (!minMaxOk.contains(sgi)) {
     minMaxOk[sgi] = false;
   }
 
@@ -120,7 +120,7 @@ Size SizeProperty::getMin(const Graph *sg) {
 
   uint sgi = sg->getId();
 
-  if (minMaxOk.find(sgi) == minMaxOk.end()) {
+  if (!minMaxOk.contains(sgi)) {
     minMaxOk[sgi] = false;
   }
 

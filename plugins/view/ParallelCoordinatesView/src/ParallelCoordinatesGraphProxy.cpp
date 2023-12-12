@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -178,7 +178,7 @@ void ParallelCoordinatesGraphProxy::resetHighlightedElts(const set<uint> &highli
 }
 
 bool ParallelCoordinatesGraphProxy::isDataHighlighted(const uint dataId) {
-  return highlightedElts.find(dataId) != highlightedElts.end();
+  return highlightedElts.contains(dataId);
 }
 
 bool ParallelCoordinatesGraphProxy::highlightedEltsSet() const {

@@ -1560,7 +1560,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
         continue;
       }
 
-      if ((edges.find(src) == edges.end()) || (edges[src].find(tgt) == edges[src].end())) {
+      if ((!edges.contains(src)) || (!edges[src].contains(tgt))) {
         edges[src].insert(tgt);
 
         if (!existEdge(src, tgt).isValid()) {

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -159,7 +159,7 @@ void ParallelCoordinatesDrawing::createAxis(GlWidget *glWidget, GlProgressBar *p
       coord = Coord(0, circleLayoutYOffset, 0.0f);
     }
 
-    if (parallelAxis.find(selectedProp) != parallelAxis.end()) {
+    if (parallelAxis.contains(selectedProp)) {
       axis = (parallelAxis.find(selectedProp))->second;
 
       if (layoutType == PARALLEL) {
@@ -466,7 +466,7 @@ void ParallelCoordinatesDrawing::swapAxis(ParallelAxis *axis1, ParallelAxis *axi
 
 bool ParallelCoordinatesDrawing::getDataIdFromGlEntity(GlEntity *glEntity, uint &dataId) {
 
-  bool dataMatch = glEntitiesDataMap.find(glEntity) != glEntitiesDataMap.end();
+  bool dataMatch = glEntitiesDataMap.contains(glEntity);
 
   if (dataMatch) {
     dataId = glEntitiesDataMap[glEntity];
@@ -477,7 +477,7 @@ bool ParallelCoordinatesDrawing::getDataIdFromGlEntity(GlEntity *glEntity, uint 
 
 bool ParallelCoordinatesDrawing::getDataIdFromAxisPoint(node axisPoint, uint &dataId) {
 
-  bool dataMatch = axisPointsDataMap.find(axisPoint) != axisPointsDataMap.end();
+  bool dataMatch = axisPointsDataMap.contains(axisPoint);
 
   if (dataMatch) {
     dataId = axisPointsDataMap[axisPoint];

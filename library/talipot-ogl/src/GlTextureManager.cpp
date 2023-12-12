@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -131,7 +131,7 @@ bool GlTextureLoader::loadTexture(const string &filename, GlTexture &texture) {
 }
 //====================================================================
 GlTexture GlTextureManager::getTextureInfo(const string &filename) {
-  if (texturesMap.find(filename) != texturesMap.end()) {
+  if (texturesMap.contains(filename)) {
     return (texturesMap)[filename];
   } else {
     return GlTexture();
@@ -139,13 +139,13 @@ GlTexture GlTextureManager::getTextureInfo(const string &filename) {
 }
 //====================================================================
 bool GlTextureManager::existsTexture(const string &filename) {
-  return (texturesMap.find(filename) != texturesMap.end());
+  return (texturesMap.contains(filename));
 }
 //====================================================================
 bool GlTextureManager::loadTexture(const string &filename) {
   glEnable(GL_TEXTURE_2D);
 
-  if (texturesMap.find(filename) != texturesMap.end()) {
+  if (texturesMap.contains(filename)) {
     return true;
   }
 
@@ -198,7 +198,7 @@ bool GlTextureManager::activateTexture(const string &filename, int textureUnit) 
 
   glActiveTexture(GL_TEXTURE0 + textureUnit);
 
-  if (texturesMap.find(filename) == texturesMap.end()) {
+  if (!texturesMap.contains(filename)) {
     loadOk = loadTexture(filename);
   } else {
     glEnable(GL_TEXTURE_2D);

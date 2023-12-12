@@ -85,7 +85,7 @@ public:
       curVal = _it->next();
 
       if (_checkFunctor(curVal)) {
-        if (_flag.find(curVal) == _flag.end()) {
+        if (!_flag.contains(curVal)) {
           _hasNext = true;
           _flag.insert(curVal);
           return;

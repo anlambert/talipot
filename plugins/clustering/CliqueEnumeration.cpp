@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,7 +49,7 @@ node CliqueEnumeration::choosePivot(const set<node> &C) {
   for (auto c : C) {
     uint inter = 0;
     for (auto v : graph->getInOutNodes(c)) {
-      if (C.find(v) != C.end()) {
+      if (C.contains(v)) {
         inter++;
       }
     }
@@ -79,7 +79,7 @@ void CliqueEnumeration::maxCliquePivot(set<node> &P, const vector<node> &R, set<
     set<node> tovisit;
 
     for (auto v : P) {
-      if (neighp.find(v) == neighp.end()) {
+      if (!neighp.contains(v)) {
         tovisit.insert(v);
       }
     }
@@ -174,13 +174,13 @@ bool CliqueEnumeration::run() {
     R.push_back(ordering[i]);
 
     for (uint j = 0; j <= i; ++j) {
-      if (neighu.find(ordering[j]) != neighu.end()) {
+      if (neighu.contains(ordering[j])) {
         X.insert(ordering[j]);
       }
     }
 
     for (uint j = i + 1; j < ordering.size(); ++j) {
-      if (neighu.find(ordering[j]) != neighu.end()) {
+      if (neighu.contains(ordering[j])) {
         P.insert(ordering[j]);
       }
     }

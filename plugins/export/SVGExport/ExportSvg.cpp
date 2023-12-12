@@ -240,7 +240,7 @@ void ExportSvg::addGlowEffect() {
 
 void ExportSvg::addWebFontFromIconName(const string &iconName) {
   std::string fontFile = IconicFont::getWOFF2Location(iconName);
-  if (_base64fontAdded.find(fontFile) == _base64fontAdded.end()) {
+  if (!_base64fontAdded.contains(fontFile)) {
     _base64fontAdded.insert(fontFile);
 
     QFile file(tlpStringToQString(fontFile));
@@ -651,7 +651,7 @@ bool ExportSvg::createEdge(const tlp::EdgeShape::EdgeShapes &type, const vector<
 
   if (bends.empty()) { // If there is no checkpoints, it will be a simple line
     points += " L";
-  } else {             // Otherwise, we draw it according to its type
+  } else { // Otherwise, we draw it according to its type
     vector<Coord> controlPoints;
     controlPoints.push_back(edgeVertice[0]);
     controlPoints.insert(controlPoints.end(), bends.begin(), bends.end());

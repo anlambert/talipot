@@ -263,7 +263,7 @@ void StackWalkerGCC::printCallStack(std::ostream &os, uint maxDepth) {
 
 #ifdef HAVE_BFD
 
-      if (dsoNameStr != "???" && bfdMap.find(dsoNameStr) == bfdMap.end()) {
+      if (dsoNameStr != "???" && !bfdMap.contains(dsoNameStr)) {
         bfdMap[dsoNameStr] = new BfdWrapper(dsoName);
       }
 
@@ -400,7 +400,7 @@ void StackWalkerMinGW::printCallStack(std::ostream &os, uint maxDepth) {
 #ifdef HAVE_BFD
     std::string moduleNameStr(module_name);
 
-    if (bfdMap.find(moduleNameStr) == bfdMap.end()) {
+    if (!bfdMap.contains(moduleNameStr)) {
       bfdMap[moduleNameStr] = new BfdWrapper(module_name);
     }
 

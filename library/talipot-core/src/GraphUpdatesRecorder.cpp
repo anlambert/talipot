@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -197,7 +197,7 @@ void GraphUpdatesRecorder::deleteDefaultValues(
 
 void GraphUpdatesRecorder::recordIncidence(std::unordered_map<node, std::vector<edge>> &incidences,
                                            GraphImpl *g, node n, edge e) {
-  if (incidences.find(n) == incidences.end()) {
+  if (!incidences.contains(n)) {
     auto &incidence = incidences[n] = g->storage.incidence(n);
     // if we got a valid edge, this means that we must record
     // the node incidence before that edge was added (see addEdge)
@@ -218,7 +218,7 @@ void GraphUpdatesRecorder::recordIncidence(std::unordered_map<node, std::vector<
 void GraphUpdatesRecorder::recordIncidence(std::unordered_map<node, std::vector<edge>> &incidences,
                                            GraphImpl *g, node n, const vector<edge> &edges,
                                            uint nbAdded) {
-  if (incidences.find(n) == incidences.end()) {
+  if (!incidences.contains(n)) {
     auto &incidence = incidences[n] = g->storage.incidence(n);
     // we must ensure that the last edges added in gEdges
     // are previously removed from the current node incidence,
@@ -261,8 +261,7 @@ void GraphUpdatesRecorder::recordNewValues(GraphImpl *g) {
     assert(newIdsState == nullptr);
 
     // record ids memento only if needed
-    if ((graphAddedNodes.find(g) != graphAddedNodes.end()) ||
-        (graphAddedEdges.find(g) != graphAddedEdges.end())) {
+    if ((graphAddedNodes.contains(g)) || (graphAddedEdges.contains(g))) {
       newIdsState = root->storage.getIdsMemento();
     }
 
@@ -285,8 +284,7 @@ void GraphUpdatesRecorder::recordNewValues(GraphImpl *g) {
 
     // loop on node oldValues
     for (const auto &[property, recordedValues] : oldValues) {
-      if (recordedValues.recordedNodes &&
-          (oldNodeDefaultValues.find(property) == oldNodeDefaultValues.end())) {
+      if (recordedValues.recordedNodes && (!oldNodeDefaultValues.contains(property))) {
         recordNewNodeValues(property);
       }
     }
@@ -337,8 +335,7 @@ void GraphUpdatesRecorder::recordNewValues(GraphImpl *g) {
 
     // loop on edge oldValues
     for (const auto &[property, recordedValues] : oldValues) {
-      if (recordedValues.recordedEdges &&
-          (oldEdgeDefaultValues.find(property) == oldEdgeDefaultValues.end())) {
+      if (recordedValues.recordedEdges && (!oldEdgeDefaultValues.contains(property))) {
         recordNewEdgeValues(property);
       }
     }
@@ -411,7 +408,7 @@ void GraphUpdatesRecorder::recordNewNodeValues(PropertyInterface *p) {
   bool hasNewValues = false;
 
   // record updated nodes new values
-  if (oldNodeDefaultValues.find(p) != oldNodeDefaultValues.end()) {
+  if (oldNodeDefaultValues.contains(p)) {
     // loop on non default valuated nodes
     for (auto n : p->getNonDefaultValuatedNodes()) {
       nv->copy(n, n, p);
@@ -466,7 +463,7 @@ void GraphUpdatesRecorder::recordNewEdgeValues(PropertyInterface *p) {
   bool hasNewValues = false;
 
   // record updated edges new values
-  if (oldEdgeDefaultValues.find(p) != oldEdgeDefaultValues.end()) {
+  if (oldEdgeDefaultValues.contains(p)) {
     // loop on non default valuated edges
     for (auto e : p->getNonDefaultValuatedEdges()) {
       nv->copy(e, e, p);
@@ -543,7 +540,7 @@ void GraphUpdatesRecorder::restartRecording(Graph *g) {
   }
 
   for (PropertyInterface *prop : g->getLocalObjectProperties()) {
-    if (newProps && (newProps->find(prop) != newProps->end())) {
+    if (newProps && (newProps->contains(prop))) {
       continue;
     }
 
@@ -566,7 +563,7 @@ void GraphUpdatesRecorder::restartRecording(Graph *g) {
   }
 
   for (Graph *sg : g->subGraphs()) {
-    if (!newSubGraphs || newSubGraphs->find(sg) == newSubGraphs->end()) {
+    if (!newSubGraphs || !newSubGraphs->contains(sg)) {
       restartRecording(sg);
     }
   }
@@ -897,11 +894,9 @@ bool GraphUpdatesRecorder::hasUpdates() {
 bool GraphUpdatesRecorder::dontObserveProperty(PropertyInterface *prop) {
   if (!restartAllowed) {
     // check if nothing is yet recorded for prop
-    if ((oldNodeDefaultValues.find(prop) == oldNodeDefaultValues.end()) &&
-        (oldEdgeDefaultValues.find(prop) == oldEdgeDefaultValues.end()) &&
-        (oldValues.find(prop) == oldValues.end()) &&
-        (updatedPropsAddedNodes.find(prop) == updatedPropsAddedNodes.end()) &&
-        (updatedPropsAddedEdges.find(prop) == updatedPropsAddedEdges.end())) {
+    if ((!oldNodeDefaultValues.contains(prop)) && (!oldEdgeDefaultValues.contains(prop)) &&
+        (!oldValues.contains(prop)) && (!updatedPropsAddedNodes.contains(prop)) &&
+        (!updatedPropsAddedEdges.contains(prop))) {
       // prop is no longer observed
       prop->removeListener(this);
       // may be a newly added property
@@ -980,7 +975,7 @@ void GraphUpdatesRecorder::addEdge(Graph *g, edge e) {
 }
 
 void GraphUpdatesRecorder::addEdges(Graph *g, uint nbAdded) {
-  if (graphAddedEdges.find(g) == graphAddedEdges.end()) {
+  if (!graphAddedEdges.contains(g)) {
     graphAddedEdges[g] = {};
   }
 
@@ -1038,7 +1033,7 @@ void GraphUpdatesRecorder::delNode(Graph *g, node n) {
 
   for (PropertyInterface *prop : g->getLocalObjectProperties()) {
     // nothing to record for newly added properties
-    if (newProps && (newProps->find(prop) != newProps->end())) {
+    if (newProps && (newProps->contains(prop))) {
       continue;
     }
 
@@ -1087,7 +1082,7 @@ void GraphUpdatesRecorder::delEdge(Graph *g, edge e) {
   }
 
   const auto &[src, tgt] = g->ends(e);
-  if (deletedEdgesEnds.find(e) == deletedEdgesEnds.end()) {
+  if (!deletedEdgesEnds.contains(e)) {
     if (g == g->getRoot()) {
       // remove from revertedEdges if needed
       if (const auto it = revertedEdges.find(e); it != revertedEdges.end()) {
@@ -1120,7 +1115,7 @@ void GraphUpdatesRecorder::delEdge(Graph *g, edge e) {
   // loop on properties to save the edge's associated values
   for (PropertyInterface *prop : g->getLocalObjectProperties()) {
     // nothing to record for newly added properties
-    if (newProps && (newProps->find(prop) != newProps->end())) {
+    if (newProps && (newProps->contains(prop))) {
       continue;
     }
 
@@ -1164,8 +1159,7 @@ void GraphUpdatesRecorder::reverseEdge(Graph *g, edge e) {
 }
 
 void GraphUpdatesRecorder::beforeSetEnds(Graph *g, edge e) {
-  if ((g == g->getRoot()) && (oldEdgesEnds.find(e) == oldEdgesEnds.end()) &&
-      (addedEdgesEnds.find(e) == addedEdgesEnds.end())) {
+  if ((g == g->getRoot()) && (!oldEdgesEnds.contains(e)) && (!addedEdgesEnds.contains(e))) {
     auto [src, tgt] = g->ends(e);
 
     // if it is a reverted edge
@@ -1318,7 +1312,7 @@ void GraphUpdatesRecorder::propertyRenamed(PropertyInterface *prop) {
       it != addedProperties.end() && (it->second.find(prop) != it->second.end())) {
     return;
   } else {
-    if (renamedProperties.find(prop) == renamedProperties.end()) {
+    if (!renamedProperties.contains(prop)) {
       renamedProperties[prop] = prop->getName();
     }
   }
@@ -1326,12 +1320,12 @@ void GraphUpdatesRecorder::propertyRenamed(PropertyInterface *prop) {
 
 void GraphUpdatesRecorder::beforeSetNodeValue(PropertyInterface *p, node n) {
   // don't record the old value if the default one has been changed
-  if (oldNodeDefaultValues.find(p) != oldNodeDefaultValues.end()) {
+  if (oldNodeDefaultValues.contains(p)) {
     return;
   }
 
   // don't record old values for newly added nodes
-  if (addedNodes.find(n) != addedNodes.end()) {
+  if (addedNodes.contains(n)) {
     if (!restartAllowed) {
       return;
     } else {
@@ -1369,7 +1363,7 @@ void GraphUpdatesRecorder::beforeSetNodeValue(PropertyInterface *p, node n) {
 }
 
 void GraphUpdatesRecorder::beforeSetAllNodeValue(PropertyInterface *p) {
-  if (oldNodeDefaultValues.find(p) == oldNodeDefaultValues.end()) {
+  if (!oldNodeDefaultValues.contains(p)) {
     // first save the already existing value for all non default valuated nodes
     for (auto n : p->getNonDefaultValuatedNodes()) {
       beforeSetNodeValue(p, n);
@@ -1382,12 +1376,12 @@ void GraphUpdatesRecorder::beforeSetAllNodeValue(PropertyInterface *p) {
 
 void GraphUpdatesRecorder::beforeSetEdgeValue(PropertyInterface *p, edge e) {
   // don't record the old value if the default one has been changed
-  if (oldEdgeDefaultValues.find(p) != oldEdgeDefaultValues.end()) {
+  if (oldEdgeDefaultValues.contains(p)) {
     return;
   }
 
   // don't record old value for newly added edge
-  if (addedEdgesEnds.find(e) != addedEdgesEnds.end()) {
+  if (addedEdgesEnds.contains(e)) {
     if (!restartAllowed) {
       return;
     }
@@ -1425,7 +1419,7 @@ void GraphUpdatesRecorder::beforeSetEdgeValue(PropertyInterface *p, edge e) {
 }
 
 void GraphUpdatesRecorder::beforeSetAllEdgeValue(PropertyInterface *p) {
-  if (oldEdgeDefaultValues.find(p) == oldEdgeDefaultValues.end()) {
+  if (!oldEdgeDefaultValues.contains(p)) {
     // first save the already existing value for all non default valuated edges
     for (auto e : p->getNonDefaultValuatedEdges()) {
       beforeSetEdgeValue(p, e);

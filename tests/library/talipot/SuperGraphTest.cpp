@@ -555,25 +555,25 @@ void SuperGraphTest::testPropertiesIteration() {
 
   for (const string &str : graph->getProperties()) {
     if (str.size() == 2) {
-      CPPUNIT_ASSERT(propList1.find(str) != propList1.end());
+      CPPUNIT_ASSERT(propList1.contains(str));
     }
   }
 
   for (const string &str : g2->getProperties()) {
     if (str.size() == 2) {
-      CPPUNIT_ASSERT(propList1.find(str) != propList1.end());
+      CPPUNIT_ASSERT(propList1.contains(str));
     }
   }
 
   for (const string &str : g1->getLocalProperties()) {
     if (str.size() == 2) {
-      CPPUNIT_ASSERT(propList1.find(str) != propList1.end());
+      CPPUNIT_ASSERT(propList1.contains(str));
     }
   }
 
   for (const string &str : g4->getInheritedProperties()) {
     if (str.size() == 2) {
-      CPPUNIT_ASSERT(propList1.find(str) != propList1.end());
+      CPPUNIT_ASSERT(propList1.contains(str));
     }
   }
 
@@ -584,36 +584,31 @@ void SuperGraphTest::testPropertiesIteration() {
 
   for (const string &str : graph->getProperties()) {
     if (str.size() == 2) {
-      CPPUNIT_ASSERT(propList1.find(str) != propList1.end() &&
-                     propList2.find(str) == propList2.end());
+      CPPUNIT_ASSERT(propList1.contains(str) && !propList2.contains(str));
     }
   }
 
   for (const string &str : g1->getProperties()) {
     if (str.size() == 2) {
-      CPPUNIT_ASSERT(propList1.find(str) != propList1.end() &&
-                     propList2.find(str) == propList2.end());
+      CPPUNIT_ASSERT(propList1.contains(str) && !propList2.contains(str));
     }
   }
 
   for (const string &str : g2->getProperties()) {
     if (str.size() == 2) {
-      CPPUNIT_ASSERT(propList1.find(str) != propList1.end() ||
-                     propList2.find(str) != propList2.end());
+      CPPUNIT_ASSERT(propList1.contains(str) || propList2.contains(str));
     }
   }
 
   for (const string &str : g3->getProperties()) {
     if (str.size() == 2) {
-      CPPUNIT_ASSERT(propList1.find(str) != propList1.end() ||
-                     propList2.find(str) != propList2.end());
+      CPPUNIT_ASSERT(propList1.contains(str) || propList2.contains(str));
     }
   }
 
   for (const string &str : g4->getProperties()) {
     if (str.size() == 2) {
-      CPPUNIT_ASSERT(propList1.find(str) != propList1.end() ||
-                     propList2.find(str) != propList2.end());
+      CPPUNIT_ASSERT(propList1.contains(str) || propList2.contains(str));
     }
   }
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -356,7 +356,7 @@ void PixelOrientedView::initPixelView() {
 
   for (size_t i = 0; i < selectedGraphProperties.size(); ++i) {
 
-    if (dataMap.find(selectedGraphProperties[i]) == dataMap.end()) {
+    if (!dataMap.contains(selectedGraphProperties[i])) {
       dataMap[selectedGraphProperties[i]] =
           new GraphDimension(pixelOrientedGraph, selectedGraphProperties[i]);
     } else {
@@ -372,14 +372,14 @@ void PixelOrientedView::initPixelView() {
     ostringstream oss;
     oss << "pixel oriented overview for dimension " << selectedGraphProperties[i];
 
-    if (overviewsMap.find(selectedGraphProperties[i]) == overviewsMap.end()) {
+    if (!overviewsMap.contains(selectedGraphProperties[i])) {
       auto *pixelOrientedOverview = new PixelOrientedOverview(
           dataMap[selectedGraphProperties[i]], pixelOrientedMediator, overviewBLCorner,
           selectedGraphProperties[i], backgroundColor, textColor);
       pixelOrientedOverview->computePixelView();
       overviewsMap[selectedGraphProperties[i]] = pixelOrientedOverview;
 
-      if (overviewGenMap.find(selectedGraphProperties[i]) == overviewGenMap.end()) {
+      if (!overviewGenMap.contains(selectedGraphProperties[i])) {
         overviewGenMap[selectedGraphProperties[i]] = false;
       }
     } else {

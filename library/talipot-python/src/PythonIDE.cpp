@@ -831,7 +831,7 @@ void PythonIDE::loadPythonPlugin() {
 
 bool PythonIDE::loadPythonPlugin(const QString &fileName, bool clear) {
 
-  if (_editedPluginsClassName.find(fileName) != _editedPluginsClassName.end()) {
+  if (_editedPluginsClassName.contains(fileName)) {
     return true;
   }
 

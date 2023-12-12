@@ -157,7 +157,7 @@ public:
         tmp.target = randomNumber(nbNodes - 1);
       }
 
-      if ((myGraph.find(tmp) == myGraph.end()) && (myGraph.size() < nbEdges)) {
+      if ((!myGraph.contains(tmp)) && (myGraph.size() < nbEdges)) {
         myGraph.insert(tmp);
       }
     }

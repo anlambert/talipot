@@ -174,7 +174,7 @@ public:
         FTPoint point = subMesh->Point(i);
         Coord p = {point.Xf() / HRESf, point.Yf() / HRESf};
 
-        if (vertexIdx.find(p) == vertexIdx.end()) {
+        if (!vertexIdx.contains(p)) {
           meshBB.expand(p);
           vertices.push_back(p);
           indices.push_back(idx++);

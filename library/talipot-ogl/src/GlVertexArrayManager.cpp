@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -827,7 +827,7 @@ void GlVertexArrayManager::activateQuadEdgeDisplay(GlEdge *glEdge, bool selected
     auto &outlineRenderingIndicesArray =
         selected ? quadsSelectedOutlineRenderingIndicesArray : quadsOutlineRenderingIndicesArray;
 
-    if (outlineRenderingIndicesArray.find(borderWidth) == outlineRenderingIndicesArray.end()) {
+    if (!outlineRenderingIndicesArray.contains(borderWidth)) {
       outlineRenderingIndicesArray[borderWidth] = vector<GLuint>();
     }
 

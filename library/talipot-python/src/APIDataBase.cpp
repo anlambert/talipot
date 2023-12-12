@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -139,7 +139,7 @@ void APIDataBase::addApiEntry(const QString &apiEnt) {
   while (pos != -1) {
     QString type = withoutParams.mid(0, pos);
 
-    if (_dictContent.find(type) == _dictContent.end()) {
+    if (!_dictContent.contains(type)) {
       _dictContent[type] = QSet<QString>();
     }
 
@@ -156,7 +156,7 @@ void APIDataBase::addApiEntry(const QString &apiEnt) {
 
         QString wholeFuncName = type + "." + dictEntry;
 
-        if (_paramTypes.find(wholeFuncName) == _paramTypes.end()) {
+        if (!_paramTypes.contains(wholeFuncName)) {
           _paramTypes[wholeFuncName] = QVector<QVector<QString>>();
         }
 
@@ -190,7 +190,7 @@ QSet<QString> APIDataBase::getTypesList() const {
 QSet<QString> APIDataBase::getDictContentForType(const QString &type, const QString &prefix) const {
   QSet<QString> ret;
 
-  if (_dictContent.find(type) != _dictContent.end()) {
+  if (_dictContent.contains(type)) {
     for (const QString &s : _dictContent[type]) {
       if (s.toLower().startsWith(prefix.toLower())) {
         ret.insert(s);
@@ -204,7 +204,7 @@ QSet<QString> APIDataBase::getDictContentForType(const QString &type, const QStr
 QString APIDataBase::getReturnTypeForMethodOrFunction(const QString &funcName) const {
   QString ret;
 
-  if (_returnType.find(funcName) != _returnType.end()) {
+  if (_returnType.contains(funcName)) {
     ret = _returnType[funcName];
   }
 
@@ -215,7 +215,7 @@ QVector<QVector<QString>>
 APIDataBase::getParamTypesForMethodOrFunction(const QString &funcName) const {
   QVector<QVector<QString>> ret;
 
-  if (_paramTypes.find(funcName) != _paramTypes.end()) {
+  if (_paramTypes.contains(funcName)) {
     ret = _paramTypes[funcName];
   }
 
@@ -223,7 +223,7 @@ APIDataBase::getParamTypesForMethodOrFunction(const QString &funcName) const {
 }
 
 bool APIDataBase::functionExists(const QString &funcName) const {
-  return _paramTypes.find(funcName) != _paramTypes.end();
+  return _paramTypes.contains(funcName);
 }
 
 QVector<QString> APIDataBase::findTypesContainingDictEntry(const QString &dictEntry) const {
@@ -262,7 +262,7 @@ QSet<QString> APIDataBase::getAllDictEntriesStartingWithPrefix(const QString &pr
 }
 
 bool APIDataBase::typeExists(const QString &type) const {
-  return _dictContent.find(type) != _dictContent.end();
+  return _dictContent.contains(type);
 }
 
 QString APIDataBase::getFullTypeName(const QString &t) const {
@@ -280,9 +280,9 @@ QString APIDataBase::getFullTypeName(const QString &t) const {
 }
 
 bool APIDataBase::dictEntryExists(const QString &type, const QString &dictEntry) const {
-  if (_dictContent.find(type) == _dictContent.end()) {
+  if (!_dictContent.contains(type)) {
     return false;
   }
 
-  return _dictContent[type].find(dictEntry) != _dictContent[type].end();
+  return _dictContent[type].contains(dictEntry);
 }

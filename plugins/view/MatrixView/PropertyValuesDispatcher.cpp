@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -174,8 +174,8 @@ void PropertyValuesDispatcher::afterSetAllEdgeValue(tlp::PropertyInterface *sour
 }
 
 void PropertyValuesDispatcher::addLocalProperty(tlp::Graph *g, const std::string &name) {
-  if ((g == _source && _sourceToTargetProperties.find(name) != _sourceToTargetProperties.end()) ||
-      (g == _target && _targetToSourceProperties.find(name) != _targetToSourceProperties.end())) {
+  if ((g == _source && _sourceToTargetProperties.contains(name)) ||
+      (g == _target && _targetToSourceProperties.contains(name))) {
     Observable::holdObservers();
     PropertyInterface *sourceProp = g->getProperty(name);
     afterSetAllNodeValue(sourceProp);

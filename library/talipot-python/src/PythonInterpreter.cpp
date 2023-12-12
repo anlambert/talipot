@@ -484,7 +484,7 @@ bool PythonInterpreter::callFunction(const QString &module, const QString &funct
 }
 
 void PythonInterpreter::addModuleSearchPath(const QString &path, const bool beforeOtherPaths) {
-  if (_currentImportPaths.find(path) == _currentImportPaths.end()) {
+  if (!_currentImportPaths.contains(path)) {
     QString pythonCode;
     QTextStream oss(&pythonCode);
     oss << "import sys\n";
