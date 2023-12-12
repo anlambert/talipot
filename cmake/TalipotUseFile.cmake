@@ -2,6 +2,7 @@
 IF(TalipotUseFile_included)
   RETURN()
 ENDIF(TalipotUseFile_included)
+
 SET(TalipotUseFile_included TRUE)
 
 # ========================================================
@@ -22,8 +23,10 @@ STRING(COMPARE EQUAL "${CMAKE_SIZEOF_VOID_P}" "8" X86_64)
 # Consider *BSD as Linux
 # ========================================================
 STRING(COMPARE EQUAL "${CMAKE_SYSTEM_NAME}" "Linux" LINUX)
+
 IF(NOT LINUX)
   STRING(FIND "${CMAKE_SYSTEM_NAME}" "BSD" BSD_POS)
+
   IF(BSD_POS GREATER -1)
     SET(LINUX TRUE)
     SET(BSD TRUE)
@@ -41,6 +44,7 @@ ENDIF(APPLE)
 # ========================================================
 MACRO(TALIPOT_SET_CXX_FLAGS flag)
   STRING(FIND "${CMAKE_CXX_FLAGS}" "${flag}" FLAG_POS)
+
   IF(${FLAG_POS} EQUAL -1)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${flag}")
   ENDIF()
@@ -48,6 +52,7 @@ ENDMACRO(TALIPOT_SET_CXX_FLAGS)
 
 MACRO(TALIPOT_SET_C_FLAGS flag)
   STRING(FIND "${CMAKE_C_FLAGS}" "${flag}" FLAG_POS)
+
   IF(${FLAG_POS} EQUAL -1)
     SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${flag}")
   ENDIF()
@@ -59,11 +64,14 @@ MACRO(TALIPOT_SET_CACHE_VAR cache_var_name content concat force)
     CACHE ${cache_var_name}
     PROPERTY HELPSTRING)
   STRING(FIND "${${cache_var_name}}" "${content}" CNT_POS)
+
   IF(${CNT_POS} EQUAL -1)
     SET(VAR_VALUE "${content}")
+
     IF(${concat})
       SET(VAR_VALUE "${${cache_var_name}} ${content}")
     ENDIF(${concat})
+
     IF(${force})
       SET(${cache_var_name}
           "${VAR_VALUE}"
@@ -82,22 +90,25 @@ ENDMACRO(
   force)
 
 MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
-
   # ========================================================
   # Operating system preprocessor macros
   # ========================================================
   IF(LINUX)
     ADD_DEFINITIONS("-D_LINUX")
   ENDIF(LINUX)
+
   IF(WIN32)
     ADD_DEFINITIONS("-D_WIN32")
+
     # ensure WIN32 is defined (as it is not the case when compiling with MinGW
     # and C++11 standard activated)
     ADD_DEFINITIONS("-DWIN32")
+
     # ensure math defines (e.g. M_PI) are available (as they have been dropped
     # from C++11 standard)
     ADD_DEFINITIONS("-D_USE_MATH_DEFINES")
   ENDIF(WIN32)
+
   IF(APPLE)
     ADD_DEFINITIONS("-D__APPLE__")
   ENDIF(APPLE)
@@ -130,6 +141,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
   IF(NOT MSVC) # Visual Studio does not recognize these options
     TALIPOT_SET_CXX_FLAGS(
       "-Wall -Wextra -Wunused -Wno-long-long -Wold-style-cast")
+
     IF(NOT APPLE)
       TALIPOT_SET_CXX_FLAGS("-pedantic")
     ENDIF(NOT APPLE)
@@ -138,6 +150,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
       # That compiler flag is required on FreeBSD in order to get a backtrace
       # when Talipot crashes
       SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-omit-frame-pointer")
+
       IF(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8.0
          OR CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 4.8.0)
         # Those flags are required to compile Talipot with gcc >= 4.8 or clang
@@ -145,6 +158,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
         TALIPOT_SET_CXX_FLAGS("-D_GLIBCXX_USE_C99 -fno-omit-frame-pointer")
       ENDIF(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8.0
             OR CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 4.8.0)
+
       # Need to set rpath for the right libstdc++ to use
       IF(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.7.0
          AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9.0)
@@ -153,6 +167,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
         SET(CMAKE_MODULE_LINKER_FLAGS "-Wl,-rpath=/usr/local/lib/gcc48")
       ENDIF(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.7.0
             AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9.0)
+
       IF(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8.0
          AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0.0)
         SET(CMAKE_EXE_LINKER_FLAGS "-Wl,-rpath=/usr/local/lib/gcc49")
@@ -160,6 +175,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
         SET(CMAKE_MODULE_LINKER_FLAGS "-Wl,-rpath=/usr/local/lib/gcc49")
       ENDIF(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8.0
             AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0.0)
+
       IF(CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 5.0.0
          OR CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0.0)
         SET(CMAKE_EXE_LINKER_FLAGS "-Wl,-rpath=/usr/local/lib/gcc5")
@@ -180,6 +196,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
         IF(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.0)
           SET(CMAKE_EXE_LINKER_FLAGS
               "${CMAKE_EXE_LINKER_FLAGS} -Wl,--subsystem,windows")
+
           # GCC 4.4 use double dashes and gcc 4.6 single dashes for this option
           IF(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.6)
             SET(CMAKE_EXE_LINKER_FLAGS
@@ -208,7 +225,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
 
     IF(MSVC)
       IF(${CMAKE_GENERATOR} MATCHES "Visual Studio 9") # Visual studio 2008
-                                                       # needs boost
+        # needs boost
         FIND_PACKAGE(BOOST REQUIRED)
         INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS}
                             ${Boost_INCLUDE_DIRS}/boost/tr1)
@@ -216,13 +233,17 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
 
       # Tells VS to use multiple threads to compile
       TALIPOT_SET_CXX_FLAGS("/MP")
+
       # Makes VS define M_PI
       TALIPOT_SET_CXX_FLAGS("-D_USE_MATH_DEFINES")
+
       # Prevents VS to define min and max macros (name clash with std::min and
       # std::max)
       TALIPOT_SET_CXX_FLAGS("-DNOMINMAX")
+
       # Don't warn about the use of unsafe function
       TALIPOT_SET_CXX_FLAGS("-D_CRT_SECURE_NO_WARNINGS")
+
       # Disable some annoying compiler warnings
       TALIPOT_SET_CXX_FLAGS(
         "/wd4251 /wd4267 /wd4275 /wd4244 /wd4355 /wd4800 /wd4503 /wd4344 /wd4996"
@@ -256,7 +277,6 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
         SET(CMAKE_MODULE_LINKER_FLAGS
             "${CMAKE_MODULE_LINKER_FLAGS} /MACHINE:X86")
       ENDIF(X86_64)
-
     ENDIF(MSVC)
 
     # Need to use response files with MSYS Makefiles and recent CMake version
@@ -267,7 +287,6 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
           TRUE
           CACHE BOOL "" FORCE)
     ENDIF("${CMAKE_GENERATOR}" MATCHES ".*MSYS.*")
-
   ENDIF(WIN32)
 
   # OpenMP (only available with clang starting the 3.7 version with libomp
@@ -276,6 +295,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
      OR CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.7.0
      OR CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 3.7.0)
     FIND_PACKAGE(Threads)
+
     IF(CMAKE_DEBUG_MODE)
       OPTION(TALIPOT_ENABLE_MULTI_THREADING
              "Do you want to enable multithreaded code (debug mode)?" OFF)
@@ -283,6 +303,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
       OPTION(TALIPOT_ENABLE_MULTI_THREADING
              "Do you want to enable multithreaded code?" ON)
     ENDIF()
+
     IF(TALIPOT_ENABLE_MULTI_THREADING)
       # TALIPOT_CXX_THREADS can be set to force the use of the cxx threads
       # regardless the OpenMP availability
@@ -292,6 +313,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
                           OUTPUT_VARIABLE CLANG_VERSION)
           STRING(FIND "${CLANG_VERSION}" "Apple" APPLE_POS)
           STRING(COMPARE EQUAL "${APPLE_POS}" "-1" LLVM_LIBOMP)
+
           # When using LLVM clang , some extra setup is required in order to
           # detect and use OpenMP through the libomp runtime
           IF(LLVM_LIBOMP)
@@ -313,7 +335,9 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
                                   "-L${LLVM_COMPILER_DIR}/../lib" TRUE TRUE)
           ENDIF(LLVM_LIBOMP)
         ENDIF(CLANG)
+
         FIND_PACKAGE(OpenMP)
+
         IF(OPENMP_FOUND)
           SET(CMAKE_CXX_FLAGS_RELEASE
               "${CMAKE_CXX_FLAGS_RELEASE} ${OpenMP_CXX_FLAGS}")
@@ -322,6 +346,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
           SET(CMAKE_CXX_FLAGS_DEBUG
               "${CMAKE_CXX_FLAGS_DEBUG} ${OpenMP_CXX_FLAGS}")
           SET(OPENMP_CXX_FLAGS "${OpenMP_CXX_FLAGS}")
+
           IF(WIN32)
             IF(MSVC)
               SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /openmp")
@@ -340,6 +365,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
         ELSE(OPENMP_FOUND)
           IF(WIN32)
             STRING(COMPARE NOTEQUAL "${OpenMP_C_FLAGS}" "" OMP_CFLAGS)
+
             IF(OMP_CFLAGS)
               # Force setting OpenMP flags on Windows platforms
               SET(CMAKE_CXX_FLAGS_RELEASE
@@ -347,6 +373,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
               SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO
                   "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} ${OpenMP_C_FLAGS}")
               SET(OPENMP_CXX_FLAGS "${OpenMP_C_FLAGS}")
+
               IF(NOT MSVC)
                 SET(CMAKE_SHARED_LINKER_FLAGS
                     "${CMAKE_SHARED_LINKER_FLAGS} ${OpenMP_C_FLAGS}")
@@ -355,6 +382,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
                     "${CMAKE_CXX_STANDARD_LIBRARIES} -lgomp -lpthread")
                 SET(OPENMP_LIBRARIES "-lgomp -lpthread")
               ENDIF(NOT MSVC)
+
               SET(OPENMP_FOUND TRUE)
             ELSE(OMP_CFLAGS)
               MESSAGE(
@@ -378,7 +406,8 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
     OR CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 3.7.0)
 
   IF(APPLE)
-    ADD_DEFINITIONS(-DGL_SILENCE_DEPRECATION)
+    ADD_COMPILE_DEFINITIONS(GL_SILENCE_DEPRECATION)
+
     # Suppress ranlib warnings about static library having no symbols
     SET(CMAKE_C_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
     SET(CMAKE_CXX_ARCHIVE_CREATE
@@ -392,7 +421,6 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
   IF(CMAKE_COMPILER_IS_GNUCXX AND TALIPOT_CODE_COVERAGE)
     TALIPOT_SET_CXX_FLAGS("-fprofile-arcs -ftest-coverage -O0")
   ENDIF(CMAKE_COMPILER_IS_GNUCXX AND TALIPOT_CODE_COVERAGE)
-
 ENDMACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
 
 # for backward compatibility with Talipot < 5.1 for external projects
@@ -403,8 +431,8 @@ ENDMACRO(SET_COMPILER_OPTIONS)
 # Plugin server generation
 FUNCTION(INSTALL)
   IF(TALIPOT_GENERATE_PLUGINSERVER)
-
     CMAKE_PARSE_ARGUMENTS(PLUGIN "" "DESTINATION;COMPONENT" "TARGETS" ${ARGN})
+
     IF(PLUGIN_UNPARSED_ARGUMENTS)
       CMAKE_PARSE_ARGUMENTS(PLUGIN "" "DESTINATION;COMPONENT" "FILES" ${ARGN})
       STRING(REPLACE ${TALIPOT_DIR} "" DEST ${PLUGIN_DESTINATION})
@@ -420,11 +448,13 @@ FUNCTION(INSTALL)
         _INSTALL(DIRECTORY ${PLUGIN_DIRECTORY} DESTINATION
                  ${PLUGIN_DESTINATION})
       ENDIF()
+
       _INSTALL(FILES ${PLUGIN_FILES} DESTINATION ${PLUGIN_DESTINATION})
     ELSE()
       STRING(REPLACE ${TALIPOT_DIR} "" DEST ${PLUGIN_DESTINATION})
       SET(PLUGIN_DESTINATION
           "${CMAKE_BINARY_DIR}/pluginserver/${PLUGIN_COMPONENT}/${DEST}")
+
       FOREACH(TARGET ${PLUGIN_TARGETS})
         IF(MINGW)
           _INSTALL(TARGETS ${PLUGIN_TARGETS} RUNTIME DESTINATION
@@ -457,7 +487,6 @@ ENDMACRO(DISABLE_COMPILER_WARNINGS)
 
 # External libraries macros
 IF(WIN32)
-
   IF(MINGW)
     # get paths to MINGW binaries, libraries and headers
     STRING(REPLACE "ar.exe" "" MINGW_BIN_PATH ${CMAKE_AR})
@@ -469,15 +498,18 @@ IF(WIN32)
   MACRO(TALIPOT_FIND_EXTERNAL_LIB pattern result_var_name)
     UNSET(${result_var_name})
     UNSET(found_paths)
+
     FOREACH(win_path $ENV{CMAKE_LIBRARY_PATH} ${QT_BINARY_DIR}
                      ${MINGW_BIN_PATH} ${CMAKE_LIBRARY_PATH})
       STRING(REPLACE "\\" "/" cmake_path "${win_path}")
       FILE(GLOB match "${cmake_path}/${pattern}")
+
       IF(match)
         GET_FILENAME_COMPONENT(match_absolute "${match}" ABSOLUTE)
         SET(found_paths ${found_paths} ${match_absolute})
       ENDIF(match)
     ENDFOREACH()
+
     IF(found_paths)
       LIST(REMOVE_DUPLICATES found_paths)
       SET(${result_var_name} ${found_paths})
@@ -486,11 +518,13 @@ IF(WIN32)
 
   MACRO(TALIPOT_GET_DLL_NAME_FROM_IMPORT_LIBRARY import_library dll_name)
     UNSET(${dll_name})
+
     IF(MINGW)
       EXECUTE_PROCESS(
         COMMAND ${MINGW_BIN_PATH}/dlltool.exe -I ${import_library}
         OUTPUT_VARIABLE DLL_FILENAME
         ERROR_VARIABLE DLLTOOL_ERROR)
+
       IF(DLLTOOL_ERROR)
         MESSAGE(
           "${import_library} is not a valid import library (likely a copy of the associated dll). \
@@ -500,9 +534,11 @@ Please provide a valid one in order to determine the dll the application depends
         STRING(REPLACE "\n" "" ${dll_name} ${DLL_FILENAME})
       ENDIF(DLLTOOL_ERROR)
     ENDIF(MINGW)
+
     IF(MSVC)
       # Get path of MSVC compiler
       GET_FILENAME_COMPONENT(COMPILER_DIRECTORY ${CMAKE_CXX_COMPILER} DIRECTORY)
+
       # Get root path of Visual Studio
       IF(MSVC14)
         GET_FILENAME_COMPONENT(
@@ -530,24 +566,27 @@ Please provide a valid one in order to determine the dll the application depends
           [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\9.0\\Setup\\VS;ProductDir]
           REALPATH)
       ENDIF()
+
       # Add temporarily some paths to the PATH environment variable in order to
       # locate some dlls needed to run lib.exe command (mspdb*.dll)
       SET(VS_IDE_DIR "${VS_DIR}/Common7/IDE")
       SET(VS_VC_BIN_DIR "${VS_DIR}/VC/bin")
       SET(PATH_BACKUP "$ENV{PATH}")
       SET(ENV{PATH} "${VS_IDE_DIR};${VS_VC_BIN_DIR};$ENV{PATH}")
+
       # Run the lib.exe command to list the content of the library file
       EXECUTE_PROCESS(
         COMMAND ${COMPILER_DIRECTORY}/lib.exe /list ${import_library}
         OUTPUT_VARIABLE LIBRARY_CONTENTS)
+
       # If the library is an import library, lib.exe outputs the associated dll
       # name instead of the object files for a static library
       STRING(REGEX MATCH "[^\r?\n]+\\.dll" ${dll_name} ${LIBRARY_CONTENTS})
+
       # Restore original PATH environment variable value
       SET(ENV{PATH} "${PATH_BACKUP}")
     ENDIF(MSVC)
   ENDMACRO(TALIPOT_GET_DLL_NAME_FROM_IMPORT_LIBRARY)
-
 ENDIF(WIN32)
 
 MACRO(TALIPOT_COPY_TARGET_LIBRARY_POST_BUILD target_name destination)
@@ -649,20 +688,25 @@ INCLUDE(CMakeParseArguments)
 
 MACRO(TALIPOT_ADD_PLUGIN)
   SET(TLP_VERSION ${TalipotVersion})
+
   IF("${TLP_VERSION}" STREQUAL "")
     SET(TLP_VERSION ${TALIPOT_VERSION})
   ENDIF("${TLP_VERSION}" STREQUAL "")
+
   CMAKE_PARSE_ARGUMENTS(PLUGIN "FIXUP_INSTALL" "NAME;INSTALL_DIR" "SRCS;LINKS"
                         ${ARGN})
   SET(PLUGIN_LIB_NAME ${PLUGIN_NAME}-talipot-${TLP_VERSION})
   ADD_LIBRARY(${PLUGIN_LIB_NAME} SHARED ${PLUGIN_SRCS})
   TARGET_LINK_LIBRARIES(${PLUGIN_LIB_NAME} ${PLUGIN_LINKS})
   TALIPOT_INSTALL_PLUGIN(${PLUGIN_LIB_NAME} ${PLUGIN_INSTALL_DIR})
+
   IF(WIN32 AND PLUGIN_FIXUP_INSTALL)
     SET(PLUGIN_DLL "${PLUGIN_LIB_NAME}.dll")
+
     IF(NOT MSVC)
       SET(PLUGIN_DLL "lib${PLUGIN_DLL}")
     ENDIF(NOT MSVC)
+
     # update the list of bundled libs to fixup
     SET_PROPERTY(
       GLOBAL APPEND
