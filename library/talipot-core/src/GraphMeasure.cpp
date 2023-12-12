@@ -141,29 +141,25 @@ uint tlp::minDegree(const Graph *graph) {
 void tlp::clusteringCoefficient(const Graph *graph, tlp::NodeVectorProperty<double> &clusters,
                                 uint maxDepth) {
 
-  TLP_MAP_NODES_AND_INDICES(graph, [&](node n, uint i) {
+  TLP_PARALLEL_MAP_NODES(graph, [&](node n) {
     std::unordered_map<node, bool> reachables;
     markReachableNodes(graph, n, reachables, maxDepth);
-    double nbEdge = 0; // e(N_v)*2$
 
-    auto ite = reachables.end();
-
+    double nbEdges = graph->deg(n);
     for (const auto &[itn, reachable] : reachables) {
       for (auto e : graph->incidence(itn)) {
         auto [eSrc, eTgt] = graph->ends(e);
-
-        if ((reachables.find(eSrc) != ite) && (reachables.find(eTgt) != ite)) {
-          ++nbEdge;
+        if (reachables.contains(eSrc) && reachables.contains(eTgt)) {
+          ++nbEdges;
         }
       }
     }
 
-    double nNode = reachables.size();
-
-    if (reachables.size() > 1) {
-      clusters[i] = nbEdge / (nNode * (nNode - 1));
+    double nbNodes = reachables.size() + 1;
+    if (nbNodes > 1) {
+      clusters[n] = nbEdges / ((nbNodes * (nbNodes - 1)) / 2);
     } else {
-      clusters[i] = 0;
+      clusters[n] = 0;
     }
   });
 }

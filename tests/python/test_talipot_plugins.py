@@ -23,6 +23,7 @@ class TestTalipotPlugins(unittest.TestCase):
                     "plugins/clustering",
                     "plugins/general",
                     "plugins/import",
+                    "plugins/metric",
                     "library/talipot-python",
                 ):
                     tlp.loadPluginsFromDir(os.path.join(talipot_build_dir, pluginsPath))
@@ -156,3 +157,11 @@ class TestTalipotPlugins(unittest.TestCase):
 
     def test_random_general_tree_fixed_size(self):
         self.random_general_tree_test(min_size=1000, max_size=1000, max_degree=5)
+
+    def test_cluster_metric(self):
+        graph = tlp.importGraph("Grid")
+        params = tlp.getDefaultPluginParameters("Cluster", graph)
+        graph.applyDoubleAlgorithm("Cluster", params)
+        for n in graph.nodes():
+            m = graph.deg(n) + 1
+            assert graph["viewMetric"][n] == graph.deg(n) / ((m * (m - 1)) / 2)
