@@ -45,7 +45,7 @@ jobs:
         run: |
           PYTHON_PATH=$(echo '${{ steps.python-install.outputs.python-path }}')
           export PATH=$(cygpath -u "$(dirname $PYTHON_PATH)\Scripts"):$PATH
-          pip install 'sip<6.8' twine wheel
+          pip install sip twine wheel
       - name: Get wheel next dev version
         run: |
           PYTHON_PATH=$(echo '${{ steps.python-install.outputs.python-path }}')

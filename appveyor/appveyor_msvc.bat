@@ -36,7 +36,7 @@ call bootstrap-vcpkg.bat
 
 rem install talipot core build dependencies
 vcpkg install --triplet x64-windows zlib zstd qhull yajl graphviz libgit2 cppunit
-pip install "sip<6.8"
+pip install sip
 
 if "%TALIPOT_BUILD_CORE_ONLY%" == "0" (
   goto install_complete_talipot_build_dependencies

@@ -39,9 +39,7 @@ jobs:
             mingw-w64-x86_64-quazip
             mingw-w64-x86_64-qtwebkit
             mingw-w64-x86_64-python-sphinx
-      - name: Install SIP < 6.8
-        run: |
-          pacman --noconfirm -U https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-sip-6.7.12-1-any.pkg.tar.zst
+            mingw-w64-x86_64-sip
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |

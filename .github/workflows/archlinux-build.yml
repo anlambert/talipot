@@ -64,10 +64,8 @@ jobs:
               fribidi \
               fontconfig \
               python-sphinx \
-              python-pip \
+              sip \
               xorg-server-xvfb
-
-            pip install --break-system-packages 'sip<6.8'
 
             mkdir /talipot_build
             cd /talipot_build
