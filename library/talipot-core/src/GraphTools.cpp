@@ -795,12 +795,12 @@ bool selectShortestPaths(const Graph *const graph, node src, node tgt, ShortestP
   if (!weights) {
     eWeights.setAll(SMALLEST_WEIGHT);
   } else {
-    auto fn = [&](edge e, uint i) {
+    auto fn = [&](edge e) {
       double val(weights->getEdgeValue(e));
 
-      eWeights[i] = val ? val : SMALLEST_WEIGHT;
+      eWeights[e] = val ? val : SMALLEST_WEIGHT;
     };
-    TLP_PARALLEL_MAP_EDGES_AND_INDICES(graph, fn);
+    TLP_PARALLEL_MAP_EDGES(graph, fn);
   }
 
   NodeVectorProperty<double> nodeDistance(graph);

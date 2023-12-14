@@ -138,16 +138,16 @@ void updateLayout(node src, edge e, Graph *graph, LayoutProperty *layout,
 //============================================
 // fix all graph edge to 1 and all grid edge to 0 graph-grid edge 2 edge on the contour of a node 3
 void EdgeBundling::fixEdgeType(EdgeVectorProperty<uint> &ntype) {
-  TLP_PARALLEL_MAP_EDGES_AND_INDICES(graph, [&](edge e, uint i) {
+  TLP_PARALLEL_MAP_EDGES(graph, [&](edge e) {
     if (oriGraph->isElement(e)) {
-      ntype[i] = 1;
+      ntype[e] = 1;
     } else {
       const auto &[src, tgt] = graph->ends(e);
 
       if (oriGraph->isElement(src) || oriGraph->isElement(tgt)) {
-        ntype[i] = 2;
+        ntype[e] = 2;
       } else {
-        ntype[i] = 0;
+        ntype[e] = 0;
       }
     }
   });
@@ -168,21 +168,17 @@ static void computeDik(Dijkstra &dijkstra, const Graph *const vertexCoverGraph,
 }
 //==========================================================================
 void EdgeBundling::computeDistances() {
-  TLP_PARALLEL_MAP_NODES_AND_INDICES(oriGraph, [&](node n, uint i) { computeDistance(n, i); });
+  TLP_PARALLEL_MAP_NODES(oriGraph, [&](node n) { computeDistance(n); });
 }
 //==========================================================================
-void EdgeBundling::computeDistance(node n, uint i) {
+void EdgeBundling::computeDistance(node n) {
   double maxDist = 0;
   Coord nPos = layout->getNodeValue(n);
   for (auto n2 : vertexCoverGraph->getInOutNodes(n)) {
     double dist = (nPos - layout->getNodeValue(n2)).norm();
     maxDist += dist;
   }
-  if (i != UINT_MAX) {
-    (*SortNodes::dist)[i] = maxDist;
-  } else {
-    (*SortNodes::dist)[n] = maxDist;
-  }
+  (*SortNodes::dist)[n] = maxDist;
 }
 //============================================
 
@@ -381,8 +377,8 @@ bool EdgeBundling::run() {
   }
   gridGraph->setName("Grid Graph");
   // remove all original graph edges
-  TLP_PARALLEL_MAP_EDGES_AND_INDICES(graph, [&](edge e, uint i) {
-    if (ntype[i] == 1 && gridGraph->isElement(e)) {
+  TLP_PARALLEL_MAP_EDGES(graph, [&](edge e) {
+    if (ntype[e] == 1 && gridGraph->isElement(e)) {
       gridGraph->delEdge(e);
     }
   });
@@ -422,18 +418,18 @@ bool EdgeBundling::run() {
   //==========================================================
   EdgeVectorProperty<double> mWeights(graph);
   EdgeVectorProperty<double> mWeightsInit(graph);
-  TLP_PARALLEL_MAP_EDGES_AND_INDICES(graph, [&](edge e, uint i) {
+  TLP_PARALLEL_MAP_EDGES(graph, [&](edge e) {
     const auto &[src, tgt] = graph->ends(e);
     const Coord &a = layout->getNodeValue(src);
     const Coord &b = layout->getNodeValue(tgt);
     double abNorm = (a - b).norm();
     double initialWeight = pow(abNorm, longEdges);
 
-    if (ntype[i] == 2 && !edgeNodeOverlap) {
+    if (ntype[e] == 2 && !edgeNodeOverlap) {
       initialWeight = abNorm;
     }
 
-    mWeights[i] = mWeightsInit[i] = initialWeight;
+    mWeights[e] = mWeightsInit[e] = initialWeight;
   });
 
   //==========================================================

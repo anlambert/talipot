@@ -203,19 +203,16 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EdgeT
     if (!norm) {
       switch (direction) {
       case EdgeType::UNDIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(graph,
-                                           [&](const node n, uint i) { deg[i] = graph->deg(n); });
+        TLP_PARALLEL_MAP_NODES(graph, [&](const node n) { deg[n] = graph->deg(n); });
 
         break;
 
       case EdgeType::INV_DIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(graph,
-                                           [&](const node n, uint i) { deg[i] = graph->indeg(n); });
+        TLP_PARALLEL_MAP_NODES(graph, [&](const node n) { deg[n] = graph->indeg(n); });
         break;
 
       case EdgeType::DIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(
-            graph, [&](const node n, uint i) { deg[i] = graph->outdeg(n); });
+        TLP_PARALLEL_MAP_NODES(graph, [&](const node n) { deg[n] = graph->outdeg(n); });
 
         break;
       }
@@ -228,18 +225,18 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EdgeT
 
       switch (direction) {
       case EdgeType::UNDIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(
-            graph, [&](const node n, uint i) { deg[i] = normalization * graph->deg(n); });
+        TLP_PARALLEL_MAP_NODES(graph,
+                               [&](const node n) { deg[n] = normalization * graph->deg(n); });
         break;
 
       case EdgeType::INV_DIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(
-            graph, [&](const node n, uint i) { deg[i] = normalization * graph->indeg(n); });
+        TLP_PARALLEL_MAP_NODES(graph,
+                               [&](const node n) { deg[n] = normalization * graph->indeg(n); });
         break;
 
       case EdgeType::DIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(
-            graph, [&](const node n, uint i) { deg[i] = normalization * graph->outdeg(n); });
+        TLP_PARALLEL_MAP_NODES(graph,
+                               [&](const node n) { deg[n] = normalization * graph->outdeg(n); });
         break;
       }
     }
@@ -247,33 +244,33 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EdgeT
     if (!norm) {
       switch (direction) {
       case EdgeType::UNDIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
+        TLP_PARALLEL_MAP_NODES(graph, [&](const node n) {
           double nWeight = 0.0;
           for (auto e : graph->incidence(n)) {
             nWeight += weights->getEdgeDoubleValue(e);
           }
-          deg[i] = nWeight;
+          deg[n] = nWeight;
         });
         break;
 
       case EdgeType::INV_DIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
+        TLP_PARALLEL_MAP_NODES(graph, [&](const node n) {
           double nWeight = 0.0;
           for (auto e : graph->getInEdges(n)) {
             nWeight += weights->getEdgeDoubleValue(e);
           }
-          deg[i] = nWeight;
+          deg[n] = nWeight;
         });
 
         break;
 
       case EdgeType::DIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
+        TLP_PARALLEL_MAP_NODES(graph, [&](const node n) {
           double nWeight = 0.0;
           for (auto e : graph->getOutEdges(n)) {
             nWeight += weights->getEdgeDoubleValue(e);
           }
-          deg[i] = nWeight;
+          deg[n] = nWeight;
         });
 
         break;
@@ -300,34 +297,34 @@ void tlp::degree(const Graph *graph, tlp::NodeVectorProperty<double> &deg, EdgeT
 
       switch (direction) {
       case EdgeType::UNDIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
+        TLP_PARALLEL_MAP_NODES(graph, [&](const node n) {
           double nWeight = 0.0;
           for (auto e : graph->incidence(n)) {
             nWeight += weights->getEdgeDoubleValue(e);
           }
-          deg[i] = nWeight * normalization;
+          deg[n] = nWeight * normalization;
         });
 
         break;
 
       case EdgeType::INV_DIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
+        TLP_PARALLEL_MAP_NODES(graph, [&](const node n) {
           double nWeight = 0.0;
           for (auto e : graph->getInEdges(n)) {
             nWeight += weights->getEdgeDoubleValue(e);
           }
-          deg[i] = nWeight * normalization;
+          deg[n] = nWeight * normalization;
         });
 
         break;
 
       case EdgeType::DIRECTED:
-        TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
+        TLP_PARALLEL_MAP_NODES(graph, [&](const node n) {
           double nWeight = 0.0;
           for (auto e : graph->getOutEdges(n)) {
             nWeight += weights->getEdgeDoubleValue(e);
           }
-          deg[i] = nWeight * normalization;
+          deg[n] = nWeight * normalization;
         });
 
         break;

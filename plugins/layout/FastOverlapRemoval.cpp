@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -125,14 +125,10 @@ bool FastOverlapRemoval::run() {
     result->setEdgeValue(e, viewLayout->getEdgeValue(e));
   }
 
-  size_t nbNodes = graph->numberOfNodes();
-  const std::vector<node> &nodes = graph->nodes();
-
-  vector<vpsc::Rectangle> nodeRectangles(nbNodes);
-
+  NodeVectorProperty<vpsc::Rectangle> nodeRectangles(graph);
   for (float passIndex = 1; passIndex <= nbPasses; ++passIndex) {
     // initialization
-    TLP_PARALLEL_MAP_NODES_AND_INDICES(graph, [&](const node &curNode, uint i) {
+    TLP_PARALLEL_MAP_NODES(graph, [&](node curNode) {
       Size sz = viewSize->getNodeValue(curNode) * passIndex / float(nbPasses);
       const Coord &pos = viewLayout->getNodeValue(curNode);
       double curRot = viewRot->getNodeValue(curNode);
@@ -146,8 +142,10 @@ bool FastOverlapRemoval::run() {
       double minX = pos.getX() - rotSize.getW() / 2.0;
       double minY = pos.getY() - rotSize.getH() / 2.0;
 
-      nodeRectangles[i] = vpsc::Rectangle(minX, maxX, minY, maxY, xBorder, yBorder);
+      nodeRectangles[curNode] = vpsc::Rectangle(minX, maxX, minY, maxY, xBorder, yBorder);
     });
+
+    size_t nbNodes = graph->numberOfNodes();
 
     // actually apply fast overlap removal
     if (stringCollection.getCurrentString() == "X-Y") {
@@ -158,9 +156,9 @@ bool FastOverlapRemoval::run() {
       removeRectangleOverlapY(nbNodes, nodeRectangles.data(), yBorder);
     }
 
-    for (uint i = 0; i < nbNodes; ++i) {
-      Coord newPos = Coord(nodeRectangles[i].getCentreX(), nodeRectangles[i].getCentreY());
-      LayoutAlgorithm::result->setNodeValue(nodes[i], newPos);
+    for (auto n : graph->nodes()) {
+      Coord newPos = Coord(nodeRectangles[n].getCentreX(), nodeRectangles[n].getCentreY());
+      LayoutAlgorithm::result->setNodeValue(n, newPos);
     }
   }
 
