@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -217,7 +217,7 @@ void RangeSlider::triggerAction(QAbstractSlider::SliderAction action, bool main)
     if ((main && mainControl == UpperHandle) || (!main && altControl == UpperHandle)) {
       up = true;
     }
-    break;
+    [[fallthrough]];
 
   case QAbstractSlider::SliderNoAction:
     no = true;
