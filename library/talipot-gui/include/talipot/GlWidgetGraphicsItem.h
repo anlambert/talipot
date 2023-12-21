@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,6 +15,9 @@
 #define TALIPOT_GL_MAIN_WIDGET_GRAPHICS_ITEM_H
 
 #include <QGraphicsObject>
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+#include <QTime>
+#endif
 
 #include <talipot/config.h>
 
@@ -73,6 +76,9 @@ private:
   bool _redrawNeeded;
   bool _graphChanged;
   int width, height;
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+  QTime _lastClickTime;
+#endif
 };
 }
 

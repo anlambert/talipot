@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2023  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -108,8 +108,18 @@ void GlWidgetGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void GlWidgetGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-  QMouseEvent eventModif(QEvent::MouseButtonPress, event->pos(), event->scenePos(),
-                         event->screenPos(), event->button(), event->buttons(), event->modifiers());
+  auto eventType = QEvent::MouseButtonPress;
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+  // ensure double click events are triggered with Qt6
+  QTime currentTime = QTime::currentTime();
+  if (_lastClickTime.isValid() &&
+      _lastClickTime.msecsTo(currentTime) <= QApplication::doubleClickInterval()) {
+    eventType = QEvent::MouseButtonDblClick;
+  }
+  _lastClickTime = currentTime;
+#endif
+  QMouseEvent eventModif(eventType, event->pos(), event->scenePos(), event->screenPos(),
+                         event->button(), event->buttons(), event->modifiers());
   QApplication::sendEvent(_glWidget, &eventModif);
   event->setAccepted(eventModif.isAccepted());
 }
