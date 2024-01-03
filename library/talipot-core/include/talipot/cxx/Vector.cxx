@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,16 +17,6 @@
 TEMPLATEVECTOR
 VECTORTLP::Vector() {
   tlp::Array<TYPE, SIZE>::fill(0);
-}
-//======================================================
-TEMPLATEVECTOR
-VECTORTLP::Vector(const VECTORTLP &v) {
-  set(v);
-}
-//======================================================
-TEMPLATEVECTOR
-VECTORTLP::Vector(VECTORTLP &&v) {
-  set(v);
 }
 //======================================================
 TEMPLATEVECTOR
@@ -118,8 +108,8 @@ void VECTORTLP::set(const tlp::Vector<TYPE, 3, OTYPE> &v, const TYPE w) {
 }
 //======================================================
 TEMPLATEVECTOR
-void VECTORTLP::set(const tlp::Vector<TYPE, SIZE, OTYPE> &v) {
-  std::copy(v.begin(), v.begin() + SIZE, Array<TYPE, SIZE>::begin());
+void VECTORTLP::set(const VECTORTLP &v) {
+  *this = v;
 }
 //======================================================
 TEMPLATEVECTOR

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -62,9 +62,9 @@ class Vector : public Array<TYPE, SIZE> {
 public:
   Vector();
 
-  Vector(const Vector<TYPE, SIZE, OTYPE, DTYPE> &v);
+  Vector(const VECTOR &v) = default;
 
-  Vector(Vector<TYPE, SIZE, OTYPE, DTYPE> &&v);
+  Vector(VECTOR &&v) = default;
 
   Vector(const Vector<TYPE, SIZE + 1, OTYPE> &v);
 
@@ -96,7 +96,7 @@ public:
 
   void set(const Vector<TYPE, 3, OTYPE> &v, const TYPE w);
 
-  void set(const Vector<TYPE, SIZE, OTYPE> &v);
+  void set(const VECTOR &v);
 
   void set(const Vector<TYPE, SIZE + 1, OTYPE> &v);
 
