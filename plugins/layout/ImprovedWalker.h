@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -141,7 +141,7 @@ tlp::node ImprovedWalker::rightmostChild(tlp::node n) {
 //====================================================================
 tlp::node ImprovedWalker::leftSibling(tlp::node n) {
   tlp::node father = getFather(n);
-  if (!father.isValid() || order[n] <= 1) {
+  if (!father.isValid() || order[n] <= 1 || uint(order[n] - 1) > tree->outdeg(father)) {
     return tlp::node();
   } else {
     return tree->getOutNode(father, order[n] - 1);
