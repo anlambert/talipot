@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,7 +33,10 @@ TalipotToOGDF::TalipotToOGDF(Graph *g, bool importEdgeBends) : talipotGraph(g) {
       // weight field
       ogdf::GraphAttributes::nodeWeight |
       // z coordinate
-      ogdf::GraphAttributes::threeD;
+      ogdf::GraphAttributes::threeD |
+      // required attributes for some OGDF algorithms
+      ogdf::GraphAttributes::nodeStyle | ogdf::GraphAttributes::edgeStyle |
+      ogdf::GraphAttributes::edgeType | ogdf::GraphAttributes::nodeType;
 
   ogdfGraphAttributes = ogdf::GraphAttributes(ogdfGraph, attributes);
 
