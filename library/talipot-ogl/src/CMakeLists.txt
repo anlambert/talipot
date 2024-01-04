@@ -27,7 +27,6 @@ SET(talipot-ogl_LIB_SRCS
     GlGraph.cpp
     GlGraphRenderer.cpp
     GlGraphHighDetailsRenderer.cpp
-    GlGraphLowDetailsRenderer.cpp
     GlGraphInputData.cpp
     GlGraphRenderingParameters.cpp
     GlGraphStaticData.cpp
