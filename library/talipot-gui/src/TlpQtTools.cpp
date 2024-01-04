@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -240,7 +240,7 @@ void initTalipotSoftware(tlp::PluginLoader *loader) {
   initQTypeSerializers();
   // initialize Texture loader
   GlTextureManager::setTextureLoader(new GlTextureFromQImageLoader());
-  // Load plugins
+  // load plugins
   tlp::PluginLibraryLoader::loadPluginsFromDir(
       tlp::TalipotPluginsPath, loader,
       QStringToTlpString(tlp::getPluginLocalInstallationDir()) + "/lib/talipot");
@@ -251,9 +251,16 @@ void initTalipotSoftware(tlp::PluginLoader *loader) {
   tlp::GlyphManager::loadGlyphPlugins();
   tlp::EdgeExtremityGlyphManager::loadGlyphPlugins();
 
-  // Explicitly create a shared OpenGL context to
-  // ensure it is initialized before using it
-  GlOffscreenRenderer::instance().getOpenGLContext();
+  // explicitly create a shared OpenGL context to ensure it is initialized
+  // before using it
+  GlOffscreenRenderer::instance().makeOpenGLContextCurrent();
+  QString glRenderer = reinterpret_cast<const char *>(glGetString(GL_RENDERER));
+  if (glRenderer.startsWith("Mesa Intel(R) HD Graphics")) {
+    // prevent GL_SELECT rendering crash when using the Mesa crocus driver
+    // for legacy Intel GPUs
+    qputenv("DRAW_USE_LLVM", "0");
+  }
+  GlOffscreenRenderer::instance().doneOpenGLContextCurrent();
 
   const auto &fonts = Font::availableFonts();
   for (const auto &itFamily : fonts) {
