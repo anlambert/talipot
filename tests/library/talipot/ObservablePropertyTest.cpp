@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -485,39 +485,3 @@ void ObservablePropertyTest::testNoPropertiesEventsAfterGraphClear() {
   // check that no properties events have been received
   CPPUNIT_ASSERT(pObserver->nbProperties() == 0);
 }
-
-//==========================================================
-CppUnit::Test *ObservablePropertyTest::suite() {
-  auto *suiteOfTests = new CppUnit::TestSuite("Talipot lib : Graph");
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "Add an observer", &ObservablePropertyTest::testAddObserver));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "synchronous setNodeValue", &ObservablePropertyTest::testSynchronousSetNodeValue));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "synchronous setEdgeValue", &ObservablePropertyTest::testSynchronousSetEdgeValue));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "asynchronous setNodeValue", &ObservablePropertyTest::testAsynchronousSetNodeValue));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "asynchronous setEdgeValue", &ObservablePropertyTest::testAsynchronousSetEdgeValue));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "synchronous setAllNodeValue", &ObservablePropertyTest::testSynchronousSetAllNodeValue));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "synchronous setAllEdgeValue", &ObservablePropertyTest::testSynchronousSetAllEdgeValue));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "asynchronous setAllNodeValue", &ObservablePropertyTest::testAsynchronousSetAllNodeValue));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "asynchronous setAllEdgeValue", &ObservablePropertyTest::testAsynchronousSetAllEdgeValue));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "synchronous delete", &ObservablePropertyTest::testSynchronousDelete));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "asynchronous delete", &ObservablePropertyTest::testAsynchronousDelete));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "removeObserver", &ObservablePropertyTest::testRemoveObserver));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "observerWhenRemoveObservable", &ObservablePropertyTest::testObserverWhenRemoveObservable));
-  suiteOfTests->addTest(new CppUnit::TestCaller<ObservablePropertyTest>(
-      "noPropertiesEventsAfterGraphClear",
-      &ObservablePropertyTest::testNoPropertiesEventsAfterGraphClear));
-  return suiteOfTests;
-}
-//==========================================================
