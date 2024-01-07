@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -58,6 +58,8 @@ struct entityWithDistanceCompare {
     return bb1[1][0] - bb1[0][0] <= bb2[1][0] - bb2[0][0];
   }
 };
+
+const GlGraphInputData *entityWithDistanceCompare::inputData = nullptr;
 
 //====================================================
 

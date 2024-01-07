@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -99,3 +99,7 @@ void PropertyInterface::notifyDestroy() {
     sendEvent(evt);
   }
 }
+
+// define key function to ensure dynamic_cast on PropertyEvent type
+// will work across dlopen boundaries
+PropertyEvent::~PropertyEvent() {}

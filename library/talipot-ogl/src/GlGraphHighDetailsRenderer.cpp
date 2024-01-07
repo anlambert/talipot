@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,11 +25,11 @@ namespace tlp {
 /** \brief Storage class for Z ordering
  * Storage class for Z ordering
  */
-struct EntityWithDistance {
+struct GraphEntityWithDistance {
 
-  EntityWithDistance(double dist, EntityLODUnit *entity)
+  GraphEntityWithDistance(double dist, EntityLODUnit *entity)
       : distance(dist), entity(entity), isComplexEntity(false), isNode(false) {}
-  EntityWithDistance(double dist, GraphElementLODUnit *entity, bool isNode)
+  GraphEntityWithDistance(double dist, GraphElementLODUnit *entity, bool isNode)
       : distance(dist), entity(entity), isComplexEntity(true), isNode(isNode) {}
 
   double distance;
@@ -41,9 +41,9 @@ struct EntityWithDistance {
 /** \brief Comparator to order entities with Z
  * Comparator to order entities with Z
  */
-struct entityWithDistanceCompare {
+struct graphEntityWithDistanceCompare {
   static const GlGraphInputData *inputData;
-  bool operator()(const EntityWithDistance &e1, const EntityWithDistance &e2) const {
+  bool operator()(const GraphEntityWithDistance &e1, const GraphEntityWithDistance &e2) const {
 
     // opaque objects have to be drawn first
     if (e1.isComplexEntity && e2.isComplexEntity) {
@@ -108,7 +108,7 @@ struct entityWithDistanceCompare {
   }
 };
 
-const GlGraphInputData *entityWithDistanceCompare::inputData = nullptr;
+const GlGraphInputData *graphEntityWithDistanceCompare::inputData = nullptr;
 
 /** \brief Comparator to order entities with metric to display labels with metric ordering
  * Comparator to order entities with metric to display labels with metric ordering
@@ -364,8 +364,8 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
     }
   } else {
 
-    entityWithDistanceCompare::inputData = inputData;
-    multiset<EntityWithDistance, entityWithDistanceCompare> entitiesSet;
+    graphEntityWithDistanceCompare::inputData = inputData;
+    multiset<GraphEntityWithDistance, graphEntityWithDistanceCompare> entitiesSet;
     const Coord &camPos = camera->getEyes();
 
     if (!selectionDrawActivate || ((selectionType & RenderingNodes) != 0)) {
@@ -382,7 +382,7 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
             (double(middle[0]) - double(camPos[0])) * (double(middle[0]) - double(camPos[0]));
         dist += (double(middle[1]) - double(camPos[1])) * (double(middle[1]) - double(camPos[1]));
         dist += (double(middle[2]) - double(camPos[2])) * (double(middle[2]) - double(camPos[2]));
-        entitiesSet.insert(EntityWithDistance(dist, &it, true));
+        entitiesSet.insert(GraphEntityWithDistance(dist, &it, true));
       }
     }
 
@@ -398,7 +398,7 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
             (double(middle[0]) - double(camPos[0])) * (double(middle[0]) - double(camPos[0]));
         dist += (double(middle[1]) - double(camPos[1])) * (double(middle[1]) - double(camPos[1]));
         dist += (double(middle[2]) - double(camPos[2])) * (double(middle[2]) - double(camPos[2]));
-        entitiesSet.insert(EntityWithDistance(dist, &it, false));
+        entitiesSet.insert(GraphEntityWithDistance(dist, &it, false));
       }
     }
 

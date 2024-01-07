@@ -63,6 +63,15 @@ IF(NOT MSVC AND "${CMAKE_BUILD_TYPE}" STREQUAL "")
       CACHE STRING "" FORCE)
 ENDIF(NOT MSVC AND "${CMAKE_BUILD_TYPE}" STREQUAL "")
 
+STRING(COMPARE EQUAL "${CMAKE_BUILD_TYPE}" "Release" result1)
+STRING(COMPARE EQUAL "${CMAKE_BUILD_TYPE}" "RelWithDebInfo" result2)
+
+IF(${result1} OR ${result2})
+  SET(TalipotBuildIsRelease 1)
+ELSE()
+  SET(TalipotBuildIsRelease 0)
+ENDIF()
+
 # ========================================================
 # Compiler-specific options and definitions
 # ========================================================
@@ -481,15 +490,6 @@ ENDIF()
 # ========================================================
 # Create library/talipot/include/talipot/Release.h base on Release.h.in
 # ========================================================
-STRING(COMPARE EQUAL "${CMAKE_BUILD_TYPE}" "Release" result1)
-STRING(COMPARE EQUAL "${CMAKE_BUILD_TYPE}" "RelWithDebInfo" result2)
-
-IF(${result1} OR ${result2})
-  SET(TalipotBuildIsRelease 1)
-ELSE()
-  SET(TalipotBuildIsRelease 0)
-ENDIF()
-
 CONFIGURE_FILE("library/talipot-core/include/talipot/Release.h.in"
                "library/talipot-core/include/talipot/Release.h")
 

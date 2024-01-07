@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,7 +21,7 @@
 #include <talipot/GlEntity.h>
 #include <talipot/Font.h>
 
-class FTGLPolygonFont;
+class FTPolygonFont;
 class FTOutlineFont;
 
 namespace tlp {
@@ -424,7 +424,7 @@ private:
   Font font;
   int fontSize;
   int renderingMode;
-  FTGLPolygonFont *ftglPolygonFont;
+  FTPolygonFont *ftglPolygonFont;
   FTOutlineFont *ftglOutlineFont;
   Coord centerPosition;
   Coord translationAfterRotation;

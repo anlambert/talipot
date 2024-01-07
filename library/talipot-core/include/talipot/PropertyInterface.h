@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -643,6 +643,8 @@ public:
   PropertyEvent(const PropertyInterface &prop, PropertyEventType propEvtType,
                 EventType evtType = EventType::TLP_MODIFICATION, uint id = UINT_MAX)
       : Event(prop, evtType), evtType(propEvtType), eltId(id) {}
+
+  ~PropertyEvent() override;
 
   PropertyInterface *getProperty() const {
     return static_cast<PropertyInterface *>(sender());
