@@ -224,13 +224,6 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
     ENDIF(NOT MSVC)
 
     IF(MSVC)
-      IF(${CMAKE_GENERATOR} MATCHES "Visual Studio 9") # Visual studio 2008
-        # needs boost
-        FIND_PACKAGE(BOOST REQUIRED)
-        INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS}
-                            ${Boost_INCLUDE_DIRS}/boost/tr1)
-      ENDIF()
-
       # Tells VS to use multiple threads to compile
       TALIPOT_SET_CXX_FLAGS("/MP")
 
