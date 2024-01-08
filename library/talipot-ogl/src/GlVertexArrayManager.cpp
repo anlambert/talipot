@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -274,14 +274,6 @@ void GlVertexArrayManager::setHaveToComputeColor(bool compute) {
   toComputeColor = compute;
 }
 
-// we define a specific templated function to resize a vector<T>
-// in order to avoid numerous unneeded calls to T default constructor
-template <typename T>
-inline void vector_set_size(std::vector<T> &v, uint sz) {
-  assert(v.capacity() >= sz);
-  reinterpret_cast<T **>(&v)[1] = reinterpret_cast<T **>(&v)[0] + sz;
-}
-
 void GlVertexArrayManager::reserveMemoryForGraphElts(uint nbNodes, uint nbEdges) {
   auto nbSelectedNodes =
       inputData->selection()->numberOfNonDefaultValuatedNodes(inputData->graph());
@@ -295,21 +287,15 @@ void GlVertexArrayManager::reserveMemoryForGraphElts(uint nbNodes, uint nbEdges)
   if (!vectorLayoutSizeInit) {
     linesCoordsArray.reserve(2 * nbEdges);
     quadsCoordsArray.reserve(4 * nbEdges);
-    pointsCoordsArray.reserve(nbNodes + nbEdges);
-    // no need to initialize each Coord element
-    vector_set_size<Coord>(pointsCoordsArray, nbNodes + nbEdges);
+    pointsCoordsArray.resize(nbNodes + nbEdges);
     edgeInfosVector.resize(nbEdges);
-
     vectorLayoutSizeInit = true;
   }
 
   if (!vectorColorSizeInit) {
     linesColorsArray.reserve(2 * nbEdges);
     quadsColorsArray.reserve(4 * nbEdges);
-    pointsColorsArray.reserve(nbNodes + nbEdges);
-    // no need to initialize each Color element
-    vector_set_size<Color>(pointsColorsArray, nbNodes + nbEdges);
-
+    pointsColorsArray.resize(nbNodes + nbEdges);
     vectorColorSizeInit = true;
   }
 }
