@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -112,35 +112,9 @@ static void computeCubicBezierPoints(const Coord &p0, const Coord &p1, const Coo
   curvePoints[nbCurvePoints - 1] = p3;
 }
 
-static map<double, vector<double>> tCoeffs;
-static map<double, vector<double>> sCoeffs;
-static map<uint, uint> computedCoefficients;
-
-static void computeCoefficients(double t, uint nbControlPoints) {
-  double s = (1.0 - t);
-  TLP_LOCK_SECTION(computeCoefficients) {
-    auto &tCoeff = tCoeffs[t];
-    auto &sCoeff = sCoeffs[t];
-    // preallocate vectors to avoid heap-use-after-free due to vectors growth
-    // when computing Bézier points with multiple threads
-    tCoeff.reserve(256);
-    sCoeff.reserve(256);
-    if (tCoeff.size() < nbControlPoints) {
-      size_t oldSize = tCoeff.size();
-      for (size_t i = oldSize; i < nbControlPoints; ++i) {
-        tCoeff.push_back(pow(t, double(i)));
-        sCoeff.push_back(pow(s, double(i)));
-      }
-    }
-  }
-  TLP_UNLOCK_SECTION(computeCoefficients);
-}
-
 Coord computeBezierPoint(const vector<Coord> &controlPoints, const float t) {
 
   size_t nbControlPoints = controlPoints.size();
-
-  computeCoefficients(t, nbControlPoints);
 
   Vec3d bezierPoint;
   bezierPoint[0] = bezierPoint[1] = bezierPoint[2] = 0;
@@ -152,8 +126,8 @@ Coord computeBezierPoint(const vector<Coord> &controlPoints, const float t) {
     controlPoint[0] = controlPoints[i][0];
     controlPoint[1] = controlPoints[i][1];
     controlPoint[2] = controlPoints[i][2];
-    bezierPoint += controlPoint * curCoeff * tCoeffs[double(t)][i] *
-                   sCoeffs[double(t)][nbControlPoints - 1 - i];
+    bezierPoint += controlPoint * curCoeff * pow(double(t), double(i)) *
+                   pow(1.0 - double(t), double(nbControlPoints - 1 - i));
     auto c = double(i + 1);
     curCoeff *= (r - c) / c;
   }
