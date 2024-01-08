@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -307,7 +307,7 @@ bool tlp::AbstractProperty<NodeType, EdgeType, PropType>::readNodeDefaultValue(s
 //============================================================
 template <class NodeType, class EdgeType, class PropType>
 bool tlp::AbstractProperty<NodeType, EdgeType, PropType>::readNodeValue(std::istream &iss, node n) {
-  REAL_TYPE(NodeType) val;
+  REAL_TYPE(NodeType) val{};
 
   if (NodeType::readb(iss, val)) {
     nodeProperties.set(n, val);
