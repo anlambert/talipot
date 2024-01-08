@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,7 +40,6 @@ using namespace tlp;
 PluginsCenter::PluginsCenter(QWidget *parent)
     : QWidget(parent), _ui(new Ui::PluginsCenter()), _currentItem(nullptr) {
   _ui->setupUi(this);
-  _ui->pluginsSideList->setCurrentRow(ALL_ROW);
 }
 
 PluginsCenter::~PluginsCenter() {
@@ -196,4 +195,9 @@ vector<PluginsCenter::PluginRef> PluginsCenter::listPlugins(const QString &nameF
   }
 
   return result;
+}
+
+void PluginsCenter::showEvent(QShowEvent *showEvent) {
+  _ui->pluginsSideList->setCurrentRow(ALL_ROW);
+  QWidget::showEvent(showEvent);
 }

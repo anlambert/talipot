@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -43,6 +43,9 @@ class PluginsCenter : public QWidget {
 public:
   explicit PluginsCenter(QWidget *parent = nullptr);
   ~PluginsCenter() override;
+
+protected:
+  void showEvent(QShowEvent *showEvent) override;
 
 public slots:
   void reportPluginErrors(const QMap<QString, QString> &errors);
