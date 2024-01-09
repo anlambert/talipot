@@ -57,6 +57,7 @@ echo "#!/bin/sh" > $APPRUN_FILE
 echo "BUNDLE_DIR=\"\$(dirname \$0)\"" >> $APPRUN_FILE
 echo "export PYTHONHOME=\${BUNDLE_DIR}/usr" >> $APPRUN_FILE
 echo "export TLP_DIR=\${BUNDLE_DIR}/usr/lib" >> $APPRUN_FILE
+echo "export QT_QPA_PLATFORM=xcb" >> $APPRUN_FILE
 echo "\${BUNDLE_DIR}/usr/bin/talipot \$*" >> $APPRUN_FILE
 chmod 755 $APPRUN_FILE
 
