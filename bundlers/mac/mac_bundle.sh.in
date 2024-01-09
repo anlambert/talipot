@@ -124,4 +124,5 @@ sh "${SRC_DIR}/make_dmg.sh" ${APP_NAME} "@TalipotVersion@" "${DEST_DIR}/applicat
 
 # rename dmg
 echo "${APP_NAME}-@TalipotVersion@-macOS-${MACOS_VERSION}.dmg has been successfully generated in ${DEST_DIR}"
-mv ${APP_NAME}-@TalipotVersion@.dmg ${APP_NAME}-@TalipotVersion@-macOS-${MACOS_VERSION}.dmg
+mv ${APP_NAME}-@TalipotVersion@.dmg \
+    ${APP_NAME}-@TalipotVersion@-@CMAKE_HOST_SYSTEM_PROCESSOR@-macOS-${MACOS_VERSION}.dmg
