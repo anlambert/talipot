@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -392,11 +392,8 @@ bool LouvainClustering::run() {
 
   // init other vectors
   init_level();
-  int level = 0;
 
   while (one_level()) {
-    ++level;
-
     auto *new_quotient = tlp::newGraph();
     auto *new_weights = new EdgeVectorProperty<double>(new_quotient);
 
