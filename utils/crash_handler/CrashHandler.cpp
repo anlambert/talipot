@@ -77,7 +77,7 @@ static void dumpStackTrace(StackWalker &sw) {
  */
 #if defined(__unix__) || defined(__APPLE__)
 
-#if defined(__i386__) || defined(__amd64__)
+#if defined(__i386__) || defined(__amd64__) || defined(__arm64__)
 
 #include "UnixSignalInterposer.h"
 
@@ -125,8 +125,10 @@ void dumpStack(int sig, siginfo_t *, void *ucontext) {
   ucontext_t *uc = reinterpret_cast<ucontext_t *>(ucontext);
 #if defined(__i386__)
   void *callerAddress = reinterpret_cast<void *>(uc->uc_mcontext->__ss.__eip);
-#else
+#elif defined(__amd64__)
   void *callerAddress = reinterpret_cast<void *>(uc->uc_mcontext->__ss.__rip);
+#elif defined(__arm64__)
+  void *callerAddress = reinterpret_cast<void *>(uc->uc_mcontext->__ss.__lr);
 #endif
 
 #endif
