@@ -141,6 +141,12 @@ int main(int argc, char **argv) {
   QCoreApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
 #endif
 
+#ifdef Q_OS_LINUX
+  // force use of qt xcb platform plugin as Talipot look and feel on Wayland
+  // is not as great as on X11
+  qputenv("QT_QPA_PLATFORM", "xcb");
+#endif
+
   qInstallMessageHandler(talipotLogger);
   QApplication talipot(argc, argv);
   talipot.setApplicationName("Talipot");
