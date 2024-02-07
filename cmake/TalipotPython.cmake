@@ -62,6 +62,7 @@ ENDIF(APPLE)
 # Ensure that correct Python include path is selected by CMake on Windows
 IF(WIN32)
   SET(CMAKE_INCLUDE_PATH ${PYTHON_HOME_PATH}/include ${CMAKE_INCLUDE_PATH})
+
   # Ensure that correct Python include path and library are selected by CMake on
   # Linux (in case of non standard installation)
 ELSEIF(LINUX)
@@ -105,6 +106,7 @@ IF(MINGW)
       SET(PYTHON_LIBRARY
           ${PYTHON_HOME_PATH}/python${PYTHON_VERSION_NO_DOT}.dll
           CACHE FILEPATH "" FORCE)
+
       # If not, the Python dll is located in %WINDIR%/System32 (when Python is
       # installed for all users)
     ELSE(EXISTS ${PYTHON_HOME_PATH}/python${PYTHON_VERSION_NO_DOT}.dll)
@@ -119,7 +121,6 @@ IF(MINGW)
       ENDIF(NOT WIN_AMD64 OR X64)
     ENDIF(EXISTS ${PYTHON_HOME_PATH}/python${PYTHON_VERSION_NO_DOT}.dll)
   ENDIF(MSYS2_PYTHON)
-
 ENDIF(MINGW)
 
 # Ensure headers correspond to the ones associated to the detected Python
@@ -133,7 +134,7 @@ IF(APPLE)
   ENDIF()
 ENDIF(APPLE)
 
-FIND_PACKAGE(SIP 6.6 REQUIRED)
+FIND_PACKAGE(SIP 6.8.1 REQUIRED)
 
 IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
   SET(TALIPOT_PYTHON_WHEEL_VERSION
@@ -166,7 +167,6 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
   ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
 
   IF(NOT LINUX)
-
     EXECUTE_PROCESS(
       COMMAND ${PYTHON_EXECUTABLE} -c "import wheel"
       RESULT_VARIABLE WHEEL_OK
@@ -175,12 +175,14 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
       COMMAND ${PYTHON_EXECUTABLE} -c "import twine"
       RESULT_VARIABLE TWINE_OK
       OUTPUT_QUIET ERROR_QUIET)
+
     IF(NOT WHEEL_OK EQUAL 0)
       MESSAGE(
         "The 'wheel' Python module has to be installed to generate wheels for "
         "talipot modules.")
       MESSAGE("You can install it through the 'pip' tool ($ pip install wheel)")
     ENDIF(NOT WHEEL_OK EQUAL 0)
+
     IF(NOT TWINE_OK EQUAL 0)
       MESSAGE(
         "The 'twine' Python module has to be installed to upload talipot wheels"
@@ -189,7 +191,6 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
     ENDIF(NOT TWINE_OK EQUAL 0)
 
   ELSE(NOT LINUX)
-
     IF(EXISTS ${PYTHON_HOME_PATH}/../include/python${PYTHON_VERSION}m)
       SET(PYTHON_INCLUDE_DIR
           ${PYTHON_HOME_PATH}/../include/python${PYTHON_VERSION}m
@@ -203,6 +204,7 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
     IF(NOT EXISTS ${PYTHON_HOME_PATH}/wheel)
       EXECUTE_PROCESS(COMMAND ${PYTHON_HOME_PATH}/pip install --upgrade wheel)
     ENDIF(NOT EXISTS ${PYTHON_HOME_PATH}/wheel)
+
     IF(NOT EXISTS ${PYTHON_HOME_PATH}/twine)
       EXECUTE_PROCESS(COMMAND ${PYTHON_HOME_PATH}/pip install --upgrade twine)
     ENDIF(NOT EXISTS ${PYTHON_HOME_PATH}/twine)
@@ -211,7 +213,6 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
     # patched in order for the talipot module to be successfully imported and
     # loaded on every computer. The auditwheel tool has been developed in order
     # to ease that patching task (see https://github.com/pypa/auditwheel).
-
     ADD_CUSTOM_COMMAND(
       TARGET wheel
       POST_BUILD
@@ -235,7 +236,6 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
         COMMENT "Repairing linux talipot test wheel"
         VERBATIM)
     ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-
   ENDIF(NOT LINUX)
 
   # In order to upload the generated wheels, an account must be created on PyPi
@@ -249,14 +249,16 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
   # [pypi] repository: https://upload.pypi.org/legacy/ username: <your user name
   # goes here> password: <your password goes here>
   # ############################################################################
-
   SET(TWINE twine)
+
   IF(EXISTS ${PYTHON_HOME_PATH}/twine)
     SET(TWINE ${PYTHON_HOME_PATH}/twine)
   ENDIF(EXISTS ${PYTHON_HOME_PATH}/twine)
+
   IF(WIN32)
     SET(TWINE ${PYTHON_INCLUDE_DIR}/../Scripts/twine.exe)
   ENDIF(WIN32)
+
   SET(WHEEL_FILES_REGEXP "*${TALIPOT_PYTHON_WHEEL_VERSION}-cp*")
   ADD_CUSTOM_TARGET(
     wheel-upload

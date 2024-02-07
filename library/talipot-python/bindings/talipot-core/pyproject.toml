@@ -2,7 +2,7 @@
 requires = ["sip >=6, <7"]
 build-backend = "sipbuild.api"
 
-[tool.sip.metadata]
+[project]
 name = "talipot"
 
 [tool.sip.project]
