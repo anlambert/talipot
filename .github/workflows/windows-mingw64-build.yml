@@ -9,11 +9,11 @@ jobs:
         shell: msys2 {0}
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
+        uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ github.token }}
       - name: Checkout Talipot code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install mingw64 and Talipot build dependencies
         uses: msys2/setup-msys2@v2
         with:
@@ -50,12 +50,13 @@ jobs:
           ccache_dir=$(ccache -sv | grep "Cache directory" | awk '{print $3}')
           echo "ccache-dir=$ccache_dir" >> $GITHUB_OUTPUT
       - name: Cache files
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.get-cccache-dir.outputs.ccache-dir }}
           key: windows-mingw64-build-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             windows-mingw64-build-ccache
+          save-always: true
       - name: Create build directory
         run: mkdir build
       - name: Configure Talipot build with CMake
@@ -83,9 +84,9 @@ jobs:
         working-directory: ./build
         run: make bundle
       - name: Upload Talipot installer to GitHub Actions artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: Talipot NSIS installers
+          name: Talipot-NSIS-installer
           path: ./build/Talipot*.exe
       - name: Upload Talipot bundle to dev-latest prerelease
         if: github.ref == 'refs/tags/dev-latest'

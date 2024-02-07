@@ -17,11 +17,11 @@ jobs:
             os: flyci-macos-large-latest-m1
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
+        uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ github.token }}
       - name: Checkout Talipot code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Compute environment variable
         run: |
           PYTHON_VERSION_NO_DOT=$(echo $PYTHON_VERSION | sed 's/\.//')
@@ -33,7 +33,7 @@ jobs:
         shell: bash
       - name: Cache files
         if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             /Users/runner/Library/Caches/ccache
@@ -41,6 +41,7 @@ jobs:
           key: ${{ matrix.config.os }}-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             ${{ matrix.config.os }}-ccache-
+          save-always: true
       - name: Install MacPorts
         if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         run: |
@@ -133,9 +134,9 @@ jobs:
         run: make bundle
       - name: Upload Talipot bundle to GitHub Actions artifacts
         if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: Talipot macOS bundles
+          name: Talipot-macOS-bundles-${{ matrix.config.os }}
           path: ./build/Talipot*.dmg
       - name: Upload Talipot bundle to dev-latest prerelease
         if: github.ref == 'refs/tags/dev-latest'

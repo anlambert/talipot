@@ -12,11 +12,11 @@ jobs:
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
+        uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ github.token }}
       - name: Checkout Talipot code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Get wheel next dev version
         run: |
           JSON=$(curl -s 'https://test.pypi.org/pypi/talipot/json')
@@ -50,7 +50,7 @@ jobs:
           echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
         shell: bash
       - name: Cache files
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             /Users/runner/Library/Caches/ccache
@@ -58,6 +58,7 @@ jobs:
           key: macos-wheels-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             ${{ matrix.config.os }}-ccache-
+          save-always: true
       - name: Install MacPorts
         run: |
           curl -LO https://raw.githubusercontent.com/anlambert/macports-ci/master/macports-ci

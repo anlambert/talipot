@@ -16,11 +16,11 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
+        uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ github.token }}
       - name: Checkout Talipot code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install mingw64 and Talipot build dependencies
         uses: msys2/setup-msys2@v2
         with:
@@ -82,7 +82,7 @@ jobs:
           ccache_dir=$(ccache -sv | grep "Cache directory" | awk '{print $3}')
           echo "ccache-dir=$ccache_dir" >> $GITHUB_OUTPUT
       - name: Cache files
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.get-cccache-dir.outputs.ccache-dir }}
           key:
@@ -90,6 +90,7 @@ jobs:
             -${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             windows-wheel-${{ steps.python-install.outputs.python-version }}-build-ccache
+          save-always: true
       - name: Create build directory
         run: mkdir build
       - name: Configure Talipot Python wheel build with CMake
