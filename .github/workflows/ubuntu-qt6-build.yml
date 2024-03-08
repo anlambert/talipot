@@ -2,8 +2,16 @@ name: ubuntu-qt6-build
 on: [push, pull_request]
 jobs:
   ubuntu:
-    name: Talipot Qt6 build on Ubuntu 22.04
-    runs-on: ubuntu-22.04
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Talipot build Qt6 6.2
+            os: ubuntu-22.04
+          - name: Talipot build Qt6 latest
+            os: ubuntu-22.04
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
@@ -11,6 +19,12 @@ jobs:
           access_token: ${{ github.token }}
       - name: Checkout Talipot code
         uses: actions/checkout@v4
+      - if: matrix.config.name == 'Talipot build Qt6 latest'
+        name: Add KDE Neon apt repository to use latest Qt6 release
+        run: |
+          wget -qO - http://archive.neon.kde.org/public.key | sudo apt-key add -
+          sudo add-apt-repository http://archive.neon.kde.org/user/
+          sudo apt update
       - name: Apt update
         run: sudo apt update
       - name: Install Talipot build dependencies
