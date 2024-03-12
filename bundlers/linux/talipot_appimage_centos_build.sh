@@ -27,7 +27,6 @@ yum -y install zlib-devel libzstd-devel qhull-devel yajl-devel \
 yum -y install freetype-devel fontconfig-devel glew-devel fribidi-devel
 yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
   quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing --nobest
-yum -y install openssl3-devel
 
 
 # install Python 3, Sphinx and SIP
