@@ -461,27 +461,10 @@ std::ostream *tlp::getZstdOutputFileStream(const std::string &filename, int comp
 
 //=========================================================
 
-// silent not critical codecvt deprecation warnings
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-string tlp::utf32to8(const u32string &s) {
-  wstring_convert<codecvt_utf8<char32_t>, char32_t> conv;
-  return conv.to_bytes(s);
-}
-
-//=========================================================
-
 wstring tlp::utf8to16(const string &s) {
   wstring_convert<codecvt_utf8_utf16<wchar_t>, wchar_t> conv;
   return conv.from_bytes(s);
 }
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
 
 //=========================================================
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -249,8 +249,6 @@ TLP_SCOPE std::istream *getZstdInputFileStream(const std::string &filename);
  */
 TLP_SCOPE std::ostream *getZstdOutputFileStream(const std::string &filename,
                                                 int compressionLevel = 3);
-
-TLP_SCOPE std::string utf32to8(const std::u32string &s);
 
 TLP_SCOPE std::wstring utf8to16(const std::string &s);
 

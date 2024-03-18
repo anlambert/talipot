@@ -12,7 +12,6 @@
 import json
 import os
 import sys
-
 from collections import defaultdict
 
 talipot_source_dir = sys.argv[1]
@@ -39,6 +38,10 @@ def version_tuple(v):
     if not v:
         return (0, 0, 0)
     return tuple(map(int, (d.split('-')[0] for d in v.split("."))))
+
+
+def to_c_str(codepoint):
+    return str(chr(int(codepoint, 16)).encode('utf-8'))[2:-1]
 
 
 path = os.path.dirname(__file__)
@@ -88,7 +91,7 @@ with open(fa_constants_path, 'w', **open_kwargs) as fa_constants_h:
     fa_constants_h.write(license_header)
     fa_constants = ''
     init_icon_code_points = (
-        'static const unordered_map<const char *, uint, HashString, EqualString> iconCodePoint = {\n'
+        'static const unordered_map<const char *, pair<uint, const char *>, HashString, EqualString> iconCodePoint = {\n'
     )
     for style in sorted(fa_icons.keys()):
         style_upper = style[0].upper() + style[1:]
@@ -102,8 +105,9 @@ with open(fa_constants_path, 'w', **open_kwargs) as fa_constants_h:
                 fa_constants_h.write(
                     '  static const char *%s;\n' % icon_constant_name)
                 init_icon_code_points += (
-                    '  {FontAwesome::%s::%s, 0x%s},\n' %
-                    (style_upper, icon_constant_name, icon_data['unicode']))
+                    '  {FontAwesome::%s::%s, {0x%s, "%s"}},\n' %
+                    (style_upper, icon_constant_name, icon_data['unicode'],
+                     to_c_str(icon_data['unicode'])))
                 fa_constants += ('const char *FontAwesome::%s::%s = "%s";\n' %
                                  (style_upper, icon_constant_name,
                                   icon_name_prefix))
@@ -163,15 +167,15 @@ with open(md_constants_path, 'w',
     md_constants_h.write(license_header)
     md_constants = ''
     init_icon_code_points = (
-        'static const unordered_map<const char *, uint, HashString, EqualString> iconCodePoint = {\n'
+        'static const unordered_map<const char *, pair<uint, const char *>, HashString, EqualString> iconCodePoint = {\n'
     )
     for icon in md_data:
         icon_constant_name = to_upper_style(icon['name'])
         md_constants_h.write(
             'static const char *%s;\n' % icon_constant_name)
         init_icon_code_points += (
-            '  {MaterialDesignIcons::%s, 0x%s},\n' %
-            (icon_constant_name, icon['codepoint'].lower()))
+            '  {MaterialDesignIcons::%s, {0x%s, "%s"}},\n' %
+            (icon_constant_name, icon['codepoint'].lower(), to_c_str(icon['codepoint'].lower())))
         md_constants += ('const char *MaterialDesignIcons::%s = "%s";\n' %
                          (icon_constant_name, 'md-' + icon['name']))
 

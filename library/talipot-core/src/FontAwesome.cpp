@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -50,7 +50,7 @@ const vector<string> &FontAwesome::getSupportedIcons() {
 
 uint FontAwesome::getIconCodePoint(const string &iconName) {
   if (const auto it = iconCodePoint.find(iconName.c_str()); it != iconCodePoint.end()) {
-    return it->second;
+    return it->second.first;
   }
   return 0;
 }
@@ -65,7 +65,7 @@ string FontAwesome::getIconFamily(const string &iconName) {
 
 string FontAwesome::getIconUtf8String(const string &iconName) {
   try {
-    return utf32to8(u32string(1, static_cast<char32_t>(iconCodePoint.at(iconName.c_str()))));
+    return iconCodePoint.at(iconName.c_str()).second;
   } catch (std::out_of_range &) {
     tlp::warning() << iconName << " icon does not exist, falling back to "
                    << FontAwesome::Solid::QuestionCircle << std::endl;
