@@ -1,6 +1,8 @@
 IF(MSVC)
   SET(SUFFIX "msvc")
-ELSE(MSVC)
+ELSEIF(MINGW AND CLANG)
+  SET(SUFFIX "clang")
+ELSEIF(MINGW)
   SET(SUFFIX "mingw")
 ENDIF(MSVC)
 
@@ -99,16 +101,16 @@ IF(NOT NSIS_PATH_EMPTY)
     SET(DEBUG_MODE "TRUE")
   ENDIF(TalipotBuildIsRelease OR MSVC)
 
-  IF(MINGW)
+  IF(MINGW OR CLANG)
     SET(BUNDLE_COMMAND
         cmd //C win_bundle.bat \"${NSIS_PATH}\" \"${TLP_DIR}\"
         \"${BINARY_DIR}\" \"${PYTHON_STDLIB_DIR}\" \"${PYTHON_VERSION}\")
-  ELSE(MINGW)
+  ELSE(MINGW OR CLANG)
     SET(BUNDLE_COMMAND
         cmd /C
         "\"win_bundle.bat \"${NSIS_PATH}\" \"${TLP_DIR}\" \"${BINARY_DIR}\" \"${PYTHON_STDLIB_DIR}\" \"${PYTHON_VERSION}\"\""
     )
-  ENDIF(MINGW)
+  ENDIF(MINGW OR CLANG)
 
   ADD_CUSTOM_TARGET(
     bundle

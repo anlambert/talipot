@@ -1,7 +1,7 @@
 SET(LIB_SRCS CrashHandler.cpp StackWalker.cpp)
 
 IF(NOT MSVC AND NOT BSD)
-  IF(LINUX OR MINGW)
+  IF(LINUX OR (MINGW AND NOT CLANG))
     IF(MINGW)
       # ensure correct bfd header file is selected with MSYS2
       SET(CMAKE_INCLUDE_PATH ${MINGW_INCLUDE_PATH}/binutils
@@ -31,7 +31,7 @@ IF(NOT MSVC AND NOT BSD)
         "Install GNU binutils development package to get a detailed stack trace when Talipot crashes."
       )
     ENDIF(BFD_FOUND)
-  ENDIF(LINUX OR MINGW)
+  ENDIF(LINUX OR (MINGW AND NOT CLANG))
 ENDIF(NOT MSVC AND NOT BSD)
 
 INCLUDE_DIRECTORIES(BEFORE ${TalipotCoreBuildInclude} ${TalipotCoreInclude})
@@ -63,9 +63,8 @@ IF(IBERTY_LIBRARY)
   TARGET_LINK_LIBRARIES(crash_handler ${IBERTY_LIBRARY})
 ENDIF(IBERTY_LIBRARY)
 
-IF(MINGW)
+IF(WIN32 AND NOT MSVC)
   TARGET_LINK_LIBRARIES(crash_handler imagehlp)
-
 ELSEIF(MSVC)
   TARGET_LINK_LIBRARIES(crash_handler dbghelp)
-ENDIF(MINGW)
+ENDIF(WIN32 AND NOT MSVC)

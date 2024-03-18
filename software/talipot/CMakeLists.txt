@@ -192,7 +192,7 @@ IF(WIN32)
     # not link directly to OpenSSL for license issue and thus use a dynamic
     # loading approach, we are forced to use the following trick to copy the
     # needed dlls into the Talipot install folder.
-    IF(MINGW AND EXISTS ${MINGW_BIN_PATH}/openssl.exe)
+    IF(NOT MSVC AND EXISTS ${MINGW_BIN_PATH}/openssl.exe)
       INSTALL(
         CODE "
           INCLUDE(BundleUtilities)
@@ -200,7 +200,7 @@ IF(WIN32)
                DESTINATION \"\${CMAKE_INSTALL_PREFIX}/bin/\")
           FIXUP_BUNDLE(\"\${CMAKE_INSTALL_PREFIX}/bin/openssl.exe\" \"\" \"${LIB_DIRS}\")
           FILE(REMOVE \"\${CMAKE_INSTALL_PREFIX}/bin/openssl.exe\")")
-    ENDIF(MINGW AND EXISTS ${MINGW_BIN_PATH}/openssl.exe)
+    ENDIF(NOT MSVC AND EXISTS ${MINGW_BIN_PATH}/openssl.exe)
   ENDIF(TALIPOT_FIXUP_BUNDLE)
 ENDIF(WIN32)
 

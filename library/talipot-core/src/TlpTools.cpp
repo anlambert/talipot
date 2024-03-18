@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -399,8 +399,9 @@ bool tlp::pathExists(const std::string &pathname) {
 
 std::istream *tlp::getInputFileStream(const std::string &filename, std::ios_base::openmode mode) {
 #ifdef WIN32
-#ifdef _MSC_VER
-  return new std::ifstream(filesystem::u8path(filename), mode);
+#if defined(_MSC_VER) || defined(__clang__)
+  auto u8filename = std::u8string(filename.begin(), filename.end());
+  return new std::ifstream(filesystem::path(u8filename.begin(), u8filename.end()), mode);
 #else
   return new std::ifstream(filesystem::path(filename), mode);
 #endif
@@ -413,8 +414,9 @@ std::istream *tlp::getInputFileStream(const std::string &filename, std::ios_base
 
 std::ostream *tlp::getOutputFileStream(const std::string &filename, std::ios_base::openmode mode) {
 #ifdef WIN32
-#ifdef _MSC_VER
-  return new std::ofstream(filesystem::u8path(filename), mode);
+#if defined(_MSC_VER) || defined(__clang__)
+  auto u8filename = std::u8string(filename.begin(), filename.end());
+  return new std::ofstream(filesystem::path(u8filename.begin(), u8filename.end()), mode);
 #else
   return new std::ofstream(filesystem::path(filename), mode);
 #endif

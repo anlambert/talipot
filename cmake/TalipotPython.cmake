@@ -74,7 +74,7 @@ IF(NOT WIN32 AND PYTHON_LIBRARY)
   GET_FILENAME_COMPONENT(PYTHON_LIB_PATH ${PYTHON_LIBRARY} PATH)
 ENDIF(NOT WIN32 AND PYTHON_LIBRARY)
 
-IF(MINGW)
+IF(WIN32 AND NOT MSVC)
   # Check if Python is provided by MSYS2 (it is compiled with GCC in that case
   # instead of MSVC)
   EXECUTE_PROCESS(
@@ -121,7 +121,7 @@ IF(MINGW)
       ENDIF(NOT WIN_AMD64 OR X64)
     ENDIF(EXISTS ${PYTHON_HOME_PATH}/python${PYTHON_VERSION_NO_DOT}.dll)
   ENDIF(MSYS2_PYTHON)
-ENDIF(MINGW)
+ENDIF(WIN32 AND NOT MSVC)
 
 # Ensure headers correspond to the ones associated to the detected Python
 # library on MacOS

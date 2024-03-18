@@ -230,7 +230,7 @@ ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 # ========================================================
 # Required packages
 # ========================================================
-IF(MINGW)
+IF(WIN32 AND NOT MSVC)
   # Set some common libraries and headers search paths for MinGW
   SET(CMAKE_LIBRARY_PATH
       "${MINGW_BIN_PATH};${MINGW_LIB_PATH};${MINGW_LIB64_PATH};${CMAKE_LIBRARY_PATH}"
@@ -250,10 +250,10 @@ IF(MINGW)
     SFRAME_LIBRARY sframe
     PATHS ${MINGW_LIB_PATH} ${MINGW_LIB64_PATH}
     NO_DEFAULT_PATH)
-ELSE(MINGW)
+ELSE(WIN32 AND NOT MSVC)
   FIND_LIBRARY(INTL_LIBRARY intl)
   FIND_LIBRARY(SFRAME_LIBRARY sframe)
-ENDIF(MINGW)
+ENDIF(WIN32 AND NOT MSVC)
 
 MARK_AS_ADVANCED(INTL_LIBRARY)
 MARK_AS_ADVANCED(SFRAME_LIBRARY)

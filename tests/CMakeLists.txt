@@ -35,7 +35,7 @@ MACRO(UNIT_TEST)
   # dependencies (cppunit, tulip, gzstream, yajl) in the PATH environment
   # variable
   IF(WIN32)
-    IF(MINGW)
+    IF(NOT MSVC)
       STRING(REGEX MATCH ".*dll\\.a" IMPORT_LIBRARY ${CppUnit_LIBRARIES})
       STRING(REGEX MATCH ".*dll" DLL_LIBRARY ${CppUnit_LIBRARIES})
 
@@ -45,10 +45,10 @@ MACRO(UNIT_TEST)
       ELSEIF(DLL_LIBRARY)
         GET_FILENAME_COMPONENT(CppUnitDllName ${CppUnit_LIBRARIES} NAME)
       ENDIF()
-    ELSE(MINGW)
+    ELSE(NOT MSVC)
       TALIPOT_GET_DLL_NAME_FROM_IMPORT_LIBRARY(${CppUnit_LIBRARIES}
                                                CppUnitDllName)
-    ENDIF(MINGW)
+    ENDIF(NOT MSVC)
 
     IF(CppUnitDllName)
       TALIPOT_FIND_EXTERNAL_LIB(${CppUnitDllName} CppUnitDllPath)

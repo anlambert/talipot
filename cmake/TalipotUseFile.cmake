@@ -188,38 +188,23 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
 
   IF(WIN32)
     IF(NOT MSVC) # visual studio does not recognize these options
+      SET(CMAKE_EXE_LINKER_FLAGS
+          "${CMAKE_EXE_LINKER_FLAGS} -Wl,--subsystem,windows")
+
       # Dynamic ling against libstdc++ on win32/MinGW The second test is for the
       # case where ccache is used (CMAKE_CXX_COMPILER_ARG1 contains the path to
       # the g++ compiler)
       IF(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ARG1}" MATCHES
                                      ".*[g][+][+].*")
-        IF(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.0)
-          SET(CMAKE_EXE_LINKER_FLAGS
-              "${CMAKE_EXE_LINKER_FLAGS} -Wl,--subsystem,windows")
-
-          # GCC 4.4 use double dashes and gcc 4.6 single dashes for this option
-          IF(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.6)
-            SET(CMAKE_EXE_LINKER_FLAGS
-                "${CMAKE_EXE_LINKER_FLAGS} --shared-libgcc -Wl,--allow-multiple-definition"
-            )
-            SET(CMAKE_MODULE_LINKER_FLAGS
-                "${CMAKE_MODULE_LINKER_FLAGS} --shared-libgcc  -Wl,--allow-multiple-definition"
-            )
-            SET(CMAKE_SHARED_LINKER_FLAGS
-                "${CMAKE_SHARED_LINKER_FLAGS} --shared-libgcc  -Wl,--allow-multiple-definition"
-            )
-          ELSE()
-            SET(CMAKE_EXE_LINKER_FLAGS
-                "${CMAKE_EXE_LINKER_FLAGS} -shared-libgcc -Wl,--allow-multiple-definition"
-            )
-            SET(CMAKE_MODULE_LINKER_FLAGS
-                "${CMAKE_MODULE_LINKER_FLAGS} -shared-libgcc  -Wl,--allow-multiple-definition"
-            )
-            SET(CMAKE_SHARED_LINKER_FLAGS
-                "${CMAKE_SHARED_LINKER_FLAGS} -shared-libgcc  -Wl,--allow-multiple-definition"
-            )
-          ENDIF()
-        ENDIF()
+        SET(CMAKE_EXE_LINKER_FLAGS
+            "${CMAKE_EXE_LINKER_FLAGS} -shared-libgcc -Wl,--allow-multiple-definition"
+        )
+        SET(CMAKE_MODULE_LINKER_FLAGS
+            "${CMAKE_MODULE_LINKER_FLAGS} -shared-libgcc  -Wl,--allow-multiple-definition"
+        )
+        SET(CMAKE_SHARED_LINKER_FLAGS
+            "${CMAKE_SHARED_LINKER_FLAGS} -shared-libgcc  -Wl,--allow-multiple-definition"
+        )
       ENDIF()
     ENDIF(NOT MSVC)
 
@@ -348,11 +333,16 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
               SET(CMAKE_CXX_FLAGS_DEBUG
                   "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /openmp")
               SET(OPENMP_CXX_FLAGS "/openmp")
-            ELSE()
+            ELSEIF(MINGW AND NOT CLANG)
               SET(CMAKE_CXX_STANDARD_LIBRARIES
                   "${CMAKE_CXX_STANDARD_LIBRARIES} -lgomp ${CMAKE_THREAD_LIBS_INIT}"
               )
               SET(OPENMP_LIBRARIES "-lgomp -lpthread")
+            ELSEIF(CLANG)
+              SET(CMAKE_CXX_STANDARD_LIBRARIES
+                  "${CMAKE_CXX_STANDARD_LIBRARIES} -lomp ${CMAKE_THREAD_LIBS_INIT}"
+              )
+              SET(OPENMP_LIBRARIES "-lomp -lpthread")
             ENDIF()
           ENDIF()
         ELSE(OPENMP_FOUND)
@@ -415,7 +405,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
     TALIPOT_SET_CXX_FLAGS("-fprofile-arcs -ftest-coverage -O0")
   ENDIF(CMAKE_COMPILER_IS_GNUCXX AND TALIPOT_CODE_COVERAGE)
 
-  IF(NOT MINGW)
+  IF(NOT MINGW OR CLANG)
     IF(TalipotBuildIsRelease AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
       # activate LTO in Release builds
       INCLUDE(CheckIPOSupported)
@@ -425,7 +415,14 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
         SET(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
       ENDIF(IPO_SUPPORTED)
     ENDIF(TalipotBuildIsRelease AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-  ENDIF(NOT MINGW)
+  ENDIF(NOT MINGW OR CLANG)
+
+  IF(MINGW AND CLANG)
+    # set a stack size of 16Mb with clang on windows to avoid stack overflows
+    # that do not happen with other compilers
+    SET(CMAKE_EXE_LINKER_FLAGS
+        "${CMAKE_EXE_LINKER_FLAGS} -Wl,-stack -Wl,0x1000000")
+  ENDIF(MINGW AND CLANG)
 ENDMACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
 
 # for backward compatibility with Talipot < 5.1 for external projects
@@ -461,12 +458,12 @@ FUNCTION(INSTALL)
           "${CMAKE_BINARY_DIR}/pluginserver/${PLUGIN_COMPONENT}/${DEST}")
 
       FOREACH(TARGET ${PLUGIN_TARGETS})
-        IF(MINGW)
+        IF(WIN32 AND NOT MSVC)
           _INSTALL(TARGETS ${PLUGIN_TARGETS} RUNTIME DESTINATION
                    ${PLUGIN_DESTINATION})
-        ELSE(MINGW)
+        ELSE(WIN32 AND NOT MSVC)
           _INSTALL(TARGETS ${PLUGIN_TARGETS} DESTINATION ${PLUGIN_DESTINATION})
-        ENDIF(MINGW)
+        ENDIF(WIN32 AND NOT MSVC)
       ENDFOREACH()
     ENDIF()
 
@@ -492,13 +489,13 @@ ENDMACRO(DISABLE_COMPILER_WARNINGS)
 
 # External libraries macros
 IF(WIN32)
-  IF(MINGW)
+  IF(NOT MSVC)
     # get paths to MINGW binaries, libraries and headers
-    STRING(REPLACE "ar.exe" "" MINGW_BIN_PATH ${CMAKE_AR})
+    GET_FILENAME_COMPONENT(MINGW_BIN_PATH "${CMAKE_AR}" DIRECTORY)
     SET(MINGW_LIB_PATH ${MINGW_BIN_PATH}/../lib)
     SET(MINGW_LIB64_PATH ${MINGW_BIN_PATH}/../lib64)
     SET(MINGW_INCLUDE_PATH ${MINGW_BIN_PATH}/../include)
-  ENDIF(MINGW)
+  ENDIF(NOT MSVC)
 
   MACRO(TALIPOT_FIND_EXTERNAL_LIB pattern result_var_name)
     UNSET(${result_var_name})
@@ -524,7 +521,7 @@ IF(WIN32)
   MACRO(TALIPOT_GET_DLL_NAME_FROM_IMPORT_LIBRARY import_library dll_name)
     UNSET(${dll_name})
 
-    IF(MINGW)
+    IF(MINGW AND NOT CLANG)
       EXECUTE_PROCESS(
         COMMAND ${MINGW_BIN_PATH}/dlltool.exe -I ${import_library}
         OUTPUT_VARIABLE DLL_FILENAME
@@ -538,9 +535,15 @@ Please provide a valid one in order to determine the dll the application depends
       ELSE(DLLTOOL_ERROR)
         STRING(REPLACE "\n" "" ${dll_name} ${DLL_FILENAME})
       ENDIF(DLLTOOL_ERROR)
-    ENDIF(MINGW)
-
-    IF(MSVC)
+    ELSEIF(CLANG)
+      EXECUTE_PROCESS(
+        COMMAND ${MINGW_BIN_PATH}/llvm-objdump.exe -h ${import_library}
+        COMMAND head -2
+        COMMAND tail -1
+        OUTPUT_VARIABLE DLL_FILENAME)
+      STRING(REGEX MATCH ".*\\(([^\\)]+)" _dummy "${DLL_FILENAME}")
+      SET(${dll_name} "${CMAKE_MATCH_1}")
+    ELSEIF(MSVC)
       # Get path of MSVC compiler
       GET_FILENAME_COMPONENT(COMPILER_DIRECTORY ${CMAKE_CXX_COMPILER} DIRECTORY)
 
@@ -590,7 +593,7 @@ Please provide a valid one in order to determine the dll the application depends
 
       # Restore original PATH environment variable value
       SET(ENV{PATH} "${PATH_BACKUP}")
-    ENDIF(MSVC)
+    ENDIF(MINGW AND NOT CLANG)
   ENDMACRO(TALIPOT_GET_DLL_NAME_FROM_IMPORT_LIBRARY)
 ENDIF(WIN32)
 
