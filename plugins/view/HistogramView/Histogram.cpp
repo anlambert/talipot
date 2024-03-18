@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,9 +21,6 @@
 using namespace std;
 
 const float DEFAULT_AXIS_LENGTH = 1000.;
-
-const std::string XAXIS_ID = "x axis";
-const std::string YAXIS_ID = "y axis";
 
 template <typename T>
 std::string getStringFromNumber(T number, uint precision = 5) {

@@ -1,9 +1,9 @@
-// Copyright (C) 2004 Xavier Décoret <Xavier.Decoret@imag.fr>
+// Copyright (C) 2004 Xavier DÃ©coret <Xavier.Decoret@imag.fr>
 
-// This program is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License 
-// as published by the Free Software Foundation; either 
-// version 2 of the License, or (at your option) any later 
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later
 // version.
 
 // This program is distributed in the hope that it will be useful,
@@ -80,7 +80,7 @@ BibTeX::operator()(ostream& s,const Entry* e) const
 	       iter->second.valueParts().begin(),
 	       iter->second.valueParts().end());
   }
-  if (!e->fields().empty()) s<<'\n'; 
+  if (!e->fields().empty()) s<<'\n';
   return s<<'}';
 }
 ostream&
@@ -197,7 +197,7 @@ BibTeX::operator()(ostream& s,const Text* t) const
 	  string c=l->content();
 	  s<<c;
 	  isFirstWord_ = false;
-	  movePos(s,c.size());	  
+	  movePos(s,c.size());
 	}
 	else
 	{
@@ -207,7 +207,7 @@ BibTeX::operator()(ostream& s,const Text* t) const
 	  operator()(s,l->asPseudo()->text());
 	  s<<'}';
 	  movePos(s,1);
-	  
+
 	}
       }
       isFirstWord_ = false;
@@ -225,4 +225,4 @@ BibTeX::movePos(ostream& s,unsigned int p) const
     pos_ = indent_;
     isFirstWord_ = true;
   }
-}  
+}

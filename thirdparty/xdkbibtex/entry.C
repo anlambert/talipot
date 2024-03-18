@@ -1,9 +1,9 @@
-// Copyright (C) 2004 Xavier Décoret <Xavier.Decoret@imag.fr>
+// Copyright (C) 2004 Xavier DÃ©coret <Xavier.Decoret@imag.fr>
 
-// This program is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License 
-// as published by the Free Software Foundation; either 
-// version 2 of the License, or (at your option) any later 
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later
 // version.
 
 // This program is distributed in the hope that it will be useful,
@@ -51,7 +51,7 @@ Field::Field()
 Field::Field(const string& name,int line)
   : name_(name),
     line_(line)
-{ 
+{
 }
 const string&
 Field::name() const
@@ -72,7 +72,7 @@ Field::line() const
 // Implementation of FieldHandle
 //************************************************************
 FieldHandle::FieldHandle()
-  : xname_("{null}"),   
+  : xname_("{null}"),
     missing_(false),
     entry_(NULL)
 {
@@ -81,14 +81,14 @@ FieldHandle::FieldHandle(Entry* e,const string& name)
   : xname_(name),
     missing_(true),
     entry_(e)
-{ 
+{
 }
 FieldHandle::FieldHandle(Entry* e,const map<string,Field>::iterator& f)
   : xname_(f->first),
     missing_(false),
     field_(f),
     entry_(e)
-{ 
+{
 }
 const Field*
 FieldHandle::operator->() const
@@ -188,7 +188,7 @@ FieldHandle::operator bool() const
 }
 void
 FieldHandle::next()
-{  
+{
   if (++field_ != entry_->fieldsMap_.end())
   {
     xname_ = field_->first;
@@ -239,9 +239,9 @@ Entry::addField(const string& name,int line)
   string l(name.size(),' ');
   for (unsigned int i=0;i<l.size();++i) l[i] = tolower(name[i]);
 
-  map<string,Field>::iterator iter = 
+  map<string,Field>::iterator iter =
     fieldsMap_.insert(fieldsMap_.begin(),make_pair(l,Field(name,line)));
-  
+
   return FieldHandle(this,iter);
 }
 bool

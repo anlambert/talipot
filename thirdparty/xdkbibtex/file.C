@@ -1,9 +1,9 @@
-// Copyright (C) 2004 Xavier Décoret <Xavier.Decoret@imag.fr>
+// Copyright (C) 2004 Xavier DÃ©coret <Xavier.Decoret@imag.fr>
 
-// This program is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License 
-// as published by the Free Software Foundation; either 
-// version 2 of the License, or (at your option) any later 
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later
 // version.
 
 // This program is distributed in the hope that it will be useful,
@@ -69,17 +69,17 @@ throw (parsing_error)
 		    (Compliance)(o & 3));
 
   ifstream s(fileName.c_str());
-  bibfilelexer filelexer(s);    
+  bibfilelexer filelexer(s);
   filelexer.setFilename(fileName);
-  bibcommandlexer cmndlexer(filelexer.getInputState());    
-    
+  bibcommandlexer cmndlexer(filelexer.getInputState());
+
   selector.addInputStream(&filelexer,"file");
   selector.addInputStream(&cmndlexer,"cmnd");
   selector.select("file");
-  
+
   bibfileparser parser(selector);
   parser.setFilename(fileName);
-  
+
   filelexer.setParsedBibFile(&pbf);
   cmndlexer.setParsedBibFile(&pbf);
   parser.setParsedBibFile(&pbf);
@@ -160,7 +160,7 @@ throw(range_error)
     r += iter->content();
   }
   return r;
-} 
+}
 void
 File::clearPreamble()
 {
@@ -197,8 +197,8 @@ File::addToString(const string& s,const ValuePart& p)
 {
   // convert f.name() to lower case
   string l(s.size(),' ');
-  for (unsigned int i=0;i<l.size();++i) l[i] = tolower(s[i]);  
-  
+  for (unsigned int i=0;i<l.size();++i) l[i] = tolower(s[i]);
+
   strings_[l].push_back(p);
   return *this;
 }

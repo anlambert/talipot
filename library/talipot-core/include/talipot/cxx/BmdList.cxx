@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,10 +15,21 @@
 template <typename TYPE>
 tlp::BmdList<TYPE>::BmdList() : head(nullptr), tail(nullptr), count(0) {}
 //=================================================================
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdtor-name"
+#endif
+
 template <typename TYPE>
 tlp::BmdList<TYPE>::~BmdList() {
   clear();
 }
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 //=================================================================
 template <typename TYPE>
 tlp::BmdLink<TYPE> *tlp::BmdList<TYPE>::firstItem() {

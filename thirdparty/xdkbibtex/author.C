@@ -1,9 +1,9 @@
-// Copyright (C) 2004 Xavier Décoret <Xavier.Decoret@imag.fr>
+// Copyright (C) 2004 Xavier DÃ©coret <Xavier.Decoret@imag.fr>
 
-// This program is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License 
-// as published by the Free Software Foundation; either 
-// version 2 of the License, or (at your option) any later 
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later
 // version.
 
 // This program is distributed in the hope that it will be useful,
@@ -66,7 +66,7 @@ namespace
     }
     return Undetermined;
   }
-  
+
   template <class T>
   string join(T first,T last,const char* sep)
   {
@@ -218,7 +218,7 @@ throw(parsing_error)
 	  while (i<g.size())
 	  {
 	    back().pushLast(g[i++]->content());
-	  }	  
+	  }
 	}
 	else if (groups.size() == 2 || groups.size() == 3)
 	{
@@ -262,7 +262,7 @@ throw(parsing_error)
 	       iter != istop;++iter)
 	  {
 	    back().pushFirst((*iter)->content());
-	  }	  
+	  }
 	}
 	else throw parsing_error("more than 2 comas in name");
       }

@@ -123,6 +123,12 @@ tlp::MutableContainer<TYPE, INDEX_TYPE>::MutableContainer()
             (3.0 * double(sizeof(void *)) + double(sizeof(typename tlp::StoredType<TYPE>::Value)))),
       compressing(false) {}
 //===================================================================
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdtor-name"
+#endif
+
 template <typename TYPE, typename INDEX_TYPE>
 tlp::MutableContainer<TYPE, INDEX_TYPE>::~MutableContainer() {
   switch (state) {
@@ -169,6 +175,11 @@ tlp::MutableContainer<TYPE, INDEX_TYPE>::~MutableContainer() {
 
   StoredType<TYPE>::destroy(defaultValue);
 }
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 //===================================================================
 template <typename TYPE, typename INDEX_TYPE>
 void tlp::MutableContainer<TYPE, INDEX_TYPE>::setDefault(

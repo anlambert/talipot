@@ -1,9 +1,9 @@
-// Copyright (C) 2004 Xavier DÈcoret <Xavier.Decoret@imag.fr>
+// Copyright (C) 2004 Xavier D√©coret <Xavier.Decoret@imag.fr>
 
-// This program is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License 
-// as published by the Free Software Foundation; either 
-// version 2 of the License, or (at your option) any later 
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later
 // version.
 
 // This program is distributed in the hope that it will be useful,
@@ -30,64 +30,64 @@ const Dictionary& xdkbib::isoaccents()
   static Dictionary d;
   if (d.empty())
   {
-    d[pair<string,string>("`","A")] = "¿";
-    d[pair<string,string>("'","A")] = "¡";
-    d[pair<string,string>("~","A")] = "√";
-    d[pair<string,string>("\"","A")] = "ƒ";
-    d[pair<string,string>("^","A")] = "¬";
-    d[pair<string,string>("r","A")] = "≈";
-    d[pair<string,string>("A","A")] = "≈";
-    d[pair<string,string>("A","E")] = "∆";
-    d[pair<string,string>("`","E")] = "»";
-    d[pair<string,string>("'","E")] = "…";
-    d[pair<string,string>("^","E")] = " ";
-    d[pair<string,string>("\"","E")] = "À";
-    d[pair<string,string>("`","I")] = "Ã";
-    d[pair<string,string>("'","I")] = "Õ";
-    d[pair<string,string>("^","I")] = "Œ";
-    d[pair<string,string>("\"","I")] = "œ";
-    d[pair<string,string>("`","O")] = "“";
-    d[pair<string,string>("'","O")] = "”";
-    d[pair<string,string>("^","O")] = "‘";
-    d[pair<string,string>("~","O")] = "’";
-    d[pair<string,string>("\"","O")] = "÷";
-    d[pair<string,string>("`","U")] = "Ÿ";
-    d[pair<string,string>("'","U")] = "⁄";
-    d[pair<string,string>("^","U")] = "€";
-    d[pair<string,string>("\"","U")] = "‹";
-    d[pair<string,string>("'","Y")] = "›";
-    d[pair<string,string>("c","C")] = "«";
-    d[pair<string,string>("~","N")] = "—";
-    d[pair<string,string>("s","s")] = "ﬂ";
-    d[pair<string,string>("`","a")] = "‡";
-    d[pair<string,string>("'","a")] = "·";
-    d[pair<string,string>("~","a")] = "„";
-    d[pair<string,string>("\"","a")] = "‰";
-    d[pair<string,string>("^","a")] = "‚";
-    d[pair<string,string>("r","a")] = "Â";
-    d[pair<string,string>("a","a")] = "Â";
-    d[pair<string,string>("a","e")] = "Ê";
-    d[pair<string,string>("`","e")] = "Ë";
-    d[pair<string,string>("'","e")] = "È";
-    d[pair<string,string>("^","e")] = "Í";
-    d[pair<string,string>("\"","e")] = "Î";
-    d[pair<string,string>("`","i")] = "Ï";
-    d[pair<string,string>("'","i")] = "Ì";
-    d[pair<string,string>("^","i")] = "Ó";
-    d[pair<string,string>("\"","i")] = "Ô";
-    d[pair<string,string>("`","o")] = "Ú";
-    d[pair<string,string>("'","o")] = "Û";
-    d[pair<string,string>("^","o")] = "Ù";
-    d[pair<string,string>("~","o")] = "ı";
-    d[pair<string,string>("\"","o")] = "ˆ";
-    d[pair<string,string>("`","u")] = "˘";
-    d[pair<string,string>("'","u")] = "˙";
-    d[pair<string,string>("^","u")] = "˚";
-    d[pair<string,string>("\"","u")] = "¸";
-    d[pair<string,string>("'","y")] = "˝";
-    d[pair<string,string>("c","c")] = "Á";
-    d[pair<string,string>("~","n")] = "Ò";
-    d[pair<string,string>("s","s")] = "ﬂ";
+    d[pair<string,string>("`","A")] = "√Ä";
+    d[pair<string,string>("'","A")] = "√Å";
+    d[pair<string,string>("~","A")] = "√É";
+    d[pair<string,string>("\"","A")] = "√Ñ";
+    d[pair<string,string>("^","A")] = "√Ç";
+    d[pair<string,string>("r","A")] = "√Ö";
+    d[pair<string,string>("A","A")] = "√Ö";
+    d[pair<string,string>("A","E")] = "√Ü";
+    d[pair<string,string>("`","E")] = "√à";
+    d[pair<string,string>("'","E")] = "√â";
+    d[pair<string,string>("^","E")] = "√ä";
+    d[pair<string,string>("\"","E")] = "√ã";
+    d[pair<string,string>("`","I")] = "√å";
+    d[pair<string,string>("'","I")] = "√ç";
+    d[pair<string,string>("^","I")] = "√é";
+    d[pair<string,string>("\"","I")] = "√è";
+    d[pair<string,string>("`","O")] = "√í";
+    d[pair<string,string>("'","O")] = "√ì";
+    d[pair<string,string>("^","O")] = "√î";
+    d[pair<string,string>("~","O")] = "√ï";
+    d[pair<string,string>("\"","O")] = "√ñ";
+    d[pair<string,string>("`","U")] = "√ô";
+    d[pair<string,string>("'","U")] = "√ö";
+    d[pair<string,string>("^","U")] = "√õ";
+    d[pair<string,string>("\"","U")] = "√ú";
+    d[pair<string,string>("'","Y")] = "√ù";
+    d[pair<string,string>("c","C")] = "√á";
+    d[pair<string,string>("~","N")] = "√ë";
+    d[pair<string,string>("s","s")] = "√ü";
+    d[pair<string,string>("`","a")] = "√†";
+    d[pair<string,string>("'","a")] = "√°";
+    d[pair<string,string>("~","a")] = "√£";
+    d[pair<string,string>("\"","a")] = "√§";
+    d[pair<string,string>("^","a")] = "√¢";
+    d[pair<string,string>("r","a")] = "√•";
+    d[pair<string,string>("a","a")] = "√•";
+    d[pair<string,string>("a","e")] = "√¶";
+    d[pair<string,string>("`","e")] = "√®";
+    d[pair<string,string>("'","e")] = "√©";
+    d[pair<string,string>("^","e")] = "√™";
+    d[pair<string,string>("\"","e")] = "√´";
+    d[pair<string,string>("`","i")] = "√¨";
+    d[pair<string,string>("'","i")] = "√≠";
+    d[pair<string,string>("^","i")] = "√Æ";
+    d[pair<string,string>("\"","i")] = "√Ø";
+    d[pair<string,string>("`","o")] = "√≤";
+    d[pair<string,string>("'","o")] = "√≥";
+    d[pair<string,string>("^","o")] = "√¥";
+    d[pair<string,string>("~","o")] = "√µ";
+    d[pair<string,string>("\"","o")] = "√∂";
+    d[pair<string,string>("`","u")] = "√π";
+    d[pair<string,string>("'","u")] = "√∫";
+    d[pair<string,string>("^","u")] = "√ª";
+    d[pair<string,string>("\"","u")] = "√º";
+    d[pair<string,string>("'","y")] = "√Ω";
+    d[pair<string,string>("c","c")] = "√ß";
+    d[pair<string,string>("~","n")] = "√±";
+    d[pair<string,string>("s","s")] = "√ü";
   }
   return d;
 }
@@ -123,7 +123,7 @@ Text::add(Word* w)
 {
   if (w) words_.push_back(w);
   else words_.push_back(new Word());
-  
+
   return words_.back();
 }
 Text&
@@ -159,7 +159,7 @@ throw (parsing_error)
   try
   {
     istringstream s(t);
-    valuelexer lexer(s);    
+    valuelexer lexer(s);
     lexer.setFilename("xdkbib::Text::readFrom");
     valueparser parser(lexer);
     parser.setFilename("xdkbib::Text::readFrom");
@@ -171,9 +171,9 @@ throw (parsing_error)
   {
     throw parsing_error(e.toString());
   }
-} 
+}
 string
-Text::content(ContentOptions options) const 
+Text::content(ContentOptions options) const
 {
   string r;
   if (!words_.empty())
@@ -201,15 +201,15 @@ Text::translate(const Dictionary& dict)
        iter!=words_.end();++iter)
   {
     const Word* w = *iter;
-    
+
     Word* newWord = new Word();
     newWords.push_back(newWord);
-    
+
     for (unsigned int i=0;i<w->letters().size()-1;++i)
     {
       if (skip)
       {
-	skip = false; 
+	skip = false;
       }
       else
       {
@@ -250,7 +250,7 @@ Text::translate(const Dictionary& dict)
     }
     if (!skip)
     {
-      newWord->letters_.push_back(w->letters_.back()->clone());      
+      newWord->letters_.push_back(w->letters_.back()->clone());
     }
     skip = false;
   }
@@ -318,7 +318,7 @@ unsigned int
 Word::nbLetters() const
 {
   return letters_.size();
-}  
+}
 const Letter*
 Word::operator[](unsigned int i) const
 {
@@ -353,7 +353,7 @@ Word::operator=(const Word& w)
 	 iter != letters_.end();++iter)
     {
       letters_.push_back((*iter)->clone());
-    }    
+    }
   }
   return *this;
 }
@@ -363,7 +363,7 @@ Word::Word(const Word& w)
        iter != letters_.end();++iter)
   {
     letters_.push_back((*iter)->clone());
-  }    
+  }
 }
 Letter*
 Word::add(Letter* w)
@@ -506,7 +506,7 @@ PseudoLetter::~PseudoLetter()
 const Text*
 PseudoLetter::text() const
 {
-  return text_;  
+  return text_;
 }
 Letter*
 PseudoLetter::clone() const
@@ -544,7 +544,7 @@ TokenLetter::isToken() const
 }
 TokenLetter::TokenLetter(const string& t)
   : token_(t)
-{  
+{
 }
 Letter*
 TokenLetter::clone() const
