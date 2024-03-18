@@ -2,11 +2,22 @@ name: windows-mingw64-build
 on: [push, pull_request]
 jobs:
   mingw64:
-    name: Talipot build on Windows (mingw64)
+    name: ${{ matrix.config.name }}
     runs-on: windows-latest
     defaults:
       run:
         shell: msys2 {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Talipot build on Windows (mingw64 GCC)
+            msystem: mingw64
+            arch: x86_64
+
+          - name: Talipot build on Windows (mingw64 Clang)
+            msystem: clang64
+            arch: clang-x86_64
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
@@ -17,29 +28,34 @@ jobs:
       - name: Install mingw64 and Talipot build dependencies
         uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW64
+          msystem: ${{ matrix.config.msystem }}
           update: true
           install: git
             base-devel
-            mingw-w64-x86_64-toolchain
-            mingw-w64-x86_64-cmake
-            mingw-w64-x86_64-ccache
-            mingw-w64-x86_64-yajl
-            mingw-w64-x86_64-zstd
-            mingw-w64-x86_64-qhull
-            mingw-w64-x86_64-graphviz
-            mingw-w64-x86_64-libgit2
-            mingw-w64-x86_64-python
-            mingw-w64-x86_64-cppunit
-            mingw-w64-x86_64-fontconfig
-            mingw-w64-x86_64-freetype
-            mingw-w64-x86_64-fribidi
-            mingw-w64-x86_64-glew
-            mingw-w64-x86_64-qt5
-            mingw-w64-x86_64-quazip
-            mingw-w64-x86_64-qtwebkit
-            mingw-w64-x86_64-python-sphinx
-            mingw-w64-x86_64-sip
+            mingw-w64-${{ matrix.config.arch }}-toolchain
+            mingw-w64-${{ matrix.config.arch }}-openmp
+            mingw-w64-${{ matrix.config.arch }}-cmake
+            mingw-w64-${{ matrix.config.arch }}-ccache
+            mingw-w64-${{ matrix.config.arch }}-yajl
+            mingw-w64-${{ matrix.config.arch }}-zstd
+            mingw-w64-${{ matrix.config.arch }}-qhull
+            mingw-w64-${{ matrix.config.arch }}-graphviz
+            mingw-w64-${{ matrix.config.arch }}-libgit2
+            mingw-w64-${{ matrix.config.arch }}-python
+            mingw-w64-${{ matrix.config.arch }}-cppunit
+            mingw-w64-${{ matrix.config.arch }}-fontconfig
+            mingw-w64-${{ matrix.config.arch }}-freetype
+            mingw-w64-${{ matrix.config.arch }}-fribidi
+            mingw-w64-${{ matrix.config.arch }}-glew
+            mingw-w64-${{ matrix.config.arch }}-qt5
+            mingw-w64-${{ matrix.config.arch }}-quazip
+            mingw-w64-${{ matrix.config.arch }}-qtwebkit
+            mingw-w64-${{ matrix.config.arch }}-python-sphinx
+            mingw-w64-${{ matrix.config.arch }}-sip
+      - if: matrix.config.msystem == 'clang64'
+        name: Patch CMake GetPrerequisites module until 3.29.0 release is out
+        run: sed -i 's/\\t\*DLL Name/\[\\t \]\*DLL Name/'
+          /clang64/share/cmake/Modules/GetPrerequisites.cmake
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
@@ -53,9 +69,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.get-cccache-dir.outputs.ccache-dir }}
-          key: windows-mingw64-build-ccache-${{ steps.get-current-date.outputs.date }}
+          key: windows-${{ matrix.config.arch }}-build-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
-            windows-mingw64-build-ccache
+            windows-${{ matrix.config.arch }}-build-ccache
           save-always: true
       - name: Create build directory
         run: mkdir build
@@ -65,7 +81,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_NEED_RESPONSE=ON
           -DCMAKE_INSTALL_PREFIX=$PWD/install
-          -DPython3_EXECUTABLE=/mingw64/bin/python3
+          -DPython3_EXECUTABLE=/${{ matrix.config.msystem }}/bin/python3
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_USE_CCACHE=ON ..
       - name: Talipot build
@@ -86,7 +102,7 @@ jobs:
       - name: Upload Talipot installer to GitHub Actions artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Talipot-NSIS-installer
+          name: Talipot-NSIS-installer-${{ matrix.config.msystem }}
           path: ./build/Talipot*.exe
       - name: Upload Talipot bundle to dev-latest prerelease
         if: github.ref == 'refs/tags/dev-latest'
