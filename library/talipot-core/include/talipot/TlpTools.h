@@ -250,7 +250,9 @@ TLP_SCOPE std::istream *getZstdInputFileStream(const std::string &filename);
 TLP_SCOPE std::ostream *getZstdOutputFileStream(const std::string &filename,
                                                 int compressionLevel = 3);
 
-TLP_SCOPE std::wstring utf8to16(const std::string &s);
+#ifdef WIN32
+TLP_SCOPE std::wstring winPath(const std::string &path);
+#endif
 
 TLP_SCOPE std::vector<std::string> tokenize(const std::string &str,
                                             const std::string &delimiter = " ");

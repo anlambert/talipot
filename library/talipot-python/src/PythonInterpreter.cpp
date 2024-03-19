@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -181,7 +181,7 @@ PythonInterpreter::PythonInterpreter()
     QString pythonHome = PythonVersionChecker::getPythonHome();
     static const std::string tlpPythonHome =
         QStringToTlpString(QDir(tlpStringToQString(tlp::TalipotLibDir + "/..")).absolutePath());
-    static const std::wstring tlpPythonHomeW = utf8to16(tlpPythonHome);
+    static const std::wstring tlpPythonHomeW = winPath(tlpPythonHome);
     if (QDir(tlpStringToQString(tlpPythonHome) + "/lib/python" + _pythonVersion).exists() ||
         QDir(tlpStringToQString(tlpPythonHome) + "/DLLs").exists()) {
       // Adjust Python home when Talipot has been installed through a Windows installer,

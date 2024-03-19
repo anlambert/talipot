@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -86,7 +86,7 @@ public:
 #ifndef WIN32
     FILE *fd = fopen(fn.c_str(), "r");
 #else
-    wstring wfn = utf8to16(fn);
+    wstring wfn = winPath(fn);
     FILE *fd = _wfopen(reinterpret_cast<const wchar_t *>(wfn.c_str()), L"r");
 #endif
 

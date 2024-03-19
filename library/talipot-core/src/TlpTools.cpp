@@ -11,9 +11,6 @@
  *
  */
 
-#include <locale>
-#include <codecvt>
-
 #ifndef _WIN32
 #include <unistd.h>
 #endif
@@ -384,7 +381,7 @@ int tlp::statPath(const std::string &pathname, tlp_stat_t *buf) {
 #ifndef WIN32
   return stat(pathname.c_str(), buf);
 #else
-  std::wstring utf16pathname = utf8to16(pathname);
+  std::wstring utf16pathname = winPath(pathname);
   return _wstat(utf16pathname.c_str(), buf);
 #endif
 }
@@ -429,7 +426,7 @@ std::ostream *tlp::getOutputFileStream(const std::string &filename, std::ios_bas
 
 std::istream *tlp::getZlibInputFileStream(const std::string &filename) {
 #if defined(WIN32) && ZLIB_VERNUM >= 0x1270
-  std::wstring utf16filename = utf8to16(filename);
+  std::wstring utf16filename = winPath(filename);
   return new igzstream(utf16filename.c_str(), ios::in | ios::binary);
 #else
   return new igzstream(filename.c_str(), ios::in | ios::binary);
@@ -440,7 +437,7 @@ std::istream *tlp::getZlibInputFileStream(const std::string &filename) {
 
 std::ostream *tlp::getZlibOutputFileStream(const std::string &filename) {
 #if defined(WIN32) && ZLIB_VERNUM >= 0x1270
-  std::wstring utf16filename = utf8to16(filename);
+  std::wstring utf16filename = winPath(filename);
   return new ogzstream(utf16filename.c_str(), ios::out | ios::binary);
 #else
   return new ogzstream(filename.c_str(), ios::out | ios::binary);
@@ -461,10 +458,12 @@ std::ostream *tlp::getZstdOutputFileStream(const std::string &filename, int comp
 
 //=========================================================
 
-wstring tlp::utf8to16(const string &s) {
-  wstring_convert<codecvt_utf8_utf16<wchar_t>, wchar_t> conv;
-  return conv.from_bytes(s);
+#ifdef WIN32
+wstring tlp::winPath(const string &path) {
+  auto u8path = std::u8string(path.begin(), path.end());
+  return filesystem::path(u8path.begin(), u8path.end()).wstring();
 }
+#endif
 
 //=========================================================
 
