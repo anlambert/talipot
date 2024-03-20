@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,13 +18,6 @@
 
 using namespace std;
 using namespace tlp;
-
-static Graph *tlp_loadGraph(const std::string &filename) {
-  DataSet dataSet;
-  dataSet.set("file::filename", filename);
-  Graph *sg = tlp::importGraph("TLP Import", dataSet);
-  return sg;
-}
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TlpImportExportTest);
 
@@ -80,7 +73,7 @@ void TlpImportExportTest::testExport() {
   delete os;
   CPPUNIT_ASSERT(ok);
   graph = nullptr;
-  graph = tlp_loadGraph("export_test.tlp");
+  graph = tlp::loadGraph("export_test.tlp");
   CPPUNIT_ASSERT(graph != nullptr);
   for (auto n : graph->nodes()) {
     CPPUNIT_ASSERT((n == node(n1.id)) || (n == node(n2.id)));
@@ -107,7 +100,7 @@ void TlpImportExportTest::testExportCluster() {
   delete os;
   CPPUNIT_ASSERT(ok);
   graph = nullptr;
-  graph = tlp_loadGraph("export_test.tlp");
+  graph = tlp::loadGraph("export_test.tlp");
   CPPUNIT_ASSERT(graph != nullptr);
   for (auto n : graph->nodes()) {
     CPPUNIT_ASSERT((n == n1) || (n == n2));
@@ -174,7 +167,7 @@ void TlpImportExportTest::testExportAttributes() {
   delete os;
   CPPUNIT_ASSERT(ok);
   graph = nullptr;
-  graph = tlp_loadGraph("export_attributes.tlp");
+  graph = tlp::loadGraph("export_attributes.tlp");
   CPPUNIT_ASSERT(graph);
 
   b = false;

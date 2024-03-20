@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -114,24 +114,18 @@ void BasicPluginsTest::testImportGridApproximation() {
 }
 //==========================================================
 void BasicPluginsTest::testImportGraphviz() {
-  DataSet ds;
-  ds.set("file::filename", string("data/toto.dot"));
-  Graph *g = importGraph("Graphviz", ds, nullptr, graph);
+  Graph *g = tlp::loadGraph("./data/toto.dot");
   CPPUNIT_ASSERT(g == nullptr);
-  ds.set("file::filename", string("data/graph.dot"));
-  g = importGraph("Graphviz", ds, nullptr, graph);
+  g = tlp::loadGraph("./data/graph.dot", nullptr, graph);
   CPPUNIT_ASSERT(g == graph);
   CPPUNIT_ASSERT_EQUAL(9u, graph->numberOfNodes());
   CPPUNIT_ASSERT_EQUAL(8u, graph->numberOfEdges());
 }
 //==========================================================
 void BasicPluginsTest::testImportGml() {
-  DataSet ds;
-  ds.set("file::filename", string("data/toto.gml"));
-  Graph *g = importGraph("GML", ds, nullptr, graph);
+  Graph *g = tlp::loadGraph("./data/toto.gml");
   CPPUNIT_ASSERT(g == nullptr);
-  ds.set("file::filename", string("data/CMPb.gml"));
-  g = importGraph("GML", ds, nullptr, graph);
+  g = tlp::loadGraph("./data/CMPb.gml", nullptr, graph);
   CPPUNIT_ASSERT(g == graph);
 }
 //==========================================================
@@ -144,94 +138,74 @@ void BasicPluginsTest::testExportGml() {
 }
 //==========================================================
 void BasicPluginsTest::testImportTLP() {
-  DataSet ds;
-  ds.set("file::filename", string("data/toto.tlp"));
-  Graph *g = importGraph("TLP Import", ds, nullptr, graph);
+  Graph *g = tlp::loadGraph("./data/toto.tlp");
   CPPUNIT_ASSERT(g == nullptr);
-  ds.set("file::filename", string("data/tlp_importexport_test.tlp"));
-  g = importGraph("TLP Import", ds, nullptr, graph);
+  g = tlp::loadGraph("./data/tlp_importexport_test.tlp", nullptr, graph);
   CPPUNIT_ASSERT(g == graph);
+  DataSet ds;
   ds.set("file::filename", string("data/graph.dot"));
   g = importGraph("TLP Import", ds, nullptr, graph);
   CPPUNIT_ASSERT(g == nullptr);
 }
 //==========================================================
 void BasicPluginsTest::testExportTLP() {
-  DataSet ds;
-  ds.set("file::filename", string("data/tlp_importexport_test.tlp"));
-  Graph *g = importGraph("TLP Import", ds, nullptr, graph);
+  string tlpFile = "./data/tlp_importexport_test.tlp";
+  Graph *g = tlp::loadGraph(tlpFile, nullptr, graph);
   CPPUNIT_ASSERT(g == graph);
-  std::stringstream os;
-  CPPUNIT_ASSERT(exportGraph(graph, os, "TLP Export", ds, nullptr));
+  CPPUNIT_ASSERT(tlp::saveGraph(graph, tlpFile));
 }
 //==========================================================
 void BasicPluginsTest::testExportImportTLPB() {
-  DataSet ds;
-  ds.set("file::filename", string("data/tlp_importexport_test.tlp"));
-  Graph *g = importGraph("TLP Import", ds, nullptr, graph);
+  Graph *g = tlp::loadGraph("./data/tlp_importexport_test.tlp", nullptr, graph);
   CPPUNIT_ASSERT(g == graph);
-  std::ostream *os = tlp::getOutputFileStream("tlpb_importexport_test.tlpb");
-  CPPUNIT_ASSERT(exportGraph(graph, *os, "TLPB Export", ds, nullptr));
-  delete os;
+  CPPUNIT_ASSERT(tlp::saveGraph(graph, "tlpb_importexport_test.tlpb"));
   tearDown();
   setUp();
-  ds.set("file::filename", string("data/toto.tlpb"));
-  g = importGraph("TLPB Import", ds, nullptr, graph);
+  g = tlp::loadGraph("./data/toto.tlpb");
   CPPUNIT_ASSERT(g == nullptr);
-  ds.set("file::filename", string("tlpb_importexport_test.tlpb"));
-  g = importGraph("TLPB Import", ds, nullptr, graph);
+  g = tlp::loadGraph("tlpb_importexport_test.tlpb", nullptr, graph);
   CPPUNIT_ASSERT(g == graph);
 }
 //==========================================================
 void BasicPluginsTest::testExportImportJSON() {
-  DataSet ds;
-  ds.set("file::filename", string("data/tlp_importexport_test.tlp"));
-  Graph *g = importGraph("TLP Import", ds, nullptr, graph);
+  Graph *g = tlp::loadGraph("data/tlp_importexport_test.tlp", nullptr, graph);
   CPPUNIT_ASSERT(g == graph);
-  std::ofstream os("json_importexport_test.json");
-  CPPUNIT_ASSERT(exportGraph(graph, os, "JSON Export", ds, nullptr));
-  os.close();
+  CPPUNIT_ASSERT(tlp::saveGraph(graph, "json_importexport_test.json"));
   tearDown();
   setUp();
-  ds.set("file::filename", string("data/toto.json"));
-  g = importGraph("JSON Import", ds, nullptr, graph);
+  g = tlp::loadGraph("./data/toto.json");
   CPPUNIT_ASSERT(g == nullptr);
-  ds.set("file::filename", string("json_importexport_test.json"));
-  g = importGraph("JSON Import", ds, nullptr, graph);
+  g = tlp::loadGraph("json_importexport_test.json", nullptr, graph);
   CPPUNIT_ASSERT(g == graph);
 }
 //==========================================================
 void BasicPluginsTest::testImportAdjacencyMatrix() {
   DataSet ds;
-  ds.set("file::filename", string("data/toto.txt"));
+  ds.set("file::filename", string("./data/toto.txt"));
   Graph *g = importGraph("Adjacency Matrix", ds, nullptr, graph);
   CPPUNIT_ASSERT(g == nullptr);
-  ds.set("file::filename", string("data/adj_mat.txt"));
+  ds.set("file::filename", string("./data/adj_mat.txt"));
   g = importGraph("Adjacency Matrix", ds, nullptr, graph);
   CPPUNIT_ASSERT(g == graph);
 }
 //==========================================================
 void BasicPluginsTest::testImportBibTeX() {
+  Graph *g = tlp::loadGraph("./data/toto.bib");
+  CPPUNIT_ASSERT(g == nullptr);
   DataSet ds;
-  ds.set("file::filename", string("data/toto.bib"));
-  Graph *g = importGraph("BibTeX", ds, nullptr, graph);
-  CPPUNIT_ASSERT(g == nullptr);
-  ds.set("file::filename", string("data/adj_mat.txt"));
+  ds.set("file::filename", string("./data/adj_mat.txt"));
   g = importGraph("BibTeX", ds, nullptr, graph);
   CPPUNIT_ASSERT(g == nullptr);
-  ds.set("file::filename", string("data/teachpress_pub_17012022.bib"));
-  g = importGraph("BibTeX", ds, nullptr, graph);
+  g = tlp::loadGraph("./data/teachpress_pub_17012022.bib", nullptr, graph);
   CPPUNIT_ASSERT(g == graph);
 }
 //==========================================================
 void BasicPluginsTest::testImportPajek() {
   // test all data/*.net files
-  list<string> net_files = {"data/NDactors.net", "data/NDwww.net", "data/netscience.net"};
+  list<string> net_files = {"./data/NDactors.net", "./data/NDwww.net", "./data/netscience.net"};
 
   for (const auto &file : net_files) {
-    DataSet ds;
-    ds.set("file::filename", string(file));
-    Graph *g = importGraph("Pajek", ds, nullptr, graph);
+    Graph *g = tlp::loadGraph(file, nullptr, graph);
     CPPUNIT_ASSERT(g == graph);
     g->clear();
   }
@@ -239,28 +213,28 @@ void BasicPluginsTest::testImportPajek() {
 //==========================================================
 void BasicPluginsTest::testImportUCINET() {
   // test all data/dl_*.txt files
-  list<string> dl_files = {"data/dl_el1_test_labels_embedded.txt",
-                           "data/dl_el1_test_labels.txt",
-                           "data/dl_el1_test_multiple_labels_embedded.txt",
-                           "data/dl_el2_test2_labels_embedded.txt",
-                           "data/dl_el2_test_labels_embedded.txt",
-                           "data/dl_fm_test2.txt",
-                           "data/dl_fm_test3.txt",
-                           "data/dl_fm_test_labels_no_diag.txt",
-                           "data/dl_fm_test2_labels_no_diag.txt",
-                           "data/dl_fm_test_labels.txt",
-                           "data/dl_fm_test_multi_matrices.txt",
-                           "data/dl_fm_test_rect_labels_embedded.txt",
-                           "data/dl_fm_test_rect_labels.txt",
-                           "data/dl_fm_test_rect.txt",
-                           "data/dl_fm_test.txt",
-                           "data/dl_lh_test_labels_no_diag.txt",
-                           "data/dl_lh_test_labels.txt",
-                           "data/dl_nl1_test2_labels_embedded.txt",
-                           "data/dl_nl1_test2_labels.txt",
-                           "data/dl_nl1_test_labels_embedded.txt",
-                           "data/dl_nl1_test_labels.txt",
-                           "data/dl_nl2_test_row_col_labels_embedded.txt"};
+  list<string> dl_files = {"./data/dl_el1_test_labels_embedded.txt",
+                           "./data/dl_el1_test_labels.txt",
+                           "./data/dl_el1_test_multiple_labels_embedded.txt",
+                           "./data/dl_el2_test2_labels_embedded.txt",
+                           "./data/dl_el2_test_labels_embedded.txt",
+                           "./data/dl_fm_test2.txt",
+                           "./data/dl_fm_test3.txt",
+                           "./data/dl_fm_test_labels_no_diag.txt",
+                           "./data/dl_fm_test2_labels_no_diag.txt",
+                           "./data/dl_fm_test_labels.txt",
+                           "./data/dl_fm_test_multi_matrices.txt",
+                           "./data/dl_fm_test_rect_labels_embedded.txt",
+                           "./data/dl_fm_test_rect_labels.txt",
+                           "./data/dl_fm_test_rect.txt",
+                           "./data/dl_fm_test.txt",
+                           "./data/dl_lh_test_labels_no_diag.txt",
+                           "./data/dl_lh_test_labels.txt",
+                           "./data/dl_nl1_test2_labels_embedded.txt",
+                           "./data/dl_nl1_test2_labels.txt",
+                           "./data/dl_nl1_test_labels_embedded.txt",
+                           "./data/dl_nl1_test_labels.txt",
+                           "./data/dl_nl2_test_row_col_labels_embedded.txt"};
 
   for (const auto &file : dl_files) {
     DataSet ds;
@@ -450,16 +424,14 @@ void BasicPluginsTest::testImportFileSystem() {
 }
 //==========================================================
 void BasicPluginsTest::testImportGEXF() {
-  // test all data/*.net files
+  // test all ./data/*.net files
   list<string> gexf_files = {
-      "data/basic.gexf",      "data/data.gexf",       "data/hierarchy1.gexf",
-      "data/hierarchy2.gexf", "data/hierarchy3.gexf", "data/hierarchy4.gexf",
-      "data/phylogeny.gexf",  "data/viz.gexf",        "data/WebAtlas_EuroSiS.gexf"};
+      "./data/basic.gexf",      "./data/data.gexf",       "./data/hierarchy1.gexf",
+      "./data/hierarchy2.gexf", "./data/hierarchy3.gexf", "./data/hierarchy4.gexf",
+      "./data/phylogeny.gexf",  "./data/viz.gexf",        "./data/WebAtlas_EuroSiS.gexf"};
 
   for (const auto &file : gexf_files) {
-    DataSet ds;
-    ds.set("file::filename", file);
-    Graph *g = importGraph("GEXF", ds, nullptr, graph);
+    Graph *g = tlp::loadGraph(file, nullptr, graph);
     CPPUNIT_ASSERT(g == graph);
     g->clear();
   }

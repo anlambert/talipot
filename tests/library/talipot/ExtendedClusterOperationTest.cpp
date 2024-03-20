@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,13 +17,6 @@
 
 using namespace std;
 using namespace tlp;
-
-static Graph *tlp_loadGraph(const std::string &filename) {
-  DataSet dataSet;
-  dataSet.set("file::filename", filename);
-  Graph *sg = tlp::importGraph("TLP Import", dataSet);
-  return sg;
-}
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ExtendedClusterOperationTest);
 //==========================================================
@@ -145,7 +138,7 @@ void ExtendedClusterOperationTest::testBugCreateOpenMetaNode() {
 }
 //==========================================================
 void ExtendedClusterOperationTest::testBugOpenInSubgraph() {
-  Graph *graph = tlp_loadGraph("./DATA/graphs/openmetanode1.tlp.gz");
+  Graph *graph = tlp::loadGraph("./DATA/graphs/openmetanode1.tlp.gz");
   // take the quotient graph
   bool find = false;
   Graph *subgraph = nullptr;

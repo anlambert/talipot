@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -92,8 +92,7 @@ void BasicLayoutTest::testDendrogram() {
 //==========================================================
 void BasicLayoutTest::testGEMLayout() {
   DataSet ds;
-  ds.set("file::filename", string("data/unconnected.tlp"));
-  Graph *g = importGraph("TLP Import", ds, nullptr, graph);
+  Graph *g = tlp::loadGraph("./data/unconnected.tlp", nullptr, graph);
   CPPUNIT_ASSERT(g == graph);
   LayoutProperty prop(graph);
   string errorMsg;

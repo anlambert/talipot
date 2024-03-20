@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1027,12 +1027,10 @@ void ObservableGraphTest::testAddEdgesEventForTLPBImport() {
   node n2 = testGraph->addNode();
   testGraph->addEdge(n1, n2);
   string tlpbFile = "test.tlpb.gz";
-  saveGraph(testGraph, tlpbFile);
+  tlp::saveGraph(testGraph, tlpbFile);
 
   // import the previously saved graph by populating the already created empty graph
-  DataSet params;
-  params.set("file::filename", tlpbFile);
-  importGraph("TLPB Import", params, nullptr, graph);
+  graph = tlp::loadGraph(tlpbFile, nullptr, graph);
   // check that the graph event GraphEventType::TLP_ADD_EDGES has been correctly received
   CPPUNIT_ASSERT(!gObserver->edges.empty());
   delete testGraph;
