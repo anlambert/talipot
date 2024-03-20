@@ -14,7 +14,7 @@ jobs:
           - name: Talipot build on macOS x86_64
             os: macos-11
           - name: Talipot build on macOS arm64
-            os: flyci-macos-large-latest-m1
+            os: macos-14
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
@@ -32,7 +32,6 @@ jobs:
           echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
         shell: bash
       - name: Cache files
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         uses: actions/cache@v4
         with:
           path: |
@@ -43,13 +42,11 @@ jobs:
             ${{ matrix.config.os }}-ccache-
           save-always: true
       - name: Install MacPorts
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         run: |
           curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
           source ./macports-ci install
           source ./macports-ci ccache
       - name: Install Talipot build dependencies
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         run: sudo port -N install
           cmake
           clang-${{ env.CLANG_VERSION }}
@@ -74,66 +71,56 @@ jobs:
           quazip
           py${{ env.PYTHON_VERSION_NO_DOT }}-pip
       - name: Install Sphinx
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         run: pip-${{ env.PYTHON_VERSION }} install sphinx
       - name: Save MacPorts ccache
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         run: source ./macports-ci ccache --save
       - name: Create build directory
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         run: mkdir build
       - name: Configure Talipot core build with CMake
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         working-directory: ./build
         run: cmake .. -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_INSTALL_PREFIX=$PWD/install
           -DCMAKE_C_COMPILER=/opt/local/bin/clang-mp-${{ env.CLANG_VERSION }}
           -DCMAKE_CXX_COMPILER=/opt/local/bin/clang++-mp-${{ env.CLANG_VERSION }}
+          -DCMAKE_SHARED_LINKER_FLAGS="-L/opt/local/libexec/llvm-${{ env.CLANG_VERSION }}/lib
+          -Wl,-rpath,/opt/local/libexec/llvm-${{ env.CLANG_VERSION }}/lib"
+          -DCMAKE_EXE_LINKER_FLAGS="-L/opt/local/libexec/llvm-${{ env.CLANG_VERSION }}/lib
+          -Wl,-rpath,/opt/local/libexec/llvm-${{ env.CLANG_VERSION }}/lib"
           -DPython3_EXECUTABLE=/opt/local/bin/python${{ env.PYTHON_VERSION }}
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_USE_CCACHE=ON
           -DTALIPOT_BUILD_DOC=OFF
           -DTALIPOT_BUILD_CORE_ONLY=ON
       - name: Talipot core build
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         working-directory: ./build
         run: make -j4
       - name: Install Talipot core build
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         working-directory: ./build
         run: make -j4 install
       - name: Run Talipot core build unit tests
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         working-directory: ./build
         run: make tests
       - name: Configure Talipot complete build with CMake
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         working-directory: ./build
         run: cmake .
           -DTALIPOT_BUILD_CORE_ONLY=OFF
           -DTALIPOT_BUILD_DOC=ON
       - name: Talipot complete build
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         working-directory: ./build
         run: make -j4
       - name: Install Talipot complete build
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         working-directory: ./build
         run: make -j4 install
       - name: Run Talipot complete build unit tests
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         working-directory: ./build
         run: make tests
       - name: Check Talipot application can be executed
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         working-directory: ./build/install/bin
         run: ./talipot --check-application-starts --debug-plugins-load
       - name: Generate Talipot dmg bundle
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         working-directory: ./build
         run: make bundle
       - name: Upload Talipot bundle to GitHub Actions artifacts
-        if: matrix.config.os == 'macos-11' || github.ref == 'refs/tags/dev-latest'
         uses: actions/upload-artifact@v4
         with:
           name: Talipot-macOS-bundles-${{ matrix.config.os }}
