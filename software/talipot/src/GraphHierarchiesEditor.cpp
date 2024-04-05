@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -229,25 +229,28 @@ void GraphHierarchiesEditor::contextMenuRequested(const QPoint &p) {
     menu.addSeparator();
     menu.addAction(_ui->actionRename);
     menu.addSeparator();
-    menu.addAction(_ui->actionAdd_sub_graph);
-    menu.addAction(_ui->actionCreate_induced_sub_graph);
-    menu.addAction(_ui->actionClone_subgraph);
+    QMenu *createMenu =
+        menu.addMenu(FontIcon::icon(MaterialDesignIcons::Tournament, 1.0, -90), "Create");
+    createMenu->addAction(_ui->actionAdd_sub_graph);
+    createMenu->addAction(_ui->actionCreate_induced_sub_graph);
+    createMenu->addAction(_ui->actionClone_subgraph);
 
     if (_contextGraph->getRoot() != _contextGraph) {
-      menu.addAction(_ui->actionClone_sibling);
-      menu.addAction(_ui->actionClone_sibling_with_properties);
+      createMenu->addAction(_ui->actionClone_sibling);
+      createMenu->addAction(_ui->actionClone_sibling_with_properties);
     }
     menu.addSeparator();
+    QMenu *deleteMenu = menu.addMenu(FontIcon::icon(MaterialDesignIcons::DeleteOutline), "Delete");
     if (_contextGraph->getRoot() != _contextGraph) {
-      menu.addAction(_ui->actionDelete_graph);
+      deleteMenu->addAction(_ui->actionDelete_graph);
     }
 
-    menu.addAction(_ui->actionDelete_All);
-    menu.addAction(_ui->actionDelete_all_nodes);
-    menu.addAction(_ui->actionDelete_all_edges);
-    menu.addAction(_ui->actionDelete_selection);
+    deleteMenu->addAction(_ui->actionDelete_All);
+    deleteMenu->addAction(_ui->actionDelete_all_nodes);
+    deleteMenu->addAction(_ui->actionDelete_all_edges);
+    deleteMenu->addAction(_ui->actionDelete_selection);
     if (_contextGraph->getRoot() != _contextGraph) {
-      menu.addAction(_ui->actionDelete_selection_from_root_graph);
+      deleteMenu->addAction(_ui->actionDelete_selection_from_root_graph);
     }
     if (!_contextGraph->subGraphs().empty()) {
       menu.addSeparator();
