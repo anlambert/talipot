@@ -34,6 +34,8 @@
 #include <talipot/FileDownloader.h>
 #include <talipot/ItemEditorCreators.h>
 #include <talipot/GlOffscreenRenderer.h>
+#include <talipot/FontIcon.h>
+#include <talipot/MaterialDesignIcons.h>
 
 /**
  * For openDataSetDialog function : see OpenDataSet.cpp
@@ -542,6 +544,11 @@ void qDetailedMessageBox(QMessageBox::Icon icon, const QString &title, const QSt
     }
   }
   msgBox.exec();
+}
+
+QIcon addToSelectionIcon() {
+  return FontIcon::stackIcons(FontIcon::icon(MaterialDesignIcons::Selection),
+                              FontIcon::icon(MaterialDesignIcons::Plus, 0.7));
 }
 
 }

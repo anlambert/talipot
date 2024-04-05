@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -63,6 +63,10 @@ public:
   ~GraphHierarchiesEditor() override;
   void setModel(tlp::GraphHierarchiesModel *model);
   bool synchronized() const;
+
+protected:
+  void selectGraphElements(tlp::Graph *graph, bool nodes, bool edges, bool selectValue,
+                           bool resetSelection);
 
 signals:
   void changeSynchronization(bool);

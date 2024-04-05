@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -155,6 +155,8 @@ qDetailedMessageBox(QMessageBox::Icon icon, const QString &title, const QString 
                     const QString &detailedText, QWidget *parent = nullptr,
                     QMessageBox::StandardButtons buttons = QMessageBox::Ok,
                     Qt::WindowFlags f = Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
+
+TLP_QT_SCOPE QIcon addToSelectionIcon();
 
 }
 

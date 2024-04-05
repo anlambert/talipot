@@ -252,6 +252,37 @@ void GraphHierarchiesEditor::contextMenuRequested(const QPoint &p) {
     if (_contextGraph->getRoot() != _contextGraph) {
       deleteMenu->addAction(_ui->actionDelete_selection_from_root_graph);
     }
+
+    menu.addSeparator();
+
+    QMenu *selectMenu = menu.addMenu(FontIcon::icon(MaterialDesignIcons::Selection), "Select");
+
+    selectMenu->addAction("graph elements",
+                          [this] { selectGraphElements(_contextGraph, true, true, true, true); });
+    selectMenu->addAction("graph nodes",
+                          [this] { selectGraphElements(_contextGraph, true, false, true, true); });
+    selectMenu->addAction("graph edges",
+                          [this] { selectGraphElements(_contextGraph, false, true, true, true); });
+
+    QMenu *addToSelMenu = menu.addMenu(addToSelectionIcon(), "Add to selection");
+
+    addToSelMenu->addAction(
+        "graph elements", [this] { selectGraphElements(_contextGraph, true, true, true, false); });
+    addToSelMenu->addAction(
+        "graph nodes", [this] { selectGraphElements(_contextGraph, true, false, true, false); });
+    addToSelMenu->addAction(
+        "graph edges", [this] { selectGraphElements(_contextGraph, false, true, true, false); });
+
+    QMenu *removeFromSelMenu =
+        menu.addMenu(FontIcon::icon(MaterialDesignIcons::SelectionRemove), "Remove from selection");
+
+    removeFromSelMenu->addAction(
+        "graph elements", [this] { selectGraphElements(_contextGraph, true, true, false, false); });
+    removeFromSelMenu->addAction(
+        "graph nodes", [this] { selectGraphElements(_contextGraph, true, false, false, false); });
+    removeFromSelMenu->addAction(
+        "graph edges", [this] { selectGraphElements(_contextGraph, false, true, false, false); });
+
     if (!_contextGraph->subGraphs().empty()) {
       menu.addSeparator();
       if (!_ui->hierarchiesTree->isExpanded(_contextIndex)) {
@@ -260,6 +291,7 @@ void GraphHierarchiesEditor::contextMenuRequested(const QPoint &p) {
         menu.addAction(_ui->actionCollapse_hierarchy);
       }
     }
+
     menu.exec(_ui->hierarchiesTree->viewport()->mapToGlobal(p));
     _contextIndex = QModelIndex();
     _contextGraph = nullptr;
@@ -527,4 +559,25 @@ void GraphHierarchiesEditor::collapseGraphHierarchy() {
 
 void GraphHierarchiesEditor::expandGraphHierarchy() {
   _ui->hierarchiesTree->setAllHierarchyVisible(_contextIndex, true);
+}
+
+void GraphHierarchiesEditor::selectGraphElements(Graph *graph, bool nodes, bool edges,
+                                                 bool selectValue, bool resetSelection) {
+  if ((nodes && graph->numberOfNodes()) || (edges && graph->numberOfEdges())) {
+    graph->push();
+  }
+
+  auto *viewSelection = graph->getBooleanProperty("viewSelection");
+
+  if (resetSelection) {
+    viewSelection->setAllNodeValue(false);
+    viewSelection->setAllEdgeValue(false);
+  }
+
+  if (nodes) {
+    viewSelection->setAllNodeValue(selectValue, graph);
+  }
+  if (edges) {
+    viewSelection->setAllEdgeValue(selectValue, graph);
+  }
 }
