@@ -1,0 +1,141 @@
+name: windows-msvc-build
+on: [push, pull_request]
+jobs:
+  msvc:
+    name: Talipot build on Windows (MSVC)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: cmd
+    env:
+      PYTHON_VERSION: "3.11"
+      CMAKE_GENERATOR: Visual Studio 17 2022
+      MSVC_ARCH: x64
+      VCPKG_INSTALL_DIR: ${{ github.workspace }}\vcpkg\installed\x64-windows-release
+      CLCACHE_DIR: C:/clcache
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ github.token }}
+      - name: Checkout Talipot code
+        uses: actions/checkout@v4
+      - name: Install MSYS2 shell
+        uses: msys2/setup-msys2@v2
+      - name: Prepare clcache timestamp
+        shell: msys2 {0}
+        id: get-current-date
+        run: |
+          echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
+      - name: Cache files
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CLCACHE_DIR }}
+          key: windows-msvc-build-clcache-${{ steps.get-current-date.outputs.date }}
+          restore-keys: |
+            windows-msvc-build-clcache
+          save-always: true
+      - name: Install build dependencies with vcpkg
+        uses: johnwason/vcpkg-action@v6
+        id: vcpkg
+        with:
+          pkgs: zlib
+            zstd
+            qhull
+            yajl
+            graphviz
+            libgit2
+            cppunit
+            freetype
+            glew
+            fontconfig
+            fribidi
+          triplet: x64-windows-release
+          extra-args: --allow-unsupported --recurse
+          token: ${{ github.token }}
+          github-binarycache: true
+      - name: Install Qt6
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: "6.7.0"
+          host: windows
+          target: desktop
+          arch: win64_msvc2019_64
+          modules: qtimageformats
+            qtpositioning
+            qtwebengine
+            qtwebchannel
+            qtwebsockets
+            qt5compat
+          cache: true
+      - name: Install Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        id: python-install
+        with:
+          python-version: "${{ env.PYTHON_VERSION }}"
+      - name: Install sip
+        run: |
+          set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%
+          pip install sip
+      - name: Install clcache
+        run: |
+          set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%
+          pip install scandir wheel
+          pip install git+https://github.com/anlambert/pyuv@master#egg=pyuv
+          set SETUPTOOLS_SCM_PRETEND_VERSION=v4.2.13
+          pip install git+https://github.com/dgehri/clcache@v4.2.13-dehri#egg=clcache
+      - name: Create build directory
+        run: mkdir build
+      - name: Configure Talipot build with CMake
+        working-directory: ./build
+        run: |
+          set INCLUDE_PATH=%VCPKG_INSTALL_DIR%/include;^
+          %VCPKG_INSTALL_DIR%/include/graphviz
+          set LIBRARY_PATH=%VCPKG_INSTALL_DIR%/bin;^
+          %VCPKG_INSTALL_DIR%/lib
+          set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%
+          cmake -G "%CMAKE_GENERATOR%"^
+            -A "%MSVC_ARCH%"^
+            -DCMAKE_INSTALL_PREFIX="C:/talipot"^
+            -DCMAKE_INCLUDE_PATH="%INCLUDE_PATH%"^
+            -DCMAKE_LIBRARY_PATH="%LIBRARY_PATH%"^
+            -DCMAKE_PREFIX_PATH="%QT_ROOT_DIR%"^
+            -DPython3_EXECUTABLE="%Python3_ROOT_DIR%/python.exe"^
+            -DTALIPOT_USE_QT6=ON^
+            -DTALIPOT_BUILD_DOC=OFF^
+            -DTALIPOT_BUILD_TESTS=ON ..
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+      - name: Talipot build and install
+        working-directory: ./build
+        run: |
+          set CLCACHE_MSBUILD_CONF=/p:TrackFileAccess=false /p:CLToolExe=clcache.exe^
+            /p:CLToolPath=%Python3_ROOT_DIR%\Scripts
+          msbuild INSTALL.vcxproj /verbosity:minimal /m /p:Configuration=Release^
+            %CLCACHE_MSBUILD_CONF%
+      - name: Run Talipot unit tests
+        working-directory: ./build
+        run: ctest --force-new-ctest-process --output-on-failure --build-config "Release"
+      - name: Check Talipot application can be executed
+        working-directory: C:/talipot/bin
+        run: talipot --check-application-starts --debug-plugins-load
+      - name: Generate Talipot NSIS installer
+        working-directory: ./build
+        run: |
+          set CLCACHE_MSBUILD_CONF=/p:TrackFileAccess=false /p:CLToolExe=clcache.exe^
+            /p:CLToolPath=%Python3_ROOT_DIR%\Scripts
+          msbuild bundlers/win/bundle.vcxproj /m /p:Configuration=Release %CLCACHE_MSBUILD_CONF%
+      - name: Upload Talipot installer to GitHub Actions artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Talipot-NSIS-installer-msvc
+          path: ./build/Talipot*.exe
+      - name: Upload Talipot bundle to dev-latest prerelease
+        if: github.ref == 'refs/tags/dev-latest'
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          name: Talipot development build
+          prerelease: true
+          artifacts: ./build/Talipot*.exe
+          token: ${{ secrets.GITHUB_TOKEN }}
