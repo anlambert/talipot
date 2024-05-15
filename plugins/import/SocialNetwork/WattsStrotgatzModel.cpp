@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,8 +22,8 @@ static constexpr std::string_view paramHelp[] = {
     "This parameter defines the amount of nodes used to build the scale-free graph.",
 
     // k
-    "Number of edges added to each node in the initial ring lattice. Be careful that #nodes > k > "
-    "ln(#nodes)",
+    "Number of edges added to each node in the initial ring lattice. "
+    "Be careful that #nodes > k > ln(#nodes) > 1",
 
     // p
     "Probability in [0,1] to rewire an edge.",
@@ -46,20 +46,20 @@ struct WattsStrogatzModel : public ImportModule {
                     "Randomly generates a small world graph using the model described in<br/>D. J. "
                     "Watts and S. H. Strogatz.<br/><b>Collective dynamics of small-world "
                     "networks.</b><br/>Nature 393, 440 (1998).",
-                    "1.0", "Social network")
+                    "1.1", "Social network")
 
   WattsStrogatzModel(PluginContext *context) : ImportModule(context) {
-    addInParameter<uint>("nodes", paramHelp[0].data(), "200");
-    addInParameter<uint>("k", paramHelp[1].data(), "3");
+    addInParameter<uint>("nodes", paramHelp[0].data(), "500");
+    addInParameter<uint>("k", paramHelp[1].data(), "25");
     addInParameter<double>("p", paramHelp[2].data(), "0.02");
-    addInParameter<bool>("original model", paramHelp[3].data(), "false");
+    addInParameter<bool>("original model", paramHelp[3].data(), "true");
   }
 
   bool importGraph() override {
-    uint nbNodes = 200;
-    uint k = 3;
+    uint nbNodes = 500;
+    uint k = 25;
     double p = 0.02;
-    bool original_model = false;
+    bool original_model = true;
 
     if (dataSet != nullptr) {
       dataSet->get("nodes", nbNodes);
@@ -77,8 +77,8 @@ struct WattsStrogatzModel : public ImportModule {
       pluginProgress->setError("The k parameter cannot be greater than the number of nodes.");
       return false;
     }
-    if (original_model && (nbNodes >= log(float(k)))) {
-      pluginProgress->setError("The number of nodes cannot be greater than ln(k)");
+    if (original_model && (log(float(nbNodes)) >= k)) {
+      pluginProgress->setError("The k parameter must be greater than ln(nodes).");
       return false;
     }
 
