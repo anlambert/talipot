@@ -5,7 +5,7 @@
 [![Build Status](https://github.com/anlambert/talipot/workflows/macos-macports-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-macports-build.yml)
 [![Build Status](https://github.com/anlambert/talipot/workflows/macos-homebrew-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-homebrew-build.yml)
 [![Build Status](https://github.com/anlambert/talipot/workflows/windows-mingw64-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-mingw64-build.yml)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/anlambert/talipot?branch=master&svg=true)](https://ci.appveyor.com/project/anlambert/talipot)
+[![Build Status](https://github.com/anlambert/talipot/workflows/windows-msvc-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-msvc-build.yml)
 
 
 Talipot is an open source, cross-platform, data visualization framework mainly
@@ -115,14 +115,13 @@ greatly facilitates the build of Talipot on that platform (notably by providing 
 to date compilers and precompiled dependencies).
 
 Hints on how to build Talipot for these three platforms can be found in the continuous
-integration setup for [GitHub Actions](https://github.com/features/actions) and
-[AppVeyor](https://www.appveyor.com):
+integration setup for [GitHub Actions](https://github.com/features/actions):
 
   * [ubuntu-build.yml](.github/workflows/ubuntu-build.yml)
   * [macos-homebrew-build.yml](.github/workflows/macos-homebrew-build.yml)
   * [macos-macports-build.yml](.github/workflows/macos-macports-build.yml)
   * [windows-mingw64-build.yml](.github/workflows/windows-mingw64-build.yml)
-  * [appveyor_msvc.bat](appveyor/appveyor_msvc.bat)
+  * [windows-msvc-build.yml](.github/workflows/windows-msvc-build.yml)
 
 
 ## License
