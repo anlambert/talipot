@@ -69,7 +69,7 @@ for CPYBIN in /opt/python/cp*/bin
 do
   if [[ $CPYBIN == *"cp27"* ]] || [[ $CPYBIN == *"cp34"* ]] \
     || [[ $CPYBIN == *"cp35"* ]] || [[ $CPYBIN == *"cp36"* ]] \
-    || [[ $CPYBIN == *"cp37"* ]]
+    || [[ $CPYBIN == *"cp37"* ]] || [[ $CPYBIN == *"cp313t"* ]]
   then
     continue
   fi
