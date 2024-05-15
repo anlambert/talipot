@@ -52,10 +52,6 @@ jobs:
             mingw-w64-${{ matrix.config.arch }}-qtwebkit
             mingw-w64-${{ matrix.config.arch }}-python-sphinx
             mingw-w64-${{ matrix.config.arch }}-sip
-      - if: matrix.config.msystem == 'clang64'
-        name: Patch CMake GetPrerequisites module until 3.29.0 release is out
-        run: sed -i 's/\\t\*DLL Name/\[\\t \]\*DLL Name/'
-          /clang64/share/cmake/Modules/GetPrerequisites.cmake
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
