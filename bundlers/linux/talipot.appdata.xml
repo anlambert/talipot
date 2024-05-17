@@ -6,9 +6,9 @@
 	<name>Talipot</name>
 	<summary>Display, analyze and edit relational data</summary>
 	<description>
-		<p>Talipot is an information visualization framework dedicated to the analysis and visualization of relational data.</p>
+		<p>Talipot is an information visualization framework dedicated to the analysis and visualization
+			of relational data.</p>
 	</description>
-	<icon type="cached">Talipot.png</icon>
 	<launchable type="desktop-id">talipot.desktop</launchable>
 	<url type="homepage">https://github.com/anlambert/talipot</url>
 	<provides>

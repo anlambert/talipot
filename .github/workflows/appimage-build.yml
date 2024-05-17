@@ -8,8 +8,12 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: Talipot AppImage build on CentOS 8
+          - name: Talipot AppImage build on CentOS 8 Stream
             docker-image: tgagor/centos-stream:8
+            centos-version: centos8
+          - name: Talipot AppImage build on CentOS 9 Stream
+            docker-image: dokken/centos-stream-9
+            centos-version: centos9
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
@@ -41,6 +45,8 @@ jobs:
         run: docker run
           -e CCACHE_DIR=/ccache
           --volumes-from ccache
+          --device /dev/fuse
+          --privileged
           -v `pwd`:/talipot:rw
           ${{ matrix.config.docker-image }}
           /bin/bash -c "bash -xe /talipot/bundlers/linux/talipot_appimage_centos_build.sh"
@@ -61,7 +67,7 @@ jobs:
             -v ${{ github.workspace }}:/talipot:rw
           run: |
             dnf -y group install "Basic Desktop" GNOME
-            yum install -y xorg-x11-server-Xvfb
+            yum install -y xorg-x11-server-Xvfb libglvnd-opengl
             xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts --debug-plugins-load
       - name: Check Talipot AppImage can be executed on ArchLinux
         uses: addnab/docker-run-action@v3
@@ -90,7 +96,7 @@ jobs:
       - name: Upload Taliot AppImage to GitHub Actions artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Talipot-AppImage
+          name: Talipot-AppImage-${{ matrix.config.centos-version }}
           path: ./build/Talipot*.AppImage
       - name: Upload Talipot bundle to dev-latest prerelease
         if: github.ref == 'refs/tags/dev-latest'

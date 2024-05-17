@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script is CentOS Stream 8.x specific, it intends to create a
+# This script is CentOS Stream [8|9].x specific, it intends to create a
 # talipot portable bundle (using AppImageKit) suitable to
 # run on most linux distributions
 
@@ -135,8 +135,16 @@ wget "https://github.com/probonopd/linuxdeployqt/releases/download/\
 continuous/linuxdeployqt-continuous-x86_64.AppImage"
 chmod a+x linuxdeployqt-continuous-x86_64.AppImage
 
-./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract-and-run \
-  $BUNDLE_BIN_DIR/talipot -bundle-non-qt-libs -no-translations
+linuxdeployqt_opts="-bundle-non-qt-libs -no-translations"
+if [ $(${QMAKE} -query QT_VERSION | cut -c1) -ge 6 ]
+then
+  linuxdeployqt_opts+=" -unsupported-allow-new-glibc"
+  linuxdeployqt_opts+=" -exclude-libs=libnss3.so,libnssutil3.so"
+fi
+
+export LD_LIBRARY_PATH=/usr/lib64/samba/
+./linuxdeployqt-continuous-x86_64.AppImage $BUNDLE_BIN_DIR/talipot \
+  $linuxdeployqt_opts
 
 pushd $BUNDLE_LIB_DIR > /dev/null 2>&1
 

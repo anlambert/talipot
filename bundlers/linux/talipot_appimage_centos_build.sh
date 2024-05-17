@@ -1,6 +1,14 @@
 #!/bin/bash
 
-# this script should only be run in a CentOS Stream 8.x docker image
+# this script should only be run in a CentOS Stream [8|9].x docker image
+
+centos8=true
+centos9=false
+if grep -q "CentOS Stream release 9" /etc/centos-release
+then
+  centos8=false
+  centos9=true
+fi
 
 cd
 
@@ -12,22 +20,37 @@ yum -y update
 # install base build system
 yum -y install epel-release
 yum -y install xz tar gzip make wget ccache
-
-
-# add extra CentOS 8 repositories to get some build dependencies
 yum -y install dnf-plugins-core
-yum config-manager --set-enabled powertools
-yum -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarch.rpm
-yum -y install cmake
 
+if [ "$centos8" = true ]
+then
+  # add extra CentOS 8 repositories to get some build dependencies
+  yum config-manager --set-enabled powertools
+  yum -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarch.rpm
+  talipot_use_qt6=OFF
+  qmake=qmake-qt5
+else
+  # add extra CentOS 9 repositories to get some build dependencies
+  yum config-manager --set-enabled crb
+  talipot_use_qt6=ON
+  qmake=qmake
+fi
+
+yum -y install cmake
 
 # install talipot deps
 yum -y install zlib-devel libzstd-devel qhull-devel yajl-devel \
   graphviz-devel libgit2-devel binutils-devel
 yum -y install freetype-devel fontconfig-devel glew-devel fribidi-devel
-yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
-  quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing --nobest
 
+if [ "$centos8" = true ]
+then
+  yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
+    quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing --nobest
+else
+  yum -y install qt6-qtbase-devel qt6-qtimageformats qt6-qtsvg \
+    qt6-qt5compat-devel qt6-qtwebengine-devel
+fi
 
 # install Python 3, Sphinx and SIP
 yum -y install python3.11-devel python3.11-pip
@@ -60,6 +83,7 @@ cmake -DCMAKE_BUILD_TYPE=Release \
       -DTALIPOT_USE_CCACHE=ON \
       -DTALIPOT_BUILD_FOR_APPIMAGE=ON \
       -DTALIPOT_BUILD_TESTS=ON \
+      -DTALIPOT_USE_QT6=$talipot_use_qt6 \
       -DOpenMP_C_FLAGS=-fopenmp \
       -DOpenMP_CXX_FLAGS=-fopenmp ..
 
@@ -71,14 +95,33 @@ xvfb-run make tests
 # build a bundle dir suitable for AppImageKit
 bash bundlers/linux/make_appimage_bundle.sh --appdir $PWD
 
+APP_DIR=Talipot.AppDir
+
+# ensure QtWebEngine is functional when bundled in AppImage
+if [ "$centos9" = true ]
+then
+  yum -y install patchelf cpio
+  # for some reasons, qt6-qtwebengine translations files are not installed
+  # by yum but those are still available in the rpm archive so we hack a bit
+  # to extract and copy them in the AppImage AppDir
+  yum -y remove --noautoremove qt6-qtwebengine
+  yum -y install --downloadonly --downloaddir=$PWD qt6-qtwebengine
+  rpm2cpio qt6-qtwebengine*.rpm | cpio -idmv --directory=/opt/qtwebengine
+  cp -r /opt/qtwebengine/usr/share/qt6/translations/qtwebengine_locales/ $APP_DIR/usr/translations/
+  # this file is also required to be bundled in AppImage or V8 crashes on startup
+  cp /opt/qtwebengine/usr/share/qt6/resources/v8_context_snapshot.bin $APP_DIR/usr/resources/
+  # rpath of QtWebEngineProcess also needs to be patched to work in AppImage
+  patchelf --set-rpath '$ORIGIN/../lib' $APP_DIR/usr/libexec/QtWebEngineProcess
+fi
+
 # get appimagetool
 wget "https://github.com/probonopd/AppImageKit/releases/download/\
 continuous/appimagetool-$(uname -p).AppImage"
 chmod a+x appimagetool-$(uname -p).AppImage
 
 # finally build the portable app
-TALIPOT_APPIMAGE=Talipot-$(sh talipot-config --version)-$(uname -p).AppImage
-./appimagetool-$(uname -p).AppImage --appimage-extract-and-run Talipot.AppDir $TALIPOT_APPIMAGE
+TALIPOT_APPIMAGE=Talipot-$(sh talipot-config --version)-$(uname -p)-qt$($qmake -query QT_VERSION).AppImage
+./appimagetool-$(uname -p).AppImage $APP_DIR $TALIPOT_APPIMAGE
 chmod +x $TALIPOT_APPIMAGE
 
 if [ -d /talipot_host_build ]; then
