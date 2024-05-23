@@ -10,12 +10,12 @@ jobs:
         config:
           - name: Talipot build on macOS 12 (x86_64)
             os: macos-12
-            pyver: "3.11"
+            pyver: "3.12"
             homebrew_path: /usr/local
-          # - name: Talipot build on macOS 14 (arm64)
-          #   os: macos-14
-          #   pyver: "3.11"
-          #   homebrew_path: /opt/homebrew
+          - name: Talipot build on macOS 14 (arm64)
+            os: macos-14
+            pyver: "3.12"
+            homebrew_path: /opt/homebrew
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
@@ -34,7 +34,6 @@ jobs:
           graphviz
           libgit2
           python@${{ matrix.config.pyver }}
-          sip
           cppunit
           pkg-config
           glew
@@ -43,6 +42,8 @@ jobs:
           fontconfig
           qt6
           quazip || brew link --overwrite python@${{ matrix.config.pyver }}
+      - name: Install SIP
+        run: pip${{ matrix.config.pyver }} install sip --break-system-packages
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
@@ -69,7 +70,7 @@ jobs:
           -DCMAKE_EXE_LINKER_FLAGS="-L${{ matrix.config.homebrew_path }}/opt/llvm/lib/c++
           -Wl,-rpath,${{ matrix.config.homebrew_path }}/opt/llvm/lib/c++"
           -DCMAKE_RANLIB=/usr/bin/ranlib
-          -DPython3_EXECUTABLE=${{ matrix.config.homebrew_path }}/opt/python@${{ matrix.config.pyver }}/bin/python${{ matrix.config.pyver }}
+          -DPython3_EXECUTABLE=${{ matrix.config.homebrew_path }}/bin/python${{ matrix.config.pyver }}
           -DTALIPOT_BUILD_CORE_ONLY=ON
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_BUILD_DOC=OFF
