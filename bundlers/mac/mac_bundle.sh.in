@@ -27,6 +27,9 @@ then
     QT_BINARY_DIR=@_qt5Gui_install_prefix@/bin
 fi
 
+export PATH=${QT_BINARY_DIR}:${PATH}
+export QT_VERSION=$(qmake -query QT_VERSION)
+
 if [ ! -d ${TALIPOT_DIR} ]
 then
     echo "Error : the specified Talipot installation directory does not exist"
@@ -65,37 +68,67 @@ echo 'Copying Python Framework'
 mkdir -p Frameworks/Python.framework/Versions/@PYTHON_VERSION@
 cp -r @PYTHON_STDLIB_DIR@/../../* Frameworks/Python.framework/Versions/@PYTHON_VERSION@/
 find Frameworks/Python.framework/ | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+rm -rf Frameworks/Python.framework/Versions/@PYTHON_VERSION@/share
 
 echo 'Copying License'
 cd "${DEST_DIR}/application"
 cp "${SRC_DIR}/../../LICENSE" .
 
 QT_LIB_DIR="@QT_QTCORE_LIBRARY@/.."
+TALIPOT_APP=${DEST_DIR}/application/Talipot.app
 echo 'Copying Resources'
-cd "${DEST_DIR}/application/Talipot.app/Contents/Frameworks/"
+cd "${TALIPOT_APP}/Contents/Frameworks/"
 cp -r "${QT_LIB_DIR}/QtGui.framework/Resources/qt_menu.nib" ../Resources 2>/dev/null
 cp "@QT_QTCLUCENE_LIBRARY@" . 2>/dev/null
 
-# use macdeployqt to configure exe & libraries
 cd ..
 # configure talipot
 mv bin/talipot MacOS/Talipot
-# run macdeployqt with Talipot Python dynamic modules (not processed by macdeployqt as
-# they are suffixed by .so instead of .dylib)
-${QT_BINARY_DIR}/macdeployqt ${DEST_DIR}/application/Talipot.app \
-    -executable=${DEST_DIR}/application/Talipot.app/Contents/lib/talipot/python/talipot/native/_talipot.so
+# tell macdeployqt to also process Talipot Python dynamic module (not processed by default as
+# its extension is .so instead of .dylib)
+mac_deploy_qt_opts=-executable=${TALIPOT_APP}/Contents/lib/talipot/python/talipot/native/_talipot.so
+if [ $(echo ${QT_VERSION} | cut -c1) -ge 6 ]
+then
+    # qt plugins end up with broken rpaths when using macdeployt from Qt6
+    # so we will copy them manually afterwards
+    mac_deploy_qt_opts+=" -no-plugins"
+fi
 
-# ensure libc++* are present in bundle
-LIB_CXX_DIR="/opt/local/libexec/llvm-${CLANG_VERSION}/lib"
+# use macdeployqt to copy and relink executable and libraries
+${QT_BINARY_DIR}/macdeployqt ${TALIPOT_APP} $mac_deploy_qt_opts
+
+# ensure clang libc++* are present in bundle
+LIB_CXX_DIR=$(echo "@CMAKE_SHARED_LINKER_FLAGS@" | cut -f1 -d" " | cut -c3-)
 if [ -d ${LIB_CXX_DIR} ]
 then
-    cp ${LIB_CXX_DIR}/libc++.1.dylib ${DEST_DIR}/application/Talipot.app/Contents/Frameworks/
-    cp ${LIB_CXX_DIR}/libc++abi.1.dylib ${DEST_DIR}/application/Talipot.app/Contents/Frameworks/
+    cp ${LIB_CXX_DIR}/libc++.1.dylib ${TALIPOT_APP}/Contents/Frameworks/
+    cp ${LIB_CXX_DIR}/libc++abi.1.dylib ${TALIPOT_APP}/Contents/Frameworks/
+fi
+
+# also needed when compiled with homebrew clang
+if [ -f ${LIB_CXX_DIR}/../libunwind.1.dylib ]
+then
+    cp ${LIB_CXX_DIR}/../libunwind.1.dylib ${TALIPOT_APP}/Contents/Frameworks/
+fi
+
+# copy missing dependencies when using Qt6
+if [ $(echo ${QT_VERSION} | cut -c1) -ge 6 ]
+then
+    mkdir ${TALIPOT_APP}/Contents/PlugIns
+    for plugins in iconengines imageformats networkinformation platforminputcontexts \
+platforms position styles tls
+    do
+        cp -r ${QT_BINARY_DIR}/../share/qt/plugins/${plugins} ${TALIPOT_APP}/Contents/PlugIns
+    done
+    for framework in QtSvg QtQuickWidgets
+    do
+        cp -r ${QT_BINARY_DIR}/../lib/${framework}.framework ${TALIPOT_APP}/Contents/Frameworks
+    done
 fi
 
 mv MacOS/Talipot bin/talipot
 # rename
-mv ${DEST_DIR}/application/Talipot.app ${DEST_DIR}/application/${APP_NAME}-@TalipotVersion@.app
+mv ${TALIPOT_APP} ${DEST_DIR}/application/${APP_NAME}-@TalipotVersion@.app
 
 # create launcher
 cat > MacOS/Talipot <<EOF
@@ -109,7 +142,7 @@ export DYLD_FALLBACK_LIBRARY_PATH="\$(pwd)/Frameworks"
 export QT_QPA_PLATFORM_PLUGIN_PATH="\$(pwd)/PlugIns/platforms"
 export QT_PLUGIN_PATH="\$(pwd)/PlugIns"
 export FONTCONFIG_PATH="\$(pwd)/etc/fonts"
-"\$(pwd)"/bin/talipot
+"\$(pwd)"/bin/talipot \$*
 
 EOF
 # make it executable
@@ -120,9 +153,14 @@ MACOS_VERSION=$(echo @MACOS_VERSION@ | cut -c1-2)
 # generate dmg
 echo 'Generating DMG'
 cd "${DEST_DIR}"
-sh "${SRC_DIR}/make_dmg.sh" ${APP_NAME} "@TalipotVersion@" "${DEST_DIR}/application" "${MACOS_VERSION}"
+sh "${SRC_DIR}/make_dmg.sh" ${APP_NAME} "@TalipotVersion@" \
+"${DEST_DIR}/application" "${MACOS_VERSION}"
+
+echo "${APP_NAME}-@TalipotVersion@-macOS-${MACOS_VERSION}.dmg \
+has been successfully generated in ${DEST_DIR}"
 
 # rename dmg
-echo "${APP_NAME}-@TalipotVersion@-macOS-${MACOS_VERSION}.dmg has been successfully generated in ${DEST_DIR}"
 mv ${APP_NAME}-@TalipotVersion@.dmg \
-    ${APP_NAME}-@TalipotVersion@-@CMAKE_HOST_SYSTEM_PROCESSOR@-macOS-${MACOS_VERSION}.dmg
+${APP_NAME}-@TalipotVersion@-@CMAKE_HOST_SYSTEM_PROCESSOR@\
+-macOS-${MACOS_VERSION}-qt${QT_VERSION}.dmg
+
