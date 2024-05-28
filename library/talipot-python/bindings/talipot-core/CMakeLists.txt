@@ -123,6 +123,7 @@ ADD_CUSTOM_COMMAND(
   DEPENDS
     ${TALIPOT_SIP_FILES} ${STL_SIP_FILES} pyproject.toml
     ${CMAKE_CURRENT_SOURCE_DIR}/../../include/talipot/PythonCppTypesConverter.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/generatePropertiesBindings.cmake
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 DISABLE_COMPILER_WARNINGS()
@@ -194,6 +195,7 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 
   CONFIGURE_FILE(packaging/setup.cfg.in ${TALIPOT_PYTHON_FOLDER}/../setup.cfg)
   CONFIGURE_FILE(packaging/setup.py.in ${TALIPOT_PYTHON_FOLDER}/../setup.py)
+
   IF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
     SET(TALIPOT_PYTHON_WHEEL_VERSION ${TALIPOT_PYTHON_TEST_WHEEL_VERSION})
     CONFIGURE_FILE(packaging/setup.py.in
@@ -216,6 +218,7 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
     DEPENDS ${TALIPOT_PYTHON_FOLDER}/../setup.py
             ${TALIPOT_PYTHON_FOLDER}/../setup.cfg)
   ADD_DEPENDENCIES(wheel copyTalipotPythonPackagingFiles)
+
   IF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
     ADD_DEPENDENCIES(wheel copyTalipotPythonPackagingFiles)
   ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
@@ -239,7 +242,6 @@ ENDIF(WIN32)
 # _talipot.so binary That way, the talipot module can be imported in a classical
 # Python shell without having to modify the content of the DYLD_LIBRARY_PATH
 # environment variable
-
 FILE(RELATIVE_PATH TalipotLibsInstallRelPath
      ${TalipotPythonModulesInstallDir}/talipot/native
      ${CMAKE_INSTALL_PREFIX}/${TalipotLibInstallDir})
