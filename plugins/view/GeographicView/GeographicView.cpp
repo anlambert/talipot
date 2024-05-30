@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,7 +33,9 @@ const QMap<GeographicView::ViewType, QString> GeographicView::viewTypeToName = {
     {GeographicView::EsriSatellite, "Esri Satellite (Leaflet)"},
     {GeographicView::EsriTerrain, "Esri Terrain (Leaflet)"},
     {GeographicView::EsriGrayCanvas, "Esri Gray Canvas (Leaflet)"},
-    {GeographicView::Wikimedia, "Wikimedia (Leaflet)"},
+    {GeographicView::GeoportailPlan, "Géoportail France Plan (Leaflet)"},
+    {GeographicView::GeoportailSatellite, "Géoportail France Satellite (Leaflet)"},
+    {GeographicView::GeoportailIgn, "Géoportail France IGN (Leaflet)"},
     {GeographicView::Polygon, "Polygon"},
     {GeographicView::Globe, "Globe"},
     {GeographicView::LeafletCustomTileLayer, "Custom Tile Layer (Leaflet)"}};

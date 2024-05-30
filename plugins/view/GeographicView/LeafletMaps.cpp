@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -88,13 +88,45 @@ function init(lat, lng, zoom) {
   });
   addEventHandlersToLayer(esriGrayCanvas);
   layers['%4'] = esriGrayCanvas;
-  var wikiMedia = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
-	  attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>',
-	  minZoom: 1,
-	  maxZoom: 19
+  var geoportailFrancePlan = L.tileLayer('https://wxs.ign.fr/{apikey}/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS' +
+    '&VERSION=1.0.0&STYLE={style}&TILEMATRIXSET=PM&FORMAT={format}&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&' +
+    'TILEMATRIX={z}&TILEROW={y}&TILECOL={x}', {
+      attribution: '<a target="_blank" href="https://www.geoportail.gouv.fr/">Géoportail France</a>',
+      bounds: [[-75, -180], [81, 180]],
+      minZoom: 2,
+      maxZoom: 18,
+      apikey: 'choisirgeoportail',
+      format: 'image/png',
+      style: 'normal'
   });
-  addEventHandlersToLayer(wikiMedia);
-  layers['%5'] = wikiMedia;
+  addEventHandlersToLayer(geoportailFrancePlan);
+  layers['%5'] = geoportailFrancePlan;
+  var geoportailFranceSatellite = L.tileLayer('https://wxs.ign.fr/{apikey}/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS' +
+    '&VERSION=1.0.0&STYLE={style}&TILEMATRIXSET=PM&FORMAT={format}&LAYER=ORTHOIMAGERY.ORTHOPHOTOS' +
+    '&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}', {
+      attribution: '<a target="_blank" href="https://www.geoportail.gouv.fr/">Géoportail France</a>',
+      bounds: [[-75, -180], [81, 180]],
+      minZoom: 2,
+      maxZoom: 19,
+      apikey: 'choisirgeoportail',
+      format: 'image/jpeg',
+      style: 'normal'
+  });
+  addEventHandlersToLayer(geoportailFranceSatellite);
+  layers['%6'] = geoportailFranceSatellite;
+  var geoportailFranceIgn = L.tileLayer('https://wxs.ign.fr/{apikey}/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS' +
+    '&VERSION=1.0.0&STYLE={style}&TILEMATRIXSET=PM&FORMAT={format}&LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS' +
+    '&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}', {
+      attribution: '<a target="_blank" href="https://www.geoportail.gouv.fr/">Géoportail France</a>',
+      bounds: [[-75, -180], [81, 180]],
+      minZoom: 2,
+      maxZoom: 19,
+      apikey: 'choisirgeoportail',
+      format: 'image/jpeg',
+      style: 'normal'
+  });
+  addEventHandlersToLayer(geoportailFranceIgn);
+  layers['%7'] = geoportailFranceIgn;
   currentLayer = osm;
   map.setView(L.latLng(lat, lng), zoom);
   map.on('zoomstart', refreshMap);
@@ -133,7 +165,9 @@ function switchToCustomTileLayer(customTileLayerUrl) {
                   GeographicView::getViewNameFromType(GeographicView::EsriSatellite),
                   GeographicView::getViewNameFromType(GeographicView::EsriTerrain),
                   GeographicView::getViewNameFromType(GeographicView::EsriGrayCanvas),
-                  GeographicView::getViewNameFromType(GeographicView::Wikimedia)) +
+                  GeographicView::getViewNameFromType(GeographicView::GeoportailPlan),
+                  GeographicView::getViewNameFromType(GeographicView::GeoportailSatellite),
+                  GeographicView::getViewNameFromType(GeographicView::GeoportailIgn)) +
 #ifdef QT_HAS_WEBENGINE
          R"(
 document.addEventListener("DOMContentLoaded", function () {
