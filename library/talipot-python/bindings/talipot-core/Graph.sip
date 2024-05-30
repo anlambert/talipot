@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -362,7 +362,7 @@ if (pluginExists<tlp::Algorithm>(*a0)) {
   PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-    // propagate exceptions raised by talipot plugins written in Python
+  // propagate exceptions raised by talipot plugins written in Python
   sipIsErr = -1;
 }
 %End
@@ -4599,7 +4599,7 @@ nodes are replaced with edges from the metanode to the other nodes.
 
 .. warning::
 
-      This method will fail when called on the root graph.
+   This method will fail when called on the root graph.
 %End
 
 %MethodCode
@@ -5151,7 +5151,7 @@ Returns the provided graph or :const:`None` if the import fails.
 %MethodCode
 sipRes = tlp::loadGraph(*a0, nullptr, a1);
 if (PyErr_Occurred()) {
-    // propagate exceptions raised by talipot plugins written in Python
+  // propagate exceptions raised by talipot plugins written in Python
   sipIsErr = -1;
 }
 %End
@@ -5193,7 +5193,7 @@ Returns a new graph or :const:`None` if the import fails.
 %MethodCode
 sipRes = tlp::loadGraph(*a0);
 if (PyErr_Occurred()) {
-    // propagate exceptions raised by talipot plugins written in Python
+  // propagate exceptions raised by talipot plugins written in Python
   sipIsErr = -1;
 }
 %End
@@ -5236,7 +5236,7 @@ Returns whether the export was successful or not.
 %MethodCode
 sipRes = tlp::saveGraph(a0, *a1);
 if (PyErr_Occurred()) {
-    // propagate exceptions raised by talipot plugins written in Python
+  // propagate exceptions raised by talipot plugins written in Python
   sipIsErr = -1;
 }
 %End
@@ -5280,7 +5280,7 @@ if (ok) {
   PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-    // propagate exceptions raised by talipot plugins written in Python
+  // propagate exceptions raised by talipot plugins written in Python
   sipIsErr = -1;
 }
 %End
@@ -5301,7 +5301,7 @@ if (pluginExists<tlp::ImportModule>(*a0)) {
   PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-    // propagate exceptions raised by talipot plugins written in Python
+  // propagate exceptions raised by talipot plugins written in Python
   sipIsErr = -1;
 }
 %End
@@ -5356,7 +5356,7 @@ if (pluginExists<tlp::ImportModule>(*a0)) {
   PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-    // propagate exceptions raised by talipot plugins written in Python
+  // propagate exceptions raised by talipot plugins written in Python
   sipIsErr = -1;
 }
 %End
@@ -5415,7 +5415,7 @@ if (pluginExists<tlp::ImportModule>(*a0)) {
   PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-    // propagate exceptions raised by talipot plugins written in Python
+  // propagate exceptions raised by talipot plugins written in Python
   sipIsErr = -1;
 }
 %End
@@ -5487,7 +5487,7 @@ if (pluginExists<tlp::ExportModule>(*a0)) {
   PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-    // propagate exceptions raised by talipot plugins written in Python
+  // propagate exceptions raised by talipot plugins written in Python
   sipIsErr = -1;
 }
 %End

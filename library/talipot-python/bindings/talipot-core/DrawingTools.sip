@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,7 +49,7 @@ default layout property "viewLayout", nodes z-rotations defined in the default d
 if (a1 && !(a0 == a1->getGraph() || a1->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided boolean property is not attached to the graph on "
-                                   "which to compute its bounding box.");
+                                    "which to compute its bounding box.");
 } else {
   sipRes = new tlp::BoundingBox(tlp::computeBoundingBox(a0, a0->getLayoutProperty("viewLayout"),
                                                         a0->getSizeProperty("viewSize"),
@@ -112,19 +112,19 @@ and sizes of elements.
 if (!(a0 == a1->getGraph() || a1->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided layout property is not attached to the graph on "
-                                   "which to compute its bounding box.");
+                                    "which to compute its bounding box.");
 } else if (!(a0 == a2->getGraph() || a2->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided size property is not attached to the graph on "
-                                   "which to compute its bounding box.");
+                                    "which to compute its bounding box.");
 } else if (!(a0 == a3->getGraph() || a3->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided double property is not attached to the graph on "
-                                   "which to compute its bounding box.");
+                                    "which to compute its bounding box.");
 } else if (a4 && !(a0 == a4->getGraph() || a4->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided boolean property is not attached to the graph on "
-                                   "which to compute its bounding box.");
+                                    "which to compute its bounding box.");
 } else {
   sipRes = new tlp::BoundingBox(tlp::computeBoundingBox(a0, a1, a2, a3, a4));
 }
@@ -170,7 +170,7 @@ members of the tuple (use the :meth:`tlp.Vec3f.dist` method).
 if (a1 && (!(a0 == a1->getGraph() || a1->getGraph()->isDescendantGraph(a0)))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided boolean property is not attached to the graph on "
-                                   "which to compute its bounding sphere.");
+                                    "which to compute its bounding sphere.");
 } else {
   sipRes = new std::pair<tlp::Coord, tlp::Coord>(tlp::computeBoundingRadius(
       a0, a0->getLayoutProperty("viewLayout"), a0->getSizeProperty("viewSize"),
@@ -238,19 +238,19 @@ members of the tuple (use the :meth:`tlp.Vec3f.dist` method).
 if (!(a0 == a1->getGraph() || a1->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided layout property is not attached to the graph on "
-                                   "which to compute its bounding sphere.");
+                                    "which to compute its bounding sphere.");
 } else if (!(a0 == a2->getGraph() || a2->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided size property is not attached to the graph on "
-                                   "which to compute its bounding sphere.");
+                                    "which to compute its bounding sphere.");
 } else if (!(a0 == a3->getGraph() || a3->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided double property is not attached to the graph on "
-                                   "which to compute its bounding sphere.");
+                                    "which to compute its bounding sphere.");
 } else if (a4 && !(a0 == a4->getGraph() || a4->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided boolean property is not attached to the graph on "
-                                   "which to compute its bounding sphere.");
+                                    "which to compute its bounding sphere.");
 } else {
   sipRes = new std::pair<tlp::Coord, tlp::Coord>(tlp::computeBoundingRadius(a0, a1, a2, a3, a4));
 }
@@ -311,7 +311,7 @@ hull correctly ordered.
 if (a1 && (!(a0 == a1->getGraph() || a1->getGraph()->isDescendantGraph(a0)))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided boolean property is not attached to the graph on "
-                                   "which to compute its convex hull.");
+                                    "which to compute its convex hull.");
 } else {
   sipRes = new std::vector<tlp::Coord>(tlp::computeConvexHull(
       a0, a0->getLayoutProperty("viewLayout"), a0->getSizeProperty("viewSize"),
@@ -375,19 +375,19 @@ vertices of the graph convex hull correctly ordered.
 if (!(a0 == a1->getGraph() || a1->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided layout property is not attached to the graph on "
-                                   "which to compute its convex hull.");
+                                    "which to compute its convex hull.");
 } else if (!(a0 == a2->getGraph() || a2->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided size property is not attached to the graph on "
-                                   "which to compute its convex hull.");
+                                    "which to compute its convex hull.");
 } else if (!(a0 == a3->getGraph() || a3->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided double property is not attached to the graph on "
-                                   "which to compute its convex hull.");
+                                    "which to compute its convex hull.");
 } else if (a4 && !(a0 == a4->getGraph() || a4->getGraph()->isDescendantGraph(a0))) {
   sipIsErr = 1;
   PyErr_SetString(PyExc_ValueError, "The provided boolean property is not attached to the graph on "
-                                   "which to compute its convex hull.");
+                                    "which to compute its convex hull.");
 } else {
   sipRes = new std::vector<tlp::Coord>(tlp::computeConvexHull(a0, a1, a2, a3, a4));
 }

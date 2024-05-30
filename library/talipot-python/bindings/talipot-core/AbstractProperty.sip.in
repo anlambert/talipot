@@ -36,8 +36,11 @@ tlp.@PROPERTY_TYPE@Property.setNodeDefaultValue(val)
 
 Sets the value assigned as the default one to the future added nodes.
 
-:param val: the new value to set on future added nodes.
-:type val: @PYTHON_NODE_TYPE@
+:param val:
+   the new value to set on future added nodes.
+
+:type val:
+   @PYTHON_NODE_TYPE@
 %End
 
 
@@ -49,21 +52,28 @@ tlp.@PROPERTY_TYPE@Property.setAllNodeValue(val, graph = None)
 
 Sets the same value for all nodes in a graph.
 
-All previous values are lost and the value is assigned as
-the default one to the future added nodes.
+All previous values are lost and the value is assigned as the default one to the future added nodes.
 
-An optional descendant graph from the one associated to that property
-can also be provided. In that case only the nodes
-from that graph will have their value modified and the default node value
-will not be modified.
+An optional descendant graph from the one associated to that property can also be provided. In that
+case only the nodes from that graph will have their value modified and the default node value will
+not be modified.
 
-.. warning:: If the provided graph is not a descendant of the one associated
-  to that property, no node value will be modified in it.
+.. warning::
 
-:param val: the value to set on the nodes.
-:type val: @PYTHON_NODE_TYPE@
-:param graph: an optional descendant graph
-:type graph: :class:`tlp.Graph`
+   If the provided graph is not a descendant of the one associated to that property, no node value
+   will be modified in it.
+
+:param val:
+   the value to set on the nodes.
+
+:type val:
+   @PYTHON_NODE_TYPE@
+
+:param graph:
+   an optional descendant graph
+
+:type graph:
+   :class:`tlp.Graph`
 %End
 
 //===========================================================================================
@@ -74,8 +84,11 @@ tlp.@PROPERTY_TYPE@Property.setEdgeDefaultValue(val)
 
 Sets the value assigned as the default one to the future added edges.
 
-:param val: the new value to set on future added edges.
-:type val: @PYTHON_EDGE_TYPE@
+:param val:
+   the new value to set on future added edges.
+
+:type val:
+   @PYTHON_EDGE_TYPE@
 %End
 
 //===========================================================================================
@@ -87,21 +100,28 @@ tlp.@PROPERTY_TYPE@Property.setAllEdgeValue(val, graph = None)
 
 Sets the same value for all edges in a graph.
 
-All previous values are lost and the value is assigned as
-the default one to the future added edges.
+All previous values are lost and the value is assigned as the default one to the future added edges.
 
-An optional descendant graph from the one associated to that property
-can also be provided. In that case only the edges
-from that graph will have their value modified and the default edge value
-will not be modified.
+An optional descendant graph from the one associated to that property can also be provided. In that
+case only the edges from that graph will have their value modified and the default edge value will
+not be modified.
 
-.. warning:: If the provided graph is not a descendant of the one associated
-  to that property, no edge value will be modified in it.
+.. warning::
 
-:param val: the value to set on the edges.
-:type val: @PYTHON_EDGE_TYPE@
-:param graph: an optional descendant graph
-:type graph: :class:`tlp.Graph`
+   If the provided graph is not a descendant of the one associated to that property, no edge value
+   will be modified in it.
+
+:param val:
+   the value to set on the edges.
+
+:type val:
+   @PYTHON_EDGE_TYPE@
+
+:param graph:
+   an optional descendant graph
+
+:type graph:
+   :class:`tlp.Graph`
 %End
 
 //===========================================================================================
@@ -112,7 +132,8 @@ tlp.@PROPERTY_TYPE@Property.getNodeDefaultValue()
 
 Returns the default value associated to the nodes.
 
-:rtype: @PYTHON_NODE_TYPE@
+:rtype:
+   @PYTHON_NODE_TYPE@
 %End
 
 //===========================================================================================
@@ -123,7 +144,8 @@ tlp.@PROPERTY_TYPE@Property.getEdgeDefaultValue()
 
 Returns the default value associated to the edges.
 
-:rtype: @PYTHON_EDGE_TYPE@
+:rtype:
+   @PYTHON_EDGE_TYPE@
 %End
 
 //===========================================================================================
@@ -134,18 +156,25 @@ tlp.@PROPERTY_TYPE@Property.getNodeValue(node)
 
 Returns the value associated to a particular node.
 
-:param node: an existing node
-:type node: :class:`tlp.node`
-:rtype: @PYTHON_NODE_TYPE@
-:throws: an exception if the node does not belong to the graph attached to the property
+:param node:
+   an existing node
+
+:type node:
+   :class:`tlp.node`
+
+:rtype:
+   @PYTHON_NODE_TYPE@
+
+:throws:
+   an exception if the node does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipRes = copyValue(sipCpp->getNodeValue(*a0));
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipRes = copyValue(sipCpp->getNodeValue(*a0));
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -156,18 +185,25 @@ tlp.@PROPERTY_TYPE@Property.getEdgeValue(edge)
 
 Returns the value associated to a particular edge.
 
-:param edge: an existing edge
-:type edge: :class:`tlp.edge`
-:rtype: @PYTHON_EDGE_TYPE@
-:throws: an exception if the edge does not belong to the graph attached to the property
+:param edge:
+   an existing edge
+
+:type edge:
+   :class:`tlp.edge`
+
+:rtype:
+   @PYTHON_EDGE_TYPE@
+
+:throws:
+   an exception if the edge does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipRes = copyValue(sipCpp->getEdgeValue(*a0));
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipRes = copyValue(sipCpp->getEdgeValue(*a0));
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -178,19 +214,28 @@ tlp.@PROPERTY_TYPE@Property.setNodeValue(node, val)
 
 Sets the value of a particular node.
 
-:param node: an existing node
-:type node: :class:`tlp.node`
-:param val: the value to set on the node
-:type val: @PYTHON_NODE_TYPE@
-:throws: an exception if the node does not belong to the graph attached to the property
+:param node:
+   an existing node
+
+:type node:
+   :class:`tlp.node`
+
+:param val:
+   the value to set on the node
+
+:type val:
+   @PYTHON_NODE_TYPE@
+
+:throws:
+   an exception if the node does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->setNodeValue(*a0, getValue(a1));
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->setNodeValue(*a0, getValue(a1));
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -201,72 +246,81 @@ tlp.@PROPERTY_TYPE@Property.setEdgeValue(edge, val)
 
 Sets the value of a particular edge.
 
-:param edge: an existing edge
-:type edge: :class:`tlp.edge`
-:param val: the value to set on the edge
-:type val: @PYTHON_EDGE_TYPE@
-:throws: an exception if the edge does not belong to the graph attached to the property
+:param edge:
+   an existing edge
+
+:type edge:
+   :class:`tlp.edge`
+
+:param val:
+   the value to set on the edge
+
+:type val:
+   @PYTHON_EDGE_TYPE@
+
+:throws:
+   an exception if the edge does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->setEdgeValue(*a0, getValue(a1));
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->setEdgeValue(*a0, getValue(a1));
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
 
   @PROPERTY_NODE_TYPE@ __getitem__(const tlp::node node) const /TypeHint="@PYTHON_NODE_TYPEHINT@"/;
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipRes = copyValue(sipCpp->getNodeValue(*a0));
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipRes = copyValue(sipCpp->getNodeValue(*a0));
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
 
   void __setitem__(const tlp::node node, const @PROPERTY_NODE_TYPE@ &val /TypeHint="@PYTHON_NODE_TYPEHINT@"/) const;
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->setNodeValue(*a0, getValue(a1));
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->setNodeValue(*a0, getValue(a1));
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
 
   @PROPERTY_EDGE_TYPE@ __getitem__(const tlp::edge edge) const /TypeHint="@PYTHON_EDGE_TYPEHINT@"/;
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipRes = copyValue(sipCpp->getEdgeValue(*a0));
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipRes = copyValue(sipCpp->getEdgeValue(*a0));
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
 
   void __setitem__(const tlp::edge edge, const @PROPERTY_EDGE_TYPE@ &val /TypeHint="@PYTHON_EDGE_TYPEHINT@"/) const;
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->setEdgeValue(*a0, getValue(a1));
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->setEdgeValue(*a0, getValue(a1));
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
 
   std::string __repr__() const;
 %MethodCode
-  std::ostringstream oss;
-  oss << "<@PROPERTY_TYPE@ property " << sipCpp->getName() << ">";
-  sipRes = new std::string(oss.str());
+std::ostringstream oss;
+oss << "<@PROPERTY_TYPE@ property " << sipCpp->getName() << ">";
+sipRes = new std::string(oss.str());
 %End
 
 //===========================================================================================
@@ -337,7 +391,7 @@ Sets the value of a particular edge.
 
   virtual tlp::Iterator<tlp::node>* getNonDefaultValuatedNodes(const tlp::Graph* subgraph = NULL) const /TransferBack, TypeHint="Iterator[tlp.node]"/;
 %MethodCode
-  sipRes = tlp::stableIterator(sipCpp->getNonDefaultValuatedNodes(a0));
+sipRes = tlp::stableIterator(sipCpp->getNonDefaultValuatedNodes(a0));
 %End
 
 //===========================================================================================
@@ -346,18 +400,28 @@ Sets the value of a particular edge.
 %Docstring
 tlp.@PROPERTY_TYPE@Property.getNodesEqualTo(val, graph=None)
 
-Returns an iterator through all nodes belonging to the attached graph
-whose associated value is equal to the one given in parameter.
+Returns an iterator through all nodes belonging to the attached graph whose associated value is
+equal to the one given in parameter.
 
-:param val: a value
-:type val: @PYTHON_NODE_TYPE@
-:param graph: a subgraph can be given in parameter, in that case returns an iterator on nodes only belonging to that subgraph
-:type graph: :class:`tlp.Graph`
-:rtype: a Talipot iterator on :class:`tlp.node` objects
+:param val:
+   a value
+
+:type val:
+   @PYTHON_NODE_TYPE@
+
+:param graph:
+   a subgraph can be given in parameter, in that case returns an iterator on nodes only belonging to
+   that subgraph
+
+:type graph:
+   :class:`tlp.Graph`
+
+:rtype:
+   a Talipot iterator on :class:`tlp.node` objects
 %End
 
 %MethodCode
-  sipRes = tlp::stableIterator(sipCpp->getNodesEqualTo(getValue(a0), a1));
+sipRes = tlp::stableIterator(sipCpp->getNodesEqualTo(getValue(a0), a1));
 %End
 //===========================================================================================
 
@@ -371,7 +435,7 @@ whose associated value is equal to the one given in parameter.
 
   virtual tlp::Iterator<tlp::edge>* getNonDefaultValuatedEdges(const tlp::Graph* subgraph = NULL) const /TransferBack, TypeHint="Iterator[tlp.edge]"/;
 %MethodCode
-  sipRes = tlp::stableIterator(sipCpp->getNonDefaultValuatedEdges(a0));
+sipRes = tlp::stableIterator(sipCpp->getNonDefaultValuatedEdges(a0));
 %End
 
 //===========================================================================================
@@ -380,18 +444,28 @@ whose associated value is equal to the one given in parameter.
 %Docstring
 tlp.@PROPERTY_TYPE@Property.getEdgesEqualTo(val, graph=None)
 
-Returns an iterator through all edges belonging to the attached graph
-whose associated value is equal to the one given in parameter.
+Returns an iterator through all edges belonging to the attached graph whose associated value is
+equal to the one given in parameter.
 
-:param val: a value
-:type val: @PYTHON_EDGE_TYPE@
-:param graph: a subgraph can be given in parameter, in that case returns an iterator on edges only belonging to that subgraph
-:type graph: :class:`tlp.Graph`
-:rtype: a Talipot iterator on :class:`tlp.edge` objects
+:param val:
+   a value
+
+:type val:
+   @PYTHON_EDGE_TYPE@
+
+:param graph:
+   a subgraph can be given in parameter, in that case returns an iterator on edges only belonging to
+   that subgraph
+
+:type graph:
+   :class:`tlp.Graph`
+
+:rtype:
+   a Talipot iterator on :class:`tlp.edge` objects
 %End
 
 %MethodCode
-  sipRes = tlp::stableIterator(sipCpp->getEdgesEqualTo(getValue(a0), a1));
+sipRes = tlp::stableIterator(sipCpp->getEdgesEqualTo(getValue(a0), a1));
 %End
 
 //===========================================================================================
@@ -406,14 +480,29 @@ tlp.@PROPERTY_TYPE@Property.copy(nodeDst, nodeSrc, prop, ifNotDefault=False)
 
 Copies the value hold by a property on a node to another node in this property.
 
-:param nodeDst: the node to copy the value to.
-:type nodeDst: :class:`tlp.node`
-:param nodeSrc: the node to copy the value from.
-:type nodeSrc: :class:`tlp.node`
-:param prop: the property holding the value to copy.
-:type prop: :class:`tlp.@PROPERTY_TYPE@Property`
-:param ifNotDefault: whether to ignore default-valuated nodes or not. Defaults to :const:`False`.
-:type ifNotDefault: boolean
+:param nodeDst:
+   the node to copy the value to.
+
+:type nodeDst:
+   :class:`tlp.node`
+
+:param nodeSrc:
+   the node to copy the value from.
+
+:type nodeSrc:
+   :class:`tlp.node`
+
+:param prop:
+   the property holding the value to copy.
+
+:type prop:
+   :class:`tlp.@PROPERTY_TYPE@Property`
+
+:param ifNotDefault:
+   whether to ignore default-valuated nodes or not. Defaults to :const:`False`.
+
+:type ifNotDefault:
+   boolean
 %End
 
 //===========================================================================================
@@ -424,14 +513,29 @@ tlp.@PROPERTY_TYPE@Property.copy(edgeDst, edgeSrc, prop, ifNotDefault=False)
 
 Copies the value hold by a property on an edge to another edge in this property.
 
-:param edgeDst: the node to copy the value to.
-:type edgeDst: :class:`tlp.edge`
-:param edgeSrc: the node to copy the value from.
-:type edgeSrc: :class:`tlp.edge`
-:param prop: the property holding the value to copy.
-:type prop: :class:`tlp.@PROPERTY_TYPE@Property`
-:param ifNotDefault: whether to ignore default-valuated nodes or not. Defaults to :const:`False`.
-:type ifNotDefault: boolean
+:param edgeDst:
+   the node to copy the value to.
+
+:type edgeDst:
+   :class:`tlp.edge`
+
+:param edgeSrc:
+   the node to copy the value from.
+
+:type edgeSrc:
+   :class:`tlp.edge`
+
+:param prop:
+   the property holding the value to copy.
+
+:type prop:
+   :class:`tlp.@PROPERTY_TYPE@Property`
+
+:param ifNotDefault:
+   whether to ignore default-valuated nodes or not. Defaults to :const:`False`.
+
+:type ifNotDefault:
+   boolean
 %End
 
 //===========================================================================================
@@ -442,8 +546,11 @@ tlp.@PROPERTY_TYPE@Property.copy(prop)
 
 Copies the values hold by a property in this property.
 
-:param prop: the property to copy
-:type prop: :class:`tlp.@PROPERTY_TYPE@Property`
+:param prop:
+   the property to copy
+
+:type prop:
+   :class:`tlp.@PROPERTY_TYPE@Property`
 %End
 
 //===========================================================================================
@@ -477,7 +584,8 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.getNodeDefaultValue()
 
 Returns the default list of values associated to the nodes.
 
-:rtype: list of @PYTHON_TYPE@
+:rtype:
+   list of @PYTHON_TYPE@
 %End
 
 //===========================================================================================
@@ -488,7 +596,8 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.getEdgeDefaultValue()
 
 Returns the default list of values associated to the edges.
 
-:rtype: list of @PYTHON_TYPE@
+:rtype:
+   list of @PYTHON_TYPE@
 %End
 
 //===========================================================================================
@@ -499,18 +608,25 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.getNodeValue(node)
 
 Returns the list of values associated to a particular node.
 
-:param node: an existing node
-:type node: :class:`tlp.node`
-:rtype: list of @PYTHON_TYPE@
-:throws: an exception if the node does not belong to the graph attached to the property
+:param node:
+   an existing node
+
+:type node:
+   :class:`tlp.node`
+
+:rtype:
+   list of @PYTHON_TYPE@
+
+:throws:
+   an exception if the node does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getNodeValue(*a0));
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getNodeValue(*a0));
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -521,18 +637,25 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.getEdgeValue(edge)
 
 Returns the list of values associated to a particular edge.
 
-:param edge: an existing edge
-:type edge: :class:`tlp.edge`
-:rtype: list of @PYTHON_TYPE@
-:throws: an exception if the edge does not belong to the graph attached to the property
+:param edge:
+   an existing edge
+
+:type edge:
+   :class:`tlp.edge`
+
+:rtype:
+   list of @PYTHON_TYPE@
+
+:throws:
+   an exception if the edge does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getEdgeValue(*a0));
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getEdgeValue(*a0));
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -543,19 +666,28 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.setNodeValue(node, val)
 
 Sets the list of values of a particular node.
 
-:param node: an existing node
-:type node: :class:`tlp.node`
-:param val: the list of values to set on the node
-:type val: list of @PYTHON_TYPE@
-:throws: an exception if the node does not belong to the graph attached to the property
+:param node:
+   an existing node
+
+:type node:
+   :class:`tlp.node`
+
+:param val:
+   the list of values to set on the node
+
+:type val:
+   list of @PYTHON_TYPE@
+
+:throws:
+   an exception if the node does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->setNodeValue(*a0, *a1);
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->setNodeValue(*a0, *a1);
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -566,19 +698,28 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.setEdgeValue(edge, val)
 
 Sets the list of values of a particular edge.
 
-:param edge: an existing edge
-:type edge: :class:`tlp.edge`
-:param val: the list of values to set on the edge
-:type val: list of @PYTHON_TYPE@
-:throws: an exception if the edge does not belong to the graph attached to the property
+:param edge:
+   an existing edge
+
+:type edge:
+   :class:`tlp.edge`
+
+:param val:
+   the list of values to set on the edge
+
+:type val:
+   list of @PYTHON_TYPE@
+
+:throws:
+   an exception if the edge does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->setEdgeValue(*a0, *a1);
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->setEdgeValue(*a0, *a1);
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 //==========================================================================================
   void setNodeDefaultValue(const std::vector<@CPP_TYPE@> &val /TypeHint="List[@PYTHON_NODE_TYPEHINT@]"/);
@@ -587,8 +728,11 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.setNodeDefaultValue(val)
 
 Sets the value assigned as the default one to the future added nodes.
 
-:param val: the new value to set on future added nodes.
-:type val: list of @PYTHON_TYPE@
+:param val:
+   the new value to set on future added nodes.
+
+:type val:
+   list of @PYTHON_TYPE@
 %End
 //==========================================================================================
   void setAllNodeValue(const std::vector<@CPP_TYPE@> &val /TypeHint="List[@PYTHON_NODE_TYPEHINT@]"/,
@@ -598,21 +742,28 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.setAllNodeValue(val, graph = None)
 
 Sets the same list of values for all nodes in a graph.
 
-All previous values are lost and the list is assigned as
-the default one to the future added nodes.
+All previous values are lost and the list is assigned as the default one to the future added nodes.
 
-An optional descendant graph from the one associated to that property
-can also be provided. In that case only the nodes
-from that graph will have their value modified and the default node
-value will not be modified.
+An optional descendant graph from the one associated to that property can also be provided. In that
+case only the nodes from that graph will have their value modified and the default node value will
+not be modified.
 
-.. warning:: If the provided graph is not a descendant of the one associated to
-  that property, no node value will be modified in it.
+.. warning::
 
-:param val: the list of values to set on the nodes
-:type val: list of @PYTHON_TYPE@
-:param graph: an optional descendant graph
-:type graph: :class:`tlp.Graph`
+   If the provided graph is not a descendant of the one associated to that property, no node value
+   will be modified in it.
+
+:param val:
+   the list of values to set on the nodes
+
+:type val:
+   list of @PYTHON_TYPE@
+
+:param graph:
+   an optional descendant graph
+
+:type graph:
+   :class:`tlp.Graph`
 %End
 
 //==========================================================================================
@@ -623,8 +774,11 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.setEdgeDefaultValue(val)
 
 Sets the value assigned as the default one to the future added edges.
 
-:param val: the new value to set on future added edges.
-:type val: list of @PYTHON_TYPE@
+:param val:
+   the new value to set on future added edges.
+
+:type val:
+   list of @PYTHON_TYPE@
 %End
 
 //==========================================================================================
@@ -635,21 +789,28 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.setAllEdgeValue(val, graph = None)
 
 Sets the same list of values for all edges in a graph.
 
-All previous values are lost and the list is assigned as
-the default one to the future added edges.
+All previous values are lost and the list is assigned as the default one to the future added edges.
 
-An optional descendant graph from the one associated to that property
-can also be provided. In that case only the edges
-from that graph will have their value modified and the default edge
-value will not be modified.
+An optional descendant graph from the one associated to that property can also be provided. In that
+case only the edges from that graph will have their value modified and the default edge value will
+not be modified.
 
-.. warning:: If the provided graph is not a descendant of the one associated
-  to that property, no edge value will be modified in it.
+.. warning::
 
-:param val: the list of values to set on the edges
-:type val: list of @PYTHON_TYPE@
-:param graph: an optional descendant graph
-:type graph: :class:`tlp.Graph`
+   If the provided graph is not a descendant of the one associated to that property, no edge value
+   will be modified in it.
+
+:param val:
+   the list of values to set on the edges
+
+:type val:
+   list of @PYTHON_TYPE@
+
+:param graph:
+   an optional descendant graph
+
+:type graph:
+   :class:`tlp.Graph`
 %End
 
 
@@ -661,29 +822,44 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.setNodeEltValue(node, index, val)
 
 Sets the value in the list attached to a particular node at the given index.
 
-:param node: an existing node
-:type node: :class:`tlp.node`
-:param index: the index in the list
-:type index: integer
-:param val: the value to set in the list
-:type val: @PYTHON_TYPE@
-:throws: an exception if the node does not belong to the graph attached to the property or if the list attached to the node has a size smaller than the given index.
+:param node:
+   an existing node
+
+:type node:
+   :class:`tlp.node`
+
+:param index:
+   the index in the list
+
+:type index:
+   integer
+
+:param val:
+   the value to set in the list
+
+:type val:
+   @PYTHON_TYPE@
+
+:throws:
+   an exception if the node does not belong to the graph attached to the property or if the list
+   attached to the node has a size smaller than the given index.
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    const std::vector<@CPP_TYPE@> &v = sipCpp->getNodeValue(*a0);
-    if (a1 < v.size()) {
-      sipCpp->setNodeEltValue(*a0, a1, getValue(a2));
-    } else {
-      std::ostringstream oss;
-      oss << "vector associated to node " << a0->id << " for vector property \"" << sipCpp->getName() << "\" has a size of " << v.size() << " and the requested index is " << a1 ;
-      PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-      sipIsErr = -1;
-    }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  const std::vector<@CPP_TYPE@> &v = sipCpp->getNodeValue(*a0);
+  if (a1 < v.size()) {
+    sipCpp->setNodeEltValue(*a0, a1, getValue(a2));
   } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    std::ostringstream oss;
+    oss << "vector associated to node " << a0->id << " for vector property \"" << sipCpp->getName()
+        << "\" has a size of " << v.size() << " and the requested index is " << a1;
+    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+    sipIsErr = -1;
   }
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -694,28 +870,41 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.getNodeEltValue(node, index)
 
 Returns the value in the list attached to a particular node at the given index.
 
-:param node: an existing node
-:type node: :class:`tlp.node`
-:param index: the index in the list
-:type index: integer
-:rtype: @PYTHON_TYPE@
-:throws: an exception if the node does not belong to the graph attached to the property or if the list attached to the node has a size smaller than the given index.
+:param node:
+   an existing node
+
+:type node:
+   :class:`tlp.node`
+
+:param index:
+   the index in the list
+
+:type index:
+   integer
+
+:rtype:
+   @PYTHON_TYPE@
+
+:throws:
+   an exception if the node does not belong to the graph attached to the property or if the list
+   attached to the node has a size smaller than the given index.
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    const std::vector<@CPP_TYPE@> &v = sipCpp->getNodeValue(*a0);
-    if (a1 < v.size()) {
-      sipRes = copyValue(sipCpp->getNodeEltValue(*a0, a1));
-    } else {
-      std::ostringstream oss;
-      oss << "vector associated to node " << a0->id << " for vector property \"" << sipCpp->getName() << "\" has a size of " << v.size() << " and the requested index is " << a1 ;
-      PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-      sipIsErr = -1;
-    }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  const std::vector<@CPP_TYPE@> &v = sipCpp->getNodeValue(*a0);
+  if (a1 < v.size()) {
+    sipRes = copyValue(sipCpp->getNodeEltValue(*a0, a1));
   } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    std::ostringstream oss;
+    oss << "vector associated to node " << a0->id << " for vector property \"" << sipCpp->getName()
+        << "\" has a size of " << v.size() << " and the requested index is " << a1;
+    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+    sipIsErr = -1;
   }
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -724,21 +913,31 @@ Returns the value in the list attached to a particular node at the given index.
 %Docstring
 tlp.@VEC_PROPERTY_TYPE@VectorProperty.pushBackNodeEltValue(node, val)
 
-Inserts a value at the end of the list attached to a particular node. The size of the list is incremented by one.
+Inserts a value at the end of the list attached to a particular node. The size of the list is
+incremented by one.
 
-:param node: an existing node
-:type node: :class:`tlp.node`
-:param val: the value to add in the list
-:type val: @PYTHON_TYPE@
-:throws: an exception if the node does not belong to the graph attached to the property
+:param node:
+   an existing node
+
+:type node:
+   :class:`tlp.node`
+
+:param val:
+   the value to add in the list
+
+:type val:
+   @PYTHON_TYPE@
+
+:throws:
+   an exception if the node does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->pushBackNodeEltValue(*a0, getValue(a1));
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->pushBackNodeEltValue(*a0, getValue(a1));
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -747,19 +946,25 @@ Inserts a value at the end of the list attached to a particular node. The size o
 %Docstring
 tlp.@VEC_PROPERTY_TYPE@VectorProperty.popBackNodeEltValue(node)
 
-Removes the value at the end of the list (if not empty) attached to a particular node. The size of the list is decremented by one.
+Removes the value at the end of the list (if not empty) attached to a particular node. The size of
+the list is decremented by one.
 
-:param node: an existing node
-:type node: :class:`tlp.node`
-:throws: an exception if the node does not belong to the graph attached to the property
+:param node:
+   an existing node
+
+:type node:
+   :class:`tlp.node`
+
+:throws:
+   an exception if the node does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->popBackNodeEltValue(*a0);
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->popBackNodeEltValue(*a0);
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -768,21 +973,31 @@ Removes the value at the end of the list (if not empty) attached to a particular
 %Docstring
 tlp.@VEC_PROPERTY_TYPE@VectorProperty.resizeNodeValue(node, size)
 
-Resizes the list attached to a particular node. A default value will be assigned to new elements (if any).
+Resizes the list attached to a particular node. A default value will be assigned to new elements (if
+any).
 
-:param node: an existing node
-:type node: :class:`tlp.node`
-:param size: the new size of the list
-:type size: integer
-:throws: an exception if the node does not belong to the graph attached to the property
+:param node:
+   an existing node
+
+:type node:
+   :class:`tlp.node`
+
+:param size:
+   the new size of the list
+
+:type size:
+   integer
+
+:throws:
+   an exception if the node does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->resizeNodeValue(*a0, a1);
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->resizeNodeValue(*a0, a1);
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -791,23 +1006,37 @@ Resizes the list attached to a particular node. A default value will be assigned
 %Docstring
 tlp.@VEC_PROPERTY_TYPE@VectorProperty.resizeNodeValue(node, size, val)
 
-Resizes the list attached to a particular node. The value given in parameter will be assigned to new elements (if any).
+Resizes the list attached to a particular node. The value given in parameter will be assigned to new
+elements (if any).
 
-:param node: an existing node
-:type node: :class:`tlp.node`
-:param size: the new size of the list
-:type size: integer
-:param val: the value to assign on new elements in the list
-:type val: @PYTHON_TYPE@
-:throws: an exception if the node does not belong to the graph attached to the property
+:param node:
+   an existing node
+
+:type node:
+   :class:`tlp.node`
+
+:param size:
+   the new size of the list
+
+:type size:
+   integer
+
+:param val:
+   the value to assign on new elements in the list
+
+:type val:
+   @PYTHON_TYPE@
+
+:throws:
+   an exception if the node does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->resizeNodeValue(*a0, a1, getValue(a2));
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->resizeNodeValue(*a0, a1, getValue(a2));
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -818,29 +1047,44 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.setEdgeEltValue(edge, index, val)
 
 Sets the value in the list attached to a particular edge at the given index.
 
-:param edge: an existing edge
-:type edge: :class:`tlp.edge`
-:param index: the index in the list
-:type index: integer
-:param val: the value to set in the list
-:type val: @PYTHON_TYPE@
-:throws: an exception if the edge does not belong to the graph attached to the property or if the list attached to the edge has a size smaller than the given index.
+:param edge:
+   an existing edge
+
+:type edge:
+   :class:`tlp.edge`
+
+:param index:
+   the index in the list
+
+:type index:
+   integer
+
+:param val:
+   the value to set in the list
+
+:type val:
+   @PYTHON_TYPE@
+
+:throws:
+   an exception if the edge does not belong to the graph attached to the property or if the list
+   attached to the edge has a size smaller than the given index.
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    const std::vector<@CPP_TYPE@> &v = sipCpp->getEdgeValue(*a0);
-    if (a1 < v.size()) {
-      sipCpp->setEdgeEltValue(*a0, a1, getValue(a2));
-    } else {
-      std::ostringstream oss;
-      oss << "vector associated to edge " << a0->id << " for vector property \"" << sipCpp->getName() << "\" has a size of " << v.size() << " and the requested index is " << a1 ;
-      PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-      sipIsErr = -1;
-    }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  const std::vector<@CPP_TYPE@> &v = sipCpp->getEdgeValue(*a0);
+  if (a1 < v.size()) {
+    sipCpp->setEdgeEltValue(*a0, a1, getValue(a2));
   } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    std::ostringstream oss;
+    oss << "vector associated to edge " << a0->id << " for vector property \"" << sipCpp->getName()
+        << "\" has a size of " << v.size() << " and the requested index is " << a1;
+    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+    sipIsErr = -1;
   }
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -851,28 +1095,41 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.getEdgeEltValue(edge, index)
 
 Returns the value in the list attached to a particular edge at the given index.
 
-:param edge: an existing edge
-:type edge: :class:`tlp.edge`
-:param index: the index in the list
-:type index: integer
-:rtype: @PYTHON_TYPE@
-:throws: an exception if the edge does not belong to the graph attached to the property or if the list attached to the edge has a size smaller than the given index.
+:param edge:
+   an existing edge
+
+:type edge:
+   :class:`tlp.edge`
+
+:param index:
+   the index in the list
+
+:type index:
+   integer
+
+:rtype:
+   @PYTHON_TYPE@
+
+:throws:
+   an exception if the edge does not belong to the graph attached to the property or if the list
+   attached to the edge has a size smaller than the given index.
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    const std::vector<@CPP_TYPE@> &v = sipCpp->getEdgeValue(*a0);
-    if (a1 < v.size()) {
-      sipRes = copyValue(sipCpp->getEdgeEltValue(*a0, a1));
-    } else {
-      std::ostringstream oss;
-      oss << "vector associated to edge " << a0->id << " for vector property \"" << sipCpp->getName() << "\" has a size of " << v.size() << " and the requested index is " << a1 ;
-      PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-      sipIsErr = -1;
-    }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  const std::vector<@CPP_TYPE@> &v = sipCpp->getEdgeValue(*a0);
+  if (a1 < v.size()) {
+    sipRes = copyValue(sipCpp->getEdgeEltValue(*a0, a1));
   } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    std::ostringstream oss;
+    oss << "vector associated to edge " << a0->id << " for vector property \"" << sipCpp->getName()
+        << "\" has a size of " << v.size() << " and the requested index is " << a1;
+    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+    sipIsErr = -1;
   }
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -881,21 +1138,31 @@ Returns the value in the list attached to a particular edge at the given index.
 %Docstring
 tlp.@VEC_PROPERTY_TYPE@VectorProperty.pushBackEdgeEltValue(edge, val)
 
-Inserts a value at the end of the list attached to a particular edge. The size of the list is incremented by one.
+Inserts a value at the end of the list attached to a particular edge. The size of the list is
+incremented by one.
 
-:param edge: an existing edge
-:type edge: :class:`tlp.edge`
-:param val: the value to add in the list
-:type val: @PYTHON_TYPE@
-:throws: an exception if the edge does not belong to the graph attached to the property
+:param edge:
+   an existing edge
+
+:type edge:
+   :class:`tlp.edge`
+
+:param val:
+   the value to add in the list
+
+:type val:
+   @PYTHON_TYPE@
+
+:throws:
+   an exception if the edge does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->pushBackEdgeEltValue(*a0, getValue(a1));
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->pushBackEdgeEltValue(*a0, getValue(a1));
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -904,19 +1171,25 @@ Inserts a value at the end of the list attached to a particular edge. The size o
 %Docstring
 tlp.@VEC_PROPERTY_TYPE@VectorProperty.popBackEdgeEltValue(edge)
 
-Removes the value at the end of the list (if not empty) attached to a particular edge. The size of the list is decremented by one.
+Removes the value at the end of the list (if not empty) attached to a particular edge. The size of
+the list is decremented by one.
 
-:param edge: an existing edge
-:type edge: :class:`tlp.edge`
-:throws: an exception if the edge does not belong to the graph attached to the property
+:param edge:
+   an existing edge
+
+:type edge:
+   :class:`tlp.edge`
+
+:throws:
+   an exception if the edge does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->popBackEdgeEltValue(*a0);
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->popBackEdgeEltValue(*a0);
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -925,21 +1198,31 @@ Removes the value at the end of the list (if not empty) attached to a particular
 %Docstring
 tlp.@VEC_PROPERTY_TYPE@VectorProperty.resizeEdgeValue(edge, size)
 
-Resizes the list attached to a particular edge. A default value will be assigned to new elements (if any).
+Resizes the list attached to a particular edge. A default value will be assigned to new elements (if
+any).
 
-:param edge: an existing edge
-:type edge: :class:`tlp.edge`
-:param size: the new size of the list
-:type size: integer
-:throws: an exception if the edge does not belong to the graph attached to the property
+:param edge:
+   an existing edge
+
+:type edge:
+   :class:`tlp.edge`
+
+:param size:
+   the new size of the list
+
+:type size:
+   integer
+
+:throws:
+   an exception if the edge does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->resizeEdgeValue(*a0, a1);
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->resizeEdgeValue(*a0, a1);
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
@@ -948,76 +1231,90 @@ Resizes the list attached to a particular edge. A default value will be assigned
 %Docstring
 tlp.@VEC_PROPERTY_TYPE@VectorProperty.resizeEdgeValue(edge, size, val)
 
-Resizes the list attached to a particular edge. The value given in parameter will be assigned to new elements (if any).
+Resizes the list attached to a particular edge. The value given in parameter will be assigned to new
+elements (if any).
 
-:param edge: an existing edge
-:type edge: :class:`tlp.edge`
-:param size: the new size of the list
-:type size: integer
-:param val: the value to assign on new elements in the list
-:type val: @PYTHON_TYPE@
-:throws: an exception if the node does not belong to the graph attached to the property
+:param edge:
+   an existing edge
+
+:type edge:
+   :class:`tlp.edge`
+
+:param size:
+   the new size of the list
+
+:type size:
+   integer
+
+:param val:
+   the value to assign on new elements in the list
+
+:type val:
+   @PYTHON_TYPE@
+
+:throws:
+   an exception if the node does not belong to the graph attached to the property
 %End
 
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->resizeEdgeValue(*a0, a1, getValue(a2));
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->resizeEdgeValue(*a0, a1, getValue(a2));
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
 
   std::vector<@CPP_TYPE@> __getitem__(const tlp::node node) const /TypeHint="List[@PYTHON_NODE_TYPEHINT@]"/;
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getNodeValue(*a0));
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getNodeValue(*a0));
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
 
   void __setitem__(const tlp::node node, const std::vector<@CPP_TYPE@> &val /TypeHint="List[@PYTHON_NODE_TYPEHINT@]"/) const;
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->setNodeValue(*a0, *a1);
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->setNodeValue(*a0, *a1);
+} else {
+  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
 
   std::vector<@CPP_TYPE@> __getitem__(const tlp::edge edge) const /TypeHint="List[@PYTHON_NODE_TYPEHINT@]"/;
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getEdgeValue(*a0));
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getEdgeValue(*a0));
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
 
   void __setitem__(const tlp::edge edge, const std::vector<@CPP_TYPE@> &val /TypeHint="List[@PYTHON_NODE_TYPEHINT@]"/) const;
 %MethodCode
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    sipCpp->setEdgeValue(*a0, *a1);
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
-  }
+if (sipCpp->getGraph()->isElement(*a0)) {
+  sipCpp->setEdgeValue(*a0, *a1);
+} else {
+  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+}
 %End
 
 //===========================================================================================
 
   std::string __repr__() const;
 %MethodCode
-  std::ostringstream oss;
-  oss << "<@VEC_PROPERTY_TYPE@ vector property " << sipCpp->getName() << ">";
-  sipRes = new std::string(oss.str());
+std::ostringstream oss;
+oss << "<@VEC_PROPERTY_TYPE@ vector property " << sipCpp->getName() << ">";
+sipRes = new std::string(oss.str());
 %End
 
 //===========================================================================================
@@ -1072,14 +1369,14 @@ Resizes the list attached to a particular edge. The value given in parameter wil
 
   virtual tlp::Iterator<tlp::node>* getNonDefaultValuatedNodes(const tlp::Graph* subgraph= NULL) const /TransferBack, TypeHint="Iterator[tlp.node]"/;
 %MethodCode
-  sipRes = tlp::stableIterator(sipCpp->getNonDefaultValuatedNodes(a0));
+sipRes = tlp::stableIterator(sipCpp->getNonDefaultValuatedNodes(a0));
 %End
 
 //===========================================================================================
 
   virtual tlp::Iterator<tlp::edge>* getNonDefaultValuatedEdges(const tlp::Graph* subgraph= NULL) const /TransferBack, TypeHint="Iterator[tlp.edge]"/;
 %MethodCode
-  sipRes = tlp::stableIterator(sipCpp->getNonDefaultValuatedEdges(a0));
+sipRes = tlp::stableIterator(sipCpp->getNonDefaultValuatedEdges(a0));
 %End
 
 //===========================================================================================
@@ -1094,14 +1391,29 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.copy(nodeDst, nodeSrc, prop, ifNotDefault=
 
 Copies the value hold by a property on a node to another node in this property.
 
-:param nodeDst: the node to copy the value to.
-:type nodeDst: :class:`tlp.node`
-:param nodeSrc: the node to copy the value from.
-:type nodeSrc: :class:`tlp.node`
-:param prop: the property holding the value to copy.
-:type prop: :class:`tlp.@VEC_PROPERTY_TYPE@VectorProperty`
-:param ifNotDefault: whether to ignore default-valuated nodes or not. Defaults to :const:`False`.
-:type ifNotDefault: boolean
+:param nodeDst:
+   the node to copy the value to.
+
+:type nodeDst:
+   :class:`tlp.node`
+
+:param nodeSrc:
+   the node to copy the value from.
+
+:type nodeSrc:
+   :class:`tlp.node`
+
+:param prop:
+   the property holding the value to copy.
+
+:type prop:
+   :class:`tlp.@VEC_PROPERTY_TYPE@VectorProperty`
+
+:param ifNotDefault:
+   whether to ignore default-valuated nodes or not. Defaults to :const:`False`.
+
+:type ifNotDefault:
+   boolean
 %End
 
 //===========================================================================================
@@ -1112,14 +1424,29 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.copy(edgeDst, edgeSrc, prop, ifNotDefault=
 
 Copies the value hold by a property on an edge to another edge in this property.
 
-:param edgeDst: the node to copy the value to.
-:type edgeDst: :class:`tlp.edge`
-:param edgeSrc: the node to copy the value from.
-:type edgeSrc: :class:`tlp.edge`
-:param prop: the property holding the value to copy.
-:type prop: :class:`tlp.@VEC_PROPERTY_TYPE@VectorProperty`
-:param ifNotDefault: whether to ignore default-valuated nodes or not. Defaults to :const:`False`.
-:type ifNotDefault: boolean
+:param edgeDst:
+   the node to copy the value to.
+
+:type edgeDst:
+   :class:`tlp.edge`
+
+:param edgeSrc:
+   the node to copy the value from.
+
+:type edgeSrc:
+   :class:`tlp.edge`
+
+:param prop:
+   the property holding the value to copy.
+
+:type prop:
+   :class:`tlp.@VEC_PROPERTY_TYPE@VectorProperty`
+
+:param ifNotDefault:
+   whether to ignore default-valuated nodes or not. Defaults to :const:`False`.
+
+:type ifNotDefault:
+   boolean
 %End
 
 //===========================================================================================
@@ -1130,8 +1457,11 @@ tlp.@VEC_PROPERTY_TYPE@VectorProperty.copy(prop)
 
 Copies the values hold by a property in this property.
 
-:param prop: the property to copy
-:type prop: :class:`tlp.@VEC_PROPERTY_TYPE@VectorProperty`
+:param prop:
+   the property to copy
+
+:type prop:
+   :class:`tlp.@VEC_PROPERTY_TYPE@VectorProperty`
 %End
 
 //===========================================================================================
@@ -1140,18 +1470,28 @@ Copies the values hold by a property in this property.
 %Docstring
 tlp.@VEC_PROPERTY_TYPE@VectorProperty.getNodesEqualTo(val, graph=None)
 
-Returns an iterator through all nodes belonging to the attached graph
-whose associated value is equal to the one given in parameter.
+Returns an iterator through all nodes belonging to the attached graph whose associated value is
+equal to the one given in parameter.
 
-:param val: a value
-:type val: list of @PYTHON_TYPE@
-:param graph: a subgraph can be given in parameter, in that case returns an iterator on nodes only belonging to that subgraph
-:type graph: :class:`tlp.Graph`
-:rtype: a Talipot iterator on :class:`tlp.node` objects
+:param val:
+   a value
+
+:type val:
+   list of @PYTHON_TYPE@
+
+:param graph:
+   a subgraph can be given in parameter, in that case returns an iterator on nodes only belonging to
+   that subgraph
+
+:type graph:
+   :class:`tlp.Graph`
+
+:rtype:
+   a Talipot iterator on :class:`tlp.node` objects
 %End
 
 %MethodCode
- sipRes = tlp::stableIterator(sipCpp->getNodesEqualTo(*a0, a1));
+sipRes = tlp::stableIterator(sipCpp->getNodesEqualTo(*a0, a1));
 %End
 
 //===========================================================================================
@@ -1160,18 +1500,28 @@ tlp::Iterator<tlp::edge>* getEdgesEqualTo(const std::vector<@CPP_TYPE@> &val /Ty
 %Docstring
 tlp.@VEC_PROPERTY_TYPE@VectorProperty.getEdgesEqualTo(val, graph=None)
 
-Returns an iterator through all edges belonging to the attached graph
-whose associated value is equal to the one given in parameter.
+Returns an iterator through all edges belonging to the attached graph whose associated value is
+equal to the one given in parameter.
 
-:param val: a value
-:type val: list of @PYTHON_TYPE@
-:param graph: a subgraph can be given in parameter, in that case returns an iterator on edges only belonging to that subgraph
-:type graph: :class:`tlp.Graph`
-:rtype: a Talipot iterator on :class:`tlp.edge` objects
+:param val:
+   a value
+
+:type val:
+   list of @PYTHON_TYPE@
+
+:param graph:
+   a subgraph can be given in parameter, in that case returns an iterator on edges only belonging to
+   that subgraph
+
+:type graph:
+   :class:`tlp.Graph`
+
+:rtype:
+   a Talipot iterator on :class:`tlp.edge` objects
 %End
 
 %MethodCode
-  sipRes = tlp::stableIterator(sipCpp->getEdgesEqualTo(*a0, a1));
+sipRes = tlp::stableIterator(sipCpp->getEdgesEqualTo(*a0, a1));
 %End
 
 };
