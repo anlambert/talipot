@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -62,8 +62,9 @@ vector<NominatimGeocoderResult> NominatimGeocoder::getLatLngForAddress(const str
   QUrl nominatimSearchUrl;
   nominatimSearchUrl.setScheme("https");
   nominatimSearchUrl.setHost("nominatim.openstreetmap.org");
-  nominatimSearchUrl.setPath("/search/" + tlpStringToQString(address));
-  nominatimSearchUrl.setQuery("format=json&dedupe=1&limit=20");
+  nominatimSearchUrl.setPath("/search");
+  nominatimSearchUrl.setQuery("q=" + tlpStringToQString(address) +
+                              "&format=json&dedupe=1&limit=20");
 
   QNetworkRequest request;
   request.setUrl(nominatimSearchUrl);
