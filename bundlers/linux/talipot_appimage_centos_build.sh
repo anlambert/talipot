@@ -2,12 +2,16 @@
 
 # this script should only be run in a CentOS Stream [8|9].x docker image
 
-centos8=true
-centos9=false
-if grep -q "CentOS Stream release 9" /etc/centos-release
+centos8=false
+centos9=true
+if grep -q "CentOS Stream release 8" /etc/centos-release
 then
-  centos8=false
-  centos9=true
+  centos8=true
+  centos9=false
+  # CentOS 8 packages have been moved to the vault
+  sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+  sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' \
+    /etc/yum.repos.d/CentOS-*
 fi
 
 cd
