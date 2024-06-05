@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -12,6 +12,7 @@
  */
 
 #include <talipot/Exception.h>
+#include <talipot/ViewSettings.h>
 
 #include "EdgeBundling.h"
 #include "QuadTree.h"
@@ -686,6 +687,8 @@ bool EdgeBundling::run() {
   }
 
   ThreadManager::setNumberOfThreads(ThreadManager::getNumberOfProcs());
+
+  graph->getIntegerProperty("viewShape")->setAllEdgeValue(EdgeShape::BezierCurve);
 
   return true;
 }
