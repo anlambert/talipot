@@ -36,10 +36,6 @@ ENDIF(NOT MSVC AND NOT BSD)
 
 INCLUDE_DIRECTORIES(BEFORE ${TalipotCoreBuildInclude} ${TalipotCoreInclude})
 
-IF(UNIX)
-  SET(LIB_SRCS ${LIB_SRCS} UnixSignalInterposer.cpp)
-ENDIF(UNIX)
-
 ADD_LIBRARY(crash_handler STATIC ${LIB_SRCS})
 
 TARGET_LINK_LIBRARIES(crash_handler ${CMAKE_DL_LIBS})

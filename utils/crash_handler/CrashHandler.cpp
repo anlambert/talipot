@@ -79,7 +79,25 @@ static void dumpStackTrace(StackWalker &sw) {
 
 #if defined(__i386__) || defined(__amd64__) || defined(__arm64__)
 
-#include "UnixSignalInterposer.h"
+#include <csignal>
+
+typedef void SignalHandlerFunc(int);
+typedef void SigactionHandlerFunc(int, siginfo_t *, void *);
+
+void installSignalHandler(int sig, SignalHandlerFunc *handler) {
+  struct sigaction action;
+  sigemptyset(&action.sa_mask);
+  action.sa_handler = handler;
+  sigaction(sig, &action, nullptr);
+}
+
+void installSignalHandler(int sig, SigactionHandlerFunc *handler) {
+  struct sigaction action;
+  sigemptyset(&action.sa_mask);
+  action.sa_flags = SA_RESTART | SA_SIGINFO;
+  action.sa_sigaction = handler;
+  sigaction(sig, &action, nullptr);
+}
 
 #if defined(__APPLE__)
 #include <sys/ucontext.h>
@@ -140,8 +158,6 @@ void dumpStack(int sig, siginfo_t *, void *ucontext) {
 
   installSignalHandler(sig, SIG_DFL);
 }
-
-extern void installSignalHandlers(void);
 
 void CrashHandler::install() {
   installSignalHandler(SIGSEGV, &dumpStack);
