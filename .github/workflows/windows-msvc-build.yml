@@ -115,7 +115,11 @@ jobs:
             %CLCACHE_MSBUILD_CONF%
       - name: Run Talipot unit tests
         working-directory: ./build
-        run: ctest --force-new-ctest-process --output-on-failure --build-config "Release"
+        run: |
+          xcopy C:\talipot\bin\msvcp* tests\plugins
+          xcopy C:\talipot\bin\vc* tests\plugins
+          xcopy C:\talipot\bin\concrt* tests\plugins
+          ctest --force-new-ctest-process --output-on-failure --build-config "Release"
       - name: Check Talipot application can be executed
         working-directory: C:/talipot/bin
         run: talipot --check-application-starts --debug-plugins-load

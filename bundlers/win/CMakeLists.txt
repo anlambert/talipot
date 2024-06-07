@@ -10,68 +10,11 @@ CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/Talipot.nsi.in
                ${CMAKE_CURRENT_BINARY_DIR}/Talipot.nsi @ONLY)
 
 IF(MSVC)
-  INCLUDE(InstallRequiredSystemLibraries)
-
   IF(OPENMP_FOUND)
-    IF(MSVC90)
-      INSTALL(
-        PROGRAMS
-          "${MSVC90_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC90.OPENMP/vcomp90.dll"
-        DESTINATION ${TalipotBinInstallDir})
-    ENDIF(MSVC90)
-
-    IF(MSVC10)
-      INSTALL(
-        PROGRAMS
-          "${MSVC10_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC100.OPENMP/vcomp100.dll"
-        DESTINATION ${TalipotBinInstallDir})
-    ENDIF(MSVC10)
-
-    IF(MSVC11)
-      INSTALL(
-        PROGRAMS
-          "${MSVC11_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC110.OPENMP/vcomp110.dll"
-        DESTINATION ${TalipotBinInstallDir})
-    ENDIF(MSVC11)
-
-    IF(MSVC12)
-      INSTALL(
-        PROGRAMS
-          "${MSVC12_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC120.OPENMP/vcomp120.dll"
-        DESTINATION ${TalipotBinInstallDir})
-    ENDIF(MSVC12)
-
-    IF(MSVC_VERSION EQUAL 1900)
-      INSTALL(
-        PROGRAMS
-          "${MSVC_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC140.OPENMP/vcomp140.dll"
-        DESTINATION ${TalipotBinInstallDir})
-    ELSEIF(MSVC_VERSION EQUAL 1910)
-      # Visual Studio 2017
-      INSTALL(
-        PROGRAMS
-          "${MSVC_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC150.OPENMP/vcomp140.dll"
-        DESTINATION ${TalipotBinInstallDir})
-
-    ELSEIF(MSVC_VERSION GREATER 1910 AND MSVC_VERSION LESS 1920)
-      # Visual Studio 2019
-      INSTALL(
-        PROGRAMS
-          "${MSVC_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC141.OPENMP/vcomp140.dll"
-        DESTINATION ${TalipotBinInstallDir})
-    ELSEIF(MSVC_VERSION GREATER_EQUAL 1920 AND MSVC_VERSION LESS 1930)
-      INSTALL(
-        PROGRAMS
-          "${MSVC_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC142.OPENMP/vcomp140.dll"
-        DESTINATION ${TalipotBinInstallDir})
-    ELSEIF(MSVC_VERSION GREATER_EQUAL 1930)
-      # Visual Studio 2022
-      INSTALL(
-        PROGRAMS
-          "${MSVC_REDIST_DIR}/${CMAKE_MSVC_ARCH}/Microsoft.VC143.OPENMP/vcomp140.dll"
-        DESTINATION ${TalipotBinInstallDir})
-    ENDIF()
+    SET(CMAKE_INSTALL_OPENMP_LIBRARIES TRUE)
   ENDIF(OPENMP_FOUND)
+
+  INCLUDE(InstallRequiredSystemLibraries)
 ENDIF(MSVC)
 
 # initialize the list of bundle libs (second arg of FIXUP_BUNDLE), updated in
