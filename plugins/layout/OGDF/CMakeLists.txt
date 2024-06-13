@@ -22,7 +22,12 @@ SET(PLUGINS_SRCS
     OGDFTileToRowsPacking.cpp
     OGDFPlanarizationLayout.cpp
     OGDFDTreeMultilevelEmbedder.cpp
-    OGDFRadialTreeLayout.cpp)
+    OGDFRadialTreeLayout.cpp
+    OGDFMixedModel.cpp
+    OGDFSchnyderLayout.cpp
+    OGDFFPPLayout.cpp
+    OGDFPlanarDrawLayout.cpp
+    OGDFPlanarStraightLayout.cpp)
 
 DISABLE_COMPILER_WARNINGS()
 
