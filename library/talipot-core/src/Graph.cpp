@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -535,7 +535,7 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
   // the number of selected nodes
   uint nbSelNodes = 0;
 
-  if (inSel) {
+  if (inSel && inSel->hasNonDefaultValuatedNodes(inG)) {
     nbSelNodes = inSel->numberOfNonDefaultValuatedNodes(inG);
   } else {
     nbSelNodes = inG->numberOfNodes();
@@ -546,7 +546,11 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
 
   MutableContainer<node, node> nodeTrl;
   // loop on nodes
-  for (auto nIn : inSel ? inSel->getNonDefaultValuatedNodes(inG) : inG->getNodes()) {
+  for (auto nIn : inG->nodes()) {
+    if (inSel && !inSel->getNodeValue(nIn)) {
+      continue;
+    }
+
     // add outG corresponding node
     node nOut = outG->addNode();
 
@@ -567,7 +571,7 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
   // the number of selected edges
   uint nbSelEdges = 0;
 
-  if (inSel) {
+  if (inSel && inSel->hasNonDefaultValuatedEdges(inG)) {
     nbSelEdges = inSel->numberOfNonDefaultValuatedEdges(inG);
   } else {
     nbSelEdges = inG->numberOfEdges();
@@ -577,7 +581,10 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
   outG->reserveEdges(outG->numberOfEdges() + nbSelEdges);
 
   // loop on edges
-  for (auto eIn : inSel ? inSel->getNonDefaultValuatedEdges(inG) : inG->getEdges()) {
+  for (auto eIn : inG->edges()) {
+    if (inSel && !inSel->getEdgeValue(eIn)) {
+      continue;
+    }
     const auto &[src, tgt] = inG->ends(eIn);
     // add outG corresponding edge
     edge eOut = outG->addEdge(nodeTrl.get(src), nodeTrl.get(tgt));
