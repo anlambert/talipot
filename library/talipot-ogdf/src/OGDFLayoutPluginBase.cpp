@@ -22,12 +22,12 @@ using namespace std;
 using namespace tlp;
 
 OGDFLayoutPluginBase::OGDFLayoutPluginBase(const PluginContext *context,
-                                           ogdf::LayoutModule *ogdfLayoutAlgo)
+                                           ogdf::LayoutModule *ogdfLayoutAlgo, bool importEdgeBends)
     : LayoutAlgorithm(context), tlpToOGDF(nullptr), ogdfLayoutAlgo(ogdfLayoutAlgo),
       simpleCCPacker(ogdfLayoutAlgo ? new ogdf::SimpleCCPacker(ogdfLayoutAlgo) : nullptr) {
   // convert Tulip Graph to OGDF Graph including attributes
   if (graph) {
-    tlpToOGDF = new TalipotToOGDF(graph, false);
+    tlpToOGDF = new TalipotToOGDF(graph, importEdgeBends);
   }
 }
 
