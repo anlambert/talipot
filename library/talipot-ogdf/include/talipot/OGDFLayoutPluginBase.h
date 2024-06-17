@@ -33,7 +33,8 @@ static inline OGDFLayoutModule *getOGDFLayoutModule(const PluginContext *context
 
 class TLP_OGDF_SCOPE OGDFLayoutPluginBase : public LayoutAlgorithm {
 public:
-  OGDFLayoutPluginBase(const PluginContext *context, ogdf::LayoutModule *ogdfLayoutAlgo);
+  OGDFLayoutPluginBase(const PluginContext *context, ogdf::LayoutModule *ogdfLayoutAlgo,
+                       bool importEdgeBends = false);
   ~OGDFLayoutPluginBase() override;
 
   bool run() override;
