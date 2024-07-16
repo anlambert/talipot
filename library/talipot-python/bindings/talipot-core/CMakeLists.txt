@@ -79,7 +79,6 @@ SET(TALIPOT_SIP_FILES
 
 SET(SIP_MODULE_SRC
     ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_array.c
-    ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_bool.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_core.c
     ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_descriptors.c
     ${CMAKE_CURRENT_BINARY_DIR}/talipot_native_sip-${SIP_MODULE_VERSION}/sip_enum.c
