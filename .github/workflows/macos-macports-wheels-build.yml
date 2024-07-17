@@ -3,7 +3,7 @@ on: [push, pull_request]
 jobs:
   macos:
     name: Talipot Python wheels build on macOS
-    runs-on: macos-11
+    runs-on: macos-12
     env:
       CLANG_VERSION: 16
       MACOSX_DEPLOYMENT_TARGET: "11.0"
