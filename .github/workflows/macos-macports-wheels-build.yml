@@ -6,7 +6,7 @@ jobs:
     runs-on: macos-12
     env:
       CLANG_VERSION: 16
-      MACOSX_DEPLOYMENT_TARGET: "11.0"
+      MACOSX_DEPLOYMENT_TARGET: "12.0"
       TWINE_REPOSITORY: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
@@ -61,7 +61,7 @@ jobs:
           save-always: true
       - name: Install MacPorts
         run: |
-          curl -LO https://raw.githubusercontent.com/anlambert/macports-ci/master/macports-ci
+          curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
           source ./macports-ci install
       - name: Install Talipot build dependencies
         run: sudo port -N install
