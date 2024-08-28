@@ -5,8 +5,7 @@
 [![Build Status](https://github.com/anlambert/talipot/workflows/macos-macports-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-macports-build.yml)
 [![Build Status](https://github.com/anlambert/talipot/workflows/macos-homebrew-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-homebrew-build.yml)
 [![Build Status](https://github.com/anlambert/talipot/workflows/windows-mingw64-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-mingw64-build.yml)
-[![Build Status](https://github.com/anlambert/talipot/workflows/windows-msvc-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-msvc-build.yml)
-
+[![Build Status](https://github.com/anlambert/talipot/actions/workflows/windows-msvc-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-msvc-build.yml)
 
 Talipot is an open source, cross-platform, data visualization framework mainly
 dedicated to the analysis, the drawing and the visualization of very large graphs
