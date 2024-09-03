@@ -1,0 +1,68 @@
+repos:
+
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: "v18.1.8"
+    hooks:
+      - id: clang-format
+        files: '\.(cpp|c|cxx|h)$'
+        types: [file]
+
+  - repo: https://github.com/cheshirekow/cmake-format-precommit
+    rev: v0.6.13
+    hooks:
+    - id: cmake-format
+      files: '(CMakeLists\.txt|\.cmake)$'
+      types: [file]
+      additional_dependencies: [pyyaml]
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        name: Check source code spelling
+        stages: [commit]
+        args:
+          - -L lod
+          - -L SOM
+          - -L som
+          - -L thirdparty
+          - -L assertIn
+          - -L inout
+          - -L nin
+          - -L HSI
+          - -L siz
+          - -L readD
+          - -L writeD
+          - -L nd
+          - -L inH
+          - -L Bu
+          - -L eNew
+          - -L tesselator
+          - -L Tesselation
+          - -L somme
+          - -L Pich
+          - -L Brin
+          - -L socio-economic
+          - -L ist
+          - -S *.json
+          - -S *.api
+          - -S *.css
+          - -S *.js
+          - -S *.gexf
+          - -S *.ui
+          - -S *.net
+          - -S doc/python/tabulate.py
+      - id: codespell
+        name: Check commit message spelling
+        stages: [commit-msg]
+
+  - repo: local
+    hooks:
+      - id: update-license-years
+        name: update-license-years
+        entry: bash
+        args: [./utils/git-hooks/pre-commit-license-years]
+        pass_filenames: false
+        language: system
+
+exclude: ^thirdparty/
