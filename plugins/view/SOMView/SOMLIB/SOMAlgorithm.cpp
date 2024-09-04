@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -78,7 +78,7 @@ void SOMAlgorithm::initMap(SOMMap *map, InputSample &inputSample,
       nodeIterator = inputSample.getRandomNodeOrder();
     }
 
-    // Ramdom choice
+    // Random choice
     map->setWeight(n, inputSample.getWeight(nodeIterator->next()));
 
     if (pluginProgress) {

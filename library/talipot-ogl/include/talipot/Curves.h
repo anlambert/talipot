@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,13 +35,13 @@ TLP_GL_SCOPE void polyLine(const std::vector<Coord> &, /* polyline vertices */
                            const Color &,              /* start color */
                            const Color &);             /* end color */
 TLP_GL_SCOPE void
-polyQuad(const std::vector<Coord> &,                   /* polyline vertces */
-         const Color &,                                /* start color */
-         const Color &,                                /* end color */
-         const float,                                  /* start size */
-         const float,                                  /* end size */
-         const Coord &,                                /* normal to the begin of the curve */
-         const Coord &,                                /* normal to the end curve */
+polyQuad(const std::vector<Coord> &, /* polyline vertces */
+         const Color &,              /* start color */
+         const Color &,              /* end color */
+         const float,                /* start size */
+         const float,                /* end size */
+         const Coord &,              /* normal to the begin of the curve */
+         const Coord &,              /* normal to the end curve */
          bool, /* if true : use start and end color to border lines, if false : use borderColor*/
          const Color &,                       /* border color */
          const std::string &textureName = "", /* textureName */
@@ -63,8 +63,8 @@ TLP_GL_SCOPE void splineQuad(const std::vector<Coord> &, /* polyline vertces */
                              const Color &,              /* end color */
                              const float,                /* start size */
                              const float,                /* end size */
-                             const Coord &,              /* nomal to the begin of the curve */
-                             const Coord &);             /* nomal to the end curve */
+                             const Coord &,              /* normal to the begin of the curve */
+                             const Coord &);             /* normal to the end curve */
 TLP_GL_SCOPE void splineLine(const std::vector<Coord> &, /* polyline vertces */
                              const Color &,              /* start color */
                              const Color &);             /* end color */

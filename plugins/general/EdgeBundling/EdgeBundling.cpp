@@ -323,7 +323,7 @@ bool EdgeBundling::run() {
   }
 
   // Grid graph computation second step : generate a voronoi diagram
-  // from the original nodes positions and the centers of the previoulsy
+  // from the original nodes positions and the centers of the previously
   // computed quad-tree/octree cells
   tlp::DataSet voroDataSet;
   voroDataSet.set("connect", true);

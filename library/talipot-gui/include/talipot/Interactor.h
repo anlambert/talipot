@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -50,7 +50,7 @@ static const std::string INTERACTOR_CATEGORY = "Interactor";
   the view object to perform specific operations on user inputs.
 
   Methods listed above are only called once. Once the interactor is initialized, it may be
-  installed/removed several times on different QObjects. It will then repond to user inputs via the
+  installed/removed several times on different QObjects. It will then respond to user inputs via the
   eventFilter method
   @see QObject::eventFilter()
   */

@@ -1,5 +1,5 @@
 # The FindTalipot script can be used from any CMake-based project to set up
-# environment variables poiting to Talipot libraries and headers directories.
+# environment variables pointing to Talipot libraries and headers directories.
 # The FIND_PACKAGE command provides several arguments. While the COMPONENTS
 # argument will be ignored, you can tell FindTalipot to look for a specific
 # version of Talipot libraries:.
@@ -36,6 +36,7 @@
 
 # Define version separator (different for MSVC builds)
 SET(TalipotVersionSeparator .)
+
 IF(${CMAKE_GENERATOR} MATCHES "Visual Studio" OR ${CMAKE_GENERATOR} MATCHES
                                                  "NMake Makefiles")
   SET(TalipotVersionSeparator _)
@@ -113,11 +114,13 @@ ENDMACRO(CHECK_VERSION)
 
 IF(NOT TALIPOT_INCLUDE_DIR)
   FIND_PATH(TALIPOT_INCLUDE_DIR talipot/Release.h PATHS ${TALIPOT_DIR}/include)
+
   IF(NOT TALIPOT_INCLUDE_DIR) # Last resort: use
-                              # CMAKE_MODULE_PATH/../../include/
+    # CMAKE_MODULE_PATH/../../include/
     FOREACH(prefix ${CMAKE_MODULE_PATH} ${CMAKE_PREFIX_PATH})
       FIND_PATH(TALIPOT_INCLUDE_DIR talipot/Release.h
                 PATHS "${prefix}/../../include")
+
       IF(TALIPOT_INCLUDE_DIR)
         BREAK()
       ENDIF(TALIPOT_INCLUDE_DIR)
@@ -128,7 +131,7 @@ ENDIF(NOT TALIPOT_INCLUDE_DIR)
 IF(NOT TALIPOT_INCLUDE_DIR)
   MESSAGE(
     FATAL_ERROR
-      "Auto-detecting your Talipot headers installation directory failed. Please try to provide the TALIPOT_DIR CMake variable poiting to your Talipot installation root directory"
+      "Auto-detecting your Talipot headers installation directory failed. Please try to provide the TALIPOT_DIR CMake variable pointing to your Talipot installation root directory"
   )
 ELSE()
   SET(TALIPOT_DIR ${TALIPOT_INCLUDE_DIR}/../)
@@ -151,11 +154,13 @@ INCLUDE(GNUInstallDirs)
 
 MARK_AS_ADVANCED(TALIPOT_DIR)
 MARK_AS_ADVANCED(TALIPOT_INCLUDE_DIR)
+
 IF(WIN32)
   SET(TALIPOT_LIBRARIES_DIR ${TALIPOT_DIR}/${CMAKE_INSTALL_BINDIR})
 ELSE()
   SET(TALIPOT_LIBRARIES_DIR ${TALIPOT_DIR}/${CMAKE_INSTALL_LIBDIR})
 ENDIF()
+
 MARK_AS_ADVANCED(TALIPOT_LIBRARIES_DIR)
 SET(TALIPOT_PLUGINS_DIR ${TALIPOT_DIR}/${CMAKE_INSTALL_LIBDIR}/talipot)
 SET(TALIPOT_SHARE_DIR ${TALIPOT_DIR}/${CMAKE_INSTALL_DATADIR}/talipot)
@@ -218,6 +223,7 @@ IF((TALIPOT_OGL_LIBRARY AND NOT TALIPOT_CORE_LIBRARY)
 ENDIF()
 
 SET(TALIPOT_LIBRARIES)
+
 IF(TALIPOT_CORE_LIBRARY)
   MARK_AS_ADVANCED(TALIPOT_CORE_LIBRARY)
   SET(TALIPOT_LIBRARIES ${TALIPOT_LIBRARIES} ${TALIPOT_CORE_LIBRARY})

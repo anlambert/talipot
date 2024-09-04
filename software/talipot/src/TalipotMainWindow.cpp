@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -251,7 +251,7 @@ TalipotMainWindow::TalipotMainWindow()
                              "selected and select if not selected",
                              "I");
   setToolTipWithCtrlShortcut(_ui->actionCancel_selection,
-                             "Deselect all selected elements of the current grap", "Shift+A");
+                             "Deselect all selected elements of the current graph", "Shift+A");
   setToolTipWithCtrlShortcut(_ui->actionGroup_elements,
                              "Create a meta-node representing a newly created subgraph "
                              "containing all selected elements of the current graph",
