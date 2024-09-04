@@ -151,7 +151,7 @@ void PlanarityTestTest::planarMetaGraphsEmbedding() {
     graphMap->makePlanar();*/
   /*
    * The number of faces must be adapted because the Planarity Test split the
-   * external face into several faces (one by connected componnent).
+   * external face into several faces (one by connected component).
    */
   /*  CPPUNIT_ASSERT_EQUAL(eulerIdentity(graph), graphMap->nbFaces() -
      (ConnectedTest::numberOfConnectedComponnents(graph) - 1));

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -68,7 +68,7 @@ public:
    * @brief Construct a csv simple file parser.
    * @param filename The path to the file to import.
    * @param separator The separator to use.
-   * @param textDelimiter If a token is sourrounded by this character we ignore all the separators
+   * @param textDelimiter If a token is surrounded by this character we ignore all the separators
    *found in this token. Useful if a token contains the separator.
    * @param firstLine The number of the first line to read. The first line is 0.
    * @param lastLine The number of the last line to read.

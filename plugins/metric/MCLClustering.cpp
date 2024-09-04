@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -364,7 +364,7 @@ bool MCLClustering::run() {
       }
     }
 
-    /* exact MCL should inflate after because we share the same graphs tructure,
+    /* exact MCL should inflate after because we share the same graphs structure,
      * or we should only remove edges created during the power and delay the
      * deletion of edge that does exist in the previous graph
      * however that impletenation doesn't change the result too much.

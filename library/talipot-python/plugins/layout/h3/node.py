@@ -2,7 +2,6 @@
 
 from .h3math import Point4d
 
-
 """
 The node structure storing all attributes of a tree node.
 """
@@ -16,7 +15,7 @@ class Node(object):
     :param int node_id: the id of node in the node lookup table in tree object
     :param int parent_id: the id of parent node in the node lookup table in
         tree object, default None
-    :param int depth: the depth of this node in the tree, deault 0
+    :param int depth: the depth of this node in the tree, default 0
     :param int tree_size: the subtree size of the node, ie. the number of
         nodes blow this node, default 1
     :param float radius: the node's hemisphere radius, ie. the distance to its

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -44,7 +44,7 @@ public:
             const std::string &textureName = "", const float outlineSize = 1);
   /**
    * @brief Constructor with a number of point, a number of fill color, a number of outline color
-   * and if the polygon is filled, outlined and the ouline size
+   * and if the polygon is filled, outlined and the outline size
    */
   GlPolygon(const uint nbPoints, const uint nbFillColors, const uint nbOutlineColors,
             const bool filled = true, const bool outlined = true,

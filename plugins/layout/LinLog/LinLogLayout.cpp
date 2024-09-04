@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -799,7 +799,7 @@ void LinLogLayout::initWeights() {
 }
 
 OctTree *LinLogLayout::buildOctTree() {
-  // compute mimima and maxima of positions in each dimension
+  // compute minima and maxima of positions in each dimension
   Coord minPos = {100000.f, 100000.f, 100000.f};
   Coord maxPos = {-100000.f, -100000.f, -100000.f};
   Coord zero;

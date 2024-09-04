@@ -271,7 +271,7 @@ public:
   }
 
   /**
-   * @brief Return if the label is otimized with the lod
+   * @brief Return if the label is optimized with the lod
    */
   bool getUseLODOptimisation() const {
     return useLOD;

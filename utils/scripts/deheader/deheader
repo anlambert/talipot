@@ -34,7 +34,13 @@ The last line of the output is a statistical summary of operations.
 
 from __future__ import print_function
 
-import sys, os, getopt, time, re, operator, subprocess
+import getopt
+import operator
+import os
+import re
+import subprocess
+import sys
+import time
 
 version = "1.7"
 
@@ -49,7 +55,7 @@ COMMAND_DEBUG  = 3
 
 # Difference in various compiler implementations and OSes mean that for cross-
 # platform compatibility you sometimes want to leave "unneeded" headers alone
-# because they're required in order to satify dependencies on other platforms.
+# because they're required in order to satisfy dependencies on other platforms.
 requirements = (
     # Headers mandated by SuS Version 2 System Interfaces.
     # a64l, l64a - convert between a 32-bit integer and a radix-64 ASCII string

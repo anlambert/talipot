@@ -560,7 +560,7 @@ public:
    * @param vect An output vector containing the string elements
    * @param openChar an optional character opening the list of elements. Default value is '('; when
    * set to '\0' it indicates that there is no opening character.
-   * @param sepChar an optional character separing the elements of the list. Default value is ','.
+   * @param sepChar an optional character separating the elements of the list. Default value is ','.
    * @param closeChar an optional character closing the list of elements. Default value is ')'; when
    * set to '\0' it indicates that there is no opening character.
    * @return Whether the string was a correct representation for this property's type.
@@ -594,7 +594,7 @@ public:
    * @param value A string listing the elements of the vector to set on the node.
    * @param openChar an optional character opening the list of elements. Default value is '('; when
    * set to '\0' it indicates that there is no opening character.
-   * @param sepChar an optional character separing the elements of the list. Default value is ','.
+   * @param sepChar an optional character separating the elements of the list. Default value is ','.
    * @param closeChar an optional character closing the list of elements. Default value is ')'; when
    * set to '\0' it indicates that there is no opening character.
    * @return Whether the string was a correct representation for this property's type. If not, the
@@ -610,7 +610,7 @@ public:
    * @param value A string listing the elements of the vector to set on the edge.
    * @param openChar an optional character opening the list of elements. Default value is '('; when
    * set to '\0' it indicates that there is no opening character.
-   * @param sepChar an optional character separing the elements of the list. Default value is ','.
+   * @param sepChar an optional character separating the elements of the list. Default value is ','.
    * @param closeChar an optional character closing the list of elements. Default value is ')'; when
    * set to '\0' it indicates that there is no opening character.
    * @return Whether the string was a correct representation for this property's type. If not, the

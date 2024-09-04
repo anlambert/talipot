@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -149,7 +149,7 @@ protected:
   bool filled;                      /**< the box is filled ? */
   bool outlined;                    /**< the box is outlined ? */
   std::string textureName;
-  float outlineSize;                /**< size of the ouline */
+  float outlineSize; /**< size of the outline */
 
   float *newCubeCoordArrays;
   bool generated;

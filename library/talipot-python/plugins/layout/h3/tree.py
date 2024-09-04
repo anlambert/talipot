@@ -246,7 +246,7 @@ class Tree(object):
         of nodes in subtree, in place sort is used. This is an alternative
         option to sort the tree before placing the nodes on the hemisphere.
         The original H3 algorithm set leaf node radius as math:: N / alpha
-        so the nodes with many sibilings can have a larger radius and nodes
+        so the nodes with many siblings can have a larger radius and nodes
         with a lot of children.
         """
         depth = 0

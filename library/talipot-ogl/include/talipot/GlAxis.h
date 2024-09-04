@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -153,8 +153,8 @@ public:
   /**
    * @brief Method to update the axis drawing.
    *
-   * It has to be called when one (ore more) of the setters methods above has been used
-   * This method erase the whole axis drawing and redraw the axis line and the caption (if any)
+   * It has to be called when one (or more) of the setters methods above has been used.
+   * This method erase the whole axis drawing and redraw the axis line and the caption (if any).
    * The axis graduations have to be reset by calling setAxisGraduations
    */
   virtual void updateAxis();

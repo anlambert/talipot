@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,7 +24,7 @@ namespace tlp {
 void triangulate(SuperGraph *map, std::vector<edge> &addedEdges);
 /**
  * Build the canonical ordering of a planar triangulated graph. For information
- * about canonical ordering the user must reffer to the planar graph drawing book.
+ * about canonical ordering the user must refer to the planar graph drawing book.
  */
 void canonicalOrdering(SuperGraph *graph, std::vector<node> &order);
 }
