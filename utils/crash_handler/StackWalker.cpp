@@ -281,10 +281,10 @@ void StackWalkerGCC::printCallStack(std::ostream &os, uint maxDepth) {
         int64_t exOffset = getOffsetInExecutable(array[i]);
         std::ostringstream oss;
         oss << "atos -o " << dsoName;
-#ifdef X86_64
-        oss << " -arch x86_64 ";
-#else
+#ifdef __arm64__
         oss << " -arch arm64 ";
+#else
+        oss << " -arch x86_64 ";
 #endif
         oss << "0x" << std::hex << exOffset;
         std::string atos = pOpen(oss.str());
