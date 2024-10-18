@@ -212,7 +212,16 @@ int main(int argc, char **argv) {
     exit(1);
   }
 
+  auto cleanup = []() {
+    // We need to clear allocated OpenGL resources to avoid a
+    // segfault when we close talipot
+    GlTextureManager::deleteAllTextures();
+    GlOffscreenRenderer::instance().deleteEarly();
+    PythonInterpreter::instance().deleteEarly();
+  };
+
   if (debugPluginsLoad && !pluginErrors.isEmpty()) {
+    cleanup();
     return 1;
   }
 
@@ -240,11 +249,7 @@ int main(int argc, char **argv) {
 
   mainWindow.deleteEarly();
 
-  // We need to clear allocated OpenGL resources to avoid a
-  // segfault when we close talipot
-  GlTextureManager::deleteAllTextures();
-  GlOffscreenRenderer::instance().deleteEarly();
-  PythonInterpreter::instance().deleteEarly();
+  cleanup();
 
   return result;
 }
