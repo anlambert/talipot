@@ -53,7 +53,7 @@ jobs:
       - name: Install required dependencies to run AppImage
         run: |
           sudo apt update
-          sudo apt install qtbase5-dev xvfb libfuse2
+          sudo apt install qtbase5-dev libpipewire-0.3-0 xvfb libfuse2
         shell: bash
       - name: Check Talipot AppImage can be executed on Ubuntu
         working-directory: ./build
