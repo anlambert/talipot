@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -67,7 +67,7 @@ AlgorithmRunnerItem::AlgorithmRunnerItem(QString pluginName, QWidget *parent)
     tooltip = "Plugin written in C++";
   }
 
-  connect(_ui->favoriteCheck, &QCheckBox::stateChanged, this,
+  connect(_ui->favoriteCheck, QCheckBoxStateChangedSignal, this,
           &AlgorithmRunnerItem::favoriteChanged);
   QIcon icon = FontIcon::icon(iconName, 0.6);
   _ui->languageLabel->setPixmap(icon.pixmap(_ui->languageLabel->size()));

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -57,7 +57,7 @@ DoubleStringsListRelationDialog::DoubleStringsListRelationDialog(
           &DoubleStringsListRelationDialog::scrollBarValueChanged);
   connect(_ui->secondListWidget->verticalScrollBar(), &QAbstractSlider::valueChanged, this,
           &DoubleStringsListRelationDialog::scrollBarValueChanged);
-  connect(_ui->interpolateColorsCheckBox, &QCheckBox::stateChanged, this,
+  connect(_ui->interpolateColorsCheckBox, QCheckBoxStateChangedSignal, this,
           &DoubleStringsListRelationDialog::interpolateCheckBoxChange);
 }
 

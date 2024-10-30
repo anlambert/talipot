@@ -195,4 +195,10 @@ qsizetype erase_if(QSet<T> &set, Predicate pred) {
 }
 #endif
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
+#define QCheckBoxStateChangedSignal &QCheckBox::stateChanged
+#else
+#define QCheckBoxStateChangedSignal &QCheckBox::checkStateChanged
+#endif
+
 #endif // TALIPOT_TLP_QT_TOOLS_H

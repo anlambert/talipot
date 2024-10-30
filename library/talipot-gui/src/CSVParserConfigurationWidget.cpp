@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -37,12 +37,12 @@ CSVParserConfigurationWidget::CSVParserConfigurationWidget(QWidget *parent)
           &CSVParserConfigurationWidget::parserChanged);
 
   // Invert rows and column
-  connect(ui->switchRowColumnCheckBox, &QCheckBox::stateChanged, this,
+  connect(ui->switchRowColumnCheckBox, QCheckBoxStateChangedSignal, this,
           &CSVParserConfigurationWidget::parserChanged);
   // Ignore first lines
-  connect(ui->ignoreFirstLinesCheckBox, &QCheckBox::stateChanged, this,
+  connect(ui->ignoreFirstLinesCheckBox, QCheckBoxStateChangedSignal, this,
           &CSVParserConfigurationWidget::ignoreFirstLines);
-  connect(ui->ignoreFirstLinesCheckBox, &QCheckBox::stateChanged, this,
+  connect(ui->ignoreFirstLinesCheckBox, QCheckBoxStateChangedSignal, this,
           &CSVParserConfigurationWidget::parserChanged);
   connect(ui->nbOfIgnoredLinesSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this,
           &CSVParserConfigurationWidget::parserChanged);
@@ -52,7 +52,7 @@ CSVParserConfigurationWidget::CSVParserConfigurationWidget(QWidget *parent)
           &CSVParserConfigurationWidget::changeSeparator);
   connect(ui->textDelimiterComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
           &CSVParserConfigurationWidget::parserChanged);
-  connect(ui->mergesep, &QCheckBox::stateChanged, this,
+  connect(ui->mergesep, QCheckBoxStateChangedSignal, this,
           &CSVParserConfigurationWidget::parserChanged);
   connect(ui->othersep, &QLineEdit::textEdited, this, &CSVParserConfigurationWidget::parserChanged);
   connect(ui->fileChooserPushButton, &QAbstractButton::clicked, this,

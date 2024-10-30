@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -153,7 +153,7 @@ void TableView::setupWidget() {
           &TableView::setZoomLevel);
   minFontSize = _ui->table->font().pointSize();
   connect(_ui->filterEdit, &QLineEdit::returnPressed, this, &TableView::filterChanged);
-  connect(_ui->filtercase, &QCheckBox::stateChanged, this, &TableView::filterChanged);
+  connect(_ui->filtercase, QCheckBoxStateChangedSignal, this, &TableView::filterChanged);
 
   _ui->eltTypeCombo->addItem("Nodes");
   _ui->eltTypeCombo->addItem("Edges");
@@ -165,7 +165,8 @@ void TableView::setupWidget() {
   // columns/properties filtering
   filteringColumns = false;
   connect(_ui->columnsFilterEdit, &QLineEdit::textChanged, this, &TableView::setColumnsFilter);
-  connect(_ui->columnsfiltercase, &QCheckBox::stateChanged, this, &TableView::setColumnsFilterCase);
+  connect(_ui->columnsfiltercase, QCheckBoxStateChangedSignal, this,
+          &TableView::setColumnsFilterCase);
   connect(propertiesEditor->getPropertiesFilterEdit(), &QLineEdit::textChanged, this,
           &TableView::setPropertiesFilter);
 }

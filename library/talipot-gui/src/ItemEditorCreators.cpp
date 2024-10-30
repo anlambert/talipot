@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -138,7 +138,7 @@ class BooleanCheckBox : public QCheckBox {
 
 public:
   BooleanCheckBox(QWidget *parent = nullptr) : QCheckBox(parent) {
-    connect(this, &QCheckBox::stateChanged, this, &BooleanCheckBox::stateChangedSlot);
+    connect(this, QCheckBoxStateChangedSignal, this, &BooleanCheckBox::stateChangedSlot);
   }
 
 private slots:

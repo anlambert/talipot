@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -44,7 +44,7 @@ PreferencesDialog::PreferencesDialog(QWidget *parent)
   connect(_ui->graphDefaultsTable, &QWidget::customContextMenuRequested, []() {});
   connect(_ui->graphDefaultsTable->verticalHeader(), &QWidget::customContextMenuRequested, this,
           &PreferencesDialog::showGraphDefaultsContextMenu);
-  connect(_ui->randomSeedCheck, &QCheckBox::stateChanged, this,
+  connect(_ui->randomSeedCheck, QCheckBoxStateChangedSignal, this,
           &PreferencesDialog::randomSeedCheckChanged);
   connect(_ui->resetAllDrawingDefaultsButton, &QAbstractButton::released,
           [this] { resetToTalipotDefaults(); });
