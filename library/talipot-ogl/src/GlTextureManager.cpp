@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,8 +19,8 @@
 #endif
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-#define STB_IMAGE_RESIZE_IMPLEMENTATION
-#include <stb_image_resize.h>
+#define STB_IMAGE_RESIZE2_IMPLEMENTATION
+#include <stb_image_resize2.h>
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif
@@ -109,7 +109,8 @@ bool GlTextureLoader::loadTexture(const string &filename, GlTexture &texture) {
     int nearestpotH = nearestPOT(h);
     if (nearestpotW != w || nearestpotH != h) {
       auto *newPixels = new unsigned char[nearestpotW * nearestpotH * nbBytesPerPixel];
-      stbir_resize_uint8(pixels, w, h, 0, newPixels, nearestpotW, nearestpotH, 0, nbBytesPerPixel);
+      stbir_resize_uint8_linear(pixels, w, h, 0, newPixels, nearestpotW, nearestpotH, 0,
+                                static_cast<stbir_pixel_layout>(nbBytesPerPixel));
       delete[] pixels;
       pixels = newPixels;
       w = nearestpotW;
