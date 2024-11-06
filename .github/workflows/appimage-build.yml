@@ -66,7 +66,7 @@ jobs:
           options: --device /dev/fuse --privileged
             -v ${{ github.workspace }}:/talipot:rw
           run: |
-            dnf -y group install "Basic Desktop" GNOME
+            dnf group install -y gnome-desktop
             yum install -y xorg-x11-server-Xvfb libglvnd-opengl
             xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts --debug-plugins-load
       - name: Check Talipot AppImage can be executed on ArchLinux
