@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1060,6 +1060,15 @@ void PythonCodeEditor::keyPressEvent(QKeyEvent *e) {
     getCursorPosition(line, col);
     setSelection(line, col, line, col - _indentPattern.length());
     removeSelectedText();
+  } else if (e->key() == Qt::Key_Home && e->modifiers() == Qt::ShiftModifier) {
+    int line = 0, col = 0;
+    getCursorPosition(line, col);
+    int pos = textBeforeCursor.lastIndexOf(_indentPattern);
+    if (pos != -1 && (pos + _indentPattern.length()) < col) {
+      setSelection(line, pos + _indentPattern.length(), line, col);
+    } else {
+      QPlainTextEdit::keyPressEvent(e);
+    }
   } else {
     QPlainTextEdit::keyPressEvent(e);
 
