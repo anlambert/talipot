@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1124,7 +1124,7 @@ void PythonIDE::removePythonPlugin() {
 }
 
 bool PythonIDE::indicateErrors() const {
-  static QRegularExpression rx("^.*File.*\"(.*)\".*line.*(\\d+).*$");
+  static QRegularExpression rx("^.*File.*\"(.*)\".*line (\\d+).*$");
   QRegularExpressionMatch match;
 
   QMap<QString, QVector<int>> errorLines;
