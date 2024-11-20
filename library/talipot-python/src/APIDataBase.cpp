@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -66,6 +66,14 @@ void APIDataBase::loadApiFile(const QString &apiFilePath) {
 
   while (!in.atEnd()) {
     QString line = in.readLine();
+
+    if (line.startsWith("_talipot.tlp.MaterialDesignIcons?1") ||
+        line.startsWith("_talipot.tlp.MaterialDesignIcons.__init__") ||
+        line.startsWith("_talipot.tlp.FontAwesome?1") ||
+        line.startsWith("_talipot.tlp.FontAwesome.__init__")) {
+      continue;
+    }
+
     addApiEntry(line);
 
     if (line.startsWith("_talipot.tlp.Vec3f.")) {
