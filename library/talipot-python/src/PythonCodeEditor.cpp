@@ -1022,8 +1022,7 @@ void PythonCodeEditor::keyPressEvent(QKeyEvent *e) {
     bool pressKey = true;
 
     if (textBeforeCursor.trimmed().isEmpty()) {
-      int line = 0, col = 0;
-      getCursorPosition(line, col);
+      auto [line, col] = getCursorPosition();
 
       if (e->key() == Qt::Key_Left) {
         if (col >= _indentPattern.length()) {
@@ -1056,13 +1055,11 @@ void PythonCodeEditor::keyPressEvent(QKeyEvent *e) {
              (textBeforeCursor.lastIndexOf(_indentPattern) ==
               (textBeforeCursor.length() - _indentPattern.length())) &&
              (textBeforeCursor.length() % _indentPattern.length() == 0)) {
-    int line = 0, col = 0;
-    getCursorPosition(line, col);
+    auto [line, col] = getCursorPosition();
     setSelection(line, col, line, col - _indentPattern.length());
     removeSelectedText();
   } else if (e->key() == Qt::Key_Home && e->modifiers() == Qt::ShiftModifier) {
-    int line = 0, col = 0;
-    getCursorPosition(line, col);
+    auto [line, col] = getCursorPosition();
     int pos = textBeforeCursor.lastIndexOf(_indentPattern);
     if (pos != -1 && (pos + _indentPattern.length()) < col) {
       setSelection(line, pos + _indentPattern.length(), line, col);
@@ -1390,10 +1387,11 @@ void PythonCodeEditor::setCursorPosition(int line, int col) {
   setTextCursor(cursor);
 }
 
-void PythonCodeEditor::getCursorPosition(int &line, int &col) const {
+tuple<int, int> PythonCodeEditor::getCursorPosition() const {
   QTextCursor cursor = textCursor();
-  line = cursor.blockNumber();
-  col = textCursor().position() - textCursor().block().position();
+  int line = cursor.blockNumber();
+  int col = textCursor().position() - textCursor().block().position();
+  return {line, col};
 }
 
 void PythonCodeEditor::setSelection(int startLine, int startCol, int endLine, int endCol) {
@@ -1404,15 +1402,15 @@ void PythonCodeEditor::setSelection(int startLine, int startCol, int endLine, in
   setTextCursor(cursor);
 }
 
-void PythonCodeEditor::getSelection(int &lineFrom, int &indexFrom, int &lineTo,
-                                    int &indexTo) const {
+tuple<int, int, int, int> PythonCodeEditor::getSelection() const {
   QTextCursor cursor = textCursor();
   QTextBlock blockStart = document()->findBlock(cursor.selectionStart());
   QTextBlock blockEnd = document()->findBlock(cursor.selectionEnd());
-  lineFrom = blockStart.blockNumber();
-  indexFrom = cursor.selectionStart() - blockStart.position();
-  lineTo = blockEnd.blockNumber();
-  indexTo = cursor.selectionEnd() - blockEnd.position();
+  int lineFrom = blockStart.blockNumber();
+  int indexFrom = cursor.selectionStart() - blockStart.position();
+  int lineTo = blockEnd.blockNumber();
+  int indexTo = cursor.selectionEnd() - blockEnd.position();
+  return {lineFrom, indexFrom, lineTo, indexTo};
 }
 
 void PythonCodeEditor::removeSelectedText() {
@@ -1462,11 +1460,7 @@ bool PythonCodeEditor::isTooltipActive() const {
 }
 
 bool PythonCodeEditor::selectedLinesCommented() const {
-  int lineFrom = 0;
-  int indexFrom = 0;
-  int lineTo = 0;
-  int indexTo = 0;
-  getSelection(lineFrom, indexFrom, lineTo, indexTo);
+  auto [lineFrom, indexFrom, lineTo, indexTo] = getSelection();
   bool linesCommented = true;
 
   for (int i = lineFrom; i <= lineTo; ++i) {
@@ -1483,11 +1477,7 @@ bool PythonCodeEditor::selectedLinesCommented() const {
 
 void PythonCodeEditor::commentSelectedCode() {
   if (hasSelectedText()) {
-    int lineFrom = 0;
-    int indexFrom = 0;
-    int lineTo = 0;
-    int indexTo = 0;
-    getSelection(lineFrom, indexFrom, lineTo, indexTo);
+    auto [lineFrom, indexFrom, lineTo, indexTo] = getSelection();
 
     bool canComment = false;
 
@@ -1518,11 +1508,7 @@ void PythonCodeEditor::commentSelectedCode() {
 
 void PythonCodeEditor::uncommentSelectedCode() {
   if (hasSelectedText()) {
-    int lineFrom = 0;
-    int indexFrom = 0;
-    int lineTo = 0;
-    int indexTo = 0;
-    getSelection(lineFrom, indexFrom, lineTo, indexTo);
+    auto [lineFrom, indexFrom, lineTo, indexTo] = getSelection();
 
     for (int i = lineFrom; i <= lineTo; ++i) {
       QString lineTxt = document()->findBlockByNumber(i).text();
@@ -1565,11 +1551,7 @@ void PythonCodeEditor::uncommentSelectedCode() {
 
 void PythonCodeEditor::indentSelectedCode() {
   if (hasSelectedText()) {
-    int lineFrom = 0;
-    int indexFrom = 0;
-    int lineTo = 0;
-    int indexTo = 0;
-    getSelection(lineFrom, indexFrom, lineTo, indexTo);
+    auto [lineFrom, indexFrom, lineTo, indexTo] = getSelection();
 
     for (int i = lineFrom; i <= lineTo; ++i) {
       insertAt(_indentPattern, i, 0);
@@ -1578,8 +1560,7 @@ void PythonCodeEditor::indentSelectedCode() {
     setSelection(lineFrom, 0, lineTo, lineLength(lineTo));
   } else {
     QTextCursor currentCursor = textCursor();
-    int line = 0, col = 0;
-    getCursorPosition(line, col);
+    auto [line, col] = getCursorPosition();
     setSelection(0, col, line, col);
     if (selectedText().trimmed().isEmpty() &&
         selectedText().length() % _indentPattern.length() == 0) {
@@ -1591,11 +1572,7 @@ void PythonCodeEditor::indentSelectedCode() {
 
 void PythonCodeEditor::unindentSelectedCode() {
   if (hasSelectedText()) {
-    int lineFrom = 0;
-    int indexFrom = 0;
-    int lineTo = 0;
-    int indexTo = 0;
-    getSelection(lineFrom, indexFrom, lineTo, indexTo);
+    auto [lineFrom, indexFrom, lineTo, indexTo] = getSelection();
 
     for (int i = lineFrom; i <= lineTo; ++i) {
       setSelection(i, 0, i, _indentPattern.length());

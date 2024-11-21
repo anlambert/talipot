@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,6 +22,7 @@
 #include <QDialog>
 
 #include <memory>
+#include <tuple>
 
 namespace Ui {
 class FindReplaceDialog;
@@ -120,11 +121,11 @@ public:
   void zoomIn();
   void zoomOut();
 
-  void getCursorPosition(int &line, int &col) const;
+  std::tuple<int, int> getCursorPosition() const;
   void setCursorPosition(int line, int col);
   void scrollToLine(int line);
 
-  void getSelection(int &lineFrom, int &indexFrom, int &lineTo, int &indexTo) const;
+  std::tuple<int, int, int, int> getSelection() const;
   void setSelection(int startLine, int startCol, int endLine, int endCol);
   void removeSelectedText();
   bool hasSelectedText() const;
