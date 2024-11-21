@@ -1559,14 +1559,8 @@ void PythonCodeEditor::indentSelectedCode() {
 
     setSelection(lineFrom, 0, lineTo, lineLength(lineTo));
   } else {
-    QTextCursor currentCursor = textCursor();
     auto [line, col] = getCursorPosition();
-    setSelection(0, col, line, col);
-    if (selectedText().trimmed().isEmpty() &&
-        selectedText().length() % _indentPattern.length() == 0) {
-      col = 0;
-    }
-    insertAt(_indentPattern, currentCursor.blockNumber(), col);
+    insertAt(_indentPattern, line, col);
   }
 }
 
