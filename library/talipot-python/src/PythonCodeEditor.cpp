@@ -1059,10 +1059,10 @@ void PythonCodeEditor::keyPressEvent(QKeyEvent *e) {
     setSelection(line, col, line, col - _indentPattern.length());
     removeSelectedText();
   } else if (e->key() == Qt::Key_Home && e->modifiers() == Qt::ShiftModifier) {
-    auto [line, col] = getCursorPosition();
+    auto [lineFrom, indexFrom, lineTo, indexTo] = getSelection();
     int pos = textBeforeCursor.lastIndexOf(_indentPattern);
-    if (pos != -1 && (pos + _indentPattern.length()) < col) {
-      setSelection(line, pos + _indentPattern.length(), line, col);
+    if (pos != -1 && (pos + _indentPattern.length()) < indexFrom) {
+      setSelection(lineFrom, pos + _indentPattern.length(), lineTo, indexTo);
     } else {
       QPlainTextEdit::keyPressEvent(e);
     }
