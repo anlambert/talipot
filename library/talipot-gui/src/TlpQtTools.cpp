@@ -322,37 +322,24 @@ public:
   QDebugOStream() : std::ostream(&qDebugBuf) {}
 };
 
-// tlp::debug redirection
+// output streams redirection
 
 static unique_ptr<std::ostream> qDebugStream;
+static unique_ptr<std::ostream> qWarningStream;
+static unique_ptr<std::ostream> qErrorStream;
 
-void redirectDebugOutputToQDebug() {
+void redirectStreamOutputsToQt() {
   if (qDebugStream.get() == nullptr) {
     qDebugStream.reset(new QDebugOStream<QtDebugMsg>());
   }
-
-  tlp::setDebugOutput(*qDebugStream);
-}
-
-// tlp::warning redirection
-
-static unique_ptr<std::ostream> qWarningStream;
-
-void redirectWarningOutputToQWarning() {
   if (qWarningStream.get() == nullptr) {
     qWarningStream.reset(new QDebugOStream<QtWarningMsg>());
   }
-
-  tlp::setWarningOutput(*qWarningStream);
-}
-
-static unique_ptr<std::ostream> qErrorStream;
-
-void redirectErrorOutputToQCritical() {
   if (qErrorStream.get() == nullptr) {
     qErrorStream.reset(new QDebugOStream<QtCriticalMsg>());
   }
-
+  tlp::setDebugOutput(*qDebugStream);
+  tlp::setWarningOutput(*qWarningStream);
   tlp::setErrorOutput(*qErrorStream);
 }
 

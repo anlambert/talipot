@@ -112,19 +112,10 @@ TLP_QT_SCOPE QString localPluginsPath();
 extern TLP_QT_SCOPE void initTalipotSoftware(PluginLoader *loader = nullptr);
 
 /**
- * @brief redirect tlp::debug() to qDebug()
+ * @brief Redirect tlp::debug() to qDebug(), tlp::warning() to qWarning(),
+ * and tlp::error() to qCritical()
  */
-TLP_QT_SCOPE void redirectDebugOutputToQDebug();
-
-/**
- * @brief redirect tlp::warning() to qWarning()
- */
-TLP_QT_SCOPE void redirectWarningOutputToQWarning();
-
-/**
- * @brief redirect tlp::error() to qCritical()
- */
-TLP_QT_SCOPE void redirectErrorOutputToQCritical();
+TLP_QT_SCOPE void redirectStreamOutputsToQt();
 
 TLP_QT_SCOPE void disableQtUserInput();
 

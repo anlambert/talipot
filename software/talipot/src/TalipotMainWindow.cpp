@@ -332,9 +332,7 @@ TalipotMainWindow::TalipotMainWindow()
   _colorScalesDialog = new ColorScaleConfigDialog(ColorScalesManager::getLatestColorScale(), this);
 
   // redirection of various output
-  redirectDebugOutputToQDebug();
-  redirectWarningOutputToQWarning();
-  redirectErrorOutputToQCritical();
+  redirectStreamOutputsToQt();
 
   _ui->menuFile->setToolTipsVisible(true);
   _ui->menuEdit->setToolTipsVisible(true);
