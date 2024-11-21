@@ -272,14 +272,15 @@ void initTalipotSoftware(tlp::PluginLoader *loader) {
   }
 }
 
-// tlp::debug redirection
+template <QtMsgType msgType>
 class QDebugOStream : public std::ostream {
   class QDebugStreamBuf : public std::streambuf {
+
   protected:
     string buf;
     int_type overflow(int c) override {
       if (c == '\n') {
-        qDebug() << buf;
+        getQDebug() << buf.c_str();
         buf.clear();
       } else {
         buf += c;
@@ -291,13 +292,27 @@ class QDebugOStream : public std::ostream {
     std::streamsize xsputn(const char *p, std::streamsize n) override {
       if (p[n - 1] == '\n') {
         buf += std::string(p, n - 1);
-        qDebug() << buf.c_str();
+        getQDebug() << buf.c_str();
         buf.clear();
       } else {
         buf += std::string(p, n);
       }
 
       return n;
+    }
+
+    static QDebug getQDebug() {
+      if constexpr (msgType == QtDebugMsg) {
+        return qDebug();
+      } else if constexpr (msgType == QtInfoMsg) {
+        return qInfo();
+      } else if constexpr (msgType == QtWarningMsg) {
+        return qWarning();
+      } else if constexpr (msgType == QtCriticalMsg) {
+        return qCritical();
+      } else {
+        return qInfo();
+      }
     }
   };
 
@@ -307,101 +322,35 @@ public:
   QDebugOStream() : std::ostream(&qDebugBuf) {}
 };
 
-static unique_ptr<QDebugOStream> qDebugStream;
+// tlp::debug redirection
+
+static unique_ptr<std::ostream> qDebugStream;
 
 void redirectDebugOutputToQDebug() {
   if (qDebugStream.get() == nullptr) {
-    qDebugStream.reset(new QDebugOStream());
+    qDebugStream.reset(new QDebugOStream<QtDebugMsg>());
   }
 
   tlp::setDebugOutput(*qDebugStream);
 }
 
 // tlp::warning redirection
-class QWarningOStream : public std::ostream {
-  class QWarningStreamBuf : public std::streambuf {
-  protected:
-    string buf;
-    int_type overflow(int c) override {
-      if (c == '\n') {
-        qWarning() << buf.c_str();
-        buf.clear();
-      } else {
-        buf += c;
-      }
 
-      return c;
-    }
-
-    std::streamsize xsputn(const char *p, std::streamsize n) override {
-      if (p[n - 1] == '\n') {
-        buf += std::string(p, n - 1);
-        qWarning() << buf.c_str();
-        buf.clear();
-      } else {
-        buf += std::string(p, n);
-      }
-
-      return n;
-    }
-  };
-
-  QWarningStreamBuf qWarningBuf;
-
-public:
-  QWarningOStream() : std::ostream(&qWarningBuf) {}
-};
-
-static unique_ptr<QWarningOStream> qWarningStream;
+static unique_ptr<std::ostream> qWarningStream;
 
 void redirectWarningOutputToQWarning() {
   if (qWarningStream.get() == nullptr) {
-    qWarningStream.reset(new QWarningOStream());
+    qWarningStream.reset(new QDebugOStream<QtWarningMsg>());
   }
 
   tlp::setWarningOutput(*qWarningStream);
 }
 
-// tlp::error redirection
-class QErrorOStream : public std::ostream {
-  class QErrorStreamBuf : public std::streambuf {
-  protected:
-    string buf;
-    int_type overflow(int c) override {
-      if (c == '\n') {
-        qCritical() << buf.c_str();
-        buf.clear();
-      } else {
-        buf += c;
-      }
-
-      return c;
-    }
-
-    std::streamsize xsputn(const char *p, std::streamsize n) override {
-      if (p[n - 1] == '\n') {
-        buf += std::string(p, n - 1);
-        qCritical() << buf.c_str();
-        buf.clear();
-      } else {
-        buf += std::string(p, n);
-      }
-
-      return n;
-    }
-  };
-
-  QErrorStreamBuf qErrorBuf;
-
-public:
-  QErrorOStream() : std::ostream(&qErrorBuf) {}
-};
-
-static unique_ptr<QErrorOStream> qErrorStream;
+static unique_ptr<std::ostream> qErrorStream;
 
 void redirectErrorOutputToQCritical() {
   if (qErrorStream.get() == nullptr) {
-    qErrorStream.reset(new QErrorOStream());
+    qErrorStream.reset(new QDebugOStream<QtCriticalMsg>());
   }
 
   tlp::setErrorOutput(*qErrorStream);
@@ -550,5 +499,4 @@ QIcon addToSelectionIcon() {
   return FontIcon::stackIcons(FontIcon::icon(MaterialDesignIcons::Selection),
                               FontIcon::icon(MaterialDesignIcons::Plus, 0.7));
 }
-
 }
