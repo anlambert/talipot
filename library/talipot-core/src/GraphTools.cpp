@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -734,10 +734,8 @@ unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selection, bool
     const auto &[src, tgt] = graph->ends(e);
 
     if (!selection->getNodeValue(src)) {
-#ifndef NDEBUG
       tlp::debug() << "[Make selection a graph] node #" << src.id << " source of edge #" << e.id
                    << " automatically added to selection.";
-#endif
       selection->setNodeValue(src, true);
       added++;
 
@@ -748,10 +746,8 @@ unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selection, bool
     }
 
     if (!selection->getNodeValue(tgt)) {
-#ifndef NDEBUG
       tlp::debug() << "[Make selection a graph] node #" << tgt << " target of edge #" << e.id
                    << " automatically added to selection.";
-#endif
       selection->setNodeValue(tgt, true);
       added++;
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -103,12 +103,10 @@ Coord projectPoint(const Coord &obj, const MatrixGL &transform, const Vec4i &vie
   point[2] = obj[2];
   point[3] = 1.0f;
   point = point * transform;
-#ifndef NDEBUG
   if (fabs(point[3]) < 1E-6) {
     tlp::debug() << "Error in projectPoint with coord : " << obj
                  << " and transform matrix : " << transform << std::endl;
   }
-#endif
   Coord result = {point[0], point[1], point[2]};
   result /= point[3];
 
@@ -127,14 +125,11 @@ Coord unprojectPoint(const Coord &obj, const MatrixGL &invtransform, const Vec4i
   point[3] = 1.0f;
 
   point = point * invtransform;
-#ifndef NDEBUG
 
   if (fabs(point[3]) < 1E-6) {
     tlp::debug() << "Error in unprojectPoint with coord : " << obj
                  << " and transform matrix : " << invtransform << std::endl;
   }
-
-#endif
 
   Coord result = {point[0], point[1], point[2]};
   result /= point[3];

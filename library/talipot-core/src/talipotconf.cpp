@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,9 +18,30 @@
 
 using namespace std;
 
+#ifdef NDEBUG
+class NullStreamBuf : public std::streambuf {
+
+protected:
+  int_type overflow(int c) override {
+    return c;
+  }
+
+  std::streamsize xsputn(const char *, std::streamsize n) override {
+    return n;
+  }
+};
+
+static NullStreamBuf nullStreamBuf;
+static ostream noOpStream(&nullStreamBuf);
+#endif
+
 static std::ostream *debugStream = nullptr;
 std::ostream &tlp::debug() {
+#ifndef NDEBUG
   return debugStream ? *debugStream : std::cout;
+#else
+  return noOpStream;
+#endif
 }
 void tlp::setDebugOutput(std::ostream &os) {
   debugStream = &os;

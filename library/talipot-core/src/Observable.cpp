@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -147,15 +147,11 @@ public:
 };
 //=================================
 void Observable::treatEvents(const std::vector<Event> &) {
-#ifndef NDEBUG
   tlp::debug() << __PRETTY_FUNCTION__ << ": not implemented" << std::endl;
-#endif
 }
 //=================================
 void Observable::treatEvent(const Event &) {
-#ifndef NDEBUG
   tlp::debug() << __PRETTY_FUNCTION__ << ": not implemented" << std::endl;
-#endif
 }
 //=================================
 Observable::Observable() : _deleteMsgSent(false), _queuedEvent(false) {
@@ -167,11 +163,9 @@ Observable::Observable(const Observable &) : _deleteMsgSent(false), _queuedEvent
 }
 //----------------------------------
 Observable &Observable::operator=(const Observable &) {
-#ifndef NDEBUG
   tlp::debug() << "[Observable Warning]: Observable object should reimplement their operator= else "
                   "nothing is copied"
                << endl;
-#endif
   return *this;
 }
 //----------------------------------
