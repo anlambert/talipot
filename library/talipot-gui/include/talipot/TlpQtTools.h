@@ -113,7 +113,7 @@ extern TLP_QT_SCOPE void initTalipotSoftware(PluginLoader *loader = nullptr);
 
 /**
  * @brief Redirect tlp::debug() to qDebug(), tlp::warning() to qWarning(),
- * and tlp::error() to qCritical()
+ * tlp::error() to qCritical() and tlp::info() to qInfo()
  */
 TLP_QT_SCOPE void redirectStreamOutputsToQt();
 

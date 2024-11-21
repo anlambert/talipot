@@ -63,6 +63,14 @@ void tlp::setErrorOutput(std::ostream &os) {
   errorStream = &os;
 }
 
+static std::ostream *infoStream = nullptr;
+std::ostream &tlp::info() {
+  return infoStream ? *infoStream : std::cout;
+}
+void tlp::setInfoOutput(std::ostream &os) {
+  infoStream = &os;
+}
+
 std::string tlp::getTalipotVersion() {
   return TALIPOT_VERSION;
 }

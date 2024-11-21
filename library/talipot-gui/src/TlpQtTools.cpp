@@ -327,6 +327,7 @@ public:
 static unique_ptr<std::ostream> qDebugStream;
 static unique_ptr<std::ostream> qWarningStream;
 static unique_ptr<std::ostream> qErrorStream;
+static unique_ptr<std::ostream> qInfoStream;
 
 void redirectStreamOutputsToQt() {
   if (qDebugStream.get() == nullptr) {
@@ -338,9 +339,13 @@ void redirectStreamOutputsToQt() {
   if (qErrorStream.get() == nullptr) {
     qErrorStream.reset(new QDebugOStream<QtCriticalMsg>());
   }
+  if (qInfoStream.get() == nullptr) {
+    qInfoStream.reset(new QDebugOStream<QtInfoMsg>());
+  }
   tlp::setDebugOutput(*qDebugStream);
   tlp::setWarningOutput(*qWarningStream);
   tlp::setErrorOutput(*qErrorStream);
+  tlp::setInfoOutput(*qInfoStream);
 }
 
 class NoQtUserInputFilter : public QObject {

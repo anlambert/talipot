@@ -302,7 +302,16 @@ extern TLP_SCOPE std::ostream &error();
  * @brief set the ostream used for the output of error messages
  */
 extern TLP_SCOPE void setErrorOutput(std::ostream &os);
-
+/**
+ *
+ * @brief return the ostream used for the output of info messages
+ */
+extern TLP_SCOPE std::ostream &info();
+/**
+ *
+ * @brief set the ostream used for the output of info messages
+ */
+extern TLP_SCOPE void setInfoOutput(std::ostream &os);
 /**
  *
  * @brief return the TALIPOT_VERSION value
