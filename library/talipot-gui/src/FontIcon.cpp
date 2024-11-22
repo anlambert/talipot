@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -58,14 +58,14 @@ QFont &FontIconEngine::init(const QString &iconName) {
     // load the font file
     auto fontId = QFontDatabase::addApplicationFont(fontFile);
     if (fontId == -1) {
-      qDebug() << "Error when loading font file" << fontFile;
+      tlp::debug() << "Error when loading font file" << fontFile.toStdString() << std::endl;
       return nullFont;
     }
     QStringList fontFamilies = QFontDatabase::applicationFontFamilies(fontId);
     if (!fontFamilies.empty()) {
       qFonts[fontFile] = QFont(fontFamilies.at(0));
     } else {
-      qDebug() << "No data found when loading file" << fontFile;
+      tlp::debug() << "No data found when loading file" << fontFile.toStdString() << std::endl;
       return nullFont;
     }
   }

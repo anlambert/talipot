@@ -735,7 +735,7 @@ unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selection, bool
 
     if (!selection->getNodeValue(src)) {
       tlp::debug() << "[Make selection a graph] node #" << src.id << " source of edge #" << e.id
-                   << " automatically added to selection.";
+                   << " automatically added to selection." << std::endl;
       selection->setNodeValue(src, true);
       added++;
 
@@ -747,7 +747,7 @@ unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selection, bool
 
     if (!selection->getNodeValue(tgt)) {
       tlp::debug() << "[Make selection a graph] node #" << tgt << " target of edge #" << e.id
-                   << " automatically added to selection.";
+                   << " automatically added to selection." << std::endl;
       selection->setNodeValue(tgt, true);
       added++;
 

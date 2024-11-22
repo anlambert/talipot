@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -406,14 +406,10 @@ void WorkspacePanel::setGraphsModel(tlp::GraphHierarchiesModel *model) {
 
 void WorkspacePanel::viewGraphSet(tlp::Graph *g) {
   assert(dynamic_cast<tlp::GraphHierarchiesModel *>(_ui->graphCombo->model()));
-#ifndef NDEBUG
-
   if (g) {
-    qDebug() << "Setting graph " << tlp::tlpStringToQString(g->getName()) << " for panel "
-             << windowTitle();
+    tlp::debug() << "Setting graph " << g->getName() << " for panel " << windowTitle().toStdString()
+                 << std::endl;
   }
-
-#endif // NDEBUG
 
   auto *model = static_cast<tlp::GraphHierarchiesModel *>(_ui->graphCombo->model());
   QModelIndex graphIndex = model->indexOf(g);
@@ -429,13 +425,9 @@ void WorkspacePanel::graphComboIndexChanged() {
   auto *g = _ui->graphCombo->model()
                 ->data(_ui->graphCombo->selectedIndex(), Model::GraphRole)
                 .value<tlp::Graph *>();
-#ifndef NDEBUG
-
   if (g != nullptr) {
-    qDebug() << "selecting graph " << tlp::tlpStringToQString(g->getName()) << " in view";
+    tlp::debug() << "selecting graph " << g->getName() << " in view" << std::endl;
   }
-
-#endif /* NDEBUG */
 
   if (g != nullptr && _view != nullptr && g != _view->graph()) {
     _view->setGraph(g);

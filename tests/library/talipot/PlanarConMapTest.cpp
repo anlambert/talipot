@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -400,23 +400,23 @@ void PlanarConMapTest::testSplitFace() {
 
   /* test 2 */
   build4();
-  //  qDebug() << carte<< endl;
+
   f1 = carte->faces[0];
   f2 = carte->splitFace(f1, nodes[2], nodes[7]);
   e = carte->existEdge(nodes[2], nodes[7]).isValid() ? carte->existEdge(nodes[2], nodes[7])
                                                      : carte->existEdge(nodes[7], nodes[2]);
   edges.push_back(e);
-  //  qDebug() << carte<< endl;
+
   f3 = carte->splitFace(f2, nodes[1], nodes[5]);
   e = carte->existEdge(nodes[1], nodes[5]).isValid() ? carte->existEdge(nodes[1], nodes[5])
                                                      : carte->existEdge(nodes[5], nodes[1]);
   edges.push_back(e);
-  //  qDebug() << carte<< endl;
+
   Face f4 = carte->splitFace(f3, nodes[1], nodes[4]);
   e = carte->existEdge(nodes[1], nodes[4]).isValid() ? carte->existEdge(nodes[1], nodes[4])
                                                      : carte->existEdge(nodes[4], nodes[1]);
   edges.push_back(e);
-  //  qDebug() << carte<< endl;
+
   vector<vector<edge>> cycles3(4);
   cycles3[0].push_back(edges[4]);
   cycles3[0].push_back(edges[9]);

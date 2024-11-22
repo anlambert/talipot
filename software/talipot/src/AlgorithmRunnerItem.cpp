@@ -422,7 +422,7 @@ void AlgorithmRunnerItem::run(Graph *g) {
         log << ": " << spentTime << "ms";
       }
 
-      qDebug() << log.str().c_str();
+      tlp::info() << log.str() << std::endl;
     }
   }
 
@@ -578,11 +578,11 @@ void AlgorithmRunnerItem::afterRun(Graph *g, const tlp::DataSet &dataSet) {
   } else if (PluginsManager::pluginExists<GraphTest>(stdName)) {
     bool result = true;
     dataSet.get<bool>("result", result);
-    std::string str = "\"" + stdName + "\" test " + (result ? "succeeded" : "failed") + " on:\n" +
-                      g->getName() + ".";
+    std::string str = "\"" + stdName + "\" test " + (result ? "succeeded" : "failed") +
+                      " on: " + g->getName() + ".";
 
     if (result) {
-      tlp::debug() << str << std::endl;
+      tlp::info() << str << std::endl;
       QMessageBox::information(parentWidget(), "Talipot test result", tlp::tlpStringToQString(str));
     } else {
       tlp::warning() << str << std::endl;

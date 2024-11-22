@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -206,7 +206,7 @@ std::string YajlWriteFacade::generatedString() {
   yajl_gen_status status = yajl_gen_get_buf(_generator, &buffer, &length);
 
   if (status != yajl_gen_status_ok) {
-    tlp::debug() << __PRETTY_FUNCTION__ << ": parse error.";
+    tlp::debug() << __PRETTY_FUNCTION__ << ": parse error." << std::endl;
   }
 
   std::string result(reinterpret_cast<const char *>(buffer));

@@ -732,7 +732,7 @@ void TalipotMainWindow::exportGraph(Graph *g) {
         log << ": " << start.msecsTo(QTime::currentTime()) << "ms";
       }
 
-      qDebug() << log.str().c_str();
+      tlp::info() << log.str() << std::endl;
     }
 
     addRecentDocument(wizard.outputFile());
@@ -797,7 +797,7 @@ void TalipotMainWindow::importGraph(const std::string &module, DataSet &data) {
         log << ": " << start.msecsTo(QTime::currentTime()) << "ms";
       }
 
-      qDebug() << log.str().c_str();
+      tlp::info() << log.str() << std::endl;
     }
 
     if (g->getName().empty()) {
