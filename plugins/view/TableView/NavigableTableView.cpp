@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -76,10 +76,8 @@ int NavigableTableView::sizeHintForColumn(int col) const {
 
   int hint = 0;
 
-  if (bottom == -1 || (bottom + 10) >= model()->rowCount()) {
+  if (bottom < 0) {
     bottom = model()->rowCount() - 1;
-  } else {
-    bottom += 10;
   }
 
   for (int row = top; row <= bottom; ++row) {
@@ -111,10 +109,8 @@ void NavigableTableView::resizeTableRows() {
   int top = qMax(0, verticalHeader()->visualIndexAt(0));
   int bottom = verticalHeader()->visualIndexAt(viewport()->height());
 
-  if (bottom == -1 || (bottom + 10) >= model()->rowCount()) {
+  if (bottom < 0) {
     bottom = model()->rowCount() - 1;
-  } else {
-    bottom += 10;
   }
 
   int left = qMax(0, horizontalHeader()->visualIndexAt(0));
@@ -131,4 +127,6 @@ void NavigableTableView::resizeTableRows() {
   for (int i = left; i <= right; ++i) {
     resizeColumnToContents(i);
   }
+
+  scrollContentsBy(-columnViewportPosition(left), 0);
 }
