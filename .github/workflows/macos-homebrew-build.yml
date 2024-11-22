@@ -35,7 +35,6 @@ jobs:
           libgit2
           python@${{ matrix.config.pyver }}
           cppunit
-          pkg-config
           glew
           freetype
           fribidi
