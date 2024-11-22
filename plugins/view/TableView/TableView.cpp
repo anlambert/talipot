@@ -262,7 +262,6 @@ void TableView::readSettings() {
     sortModel->setSourceModel(_model);
     _ui->table->setModel(sortModel);
     connect(_model, &QAbstractItemModel::columnsInserted, this, &TableView::columnsInserted);
-    connect(_model, &QAbstractItemModel::dataChanged, this, &TableView::dataChanged);
     filterChanged();
   }
 
@@ -282,19 +281,6 @@ void TableView::readSettings() {
 
   // reset columns filtering
   _ui->columnsFilterEdit->setText("");
-}
-
-void TableView::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight) {
-  auto *model = static_cast<QAbstractItemModel *>(sender());
-
-  for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
-    auto *pi = model->headerData(topLeft.column(), Qt::Horizontal, Model::PropertyRole)
-                   .value<PropertyInterface *>();
-
-    if (pi->getTypename() == "string" && pi->getName() != "viewTexture" &&
-        pi->getName() != "viewFont")
-      _ui->table->resizeRowToContents(i);
-  }
 }
 
 void TableView::columnsInserted(const QModelIndex &, int start, int end) {
