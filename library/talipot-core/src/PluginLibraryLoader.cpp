@@ -349,7 +349,7 @@ bool PluginLibraryLoader::initPluginDir(PluginLoader *loader, bool recursive,
   struct dirent **namelist;
   int n = scandir(_pluginPath.c_str(), &namelist,
 #if !(defined(__APPLE__) || defined(__FreeBSD__)) || \
-    (defined(__APPLE__) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1080)
+    (defined(__APPLE__) && (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1080 || defined(__arm64__)))
                   reinterpret_cast<int (*)(const dirent *)>(__talipot_select_libs),
 #else
                   __talipot_select_libs,
@@ -420,7 +420,7 @@ bool PluginLibraryLoader::initPluginDir(PluginLoader *loader, bool recursive,
 
     n = scandir(_pluginPath.c_str(), &namelist,
 #if !(defined(__APPLE__) || defined(__FreeBSD__)) || \
-    (defined(__APPLE__) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1080)
+    (defined(__APPLE__) && (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1080 || defined(__arm64__)))
                 reinterpret_cast<int (*)(const dirent *)>(__talipot_select_dirs),
 #else
                 __talipot_select_dirs,
