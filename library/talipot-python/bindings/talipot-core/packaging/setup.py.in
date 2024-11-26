@@ -11,6 +11,9 @@ import subprocess
 import sys
 import shutil
 
+from wheel.bdist_wheel import bdist_wheel
+from wheel._bdist_wheel import get_platform
+
 # On MacOS, we need to relink dylibs and set correct rpaths in
 # order for the modules to be imported in a portable way when
 # distributed through pip
@@ -111,6 +114,17 @@ elif platform.system() == 'Linux':
     talipot_native_libs = ['native/*.so*', 'native/plugins/*.so',
                            'native/graphviz/*.so']
 
+
+class CustomWheel(bdist_wheel):
+    """Override platform tags on macOS when building a wheel."""
+
+    def finalize_options(self):
+        platform_name = get_platform("_")
+        if "universal2" in platform_name:
+            self.plat_name = platform_name.replace("universal2", platform.uname().machine)
+        super().finalize_options()
+
+
 here = path.abspath(path.dirname(__file__))
 
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
@@ -183,4 +197,5 @@ setup(
 
     include_package_data=True,
     distclass=BinaryDistribution,
+    cmdclass={"bdist_wheel": CustomWheel},
 )

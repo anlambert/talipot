@@ -5,14 +5,25 @@ concurrency:
   cancel-in-progress: true
 jobs:
   macos:
-    name: Talipot Python wheels build on macOS
-    runs-on: macos-12
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Talipot wheels build on macOS x86_64
+            os: macos-12
+            macosx_deployment_target: "12.0"
+          - name: Talipot wheels build on macOS arm64
+            os: macos-14
+            macosx_deployment_target: "14.0"
     env:
       CLANG_VERSION: 16
-      MACOSX_DEPLOYMENT_TARGET: "12.0"
+      MACOSX_DEPLOYMENT_TARGET: ${{ matrix.config.macosx_deployment_target }}
       TWINE_REPOSITORY: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v4
@@ -76,11 +87,14 @@ jobs:
           graphviz
       - name: Install Python versions to build wheels against
         run: |
-          curl -LO https://www.python.org/ftp/python/3.9.0/python-3.9.0-macosx10.9.pkg
-          sudo installer -pkg python-3.9.0-macosx10.9.pkg -target /
-          sudo /Library/Frameworks/Python.framework/Versions/3.9/bin/pip3 install wheel
-          curl -LO https://www.python.org/ftp/python/3.10.0/python-3.10.0post2-macos11.pkg
-          sudo installer -pkg python-3.10.0post2-macos11.pkg -target /
+          os_ver=$(sw_vers -productVersion | cut -c1-2)
+          if [[ $os_ver -lt 13 ]]; then
+            curl -LO https://www.python.org/ftp/python/3.9.0/python-3.9.0-macosx10.9.pkg
+            sudo installer -pkg python-3.9.0-macosx10.9.pkg -target /
+            sudo /Library/Frameworks/Python.framework/Versions/3.9/bin/pip3 install wheel
+          fi
+          curl -LO https://www.python.org/ftp/python/3.10.10/python-3.10.10-macos11.pkg
+          sudo installer -pkg python-3.10.10-macos11.pkg -target /
           sudo /Library/Frameworks/Python.framework/Versions/3.10/bin/pip3 install wheel
           curl -LO https://www.python.org/ftp/python/3.11.0/python-3.11.0-macos11.pkg
           sudo installer -pkg python-3.11.0-macos11.pkg -target /
@@ -96,7 +110,13 @@ jobs:
       - name: Build Talipot Python wheels
         working-directory: ./build
         run: |
-          for py3Version in 3.9 3.10 3.11 3.12 3.13
+          os_ver=$(sw_vers -productVersion | cut -c1-2)
+          if [[ $os_ver -lt 13 ]]; then
+            py3Versions="3.9 3.10 3.11 3.12 3.13"
+          else
+            py3Versions="3.10 3.11 3.12 3.13"
+          fi
+          for py3Version in $py3Versions
           do
             rm -f CMakeCache.txt || true
             sudo /Library/Frameworks/Python.framework/Versions/$py3Version/bin/pip3 install sip
@@ -119,6 +139,7 @@ jobs:
       - name: Test uploaded wheels in clean environment
         if: github.ref == 'refs/tags/dev-latest'
         run: |
+          os_ver=$(sw_vers -productVersion | cut -c1-2)
           sudo port -N -f uninstall \
             cmake \
             clang-${CLANG_VERSION} \
@@ -139,9 +160,11 @@ jobs:
             python313 \
             py313-pip
 
-          sudo pip-3.9 install --index-url https://test.pypi.org/simple/ talipot
-          python3.9 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-          python3.9 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
+          if [[ $os_ver -lt 13 ]]; then
+            sudo pip-3.9 install --index-url https://test.pypi.org/simple/ talipot
+            python3.9 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+            python3.9 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
+          fi
 
           sudo pip-3.10 install --index-url https://test.pypi.org/simple/ talipot
           python3.10 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
