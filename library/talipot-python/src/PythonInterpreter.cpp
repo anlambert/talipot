@@ -71,7 +71,7 @@ def printObjectClass(obj):
     if obj and hasattr(obj, '__class__'):
         if hasattr(obj.__class__, '__module__'):
             mod = obj.__class__.__module__
-            if mod == '_talipot':
+            if mod == 'talipot':
                 mod = 'tlp'
             type = mod + '.'
         if hasattr(obj.__class__, '__name__'):

@@ -67,16 +67,16 @@ void APIDataBase::loadApiFile(const QString &apiFilePath) {
   while (!in.atEnd()) {
     QString line = in.readLine();
 
-    if (line.startsWith("_talipot.tlp.MaterialDesignIcons?1") ||
-        line.startsWith("_talipot.tlp.MaterialDesignIcons.__init__") ||
-        line.startsWith("_talipot.tlp.FontAwesome?1") ||
-        line.startsWith("_talipot.tlp.FontAwesome.__init__")) {
+    if (line.startsWith("talipot.tlp.MaterialDesignIcons?1") ||
+        line.startsWith("talipot.tlp.MaterialDesignIcons.__init__") ||
+        line.startsWith("talipot.tlp.FontAwesome?1") ||
+        line.startsWith("talipot.tlp.FontAwesome.__init__")) {
       continue;
     }
 
     addApiEntry(line);
 
-    if (line.startsWith("_talipot.tlp.Vec3f.")) {
+    if (line.startsWith("talipot.tlp.Vec3f.")) {
       addApiEntry(line.replace("Vec3f", "Coord"));
       addApiEntry(line.replace("Coord", "Size"));
     }
@@ -87,7 +87,7 @@ void APIDataBase::addApiEntry(const QString &apiEnt) {
   QString apiEntry(apiEnt);
   int pos = apiEntry.indexOf('.');
 
-  if (apiEntry.contains(QRegularExpression("^_talipot.*\\..+"))) {
+  if (apiEntry.contains(QRegularExpression("^talipot.*\\..+"))) {
     apiEntry = apiEntry.mid(pos + 1);
   }
 

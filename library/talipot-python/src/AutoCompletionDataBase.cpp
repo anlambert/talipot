@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1310,7 +1310,7 @@ QSet<QString> AutoCompletionDataBase::getAllDictForType(const QString &type, con
   QVector<QString> baseTypes = PythonInterpreter::instance().getBaseTypesForType(type);
 
   for (auto baseType : baseTypes) {
-    baseType.replace("_talipot", "tlp");
+    baseType.replace("talipot", "tlp");
 
     if (baseType != type) {
       ret += getAllDictForType(baseType, prefix, false);
@@ -1474,7 +1474,7 @@ AutoCompletionDataBase::getParamTypesForMethodOrFunction(const QString &type,
   QVector<QString> baseTypes = PythonInterpreter::instance().getBaseTypesForType(type);
 
   for (auto baseType : baseTypes) {
-    baseType.replace("_talipot", "tlp");
+    baseType.replace("talipot", "tlp");
 
     if (baseType != type) {
       ret += getParamTypesForMethodOrFunction(baseType, funcName);
@@ -1501,8 +1501,7 @@ QString AutoCompletionDataBase::getReturnTypeForMethodOrFunction(const QString &
     QVector<QString> baseTypes = PythonInterpreter::instance().getBaseTypesForType(type);
 
     for (auto baseType : baseTypes) {
-      baseType.replace("_talipot", "tlpgui");
-      baseType.replace("_talipot", "tlp");
+      baseType.replace("talipot", "tlp");
 
       if (baseType != type) {
         ret = getReturnTypeForMethodOrFunction(baseType, funcName);

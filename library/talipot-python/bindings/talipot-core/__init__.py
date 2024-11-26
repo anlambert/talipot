@@ -1,4 +1,4 @@
-# Copyright (C) 2019-2023  The Talipot developers
+# Copyright (C) 2019-2024  The Talipot developers
 #
 # Talipot is a fork of Tulip, created by David Auber
 # and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,7 +16,7 @@ import sys
 import traceback
 
 _talipotNativeLibsPath = os.path.join(os.path.dirname(__file__), 'native')
-sys.path.append(_talipotNativeLibsPath)
+sys.path.insert(0, os.path.dirname(__file__))
 
 if platform.system() == 'Windows':
     os.environ['PATH'] = '%s;%s;%s' % (
@@ -29,22 +29,22 @@ if platform.system() == 'Windows':
             os.add_dll_directory(path)
 
 
-import _talipot  # noqa
+import native.talipot  as talipot # noqa
 
-sys.path.pop()
+sys.path.pop(0)
 
 
-class tlpType(_talipot.tlp.__class__):
+class tlpType(talipot.tlp.__class__):
 
     def __getattr__(cls, name):
-        if hasattr(_talipot.tlp, name):
-            return _talipot.tlp.getGlobalVar(name)
+        if hasattr(talipot.tlp, name):
+            return talipot.tlp.getGlobalVar(name)
         else:
             raise AttributeError(name)
 
     def __setattr__(cls, name, value):
-        if hasattr(_talipot.tlp, name):
-            _talipot.tlp.setGlobalVar(name, value)
+        if hasattr(talipot.tlp, name):
+            talipot.tlp.setGlobalVar(name, value)
         else:
             super(tlpType, cls).__setattr__(name, value)
 
@@ -62,7 +62,7 @@ def with_metaclass(meta, *bases):
     return type.__new__(metaclass, 'temporary_class', (), {})
 
 
-class tlp(with_metaclass(tlpType, _talipot.tlp)):
+class tlp(with_metaclass(tlpType, talipot.tlp)):
 
     @staticmethod
     def loadTalipotPythonPlugin(pluginFilePath):

@@ -89,18 +89,18 @@ SET(SIP_MODULE_SRC
 )
 
 SET(TALIPOT_PYTHON_BINDINGS_SRC
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart0.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart1.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart2.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart3.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart4.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart5.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart6.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart7.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart8.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart9.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart10.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/_talipot/sip_talipotpart11.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart0.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart1.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart2.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart3.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart4.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart5.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart6.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart7.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart8.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart9.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart10.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart11.cpp)
 
 ADD_CUSTOM_COMMAND(
   OUTPUT ${SIP_MODULE_SRC}
@@ -224,7 +224,7 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 
 SET_TARGET_PROPERTIES(${LibTalipotCorePythonBindingsName}
-                      PROPERTIES OUTPUT_NAME talipot PREFIX "_")
+                      PROPERTIES OUTPUT_NAME talipot PREFIX "")
 SET_TARGET_PROPERTIES(sip PROPERTIES OUTPUT_NAME sip PREFIX "")
 
 IF(WIN32)
@@ -238,7 +238,7 @@ ELSE(WIN32)
 ENDIF(WIN32)
 
 # On MacOS, add the paths of dependencies dylibs in install rpaths of the
-# _talipot.so binary That way, the talipot module can be imported in a classical
+# talipot.so binary That way, the talipot module can be imported in a classical
 # Python shell without having to modify the content of the DYLD_LIBRARY_PATH
 # environment variable
 FILE(RELATIVE_PATH TalipotLibsInstallRelPath

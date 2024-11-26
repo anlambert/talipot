@@ -1,4 +1,4 @@
-# Copyright (C) 2019-2023  The Talipot developers
+# Copyright (C) 2019-2024  The Talipot developers
 #
 # Talipot is a fork of Tulip, created by David Auber
 # and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,6 +20,7 @@ class TestGraphStructure(unittest.TestCase):
     # to node (NB_NODES-2) and node (NB_NODES-1) connected to all the others
     def setUp(self):
         self.graph = tlp.newGraph()
+        self.assertEqual(str(type(self.graph)), "<class 'talipot.tlp.Graph'>")
         self.nodes = []
         self.edges = []
         for i in range(NB_NODES):

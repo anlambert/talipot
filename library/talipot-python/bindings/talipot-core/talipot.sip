@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -11,7 +11,7 @@
  *
  */
 
-%Module(name=_talipot, keyword_arguments="Optional")
+%Module(name=talipot, keyword_arguments="Optional")
 
 // we define the NO_LIMIT_DOC feature
 // to deal with the limit for string constants length of Visual Studio

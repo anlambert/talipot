@@ -86,7 +86,7 @@ cd ..
 mv bin/talipot MacOS/Talipot
 # tell macdeployqt to also process Talipot Python dynamic module (not processed by default as
 # its extension is .so instead of .dylib)
-mac_deploy_qt_opts=-executable=${TALIPOT_APP}/Contents/lib/talipot/python/talipot/native/_talipot.so
+mac_deploy_qt_opts=-executable=${TALIPOT_APP}/Contents/lib/talipot/python/talipot/native/talipot.so
 if [ $(echo ${QT_VERSION} | cut -c1) -ge 6 ]
 then
     # qt plugins end up with broken rpaths when using macdeployt from Qt6
