@@ -76,12 +76,6 @@ jobs:
           graphviz
       - name: Install Python versions to build wheels against
         run: |
-          curl -LO https://www.python.org/ftp/python/3.7.6/python-3.7.6-macosx10.9.pkg
-          sudo installer -pkg python-3.7.6-macosx10.9.pkg -target /
-          sudo /Library/Frameworks/Python.framework/Versions/3.7/bin/pip3 install wheel
-          curl -LO https://www.python.org/ftp/python/3.8.1/python-3.8.1-macosx10.9.pkg
-          sudo installer -pkg python-3.8.1-macosx10.9.pkg -target /
-          sudo /Library/Frameworks/Python.framework/Versions/3.8/bin/pip3 install wheel
           curl -LO https://www.python.org/ftp/python/3.9.0/python-3.9.0-macosx10.9.pkg
           sudo installer -pkg python-3.9.0-macosx10.9.pkg -target /
           sudo /Library/Frameworks/Python.framework/Versions/3.9/bin/pip3 install wheel
@@ -91,13 +85,18 @@ jobs:
           curl -LO https://www.python.org/ftp/python/3.11.0/python-3.11.0-macos11.pkg
           sudo installer -pkg python-3.11.0-macos11.pkg -target /
           sudo /Library/Frameworks/Python.framework/Versions/3.11/bin/pip3 install wheel
-          sudo /Library/Frameworks/Python.framework/Versions/3.11/bin/pip3 install twine
+          curl -LO https://www.python.org/ftp/python/3.12.7/python-3.12.7-macos11.pkg
+          sudo installer -pkg python-3.12.7-macos11.pkg -target /
+          sudo /Library/Frameworks/Python.framework/Versions/3.12/bin/pip3 install wheel
+          curl -LO https://www.python.org/ftp/python/3.13.0/python-3.13.0-macos11.pkg
+          sudo installer -pkg python-3.13.0-macos11.pkg -target /
+          sudo /Library/Frameworks/Python.framework/Versions/3.13/bin/pip3 install wheel twine
       - name: Create build directory
         run: mkdir build
       - name: Build Talipot Python wheels
         working-directory: ./build
         run: |
-          for py3Version in 3.8 3.9 3.10 3.11
+          for py3Version in 3.9 3.10 3.11 3.12 3.13
           do
             rm -f CMakeCache.txt || true
             sudo /Library/Frameworks/Python.framework/Versions/$py3Version/bin/pip3 install sip
@@ -129,18 +128,16 @@ jobs:
             graphviz
 
           sudo port -N install \
-            python38 \
-            py38-pip \
             python39 \
             py39-pip \
             python310 \
             py310-pip \
             python311 \
-            py311-pip
-
-          sudo pip-3.8 install --index-url https://test.pypi.org/simple/ talipot
-          python3.8 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-          python3.8 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
+            py311-pip \
+            python312 \
+            py312-pip \
+            python313 \
+            py313-pip
 
           sudo pip-3.9 install --index-url https://test.pypi.org/simple/ talipot
           python3.9 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
@@ -153,3 +150,11 @@ jobs:
           sudo pip-3.11 install --index-url https://test.pypi.org/simple/ talipot
           python3.11 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
           python3.11 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
+
+          sudo pip-3.12 install --index-url https://test.pypi.org/simple/ talipot
+          python3.12 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+          python3.12 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
+
+          sudo pip-3.13 install --index-url https://test.pypi.org/simple/ talipot
+          python3.13 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+          python3.13 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
