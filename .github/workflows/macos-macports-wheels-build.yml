@@ -1,5 +1,8 @@
 name: macos-macports-wheels-build
 on: [push, pull_request]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   macos:
     name: Talipot Python wheels build on macOS
@@ -11,10 +14,6 @@ jobs:
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
       - name: Checkout Talipot code
         uses: actions/checkout@v4
       - name: Get wheel next dev version

@@ -1,5 +1,8 @@
 name: appimage-build
 on: [push, pull_request]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   appimage:
     name: ${{ matrix.config.name }}
@@ -15,10 +18,6 @@ jobs:
             docker-image: dokken/centos-stream-9
             centos-version: centos9
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
       - name: Checkout Talipot code
         uses: actions/checkout@v4
       - name: Get current date

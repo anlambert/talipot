@@ -1,5 +1,8 @@
 name: macos-macports-build
 on: [push, pull_request]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   macos:
     name: ${{ matrix.config.name }}
@@ -16,10 +19,6 @@ jobs:
           - name: Talipot build on macOS arm64
             os: macos-14
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
       - name: Checkout Talipot code
         uses: actions/checkout@v4
       - name: Compute environment variable
