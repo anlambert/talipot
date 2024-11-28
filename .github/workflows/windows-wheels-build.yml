@@ -61,8 +61,10 @@ jobs:
             # check if dev wheel version needs to be incremented
             VERSION_INCREMENT=$(echo $JSON | python -c "
           import sys, json
+          from wheel._bdist_wheel import get_abi_tag
           releases = json.load(sys.stdin)['releases']['$LAST_VERSION']
-          print(any(['win_amd64' in r['filename'] for r in releases]))")
+          abi_tag = get_abi_tag() + '-'
+          print(any(['win_amd64' in r['filename'] and abi_tag in r['filename'] for r in releases]))")
             DEV_VERSION=$(echo $LAST_VERSION | cut -f4 -d '.' | sed 's/dev//')
             if [ "$VERSION_INCREMENT" == "True" ]
             then

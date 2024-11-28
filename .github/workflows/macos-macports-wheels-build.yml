@@ -42,9 +42,10 @@ jobs:
 
             # check if dev wheel version needs to be incremented
             VERSION_INCREMENT=$(echo $JSON | python -c "
-          import sys, json
+          import sys, json, platform
           releases = json.load(sys.stdin)['releases']['$LAST_VERSION']
-          print(any(['macosx' in r['filename'] for r in releases]))")
+          machine = platform.uname().machine
+          print(any(['macosx' in r['filename'] and machine in r['filename'] for r in releases]))")
             DEV_VERSION=$(echo $LAST_VERSION | cut -f4 -d '.' | sed 's/dev//')
 
             if [ "$VERSION_INCREMENT" == "True" ]
