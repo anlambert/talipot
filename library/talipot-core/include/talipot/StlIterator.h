@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -157,9 +157,35 @@ struct reverse_wrapper {
 };
 
 template <typename Container>
+struct reverse_wrapper_copy {
+  Container _c;
+  reverse_wrapper_copy(Container c) : _c(std::move(c)) {}
+
+  typename Container::reverse_iterator begin() {
+    return _c.rbegin();
+  }
+  typename Container::reverse_iterator end() {
+    return _c.rend();
+  }
+};
+
+template <typename Container>
 struct const_reverse_wrapper {
   const Container &_c;
   const_reverse_wrapper(const Container &c) : _c(c) {}
+
+  typename Container::const_reverse_iterator begin() const {
+    return _c.rbegin();
+  }
+  typename Container::const_reverse_iterator end() const {
+    return _c.rend();
+  }
+};
+
+template <typename Container>
+struct const_reverse_wrapper_copy {
+  const Container _c;
+  const_reverse_wrapper_copy(const Container c) : _c(std::move(c)) {}
 
   typename Container::const_reverse_iterator begin() const {
     return _c.rbegin();
@@ -175,9 +201,20 @@ inline reverse_wrapper<Container> reversed(Container &c) {
 }
 
 template <typename Container>
+inline reverse_wrapper_copy<Container> reversed(Container &&c) {
+  return reverse_wrapper_copy<Container>(std::move(c));
+}
+
+template <typename Container>
 inline const_reverse_wrapper<Container> reversed(const Container &c) {
   return const_reverse_wrapper<Container>(c);
 }
+
+template <typename Container>
+inline const_reverse_wrapper_copy<Container> reversed(const Container &&c) {
+  return const_reverse_wrapper_copy<Container>(std::move(c));
+}
+
 }
 
 #endif // TALIPOT_STL_ITERATOR_H
