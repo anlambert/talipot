@@ -126,7 +126,7 @@ jobs:
               -DCMAKE_C_COMPILER=/opt/local/bin/clang-mp-${{ env.CLANG_VERSION }} \
               -DCMAKE_CXX_COMPILER=/opt/local/bin/clang++-mp-${{ env.CLANG_VERSION }} \
               -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON \
-              -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a2.dev${{ env.DEV_VERSION }}\
+              -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a3.dev${{ env.DEV_VERSION }}\
               -DPython3_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/$py3Version/bin/python3 \
               -DTALIPOT_USE_CCACHE=ON \
               -DTALIPOT_BUILD_CORE_ONLY=ON \
