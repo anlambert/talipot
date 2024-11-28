@@ -554,25 +554,26 @@ vector<edge> bfsEdges(const Graph *graph, node root, bool directed) {
   return edges;
 }
 
-static inline pair<vector<node>, vector<edge>> performCumulativeBfs(const Graph *graph) {
+static inline pair<vector<node>, vector<edge>> performCumulativeBfs(const Graph *graph,
+                                                                    bool directed) {
   vector<node> nodes;
   vector<edge> edges;
   NodeVectorProperty<bool> visited(graph);
   visited.setAll(false);
   for (auto n : graph->nodes()) {
-    bfs(graph, n, visited, nodes, edges);
+    bfs(graph, n, visited, nodes, edges, directed);
   }
   return {nodes, edges};
 }
 
 // cumulative bfs from every node of the graph
-vector<node> bfs(const Graph *graph) {
-  auto [nodes, edges] = performCumulativeBfs(graph);
+vector<node> bfs(const Graph *graph, bool directed) {
+  auto [nodes, edges] = performCumulativeBfs(graph, directed);
   return nodes;
 }
 
-vector<edge> bfsEdges(const Graph *graph) {
-  auto [nodes, edges] = performCumulativeBfs(graph);
+vector<edge> bfsEdges(const Graph *graph, bool directed) {
+  auto [nodes, edges] = performCumulativeBfs(graph, directed);
   return edges;
 }
 
@@ -643,25 +644,26 @@ std::vector<edge> dfsEdges(const Graph *graph, node root, bool directed) {
   return edges;
 }
 
-static inline pair<vector<node>, vector<edge>> performCumulativeDfs(const Graph *graph) {
+static inline pair<vector<node>, vector<edge>> performCumulativeDfs(const Graph *graph,
+                                                                    bool directed) {
   vector<node> nodes;
   vector<edge> edges;
   NodeVectorProperty<bool> visited(graph);
   visited.setAll(false);
   for (auto n : graph->nodes()) {
-    dfs(graph, n, visited, nodes, edges);
+    dfs(graph, n, visited, nodes, edges, directed);
   }
   return {nodes, edges};
 }
 
 // cumulative dfs from every node of the graph
-std::vector<tlp::node> dfs(const Graph *graph) {
-  auto [nodes, edges] = performCumulativeDfs(graph);
+std::vector<tlp::node> dfs(const Graph *graph, bool directed) {
+  auto [nodes, edges] = performCumulativeDfs(graph, directed);
   return nodes;
 }
 
-std::vector<tlp::edge> dfsEdges(const Graph *graph) {
-  auto [nodes, edges] = performCumulativeDfs(graph);
+std::vector<tlp::edge> dfsEdges(const Graph *graph, bool directed) {
+  auto [nodes, edges] = performCumulativeDfs(graph, directed);
   return edges;
 }
 
