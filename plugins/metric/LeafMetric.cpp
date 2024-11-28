@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,6 +14,7 @@
 #include <stack>
 
 #include <talipot/AcyclicTest.h>
+#include <talipot/GraphTools.h>
 
 #include "LeafMetric.h"
 
@@ -23,105 +24,23 @@ using namespace std;
 using namespace tlp;
 
 //=======================================================================
-LeafMetric::LeafMetric(const tlp::PluginContext *context) : DoubleAlgorithm(context) {}
-
-// structure below is used to implement dfs loop
-struct dfsLeafStruct {
-  node current;
-  Iterator<node> *outNodes;
-  double res;
-
-  dfsLeafStruct(node n, Iterator<node> *nodes) : current(n), outNodes(nodes), res(0.0) {}
-};
-//=======================================================================
-// original recursive algorithm
-/*double LeafMetric::getNodeValue(const tlp::node n) {
-    if (result->getNodeValue(n) != 0)
-      return result->getNodeValue(n);
-    double res=0;
-    for (auto n : graph->getOutNodes(n))
-      res += getNodeValue(n);
-    if (res==0) res=1.0;
-    result->setNodeValue(n, res);
-    return res;
-  }*/
-//=======================================================================
-double LeafMetric::getNodeValue(tlp::node current) {
-  double value = result->getNodeValue(current);
-
-  if (value != 0.0) {
-    return value;
-  }
-
-  // dfs loop
-  stack<dfsLeafStruct> dfsLevels;
-  Iterator<node> *outNodes = graph->getOutNodes(current);
-  dfsLeafStruct dfsParams(current, outNodes);
-  double res = 0.0;
-  dfsLevels.push(dfsParams);
-
-  while (!dfsLevels.empty()) {
-    while (outNodes->hasNext()) {
-      node neighbour = outNodes->next();
-      value = result->getNodeValue(neighbour);
-
-      // compute res
-      if (value != 0.0) {
-        res += value;
-      } else {
-        // store res for current
-        dfsLevels.top().res = res;
-        // push new dfsParams on stack
-        current = dfsParams.current = neighbour;
-        outNodes = dfsParams.outNodes = graph->getOutNodes(neighbour);
-        res = dfsParams.res = 0.0;
-        dfsLevels.push(dfsParams);
-        // and go deeper
-        break;
-      }
-    }
-
-    if (outNodes->hasNext()) {
-      // new dfsParams has been pushed on stack
-      continue;
-    }
-
-    // save current res
-    if (res == 0.0) {
-      res = 1.0;
-    }
-
-    result->setNodeValue(current, res);
-    // unstack current dfsParams
-    delete outNodes;
-    dfsLevels.pop();
-
-    if (dfsLevels.empty()) {
-      break;
-    }
-
-    // get dfsParams on top of dfsLevels
-    dfsParams = dfsLevels.top();
-    current = dfsParams.current;
-    outNodes = dfsParams.outNodes;
-    // update new current res if any
-    dfsParams.res += res;
-    res = dfsParams.res;
-  }
-
-  return res;
-}
+LeafMetric::LeafMetric(const PluginContext *context) : DoubleAlgorithm(context) {}
 //=======================================================================
 bool LeafMetric::run() {
   result->setAllNodeValue(0);
-  result->setAllEdgeValue(0);
-  for (auto n : graph->nodes()) {
-    result->setNodeValue(n, getNodeValue(n));
+  for (auto n : reversed(dfs(graph, true))) {
+    double val = 1.0;
+    if (graph->outdeg(n) > 0) {
+      val = iteratorReduce(graph->getOutNodes(n), 0.0, [this](double curVal, const node m) {
+        return curVal + result->getNodeValue(m);
+      });
+    }
+    result->setNodeValue(n, val);
   }
   return true;
 }
 //=======================================================================
-bool LeafMetric::check(std::string &erreurMsg) {
+bool LeafMetric::check(string &erreurMsg) {
   if (!AcyclicTest::isAcyclic(graph)) {
     erreurMsg = "The graph must be a acyclic.";
     return false;
