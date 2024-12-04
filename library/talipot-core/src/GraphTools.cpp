@@ -580,42 +580,71 @@ vector<edge> bfsEdges(const Graph *graph, bool directed) {
 //======================================================================
 
 static void dfs(const Graph *graph, node root, NodeVectorProperty<bool> &visited,
-                vector<node> &nodes, vector<edge> &edges, bool directed = false) {
+                const std::function<bool(const Graph *, node)> &inVisitCallback,
+                const std::function<bool(const Graph *, node)> &outVisitCallback, bool directed,
+                vector<node> *nodes = nullptr, vector<edge> *edges = nullptr) {
   if (visited[root]) {
     return;
   }
 
-  nodes.reserve(nodes.size() + graph->numberOfNodes());
-  edges.reserve(edges.size() + graph->numberOfEdges());
+  if (nodes) {
+    nodes->reserve(nodes->size() + graph->numberOfNodes());
+  }
+  if (edges) {
+    edges->reserve(edges->size() + graph->numberOfEdges());
+  }
 
-  stack<pair<edge, node>> toVisit;
-  toVisit.push({edge(), root});
+  stack<node> toVisit;
+  toVisit.push(root);
   visited[root] = true;
 
-  while (!toVisit.empty()) {
-    auto [edge, currentNode] = toVisit.top();
-    toVisit.pop();
-    nodes.push_back(currentNode);
-    if (edge.isValid()) {
-      edges.push_back(edge);
-    }
+  if (nodes) {
+    nodes->push_back(root);
+  }
 
-    auto incidentEdges = iteratorVector(getIncidentEdgesIterator(
-        graph, currentNode, directed ? EdgeType::DIRECTED : EdgeType::UNDIRECTED));
-    for (auto e : reversed(incidentEdges)) {
+  if (!inVisitCallback(graph, root)) {
+    return;
+  }
+
+  while (!toVisit.empty()) {
+    auto currentNode = toVisit.top();
+
+    bool allNeighboursVisited = true;
+    for (auto e : getIncidentEdgesIterator(graph, currentNode,
+                                           directed ? EdgeType::DIRECTED : EdgeType::UNDIRECTED)) {
       node neigh = graph->opposite(e, currentNode);
       if (!visited[neigh]) {
+        allNeighboursVisited = false;
+        if (nodes) {
+          nodes->push_back(neigh);
+        }
+        if (edges) {
+          edges->push_back(e);
+        }
+        toVisit.push(neigh);
         visited[neigh] = true;
-        toVisit.push({e, neigh});
+        if (!inVisitCallback(graph, neigh)) {
+          return;
+        }
+        break;
+      }
+    }
+
+    if (allNeighboursVisited) {
+      toVisit.pop();
+      if (!outVisitCallback(graph, currentNode)) {
+        return;
       }
     }
   }
 }
 
-static inline pair<vector<node>, vector<edge>> performDfs(const Graph *graph, node root,
-                                                          bool directed = false) {
-  vector<node> nodes;
-  vector<edge> edges;
+static inline void performDfs(const Graph *graph, node root,
+                              const std::function<bool(const Graph *, node)> &inVisitCallback,
+                              const std::function<bool(const Graph *, node)> &outVisitCallback,
+                              bool directed, vector<node> *nodes = nullptr,
+                              vector<edge> *edges = nullptr) {
+
   if (!graph->isEmpty()) {
     if (!root.isValid()) {
       root = graph->getSource();
@@ -628,42 +657,60 @@ static inline pair<vector<node>, vector<edge>> performDfs(const Graph *graph, no
     assert(graph->isElement(root));
     NodeVectorProperty<bool> visited(graph);
     visited.setAll(false);
-    dfs(graph, root, visited, nodes, edges, directed);
+    dfs(graph, root, visited, inVisitCallback, outVisitCallback, directed, nodes, edges);
   }
-  return {nodes, edges};
+}
+
+static inline bool continueVisit(const Graph *, node) {
+  return true;
 }
 
 // dfs from a root node
-std::vector<node> dfs(const Graph *graph, node root, bool directed) {
-  auto [nodes, edges] = performDfs(graph, root, directed);
+vector<node> dfs(const Graph *graph, node root, bool directed) {
+  vector<node> nodes;
+  performDfs(graph, root, continueVisit, continueVisit, directed, &nodes);
   return nodes;
 }
 
-std::vector<edge> dfsEdges(const Graph *graph, node root, bool directed) {
-  auto [nodes, edges] = performDfs(graph, root, directed);
+void dfs(const Graph *graph, node root,
+         const std::function<bool(const Graph *, node)> &inVisitCallback,
+         const std::function<bool(const Graph *, node)> &outVisitCallback, bool directed) {
+  performDfs(graph, root, inVisitCallback, outVisitCallback, directed);
+}
+
+vector<edge> dfsEdges(const Graph *graph, node root, bool directed) {
+  vector<edge> edges;
+  performDfs(graph, root, continueVisit, continueVisit, directed, nullptr, &edges);
   return edges;
 }
 
-static inline pair<vector<node>, vector<edge>> performCumulativeDfs(const Graph *graph,
-                                                                    bool directed) {
-  vector<node> nodes;
-  vector<edge> edges;
+static inline void
+performCumulativeDfs(const Graph *graph,
+                     const std::function<bool(const Graph *, node)> &inVisitCallback,
+                     const std::function<bool(const Graph *, node)> &outVisitCallback,
+                     bool directed, vector<node> *nodes = nullptr, vector<edge> *edges = nullptr) {
   NodeVectorProperty<bool> visited(graph);
   visited.setAll(false);
   for (auto n : graph->nodes()) {
-    dfs(graph, n, visited, nodes, edges, directed);
+    dfs(graph, n, visited, inVisitCallback, outVisitCallback, directed, nodes, edges);
   }
-  return {nodes, edges};
 }
 
 // cumulative dfs from every node of the graph
 std::vector<tlp::node> dfs(const Graph *graph, bool directed) {
-  auto [nodes, edges] = performCumulativeDfs(graph, directed);
+  vector<node> nodes;
+  performCumulativeDfs(graph, continueVisit, continueVisit, directed, &nodes);
   return nodes;
 }
 
+void dfs(const Graph *graph, const std::function<bool(const Graph *, node)> &inVisitCallback,
+         const std::function<bool(const Graph *, node)> &outVisitCallback, bool directed) {
+  performCumulativeDfs(graph, inVisitCallback, outVisitCallback, directed);
+}
+
 std::vector<tlp::edge> dfsEdges(const Graph *graph, bool directed) {
-  auto [nodes, edges] = performCumulativeDfs(graph, directed);
+  vector<edge> edges;
+  performCumulativeDfs(graph, continueVisit, continueVisit, directed, nullptr, &edges);
   return edges;
 }
 
