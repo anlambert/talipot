@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -75,6 +75,18 @@ private:
 
 TLP_PYTHON_SCOPE PyObject *getPyObjectFromDataType(const tlp::DataType *dataType,
                                                    bool noCopy = false);
+
+template <typename T>
+PyObject *getPyObjectFromCppPointer(const T *val) {
+  tlp::TypedData<T *> dataType(new T *(const_cast<T *>(val)));
+  return getPyObjectFromDataType(&dataType);
+}
+
+template <typename T>
+PyObject *getPyObjectFromCppReference(const T &val) {
+  tlp::TypedData<T> dataType(new T(val));
+  return getPyObjectFromDataType(&dataType);
+}
 
 TLP_PYTHON_SCOPE bool setCppValueFromPyObject(PyObject *pyObj, ValueSetter &valSetter,
                                               tlp::DataType *dataType = nullptr);

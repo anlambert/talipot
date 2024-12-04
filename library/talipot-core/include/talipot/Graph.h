@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -965,7 +965,16 @@ public:
    * @param directed if true only follow output edges, follow all edges otherwise
    * @return A vector of graph nodes in the DFS order.
    */
-  virtual std::vector<node> dfs(const node root = node(), bool directed = false) const = 0;
+  virtual std::vector<node> dfs(const node root, bool directed = false) const = 0;
+  virtual std::vector<node> dfs(bool directed = false) const = 0;
+
+  virtual void dfs(node root, const std::function<bool(const Graph *, node)> &inVisitCallback,
+                   const std::function<bool(const Graph *, node)> &outVisitCallback,
+                   bool directed = false) const = 0;
+
+  virtual void dfs(const std::function<bool(const Graph *, node)> &inVisitCallback,
+                   const std::function<bool(const Graph *, node)> &outVisitCallback,
+                   bool directed = false) const = 0;
 
   /**
    * @brief Gets an iterator performing a depth-first search on the graph.
@@ -975,7 +984,8 @@ public:
    * @param directed if true only follow output edges, follow all edges otherwise
    * @return A vector of graph edges in the DFS order.
    */
-  virtual std::vector<edge> dfsEdges(const node root = node(), bool directed = false) const = 0;
+  virtual std::vector<edge> dfsEdges(const node root, bool directed = false) const = 0;
+  virtual std::vector<edge> dfsEdges(bool directed = false) const = 0;
 
   /**
    * @brief Gets the underlying graph of a meta node.
