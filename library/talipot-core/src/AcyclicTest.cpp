@@ -15,6 +15,7 @@
 #include <talipot/AcyclicTest.h>
 #include <talipot/Graph.h>
 #include <talipot/MutableContainer.h>
+#include <talipot/GraphTools.h>
 
 using namespace std;
 using namespace tlp;
@@ -135,83 +136,31 @@ bool AcyclicTest::acyclicTest(const Graph *graph, vector<edge> *obstructionEdges
   visited.setAll(false);
   finished.setAll(false);
   bool result = true;
-  // do a dfs traversal
 
-  for (auto curNode : graph->nodes()) {
+  auto outVisitNode = [&](const Graph *, node n) {
+    finished.set(n.id, true);
+    return true;
+  };
 
-    if (!visited.get(curNode.id)) {
-      stack<node> nodesToVisit;
-      nodesToVisit.push(curNode);
-      stack<Iterator<edge> *> neighboursToVisit;
-      neighboursToVisit.push(graph->getOutEdges(curNode));
-
-      while (!nodesToVisit.empty()) {
-        node curNode = nodesToVisit.top();
-        Iterator<edge> *ite = neighboursToVisit.top();
-
-        // check if dfs traversal of curNode neighbours is finished
-        if (!ite->hasNext()) {
-          // unstack curNode
-          nodesToVisit.pop();
-          // delete & unstack neighbours iterator
-          delete neighboursToVisit.top();
-          neighboursToVisit.pop();
-          // mark curNode as to be skipped
-          // during further exploration
-          finished.set(curNode.id, true);
-        } else {
-          visited.set(curNode.id, true);
-
-          // loop on remaining neighbours
-          while (ite->hasNext()) {
-            edge tmp = ite->next();
-            node neighbour = graph->target(tmp);
-
-            // check if we are already in the exploration
-            // of the neighbours of neighbour
-            if (visited.get(neighbour.id)) {
-              if (!finished.get(neighbour.id)) {
-                // found a cycle
-                result = false;
-
-                if (obstructionEdges != nullptr) {
-                  obstructionEdges->push_back(tmp);
-                } else {
-                  // it is finished if we don't need
-                  // to collect obstruction edges
-                  break;
-                }
-              }
-            } else {
-              // found a new neighbour to explore
-              // go deeper in our dfs traversal
-              nodesToVisit.push(neighbour);
-              neighboursToVisit.push(graph->getOutEdges(neighbour));
-              break;
-            }
-          }
-
-          // it may be finished if we don't need
-          // to collect obstruction edges
-          if ((!result) && (obstructionEdges == nullptr)) {
-            break;
-          }
+  auto inVisitNode = [&](const Graph *graph, node n) {
+    visited.set(n.id, true);
+    for (auto e : graph->getOutEdges(n)) {
+      auto neighbour = graph->target(e);
+      if (visited.get(neighbour.id) && !finished.get(neighbour.id)) {
+        // found a cycle
+        result = false;
+        if (obstructionEdges != nullptr) {
+          obstructionEdges->push_back(e);
         }
-      }
-
-      // it may be finished if we don't need
-      // to collect obstruction edges
-      if ((!result) && (obstructionEdges == nullptr)) {
-        // don't forget to delete remaining iterators
-        while (!neighboursToVisit.empty()) {
-          delete neighboursToVisit.top();
-          neighboursToVisit.pop();
-        }
-
-        break;
+        // it is finished if we don't need
+        // to collect obstruction edges
+        return obstructionEdges == nullptr;
       }
     }
-  }
+    return true;
+  };
+
+  graph->dfs(inVisitNode, outVisitNode, true);
 
   return result;
 }
