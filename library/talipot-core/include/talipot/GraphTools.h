@@ -167,6 +167,11 @@ TLP_SCOPE std::vector<edge> bfsEdges(const Graph *graph, bool directed = false);
  */
 TLP_SCOPE std::vector<node> dfs(const Graph *graph, node root, bool directed = false);
 
+TLP_SCOPE void dfs(const Graph *graph, node root,
+                   const std::function<bool(const Graph *, node)> &inVisitCallback,
+                   const std::function<bool(const Graph *, node)> &outVisitCallback,
+                   bool directed = false);
+
 /**
  * @brief Performs a depth-first search on a graph.
  * @param graph The graph to traverse with a DFS.
@@ -187,6 +192,11 @@ TLP_SCOPE std::vector<edge> dfsEdges(const Graph *graph, node root, bool directe
  * the DFS.
  */
 TLP_SCOPE std::vector<node> dfs(const Graph *graph, bool directed = false);
+
+TLP_SCOPE void dfs(const Graph *graph,
+                   const std::function<bool(const Graph *, node)> &inVisitCallback,
+                   const std::function<bool(const Graph *, node)> &outVisitCallback,
+                   bool directed = false);
 
 /**
  * @brief Performs a cumulative depth-first search on every node of a graph.

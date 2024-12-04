@@ -32,6 +32,7 @@ typedef tlp::PropertyInterface *PropertyPointer;
 typedef tlp::Iterator<tlp::PropertyPointer> IteratorProperty;
 }
 typedef std::pair<tlp::node, tlp::node> pairNodeNode;
+typedef std::function<bool(const tlp::Graph *, tlp::node)> NodeVisitFunction;
 
 inline void releasePropertyWrapper(tlp::PropertyInterface *prop) {
   releaseSIPWrapper(prop, sipFindType("tlp::PropertyInterface"));
@@ -267,6 +268,44 @@ bool setPropertiesValuesFromDataSet(tlp::Graph *graph, const tlp::DataSet *dataS
   return ok;
 }
 %End
+
+%MappedType NodeVisitFunction {
+%TypeHeaderCode
+#include <functional>
+%End
+
+%ConvertToTypeCode
+if (sipIsErr == NULL) {
+   return PyCallable_Check(sipPy);
+}
+NodeVisitFunction func = [sipPy](const tlp::Graph *graph, tlp::node n) -> bool {
+  bool ret = false;
+  PyObject *pGraph = getPyObjectFromCppPointer(graph);
+  PyObject *pNode = getPyObjectFromCppReference(n);
+  PyObject *argTup = PyTuple_New(2);
+  PyTuple_SetItem(argTup, 0, pGraph);
+  PyTuple_SetItem(argTup, 1, pNode);
+  PyObject *val = PyObject_CallObject(sipPy, argTup);
+  if (PyErr_Occurred()) {
+    PyErr_Print();
+  } else {
+    if (PyBool_Check(val)) {
+      ret = (val == Py_True);
+    } else {
+      PyErr_SetString(PyExc_ValueError, "Returned value is not a boolean");
+    }
+  }
+  Py_XDECREF(pGraph);
+  Py_XDECREF(pNode);
+  Py_XDECREF(argTup);
+  Py_XDECREF(val);
+  return ret;
+};
+*sipCppPtr = new NodeVisitFunction(std::move(func));
+return sipGetState(sipTransferObj);
+%End
+
+};
 
 typedef std::pair<tlp::node, tlp::node> pairNodeNode;
 
@@ -2141,6 +2180,11 @@ if (!a0->isValid() || sipCpp->isElement(*a0)) {
   sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
+
+//===========================================================================================
+
+void dfs(const NodeVisitFunction &inVisitCallback, const NodeVisitFunction &outVisitCallback,
+         bool directed = false) const;
 
 //===========================================================================================
 

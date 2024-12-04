@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -108,9 +108,17 @@ public:
   std::string getName() const override;
 
   std::vector<node> bfs(const node root = node(), bool directed = false) const override;
-  std::vector<node> dfs(const node root = node(), bool directed = false) const override;
+  std::vector<node> dfs(const node root, bool directed = false) const override;
+  std::vector<node> dfs(bool directed = false) const override;
+  void dfs(node root, const std::function<bool(const Graph *, node)> &inVisitCallback,
+           const std::function<bool(const Graph *, node)> &outVisitCallback,
+           bool directed = false) const override;
+  void dfs(const std::function<bool(const Graph *, node)> &inVisitCallback,
+           const std::function<bool(const Graph *, node)> &outVisitCallback,
+           bool directed = false) const override;
   std::vector<edge> bfsEdges(const node root = node(), bool directed = false) const override;
-  std::vector<edge> dfsEdges(const node root = node(), bool directed = false) const override;
+  std::vector<edge> dfsEdges(const node root, bool directed = false) const override;
+  std::vector<edge> dfsEdges(bool directed = false) const override;
 
 protected:
   DataSet &getNonConstAttributes() override {

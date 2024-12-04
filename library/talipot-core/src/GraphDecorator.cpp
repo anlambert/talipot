@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -431,12 +431,32 @@ std::vector<node> GraphDecorator::dfs(const node root, bool directed) const {
   return graph_component->dfs(root, directed);
 }
 //============================================================
+std::vector<node> GraphDecorator::dfs(bool directed) const {
+  return graph_component->dfs(directed);
+}
+//============================================================
+void GraphDecorator::dfs(node root, const std::function<bool(const Graph *, node)> &inVisitCallback,
+                         const std::function<bool(const Graph *, node)> &outVisitCallback,
+                         bool directed) const {
+  graph_component->dfs(root, inVisitCallback, outVisitCallback, directed);
+}
+//============================================================
+void GraphDecorator::dfs(const std::function<bool(const Graph *, node)> &inVisitCallback,
+                         const std::function<bool(const Graph *, node)> &outVisitCallback,
+                         bool directed) const {
+  graph_component->dfs(inVisitCallback, outVisitCallback, directed);
+}
+//============================================================
 std::vector<edge> GraphDecorator::bfsEdges(const node root, bool directed) const {
   return graph_component->bfsEdges(root, directed);
 }
 //============================================================
 std::vector<edge> GraphDecorator::dfsEdges(const node root, bool directed) const {
   return graph_component->dfsEdges(root, directed);
+}
+//============================================================
+std::vector<edge> GraphDecorator::dfsEdges(bool directed) const {
+  return graph_component->dfsEdges(directed);
 }
 //============================================================
 const std::vector<edge> &GraphDecorator::edges() const {

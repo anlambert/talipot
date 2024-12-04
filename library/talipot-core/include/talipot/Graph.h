@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -958,24 +958,75 @@ public:
   virtual std::vector<edge> bfsEdges(const node root = node(), bool directed = false) const = 0;
 
   /**
-   * @brief Gets an iterator performing a depth-first search on the graph.
+   * @brief Gets graph nodes sorted with depth-first search ordering.
    * @param root The node from whom to start the DFS. If not provided, the root
    * node will be assigned to a source node in the graph (node with input degree equals to 0).
    * If there is no source node in the graph, a random node will be picked.
    * @param directed if true only follow output edges, follow all edges otherwise
    * @return A vector of graph nodes in the DFS order.
    */
-  virtual std::vector<node> dfs(const node root = node(), bool directed = false) const = 0;
+  virtual std::vector<node> dfs(const node root, bool directed = false) const = 0;
 
   /**
-   * @brief Gets an iterator performing a depth-first search on the graph.
+   * @brief Gets graph nodes sorted with cumulative depth-first search ordering.
+   * A cumulative DFS considers all connected components of the graph so that
+   * all nodes are returned.
+   * @param directed If true only follow output edges, follow all edges otherwise.
+   * @return A vector of graph nodes in the DFS order.
+   */
+  virtual std::vector<node> dfs(bool directed = false) const = 0;
+
+  /**
+   * @brief Performs a depth-first search on the graph using callback functions.
    * @param root The node from whom to start the DFS. If not provided, the root
    * node will be assigned to a source node in the graph (node with input degree equals to 0).
    * If there is no source node in the graph, a random node will be picked.
+   * @param inVisitCallback This is called whenever a vertex is visited.
+   * @param outVisitCallback This is called whenever the subtree of a vertex is completed
+   * by the algorithm.
+   * @param directed If true only follow output edges, follow all edges otherwise.
+   */
+  virtual void dfs(node root, const std::function<bool(const Graph *, node)> &inVisitCallback,
+                   const std::function<bool(const Graph *, node)> &outVisitCallback,
+                   bool directed = false) const = 0;
+
+  /**
+   * @brief Performs a cumulative depth-first search on the graph using callback functions.
+   * A cumulative DFS considers all connected components of the graph so that
+   * all nodes are visited.
+   * @param root The node from whom to start the DFS. If not provided, the root
+   * node will be assigned to a source node in the graph (node with input degree equals to 0).
+   * If there is no source node in the graph, a random node will be picked.
+   * @param inVisitCallback This is called whenever a vertex is visited.
+   * @param outVisitCallback This is called whenever the subtree of a vertex is completed
+   * by the algorithm.
    * @param directed if true only follow output edges, follow all edges otherwise
+   */
+  virtual void dfs(const std::function<bool(const Graph *, node)> &inVisitCallback,
+                   const std::function<bool(const Graph *, node)> &outVisitCallback,
+                   bool directed = false) const = 0;
+
+  /**
+   * @brief Gets graph edges sorted with depth-first search ordering.
+   * @param root The node from whom to start the DFS. If not provided, the root
+   * node will be assigned to a source node in the graph (node with input degree equals to 0).
+   * If there is no source node in the graph, a random node will be picked.
+   * @param directed If true only follow output edges, follow all edges otherwise.
    * @return A vector of graph edges in the DFS order.
    */
-  virtual std::vector<edge> dfsEdges(const node root = node(), bool directed = false) const = 0;
+  virtual std::vector<edge> dfsEdges(const node root, bool directed = false) const = 0;
+
+  /**
+   * @brief Gets graph edges sorted with cumulative depth-first search ordering.
+   * A cumulative DFS considers all connected components of the graph so that
+   * all edges are returned.
+   * @param root The node from whom to start the DFS. If not provided, the root
+   * node will be assigned to a source node in the graph (node with input degree equals to 0).
+   * If there is no source node in the graph, a random node will be picked.
+   * @param directed If true only follow output edges, follow all edges otherwise.
+   * @return A vector of graph edges in the DFS order.
+   */
+  virtual std::vector<edge> dfsEdges(bool directed = false) const = 0;
 
   /**
    * @brief Gets the underlying graph of a meta node.
