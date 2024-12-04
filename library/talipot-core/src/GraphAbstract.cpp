@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -499,10 +499,30 @@ std::vector<node> GraphAbstract::dfs(const node root, bool directed) const {
   return tlp::dfs(this, root, directed);
 }
 
+std::vector<node> GraphAbstract::dfs(bool directed) const {
+  return tlp::dfs(this, directed);
+}
+
 std::vector<edge> GraphAbstract::bfsEdges(const node root, bool directed) const {
   return tlp::bfsEdges(this, root, directed);
 }
 
 std::vector<edge> GraphAbstract::dfsEdges(const node root, bool directed) const {
   return tlp::dfsEdges(this, root, directed);
+}
+
+std::vector<edge> GraphAbstract::dfsEdges(bool directed) const {
+  return tlp::dfsEdges(this, directed);
+}
+
+void GraphAbstract::dfs(node root, const std::function<bool(const Graph *, node)> &inVisitCallback,
+                        const std::function<bool(const Graph *, node)> &outVisitCallback,
+                        bool directed) const {
+  tlp::dfs(this, root, inVisitCallback, outVisitCallback, directed);
+}
+
+void GraphAbstract::dfs(const std::function<bool(const Graph *, node)> &inVisitCallback,
+                        const std::function<bool(const Graph *, node)> &outVisitCallback,
+                        bool directed) const {
+  tlp::dfs(this, inVisitCallback, outVisitCallback, directed);
 }

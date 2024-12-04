@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021-2023  The Talipot developers
+ * Copyright (C) 2021-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,6 +24,7 @@ class GraphTraversalTest : public CppUnit::TestFixture {
   CPPUNIT_TEST(testBFS);
   CPPUNIT_TEST(testBFSEdges);
   CPPUNIT_TEST(testDFS);
+  CPPUNIT_TEST(testDFSWithCallbacks);
   CPPUNIT_TEST(testDFSEdges);
   CPPUNIT_TEST_SUITE_END();
 
@@ -67,6 +68,53 @@ public:
     vector<tlp::node> dfsRootedDirected = {nodes[1], nodes[2], nodes[3],
                                            nodes[4], nodes[5], nodes[6]};
     CPPUNIT_ASSERT_EQUAL(dfsRootedDirected, graph->dfs(nodes[1], true));
+  }
+
+  void testDFSWithCallbacks() {
+    vector<tlp::node> dfs = {nodes[0], nodes[1], nodes[2], nodes[3],  nodes[4],  nodes[5], nodes[6],
+                             nodes[7], nodes[8], nodes[9], nodes[10], nodes[11], nodes[12]};
+
+    vector<tlp::node> dfsOutVisit = {nodes[2],  nodes[5], nodes[4], nodes[3],  nodes[6],
+                                     nodes[1],  nodes[7], nodes[8], nodes[11], nodes[10],
+                                     nodes[12], nodes[9], nodes[0]};
+
+    vector<tlp::node> inVisitOrder;
+    vector<tlp::node> outVisitOrder;
+
+    graph->dfs(
+        [&](const tlp::Graph *, tlp::node n) {
+          inVisitOrder.push_back(n);
+          return true;
+        },
+        [&](const tlp::Graph *, tlp::node n) {
+          outVisitOrder.push_back(n);
+          return true;
+        });
+
+    CPPUNIT_ASSERT_EQUAL(dfs, inVisitOrder);
+    CPPUNIT_ASSERT_EQUAL(dfsOutVisit, outVisitOrder);
+
+    vector<tlp::node> dfsRootedDirected = {nodes[1], nodes[2], nodes[3],
+                                           nodes[4], nodes[5], nodes[6]};
+    vector<tlp::node> dfsRootedDirectedOutVisit = {nodes[2], nodes[5], nodes[4],
+                                                   nodes[3], nodes[6], nodes[1]};
+
+    inVisitOrder.clear();
+    outVisitOrder.clear();
+
+    graph->dfs(
+        nodes[1],
+        [&](const tlp::Graph *, tlp::node n) {
+          inVisitOrder.push_back(n);
+          return true;
+        },
+        [&](const tlp::Graph *, tlp::node n) {
+          outVisitOrder.push_back(n);
+          return true;
+        },
+        true);
+    CPPUNIT_ASSERT_EQUAL(dfsRootedDirected, inVisitOrder);
+    CPPUNIT_ASSERT_EQUAL(dfsRootedDirectedOutVisit, outVisitOrder);
   }
 
   void testDFSEdges() {
