@@ -166,16 +166,7 @@ bool PluginLibraryLoader::loadPluginLibrary(const std::string &filename, PluginL
 }
 
 // accepts only file whose name matches *.so or *.dylib
-#ifdef __FreeBSD__
-#include <sys/param.h>
-#if (__FreeBSD_version < 900000 && __FreeBSD_version >= 800501) || (__FreeBSD_version >= 900006)
 int __talipot_select_libs(const struct dirent *ent) {
-#else
-int __talipot_select_libs(struct dirent *ent) {
-#endif /* __FreeBSD_version */
-#else  /* __FreeBSD__ */
-int __talipot_select_libs(struct dirent *ent) {
-#endif
 #if !defined(__APPLE__)
   const char *suffix = ".so";
   const ulong suffix_len = 3;
@@ -199,16 +190,7 @@ int __talipot_select_libs(struct dirent *ent) {
 }
 
 // accepts only sub-directories
-#ifdef __FreeBSD__
-#include <sys/param.h>
-#if (__FreeBSD_version < 900000 && __FreeBSD_version >= 800501) || (__FreeBSD_version >= 900006)
 int __talipot_select_dirs(const struct dirent *ent) {
-#else
-int __talipot_select_dirs(struct dirent *ent) {
-#endif /* __FreeBSD_version */
-#else  /* __FreeBSD__ */
-int __talipot_select_dirs(struct dirent *ent) {
-#endif
 
   std::string name(ent->d_name);
 
@@ -347,14 +329,7 @@ bool PluginLibraryLoader::initPluginDir(PluginLoader *loader, bool recursive,
 #else
 
   struct dirent **namelist;
-  int n = scandir(_pluginPath.c_str(), &namelist,
-#if !(defined(__APPLE__) || defined(__FreeBSD__)) || \
-    (defined(__APPLE__) && (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1080 || defined(__arm64__)))
-                  reinterpret_cast<int (*)(const dirent *)>(__talipot_select_libs),
-#else
-                  __talipot_select_libs,
-#endif
-                  alphasort);
+  int n = scandir(_pluginPath.c_str(), &namelist, __talipot_select_libs, alphasort);
 
   if (loader != nullptr) {
     loader->numberOfFiles(n);
@@ -418,14 +393,7 @@ bool PluginLibraryLoader::initPluginDir(PluginLoader *loader, bool recursive,
 
   if (recursive) {
 
-    n = scandir(_pluginPath.c_str(), &namelist,
-#if !(defined(__APPLE__) || defined(__FreeBSD__)) || \
-    (defined(__APPLE__) && (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1080 || defined(__arm64__)))
-                reinterpret_cast<int (*)(const dirent *)>(__talipot_select_dirs),
-#else
-                __talipot_select_dirs,
-#endif
-                alphasort);
+    n = scandir(_pluginPath.c_str(), &namelist, __talipot_select_dirs, alphasort);
 
     std::string rootPath = _pluginPath;
 

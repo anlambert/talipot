@@ -15,7 +15,7 @@ jobs:
       matrix:
         config:
           - name: Talipot build on macOS x86_64
-            os: macos-12
+            os: macos-13
           - name: Talipot build on macOS arm64
             os: macos-14
     steps:
