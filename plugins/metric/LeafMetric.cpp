@@ -28,15 +28,19 @@ LeafMetric::LeafMetric(const PluginContext *context) : DoubleAlgorithm(context) 
 //=======================================================================
 bool LeafMetric::run() {
   result->setAllNodeValue(0);
-  for (auto n : reversed(dfs(graph, true))) {
-    double val = 1.0;
-    if (graph->outdeg(n) > 0) {
-      val = iteratorReduce(graph->getOutNodes(n), 0.0, [this](double curVal, const node m) {
-        return curVal + result->getNodeValue(m);
-      });
-    }
-    result->setNodeValue(n, val);
-  }
+  graph->dfs([](const Graph *, node) -> bool { return true; },
+             [this](const Graph *, node n) -> bool {
+               double val = 1.0;
+               if (graph->outdeg(n) > 0) {
+                 val = iteratorReduce(graph->getOutNodes(n), 0.0,
+                                      [this](double curVal, const node m) {
+                                        return curVal + result->getNodeValue(m);
+                                      });
+               }
+               result->setNodeValue(n, val);
+               return true;
+             },
+             true);
   return true;
 }
 //=======================================================================
