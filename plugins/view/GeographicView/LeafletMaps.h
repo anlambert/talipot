@@ -82,7 +82,7 @@ public:
   }
 
   void setMapBounds(Graph *graph,
-                    const std::unordered_map<node, std::pair<double, double>> &nodesLatLngs);
+                    const tlp_hash_map<node, std::pair<double, double>> &nodesLatLngs);
 
   void zoomOnBounds(const std::pair<double, double> &minLatLng,
                     const std::pair<double, double> &maxLatLng);

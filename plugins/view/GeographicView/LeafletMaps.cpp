@@ -409,7 +409,7 @@ pair<double, double> LeafletMaps::getCurrentMapCenter() {
 }
 
 void LeafletMaps::setMapBounds(Graph *graph,
-                               const unordered_map<node, pair<double, double>> &nodesLatLngs) {
+                               const tlp_hash_map<node, pair<double, double>> &nodesLatLngs) {
 
   if (!nodesLatLngs.empty()) {
 

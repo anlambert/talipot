@@ -15,7 +15,7 @@
 #include <talipot/TlpTools.h>
 
 #include <map>
-#include <unordered_map>
+#include <talipot/hash.h>
 
 using namespace std;
 using namespace tlp;

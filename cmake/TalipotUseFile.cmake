@@ -140,7 +140,8 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
 
   IF(NOT MSVC) # Visual Studio does not recognize these options
     TALIPOT_SET_CXX_FLAGS(
-      "-Wall -Wextra -Wunused -Wno-long-long -Wold-style-cast")
+      "-Wall -Wextra -Wunused -Wno-long-long -Wold-style-cast -Wno-interference-size"
+    )
 
     IF(NOT APPLE)
       TALIPOT_SET_CXX_FLAGS("-pedantic")

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,12 +29,11 @@ struct GreaterStackEval {
   }
 };
 
-Strahler StrahlerMetric::topSortStrahler(tlp::node n, int &curPref,
-                                         std::unordered_map<node, int> &tofree,
-                                         std::unordered_map<node, int> &prefix,
-                                         std::unordered_map<node, bool> &visited,
-                                         std::unordered_map<node, bool> &finished,
-                                         std::unordered_map<node, Strahler> &cachedValues) {
+Strahler StrahlerMetric::topSortStrahler(tlp::node n, int &curPref, tlp_hash_map<node, int> &tofree,
+                                         tlp_hash_map<node, int> &prefix,
+                                         tlp_hash_map<node, bool> &visited,
+                                         tlp_hash_map<node, bool> &finished,
+                                         tlp_hash_map<node, Strahler> &cachedValues) {
   visited[n] = true;
   Strahler result;
   prefix[n] = curPref;
@@ -164,11 +163,11 @@ bool StrahlerMetric::run() {
     dataSet->get(COMPUTATION_TYPE, computationTypes);
   }
 
-  std::unordered_map<node, bool> visited;
-  std::unordered_map<node, bool> finished;
-  std::unordered_map<node, int> prefix;
-  std::unordered_map<node, int> tofree;
-  std::unordered_map<node, Strahler> cachedValues;
+  tlp_hash_map<node, bool> visited;
+  tlp_hash_map<node, bool> finished;
+  tlp_hash_map<node, int> prefix;
+  tlp_hash_map<node, int> tofree;
+  tlp_hash_map<node, Strahler> cachedValues;
   int curPref = 0;
 
   uint i = 0;
