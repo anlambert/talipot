@@ -12,7 +12,7 @@ jobs:
       matrix:
         config:
           - name: Talipot wheels build on macOS x86_64
-            os: macos-12
+            os: macos-13
             macosx_deployment_target: "12.0"
           - name: Talipot wheels build on macOS arm64
             os: macos-14
