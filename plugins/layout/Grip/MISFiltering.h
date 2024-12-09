@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef MIS_FILTERING_H
 #define MIS_FILTERING_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <unordered_set>
 
 #include <talipot/PluginHeaders.h>
@@ -39,7 +39,7 @@ private:
   tlp::MutableContainer<bool> removed;
   std::vector<uint> v_dist;
 
-  std::unordered_map<uint, std::unordered_set<tlp::node>> levelToNodes;
+  flat_hash_map<uint, std::unordered_set<tlp::node>> levelToNodes;
 
   void bfsDepth(tlp::node, uint);
   void updateVectors();

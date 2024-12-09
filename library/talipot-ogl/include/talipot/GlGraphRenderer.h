@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef TALIPOT_GL_GRAPH_RENDERER_H
 #define TALIPOT_GL_GRAPH_RENDERER_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/GlScene.h>
 #include <talipot/config.h>
@@ -84,7 +84,7 @@ protected:
 
   bool selectionDrawActivate;
   RenderingEntitiesFlag selectionType;
-  std::unordered_map<uint, SelectedEntity> *selectionIdMap;
+  flat_hash_map<uint, SelectedEntity> *selectionIdMap;
   uint *selectionCurrentId;
 };
 }

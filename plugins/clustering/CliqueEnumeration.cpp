@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -131,7 +131,7 @@ struct LessDegreeOrdering {
 void CliqueEnumeration::getDegenerateOrdering(vector<node> &ordering) {
   ordering.clear();
   tlp::Graph *sub = graph->addCloneSubGraph();
-  std::unordered_map<tlp::node, DegreeOrderingElem *> degrees;
+  flat_hash_map<tlp::node, DegreeOrderingElem *> degrees;
   set<DegreeOrderingElem *, LessDegreeOrdering> sortednodes;
   for (auto n : sub->nodes()) {
     auto *elem = new DegreeOrderingElem(n, sub->deg(n));

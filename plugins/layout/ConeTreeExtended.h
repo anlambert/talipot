@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef CONE_TREE_EXTENDED_H
 #define CONE_TREE_EXTENDED_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <talipot/PluginHeaders.h>
 
 /// ConeTreeExtended.h - An implementation of the cone tree layout.
@@ -54,10 +54,10 @@ public:
   bool run() override;
 
 private:
-  double treePlace3D(tlp::node n, std::unordered_map<tlp::node, double> *posRelX,
-                     std::unordered_map<tlp::node, double> *posRelY);
-  void calcLayout(tlp::node n, std::unordered_map<tlp::node, double> *px,
-                  std::unordered_map<tlp::node, double> *py, double x, double y, int level);
+  double treePlace3D(tlp::node n, flat_hash_map<tlp::node, double> *posRelX,
+                     flat_hash_map<tlp::node, double> *posRelY);
+  void calcLayout(tlp::node n, flat_hash_map<tlp::node, double> *px,
+                  flat_hash_map<tlp::node, double> *py, double x, double y, int level);
   void computeLayerSize(tlp::node n, uint level);
   void computeYCoodinates(tlp::node root);
   tlp::Graph *tree;

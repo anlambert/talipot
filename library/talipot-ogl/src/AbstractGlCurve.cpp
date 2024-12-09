@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -359,15 +359,15 @@ void main() {
 
 )";
 
-unordered_map<uint, vector<GLfloat>> AbstractGlCurve::curveVertexBuffersData;
-unordered_map<uint, vector<vector<GLushort>>> AbstractGlCurve::curveVertexBuffersIndices;
-unordered_map<uint, vector<GLuint>> AbstractGlCurve::curveVertexBuffersObject;
-unordered_map<string, unique_ptr<GlShaderProgram>> AbstractGlCurve::curvesShadersMap;
-unordered_map<string, unique_ptr<GlShaderProgram>> AbstractGlCurve::curvesBillboardShadersMap;
+flat_hash_map<uint, vector<GLfloat>> AbstractGlCurve::curveVertexBuffersData;
+flat_hash_map<uint, vector<vector<GLushort>>> AbstractGlCurve::curveVertexBuffersIndices;
+flat_hash_map<uint, vector<GLuint>> AbstractGlCurve::curveVertexBuffersObject;
+flat_hash_map<string, unique_ptr<GlShaderProgram>> AbstractGlCurve::curvesShadersMap;
+flat_hash_map<string, unique_ptr<GlShaderProgram>> AbstractGlCurve::curvesBillboardShadersMap;
 bool AbstractGlCurve::canUseGeometryShader = false;
-std::unordered_map<std::string, std::pair<unique_ptr<GlShaderProgram>, unique_ptr<GlShaderProgram>>>
+flat_hash_map<std::string, std::pair<unique_ptr<GlShaderProgram>, unique_ptr<GlShaderProgram>>>
     AbstractGlCurve::curvesGeometryShadersMap;
-std::unordered_map<std::string, std::pair<unique_ptr<GlShaderProgram>, unique_ptr<GlShaderProgram>>>
+flat_hash_map<std::string, std::pair<unique_ptr<GlShaderProgram>, unique_ptr<GlShaderProgram>>>
     AbstractGlCurve::curvesBillboardGeometryShadersMap;
 
 AbstractGlCurve::AbstractGlCurve(const string &shaderProgramName,

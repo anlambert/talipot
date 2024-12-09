@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,7 +21,7 @@
 #include <string>
 #include <sstream>
 #include <typeinfo>
-#include <unordered_map>
+#include <talipot/hash.h>
 
 namespace tlp {
 
@@ -161,8 +161,8 @@ public:
     }
   }
 
-  std::unordered_map<std::string, DataTypeSerializer *> tnTodts;
-  std::unordered_map<std::string, DataTypeSerializer *> otnTodts;
+  flat_hash_map<std::string, DataTypeSerializer *> tnTodts;
+  flat_hash_map<std::string, DataTypeSerializer *> otnTodts;
 };
 
 /**

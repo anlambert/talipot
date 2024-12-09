@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,7 +15,7 @@
 #define GRIP_H
 
 #include <talipot/PluginHeaders.h>
-#include <unordered_map>
+#include <talipot/hash.h>
 #include "MISFiltering.h"
 
 /** \file
@@ -75,13 +75,13 @@ private:
   MISFiltering *misf;
   float edgeLength;
   int level;
-  std::unordered_map<tlp::node, std::vector<uint>> neighbors_dist;
-  std::unordered_map<tlp::node, std::vector<tlp::node>> neighbors;
-  std::unordered_map<uint, uint> levelToNbNeighbors;
-  std::unordered_map<tlp::node, tlp::Coord> disp;
-  std::unordered_map<tlp::node, tlp::Coord> oldDisp;
-  std::unordered_map<tlp::node, double> heat;
-  std::unordered_map<tlp::node, double> oldCos;
+  flat_hash_map<tlp::node, std::vector<uint>> neighbors_dist;
+  flat_hash_map<tlp::node, std::vector<tlp::node>> neighbors;
+  flat_hash_map<uint, uint> levelToNbNeighbors;
+  flat_hash_map<tlp::node, tlp::Coord> disp;
+  flat_hash_map<tlp::node, tlp::Coord> oldDisp;
+  flat_hash_map<tlp::node, double> heat;
+  flat_hash_map<tlp::node, double> oldCos;
 
   tlp::Graph *currentGraph;
   int _dim;

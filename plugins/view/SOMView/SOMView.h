@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -138,7 +138,7 @@ public:
    */
   void setColorToMap(tlp::ColorProperty *newColor);
 
-  std::unordered_map<tlp::node, std::set<tlp::node>> &getMappingTab() {
+  flat_hash_map<tlp::node, std::set<tlp::node>> &getMappingTab() {
     return mappingTab;
   }
 
@@ -333,12 +333,12 @@ private:
   SOMMap *som;
   InputSample inputSample;
 
-  std::unordered_map<tlp::node, std::set<tlp::node>> mappingTab;
+  flat_hash_map<tlp::node, std::set<tlp::node>> mappingTab;
 
   std::string selection;
 
-  std::unordered_map<std::string, ColorProperty *> propertyToColorProperty;
-  std::unordered_map<std::string, SOMPreviewComposite *> propertyToPreviews;
+  flat_hash_map<std::string, ColorProperty *> propertyToColorProperty;
+  flat_hash_map<std::string, SOMPreviewComposite *> propertyToPreviews;
 
   GlWidget *previewWidget;
   GlWidget *mapWidget;

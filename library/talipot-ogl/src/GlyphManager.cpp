@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,8 +18,8 @@ using namespace std;
 
 namespace tlp {
 static std::list<std::string> glyphList;
-static std::unordered_map<int, std::string> glyphIdToName;
-static std::unordered_map<std::string, int> nameToGlyphId;
+static flat_hash_map<int, std::string> glyphIdToName;
+static flat_hash_map<std::string, int> nameToGlyphId;
 
 //====================================================
 string GlyphManager::glyphName(int id) {

@@ -18,6 +18,7 @@
 #include <talipot/Array.h>
 #include <talipot/config.h>
 #include <talipot/TlpTools.h>
+#include <talipot/hash.h>
 
 #include <cmath>
 #include <limits>

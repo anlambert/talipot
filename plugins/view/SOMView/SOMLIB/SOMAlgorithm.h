@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef SOM_ALGORITHM_H
 #define SOM_ALGORITHM_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <vector>
 #include <talipot/Graph.h>
 
@@ -142,8 +142,8 @@ public:
    * @param maxElement The maximum number of element linked with a SOM node.
    */
   void computeMapping(SOMMap *map, InputSample &inputSample,
-                      std::unordered_map<tlp::node, std::set<tlp::node>> &mappingTab,
-                      double &medDist, unsigned int &maxElement);
+                      flat_hash_map<tlp::node, std::set<tlp::node>> &mappingTab, double &medDist,
+                      unsigned int &maxElement);
 
 protected:
   TimeDecreasingFunction *learningRateFunction;

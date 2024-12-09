@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,7 +19,7 @@
 #include <set>
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <climits>
 #include <talipot/config.h>
@@ -2087,7 +2087,7 @@ protected:
   }
 
   uint id;
-  std::unordered_map<std::string, tlp::PropertyInterface *> circularCalls;
+  flat_hash_map<std::string, tlp::PropertyInterface *> circularCalls;
 };
 
 enum class GraphEventType {

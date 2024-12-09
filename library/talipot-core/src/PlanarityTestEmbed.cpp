@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,7 +19,7 @@
 using namespace std;
 using namespace tlp;
 
-void sortEdges(Graph *graph, const vector<edge> &order, unordered_map<edge, edge> &rev) {
+void sortEdges(Graph *graph, const vector<edge> &order, node_hash_map<edge, edge> &rev) {
   map<node, vector<edge>> graphMap;
 
   for (auto e : order) {

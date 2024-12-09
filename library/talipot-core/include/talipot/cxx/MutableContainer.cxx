@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,7 +15,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
-#include <parallel_hashmap/phmap.h>
+#include <talipot/hash.h>
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif
@@ -73,7 +73,7 @@ template <typename TYPE, typename INDEX_TYPE>
 class IteratorHash : public tlp::IteratorValue<INDEX_TYPE> {
 public:
   IteratorHash(const TYPE &value, bool equal,
-               phmap::flat_hash_map<INDEX_TYPE, typename tlp::StoredType<TYPE>::Value> *hData)
+               flat_hash_map<INDEX_TYPE, typename tlp::StoredType<TYPE>::Value> *hData)
       : _value(value), _equal(equal), hData(hData) {
     it = (*hData).begin();
 
@@ -108,9 +108,8 @@ public:
 private:
   const TYPE _value;
   bool _equal;
-  phmap::flat_hash_map<INDEX_TYPE, typename tlp::StoredType<TYPE>::Value> *hData;
-  typename phmap::flat_hash_map<INDEX_TYPE, typename tlp::StoredType<TYPE>::Value>::const_iterator
-      it;
+  flat_hash_map<INDEX_TYPE, typename tlp::StoredType<TYPE>::Value> *hData;
+  typename flat_hash_map<INDEX_TYPE, typename tlp::StoredType<TYPE>::Value>::const_iterator it;
 };
 
 //===================================================================
@@ -609,7 +608,7 @@ uint tlp::MutableContainer<TYPE, INDEX_TYPE>::numberOfNonDefaultValues() const {
 //===================================================================
 template <typename TYPE, typename INDEX_TYPE>
 void tlp::MutableContainer<TYPE, INDEX_TYPE>::vecttohash() {
-  hData = new phmap::flat_hash_map<INDEX_TYPE, typename StoredType<TYPE>::Value>(elementInserted);
+  hData = new flat_hash_map<INDEX_TYPE, typename StoredType<TYPE>::Value>(elementInserted);
 
   INDEX_TYPE newMaxIndex = 0;
   INDEX_TYPE newMinIndex = UINT_MAX;

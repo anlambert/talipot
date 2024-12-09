@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -173,7 +173,7 @@ public:
   // according to data types
   void createPropertiesFromAttributes(QXmlStreamReader &xmlReader) {
     bool nodeProperties = xmlReader.attributes().value("class") == QString("node");
-    unordered_map<string, PropertyInterface *> &propertiesMap =
+    flat_hash_map<string, PropertyInterface *> &propertiesMap =
         nodeProperties ? nodePropertiesMap : edgePropertiesMap;
 
     while (!(xmlReader.isEndElement() && xmlReader.name() == QString("attributes"))) {
@@ -571,11 +571,11 @@ public:
 
 private:
   // maps associating attribute id to Talipot property
-  unordered_map<string, PropertyInterface *> nodePropertiesMap;
-  unordered_map<string, PropertyInterface *> edgePropertiesMap;
+  flat_hash_map<string, PropertyInterface *> nodePropertiesMap;
+  flat_hash_map<string, PropertyInterface *> edgePropertiesMap;
 
   // map associating GEXF node id to Talipot node
-  unordered_map<string, node> nodesMap;
+  flat_hash_map<string, node> nodesMap;
 
   // vector to store edge information in case edges are declared before nodes in GEXF file
   vector<pair<string, string>> edgesTmp;
@@ -588,7 +588,7 @@ private:
   IntegerProperty *viewShape;
   // to register the subgraph corresponding
   // to a fake meta node
-  unordered_map<node, Graph *> nodeToSubgraph;
+  flat_hash_map<node, Graph *> nodeToSubgraph;
 
   bool nodesHaveCoordinates;
 };

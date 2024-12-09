@@ -69,7 +69,7 @@ const double epsilon = 1E-9;
 
 //=================================================
 void MCLClustering::power(node n) {
-  std::unordered_map<node, double> newTargets;
+  flat_hash_map<node, double> newTargets;
 
   for (auto e1 : g->getOutEdges(n)) {
     double v1 = inW[e1];

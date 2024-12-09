@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -415,7 +415,7 @@ bool ThresholdInteractor::eventFilter(QObject *widget, QEvent *event) {
 void ThresholdInteractor::performSelection(SOMView *view, tlp::Iterator<node> *it) {
   BooleanProperty *selection = view->graph()->getBooleanProperty("viewSelection");
   set<node> mask;
-  unordered_map<node, set<node>> &mappingTab = view->getMappingTab();
+  flat_hash_map<node, set<node>> &mappingTab = view->getMappingTab();
   Observable::holdObservers();
   selection->setAllNodeValue(false);
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,7 +21,7 @@
 #include <climits>
 #include <cstring>
 
-#include <parallel_hashmap/phmap_fwd_decl.h>
+#include <talipot/hash.h>
 
 #include <talipot/config.h>
 #include <talipot/PropertyTypes.h>
@@ -120,7 +120,7 @@ private:
 
 private:
   std::deque<typename StoredType<TYPE>::Value> *vData;
-  phmap::flat_hash_map<INDEX_TYPE, typename StoredType<TYPE>::Value> *hData;
+  flat_hash_map<INDEX_TYPE, typename StoredType<TYPE>::Value> *hData;
   INDEX_TYPE minIndex, maxIndex;
   typename StoredType<TYPE>::Value defaultValue;
   enum State { VECT = 0, HASH = 1 };

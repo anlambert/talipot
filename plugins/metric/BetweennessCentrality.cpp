@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -118,7 +118,7 @@ public:
       }
 
       stack<node> S;
-      unordered_map<node, list<node>> P;
+      flat_hash_map<node, list<node>> P;
       MutableContainer<int> sigma;
 
       if (weight) {
@@ -197,7 +197,7 @@ public:
   }
 
 private:
-  void computeBFS(node s, bool directed, stack<node> &S, unordered_map<node, list<node>> &P,
+  void computeBFS(node s, bool directed, stack<node> &S, flat_hash_map<node, list<node>> &P,
                   MutableContainer<int> &sigma) {
     sigma.setAll(0);
     sigma.set(s.id, 1);
@@ -231,7 +231,7 @@ private:
   }
 
   void computeDijkstra(node s, bool directed, NumericProperty *weight, stack<node> &S,
-                       unordered_map<node, list<node>> &P, MutableContainer<int> &sigma) {
+                       flat_hash_map<node, list<node>> &P, MutableContainer<int> &sigma) {
     EdgeVectorProperty<double> eWeights(graph);
     eWeights.copyFromNumericProperty(weight);
     NodeVectorProperty<double> nodeDistance(graph);

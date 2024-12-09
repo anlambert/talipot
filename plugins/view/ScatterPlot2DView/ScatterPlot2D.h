@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,7 +35,7 @@ const std::string backgroundTextureId = ":/background_texture.png";
 class ScatterPlot2D : public GlComposite {
 
 public:
-  ScatterPlot2D(Graph *graph, Graph *edgeGraph, std::unordered_map<node, edge> &nodeMap,
+  ScatterPlot2D(Graph *graph, Graph *edgeGraph, flat_hash_map<node, edge> &nodeMap,
                 const std::string &xDim, const std::string &yDim, const ElementType &dataLocation,
                 Coord blCorner, uint size, const Color &backgroundColor,
                 const Color &foregroundColor);
@@ -168,7 +168,7 @@ private:
   Color minusOneColor, zeroColor, oneColor;
 
   Graph *edgeAsNodeGraph;
-  std::unordered_map<node, edge> &nodeToEdge;
+  flat_hash_map<node, edge> &nodeToEdge;
   ElementType dataLocation;
   bool xAxisScaleDefined, yAxisScaleDefined;
   std::pair<double, double> xAxisScale, yAxisScale;

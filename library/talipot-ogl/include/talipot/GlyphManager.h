@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,7 +49,7 @@ public:
   static void loadGlyphPlugins();
 
 private:
-  std::unordered_map<int, Glyph *> _glyphs;
+  flat_hash_map<int, Glyph *> _glyphs;
   std::unique_ptr<Glyph> _defaultGlyph;
 };
 }

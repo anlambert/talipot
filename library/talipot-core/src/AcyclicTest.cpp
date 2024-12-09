@@ -28,7 +28,7 @@ public:
   /**
    * @brief Stored results for graphs. When a graph is updated, its entry is removed from the map.
    **/
-  std::unordered_map<const Graph *, bool> resultsBuffer;
+  flat_hash_map<const Graph *, bool> resultsBuffer;
 };
 
 void TestAcyclicListener::treatEvent(const Event &evt) {

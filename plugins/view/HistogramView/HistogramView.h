@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,7 +17,7 @@
 #include <talipot/GlView.h>
 
 #include <vector>
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include "../../utils/PluginNames.h"
 #include "Histogram.h"
@@ -198,8 +198,8 @@ private:
   bool needUpdateHistogram;
 
   Graph *edgeAsNodeGraph;
-  std::unordered_map<edge, node> edgeToNode;
-  std::unordered_map<node, edge> nodeToEdge;
+  flat_hash_map<edge, node> edgeToNode;
+  flat_hash_map<node, edge> nodeToEdge;
 };
 }
 

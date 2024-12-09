@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -11,7 +11,7 @@
  *
  */
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/Color.h>
 #include <talipot/Coord.h>
@@ -75,7 +75,7 @@ static Color HSBtoRGB(unsigned char H, unsigned char S, unsigned char B) {
   return Color(outR, outG, outB);
 }
 
-static unordered_map<string, Color> X11Colors = {
+static flat_hash_map<string, Color> X11Colors = {
     {"aliceblue", HSBtoRGB(147, 15, 255)},
     {"antiquewhite", HSBtoRGB(24, 35, 250)},
     {"antiquewhite1", HSBtoRGB(23, 36, 255)},

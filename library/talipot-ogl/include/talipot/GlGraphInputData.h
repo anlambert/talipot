@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -480,7 +480,7 @@ protected:
   std::set<PropertyInterface *> _properties;
 
   PropertyInterface *_propertiesMap[NB_PROPS];
-  static std::unordered_map<std::string, PropertyName> _propertiesNameMap;
+  static flat_hash_map<std::string, PropertyName> _propertiesNameMap;
 
   GlMetaNodeRenderer *_metaNodeRenderer;
   GlVertexArrayManager *_glVertexArrayManager;

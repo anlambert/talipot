@@ -19,7 +19,7 @@
 #include <set>
 #include <stack>
 #include <vector>
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <talipot/config.h>
 #include <talipot/Node.h>
 #include <talipot/Edge.h>
@@ -82,7 +82,7 @@ TLP_SCOPE node graphCenterHeuristic(Graph *graph, PluginProgress *pluginProgress
 TLP_SCOPE node makeSimpleSource(Graph *graph);
 
 TLP_SCOPE void makeProperDag(Graph *graph, std::list<node> &addedNodes,
-                             std::unordered_map<edge, edge> &replacedEdges,
+                             flat_hash_map<edge, edge> &replacedEdges,
                              IntegerProperty *edgeLength = nullptr);
 
 /**
@@ -265,7 +265,7 @@ TLP_SCOPE std::set<node> reachableNodes(const Graph *graph, const node startNode
 TLP_SCOPE void computeDijkstra(const Graph *const graph, node src,
                                const EdgeVectorProperty<double> &weights,
                                NodeVectorProperty<double> &nodeDistance, EdgeType direction,
-                               std::unordered_map<node, std::list<node>> &ancestors,
+                               flat_hash_map<node, std::list<node>> &ancestors,
                                std::stack<node> *queueNodes = nullptr,
                                MutableContainer<int> *numberOfPaths = nullptr);
 }

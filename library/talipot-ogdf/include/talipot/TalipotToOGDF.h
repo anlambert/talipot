@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,7 +20,7 @@
 
 #include <ogdf/basic/GraphAttributes.h>
 
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <vector>
 
 namespace tlp {
@@ -64,8 +64,8 @@ public:
 
 private:
   Graph *talipotGraph;
-  std::unordered_map<node, ogdf::node> ogdfNodes;
-  std::unordered_map<edge, ogdf::edge> ogdfEdges;
+  flat_hash_map<node, ogdf::node> ogdfNodes;
+  flat_hash_map<edge, ogdf::edge> ogdfEdges;
   ogdf::Graph ogdfGraph;
   ogdf::GraphAttributes ogdfGraphAttributes;
 };

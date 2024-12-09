@@ -797,7 +797,7 @@ bool GlScene::selectEntities(RenderingEntitiesFlag type, int x, int y, int w, in
     glDisable(GL_BLEND);
     glDisable(GL_STENCIL_TEST);
 
-    unordered_map<uint, SelectedEntity> idToEntity;
+    flat_hash_map<uint, SelectedEntity> idToEntity;
 
     if (type & RenderingEntities) {
       uint id = 1;

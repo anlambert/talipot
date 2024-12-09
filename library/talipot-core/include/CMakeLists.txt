@@ -87,6 +87,7 @@ INSTALL(
         talipot/MaterialDesignIconsConstants.h
         talipot/IndexElement.h
         talipot/PropertyProxy.h
+        talipot/hash.h
   DESTINATION ${TalipotIncludeInstallDir}/talipot/)
 
 INSTALL(

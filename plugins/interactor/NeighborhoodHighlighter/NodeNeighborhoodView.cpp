@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -53,7 +53,7 @@ void NodeNeighborhoodView::getNeighbors(node n, uint dist, bool noRecursion) {
       if (property == nullptr) {
         graphViewNodes.erase(graphViewNodes.begin() + nbNodes + 1, graphViewNodes.end());
       } else {
-        unordered_map<double, vector<node>> nodesTokeep;
+        flat_hash_map<double, vector<node>> nodesTokeep;
         nodesAtDist[currentDist].clear();
 
         for (auto n : graphViewNodes) {

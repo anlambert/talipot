@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -373,7 +373,7 @@ void GlComplexPolygon::runTessellation() {
     const float *verts = tessGetVertices(tess);
     const int *elems = tessGetElements(tess);
     const int nelems = tessGetElementCount(tess);
-    std::unordered_map<Coord, uint> vidx;
+    flat_hash_map<Coord, uint> vidx;
 
     // iterate over polygons computed by Tessellation
     for (int i = 0; i < nelems; ++i) {

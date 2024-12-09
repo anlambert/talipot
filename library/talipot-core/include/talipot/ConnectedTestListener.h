@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef TALIPOT_CONNECTED_TEST_LISTENER_H
 #define TALIPOT_CONNECTED_TEST_LISTENER_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/Graph.h>
 #include <talipot/Observable.h>
@@ -29,7 +29,7 @@ public:
   /**
    * @brief Stored results for graphs. When a graph is updated, its entry is removed from the map.
    **/
-  std::unordered_map<const Graph *, bool> resultsBuffer;
+  flat_hash_map<const Graph *, bool> resultsBuffer;
 };
 
 }

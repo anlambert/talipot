@@ -342,7 +342,7 @@ SET(VPSCInclude ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/)
 SET(VPSCLibrary vpsc)
 
 SET(StbInclude ${PROJECT_SOURCE_DIR}/thirdparty/stb)
-SET(ParallelHashmapInclude ${PROJECT_SOURCE_DIR}/thirdparty/)
+SET(GtlInclude ${PROJECT_SOURCE_DIR}/thirdparty/)
 
 SET(TalipotCoreInclude ${PROJECT_SOURCE_DIR}/library/talipot-core/include/)
 SET(TalipotCoreBuildInclude ${PROJECT_BINARY_DIR}/library/talipot-core/include/)
@@ -514,7 +514,7 @@ ADD_CUSTOM_TARGET(
 
 ADD_SUBDIRECTORY(thirdparty)
 
-INCLUDE_DIRECTORIES(${ParallelHashmapInclude})
+INCLUDE_DIRECTORIES(${GtlInclude})
 ADD_SUBDIRECTORY(library)
 ADD_SUBDIRECTORY(plugins)
 ADD_SUBDIRECTORY(utils/crash_handler)

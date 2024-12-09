@@ -57,8 +57,8 @@ Iterator<edge> *getIncidentEdgesIterator(const Graph *graph, node n, EdgeType di
 }
 
 //======================================================================
-void makeProperDag(Graph *graph, list<node> &addedNodes,
-                   std::unordered_map<edge, edge> &replacedEdges, IntegerProperty *edgeLength) {
+void makeProperDag(Graph *graph, list<node> &addedNodes, flat_hash_map<edge, edge> &replacedEdges,
+                   IntegerProperty *edgeLength) {
   if (TreeTest::isTree(graph)) {
     return;
   }
@@ -843,7 +843,7 @@ set<node> reachableNodes(const Graph *graph, const node startNode, uint maxDista
 
 void computeDijkstra(const Graph *const graph, node src, const EdgeVectorProperty<double> &weights,
                      NodeVectorProperty<double> &nodeDistance, EdgeType direction,
-                     unordered_map<node, std::list<node>> &ancestors, std::stack<node> *queueNodes,
+                     flat_hash_map<node, std::list<node>> &ancestors, std::stack<node> *queueNodes,
                      MutableContainer<int> *numberOfPaths) {
   Dijkstra dijkstra(graph, src, weights, nodeDistance, direction, queueNodes, numberOfPaths);
   dijkstra.ancestors(ancestors);

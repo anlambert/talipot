@@ -14,7 +14,7 @@
 #ifndef IMPROVED_WALKER_H
 #define IMPROVED_WALKER_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <vector>
 #include <talipot/PluginHeaders.h>
 #include "TreeTools.h"
@@ -59,9 +59,9 @@ public:
 
 private:
   typedef std::vector<float> levelToFloatType;
-  typedef std::unordered_map<tlp::node, float> nodeToFloatType;
-  typedef std::unordered_map<tlp::node, int> nodeToIntegerPropertyType;
-  typedef std::unordered_map<tlp::node, tlp::node> nodeToNodeType;
+  typedef flat_hash_map<tlp::node, float> nodeToFloatType;
+  typedef flat_hash_map<tlp::node, int> nodeToIntegerPropertyType;
+  typedef flat_hash_map<tlp::node, tlp::node> nodeToNodeType;
 
   tlp::Graph *tree;
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -292,7 +292,7 @@ bool CSVTableWidget::end(uint, uint) {
   return true;
 }
 
-static std::unordered_map<std::string, std::set<std::string>> typenameToProps;
+static flat_hash_map<std::string, std::set<std::string>> typenameToProps;
 
 CSVImportConfigurationWidget::CSVImportConfigurationWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::CSVImportConfigurationWidget),

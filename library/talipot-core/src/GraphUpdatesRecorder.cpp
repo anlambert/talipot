@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -175,7 +175,7 @@ void GraphUpdatesRecorder::deleteDeletedObjects() {
 
 // clean up all the MutableContainers
 void GraphUpdatesRecorder::deleteValues(
-    std::unordered_map<PropertyInterface *, RecordedValues> &values) {
+    flat_hash_map<PropertyInterface *, RecordedValues> &values) {
   for (const auto &[property, rvalues] : values) {
     delete rvalues.values;
     delete rvalues.recordedNodes;
@@ -185,9 +185,9 @@ void GraphUpdatesRecorder::deleteValues(
   values.clear();
 }
 
-// delete all the DataMem referenced by a std::unordered_map
+// delete all the DataMem referenced by a flat_hash_map
 void GraphUpdatesRecorder::deleteDefaultValues(
-    std::unordered_map<PropertyInterface *, DataMem *> &values) {
+    flat_hash_map<PropertyInterface *, DataMem *> &values) {
   for (const auto &[property, value] : values) {
     delete value;
   }
@@ -195,7 +195,7 @@ void GraphUpdatesRecorder::deleteDefaultValues(
   values.clear();
 }
 
-void GraphUpdatesRecorder::recordIncidence(std::unordered_map<node, std::vector<edge>> &incidences,
+void GraphUpdatesRecorder::recordIncidence(flat_hash_map<node, std::vector<edge>> &incidences,
                                            GraphImpl *g, node n, edge e) {
   if (!incidences.contains(n)) {
     auto &incidence = incidences[n] = g->storage.incidence(n);
@@ -215,7 +215,7 @@ void GraphUpdatesRecorder::recordIncidence(std::unordered_map<node, std::vector<
   }
 }
 
-void GraphUpdatesRecorder::recordIncidence(std::unordered_map<node, std::vector<edge>> &incidences,
+void GraphUpdatesRecorder::recordIncidence(flat_hash_map<node, std::vector<edge>> &incidences,
                                            GraphImpl *g, node n, const vector<edge> &edges,
                                            uint nbAdded) {
   if (!incidences.contains(n)) {
@@ -237,8 +237,8 @@ void GraphUpdatesRecorder::recordIncidence(std::unordered_map<node, std::vector<
   }
 }
 
-void GraphUpdatesRecorder::removeFromIncidence(
-    std::unordered_map<node, std::vector<edge>> &incidences, edge e, node n) {
+void GraphUpdatesRecorder::removeFromIncidence(flat_hash_map<node, std::vector<edge>> &incidences,
+                                               edge e, node n) {
 
   if (const auto itIncidence = incidences.find(n); itIncidence != incidences.end()) {
     auto &[n, incidence] = *itIncidence;

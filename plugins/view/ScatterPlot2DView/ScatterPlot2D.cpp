@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -55,10 +55,10 @@ static void setGraphView(GlGraph *glGraph, bool displayEdges, bool nodelabel, bo
   param.setLabelScaled(scale);
 }
 
-ScatterPlot2D::ScatterPlot2D(Graph *graph, Graph *edgeGraph,
-                             std::unordered_map<node, edge> &nodeMap, const string &xDim,
-                             const string &yDim, const ElementType &dataLocation, Coord blCorner,
-                             uint size, const Color &backgroundColor, const Color &foregroundColor)
+ScatterPlot2D::ScatterPlot2D(Graph *graph, Graph *edgeGraph, flat_hash_map<node, edge> &nodeMap,
+                             const string &xDim, const string &yDim,
+                             const ElementType &dataLocation, Coord blCorner, uint size,
+                             const Color &backgroundColor, const Color &foregroundColor)
     : xDim(xDim), yDim(yDim), blCorner(blCorner), size(size), graph(graph),
       scatterLayout(new LayoutProperty(graph)), scatterEdgeLayout(new LayoutProperty(graph)),
       xAxis(nullptr), yAxis(nullptr), overviewGen(false), backgroundColor(backgroundColor),

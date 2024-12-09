@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,7 +15,7 @@
 #define SOM_MAP_H
 
 #include <talipot/GraphDecorator.h>
-#include <unordered_map>
+#include <talipot/hash.h>
 #include "DynamicVector.h"
 
 /**
@@ -122,7 +122,7 @@ protected:
   unsigned int width;
   unsigned int height;
 
-  std::unordered_map<tlp::node, DynamicVector<double>> nodeToNodeVec;
+  flat_hash_map<tlp::node, DynamicVector<double>> nodeToNodeVec;
 
   SOMMapConnectivity connectivity;
   bool oppositeConnected;

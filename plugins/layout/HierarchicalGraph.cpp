@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -176,10 +176,9 @@ void HierarchicalGraph::DagLevelSpanningTree(tlp::Graph *sg, tlp::DoubleProperty
   assert(TreeTest::isTree(sg));
 }
 //==============================================================================================================
-void HierarchicalGraph::computeEdgeBends(
-    const tlp::Graph *mySGraph, tlp::LayoutProperty &tmpLayout,
-    const std::unordered_map<tlp::edge, tlp::edge> &replacedEdges,
-    const std::vector<tlp::edge> &reversedEdges) {
+void HierarchicalGraph::computeEdgeBends(const tlp::Graph *mySGraph, tlp::LayoutProperty &tmpLayout,
+                                         const flat_hash_map<tlp::edge, tlp::edge> &replacedEdges,
+                                         const std::vector<tlp::edge> &reversedEdges) {
   MutableContainer<bool> isReversed;
   isReversed.setAll(false);
 
@@ -316,7 +315,7 @@ bool HierarchicalGraph::run() {
 
   //========================================================================
   list<node> properAddedNodes;
-  std::unordered_map<edge, edge> replacedEdges;
+  flat_hash_map<edge, edge> replacedEdges;
   IntegerProperty *edgeLength = nullptr;
 
   embedding.reset(new DoubleProperty(mySGraph));

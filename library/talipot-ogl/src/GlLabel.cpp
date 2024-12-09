@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -34,8 +34,8 @@ using namespace std;
 namespace tlp {
 
 // FTGL fonts must be cached to avoid to much memory consumption
-static std::unordered_map<std::string, unique_ptr<FTPolygonFont>> polygonFonts;
-static std::unordered_map<std::string, unique_ptr<FTGLOutlineFont>> outlineFonts;
+static flat_hash_map<std::string, unique_ptr<FTPolygonFont>> polygonFonts;
+static flat_hash_map<std::string, unique_ptr<FTGLOutlineFont>> outlineFonts;
 
 static FTPolygonFont *getPolygonFont(const std::string &name) {
   auto itf = polygonFonts.find(name);

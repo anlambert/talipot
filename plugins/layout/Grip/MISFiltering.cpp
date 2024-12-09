@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -79,7 +79,7 @@ void MISFiltering::computeFiltering() {
 //========================================
 void MISFiltering::bfsDepth(node n, uint depth) {
   vector<node> nextNodes;
-  std::unordered_map<node, uint> nodeDepth;
+  flat_hash_map<node, uint> nodeDepth;
   MutableContainer<bool> inNext;
   inNext.setAll(false);
   inNext.set(n.id, true);
@@ -188,7 +188,7 @@ void MISFiltering::getNearest(node n, vector<node> &neighbors, vector<uint> &nei
   vector<node> nextNodes;
   MutableContainer<bool> alreadyTreated;
   MutableContainer<bool> toTreat;
-  std::unordered_map<node, uint> nodeDepth;
+  flat_hash_map<node, uint> nodeDepth;
   bool found = false;
   unsigned nbFound = 0;
 

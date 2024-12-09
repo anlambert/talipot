@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,8 +24,8 @@ Tutte::Tutte(const tlp::PluginContext *context) : LayoutAlgorithm(context) {}
 Tutte::~Tutte() = default;
 //====================================================
 list<node> findCycle(Graph *sg) {
-  std::unordered_map<node, node> father;
-  std::unordered_map<node, bool> visited;
+  flat_hash_map<node, node> father;
+  flat_hash_map<node, bool> visited;
   std::list<node> bfs;
   node startNode = sg->getOneNode();
   uint maxDeg = sg->deg(startNode);

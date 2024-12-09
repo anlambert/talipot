@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -375,8 +375,7 @@ CSVToGraphEdgeSrcTgtMapping::getElementsForRow(const vector<vector<string>> &tok
       }
     }
 
-    std::unordered_map<string, uint> &valueToId =
-        sameSrcTgtProperties ? srcValueToId : tgtValueToId;
+    flat_hash_map<string, uint> &valueToId = sameSrcTgtProperties ? srcValueToId : tgtValueToId;
 
     for (const auto &keyToken : keyTokens) {
       // because column values may be of type vector

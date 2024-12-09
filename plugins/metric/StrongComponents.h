@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,7 +15,7 @@
 #define STRONG_COMPONENTS_H
 
 #include <stack>
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <talipot/PluginHeaders.h>
 struct NodeInfo {
   NodeInfo(int stra = 0, int sta = 0) : prefixOrder(stra), minAttach(sta) {}
@@ -39,10 +39,9 @@ public:
   bool run() override;
 
 private:
-  int attachNumerotation(tlp::node, std::unordered_map<tlp::node, bool> &,
-                         std::unordered_map<tlp::node, bool> &,
-                         std::unordered_map<tlp::node, int> &, int &, std::stack<tlp::node> &,
-                         int &);
+  int attachNumerotation(tlp::node, flat_hash_map<tlp::node, bool> &,
+                         flat_hash_map<tlp::node, bool> &, flat_hash_map<tlp::node, int> &, int &,
+                         std::stack<tlp::node> &, int &);
 };
 
 #endif // STRONG_COMPONENTS_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -110,8 +110,8 @@ public:
     graph->getIntegerProperty("viewLabelPosition")->setAllNodeValue(LabelPosition::Bottom);
     graph->getIntegerProperty("viewShape")->setAllNodeValue(NodeShape::Icon);
 
-    unordered_map<string, node> authorsMap;
-    unordered_map<string, bool> publisMap;
+    flat_hash_map<string, node> authorsMap;
+    flat_hash_map<string, bool> publisMap;
 
     try {
       xdkbib::File bibFile;

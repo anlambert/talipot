@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2022-2023  The Talipot developers
+ * Copyright (C) 2022-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,7 +20,7 @@
 #include <talipot/Graph.h>
 #include <talipot/LayoutProperty.h>
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 using namespace std;
 using namespace tlp;
@@ -30,8 +30,8 @@ extern bool getCoordsFromGraphvizPos(vector<Coord> &outCoords, const string &inV
 
 bool applyGraphvizLayout(Graph *graph, LayoutProperty *result, const string &layoutName,
                          PluginProgress *pluginProgress = nullptr) {
-  unordered_map<node, Agnode_t *> nodesMap;
-  unordered_map<edge, Agedge_t *> edgesMap;
+  flat_hash_map<node, Agnode_t *> nodesMap;
+  flat_hash_map<edge, Agedge_t *> edgesMap;
   Agraph_t *G = agopen(const_cast<char *>("graph"), Agdirected, 0);
   Agsym_t *width = agattr(G, AGNODE, const_cast<char *>("width"), const_cast<char *>(""));
   Agsym_t *height = agattr(G, AGNODE, const_cast<char *>("height"), const_cast<char *>(""));

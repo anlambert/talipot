@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,7 +22,7 @@
 using namespace std;
 using namespace tlp;
 
-static const unordered_map<string, string> cppTypenameToSipTypename = {
+static const flat_hash_map<string, string> cppTypenameToSipTypename = {
     {demangleClassName<string>(), "std::string"},
     {demangleClassName<node>(), "tlp::node"},
     {demangleClassName<edge>(), "tlp::edge"},

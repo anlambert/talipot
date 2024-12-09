@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -91,7 +91,7 @@ bool TLPBImport::importGraph() {
   }
   // read subgraphs
   uint numSubGraphs = 0;
-  unordered_map<uint, Graph *> subgraphs;
+  flat_hash_map<uint, Graph *> subgraphs;
   subgraphs[0] = graph;
   {
     // read the number of subgraphs

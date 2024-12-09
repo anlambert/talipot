@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -108,7 +108,7 @@ namespace tlp {
 
 bool OpenGlConfigManager::_glewIsInit = false;
 bool OpenGlConfigManager::_antialiased = true;
-std::unordered_map<std::string, bool> OpenGlConfigManager::_checkedExtensions;
+flat_hash_map<std::string, bool> OpenGlConfigManager::_checkedExtensions;
 
 void OpenGlConfigManager::initExtensions() {
   if (!_glewIsInit) {

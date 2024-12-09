@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,7 +29,7 @@ public:
   /**
    * @brief Stored results for graphs. When a graph is updated, its entry is removed from the map.
    **/
-  std::unordered_map<const Graph *, bool> resultsBuffer;
+  flat_hash_map<const Graph *, bool> resultsBuffer;
 };
 
 void TreeTestListener::treatEvent(const Event &evt) {
@@ -170,9 +170,9 @@ static void makeRootedTree(Graph *graph, node curRoot, vector<edge> *reversedEdg
           dfsLevels.push(curParams);
           break;
         } // end if
-      }   // end while
-    }     // end else
-  }       // end while
+      } // end while
+    } // end else
+  } // end while
 }
 //====================================================================
 // Turns a topological tree graph into a directed tree starting at

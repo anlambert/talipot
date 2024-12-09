@@ -276,7 +276,7 @@ bool EdgeBundling::run() {
       Graph *workGraph = graph->addCloneSubGraph();
       // we use a hash map to ease the retrieve of the vector of the nodes
       // having the same position
-      std::unordered_map<std::string, std::pair<node, uint>> clusters;
+      flat_hash_map<std::string, std::pair<node, uint>> clusters;
 
       // iterate on graph nodes
       for (auto n : graph->nodes()) {

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -163,7 +163,7 @@ public:
     vector<unsigned short> indices;
     vector<unsigned short> outlineIndices;
 
-    unordered_map<Coord, uint> vertexIdx;
+    flat_hash_map<Coord, uint> vertexIdx;
 
     uint idx = 0;
 
@@ -254,7 +254,7 @@ public:
 };
 
 static FontIconData defaultFontIconData;
-static unordered_map<string, FontIconData> fontIconsData;
+static node_hash_map<string, FontIconData> fontIconsData;
 
 static FontIconData &getFontIconData(const string &iconName, ElementType eltType, uint eltId) {
   auto it = fontIconsData.find(iconName);

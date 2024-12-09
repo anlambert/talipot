@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,7 +16,7 @@
 
 #include <talipot/GlGraphRenderer.h>
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 namespace tlp {
 
@@ -48,7 +48,7 @@ public:
 
 protected:
   void initSelectionRendering(RenderingEntitiesFlag type, int x, int y, int w, int h,
-                              std::unordered_map<uint, SelectedEntity> &idMap, uint &currentId);
+                              flat_hash_map<uint, SelectedEntity> &idMap, uint &currentId);
 
   void buildSortedList();
 

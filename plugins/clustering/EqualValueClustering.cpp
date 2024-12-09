@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -71,8 +71,8 @@ bool EqualValueClustering::computeClusters(NumericProperty *prop, bool onNodes, 
   uint step = 0;
   uint maxSteps;
 
-  std::unordered_map<double, Graph *> clusters;
-  std::unordered_map<std::string, uint> valuesCount;
+  flat_hash_map<double, Graph *> clusters;
+  flat_hash_map<std::string, uint> valuesCount;
   MutableContainer<bool> visited;
   visited.setAll(false);
 
@@ -281,8 +281,8 @@ bool EqualValueClustering::computeClusters(PropertyInterface *prop, bool onNodes
   uint step = 0;
   uint maxSteps;
 
-  std::unordered_map<std::string, Graph *> clusters;
-  std::unordered_map<std::string, uint> valuesCount;
+  flat_hash_map<std::string, Graph *> clusters;
+  flat_hash_map<std::string, uint> valuesCount;
   MutableContainer<bool> visited;
   visited.setAll(false);
 

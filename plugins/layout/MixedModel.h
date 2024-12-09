@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef MIXED_MODEL_H
 #define MIXED_MODEL_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 /** This plugin is an implementation of the planar polyline graph
  *  drawing algorithm, the mixed model algorithm, first published as:
@@ -68,25 +68,25 @@ private:
 
   tlp::PlanarConMap *carte;
   std::vector<std::vector<tlp::node>> V;
-  std::unordered_map<tlp::node, tlp::Coord> NodeCoords;
+  flat_hash_map<tlp::node, tlp::Coord> NodeCoords;
 
-  std::unordered_map<tlp::node, int> outl;
-  std::unordered_map<tlp::node, int> outr;
-  std::unordered_map<tlp::node, int> inl;
-  std::unordered_map<tlp::node, int> inr;
+  flat_hash_map<tlp::node, int> outl;
+  flat_hash_map<tlp::node, int> outr;
+  flat_hash_map<tlp::node, int> inl;
+  flat_hash_map<tlp::node, int> inr;
 
-  std::unordered_map<tlp::node, uint> rank;
-  std::unordered_map<tlp::node, std::vector<tlp::edge>> EdgesIN;
-  std::unordered_map<tlp::node, std::vector<tlp::edge>> EdgesOUT;
+  flat_hash_map<tlp::node, uint> rank;
+  flat_hash_map<tlp::node, std::vector<tlp::edge>> EdgesIN;
+  flat_hash_map<tlp::node, std::vector<tlp::edge>> EdgesOUT;
 
-  std::unordered_map<tlp::edge, std::vector<tlp::Coord>> InPoints;
-  std::unordered_map<tlp::edge, tlp::Coord> OutPoints;
+  flat_hash_map<tlp::edge, std::vector<tlp::Coord>> InPoints;
+  flat_hash_map<tlp::edge, tlp::Coord> OutPoints;
 
   tlp::Graph *Pere;
   tlp::PlanarConMap *graphMap;
   tlp::Graph *currentGraph;
   std::vector<tlp::edge> dummy;
-  std::unordered_map<tlp::node, std::vector<tlp::Coord>> out_points;
+  flat_hash_map<tlp::node, std::vector<tlp::Coord>> out_points;
   tlp::MutableContainer<tlp::Coord> nodeSize;
   std::vector<tlp::edge> unplanar_edges;
   bool planar;

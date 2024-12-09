@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef STRAHLER_METRIC_H
 #define STRAHLER_METRIC_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <talipot/PluginHeaders.h>
 struct Strahler {
   Strahler(int stra = 1, int sta = 0, int used = 0)
@@ -64,11 +64,11 @@ public:
   bool run() override;
 
 private:
-  Strahler topSortStrahler(tlp::node n, int &curPref, std::unordered_map<tlp::node, int> &tofree,
-                           std::unordered_map<tlp::node, int> &prefix,
-                           std::unordered_map<tlp::node, bool> &visited,
-                           std::unordered_map<tlp::node, bool> &finished,
-                           std::unordered_map<tlp::node, Strahler> &cachedValues);
+  Strahler topSortStrahler(tlp::node n, int &curPref, flat_hash_map<tlp::node, int> &tofree,
+                           flat_hash_map<tlp::node, int> &prefix,
+                           flat_hash_map<tlp::node, bool> &visited,
+                           flat_hash_map<tlp::node, bool> &finished,
+                           flat_hash_map<tlp::node, Strahler> &cachedValues);
   bool allNodes;
 };
 

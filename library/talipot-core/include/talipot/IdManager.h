@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,7 +25,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
-#include <parallel_hashmap/phmap.h>
+#include <talipot/hash.h>
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif
@@ -260,7 +260,7 @@ public:
 template <typename ID_TYPE>
 class SGraphIdContainer : public std::vector<ID_TYPE> {
   // used to store the elts positions in the vector
-  phmap::flat_hash_map<ID_TYPE, uint> pos;
+  flat_hash_map<ID_TYPE, uint> pos;
 
 public:
   SGraphIdContainer() = default;

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -180,7 +180,7 @@ list<LR> *TreeReingoldAndTilfordExtended::mergeLRList(std::list<LR> *L, std::lis
 }
 //=============================================================================
 list<LR> *TreeReingoldAndTilfordExtended::TreePlace(tlp::node n,
-                                                    std::unordered_map<tlp::node, double> *p) {
+                                                    flat_hash_map<tlp::node, double> *p) {
   if (tree->outdeg(n) == 0) {
     auto *result = new list<LR>();
     LR tmpLR;
@@ -271,9 +271,8 @@ list<LR> *TreeReingoldAndTilfordExtended::TreePlace(tlp::node n,
 }
 //=============================================================================
 void TreeReingoldAndTilfordExtended::TreeLevelSizing(tlp::node n,
-                                                     std::unordered_map<int, double> &maxSize,
-                                                     int level,
-                                                     std::unordered_map<tlp::node, int> &levels) {
+                                                     flat_hash_map<int, double> &maxSize, int level,
+                                                     flat_hash_map<tlp::node, int> &levels) {
   levels[n] = level;
 
   if (maxSize.contains(level)) {
@@ -296,10 +295,9 @@ void TreeReingoldAndTilfordExtended::TreeLevelSizing(tlp::node n,
   }
 }
 //=============================================================================
-void TreeReingoldAndTilfordExtended::calcLayout(tlp::node n,
-                                                std::unordered_map<tlp::node, double> *p, double x,
-                                                double y, int level,
-                                                unordered_map<int, double> &maxLevelSize) {
+void TreeReingoldAndTilfordExtended::calcLayout(tlp::node n, flat_hash_map<tlp::node, double> *p,
+                                                double x, double y, int level,
+                                                flat_hash_map<int, double> &maxLevelSize) {
   Coord tmpCoord;
 
   if (!compactLayout) {
@@ -342,7 +340,7 @@ void TreeReingoldAndTilfordExtended::calcLayout(tlp::node n,
 }
 //===============================================================
 bool TreeReingoldAndTilfordExtended::run() {
-  std::unordered_map<node, double> posRelative;
+  flat_hash_map<node, double> posRelative;
 
   result->setAllEdgeValue(vector<Coord>(0));
 
@@ -415,8 +413,8 @@ bool TreeReingoldAndTilfordExtended::run() {
   node startNode = tree->getSource();
   assert(startNode.isValid());
 
-  unordered_map<int, double> maxSizeLevel;
-  unordered_map<node, int> levels;
+  flat_hash_map<int, double> maxSizeLevel;
+  flat_hash_map<node, int> levels;
   TreeLevelSizing(startNode, maxSizeLevel, 0, levels);
 
   // check if the specified layer spacing is greater

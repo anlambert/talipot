@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021-2023  The Talipot developers
+ * Copyright (C) 2021-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,7 +22,7 @@
 using namespace std;
 using namespace tlp;
 
-// enable to use git_oid as unordered_map key
+// enable to use git_oid as flat_hash_map key
 namespace std {
 template <>
 struct hash<const git_oid> {
@@ -481,8 +481,8 @@ public:
   }
 
   git_repository *repo = nullptr;
-  unordered_map<const git_oid, node> oidNode;
-  unordered_map<string, node> treePathToNode;
+  flat_hash_map<const git_oid, node> oidNode;
+  flat_hash_map<string, node> treePathToNode;
   Graph *commitsSg = nullptr;
   Graph *treesBlobsSg = nullptr;
   Graph *rootTreesSg = nullptr;

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -496,7 +496,7 @@ bool tlp::voronoiDiagram(vector<Coord> &sites, VoronoiDiagram &voronoiDiagram) {
   // now compute the dual voronoi diagram
   if (ret) {
     // Iterate over each delaunay simplex
-    std::unordered_map<Face, uint> faceToCircumCenter;
+    node_hash_map<Face, uint> faceToCircumCenter;
     map<Coord, uint> circumCenterToIdx;
     tlp::Coord A, B, C, D;
 

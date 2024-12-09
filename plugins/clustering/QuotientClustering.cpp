@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -202,7 +202,7 @@ public:
     auto edgeFn =
         static_cast<DoubleProperty::PredefinedMetaValueCalculator>(edgeFunctions.getCurrent());
     QuotientLabelCalculator viewLabelCalc(metaLabel, useSubGraphName);
-    std::unordered_map<PropertyInterface *, PropertyInterface::MetaValueCalculator *> prevCalcs;
+    flat_hash_map<PropertyInterface *, PropertyInterface::MetaValueCalculator *> prevCalcs;
     for (const string &pName : quotientGraph->getProperties()) {
       PropertyInterface *prop = quotientGraph->getProperty(pName);
 

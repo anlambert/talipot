@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,7 +15,7 @@
 #define TALIPOT_PLANAR_CON_MAP_H
 
 #include <vector>
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/Face.h>
 #include <talipot/GraphDecorator.h>
@@ -158,11 +158,11 @@ private:
    */
   void delEdgeMap(edge, Face = Face());
 
-  typedef std::unordered_map<Face, std::vector<edge>> faceMap;
+  typedef node_hash_map<Face, std::vector<edge>> faceMap;
   typedef faceMap::value_type faceMapEntry;
-  typedef std::unordered_map<edge, std::vector<Face>> edgeMap;
+  typedef node_hash_map<edge, std::vector<Face>> edgeMap;
   typedef edgeMap::value_type edgeMapEntry;
-  typedef std::unordered_map<node, std::vector<Face>> nodeMap;
+  typedef node_hash_map<node, std::vector<Face>> nodeMap;
   typedef nodeMap::value_type nodeMapEntry;
 
   /** storage of faces */

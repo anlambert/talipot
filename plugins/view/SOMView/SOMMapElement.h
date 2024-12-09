@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef SOM_MAP_ELEMENT_H
 #define SOM_MAP_ELEMENT_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/GlComposite.h>
 #include <talipot/Size.h>
@@ -62,7 +62,7 @@ protected:
 
   SOMMap *som;
 
-  std::unordered_map<node, GlEntity *> nodesMap;
+  flat_hash_map<node, GlEntity *> nodesMap;
 
   Coord position;
   Size size;

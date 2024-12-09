@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef TALIPOT_CSV_GRAPH_IMPORT_H
 #define TALIPOT_CSV_GRAPH_IMPORT_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/CSVContentHandler.h>
 #include <talipot/Graph.h>
@@ -207,7 +207,7 @@ protected:
   virtual uint buildIndexForRow(uint row, const std::vector<std::string> &keys) = 0;
 
 protected:
-  std::unordered_map<std::string, uint> valueToId;
+  flat_hash_map<std::string, uint> valueToId;
   tlp::Graph *graph;
   tlp::ElementType type;
   std::vector<uint> columnIds;
@@ -308,8 +308,8 @@ public:
 
 private:
   tlp::Graph *graph;
-  std::unordered_map<std::string, uint> srcValueToId;
-  std::unordered_map<std::string, uint> tgtValueToId;
+  flat_hash_map<std::string, uint> srcValueToId;
+  flat_hash_map<std::string, uint> tgtValueToId;
   std::vector<uint> srcColumnIds;
   std::vector<uint> tgtColumnIds;
   std::vector<tlp::PropertyInterface *> srcProperties;
@@ -355,7 +355,7 @@ public:
 private:
   tlp::Graph *graph;
   CSVImportParameters importParameters;
-  std::unordered_map<uint, tlp::PropertyInterface *> propertiesBuffer;
+  flat_hash_map<uint, tlp::PropertyInterface *> propertiesBuffer;
   QMessageBox::StandardButton overwritePropertiesButton;
   QWidget *parent;
   PropertyInterface *generateApproximateProperty(const std::string &name, const std::string &type);

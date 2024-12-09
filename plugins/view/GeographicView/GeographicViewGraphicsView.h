@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef GEOGRAPHIC_VIEW_GRAPHICS_VIEW_H
 #define GEOGRAPHIC_VIEW_GRAPHICS_VIEW_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include "LeafletMaps.h"
 
@@ -127,8 +127,8 @@ private:
   GeographicView *_geoView;
   Graph *graph;
   LeafletMaps *leafletMaps;
-  std::unordered_map<node, std::pair<double, double>> nodeLatLng;
-  std::unordered_map<edge, std::vector<std::pair<double, double>>> edgeBendsLatLng;
+  flat_hash_map<node, std::pair<double, double>> nodeLatLng;
+  flat_hash_map<edge, std::vector<std::pair<double, double>>> edgeBendsLatLng;
 
   Camera globeCameraBackup;
   Camera mapCameraBackup;

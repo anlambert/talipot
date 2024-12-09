@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,7 +17,7 @@
 #include <map>
 #include <list>
 #include <vector>
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/Edge.h>
 #include <talipot/MutableContainer.h>
@@ -114,8 +114,8 @@ private:
   int totalCNodes;
   bool embed, biconnected;
   node lastNodeInQLinha;
-  std::unordered_map<edge, edge> bidirectedEdges;
-  std::unordered_map<edge, edge> reversalEdge;
+  node_hash_map<edge, edge> bidirectedEdges;
+  node_hash_map<edge, edge> reversalEdge;
 
   // auxiliary variable to help detecting obstruction;
   node cNodeOfPossibleK33Obstruction;
@@ -123,7 +123,7 @@ private:
   // for each node u in T, children is the list of u's children
   // ordered in decreasing order by label_b
   // (it helps to update label_b's in constant time)
-  std::unordered_map<node, std::list<node>> childrenInT0;
+  node_hash_map<node, std::list<node>> childrenInT0;
 
   // for each 2-connected component represented by r,
   // list_back_edges[r] is the list of all back-edges in component r
@@ -136,10 +136,10 @@ private:
   // for each node u in G, the algorithm calculates the
   // clockwise ordering of edges with source u around u, such that
   // G.sort_edges(embed_list) is a plane map, if it exists
-  std::unordered_map<node, BmdList<edge>> embedList;
+  node_hash_map<node, BmdList<edge>> embedList;
 
   // to avoid path compression of c-nodes;
-  std::unordered_map<tlp::BmdLink<node> *, node> activeCNode;
+  node_hash_map<tlp::BmdLink<node> *, node> activeCNode;
 
   // (it helps to calculate an embedding of G, if G is planar, in
   // case of 2 terminal nodes);

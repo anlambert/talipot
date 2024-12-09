@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -76,7 +76,7 @@ static OpenMPDefaultOptions openMpDefaultOptions;
 #else
 
 #include <condition_variable>
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <talipot/IdManager.h>
 
 #endif
@@ -126,7 +126,7 @@ static IdContainer<uint> tNumManager;
 // a mutex to ensure serialisation when allocating the thread number
 static std::mutex tNumMtx;
 // the global map used to register the thread number
-static std::unordered_map<std::thread::id, uint> tNumMap;
+static flat_hash_map<std::thread::id, uint> tNumMap;
 
 void ThreadManager::allocateThreadNumber() {
   // exclusive access to tNumManager

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef TALIPOT_GL_QUAD_TREE_LOD_CALCULATOR_H
 #define TALIPOT_GL_QUAD_TREE_LOD_CALCULATOR_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <vector>
 
 #include <talipot/GlCPULODCalculator.h>
@@ -118,7 +118,7 @@ protected:
   const uint eBBOffset;
 
   std::vector<Camera *> cameras;
-  std::unordered_map<GlLayer *, Camera> layerToCamera;
+  flat_hash_map<GlLayer *, Camera> layerToCamera;
   Camera *currentCamera;
   Graph *currentGraph;
   PropertyInterface *layoutProperty;

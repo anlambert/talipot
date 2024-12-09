@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -59,8 +59,7 @@ GlGraphInputData::~GlGraphInputData() {
   delete _extremityGlyphManager;
 }
 
-std::unordered_map<std::string, GlGraphInputData::PropertyName>
-    GlGraphInputData::_propertiesNameMap;
+flat_hash_map<std::string, GlGraphInputData::PropertyName> GlGraphInputData::_propertiesNameMap;
 
 void GlGraphInputData::reloadGraphProperties() {
   if (_propertiesNameMap.empty()) {

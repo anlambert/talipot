@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef TALIPOT_SIZE_PROPERTY_H
 #define TALIPOT_SIZE_PROPERTY_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/PropertyTypes.h>
 #include <talipot/AbstractProperty.h>
@@ -59,8 +59,8 @@ protected:
   void resetMinMax();
 
 private:
-  std::unordered_map<uint, Size> max, min;
-  std::unordered_map<uint, bool> minMaxOk;
+  flat_hash_map<uint, Size> max, min;
+  flat_hash_map<uint, bool> minMaxOk;
   void computeMinMax(const Graph *sg = nullptr);
 };
 

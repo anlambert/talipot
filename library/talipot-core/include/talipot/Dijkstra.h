@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,7 +17,7 @@
 #include <vector>
 #include <stack>
 #include <list>
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <climits>
 #include <functional>
 #include <talipot/Graph.h>
@@ -39,7 +39,7 @@ public:
   //=========================================================
   bool searchPath(node n, BooleanProperty *result);
   //=============================================================
-  bool ancestors(std::unordered_map<node, std::list<node>> &result);
+  bool ancestors(flat_hash_map<node, std::list<node>> &result);
 
 private:
   void internalSearchPaths(node n, BooleanProperty *result);

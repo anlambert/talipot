@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,7 +17,7 @@
 #include <talipot/OpenGlIncludes.h>
 
 #include <memory>
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/Color.h>
 #include <talipot/Coord.h>
@@ -109,17 +109,16 @@ protected:
 
   void initShader(const std::string &shaderProgramName, const std::string &curveSpecificShaderCode);
 
-  static std::unordered_map<uint, std::vector<GLfloat>> curveVertexBuffersData;
-  static std::unordered_map<uint, std::vector<std::vector<GLushort>>> curveVertexBuffersIndices;
-  static std::unordered_map<uint, std::vector<GLuint>> curveVertexBuffersObject;
-  static std::unordered_map<std::string, std::unique_ptr<GlShaderProgram>> curvesShadersMap;
-  static std::unordered_map<std::string, std::unique_ptr<GlShaderProgram>>
-      curvesBillboardShadersMap;
+  static flat_hash_map<uint, std::vector<GLfloat>> curveVertexBuffersData;
+  static flat_hash_map<uint, std::vector<std::vector<GLushort>>> curveVertexBuffersIndices;
+  static flat_hash_map<uint, std::vector<GLuint>> curveVertexBuffersObject;
+  static flat_hash_map<std::string, std::unique_ptr<GlShaderProgram>> curvesShadersMap;
+  static flat_hash_map<std::string, std::unique_ptr<GlShaderProgram>> curvesBillboardShadersMap;
   static bool canUseGeometryShader;
-  static std::unordered_map<
+  static flat_hash_map<
       std::string, std::pair<std::unique_ptr<GlShaderProgram>, std::unique_ptr<GlShaderProgram>>>
       curvesGeometryShadersMap;
-  static std::unordered_map<
+  static flat_hash_map<
       std::string, std::pair<std::unique_ptr<GlShaderProgram>, std::unique_ptr<GlShaderProgram>>>
       curvesBillboardGeometryShadersMap;
 

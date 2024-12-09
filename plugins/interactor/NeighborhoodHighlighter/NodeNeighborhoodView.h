@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef NODE_NEIGHBORHOOD_VIEW_H
 #define NODE_NEIGHBORHOOD_VIEW_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <talipot/GraphDecorator.h>
 
 namespace tlp {
@@ -79,8 +79,8 @@ private:
   std::vector<node> graphViewNodes;
   std::vector<edge> graphViewEdges;
 
-  std::unordered_map<uint, std::vector<node>> nodesAtDist;
-  std::unordered_map<uint, std::vector<edge>> edgesAtDist;
+  flat_hash_map<uint, std::vector<node>> nodesAtDist;
+  flat_hash_map<uint, std::vector<edge>> edgesAtDist;
 
   NeighborNodesType neighborsType;
   uint currentDist;

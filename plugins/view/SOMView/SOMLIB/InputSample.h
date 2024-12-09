@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef INPUT_SAMPLE_H
 #define INPUT_SAMPLE_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <vector>
 #include <talipot/Graph.h>
 #include <talipot/Observable.h>
@@ -114,7 +114,7 @@ protected:
 
   // Cache for data avoid to create a somVector each time we need
   // tlp::MutableContainer<DynamicVector<double> > mWeightTab;
-  std::unordered_map<unsigned int, DynamicVector<double>> mWeightTab;
+  flat_hash_map<unsigned int, DynamicVector<double>> mWeightTab;
 
   // Container used to store random list
   std::vector<tlp::node> randomVector;

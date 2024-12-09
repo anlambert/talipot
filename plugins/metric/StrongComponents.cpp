@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,9 +18,9 @@ PLUGIN(StrongComponents)
 using namespace std;
 using namespace tlp;
 
-int StrongComponents::attachNumerotation(tlp::node n, std::unordered_map<tlp::node, bool> &visited,
-                                         std::unordered_map<tlp::node, bool> &finished,
-                                         std::unordered_map<tlp::node, int> &minAttach, int &id,
+int StrongComponents::attachNumerotation(tlp::node n, flat_hash_map<tlp::node, bool> &visited,
+                                         flat_hash_map<tlp::node, bool> &finished,
+                                         flat_hash_map<tlp::node, int> &minAttach, int &id,
                                          std::stack<tlp::node> &renum, int &curComponent) {
   if (visited[n]) {
     return minAttach[n];
@@ -67,10 +67,10 @@ int StrongComponents::attachNumerotation(tlp::node n, std::unordered_map<tlp::no
 StrongComponents::StrongComponents(const tlp::PluginContext *context) : DoubleAlgorithm(context) {}
 
 bool StrongComponents::run() {
-  std::unordered_map<node, bool> visited(graph->numberOfNodes());
-  std::unordered_map<node, bool> finished(graph->numberOfNodes());
+  flat_hash_map<node, bool> visited(graph->numberOfNodes());
+  flat_hash_map<node, bool> finished(graph->numberOfNodes());
   stack<node> renum;
-  std::unordered_map<node, int> cachedValues(graph->numberOfNodes());
+  flat_hash_map<node, int> cachedValues(graph->numberOfNodes());
   int id = 1;
   int curComponent = 0;
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef QUAD_TREE_H
 #define QUAD_TREE_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <vector>
 #include <talipot/Graph.h>
 #include <talipot/Vector.h>
@@ -41,7 +41,7 @@ private:
   tlp::Graph *graph;
   double splitRatio;
   typedef tlp::Vec2d Vec2D;
-  typedef std::unordered_map<Vec2D, tlp::node> MapVecNode;
+  typedef flat_hash_map<Vec2D, tlp::node> MapVecNode;
   MapVecNode mapN;
   //=====================================
   tlp::node splitEdge(tlp::node a, tlp::node b);

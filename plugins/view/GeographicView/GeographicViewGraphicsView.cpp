@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -649,7 +649,7 @@ void GeographicViewGraphicsView::createLayoutWithAddresses(const string &address
     progressWidget->show();
 
     pair<double, double> latLng;
-    unordered_map<string, pair<double, double>> addressesLatLngMap;
+    flat_hash_map<string, pair<double, double>> addressesLatLngMap;
 
     NominatimGeocoder nominatimGeocoder;
 

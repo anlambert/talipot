@@ -46,8 +46,8 @@ using namespace tlp;
 /**
  * Init property type to property label conversion map
  **/
-static unordered_map<string, QString> &buildPropertyTypeToPropertyTypeLabelMap() {
-  static unordered_map<string, QString> propertyTypeToPropertyTypeLabel;
+static flat_hash_map<string, QString> &buildPropertyTypeToPropertyTypeLabelMap() {
+  static flat_hash_map<string, QString> propertyTypeToPropertyTypeLabel;
   propertyTypeToPropertyTypeLabel[BooleanProperty::propertyTypename] = QString("Boolean");
   propertyTypeToPropertyTypeLabel[ColorProperty::propertyTypename] = QString("Color");
   propertyTypeToPropertyTypeLabel[DoubleProperty::propertyTypename] = QString("Double");
@@ -69,7 +69,7 @@ static unordered_map<string, QString> &buildPropertyTypeToPropertyTypeLabelMap()
 }
 
 // Property type to property label conversion map
-static const unordered_map<string, QString> &propertyTypeToPropertyTypeLabelMap =
+static const flat_hash_map<string, QString> &propertyTypeToPropertyTypeLabelMap =
     buildPropertyTypeToPropertyTypeLabelMap();
 /**
  * Init property type label to property type conversion map
@@ -419,7 +419,7 @@ const QColor &textColor() {
   return QApplication::palette().color(QPalette::WindowText);
 }
 
-static unordered_map<string, int> fontIds;
+static flat_hash_map<string, int> fontIds;
 
 void addFontToQFontDatabase(const Font &font) {
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))

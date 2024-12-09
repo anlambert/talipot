@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,7 +16,7 @@
 
 #include <string>
 #include <set>
-#include <unordered_map>
+#include <talipot/hash.h>
 #include <unordered_set>
 #include <vector>
 
@@ -51,29 +51,29 @@ class GraphUpdatesRecorder : public Observable {
   const bool oldIdsStateRecorded;
 
   // one 'set' of added nodes per graph
-  std::unordered_map<Graph *, std::unordered_set<node>> graphAddedNodes;
+  flat_hash_map<Graph *, std::unordered_set<node>> graphAddedNodes;
   // the whole 'set' of added nodes
   std::unordered_set<node> addedNodes;
   // one 'set' of deleted nodes per graph
-  std::unordered_map<Graph *, std::unordered_set<node>> graphDeletedNodes;
+  flat_hash_map<Graph *, std::unordered_set<node>> graphDeletedNodes;
   // one 'set' of added edges per graph
   std::map<Graph *, std::unordered_set<edge>> graphAddedEdges;
   // ends of all added edges
-  std::unordered_map<edge, std::pair<node, node>> addedEdgesEnds;
+  flat_hash_map<edge, std::pair<node, node>> addedEdgesEnds;
   // one 'set' of deleted edges per graph
   std::map<Graph *, std::unordered_set<edge>> graphDeletedEdges;
   // ends of all deleted edges
-  std::unordered_map<edge, std::pair<node, node>> deletedEdgesEnds;
+  flat_hash_map<edge, std::pair<node, node>> deletedEdgesEnds;
   // one set of reverted edges
   std::unordered_set<edge> revertedEdges;
   // source + target per updated edge
-  std::unordered_map<edge, std::pair<node, node>> oldEdgesEnds;
+  flat_hash_map<edge, std::pair<node, node>> oldEdgesEnds;
   // source + target per updated edge
-  std::unordered_map<edge, std::pair<node, node>> newEdgesEnds;
+  flat_hash_map<edge, std::pair<node, node>> newEdgesEnds;
   // one 'set' for old incidences
-  std::unordered_map<node, std::vector<edge>> oldIncidences;
+  flat_hash_map<node, std::vector<edge>> oldIncidences;
   // one 'set' for new incidences
-  std::unordered_map<node, std::vector<edge>> newIncidences;
+  flat_hash_map<node, std::vector<edge>> newIncidences;
 
   // copy of nodes/edges id manager state at start time
   const GraphStorageIdsMemento *oldIdsState;
@@ -86,30 +86,30 @@ class GraphUpdatesRecorder : public Observable {
   std::list<std::pair<Graph *, Graph *>> deletedSubGraphs;
 
   // one set of added properties per graph
-  std::unordered_map<Graph *, std::set<PropertyInterface *>> addedProperties;
+  flat_hash_map<Graph *, std::set<PropertyInterface *>> addedProperties;
   // one set of deleted properties per graph
-  std::unordered_map<Graph *, std::set<PropertyInterface *>> deletedProperties;
+  flat_hash_map<Graph *, std::set<PropertyInterface *>> deletedProperties;
   // one set of old attribute values per graph
-  std::unordered_map<Graph *, DataSet> oldAttributeValues;
+  flat_hash_map<Graph *, DataSet> oldAttributeValues;
   // one set of new attribute values per graph
-  std::unordered_map<Graph *, DataSet> newAttributeValues;
+  flat_hash_map<Graph *, DataSet> newAttributeValues;
 
   // one set of updated addNodes per property
-  std::unordered_map<PropertyInterface *, std::set<node>> updatedPropsAddedNodes;
+  flat_hash_map<PropertyInterface *, std::set<node>> updatedPropsAddedNodes;
 
   // one set of updated addEdges per property
-  std::unordered_map<PropertyInterface *, std::set<edge>> updatedPropsAddedEdges;
+  flat_hash_map<PropertyInterface *, std::set<edge>> updatedPropsAddedEdges;
 
   // the old default node value for each updated property
-  std::unordered_map<PropertyInterface *, DataMem *> oldNodeDefaultValues;
+  flat_hash_map<PropertyInterface *, DataMem *> oldNodeDefaultValues;
   // the new default node value for each updated property
-  std::unordered_map<PropertyInterface *, DataMem *> newNodeDefaultValues;
+  flat_hash_map<PropertyInterface *, DataMem *> newNodeDefaultValues;
   // the old default edge value for each updated property
-  std::unordered_map<PropertyInterface *, DataMem *> oldEdgeDefaultValues;
+  flat_hash_map<PropertyInterface *, DataMem *> oldEdgeDefaultValues;
   // the new default edge value for each updated property
-  std::unordered_map<PropertyInterface *, DataMem *> newEdgeDefaultValues;
+  flat_hash_map<PropertyInterface *, DataMem *> newEdgeDefaultValues;
   // the old name for each renamed property
-  std::unordered_map<PropertyInterface *, std::string> renamedProperties;
+  flat_hash_map<PropertyInterface *, std::string> renamedProperties;
 
   struct RecordedValues {
     PropertyInterface *values;
@@ -122,25 +122,25 @@ class GraphUpdatesRecorder : public Observable {
   };
 
   // the old nodes/edges values for each updated property
-  std::unordered_map<PropertyInterface *, RecordedValues> oldValues;
+  flat_hash_map<PropertyInterface *, RecordedValues> oldValues;
   // the new node value for each updated property
-  std::unordered_map<PropertyInterface *, RecordedValues> newValues;
+  flat_hash_map<PropertyInterface *, RecordedValues> newValues;
 
   // real deletion of deleted objects (properties, sub graphs)
   // during the recording of updates these objects are removed from graph
   // structures but not really 'deleted'
   void deleteDeletedObjects();
   // deletion of recorded values
-  void deleteValues(std::unordered_map<PropertyInterface *, RecordedValues> &values);
+  void deleteValues(flat_hash_map<PropertyInterface *, RecordedValues> &values);
   // deletion of DataMem default values
-  void deleteDefaultValues(std::unordered_map<PropertyInterface *, DataMem *> &values);
+  void deleteDefaultValues(flat_hash_map<PropertyInterface *, DataMem *> &values);
   // record of a node's edges container before/after modification
-  void recordIncidence(std::unordered_map<node, std::vector<edge>> &, GraphImpl *, node,
+  void recordIncidence(flat_hash_map<node, std::vector<edge>> &, GraphImpl *, node,
                        edge e = edge());
-  void recordIncidence(std::unordered_map<node, std::vector<edge>> &, GraphImpl *, node,
+  void recordIncidence(flat_hash_map<node, std::vector<edge>> &, GraphImpl *, node,
                        const std::vector<edge> &, uint);
   // remove an edge from a node's edges container
-  void removeFromIncidence(std::unordered_map<node, std::vector<edge>> &, edge, node);
+  void removeFromIncidence(flat_hash_map<node, std::vector<edge>> &, edge, node);
 
   void removeGraphData(Graph *);
 

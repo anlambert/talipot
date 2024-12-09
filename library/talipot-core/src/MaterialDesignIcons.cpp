@@ -14,7 +14,7 @@
 #include <talipot/MaterialDesignIcons.h>
 #include <talipot/TlpTools.h>
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 using namespace std;
 using namespace tlp;

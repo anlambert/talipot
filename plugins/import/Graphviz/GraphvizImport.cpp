@@ -133,7 +133,7 @@ public:
     viewShape->setAllEdgeValue(EdgeShape::CubicBSplineCurve);
 
     // Graphviz shape to talipot shape mapping
-    unordered_map<string, NodeShape::NodeShapes> shapeMap = {
+    flat_hash_map<string, NodeShape::NodeShapes> shapeMap = {
         {"circle", NodeShape::Circle},     {"box", NodeShape::Square},
         {"ellipse", NodeShape::Circle},    {"oval", NodeShape::Circle},
         {"triangle", NodeShape::Triangle}, {"diamond", NodeShape::Diamond},
@@ -200,7 +200,7 @@ public:
       return setNodeSizeFunc;
     };
 
-    unordered_map<string, SetNodePropertyFunc> setNodePropertyMap;
+    flat_hash_map<string, SetNodePropertyFunc> setNodePropertyMap;
     setNodePropertyMap["label"] = setNodePropertyFunc(viewLabel);
     setNodePropertyMap["fontsize"] = setNodePropertyFunc(viewFontSize);
     setNodePropertyMap["color"] = setNodeColorPropertyFunc(viewBorderColor);
@@ -211,7 +211,7 @@ public:
     setNodePropertyMap["height"] = setNodeSizePropertyFunc(1);
     setNodePropertyMap["shape"] = setNodeShapeFunc;
 
-    unordered_map<string, SetEdgePropertyFunc> setEdgePropertyMap;
+    flat_hash_map<string, SetEdgePropertyFunc> setEdgePropertyMap;
     setEdgePropertyMap["pos"] = setEdgeLayoutFunc;
     setEdgePropertyMap["color"] = setEdgeColorPropertyFunc(viewBorderColor);
     setEdgePropertyMap["fillcolor"] = setEdgeColorPropertyFunc(viewColor);
@@ -228,7 +228,7 @@ public:
     }
 
     // Utility function to add a node
-    unordered_map<Agnode_t *, node> nodeMap;
+    flat_hash_map<Agnode_t *, node> nodeMap;
     auto getTlpNode = [&](Agnode_t *n) {
       if (!nodeMap.contains(n)) {
         node nTlp;

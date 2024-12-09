@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -216,7 +216,7 @@ void HistogramView::setState(const DataSet &dataSet) {
     histoOptionsWidget->setBackgroundColor(backgroundColor);
   }
 
-  unordered_map<string, DataSet> histogramParametersMap;
+  flat_hash_map<string, DataSet> histogramParametersMap;
   DataSet histogramParameters;
   int i = 0;
   stringstream ss;

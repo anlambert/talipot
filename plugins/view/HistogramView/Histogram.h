@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,7 +28,7 @@ const std::string BIN_RECT_TEXTURE = ":/histo_texture.png";
 class Histogram : public GlComposite {
 
 public:
-  Histogram(Graph *graph, Graph *edgeGraph, std::unordered_map<edge, node> &edgeMap,
+  Histogram(Graph *graph, Graph *edgeGraph, flat_hash_map<edge, node> &edgeMap,
             const std::string &propertyName, const ElementType &dataLocation, const Coord &blCorner,
             uint size, const Color &backgroundColor, const Color &textColor);
   ~Histogram() override;
@@ -206,11 +206,11 @@ private:
   std::vector<std::string> uniformQuantificationAxisLabels;
   bool uniformQuantification;
   bool cumulativeFreqHisto, lastCumulHisto;
-  std::unordered_map<uint, std::pair<double, double>> binMinMaxMap;
+  flat_hash_map<uint, std::pair<double, double>> binMinMaxMap;
   std::string textureName;
   GlGraph *_glGraph;
   Graph *edgeAsNodeGraph;
-  std::unordered_map<edge, node> &edgeToNode;
+  flat_hash_map<edge, node> &edgeToNode;
   Color backgroundColor;
   Color textColor;
   bool integerScale;

@@ -230,7 +230,7 @@ void SOMAlgorithm::propagateModification(SOMMap *map, const DynamicVector<double
 }
 
 void SOMAlgorithm::computeMapping(SOMMap *map, InputSample &inputSample,
-                                  std::unordered_map<tlp::node, std::set<tlp::node>> &mappingTab,
+                                  flat_hash_map<tlp::node, std::set<tlp::node>> &mappingTab,
                                   double &medDist, unsigned int &maxElement) {
 
   double cumDist = 0;

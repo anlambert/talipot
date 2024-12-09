@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,7 +15,7 @@
 #define HIERARCHICAL_GRAPH_H
 
 #include <memory>
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/PluginHeaders.h>
 
@@ -60,7 +60,7 @@ private:
   void twoLayerCrossReduction(tlp::Graph *sg, uint freeLayer);
   void crossReduction(tlp::Graph *sg);
   void computeEdgeBends(const tlp::Graph *mySGraph, tlp::LayoutProperty &tmpLayout,
-                        const std::unordered_map<tlp::edge, tlp::edge> &replacedEdges,
+                        const flat_hash_map<tlp::edge, tlp::edge> &replacedEdges,
                         const std::vector<tlp::edge> &reversedEdges);
   void computeSelfLoops(tlp::Graph *mySGraph, tlp::LayoutProperty &tmpLayout,
                         std::vector<tlp::SelfLoops> &listSelfLoops);

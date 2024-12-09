@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -249,7 +249,7 @@ public:
   enum TypeOfData { DL_FM, DL_UH, DL_LH, DL_NL1, DL_NL2, DL_NL1B, DL_EL1, DL_EL2, DL_BM };
   // indicates the current format for the data to be read
   TypeOfData dataFormat;
-  std::unordered_map<std::string, node> labelToNode, colLabelToNode, rowLabelToNode;
+  flat_hash_map<std::string, node> labelToNode, colLabelToNode, rowLabelToNode;
 
   bool readHeader(string &str, stringstream &error) {
     string token;
@@ -633,7 +633,7 @@ public:
   }
 
   bool readLabels(const string &str, stringstream &error,
-                  std::unordered_map<std::string, node> &labelsHMap, uint nbLabels, uint offset,
+                  flat_hash_map<std::string, node> &labelsHMap, uint nbLabels, uint offset,
                   const vector<node> &nodes) {
     vector<std::string> labels;
     StringProperty *label = graph->getStringProperty("viewLabel");

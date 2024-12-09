@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,7 +16,7 @@
 
 #include <vector>
 #include <set>
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/Coord.h>
 
@@ -118,9 +118,9 @@ public:
   std::vector<Vertex> vertices;
   std::vector<Edge> edges;
   std::vector<Cell> cells;
-  std::unordered_map<uint, std::vector<uint>> siteToCellEdges;
-  std::unordered_map<uint, uint> siteToCell;
-  std::unordered_map<uint, uint> verticesDegree;
+  node_hash_map<uint, std::vector<uint>> siteToCellEdges;
+  node_hash_map<uint, uint> siteToCell;
+  node_hash_map<uint, uint> verticesDegree;
 };
 
 /**

@@ -1273,9 +1273,9 @@ node Graph::createMetaNode(Graph *subGraph, bool multiEdges, bool edgeDelAll) {
 
   // create new meta edges from nodes to metanode
   Graph *super = getSuperGraph();
-  std::unordered_map<node, std::unordered_set<node>> edges;
-  std::unordered_map<node, edge> metaEdges;
-  std::unordered_map<edge, set<edge>> subEdges;
+  flat_hash_map<node, std::unordered_set<node>> edges;
+  flat_hash_map<node, edge> metaEdges;
+  flat_hash_map<edge, set<edge>> subEdges;
 
   for (auto n : subGraph->nodes()) {
     for (auto e : getSuperGraph()->incidence(n)) {
@@ -1459,7 +1459,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
     for (auto metaEdge : super->incidence(metaNode)) {
 
       Color metaColor = graphColors->getEdgeValue(metaEdge);
-      std::unordered_map<node, std::unordered_map<node, set<edge>>> newMetaEdges;
+      flat_hash_map<node, flat_hash_map<node, set<edge>>> newMetaEdges;
 
       for (auto e : getEdgeMetaInfo(metaEdge)) {
         const auto &[src, tgt] = super->ends(e);
@@ -1523,7 +1523,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
     buildMapping(root->getInOutNodes(metaNode), mappingC, metaInfo, node());
     buildMapping(metaGraph->getNodes(), mappingN, metaInfo, node());
 
-    std::unordered_map<node, Color> metaEdgeToColor;
+    flat_hash_map<node, Color> metaEdgeToColor;
 
     for (auto metaEdge : super->incidence(metaNode)) {
       metaEdgeToColor[opposite(metaEdge, metaNode)] = graphColors->getEdgeValue(metaEdge);
@@ -1531,7 +1531,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
 
     // Remove the metagraph from the hierarchy and remove the metanode
     root->delNode(metaNode, true);
-    std::unordered_map<node, std::unordered_set<node>> edges;
+    flat_hash_map<node, std::unordered_set<node>> edges;
     //=================================
     for (auto e : root->edges()) {
 
@@ -1604,10 +1604,10 @@ struct less<MetaEdge> {
 
 void Graph::createMetaNodes(Iterator<Graph *> *itS, Graph *quotientGraph, vector<node> &metaNodes) {
   GraphProperty *metaInfo = static_cast<GraphAbstract *>(getRoot())->getMetaGraphProperty();
-  unordered_map<edge, set<edge>> eMapping;
+  flat_hash_map<edge, set<edge>> eMapping;
   Observable::holdObservers();
   {
-    unordered_map<node, set<node>> nMapping;
+    flat_hash_map<node, set<node>> nMapping;
 
     while (itS->hasNext()) {
       Graph *its = itS->next();

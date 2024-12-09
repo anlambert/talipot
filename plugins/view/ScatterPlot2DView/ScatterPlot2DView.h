@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,7 @@
 #ifndef SCATTER_PLOT2D_VIEW_H
 #define SCATTER_PLOT2D_VIEW_H
 
-#include <unordered_map>
+#include <talipot/hash.h>
 
 #include <talipot/Graph.h>
 #include <talipot/GlView.h>
@@ -190,8 +190,8 @@ private:
 
   ElementType dataLocation;
   Graph *edgeAsNodeGraph;
-  std::unordered_map<edge, node> edgeToNode;
-  std::unordered_map<node, edge> nodeToEdge;
+  flat_hash_map<edge, node> edgeToNode;
+  flat_hash_map<node, edge> nodeToEdge;
 };
 }
 

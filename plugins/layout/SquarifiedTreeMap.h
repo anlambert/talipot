@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,12 +16,12 @@
 
 #include <vector>
 #include <utility>
-#include <unordered_map>
+#include <talipot/hash.h>
 #include "talipot/PluginHeaders.h"
 #include "talipot/Rectangle.h"
 
 typedef std::vector<tlp::node> VecNode;
-typedef std::unordered_map<tlp::node, double> MapNode;
+typedef flat_hash_map<tlp::node, double> MapNode;
 typedef std::pair<tlp::node, double> PairNodeF;
 typedef std::vector<PairNodeF> PairVector;
 
