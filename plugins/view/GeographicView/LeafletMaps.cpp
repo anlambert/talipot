@@ -45,6 +45,7 @@ var map;
 var mapBounds;
 var layers = {};
 var currentLayer;
+var mapScale = L.control.scale();
 var esriBaseUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/';
 function refreshMap() {
   leafletMapsQObject.refreshMap();
@@ -159,6 +160,14 @@ function switchToCustomTileLayer(customTileLayerUrl) {
   });
   addEventHandlersToLayer(customTileLayer);
   switchToTileLayer(customTileLayer);
+}
+function addScaleControlToMap() {
+  map = map.addControl(mapScale);
+  refreshMap();
+}
+function removeScaleControlFromMap() {
+  map = map.removeControl(mapScale);
+  refreshMap();
 }
 )")
              .arg(GeographicView::getViewNameFromType(GeographicView::OpenStreetMap),
@@ -428,5 +437,13 @@ void LeafletMaps::zoomOnBounds(const std::pair<double, double> &minLatLng,
                   .arg(maxLatLng.first)
                   .arg(maxLatLng.second);
   executeJavascript(code);
+}
+
+void LeafletMaps::setScaleControlVisible(bool visible) {
+  if (visible) {
+    executeJavascript("addScaleControlToMap()");
+  } else {
+    executeJavascript("removeScaleControlFromMap()");
+  }
 }
 }

@@ -45,7 +45,8 @@ GeographicView::GeographicView(PluginContext *)
       sceneConfigurationWidget(nullptr), sceneLayersConfigurationWidget(nullptr),
       centerViewAction(nullptr), showConfPanelAction(nullptr), useSharedLayoutProperty(true),
       useSharedSizeProperty(true), useSharedShapeProperty(true), mapCenterLatitudeInit(0),
-      mapCenterLongitudeInit(0), mapZoomInit(0), _viewActionsManager(nullptr) {
+      mapCenterLongitudeInit(0), mapZoomInit(0), _viewActionsManager(nullptr),
+      scaleControlVisible(false) {
   _viewType = OpenStreetMap;
 }
 
@@ -101,7 +102,18 @@ void GeographicView::fillContextMenu(QMenu *menu, const QPointF &pf) {
   menu->addSeparator();
   menu->addAction("Augmented display")->setEnabled(false);
   menu->addSeparator();
+  if (viewType() <= GeographicView::LeafletCustomTileLayer) {
+    action = menu->addAction(FontIcon::icon(MaterialDesignIcons::MapLegend), "Display map scale",
+                             this, &GeographicView::setScaleControlVisible);
+    action->setCheckable(true);
+    action->setChecked(scaleControlVisible);
+  }
   View::fillContextMenu(menu, pf);
+}
+
+void GeographicView::setScaleControlVisible(bool visible) {
+  scaleControlVisible = visible;
+  geoViewGraphicsView->getLeafletMapsPage()->setScaleControlVisible(visible);
 }
 
 void GeographicView::setState(const DataSet &dataSet) {

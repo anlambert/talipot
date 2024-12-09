@@ -162,6 +162,8 @@ protected slots:
 
   void initMap();
 
+  void setScaleControlVisible(bool visible);
+
 private:
   void viewTypeChanged(const QString &viewTypeName);
 
@@ -189,6 +191,7 @@ private:
   double mapCenterLatitudeInit, mapCenterLongitudeInit;
   int mapZoomInit;
   ViewActionsManager *_viewActionsManager;
+  bool scaleControlVisible;
 
   static const QMap<ViewType, QString> viewTypeToName;
 };
