@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,6 +15,7 @@
 
 #include <talipot/GlWidget.h>
 #include <talipot/MouseSelector.h>
+#include <talipot/GlComplexPolygon.h>
 
 using namespace std;
 using namespace tlp;
@@ -111,7 +112,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
       BooleanProperty *selection = glWidget->inputData()->selection();
       bool revertSelection = false; // add to selection
       bool boolVal = true;
-      bool needPush = true;         // undo management
+      bool needPush = true; // undo management
 
       if (mousePressModifier !=
 #if defined(__APPLE__)
@@ -254,21 +255,11 @@ bool MouseSelector::draw(GlWidget *glWidget) {
     started = false;
   }
 
+  Camera *camera = &glWidget->scene()->getLayer("Main")->getCamera();
+  Camera camera2D(camera->getScene(), false);
+
   float yy = glWidget->height() - y;
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
-  glMatrixMode(GL_PROJECTION);
-  glPushMatrix();
-  glLoadIdentity();
-  glOrtho(0, glWidget->width(), 0, glWidget->height(), -1, 1);
-  glMatrixMode(GL_MODELVIEW);
-  glPushMatrix();
-  glLoadIdentity();
-  glDisable(GL_LIGHTING);
-  glDisable(GL_CULL_FACE);
-  glDisable(GL_DEPTH_TEST);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_SRC_COLOR);
-  float col[4] = {0, 0, 0, 0.2f};
+  Color color = {204, 204, 178};
 
   if (mousePressModifier ==
 #if defined(__APPLE__)
@@ -277,41 +268,22 @@ bool MouseSelector::draw(GlWidget *glWidget) {
       Qt::ControlModifier
 #endif
   ) {
-    col[0] = 1.;
-    col[1] = 0.8f;
-    col[2] = 1.;
+    color = {255, 204, 255};
   } else if (mousePressModifier == Qt::ShiftModifier) {
-    col[0] = 1.;
-    col[1] = .7f;
-    col[2] = .7f;
-  } else {
-    col[0] = 0.8f;
-    col[1] = 0.8f;
-    col[2] = 0.7f;
+    color = {255, 178, 178};
   }
 
-  setColor(col);
-  glBegin(GL_QUADS);
-  glVertex2f(x, yy);
-  glVertex2f(x + w, yy);
-  glVertex2f(x + w, yy - h);
-  glVertex2f(x, yy - h);
-  glEnd();
-  glDisable(GL_BLEND);
-  glLineWidth(2);
-  glLineStipple(2, 0xAAAA);
-  glEnable(GL_LINE_STIPPLE);
-  glBegin(GL_LINE_LOOP);
-  glVertex2f(x, yy);
-  glVertex2f(x + w, yy);
-  glVertex2f(x + w, yy - h);
-  glVertex2f(x, yy - h);
-  glEnd();
-  glLineWidth(1);
-  glPopMatrix();
-  glMatrixMode(GL_PROJECTION);
-  glPopMatrix();
-  glMatrixMode(GL_MODELVIEW);
-  glPopAttrib();
+  float xf = float(x);
+  vector<Coord> rectPoints = {{xf, yy}, {xf + w, yy}, {xf + w, yy - h}, {xf, yy - h}};
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  camera2D.initGl();
+  GlComplexPolygon complexPolygon(rectPoints, Color(color[0], color[1], color[2], 100), color);
+  complexPolygon.setOutlineSize(2);
+  complexPolygon.setOutlineStippled(true);
+  complexPolygon.draw(0, nullptr);
+
   return true;
 }
