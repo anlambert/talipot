@@ -50,8 +50,6 @@ jobs:
           graphviz
           qt6-base-dev
           libqt6core5compat6-dev
-          qt6-webengine-dev
-          qt6-webengine-dev-tools
           xvfb
       - name: Install sphinx and sip
         run: sudo pip install sphinx sip

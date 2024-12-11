@@ -577,8 +577,7 @@ bool TalipotMainWindow::terminated() {
   _pythonIDE->hide();
   _pythonIDE->stopCurrentScript();
 
-  // force workspace and views destruction here to avoid hanging on exit
-  // when linking against QtWebEngine binaries provided by qt.io
+  // force workspace and views destruction before application shutdown
   _ui->workspace->closeAll();
   return true;
 }

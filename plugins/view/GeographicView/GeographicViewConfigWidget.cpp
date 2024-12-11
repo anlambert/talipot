@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -193,9 +193,13 @@ void GeographicViewConfigWidget::setState(const DataSet &dataSet) {
     _ui->shapeCheckBox->setChecked(useShared);
   }
 
-  string customTileLayerUrl;
-  if (dataSet.get("customTileLayerUrl", customTileLayerUrl)) {
-    _ui->customTileLayerUrl->setText(tlpStringToQString(customTileLayerUrl));
+  string customTilesLayerUrl;
+  if (dataSet.get("customTilesLayerUrl", customTilesLayerUrl)) {
+    _ui->customTilesLayerUrl->setText(tlpStringToQString(customTilesLayerUrl));
+  }
+  string customTilesLayerAttribution;
+  if (dataSet.get("customTilesLayerAttribution", customTilesLayerAttribution)) {
+    _ui->customTilesLayerUrl->setText(tlpStringToQString(customTilesLayerAttribution));
   }
 }
 
@@ -207,10 +211,15 @@ DataSet GeographicViewConfigWidget::state() const {
   data.set("useSharedLayout", useSharedLayoutProperty());
   data.set("useSharedSize", useSharedSizeProperty());
   data.set("useSharedShape", useSharedShapeProperty());
-  data.set("customTileLayerUrl", QStringToTlpString(getCustomTileLayerUrl()));
+  data.set("customTilesLayerUrl", QStringToTlpString(getCustomTilesLayerUrl()));
+  data.set("customTilesLayerAttribution", QStringToTlpString(getCustomTilesLayerAttribution()));
   return data;
 }
 
-QString GeographicViewConfigWidget::getCustomTileLayerUrl() const {
-  return _ui->customTileLayerUrl->text();
+QString GeographicViewConfigWidget::getCustomTilesLayerUrl() const {
+  return _ui->customTilesLayerUrl->text();
+}
+
+QString GeographicViewConfigWidget::getCustomTilesLayerAttribution() const {
+  return _ui->customTilesLayerAttribution->text();
 }

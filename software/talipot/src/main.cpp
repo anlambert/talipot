@@ -137,10 +137,6 @@ int main(int argc, char **argv) {
 #endif
   QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
-#ifdef QT_HAS_WEBENGINE
-  QCoreApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
-#endif
-
 #ifdef Q_OS_LINUX
   // force use of qt xcb platform plugin as Talipot look and feel on Wayland
   // is not as great as on X11

@@ -16,8 +16,6 @@
 
 #include <talipot/hash.h>
 
-#include "LeafletMaps.h"
-
 #include <talipot/GlGraph.h>
 #include <talipot/GlWidget.h>
 #include <talipot/GlWidgetGraphicsItem.h>
@@ -25,12 +23,17 @@
 
 #include <QGraphicsView>
 #include <QComboBox>
+#include <QPushButton>
 
-class QOpenGLFramebufferObject;
+class QGVMap;
+class QGVLayerTilesOnline;
+class QGVWidgetText;
 
 namespace tlp {
 
+class AddressSelectionDialog;
 class GeographicView;
+class ProgressWidgetGraphicsProxy;
 
 class GeographicViewGraphicsView : public QGraphicsView, public Observable {
 
@@ -57,12 +60,12 @@ public:
 
   void centerView();
 
-  GlWidget *glWidget() {
-    return _glWidget;
+  QGVMap *getQGVMap() {
+    return qgvMap;
   }
 
-  LeafletMaps *getLeafletMapsPage() const {
-    return leafletMaps;
+  GlWidget *glWidget() {
+    return _glWidget;
   }
 
   LayoutProperty *getGeoLayout() const {
@@ -101,32 +104,20 @@ public:
 
   void setGeoLayoutComputed();
 
-  bool eventFilter(QObject *, QEvent *) override;
-
 public slots:
 
   void mapToPolygon();
   void zoomIn();
   void zoomOut();
-  void currentZoomChanged();
-#ifdef QT_HAS_WEBENGINE
-  void queueMapRefresh();
-#endif
   void refreshMap();
 
 protected:
   void cleanup();
   void resizeEvent(QResizeEvent *event) override;
-#ifdef QT_HAS_WEBENGINE
-  int tId;
-  void timerEvent(QTimerEvent *event) override;
-#endif
-  void updateMapTexture();
 
 private:
   GeographicView *_geoView;
   Graph *graph;
-  LeafletMaps *leafletMaps;
   flat_hash_map<node, std::pair<double, double>> nodeLatLng;
   flat_hash_map<edge, std::vector<std::pair<double, double>>> edgeBendsLatLng;
 
@@ -161,12 +152,12 @@ private:
 
   bool geoLayoutComputed;
 
-  QOpenGLFramebufferObject *renderFbo;
-  GlLayer *backgroundLayer;
-  std::string mapTextureId;
-
   DoubleProperty *latitudeProperty;
   DoubleProperty *longitudeProperty;
+
+  QGVMap *qgvMap;
+  QGVLayerTilesOnline *currentMapLayer;
+  QGVWidgetText *mapAttributionWidget;
 };
 }
 

@@ -34,7 +34,6 @@ jobs:
           libzstd-dev
           libgit2-dev
           qtbase5-dev
-          libqt5webkit5-dev
           libquazip5-dev
           libglew-dev
           libfreetype6-dev

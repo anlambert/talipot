@@ -50,10 +50,10 @@ yum -y install freetype-devel fontconfig-devel glew-devel fribidi-devel
 if [ "$centos8" = true ]
 then
   yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
-    quazip-qt5-devel qt5-qtwebkit-devel --enablerepo=epel-testing --nobest
+    quazip-qt5-devel --enablerepo=epel-testing --nobest
 else
   yum -y install qt6-qtbase-devel qt6-qtimageformats qt6-qtsvg \
-    qt6-qt5compat-devel qt6-qtwebengine-devel
+    qt6-qt5compat-devel
 fi
 
 # install Python 3, Sphinx and SIP
@@ -100,23 +100,6 @@ xvfb-run make tests
 bash bundlers/linux/make_appimage_bundle.sh --appdir $PWD
 
 APP_DIR=Talipot.AppDir
-
-# ensure QtWebEngine is functional when bundled in AppImage
-if [ "$centos9" = true ]
-then
-  yum -y install patchelf cpio
-  # for some reasons, qt6-qtwebengine translations files are not installed
-  # by yum but those are still available in the rpm archive so we hack a bit
-  # to extract and copy them in the AppImage AppDir
-  yum -y remove --noautoremove qt6-qtwebengine
-  yum -y install --downloadonly --downloaddir=$PWD qt6-qtwebengine
-  rpm2cpio qt6-qtwebengine*.rpm | cpio -idmv --directory=/opt/qtwebengine
-  cp -r /opt/qtwebengine/usr/share/qt6/translations/qtwebengine_locales/ $APP_DIR/usr/translations/
-  # this file is also required to be bundled in AppImage or V8 crashes on startup
-  cp /opt/qtwebengine/usr/share/qt6/resources/v8_context_snapshot.bin $APP_DIR/usr/resources/
-  # rpath of QtWebEngineProcess also needs to be patched to work in AppImage
-  patchelf --set-rpath '$ORIGIN/../lib' $APP_DIR/usr/libexec/QtWebEngineProcess
-fi
 
 # get appimagetool
 wget "https://github.com/probonopd/AppImageKit/releases/download/\
