@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -124,6 +124,11 @@ public:
    * @brief Set size of outline
    */
   void setOutlineSize(double size);
+
+  /**
+   * @brief Set if the outline is stippled or not
+   */
+  void setOutlineStippled(bool stippled);
 
   /**
    * @brief Get fill color of GlComplexPolygon
@@ -252,6 +257,7 @@ protected:
   Color fillColor;
   Color outlineColor;
   double outlineSize;
+  bool outlineStippled;
   std::string textureName;
   float textureZoom;
   std::vector<bool> quadBorderActivated;

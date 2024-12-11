@@ -245,7 +245,7 @@ namespace tlp {
 
 GlComplexPolygon::GlComplexPolygon(const vector<Coord> &coords, Color fcolor, int polygonEdgesType,
                                    const string &textureName)
-    : currentVector(-1), outlined(false), fillColor(fcolor), outlineSize(1),
+    : currentVector(-1), outlined(false), fillColor(fcolor), outlineSize(1), outlineStippled(false),
       textureName(textureName), textureZoom(1.) {
   createPolygon(coords, polygonEdgesType);
   runTessellation();
@@ -254,7 +254,7 @@ GlComplexPolygon::GlComplexPolygon(const vector<Coord> &coords, Color fcolor, in
 GlComplexPolygon::GlComplexPolygon(const vector<Coord> &coords, Color fcolor, Color ocolor,
                                    int polygonEdgesType, const string &textureName)
     : currentVector(-1), outlined(true), fillColor(fcolor), outlineColor(ocolor), outlineSize(1),
-      textureName(textureName), textureZoom(1.) {
+      outlineStippled(false), textureName(textureName), textureZoom(1.) {
   if (!coords.empty()) {
     createPolygon(coords, polygonEdgesType);
     runTessellation();
@@ -263,7 +263,7 @@ GlComplexPolygon::GlComplexPolygon(const vector<Coord> &coords, Color fcolor, Co
 //=====================================================
 GlComplexPolygon::GlComplexPolygon(const vector<vector<Coord>> &coords, Color fcolor,
                                    int polygonEdgesType, const string &textureName)
-    : currentVector(-1), outlined(false), fillColor(fcolor), outlineSize(1),
+    : currentVector(-1), outlined(false), fillColor(fcolor), outlineSize(1), outlineStippled(false),
       textureName(textureName), textureZoom(1.) {
   for (const auto &coord : coords) {
     createPolygon(coord, polygonEdgesType);
@@ -275,7 +275,7 @@ GlComplexPolygon::GlComplexPolygon(const vector<vector<Coord>> &coords, Color fc
 GlComplexPolygon::GlComplexPolygon(const vector<vector<Coord>> &coords, Color fcolor, Color ocolor,
                                    int polygonEdgesType, const string &textureName)
     : currentVector(-1), outlined(true), fillColor(fcolor), outlineColor(ocolor), outlineSize(1),
-      textureName(textureName), textureZoom(1.) {
+      outlineStippled(false), textureName(textureName), textureZoom(1.) {
   for (const auto &coord : coords) {
     createPolygon(coord, polygonEdgesType);
   }
@@ -326,6 +326,10 @@ void GlComplexPolygon::setOutlineMode(const bool outlined) {
 //=====================================================
 void GlComplexPolygon::setOutlineSize(double size) {
   outlineSize = size;
+}
+//=====================================================
+void GlComplexPolygon::setOutlineStippled(bool stippled) {
+  outlineStippled = stippled;
 }
 //=====================================================
 string GlComplexPolygon::getTextureName() {
@@ -476,11 +480,16 @@ void GlComplexPolygon::draw(float, Camera *) {
 
     glLineWidth(lineWidth);
     setMaterial(outlineColor);
+    if (outlineStippled) {
+      glLineStipple(2, 0xAAAA);
+      glEnable(GL_LINE_STIPPLE);
+    }
 
     for (const auto &point : points) {
       glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), &point[0]);
       glDrawArrays(GL_LINE_LOOP, 0, point.size());
     }
+    glDisable(GL_LINE_STIPPLE);
   }
 
   for (size_t v = 0; v < points.size(); ++v) {
