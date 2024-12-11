@@ -510,7 +510,6 @@ void QGVMapQGView::showMenu(QMouseEvent* event)
 
 bool QGVMapQGView::event(QEvent* event)
 {
-    event->ignore();
     if (event->type() == QEvent::ToolTip) {
         showTooltip(static_cast<QHelpEvent*>(event));
     }
