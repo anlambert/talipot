@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,6 +15,7 @@
 
 #include <talipot/GlWidget.h>
 #include <talipot/MouseBoxZoomer.h>
+#include <talipot/GlComplexPolygon.h>
 
 using namespace std;
 using namespace tlp;
@@ -139,45 +140,26 @@ bool MouseBoxZoomer::draw(GlWidget *glw) {
     started = false;
   }
 
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
-  glMatrixMode(GL_PROJECTION);
-  glPushMatrix();
-  glLoadIdentity();
-  glOrtho(0, glw->width(), 0, glw->height(), -1, 1);
-  glMatrixMode(GL_MODELVIEW);
-  glPushMatrix();
-  glLoadIdentity();
-  glDisable(GL_LIGHTING);
-  glDisable(GL_CULL_FACE);
-  glDisable(GL_DEPTH_TEST);
+  Camera *camera = &glw->scene()->getLayer("Main")->getCamera();
+  Camera camera2D(camera->getScene(), false);
+
+  float xf = float(x);
+  float yf = float(y);
+  float wf = float(w);
+  float hf = float(h);
+
+  vector<Coord> rectPoints = {{xf, yf}, {xf + wf, yf}, {xf + wf, yf - hf}, {xf, yf - hf}};
+  Color color = {200, 0, 0};
+
   glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_SRC_COLOR);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  float col[4] = {0.8f, 0.4f, 0.4f, 0.2f};
-  setColor(col);
-  glBegin(GL_QUADS);
-  glVertex2f(x, y);
-  glVertex2f(x + w, y);
-  glVertex2f(x + w, y - h);
-  glVertex2f(x, y - h);
-  glEnd();
-  glDisable(GL_BLEND);
+  camera2D.initGl();
+  GlComplexPolygon complexPolygon(rectPoints, Color(color[0], color[1], color[2], 100), color);
+  complexPolygon.setOutlineSize(2);
+  complexPolygon.setOutlineStippled(true);
+  complexPolygon.draw(0, nullptr);
 
-  glLineWidth(2);
-  glLineStipple(2, 0xAAAA);
-  glEnable(GL_LINE_STIPPLE);
-  glBegin(GL_LINE_LOOP);
-  glVertex2f(x, y);
-  glVertex2f(x + w, y);
-  glVertex2f(x + w, y - h);
-  glVertex2f(x, y - h);
-  glEnd();
-
-  glPopMatrix();
-  glMatrixMode(GL_PROJECTION);
-  glPopMatrix();
-  glMatrixMode(GL_MODELVIEW);
-  glPopAttrib();
   return true;
 }
 
