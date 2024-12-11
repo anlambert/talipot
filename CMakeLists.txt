@@ -328,6 +328,8 @@ IF(NOT TALIPOT_BUILD_CORE_ONLY OR TALIPOT_BUILD_OGL)
   SET(FTGLLibrary ftgl-talipot-${TalipotMMVersion})
   SET(Tess2Include ${PROJECT_SOURCE_DIR}/thirdparty/libtess2/Include)
   SET(Tess2Library tess2-talipot-${TalipotMMVersion})
+  SET(QGeoViewLibrary QGeoView-talipot-${TalipotMMVersion})
+  SET(QGeoViewInclude ${PROJECT_SOURCE_DIR}/thirdparty/QGeoView/include)
 
   IF(NOT QUAZIP_FOUND)
     SET(QUAZIP_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/thirdparty/quazip-1.4/quazip)
