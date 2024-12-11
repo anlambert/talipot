@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -81,7 +81,7 @@ QGraphicsView *ViewWidget::graphicsView() const {
 void ViewWidget::setupUi() {
   _graphicsView = new TalipotGraphicsView();
   _graphicsView->setFrameStyle(QFrame::NoFrame);
-  _graphicsView->scene()->setBackgroundBrush(Qt::white);
+  _graphicsView->setBackgroundBrush(Qt::white);
   setupWidget();
   assert(_centralWidget);
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -208,7 +208,7 @@ bool GlOffscreenRenderer::frameBufferOk() const {
 
 static inline QImage convertImage(const QImage &image) {
   auto img = QImage(image.constBits(), image.width(), image.height(), QImage::Format_ARGB32)
-                 .convertToFormat(QImage::Format_RGB32);
+                 .convertToFormat(QImage::Format_ARGB32_Premultiplied);
   img.setDevicePixelRatio(getMainWindow()->devicePixelRatio());
   return img;
 }
