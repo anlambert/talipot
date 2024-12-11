@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -272,7 +272,7 @@ bool MouseLassoNodesSelectorInteractorComponent::eventFilter(QObject *obj, QEven
   return false;
 }
 
-bool MouseLassoNodesSelectorInteractorComponent::draw(GlWidget *glWidget) {
+bool MouseLassoNodesSelectorInteractorComponent::draw(GlWidget *) {
 
   if (!drawInteractor) {
     return false;
@@ -281,16 +281,6 @@ bool MouseLassoNodesSelectorInteractorComponent::draw(GlWidget *glWidget) {
   if (!polygon.empty()) {
 
     Camera camera2D(camera->getScene(), false);
-
-    Color backgroundColor = glWidget->scene()->getBackgroundColor();
-    Color foregroundColor;
-    int bgV = backgroundColor.getV();
-
-    if (bgV < 128) {
-      foregroundColor = Color(255, 255, 255);
-    } else {
-      foregroundColor = Color(0, 0, 0);
-    }
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
