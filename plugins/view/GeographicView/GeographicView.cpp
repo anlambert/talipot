@@ -18,7 +18,10 @@
 #include <talipot/FontIcon.h>
 #include <talipot/MaterialDesignIcons.h>
 
+#include <QDir>
+#include <QNetworkDiskCache>
 #include <QTimer>
+#include <QGraphicsProxyWidget>
 
 #include "GeographicView.h"
 #include "GeographicViewGraphicsView.h"
@@ -29,23 +32,21 @@ using namespace std;
 using namespace tlp;
 
 const QMap<GeographicView::ViewType, QString> GeographicView::viewTypeToName = {
-    {GeographicView::OpenStreetMap, "OpenStreetMap (Leaflet)"},
-    {GeographicView::EsriSatellite, "Esri Satellite (Leaflet)"},
-    {GeographicView::EsriTerrain, "Esri Terrain (Leaflet)"},
-    {GeographicView::EsriGrayCanvas, "Esri Gray Canvas (Leaflet)"},
-    {GeographicView::GeoportailPlan, "Géoportail France Plan (Leaflet)"},
-    {GeographicView::GeoportailSatellite, "Géoportail France Satellite (Leaflet)"},
-    {GeographicView::GeoportailIgn, "Géoportail France IGN (Leaflet)"},
+    {GeographicView::OpenStreetMap, "Open Street Map"},
+    {GeographicView::EsriSatellite, "Esri Satellite"},
+    {GeographicView::EsriTerrain, "Esri Terrain"},
+    {GeographicView::EsriGrayCanvas, "Esri Gray Canvas"},
+    {GeographicView::GeoportailPlan, "Géoportail France Plan"},
+    {GeographicView::GeoportailSatellite, "Géoportail France Satellite"},
     {GeographicView::Polygon, "Polygon"},
     {GeographicView::Globe, "Globe"},
-    {GeographicView::LeafletCustomTileLayer, "Custom Tile Layer (Leaflet)"}};
+    {GeographicView::CustomTilesLayer, "Custom Tiles Layer"}};
 
 GeographicView::GeographicView(PluginContext *)
     : geoViewGraphicsView(nullptr), geoViewConfigWidget(nullptr), geolocationConfigWidget(nullptr),
       sceneConfigurationWidget(nullptr), sceneLayersConfigurationWidget(nullptr),
       centerViewAction(nullptr), showConfPanelAction(nullptr), useSharedLayoutProperty(true),
-      useSharedSizeProperty(true), useSharedShapeProperty(true), mapCenterLatitudeInit(0),
-      mapCenterLongitudeInit(0), mapZoomInit(0), _viewActionsManager(nullptr) {
+      useSharedSizeProperty(true), useSharedShapeProperty(true), _viewActionsManager(nullptr) {
   _viewType = OpenStreetMap;
 }
 
@@ -171,21 +172,6 @@ void GeographicView::setState(const DataSet &dataSet) {
   sceneConfigurationWidget->resetChanges();
 
   View::setState(dataSet);
-
-  if (dataSet.exists("mapCenterLatitude")) {
-
-    dataSet.get("mapCenterLatitude", mapCenterLatitudeInit);
-    dataSet.get("mapCenterLongitude", mapCenterLongitudeInit);
-    dataSet.get("mapZoom", mapZoomInit);
-
-    QTimer::singleShot(1500, this, &GeographicView::initMap);
-  }
-}
-
-void GeographicView::initMap() {
-  geoViewGraphicsView->getLeafletMapsPage()->setMapCenter(mapCenterLatitudeInit,
-                                                          mapCenterLongitudeInit);
-  geoViewGraphicsView->getLeafletMapsPage()->setCurrentZoom(mapZoomInit);
 }
 
 DataSet GeographicView::state() const {
@@ -193,10 +179,6 @@ DataSet GeographicView::state() const {
   DataSet configurationWidget = geoViewConfigWidget->state();
   dataSet.set("configurationWidget", configurationWidget);
   dataSet.set("viewType", int(_viewType));
-  pair<double, double> mapCenter = geoViewGraphicsView->getLeafletMapsPage()->getCurrentMapCenter();
-  dataSet.set("mapCenterLatitude", mapCenter.first);
-  dataSet.set("mapCenterLongitude", mapCenter.second);
-  dataSet.set("mapZoom", geoViewGraphicsView->getLeafletMapsPage()->getCurrentMapZoom());
   dataSet.set("renderingParameters",
               geoViewGraphicsView->glWidget()->renderingParameters().getParameters());
 
@@ -272,10 +254,6 @@ void GeographicView::zoomIn() {
 
 void GeographicView::zoomOut() {
   geoViewGraphicsView->zoomOut();
-}
-
-void GeographicView::currentZoomChanged() {
-  geoViewGraphicsView->currentZoomChanged();
 }
 
 QList<QWidget *> GeographicView::configurationWidgets() const {
@@ -459,10 +437,6 @@ void GeographicView::graphChanged(Graph *graph) {
   if (graph->isEmpty()) {
     computeGeoLayout();
   }
-}
-
-LeafletMaps *GeographicView::getLeafletMap() {
-  return geoViewGraphicsView->getLeafletMapsPage();
 }
 
 bool GeographicView::getNodeOrEdgeAtViewportPos(int x, int y, node &n, edge &e) const {

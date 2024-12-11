@@ -62,7 +62,6 @@ jobs:
           arch: win64_msvc2019_64
           modules: qtimageformats
             qtpositioning
-            qtwebengine
             qtwebchannel
             qtwebsockets
             qt5compat

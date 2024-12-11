@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>394</width>
-    <height>642</height>
+    <width>431</width>
+    <height>755</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,9 +50,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-11</y>
-        <width>372</width>
-        <height>641</height>
+        <y>0</y>
+        <width>429</width>
+        <height>667</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -63,13 +63,13 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="leftMargin">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="topMargin">
         <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="bottomMargin">
         <number>0</number>
@@ -83,7 +83,10 @@
           </font>
          </property>
          <property name="text">
-          <string>Use shared property for:</string>
+          <string>Use shared property for</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -128,13 +131,6 @@
         </layout>
        </item>
        <item>
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QLabel" name="label_2">
          <property name="font">
           <font>
@@ -143,7 +139,10 @@
           </font>
          </property>
          <property name="text">
-          <string>Polygon mode shape file:</string>
+          <string>Polygon mode shape file</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -342,13 +341,6 @@
         </layout>
        </item>
        <item>
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QLabel" name="label_3">
          <property name="font">
           <font>
@@ -357,14 +349,17 @@
           </font>
          </property>
          <property name="text">
-          <string>Leaflet Custom Tile Layer url:</string>
+          <string>Custom Tiles Layer</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter a tile layer url in the form&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;http[s]://[{s}.]&amp;lt;domain&amp;gt;/&amp;lt;path&amp;gt;/{z}/{x}/{y}[{r}][.png]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tiles URL:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="textFormat">
           <enum>Qt::RichText</enum>
@@ -375,12 +370,26 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="customTileLayerUrl">
+        <widget class="QLineEdit" name="customTilesLayerUrl">
          <property name="toolTip">
           <string/>
          </property>
          <property name="text">
-          <string>https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png</string>
+          <string>https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Tiles attribution:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="customTilesLayerAttribution">
+         <property name="text">
+          <string>© &lt;a href=&quot;https://carto.com/about-carto/&quot;&gt;rastertiles/voyager&lt;/a&gt;</string>
          </property>
         </widget>
        </item>

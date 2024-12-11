@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,6 +23,9 @@
 
 #include "../../utils/StandardInteractorPriority.h"
 #include "../../utils/InteractorIcons.h"
+
+#include <QGeoView/QGVMap.h>
+#include <QGeoView/QGVProjection.h>
 
 using namespace std;
 using namespace tlp;
@@ -149,7 +152,7 @@ bool GeographicViewNavigator::eventFilter(QObject *widget, QEvent *e) {
   auto *qMouseEv = dynamic_cast<QMouseEvent *>(e);
   auto *qWheelEv = dynamic_cast<QWheelEvent *>(e);
 
-  if (geoView->viewType() <= GeographicView::LeafletCustomTileLayer) {
+  if (geoView->viewType() <= GeographicView::CustomTilesLayer) {
     return false;
   } else if (geoView->viewType() == GeographicView::Globe) {
 
@@ -280,7 +283,7 @@ public:
   bool eventFilter(QObject *widget, QEvent *event) override {
     GeographicView *geoView = static_cast<GeographicView *>(view());
 
-    if (geoView->viewType() > GeographicView::LeafletCustomTileLayer) {
+    if (geoView->viewType() > GeographicView::CustomTilesLayer) {
       return false;
     }
 
@@ -291,16 +294,19 @@ public:
 
     if (started) {
       bool ok = MouseBoxZoomer::eventFilter(widget, event);
-
-      auto *leafletMaps = geoView->getGeographicViewGraphicsView()->getLeafletMapsPage();
+      auto *qgvMap = geoView->getGeographicViewGraphicsView()->getQGVMap();
+      auto *projection = qgvMap->getProjection();
       auto *qMouseEv = static_cast<QMouseEvent *>(event);
 
       if (ok && !started && (event->type() == QEvent::MouseButtonRelease) && graph &&
           (qMouseEv->button() & mButton)) {
         auto *glWidget = static_cast<GlWidget *>(widget);
-        auto minBound = leafletMaps->getLatLngForPixelPosOnScreen(x, glWidget->height() - y + h);
-        auto maxBound = leafletMaps->getLatLngForPixelPosOnScreen(x + w, glWidget->height() - y);
-        leafletMaps->zoomOnBounds(minBound, maxBound);
+        auto minBound =
+            projection->projToGeo(qgvMap->mapToProj(QPoint(x, glWidget->height() - y + h)));
+        auto maxBound =
+            projection->projToGeo(qgvMap->mapToProj(QPoint(x + w, glWidget->height() - y)));
+        QGV::GeoRect bounds(minBound, maxBound);
+        qgvMap->flyTo(QGVCameraActions(qgvMap).scaleTo(bounds));
       }
       return ok;
     }

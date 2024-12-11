@@ -36,7 +36,6 @@ namespace tlp {
 class GeographicViewGraphicsView;
 class GeographicViewConfigWidget;
 class GeolocationConfigWidget;
-class LeafletMaps;
 
 /** \file
  *  \brief Geographic View
@@ -72,8 +71,7 @@ public:
     EsriGrayCanvas,
     GeoportailPlan,
     GeoportailSatellite,
-    GeoportailIgn,
-    LeafletCustomTileLayer,
+    CustomTilesLayer,
     Polygon,
     Globe
   };
@@ -97,8 +95,6 @@ public:
   QList<QWidget *> configurationWidgets() const override;
 
   QGraphicsItem *centralItem() const override;
-
-  LeafletMaps *getLeafletMap();
 
   void registerTriggers();
 
@@ -154,13 +150,10 @@ public slots:
 
   void zoomIn();
   void zoomOut();
-  void currentZoomChanged();
 
 protected slots:
 
   void fillContextMenu(QMenu *, const QPointF &) override;
-
-  void initMap();
 
 private:
   void viewTypeChanged(const QString &viewTypeName);
@@ -186,8 +179,6 @@ private:
   bool useSharedSizeProperty;
   bool useSharedShapeProperty;
 
-  double mapCenterLatitudeInit, mapCenterLongitudeInit;
-  int mapZoomInit;
   ViewActionsManager *_viewActionsManager;
 
   static const QMap<ViewType, QString> viewTypeToName;

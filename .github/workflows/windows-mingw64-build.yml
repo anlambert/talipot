@@ -48,7 +48,6 @@ jobs:
             mingw-w64-${{ matrix.config.arch }}-glew
             mingw-w64-${{ matrix.config.arch }}-qt5
             mingw-w64-${{ matrix.config.arch }}-quazip
-            mingw-w64-${{ matrix.config.arch }}-qtwebkit
             mingw-w64-${{ matrix.config.arch }}-python-sphinx
             mingw-w64-${{ matrix.config.arch }}-sip
       - name: Prepare ccache timestamp

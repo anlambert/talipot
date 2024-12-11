@@ -1008,3 +1008,10 @@ QWizard QTableView {
 #GeolocationConfigWidget #scrollAreaWidgetContents {
   border: none;
 }
+
+#GeographicViewConfigWidget #label,
+#GeographicViewConfigWidget #label_2,
+#GeographicViewConfigWidget #label_3 {
+  font-weight: bold;
+  background: rgb(160, 160, 160);
+}

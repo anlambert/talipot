@@ -56,7 +56,6 @@ jobs:
               zstd \
               libgit2 \
               qt6-base \
-              qt6-webengine \
               quazip-qt6 \
               glew \
               glu \
