@@ -45,6 +45,7 @@
 #include <QGeoView/QGVWidgetText.h>
 #include <QGeoView/QGVLayerGoogle.h>
 #include <QGeoView/QGVLayerBing.h>
+#include <QGeoView/QGVWidgetScale.h>
 
 #include "AddressSelectionDialog.h"
 #include "ProgressWidgetGraphicsProxy.h"
@@ -434,7 +435,12 @@ GeographicViewGraphicsView::GeographicViewGraphicsView(GeographicView *geoView,
   textProxy->setParentItem(_placeholderItem);
   textProxy->setOpacity(0.7);
 
+  scaleWidget = new QGVWidgetScale(Qt::Horizontal);
+  scaleWidget->setAnchor(QPoint(0, 30), {Qt::RightEdge, Qt::BottomEdge});
+  qgvMap->addWidget(scaleWidget);
+
   QTimer::singleShot(100, this, [this]() {
+    qgvMap->removeWidget(scaleWidget);
     QGV::GeoRect target = QGV::GeoRect(63.1199, -74.292, -19.2807, 63.5284);
     qgvMap->cameraTo(QGVCameraActions(qgvMap).scaleTo(target));
   });
@@ -1157,6 +1163,14 @@ void GeographicViewGraphicsView::setGeoLayoutComputed() {
   geoLayoutComputed = true;
   noLayoutMsgBox->setVisible(false);
   _glWidget->scene()->glGraph()->setVisible(true);
+}
+
+void GeographicViewGraphicsView::setMapScaleVisible(bool visible) {
+  if (visible) {
+    qgvMap->addWidget(scaleWidget);
+  } else {
+    qgvMap->removeWidget(scaleWidget);
+  }
 }
 
 }

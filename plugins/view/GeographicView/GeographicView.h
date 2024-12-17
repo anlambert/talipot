@@ -183,6 +183,8 @@ private:
 
   ViewActionsManager *_viewActionsManager;
 
+  bool mapScaleVisible;
+
   static const QMap<ViewType, QString> viewTypeToName;
 };
 }

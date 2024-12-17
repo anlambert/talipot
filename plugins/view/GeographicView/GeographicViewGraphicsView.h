@@ -30,6 +30,7 @@
 class QGVMap;
 class QGVLayerTilesOnline;
 class QGVWidgetText;
+class QGVWidgetScale;
 
 namespace tlp {
 
@@ -112,6 +113,7 @@ public slots:
   void zoomIn();
   void zoomOut();
   void refreshMap();
+  void setMapScaleVisible(bool visible);
 
 protected:
   void cleanup();
@@ -160,6 +162,7 @@ private:
   QGVMap *qgvMap;
   QGVLayerTilesOnline *currentMapLayer;
   QGVWidgetText *mapAttributionWidget;
+  QGVWidgetScale *scaleWidget;
   flat_hash_map<GeographicView::ViewType, std::unique_ptr<QGVLayerTilesOnline>> tilesLayers;
 };
 }
