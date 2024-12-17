@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -395,36 +395,16 @@ Iterator<edge> *GraphView::getEdges() const {
   return stlIterator(_edges);
 }
 //----------------------------------------------------------------
-enum EdgeDirection { OUT = 0, IN = 1 };
-template <EdgeDirection edgeDirection>
-struct EdgeDirectionFilter {
-  set<edge> loops;
-  const GraphView *graph;
-  node n;
-
-  EdgeDirectionFilter(const GraphView *graph, node n) : graph(graph), n(n) {}
-
-  bool operator()(edge e) {
-    bool seenLoop = loops.contains(e);
-    if (graph->source(e) == graph->target(e)) {
-      loops.insert(e);
-    }
-    if constexpr (edgeDirection == OUT) {
-      return !seenLoop && graph->source(e) == n;
-    } else {
-      return !seenLoop && graph->target(e) == n;
-    }
-  }
-};
-//----------------------------------------------------------------
 Iterator<edge> *GraphView::getInEdges(const node n) const {
   assert(isElement(n));
-  return filterIterator(getInOutEdges(n), EdgeDirectionFilter<IN>(this, n));
+  return uniqueIterator(
+      filterIterator(getInOutEdges(n), [this, n](const edge e) { return target(e) == n; }));
 }
 //----------------------------------------------------------------
 Iterator<edge> *GraphView::getOutEdges(const node n) const {
   assert(isElement(n));
-  return filterIterator(getInOutEdges(n), EdgeDirectionFilter<OUT>(this, n));
+  return uniqueIterator(
+      filterIterator(getInOutEdges(n), [this, n](const edge e) { return source(e) == n; }));
 }
 //----------------------------------------------------------------
 Iterator<edge> *GraphView::getInOutEdges(const node n) const {
