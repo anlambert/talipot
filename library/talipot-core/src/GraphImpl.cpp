@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,6 +17,7 @@
 #include <talipot/PropertyManager.h>
 #include <talipot/GraphView.h>
 #include <talipot/GraphUpdatesRecorder.h>
+#include <talipot/UniqueIterator.h>
 
 using namespace std;
 using namespace tlp;
@@ -232,35 +233,43 @@ void GraphImpl::delEdge(const edge e, bool) {
 }
 //----------------------------------------------------------------
 Iterator<node> *GraphImpl::getNodes() const {
-  return storage.getNodes();
+  return stlIterator(storage.nodes());
 }
 //----------------------------------------------------------------
 Iterator<node> *GraphImpl::getInNodes(const node n) const {
-  return storage.getInNodes(n);
+  return uniqueIterator(conversionIterator<node>(
+      filterIterator(storage.incidence(n), [this, n](const edge e) { return target(e) == n; }),
+      [this](const edge e) { return source(e); }));
 }
 //----------------------------------------------------------------
 Iterator<node> *GraphImpl::getOutNodes(const node n) const {
-  return storage.getOutNodes(n);
+  return uniqueIterator(conversionIterator<node>(
+      filterIterator(storage.incidence(n), [this, n](const edge e) { return source(e) == n; }),
+      [this](const edge e) { return target(e); }));
 }
 //----------------------------------------------------------------
 Iterator<node> *GraphImpl::getInOutNodes(const node n) const {
-  return storage.getInOutNodes(n);
+  return conversionIterator<node>(storage.incidence(n), [this, n](const edge e) {
+    return source(e) == n ? target(e) : source(e);
+  });
 }
 //----------------------------------------------------------------
 Iterator<edge> *GraphImpl::getEdges() const {
-  return storage.getEdges();
+  return stlIterator(storage.edges());
 }
 //----------------------------------------------------------------
 Iterator<edge> *GraphImpl::getInEdges(const node n) const {
-  return storage.getInEdges(n);
+  return uniqueIterator(
+      filterIterator(storage.incidence(n), [this, n](const edge e) { return target(e) == n; }));
 }
 //----------------------------------------------------------------
 Iterator<edge> *GraphImpl::getOutEdges(const node n) const {
-  return storage.getOutEdges(n);
+  return uniqueIterator(
+      filterIterator(storage.incidence(n), [this, n](const edge e) { return source(e) == n; }));
 }
 //----------------------------------------------------------------
 Iterator<edge> *GraphImpl::getInOutEdges(const node n) const {
-  return storage.getInOutEdges(n);
+  return stlIterator(storage.incidence(n));
 }
 //----------------------------------------------------------------
 std::vector<edge> GraphImpl::getEdges(const node src, const node tgt, bool directed) const {

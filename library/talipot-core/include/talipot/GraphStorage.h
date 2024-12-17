@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -124,33 +124,7 @@ public:
    * @brief  restore a state of the ids management
    */
   void restoreIdsMemento(const GraphStorageIdsMemento *);
-  //=======================================================
-  /**
-   * @brief Return a Talipot iterator on edges of the graph
-   * @warning: The returned iterator should be deleted by the caller to prevent memory leaks
-   */
-  Iterator<edge> *getEdges() const {
-    return edgeIds.getElts();
-  }
-  //=======================================================
-  /**
-   * @brief Return a Talipot iterator on adjacent edges of the node n
-   * @warning: be careful that loops appear twice
-   * @warning: The returned iterator should be deleted by the caller to prevent memory leaks
-   */
-  Iterator<edge> *getInOutEdges(const node n) const;
-  //=======================================================
-  /**
-   * @brief Return a Talipot iterator on out edges of the node n
-   * @warning: The returned iterator must be deleted by the caller to prevent memory leaks
-   */
-  Iterator<edge> *getOutEdges(const node n) const;
-  //=======================================================
-  /**
-   * @brief Return a Talipot iterator on in edges of the node n
-   * @warning: The returned iterator must be deleted by the caller to prevent memory leaks
-   */
-  Iterator<edge> *getInEdges(const node n) const;
+
   //=======================================================
   /**
    * @brief Return if edges exist between two nodes
@@ -165,24 +139,6 @@ public:
   std::vector<edge> getEdges(const node src, const node tgt, bool directed,
                              const Graph *sg = nullptr) const;
 
-  //=======================================================
-  /**
-   * @brief Return a Talipot iterator on adjacent nodes of the node n
-   * @warning: The returned iterator must be deleted by the caller to prevent memory leaks
-   */
-  Iterator<node> *getInOutNodes(const node n) const;
-  //=======================================================
-  /**
-   * @brief Return a Talipot iterator on in nodes of the node n
-   * @warning: The returned iterator must be deleted by the caller to prevent memory leaks
-   */
-  Iterator<node> *getInNodes(const node n) const;
-  //=======================================================
-  /**
-   * @brief Return a Talipot iterator on out nodes of the node n
-   * @warning: The returned iterator must be deleted by the caller to prevent memory leaks
-   */
-  Iterator<node> *getOutNodes(const node n) const;
   //=======================================================
   /**
    * @brief Return the degree of a node

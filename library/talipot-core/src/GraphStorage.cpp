@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -63,139 +63,6 @@ void GraphStorage::restoreIdsMemento(const GraphStorageIdsMemento *memento) {
   edgeIds = memento->edgeIds;
 }
 //=======================================================
-// specific iterator classes used to implement
-// the get*Nodes & get*Edges methods
-
-// define some values for further template specializations
-// IO_IN => in nodes/edges
-// IO_OUT => out nodes/edges
-// IO_INOUT => inout nodes/edges
-// IO_ prefix is needed on windows platform
-// to avoid compilation failure
-enum IO_TYPE { IO_IN = 0, IO_OUT = 1, IO_INOUT = 2 };
-
-// define a template class to iterate on in or out edges of a given node
-template <IO_TYPE io_type>
-struct IOEdgeContainerIterator : public Iterator<edge>,
-                                 public MemoryPool<IOEdgeContainerIterator<io_type>> {
-  node n;
-  edge curEdge;
-  std::set<edge> loops;
-  const std::vector<std::pair<node, node>> &edges;
-  std::vector<edge>::iterator it, itEnd;
-
-  void prepareNext() {
-    for (; it != itEnd; ++it) {
-      curEdge = *it;
-      const auto &[curEdgeSrc, curEdgeTgt] = edges[curEdge.id];
-      // note that io_type value may only be IO_IN which is null
-      // or IO_OUT which is define to 1
-      node curNode;
-
-      if constexpr (io_type != IO_IN) {
-        curNode = curEdgeSrc;
-      } else {
-        curNode = curEdgeTgt;
-      }
-
-      if (curNode != n) {
-        continue;
-      }
-
-      if constexpr (io_type != IO_IN) {
-        curNode = curEdgeTgt;
-      } else {
-        curNode = curEdgeSrc;
-      }
-
-      if (curNode == n) {
-        if (!loops.contains(curEdge)) {
-          loops.insert(curEdge);
-          ++it;
-          return;
-        }
-      } else {
-        ++it;
-        return;
-      }
-    }
-
-    // set curEdge as invalid
-    curEdge = edge();
-  }
-
-  IOEdgeContainerIterator(node n, std::vector<edge> &v,
-                          const std::vector<std::pair<node, node>> &edges)
-      : n(n), edges(edges), it(v.begin()), itEnd(v.end()) {
-    prepareNext();
-  }
-
-  ~IOEdgeContainerIterator() override = default;
-
-  edge next() override {
-    // check hasNext()
-    assert(curEdge.isValid());
-    // we are already pointing to the next
-    edge tmp = curEdge;
-    // anticipating the next iteration
-    prepareNext();
-    return tmp;
-  }
-
-  bool hasNext() override {
-    return (curEdge.isValid());
-  }
-};
-
-// define a class to iterate on in or out nodes of a given node
-template <IO_TYPE io_type>
-struct IONodesIterator : public Iterator<node>, public MemoryPool<IONodesIterator<io_type>> {
-  node n;
-  const std::vector<std::pair<node, node>> &edges;
-  Iterator<edge> *it;
-
-  IONodesIterator(node n, std::vector<edge> &nEdges,
-                  const std::vector<std::pair<node, node>> &edges)
-      : n(n), edges(edges) {
-    if constexpr (io_type == IO_INOUT) {
-      it = stlIterator(nEdges);
-    } else {
-      it = new IOEdgeContainerIterator<io_type>(n, nEdges, edges);
-    }
-  }
-
-  ~IONodesIterator() override {
-    delete it;
-  }
-
-  bool hasNext() override {
-    return (it->hasNext());
-  }
-
-  node next() override {
-    // check hasNext()
-    assert(it->hasNext());
-    const auto &[src, tgt] = edges[it->next()];
-
-    // out nodes
-    if constexpr (io_type == IO_OUT) {
-      return tgt;
-    }
-    // in nodes
-    else if constexpr (io_type == IO_IN) {
-      return src;
-    }
-    // inout nodes
-    else {
-      return (src == n) ? tgt : src;
-    }
-  }
-};
-//=======================================================
-Iterator<edge> *GraphStorage::getInOutEdges(const node n) const {
-  return stlIterator(nodeData[n.id].edges);
-}
-//=======================================================
 std::vector<edge> GraphStorage::getEdges(const node src, const node tgt, bool directed,
                                          const Graph *sg) const {
 
@@ -215,26 +82,6 @@ std::vector<edge> GraphStorage::getEdges(const node src, const node tgt, bool di
   edges.erase(std::unique(edges.begin(), edges.end()), edges.end());
 
   return edges;
-}
-//=======================================================
-Iterator<edge> *GraphStorage::getOutEdges(const node n) const {
-  return new IOEdgeContainerIterator<IO_OUT>(n, nodeData[n.id].edges, edgeEnds);
-}
-//=======================================================
-Iterator<edge> *GraphStorage::getInEdges(const node n) const {
-  return new IOEdgeContainerIterator<IO_IN>(n, nodeData[n.id].edges, edgeEnds);
-}
-//=======================================================
-Iterator<node> *GraphStorage::getInOutNodes(const node n) const {
-  return new IONodesIterator<IO_INOUT>(n, nodeData[n.id].edges, edgeEnds);
-}
-//=======================================================
-Iterator<node> *GraphStorage::getInNodes(const node n) const {
-  return new IONodesIterator<IO_IN>(n, nodeData[n.id].edges, edgeEnds);
-}
-//=======================================================
-Iterator<node> *GraphStorage::getOutNodes(const node n) const {
-  return new IONodesIterator<IO_OUT>(n, nodeData[n.id].edges, edgeEnds);
 }
 //=======================================================
 /**

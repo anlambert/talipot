@@ -21,7 +21,7 @@
 #include <talipot/ConversionIterator.h>
 #include <talipot/FilterIterator.h>
 #include <talipot/Exception.h>
-#include <talipot/GraphStorage.h>
+#include <talipot/GraphImpl.h>
 #include <talipot/VectorProperty.h>
 
 using namespace std;
@@ -35,7 +35,7 @@ TLP_DEFINE_GLOBAL_LOCK(ObservableGraphUpdate);
 //=================================
 
 static bool oGraphDestroyed = false;
-class ObservationGraph : public GraphStorage {
+class ObservationGraph : public GraphImpl {
 public:
   // a pointer to the object represented by a node
   tlp::NodeVectorProperty<Observable *> pointer;
@@ -314,7 +314,7 @@ void Observable::addOnlooker(const Observable &obs, OBSERVABLEEDGETYPE type) con
     edge link;
 
     if (isBound() && obs.isBound()) {
-      auto edges = observationGraph.getEdges(obs._n, _n, false);
+      auto edges = observationGraph.getEdges(obs._n, _n, false, nullptr);
       if (!edges.empty()) {
         link = edges[0];
       }
@@ -531,7 +531,7 @@ void Observable::removeOnlooker(const Observable &obs, OBSERVABLEEDGETYPE type) 
       throw ObservableException("removeOnlooker called on a deleted Observable");
     }
 
-    auto edges = observationGraph.getEdges(obs._n, _n, false);
+    auto edges = observationGraph.getEdges(obs._n, _n, false, nullptr);
     edge link;
     if (!edges.empty()) {
       link = edges[0];
