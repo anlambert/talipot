@@ -287,12 +287,8 @@ static inline Coord projectLatLngToSphere(const pair<double, double> &latLng, fl
 
 QGraphicsProxyWidget *proxyGM = nullptr;
 
-static flat_hash_map<GeographicView::ViewType, unique_ptr<QGVLayerTilesOnline>> tilesLayers;
-
-static void initTilesLayers() {
-  if (!tilesLayers.empty()) {
-    return;
-  }
+static flat_hash_map<GeographicView::ViewType, unique_ptr<QGVLayerTilesOnline>> initTilesLayers() {
+  flat_hash_map<GeographicView::ViewType, unique_ptr<QGVLayerTilesOnline>> tilesLayers;
   tilesLayers.insert({GeographicView::OpenStreetMap, make_unique<QGVLayerOSM>()});
   tilesLayers.insert(
       {GeographicView::EsriSatellite, make_unique<QGVLayerEsri>(EsriMapType::Satellite)});
@@ -310,6 +306,7 @@ static void initTilesLayers() {
       "© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap contributors</a> ♥ <a "
       "href=\"https://supporting.openstreetmap.org\">Make a Donation</a>. <a "
       "href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Website and API terms</a>");
+  return tilesLayers;
 }
 
 GeographicViewGraphicsView::GeographicViewGraphicsView(GeographicView *geoView,
@@ -321,7 +318,7 @@ GeographicViewGraphicsView::GeographicViewGraphicsView(GeographicView *geoView,
       cancelGeocoding(false), polygonEntity(nullptr), planisphereEntity(nullptr),
       noLayoutMsgBox(nullptr), firstGlobeSwitch(true), geoLayoutComputed(false),
       latitudeProperty(nullptr), longitudeProperty(nullptr), qgvMap(nullptr),
-      currentMapLayer(nullptr), mapAttributionWidget(nullptr) {
+      currentMapLayer(nullptr), mapAttributionWidget(nullptr), tilesLayers(initTilesLayers()) {
   setRenderHints(QPainter::SmoothPixmapTransform | QPainter::Antialiasing |
                  QPainter::TextAntialiasing);
   setViewportUpdateMode(QGraphicsView::FullViewportUpdate);

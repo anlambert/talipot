@@ -25,6 +25,8 @@
 #include <QComboBox>
 #include <QPushButton>
 
+#include "GeographicView.h"
+
 class QGVMap;
 class QGVLayerTilesOnline;
 class QGVWidgetText;
@@ -158,6 +160,7 @@ private:
   QGVMap *qgvMap;
   QGVLayerTilesOnline *currentMapLayer;
   QGVWidgetText *mapAttributionWidget;
+  flat_hash_map<GeographicView::ViewType, std::unique_ptr<QGVLayerTilesOnline>> tilesLayers;
 };
 }
 
