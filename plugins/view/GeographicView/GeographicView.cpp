@@ -38,6 +38,8 @@ const QMap<GeographicView::ViewType, QString> GeographicView::viewTypeToName = {
     {GeographicView::EsriGrayCanvas, "Esri Gray Canvas"},
     {GeographicView::GeoportailPlan, "Géoportail France Plan"},
     {GeographicView::GeoportailSatellite, "Géoportail France Satellite"},
+    {GeographicView::Google, "Google"},
+    {GeographicView::Bing, "Bing"},
     {GeographicView::Polygon, "Polygon"},
     {GeographicView::Globe, "Globe"},
     {GeographicView::CustomTilesLayer, "Custom Tiles Layer"}};

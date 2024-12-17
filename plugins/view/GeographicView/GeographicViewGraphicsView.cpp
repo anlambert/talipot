@@ -43,6 +43,8 @@
 #include <QGeoView/QGVLayerOSM.h>
 #include <QGeoView/QGVProjection.h>
 #include <QGeoView/QGVWidgetText.h>
+#include <QGeoView/QGVLayerGoogle.h>
+#include <QGeoView/QGVLayerBing.h>
 
 #include "AddressSelectionDialog.h"
 #include "ProgressWidgetGraphicsProxy.h"
@@ -300,6 +302,8 @@ static flat_hash_map<GeographicView::ViewType, unique_ptr<QGVLayerTilesOnline>> 
       {GeographicView::GeoportailPlan, make_unique<QGVLayerGeoPortail>(GeoPortailMapType::Plan)});
   tilesLayers.insert({GeographicView::GeoportailSatellite,
                       make_unique<QGVLayerGeoPortail>(GeoPortailMapType::Satellite)});
+  tilesLayers.insert({GeographicView::Google, make_unique<QGVLayerGoogle>()});
+  tilesLayers.insert({GeographicView::Bing, make_unique<QGVLayerBing>()});
   tilesLayers.insert({GeographicView::CustomTilesLayer, make_unique<QGVCustomTilesLayer>()});
 
   tilesLayers[GeographicView::OpenStreetMap]->setDescription(

@@ -71,6 +71,8 @@ public:
     EsriGrayCanvas,
     GeoportailPlan,
     GeoportailSatellite,
+    Google,
+    Bing,
     CustomTilesLayer,
     Polygon,
     Globe
