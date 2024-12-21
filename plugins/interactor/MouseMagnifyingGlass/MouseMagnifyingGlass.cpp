@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -135,7 +135,7 @@ void MouseMagnifyingGlassInteractorComponent::generateMagnifyingGlassTexture(
     antialiased = true;
   }
 
-  int fboSize = int(radius * 2);
+  int fboSize = int(glWidget->viewportToScreen(radius) * 2);
 
   // instantiate fbo if needed
   if (fbo == nullptr) {
@@ -163,10 +163,10 @@ void MouseMagnifyingGlassInteractorComponent::generateMagnifyingGlassTexture(
 
   // get the magnifying glass bounding box in screen space
   BoundingBox boundingBox;
-  boundingBox[0] =
-      Coord(magnifyingGlassCenterScr.getX() - radius, magnifyingGlassCenterScr.getY() - radius);
-  boundingBox[1] =
-      Coord(magnifyingGlassCenterScr.getX() + radius, magnifyingGlassCenterScr.getY() + radius);
+  boundingBox[0] = Coord(magnifyingGlassCenterScr.getX() - glWidget->viewportToScreen(radius),
+                         magnifyingGlassCenterScr.getY() - glWidget->viewportToScreen(radius));
+  boundingBox[1] = Coord(magnifyingGlassCenterScr.getX() + glWidget->viewportToScreen(radius),
+                         magnifyingGlassCenterScr.getY() + glWidget->viewportToScreen(radius));
 
   // compute the zoom factor to apply to scene's camera to get the area under the magnifying glass
   // displayed entirely in the viewport
@@ -256,7 +256,8 @@ bool MouseMagnifyingGlassInteractorComponent::draw(GlWidget *glWidget) {
     outlineColor = Color(0, 0, 0);
   }
 
-  GlCircle circle(Coord(0, 0, 0), radius, outlineColor, Color::White, true, true, 0.0, 60);
+  GlCircle circle(Coord(0, 0, 0), glWidget->viewportToScreen(radius), outlineColor, Color::White,
+                  true, true, 0.0, 60);
   circle.setOutlineSize(3);
   circle.setTextureName(textureName);
   circle.draw(0, nullptr);
