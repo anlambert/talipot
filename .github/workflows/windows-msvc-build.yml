@@ -11,7 +11,7 @@ jobs:
       run:
         shell: cmd
     env:
-      PYTHON_VERSION: "3.11"
+      PYTHON_VERSION: "3.13"
       CMAKE_GENERATOR: Visual Studio 17 2022
       MSVC_ARCH: x64
       VCPKG_INSTALL_DIR: ${{ github.workspace }}\vcpkg\installed\x64-windows-release
@@ -54,12 +54,12 @@ jobs:
           token: ${{ github.token }}
           github-binarycache: true
       - name: Install Qt6
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
-          version: "6.7.0"
+          version: "6.8.1"
           host: windows
           target: desktop
-          arch: win64_msvc2019_64
+          arch: win64_msvc2022_64
           modules: qtimageformats
             qtpositioning
             qtwebchannel
