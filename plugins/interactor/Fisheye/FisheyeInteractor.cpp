@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -54,7 +54,6 @@ uniform sampler2D u_texture;
 uniform sampler2D u_fisheyeTexture;
 uniform float u_fisheyeRadius;
 uniform float u_fisheyeHeight;
-uniform float u_fisheyeTextureSize;
 uniform vec2 u_mouse;
 uniform vec2 u_resolution;
 varying vec2 v_texCoord;
@@ -201,8 +200,8 @@ void FisheyeInteractorComponent::generateFisheyeTexture(GlWidget *glWidget) {
   Vec4i viewport = glScene->getViewport();
 
   float factor = 1;
-  float fisheyeHeight = _configWidget->getFisheyeHeight();
-  float fisheyeRadius = _configWidget->getFisheyeRadius();
+  float fisheyeHeight = glWidget->viewportToScreen(_configWidget->getFisheyeHeight());
+  float fisheyeRadius = glWidget->viewportToScreen(_configWidget->getFisheyeRadius());
   if (fisheyeHeight > 0.1) {
     factor = fisheyeHeight * 10;
   }
@@ -225,10 +224,10 @@ void FisheyeInteractorComponent::generateFisheyeTexture(GlWidget *glWidget) {
   Camera *camera = &glWidget->scene()->graphCamera();
   Camera camBackup = *camera;
 
-  Coord bbMin = camera->viewportTo3DWorld(
-      glWidget->screenToViewport(Coord(viewport[2] - (_x - fisheyeRadius), _y - fisheyeRadius)));
-  Coord bbMax = camera->viewportTo3DWorld(
-      glWidget->screenToViewport(Coord(viewport[2] - (_x + fisheyeRadius), _y + fisheyeRadius)));
+  Coord bbMin = camera->viewportTo3DWorld(glWidget->screenToViewport(
+      Coord(glWidget->width() - (_x - fisheyeRadius), _y - fisheyeRadius)));
+  Coord bbMax = camera->viewportTo3DWorld(glWidget->screenToViewport(
+      Coord(glWidget->width() - (_x + fisheyeRadius), _y + fisheyeRadius)));
 
   BoundingBox bb = {bbMin, bbMax};
 
@@ -316,11 +315,11 @@ bool FisheyeInteractorComponent::draw(GlWidget *glWidget) {
                                           BUFFER_OFFSET(3 * sizeof(float)));
     fisheyeShader->setUniformTextureSampler("u_texture", 0);
     fisheyeShader->setUniformTextureSampler("u_fisheyeTexture", 1);
-    fisheyeShader->setUniformVec2Float("u_mouse", _x, viewport[3] - _y);
+    fisheyeShader->setUniformVec2Float("u_mouse", glWidget->screenToViewport(_x),
+                                       viewport[3] - glWidget->screenToViewport(_y));
     fisheyeShader->setUniformVec2Float("u_resolution", viewport[2], viewport[3]);
     fisheyeShader->setUniformFloat("u_fisheyeRadius", fisheyeRadius);
     fisheyeShader->setUniformFloat("u_fisheyeHeight", -fisheyeHeight);
-    fisheyeShader->setUniformFloat("u_fisheyeTextureSize", _fbo2->width());
 
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
     fisheyeShader->disableAttributesArrays();
