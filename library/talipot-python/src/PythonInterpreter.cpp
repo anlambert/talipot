@@ -49,7 +49,9 @@ extern QString mainScriptFileName;
 PyMODINIT_FUNC initconsoleutils();
 PyMODINIT_FUNC inittalipotutils();
 
+#if PY_VERSION_HEX < 0x030D0000
 static PyThreadState *mainThreadState;
+#endif
 
 static PyGILState_STATE gilState;
 
@@ -204,7 +206,9 @@ PythonInterpreter::PythonInterpreter()
 #if PY_VERSION_HEX < 0x03090000
     PyEval_InitThreads();
 #endif
+#if PY_VERSION_HEX < 0x030D0000
     mainThreadState = PyEval_SaveThread();
+#endif
   }
 
   holdGIL();
@@ -310,9 +314,10 @@ PythonInterpreter::~PythonInterpreter() {
     consoleOuputString = "";
     runString(
         "sys.stdout = sys.__stdout__; sys.stderr = sys.__stderr__; sys.stdin = sys.__stdin__\n");
+#if PY_VERSION_HEX < 0x030D0000
     PyEval_ReleaseLock();
     PyEval_RestoreThread(mainThreadState);
-
+#endif
     holdGIL();
     Py_Finalize();
   }

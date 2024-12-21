@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -212,6 +212,11 @@ static PyTypeObject consoleutils_ConsoleOutputType = {
     ,
     0
 #endif
+#if PY_VERSION_HEX >= 0x030D0000
+    ,
+    0
+#endif
+
 };
 
 typedef struct {
@@ -309,6 +314,10 @@ static PyTypeObject consoleutils_ConsoleInputType = {
     0
 #endif
 #if PY_VERSION_HEX >= 0x030C00A1
+    ,
+    0
+#endif
+#if PY_VERSION_HEX >= 0x030D0000
     ,
     0
 #endif
