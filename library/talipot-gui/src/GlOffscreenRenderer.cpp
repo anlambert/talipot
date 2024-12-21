@@ -291,6 +291,8 @@ void GlOffscreenRenderer::doneOpenGLContextCurrent() {
 }
 
 void GlOffscreenRenderer::renderGlWidget(GlWidget *glWidget, bool redrawNeeded) {
+  setViewPortSize(glWidget->screenToViewport(glWidget->width()),
+                  glWidget->screenToViewport(glWidget->height()));
   makeOpenGLContextCurrent();
   initFrameBuffers(true);
   glFrameBuf2->bind();

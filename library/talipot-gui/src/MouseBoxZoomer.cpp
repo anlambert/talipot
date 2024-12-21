@@ -148,7 +148,10 @@ bool MouseBoxZoomer::draw(GlWidget *glw) {
   float wf = float(w);
   float hf = float(h);
 
-  vector<Coord> rectPoints = {{xf, yf}, {xf + wf, yf}, {xf + wf, yf - hf}, {xf, yf - hf}};
+  vector<Coord> rectPoints = {{glw->screenToViewport(xf), glw->screenToViewport(yf)},
+                              {glw->screenToViewport(xf + wf), glw->screenToViewport(yf)},
+                              {glw->screenToViewport(xf + wf), glw->screenToViewport(yf - hf)},
+                              {glw->screenToViewport(xf), glw->screenToViewport(yf - hf)}};
   Color color = {200, 0, 0};
 
   glEnable(GL_BLEND);

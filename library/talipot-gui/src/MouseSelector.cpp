@@ -274,7 +274,11 @@ bool MouseSelector::draw(GlWidget *glWidget) {
   }
 
   float xf = float(x);
-  vector<Coord> rectPoints = {{xf, yy}, {xf + w, yy}, {xf + w, yy - h}, {xf, yy - h}};
+  vector<Coord> rectPoints = {
+      {glWidget->screenToViewport(xf), glWidget->screenToViewport(yy)},
+      {glWidget->screenToViewport(xf + w), glWidget->screenToViewport(yy)},
+      {glWidget->screenToViewport(xf + w), glWidget->screenToViewport(yy - h)},
+      {glWidget->screenToViewport(xf), glWidget->screenToViewport(yy - h)}};
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
