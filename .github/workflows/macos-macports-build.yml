@@ -8,8 +8,8 @@ jobs:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     env:
-      CLANG_VERSION: 17
-      PYTHON_VERSION: "3.12"
+      CLANG_VERSION: 19
+      PYTHON_VERSION: "3.13"
     strategy:
       fail-fast: false
       matrix:
