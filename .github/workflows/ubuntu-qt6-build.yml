@@ -14,7 +14,7 @@ jobs:
           - name: Talipot build Qt6 6.2
             os: ubuntu-22.04
           - name: Talipot build Qt6 latest
-            os: ubuntu-22.04
+            os: ubuntu-24.04
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v4

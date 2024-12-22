@@ -11,10 +11,10 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: Talipot build on Ubuntu 20.04
-            os: ubuntu-20.04
           - name: Talipot build on Ubuntu 22.04
             os: ubuntu-22.04
+          - name: Talipot build on Ubuntu 24.04
+            os: ubuntu-24.04
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v4
@@ -46,7 +46,6 @@ jobs:
           xvfb
       - name: Install sip
         run: |
-          sudo pip3 install --upgrade pip
           sudo pip3 install sip
       - name: Prepare ccache timestamp
         id: get-current-date
