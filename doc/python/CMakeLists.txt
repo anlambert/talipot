@@ -35,7 +35,7 @@ ADD_CUSTOM_TARGET(
   -DCMAKE_LIBRARY_PATH=${CMAKE_LIBRARY_PATH_STR}
   -P
   ${CMAKE_CURRENT_SOURCE_DIR}/genSphinxDoc.cmake
-  DEPENDS ${LibTalipotCorePythonBindingsName} ${TALIPOT_PLUGIN_TARGETS}
+  DEPENDS ${TalipotPythonModuleName} ${TALIPOT_PLUGIN_TARGETS}
           copyTalipotPythonPlugins
   VERBATIM)
 

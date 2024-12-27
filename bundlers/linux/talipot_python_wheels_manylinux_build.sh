@@ -8,10 +8,6 @@ yum -y install epel-release ccache
 # install talipot-core wheel deps
 yum -y install zlib-devel libzstd-devel yajl-devel qhull-devel graphviz-devel libgit2-devel
 
-# required to build upstream python cffi from pip
-yum -y install libffi-devel
-
-
 JSON=$(curl -s 'https://test.pypi.org/pypi/talipot/json')
 LAST_VERSION=$(echo $JSON | /opt/python/cp311-cp311/bin/python3 -c "
 import sys, json
@@ -74,6 +70,7 @@ do
   then
     continue
   fi
+  rm -rf *
   ${CPYBIN}/pip install twine sip
   # configure and build python wheel with specific Python version
   cmake ${TALIPOT_SRC} \
@@ -110,12 +107,12 @@ print('Talipot %s successfully imported in Python %s' %
      break
   fi
   popd
-done
 
-if [ -n "$DEV_VERSION" ]
-then
-  if [ "$2" == "refs/tags/dev-latest" ]
+  if [ -n "$DEV_VERSION" ]
   then
-    make test-wheel-upload
+    if [ "$2" == "refs/tags/dev-latest" ]
+    then
+      make test-wheel-upload
+    fi
   fi
-fi
+done

@@ -134,55 +134,50 @@ INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIR} ${PYTHON_INCLUDE_PATH})
 INCLUDE_DIRECTORIES(${TalipotCoreBuildInclude} ${TalipotCoreInclude}
                     ${TalipotPythonInclude})
 
-ADD_LIBRARY(sip SHARED ${SIP_MODULE_SRC})
+PYTHON3_ADD_LIBRARY(sip MODULE WITH_SOABI ${SIP_MODULE_SRC})
 
 SET_TARGET_PROPERTIES(sip PROPERTIES LIBRARY_OUTPUT_DIRECTORY
                                      ${TALIPOT_PYTHON_NATIVE_FOLDER})
-SET_TARGET_PROPERTIES(sip PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+SET_TARGET_PROPERTIES(sip PROPERTIES LIBRARY_OUTPUT_DIRECTORY_RELEASE
                                      ${TALIPOT_PYTHON_NATIVE_FOLDER})
-SET_TARGET_PROPERTIES(sip PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE
+SET_TARGET_PROPERTIES(sip PROPERTIES LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL
                                      ${TALIPOT_PYTHON_NATIVE_FOLDER})
-SET_TARGET_PROPERTIES(sip PROPERTIES RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL
+SET_TARGET_PROPERTIES(sip PROPERTIES LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO
                                      ${TALIPOT_PYTHON_NATIVE_FOLDER})
-SET_TARGET_PROPERTIES(sip PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO
-                                     ${TALIPOT_PYTHON_NATIVE_FOLDER})
-SET_TARGET_PROPERTIES(sip PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG
+SET_TARGET_PROPERTIES(sip PROPERTIES LIBRARY_OUTPUT_DIRECTORY_DEBUG
                                      ${TALIPOT_PYTHON_NATIVE_FOLDER})
 
 SET(TALIPOT_PYTHON_BINDINGS_SRC
     ${TALIPOT_PYTHON_BINDINGS_SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/../../src/PythonCppTypesConverter.cpp)
 
-ADD_LIBRARY(${LibTalipotCorePythonBindingsName} SHARED
-            ${TALIPOT_PYTHON_BINDINGS_SRC})
+PYTHON3_ADD_LIBRARY(${TalipotPythonModuleName} MODULE WITH_SOABI
+                    ${TALIPOT_PYTHON_BINDINGS_SRC})
+
+SET_TARGET_PROPERTIES(${TalipotPythonModuleName} PROPERTIES OUTPUT_NAME talipot
+                                                            PREFIX "")
 
 SET_TARGET_PROPERTIES(
-  ${LibTalipotCorePythonBindingsName}
-  PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${TALIPOT_PYTHON_NATIVE_FOLDER})
+  ${TalipotPythonModuleName} PROPERTIES LIBRARY_OUTPUT_DIRECTORY
+                                        ${TALIPOT_PYTHON_NATIVE_FOLDER})
 SET_TARGET_PROPERTIES(
-  ${LibTalipotCorePythonBindingsName}
-  PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TALIPOT_PYTHON_NATIVE_FOLDER})
+  ${TalipotPythonModuleName} PROPERTIES LIBRARY_OUTPUT_DIRECTORY_RELEASE
+                                        ${TALIPOT_PYTHON_NATIVE_FOLDER})
 SET_TARGET_PROPERTIES(
-  ${LibTalipotCorePythonBindingsName}
-  PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE ${TALIPOT_PYTHON_NATIVE_FOLDER})
+  ${TalipotPythonModuleName} PROPERTIES LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL
+                                        ${TALIPOT_PYTHON_NATIVE_FOLDER})
 SET_TARGET_PROPERTIES(
-  ${LibTalipotCorePythonBindingsName}
-  PROPERTIES RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL
-             ${TALIPOT_PYTHON_NATIVE_FOLDER})
+  ${TalipotPythonModuleName} PROPERTIES LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO
+                                        ${TALIPOT_PYTHON_NATIVE_FOLDER})
 SET_TARGET_PROPERTIES(
-  ${LibTalipotCorePythonBindingsName}
-  PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO
-             ${TALIPOT_PYTHON_NATIVE_FOLDER})
-SET_TARGET_PROPERTIES(
-  ${LibTalipotCorePythonBindingsName}
-  PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${TALIPOT_PYTHON_NATIVE_FOLDER})
+  ${TalipotPythonModuleName} PROPERTIES LIBRARY_OUTPUT_DIRECTORY_DEBUG
+                                        ${TALIPOT_PYTHON_NATIVE_FOLDER})
 
 # Ensure bindings build output folder exists
 ADD_CUSTOM_TARGET(
   create-talipot-python-native-folder ALL
   COMMAND ${CMAKE_COMMAND} -E make_directory ${TALIPOT_PYTHON_NATIVE_FOLDER})
-ADD_DEPENDENCIES(${LibTalipotCorePythonBindingsName}
-                 create-talipot-python-native-folder)
+ADD_DEPENDENCIES(${TalipotPythonModuleName} create-talipot-python-native-folder)
 
 ADD_CUSTOM_TARGET(
   copyTalipotInitPy ALL
@@ -223,20 +218,6 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
   ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
 ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 
-SET_TARGET_PROPERTIES(${LibTalipotCorePythonBindingsName}
-                      PROPERTIES OUTPUT_NAME talipot PREFIX "")
-SET_TARGET_PROPERTIES(sip PROPERTIES OUTPUT_NAME sip PREFIX "")
-
-IF(WIN32)
-  SET_TARGET_PROPERTIES(${LibTalipotCorePythonBindingsName} PROPERTIES SUFFIX
-                                                                       ".pyd")
-  SET_TARGET_PROPERTIES(sip PROPERTIES SUFFIX ".pyd")
-ELSE(WIN32)
-  SET_TARGET_PROPERTIES(${LibTalipotCorePythonBindingsName} PROPERTIES SUFFIX
-                                                                       ".so")
-  SET_TARGET_PROPERTIES(sip PROPERTIES SUFFIX ".so")
-ENDIF(WIN32)
-
 # On MacOS, add the paths of dependencies dylibs in install rpaths of the
 # talipot.so binary That way, the talipot module can be imported in a classical
 # Python shell without having to modify the content of the DYLD_LIBRARY_PATH
@@ -246,10 +227,10 @@ FILE(RELATIVE_PATH TalipotLibsInstallRelPath
      ${CMAKE_INSTALL_PREFIX}/${TalipotLibInstallDir})
 
 IF(APPLE AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-  GET_TARGET_PROPERTY(CURRENT_INSTALL_RPATHS
-                      ${LibTalipotCorePythonBindingsName} INSTALL_RPATH)
+  GET_TARGET_PROPERTY(CURRENT_INSTALL_RPATHS ${TalipotPythonModuleName}
+                      INSTALL_RPATH)
   SET_TARGET_PROPERTIES(
-    ${LibTalipotCorePythonBindingsName}
+    ${TalipotPythonModuleName}
     PROPERTIES
       INSTALL_RPATH
       "${CURRENT_INSTALL_RPATHS};@loader_path/${TalipotLibsInstallRelPath};@loader_path/../../../../Frameworks"
@@ -261,10 +242,10 @@ IF(APPLE AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
       "${CURRENT_INSTALL_RPATHS};@loader_path/${TalipotLibsInstallRelPath};@loader_path/../../../../Frameworks"
   )
 ELSEIF(LINUX AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-  GET_TARGET_PROPERTY(CURRENT_INSTALL_RPATHS
-                      ${LibTalipotCorePythonBindingsName} INSTALL_RPATH)
+  GET_TARGET_PROPERTY(CURRENT_INSTALL_RPATHS ${TalipotPythonModuleName}
+                      INSTALL_RPATH)
   SET_TARGET_PROPERTIES(
-    ${LibTalipotCorePythonBindingsName}
+    ${TalipotPythonModuleName}
     PROPERTIES INSTALL_RPATH
                "${CURRENT_INSTALL_RPATHS}:$ORIGIN/${TalipotLibsInstallRelPath}")
   SET_TARGET_PROPERTIES(
@@ -273,7 +254,7 @@ ELSEIF(LINUX AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
                "${CURRENT_INSTALL_RPATHS}:$ORIGIN/${TalipotLibsInstallRelPath}")
 ENDIF(APPLE AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 
-TARGET_LINK_LIBRARIES(${LibTalipotCorePythonBindingsName} ${LibTalipotCoreName})
+TARGET_LINK_LIBRARIES(${TalipotPythonModuleName} PUBLIC ${LibTalipotCoreName})
 
 # When building Python wheel for MacOS, don't link the C extension module with
 # the Python library and use dynamic lookup for retrieving its symbols. That
@@ -281,19 +262,13 @@ TARGET_LINK_LIBRARIES(${LibTalipotCorePythonBindingsName} ${LibTalipotCoreName})
 # Python interpreter provided by Apple with the System and the one provided by
 # Python.org
 IF(APPLE AND TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-  SET_TARGET_PROPERTIES(${LibTalipotCorePythonBindingsName}
+  SET_TARGET_PROPERTIES(${TalipotPythonModuleName}
                         PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
   SET_TARGET_PROPERTIES(sip PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-ELSE(APPLE AND TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-  IF(NOT LINUX OR NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-    TARGET_LINK_LIBRARIES(${LibTalipotCorePythonBindingsName} ${PYTHON_LIBRARY})
-    TARGET_LINK_LIBRARIES(sip ${PYTHON_LIBRARY})
-  ENDIF(NOT LINUX OR NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 ENDIF(APPLE AND TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 
 TALIPOT_INSTALL_PYTHON_FILES(talipot ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py)
-TALIPOT_INSTALL_PYTHON_FILES(talipot/native sip
-                             ${LibTalipotCorePythonBindingsName})
+TALIPOT_INSTALL_PYTHON_FILES(talipot/native sip ${TalipotPythonModuleName})
 
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot.api
         DESTINATION ${TalipotShareInstallDir}/api)
