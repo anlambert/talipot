@@ -9,12 +9,15 @@ FIND_FILE(
 
 EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} ${find_sip_py}
                 OUTPUT_VARIABLE sip_config)
+
 IF(sip_config)
   STRING(REGEX REPLACE "^sip_version:([^\n]+).*$" "\\1" SIP_VERSION
                        ${sip_config})
   STRING(REGEX REPLACE ".*\nsip_version_num:([^\n]+).*$" "\\1" SIP_VERSION_NUM
                        ${sip_config})
   STRING(REGEX REPLACE ".*\nsip_version_str:([^\n]+).*$" "\\1" SIP_VERSION_STR
+                       ${sip_config})
+  STRING(REGEX REPLACE ".*\nsip_abi_version:([^\n]+).*$" "\\1" SIP_ABI_VERSION
                        ${sip_config})
   STRING(REGEX REPLACE ".*\nsip_module_version:([^\n]+).*$" "\\1"
                        SIP_MODULE_VERSION ${sip_config})

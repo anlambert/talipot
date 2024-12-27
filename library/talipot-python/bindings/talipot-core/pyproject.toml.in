@@ -6,6 +6,7 @@ build-backend = "sipbuild.api"
 name = "talipot"
 
 [tool.sip.project]
+abi-version="@SIP_ABI_VERSION@"
 sip-include-dirs = ["../stl"]
 sip-module = "talipot.native.sip"
 

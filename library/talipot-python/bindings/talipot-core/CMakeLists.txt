@@ -102,6 +102,9 @@ SET(TALIPOT_PYTHON_BINDINGS_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart10.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/build/talipot/siptalipotpart11.cpp)
 
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/pyproject.toml.in
+               ${CMAKE_CURRENT_SOURCE_DIR}/pyproject.toml)
+
 ADD_CUSTOM_COMMAND(
   OUTPUT ${SIP_MODULE_SRC}
   COMMAND ${SIP_MODULE_EXECUTABLE} --sdist talipot.native.sip
