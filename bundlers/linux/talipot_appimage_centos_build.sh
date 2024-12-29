@@ -30,7 +30,7 @@ if [ "$centos8" = true ]
 then
   # add extra CentOS 8 repositories to get some build dependencies
   yum config-manager --set-enabled powertools
-  yum -y install https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-2.el8.noarch.rpm
+  yum -y install https://pkgs.sysadmins.ws/el8/base/x86_64/raven-release.el8.noarch.rpm
   talipot_use_qt6=OFF
   qmake=qmake-qt5
 else
