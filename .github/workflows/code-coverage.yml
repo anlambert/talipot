@@ -64,7 +64,7 @@ jobs:
           -DTALIPOT_CODE_COVERAGE=ON
       - name: Talipot build
         working-directory: ./build
-        run: ninja -j4
+        run: ninja -j4 install
       - name: Run Talipot unit tests
         working-directory: ./build
         run: xvfb-run ninja tests

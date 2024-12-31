@@ -50,6 +50,7 @@ jobs:
           cmake
           clang-${{ env.CLANG_VERSION }}
           ccache
+          coreutils
           zlib
           qhull
           yajl
@@ -125,6 +126,7 @@ jobs:
           hdiutil attach Talipot*.dmg
           cp -r /Volumes/Talipot*/Talipot*.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Talipot*.app
+          rm -rf ~/.Talipot*
           /Applications/Talipot*.app/Contents/MacOS/Talipot \
             --check-application-starts \
             --debug-plugins-load

@@ -67,8 +67,9 @@ cp -r $GV_DIR Frameworks/graphviz
 echo 'Copying Python Framework'
 mkdir -p Frameworks/Python.framework/Versions/@PYTHON_VERSION@
 cp -r @PYTHON_STDLIB_DIR@/../../* Frameworks/Python.framework/Versions/@PYTHON_VERSION@/
-find Frameworks/Python.framework/ | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+find Frameworks/Python.framework/ | grep -E "(__pycache__|\.pyo$)" | xargs rm -rf
 rm -rf Frameworks/Python.framework/Versions/@PYTHON_VERSION@/share
+rm -f bin/python3*
 
 echo 'Copying License'
 cd "${DEST_DIR}/application"
@@ -76,11 +77,13 @@ cp "${SRC_DIR}/../../LICENSE" .
 
 QT_LIB_DIR="@QT_QTCORE_LIBRARY@/.."
 TALIPOT_APP=${DEST_DIR}/application/Talipot.app
-echo 'Copying Resources'
+
+echo 'Copying Qt Resources'
 cd "${TALIPOT_APP}/Contents/Frameworks/"
 cp -r "${QT_LIB_DIR}/QtGui.framework/Resources/qt_menu.nib" ../Resources 2>/dev/null
 cp "@QT_QTCLUCENE_LIBRARY@" . 2>/dev/null
 
+echo 'Executing macdeployqt'
 cd ..
 # configure talipot
 mv bin/talipot MacOS/Talipot
@@ -88,6 +91,7 @@ mv bin/talipot MacOS/Talipot
 # its extension is .so instead of .dylib)
 talipot_python_module=$(ls ${TALIPOT_APP}/Contents/lib/talipot/python/talipot/native/talipot*.so)
 mac_deploy_qt_opts=-executable=${talipot_python_module}
+
 if [ $(echo ${QT_VERSION} | cut -c1) -ge 6 ]
 then
     # qt plugins end up with broken rpaths when using macdeployt from Qt6
@@ -100,7 +104,7 @@ ${QT_BINARY_DIR}/macdeployqt ${TALIPOT_APP} $mac_deploy_qt_opts
 
 # ensure clang libc++* are present in bundle
 LIB_CXX_DIR=$(echo "@CMAKE_SHARED_LINKER_FLAGS@" | cut -f1 -d" " | cut -c3-)
-if [ -d ${LIB_CXX_DIR} ]
+if [ -f ${LIB_CXX_DIR}/libc++.1.dylib ]
 then
     cp ${LIB_CXX_DIR}/libc++.1.dylib ${TALIPOT_APP}/Contents/Frameworks/
     cp ${LIB_CXX_DIR}/libc++abi.1.dylib ${TALIPOT_APP}/Contents/Frameworks/
@@ -126,6 +130,38 @@ platforms position styles tls
         cp -r ${QT_BINARY_DIR}/../lib/${framework}.framework ${TALIPOT_APP}/Contents/Frameworks
     done
 fi
+
+echo 'Fix remaining hardcoded dylib loading paths'
+# fix remaining hardcoded dylib loading paths in binaries to ensure bundle portability
+pushd "${DEST_DIR}/application/Talipot.app/Contents/" > /dev/null 2>&1
+export PATH=/opt/local/libexec/gnubin:$PATH
+realpath_cmd=$(which grealpath || which realpath)
+for binary in $(find . -perm +0111 -type f)
+do
+    for dylib in $(otool -L $binary | \
+        grep -E '/opt/local/|/usr/local/|/opt/homebrew/' | cut -d '(' -s -f 1 | xargs)
+    do
+        for pattern in /Frameworks/ /lib/
+        do
+            before_pattern=${dylib%%"$pattern"*}
+            if [ "$before_pattern" != "$dylib" ]
+            then
+                let pos=${#before_pattern}+${#pattern}
+                dylib_subpath=${dylib:${pos}}
+
+                binary_dir=$(dirname $binary)
+                rel_path=$($realpath_cmd  --relative-to=$binary_dir ./Frameworks/$dylib_subpath)
+                loader_path="@loader_path/$rel_path"
+
+                echo "install_name_tool -change $dylib $loader_path $binary"
+                install_name_tool -change $dylib $loader_path $binary
+
+                break
+            fi
+        done
+    done
+done
+popd > /dev/null 2>&1
 
 mv MacOS/Talipot bin/talipot
 # rename

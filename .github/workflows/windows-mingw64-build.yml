@@ -7,6 +7,8 @@ jobs:
   mingw64:
     name: ${{ matrix.config.name }}
     runs-on: windows-latest
+    env:
+      PYTHON_VERSION: "3.13"
     defaults:
       run:
         shell: msys2 {0}
@@ -40,7 +42,6 @@ jobs:
             mingw-w64-${{ matrix.config.arch }}-qhull
             mingw-w64-${{ matrix.config.arch }}-graphviz
             mingw-w64-${{ matrix.config.arch }}-libgit2
-            mingw-w64-${{ matrix.config.arch }}-python
             mingw-w64-${{ matrix.config.arch }}-cppunit
             mingw-w64-${{ matrix.config.arch }}-fontconfig
             mingw-w64-${{ matrix.config.arch }}-freetype
@@ -48,8 +49,16 @@ jobs:
             mingw-w64-${{ matrix.config.arch }}-glew
             mingw-w64-${{ matrix.config.arch }}-qt6
             mingw-w64-${{ matrix.config.arch }}-quazip-qt6
-            mingw-w64-${{ matrix.config.arch }}-python-sphinx
-            mingw-w64-${{ matrix.config.arch }}-sip
+      - name: Install Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        id: python-install
+        with:
+          python-version: "${{ env.PYTHON_VERSION }}"
+      - name: Install sip and sphinx
+        run: |
+          set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%
+          pip install sip sphinx
+        shell: cmd
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
@@ -75,7 +84,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_NEED_RESPONSE=ON
           -DCMAKE_INSTALL_PREFIX=$PWD/install
-          -DPython3_EXECUTABLE=/${{ matrix.config.msystem }}/bin/python3
+          -DPython3_EXECUTABLE=$Python3_ROOT_DIR/python.exe
           -DTALIPOT_USE_QT6=ON
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_USE_CCACHE=ON ..

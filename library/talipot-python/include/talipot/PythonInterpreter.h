@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -51,6 +51,7 @@ class TLP_PYTHON_SCOPE PythonInterpreter : public QObject, public Singleton<Pyth
 
   void setDefaultConsoleWidget(QAbstractScrollArea *consoleWidget);
   void setConsoleWidget(QAbstractScrollArea *consoleWidget);
+  void setupVirtualEnv();
 
   bool _wasInit;
   bool _runningScript;
@@ -70,6 +71,7 @@ class TLP_PYTHON_SCOPE PythonInterpreter : public QObject, public Singleton<Pyth
 public:
   static const QString pythonPluginsPath;
   static const QString pythonPluginsPathHome;
+  static const QString talipotVenvDirectory;
   static const char pythonReservedCharacters[];
   static const std::vector<QString> pythonAccentuatedCharacters;
   static const std::vector<QString> pythonAccentuatedCharactersReplace;

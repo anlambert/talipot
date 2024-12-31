@@ -45,8 +45,8 @@ IF(MSYS2_PYTHON)
 ENDIF(MSYS2_PYTHON)
 
 SET_SOURCE_FILES_PROPERTIES(
-  PythonVersionChecker.cpp PROPERTIES COMPILE_DEFINITIONS
-                                      "${TLP_PYTHON_COMPILE_DEFINITIONS}")
+  PythonVersionChecker.cpp PythonInterpreter.cpp
+  PROPERTIES COMPILE_DEFINITIONS "${TLP_PYTHON_COMPILE_DEFINITIONS}")
 
 SET(${LibTalipotPythonName}_UI
     ../designer/FindReplaceDialog.ui ../designer/PythonPluginCreationDialog.ui

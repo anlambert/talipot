@@ -22,10 +22,15 @@ jobs:
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v4
+      - name: Reinstall Python framework
+        run: |
+          sudo rm -rf /Library/Frameworks/Python.framework
+          brew reinstall python@${{ matrix.config.pyver }}
       - name: Install Talipot build dependencies
         run: brew install
           ccache
           cmake
+          coreutils
           llvm
           qhull
           yajl
@@ -41,7 +46,9 @@ jobs:
           qt6
           quazip
       - name: Install SIP
-        run: pip${{ matrix.config.pyver }} install sip --break-system-packages
+        run:
+          ${{ matrix.config.homebrew_path }}/bin/pip${{ matrix.config.pyver }}
+          install sip --break-system-packages
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
@@ -114,6 +121,7 @@ jobs:
           hdiutil attach Talipot*.dmg
           cp -r /Volumes/Talipot*/Talipot*.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Talipot*.app
+          rm -rf ~/.Talipot*
           /Applications/Talipot*.app/Contents/MacOS/Talipot \
             --check-application-starts \
             --debug-plugins-load

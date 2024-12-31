@@ -103,6 +103,7 @@ export LD_LIBRARY_PATH=${QT_INSTALL_LIBS_DIR}:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH=$(dirname @PYTHON_LIBRARY@):$LD_LIBRARY_PATH
 
 # add Python environment
+cp -v -p $TALIPOT_INSTALL_DIR/bin/python3* $BUNDLE_BIN_DIR
 rm -f $BUNDLE_LIB_DIR/libpython*
 PYTHON_LIB=$(ldd $(ls $BUNDLE_LIB_DIR/libtalipot-python*) | \
   grep libpython | awk '{print $3}')
@@ -125,8 +126,15 @@ if [ "$PYTHON_LIB" != "" ]; then
   fi
   echo "copying $(dirname $PYTHON_LIB)/$PYTHON_PACKAGE_DIR files into \
   $PYTHON_PACKAGE_BUNDLE_DIR"
-  find . \( -type f \) \( ! -name "*.pyc" \) \( ! -name "*.pyo" \) -exec \
+  find . \( -type f \) \( ! -name "*.pyo" \) -exec \
     cp --parents --preserve=mode {} $PYTHON_PACKAGE_BUNDLE_DIR \;
+  popd > /dev/null 2>&1
+  mkdir -p $PYTHON_PACKAGE_BUNDLE_DIR/ensurepip/_bundled
+  pushd $PYTHON_PACKAGE_BUNDLE_DIR/ensurepip/_bundled > /dev/null 2>&1
+  setuptools_version=$(python3.11 -c "import ensurepip;print(ensurepip._SETUPTOOLS_VERSION)")
+  pip_version=$(python3.11 -c "import ensurepip;print(ensurepip._PIP_VERSION)")
+  wget https://pypi.debian.net/setuptools/setuptools-${setuptools_version}-py3-none-any.whl
+  wget https://pypi.debian.net/pip/pip-${pip_version}-py3-none-any.whl
   popd > /dev/null 2>&1
 fi
 

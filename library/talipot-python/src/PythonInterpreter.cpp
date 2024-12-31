@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -133,8 +133,10 @@ int tracefunc(PyObject *, PyFrameObject *, int what, PyObject *) {
 const QString PythonInterpreter::pythonPluginsPath(tlpStringToQString(tlp::TalipotLibDir) +
                                                    "talipot/python/");
 
-const QString PythonInterpreter::pythonPluginsPathHome(QDir::homePath() + "/.Talipot-" +
-                                                       TALIPOT_MM_VERSION + "/plugins/python");
+const QString talipotUserDirectory = QDir::homePath() + "/.Talipot-" + TALIPOT_MM_VERSION;
+const QString PythonInterpreter::talipotVenvDirectory =
+    talipotUserDirectory + "/venv" + PythonVersionChecker::compiledVersion();
+const QString PythonInterpreter::pythonPluginsPathHome(talipotUserDirectory + "/plugins/python");
 
 const char PythonInterpreter::pythonReservedCharacters[] = {
     '#', '%',  '/',  '+', '-', '&', '*', '<', '>', '|', '~', '^', '=',
@@ -210,6 +212,10 @@ PythonInterpreter::PythonInterpreter()
     mainThreadState = PyEval_SaveThread();
 #endif
   }
+
+#ifndef MSYS2_PYTHON
+  setupVirtualEnv();
+#endif
 
   holdGIL();
 
@@ -305,6 +311,66 @@ PythonInterpreter::PythonInterpreter()
   }
 
   releaseGIL();
+
+#ifndef MSYS2_PYTHON
+  setupVirtualEnv();
+#endif
+}
+
+void PythonInterpreter::setupVirtualEnv() {
+#ifdef Q_OS_WIN
+  if (!QFileInfo(talipotVenvDirectory + "/Scripts/pip.exe").exists()) {
+#else
+  if (!QFileInfo(talipotVenvDirectory + "/bin/pip").exists()) {
+#endif
+    runString(QString(R"(
+import os
+import platform
+import sys
+import venv
+python_command = 'python3'
+if platform.system() == 'Windows':
+    python_command = 'python.exe'
+sys._base_executable = os.path.join('%1', python_command)
+if platform.system() == 'Darwin':
+    pyver = '.'.join(map(str, sys.version_info[0:2]))
+    pyexe = os.path.join('%1', f'../Frameworks/Python.framework/Versions/{pyver}/bin/python3')
+    if os.path.exists(pyexe):
+        sys._base_executable = pyexe
+os.environ['LD_LIBRARY_PATH'] = '%2';
+os.environ['DYLD_FALLBACK_LIBRARY_PATH'] = '%2';
+os.environ['DYLD_FRAMEWORK_PATH'] = '%2';
+venv.create('%3', with_pip=True, symlinks=True)
+)")
+                  .arg(QApplication::applicationDirPath(), tlpStringToQString(tlp::TalipotLibDir),
+                       talipotVenvDirectory));
+  }
+
+  runString(QString(R"(
+import os
+import platform
+import sys
+
+base = '%1'
+if platform.system() == 'Windows':
+    site_packages = os.path.join(base, 'Lib', 'site-packages')
+else:
+    site_packages = os.path.join(
+        base, 'lib',
+        'python%s.%s' % (sys.version_info.major, sys.version_info.minor),
+        'site-packages')
+prev_sys_path = list(sys.path)
+import site
+site.addsitedir(site_packages)
+sys.real_prefix = sys.prefix
+sys.prefix = base
+new_sys_path = []
+for item in list(sys.path):
+    if item not in prev_sys_path:
+        new_sys_path.append(item)
+        sys.path.remove(item)
+sys.path[:0] = new_sys_path)")
+                .arg(talipotVenvDirectory));
 }
 
 PythonInterpreter::~PythonInterpreter() {
