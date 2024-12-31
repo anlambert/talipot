@@ -27,6 +27,7 @@
 #if defined(__MINGW32__)
 #include <QSslSocket>
 #endif
+#include <QFileInfo>
 
 #include <talipot/Release.h>
 #include <talipot/PythonVersionChecker.h>
@@ -133,8 +134,10 @@ int tracefunc(PyObject *, PyFrameObject *, int what, PyObject *) {
 const QString PythonInterpreter::pythonPluginsPath(tlpStringToQString(tlp::TalipotLibDir) +
                                                    "talipot/python/");
 
-const QString PythonInterpreter::pythonPluginsPathHome(QDir::homePath() + "/.Talipot-" +
-                                                       TALIPOT_MM_VERSION + "/plugins/python");
+const QString talipotUserDirectory = QDir::homePath() + "/.Talipot-" + TALIPOT_MM_VERSION;
+const QString talipotVenvDirectory =
+    talipotUserDirectory + "/venv" + PythonVersionChecker::compiledVersion();
+const QString PythonInterpreter::pythonPluginsPathHome(talipotUserDirectory + "/plugins/python");
 
 const char PythonInterpreter::pythonReservedCharacters[] = {
     '#', '%',  '/',  '+', '-', '&', '*', '<', '>', '|', '~', '^', '=',
@@ -210,6 +213,8 @@ PythonInterpreter::PythonInterpreter()
     mainThreadState = PyEval_SaveThread();
 #endif
   }
+
+  setupVirtualEnv();
 
   holdGIL();
 
@@ -305,6 +310,49 @@ PythonInterpreter::PythonInterpreter()
   }
 
   releaseGIL();
+
+  setupVirtualEnv();
+}
+
+void PythonInterpreter::setupVirtualEnv() {
+#ifdef Q_OS_WIN
+  if (!QFileInfo(talipotVenvDirectory + "/Scripts/python.exe").exists()) {
+#else
+  if (!QFileInfo(talipotVenvDirectory + "/bin/python").exists()) {
+#endif
+    runString(QString(R"(
+import venv
+venv_builder = venv.EnvBuilder(with_pip=True)
+venv_builder.create('%1')
+)")
+                  .arg(talipotVenvDirectory));
+  }
+
+  runString(QString(R"(
+import os
+import platform
+import sys
+
+base = '%1'
+if platform.system() == 'Windows':
+    site_packages = os.path.join(base, 'Lib', 'site-packages')
+else:
+    site_packages = os.path.join(
+        base, 'lib',
+        'python%s.%s' % (sys.version_info.major, sys.version_info.minor),
+        'site-packages')
+prev_sys_path = list(sys.path)
+import site
+site.addsitedir(site_packages)
+sys.real_prefix = sys.prefix
+sys.prefix = base
+new_sys_path = []
+for item in list(sys.path):
+    if item not in prev_sys_path:
+        new_sys_path.append(item)
+        sys.path.remove(item)
+sys.path[:0] = new_sys_path)")
+                .arg(talipotVenvDirectory));
 }
 
 PythonInterpreter::~PythonInterpreter() {
