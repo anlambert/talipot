@@ -149,6 +149,11 @@ IF(WIN32)
               DESTINATION ${TalipotBinInstallDir})
     ENDIF(EXISTS ${QT_PLUGINS_DIR}/styles)
 
+    IF(EXISTS ${QT_PLUGINS_DIR}/tls)
+      INSTALL(DIRECTORY ${QT_PLUGINS_DIR}/tls
+              DESTINATION ${TalipotBinInstallDir})
+    ENDIF(EXISTS ${QT_PLUGINS_DIR}/tls)
+
     # then schedule a call to FIXUP_BUNDLE at the end of the CMake install
     # process this process is configured here instead in the root CMakeLists.txt
     # as CMake inserts install commands before the ones defined in sub
