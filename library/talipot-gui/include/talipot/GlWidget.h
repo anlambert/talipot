@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -272,7 +272,7 @@ public:
   bool keepScenePointOfViewOnSubgraphChanging() const;
 
   const std::string &getSceneTextureId() const {
-    return sceneTextureId;
+    return _sceneTextureId;
   }
 
   /**
@@ -303,16 +303,15 @@ private:
 
   GlScene _scene;
   QRegion _visibleArea;
-  View *view;
-  int widthStored;
-  int heightStored;
-  bool frameBufferStored;
-  QOpenGLFramebufferObject *glFrameBuf, *glFrameBuf2;
-  static bool inRendering;
-  bool keepPointOfViewOnSubgraphChanging;
-  bool advancedAntiAliasing;
-  std::string sceneTextureId;
+  View *_view;
+  int _widthStored;
+  int _heightStored;
+  QOpenGLFramebufferObject *_glFrameBuf, *_glFrameBuf2;
+  bool _keepPointOfViewOnSubgraphChanging;
+  std::string _sceneTextureId;
   QWidget *_windows;
+
+  static bool inRendering;
 
 public slots:
   /**

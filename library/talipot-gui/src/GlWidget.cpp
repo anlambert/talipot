@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -44,11 +44,11 @@ namespace tlp {
 bool GlWidget::inRendering = false;
 
 //==================================================
-GlWidget::GlWidget(QWidget *parent, View *view)
-    : QOpenGLWidget(parent), _scene(new GlQuadTreeLODCalculator), view(view), widthStored(0),
-      heightStored(0), glFrameBuf(nullptr), glFrameBuf2(nullptr),
-      keepPointOfViewOnSubgraphChanging(false),
-      sceneTextureId("scene" + to_string(reinterpret_cast<uintptr_t>(this))) {
+GlWidget::GlWidget(QWidget *parent, View *_view)
+    : QOpenGLWidget(parent), _scene(new GlQuadTreeLODCalculator), _view(_view), _widthStored(0),
+      _heightStored(0), _glFrameBuf(nullptr), _glFrameBuf2(nullptr),
+      _keepPointOfViewOnSubgraphChanging(false),
+      _sceneTextureId("scene" + to_string(reinterpret_cast<uintptr_t>(this))) {
   setFocusPolicy(Qt::StrongFocus);
   setMouseTracking(true);
   grabGesture(Qt::PinchGesture);
@@ -73,8 +73,8 @@ GlWidget::GlWidget(QWidget *parent, View *view)
 }
 //==================================================
 GlWidget::~GlWidget() {
-  delete glFrameBuf;
-  delete glFrameBuf2;
+  delete _glFrameBuf;
+  delete _glFrameBuf2;
 }
 //==================================================
 void GlWidget::paintEvent(QPaintEvent *) {
@@ -99,25 +99,26 @@ void GlWidget::closeEvent(QCloseEvent *e) {
 //==================================================
 void GlWidget::createFramebuffers(int width, int height) {
 
-  if (!glFrameBuf || glFrameBuf->size().width() != width || glFrameBuf->size().height() != height) {
+  if (!_glFrameBuf || _glFrameBuf->size().width() != width ||
+      _glFrameBuf->size().height() != height) {
     makeCurrent();
     deleteFramebuffers();
     QOpenGLFramebufferObjectFormat fboFormat;
     fboFormat.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
     fboFormat.setSamples(OpenGlConfigManager::maxNumberOfSamples());
-    glFrameBuf = new QOpenGLFramebufferObject(width, height, fboFormat);
-    glFrameBuf2 = new QOpenGLFramebufferObject(width, height);
-    GlTextureManager::registerExternalTexture(sceneTextureId, glFrameBuf2->texture());
-    widthStored = width;
-    heightStored = height;
+    _glFrameBuf = new QOpenGLFramebufferObject(width, height, fboFormat);
+    _glFrameBuf2 = new QOpenGLFramebufferObject(width, height);
+    GlTextureManager::registerExternalTexture(_sceneTextureId, _glFrameBuf2->texture());
+    _widthStored = width;
+    _heightStored = height;
   }
 }
 //==================================================
 void GlWidget::deleteFramebuffers() {
-  delete glFrameBuf;
-  glFrameBuf = nullptr;
-  delete glFrameBuf2;
-  glFrameBuf2 = nullptr;
+  delete _glFrameBuf;
+  _glFrameBuf = nullptr;
+  delete _glFrameBuf2;
+  _glFrameBuf2 = nullptr;
 }
 
 //==================================================
@@ -139,7 +140,7 @@ void GlWidget::render(RenderingOptions options, bool checkVisibility) {
 
     // if the framebuffers have invalid size, new ones need to be created
     // so force the RenderScene flag.
-    if (widthStored != width || heightStored != height) {
+    if (_widthStored != width || _heightStored != height) {
       options |= RenderScene;
     }
 
@@ -149,13 +150,13 @@ void GlWidget::render(RenderingOptions options, bool checkVisibility) {
       createFramebuffers(width, height);
 
       // render the graph in the antialiased framebuffer.
-      glFrameBuf->bind();
+      _glFrameBuf->bind();
       _scene.draw();
-      glFrameBuf->release();
+      _glFrameBuf->release();
 
       // copy rendered scene in a texture/QImage compatible framebuffer
       QRect fbRect(0, 0, width, height);
-      QOpenGLFramebufferObject::blitFramebuffer(glFrameBuf2, fbRect, glFrameBuf, fbRect);
+      QOpenGLFramebufferObject::blitFramebuffer(_glFrameBuf2, fbRect, _glFrameBuf, fbRect);
 
       // restore internal QOpenGLWidget framebuffer binding
       makeCurrent();
@@ -174,7 +175,7 @@ void GlWidget::render(RenderingOptions options, bool checkVisibility) {
     Camera camera2D(_scene.graphCamera().getScene(), false);
     camera2D.setScene(_scene.graphCamera().getScene());
     camera2D.initGl();
-    Gl2DRect rect(height, 0, 0, width, sceneTextureId);
+    Gl2DRect rect(height, 0, 0, width, _sceneTextureId);
     rect.draw(0, &camera2D);
     _scene.graphCamera().initGl();
 
@@ -207,11 +208,11 @@ void GlWidget::draw(bool graphChanged) {
 }
 //==================================================
 void GlWidget::computeInteractors() {
-  if (!view) {
+  if (!_view) {
     return;
   }
 
-  auto *interactor = dynamic_cast<GLInteractorComposite *>(view->currentInteractor());
+  auto *interactor = dynamic_cast<GLInteractorComposite *>(_view->currentInteractor());
 
   if (interactor == nullptr) {
     return;
@@ -221,11 +222,11 @@ void GlWidget::computeInteractors() {
 }
 //==================================================
 void GlWidget::drawInteractors() {
-  if (!view) {
+  if (!_view) {
     return;
   }
 
-  auto *interactor = dynamic_cast<GLInteractorComposite *>(view->currentInteractor());
+  auto *interactor = dynamic_cast<GLInteractorComposite *>(_view->currentInteractor());
 
   if (!interactor) {
     return;
@@ -275,7 +276,7 @@ bool GlWidget::pickGlEntities(const int x, const int y, const int width, const i
                               std::vector<SelectedEntity> &pickedEntities, GlLayer *layer) {
   makeCurrent();
 #if defined(Q_OS_MAC)
-  glFrameBuf->bind();
+  _glFrameBuf->bind();
 #endif
 
   bool pickedEntity = _scene.selectEntities(
@@ -284,7 +285,7 @@ bool GlWidget::pickGlEntities(const int x, const int y, const int width, const i
       layer, pickedEntities);
 
 #if defined(Q_OS_MAC)
-  glFrameBuf->release();
+  _glFrameBuf->release();
 #endif
 
   return pickedEntity;
@@ -301,7 +302,7 @@ void GlWidget::pickNodesEdges(const int x, const int y, const int width, const i
                               bool pickNodes, bool pickEdges) {
   makeCurrent();
 #if defined(Q_OS_MAC)
-  glFrameBuf->bind();
+  _glFrameBuf->bind();
 #endif
 
   if (pickNodes) {
@@ -319,7 +320,7 @@ void GlWidget::pickNodesEdges(const int x, const int y, const int width, const i
   }
 
 #if defined(Q_OS_MAC)
-  glFrameBuf->release();
+  _glFrameBuf->release();
 #endif
 }
 //=====================================================
@@ -327,7 +328,7 @@ bool GlWidget::pickNodesEdges(const int x, const int y, SelectedEntity &selected
                               GlLayer *layer, bool pickNodes, bool pickEdges) {
   makeCurrent();
 #if defined(Q_OS_MAC)
-  glFrameBuf->bind();
+  _glFrameBuf->bind();
 #endif
 
   bool elementPicked = false;
@@ -351,7 +352,7 @@ bool GlWidget::pickNodesEdges(const int x, const int y, SelectedEntity &selected
   }
 
 #if defined(Q_OS_MAC)
-  glFrameBuf->release();
+  _glFrameBuf->release();
 #endif
 
   return elementPicked;
@@ -468,11 +469,11 @@ void GlWidget::emitGraphChanged() {
 }
 
 void GlWidget::setKeepScenePointOfViewOnSubgraphChanging(bool k) {
-  keepPointOfViewOnSubgraphChanging = k;
+  _keepPointOfViewOnSubgraphChanging = k;
 }
 
 bool GlWidget::keepScenePointOfViewOnSubgraphChanging() const {
-  return keepPointOfViewOnSubgraphChanging;
+  return _keepPointOfViewOnSubgraphChanging;
 }
 
 GlGraphRenderingParameters &GlWidget::renderingParameters() {
