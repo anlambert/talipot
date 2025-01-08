@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -185,8 +185,9 @@ int OpenGlConfigManager::maxNumberOfSamples() {
 
   if (maxSamples < 0) {
     glGetIntegerv(GL_MAX_SAMPLES, &maxSamples);
+    maxSamples = std::min(maxSamples, 8);
   }
 
-  return maxSamples / 4;
+  return maxSamples;
 }
 }
