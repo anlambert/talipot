@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,7 +26,7 @@ GlGraphRenderingParameters::GlGraphRenderingParameters()
       _selectedMetaNodesStencil(0x0002), _selectedEdgesStencil(0x0002), _nodesStencil(0xFFFF),
       _metaNodesStencil(0xFFFF), _edgesStencil(0xFFFF), _nodesLabelStencil(0xFFFF),
       _metaNodesLabelStencil(0xFFFF), _edgesLabelStencil(0xFFFF), _labelScaled(false),
-      _labelFixedFontSize(false), _labelMinSize(4), _labelMaxSize(30), _labelsDensity(0),
+      _labelFixedFontSize(false), _labelMinSize(5), _labelMaxSize(30), _labelsDensity(0),
       _labelsAreBillboarded(false), _fontsPath(tlp::TalipotBitmapDir),
       _edgesMaxSizeToNodesSize(true), _selectionColor(ViewSettings::defaultSelectionColor()),
       _displayFilteringProperty(nullptr), _elementOrderingProperty(nullptr) {}
