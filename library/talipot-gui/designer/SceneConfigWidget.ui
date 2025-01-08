@@ -57,7 +57,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>357</width>
+        <width>356</width>
         <height>690</height>
        </rect>
       </property>
@@ -1133,22 +1133,6 @@ of the scene remains unchanged.</string>
    </hints>
   </connection>
   <connection>
-   <sender>labelSizesRangeSlider</sender>
-   <signal>sliderReleased()</signal>
-   <receiver>SceneConfigWidget</receiver>
-   <slot>applySettings()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>171</x>
-     <y>270</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>189</x>
-     <y>204</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>orthoRadioButton</sender>
    <signal>clicked()</signal>
    <receiver>SceneConfigWidget</receiver>
@@ -1193,22 +1177,6 @@ of the scene remains unchanged.</string>
     <hint type="destinationlabel">
      <x>188</x>
      <y>356</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelsDensitySlider</sender>
-   <signal>sliderReleased()</signal>
-   <receiver>SceneConfigWidget</receiver>
-   <slot>applySettings()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>171</x>
-     <y>207</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>189</x>
-     <y>204</y>
     </hint>
    </hints>
   </connection>

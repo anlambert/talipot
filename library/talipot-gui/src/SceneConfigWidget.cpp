@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,6 +27,13 @@ SceneConfigWidget::SceneConfigWidget(QWidget *parent)
 
   connect(_ui->dynamicFontSizeRB, &QAbstractButton::toggled, this,
           &SceneConfigWidget::dynamicFontRBToggled);
+  connect(_ui->labelSizesRangeSlider, &RangeSlider::lowerValueChanged, this,
+          &SceneConfigWidget::applySettings);
+  connect(_ui->labelSizesRangeSlider, &RangeSlider::upperValueChanged, this,
+          &SceneConfigWidget::applySettings);
+  connect(_ui->labelsDensitySlider, &QSlider::valueChanged, this,
+          &SceneConfigWidget::applySettings);
+  _ui->labelSizesRangeSlider->setHandleMovementMode(RangeSlider::NoCrossing);
   _ui->selectionColorButton->setDialogTitle("Choose the color of selected nodes or edges");
   _ui->backgroundColorButton->setDialogTitle("Choose the background color");
 
