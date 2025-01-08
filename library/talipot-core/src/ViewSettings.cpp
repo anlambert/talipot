@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,13 +20,13 @@ INSTANTIATE_DLL_TEMPLATE(Singleton<ViewSettings>, TLP_TEMPLATE_DEFINE_SCOPE)
 const Color ViewSettings::ApplicationDefault::SelectionColor = {23, 81, 228};
 const Color ViewSettings::ApplicationDefault::NodeColor = {255, 95, 95};
 const Color ViewSettings::ApplicationDefault::EdgeColor = {180, 180, 180};
-const Color ViewSettings::ApplicationDefault::NodeBorderColor = Color::Black;
-const Color ViewSettings::ApplicationDefault::EdgeBorderColor = Color::Black;
-const Color ViewSettings::ApplicationDefault::LabelColor = Color::Black;
-const Color ViewSettings::ApplicationDefault::LabelBorderColor = Color::Black;
+const Color ViewSettings::ApplicationDefault::NodeBorderColor = {0, 0, 0};
+const Color ViewSettings::ApplicationDefault::EdgeBorderColor = {0, 0, 0};
+const Color ViewSettings::ApplicationDefault::LabelColor = {0, 0, 0};
+const Color ViewSettings::ApplicationDefault::LabelBorderColor = {0, 0, 0};
 const float ViewSettings::ApplicationDefault::NodeBorderWidth = 0;
 const float ViewSettings::ApplicationDefault::EdgeBorderWidth = 0;
-const float ViewSettings::ApplicationDefault::LabelBorderWidth = 1;
+const float ViewSettings::ApplicationDefault::LabelBorderWidth = 0;
 const int ViewSettings::ApplicationDefault::LabelPosition = LabelPosition::Center;
 const Size ViewSettings::ApplicationDefault::NodeSize = 1;
 const Size ViewSettings::ApplicationDefault::EdgeSize = {0.125, 0.125, 0.5};
@@ -36,7 +36,7 @@ const int ViewSettings::ApplicationDefault::EdgeExtremitySrcShape = EdgeExtremit
 const int ViewSettings::ApplicationDefault::EdgeExtremityTgtShape = EdgeExtremityShape::Arrow;
 const Size ViewSettings::ApplicationDefault::EdgeExtremitySrcSize = {1, 1, 0};
 const Size ViewSettings::ApplicationDefault::EdgeExtremityTgtSize = {1, 1, 0};
-const std::string ViewSettings::ApplicationDefault::Font = "DejaVu Sans-Book";
+const std::string ViewSettings::ApplicationDefault::Font = "DejaVu Sans-Condensed Bold";
 const int ViewSettings::ApplicationDefault::FontSize = 18;
 
 static Color _defaultSelectionColor = ViewSettings::ApplicationDefault::SelectionColor;
