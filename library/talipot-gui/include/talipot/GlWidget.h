@@ -238,14 +238,14 @@ public:
   void resizeGL(int w, int h) override;
 
   /**
-   * Compute interactors before drawing
+   * Compute current interactor before drawing
    */
-  void computeInteractors();
+  void computeInteractor();
 
   /**
-   * Draw interactors
+   * Draw current interactor
    */
-  void drawInteractors();
+  void drawInteractor();
 
   /**
    * @brief This function performs all the rendering process of the graph.
@@ -306,9 +306,11 @@ private:
   View *_view;
   int _widthStored;
   int _heightStored;
-  QOpenGLFramebufferObject *_glFrameBuf, *_glFrameBuf2;
+  QOpenGLFramebufferObject *_glFrameBufAntialiased, *_glFrameBufSceneTexture,
+      *_glFrameBufSceneAndInteractorTexture;
   bool _keepPointOfViewOnSubgraphChanging;
   std::string _sceneTextureId;
+  std::string _sceneAndInteractorTextureId;
   QWidget *_windows;
 
   static bool inRendering;

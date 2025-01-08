@@ -46,9 +46,11 @@ bool GlWidget::inRendering = false;
 //==================================================
 GlWidget::GlWidget(QWidget *parent, View *_view)
     : QOpenGLWidget(parent), _scene(new GlQuadTreeLODCalculator), _view(_view), _widthStored(0),
-      _heightStored(0), _glFrameBuf(nullptr), _glFrameBuf2(nullptr),
-      _keepPointOfViewOnSubgraphChanging(false),
-      _sceneTextureId("scene" + to_string(reinterpret_cast<uintptr_t>(this))) {
+      _heightStored(0), _glFrameBufAntialiased(nullptr), _glFrameBufSceneTexture(nullptr),
+      _glFrameBufSceneAndInteractorTexture(nullptr), _keepPointOfViewOnSubgraphChanging(false),
+      _sceneTextureId("scene" + to_string(reinterpret_cast<uintptr_t>(this))),
+      _sceneAndInteractorTextureId("sceneAndInteractor" +
+                                   to_string(reinterpret_cast<uintptr_t>(this))) {
   setFocusPolicy(Qt::StrongFocus);
   setMouseTracking(true);
   grabGesture(Qt::PinchGesture);
@@ -73,8 +75,9 @@ GlWidget::GlWidget(QWidget *parent, View *_view)
 }
 //==================================================
 GlWidget::~GlWidget() {
-  delete _glFrameBuf;
-  delete _glFrameBuf2;
+  delete _glFrameBufAntialiased;
+  delete _glFrameBufSceneTexture;
+  delete _glFrameBufSceneAndInteractorTexture;
 }
 //==================================================
 void GlWidget::paintEvent(QPaintEvent *) {
@@ -99,26 +102,31 @@ void GlWidget::closeEvent(QCloseEvent *e) {
 //==================================================
 void GlWidget::createFramebuffers(int width, int height) {
 
-  if (!_glFrameBuf || _glFrameBuf->size().width() != width ||
-      _glFrameBuf->size().height() != height) {
+  if (!_glFrameBufAntialiased || _glFrameBufAntialiased->size().width() != width ||
+      _glFrameBufAntialiased->size().height() != height) {
     makeCurrent();
     deleteFramebuffers();
     QOpenGLFramebufferObjectFormat fboFormat;
     fboFormat.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
     fboFormat.setSamples(OpenGlConfigManager::maxNumberOfSamples());
-    _glFrameBuf = new QOpenGLFramebufferObject(width, height, fboFormat);
-    _glFrameBuf2 = new QOpenGLFramebufferObject(width, height);
-    GlTextureManager::registerExternalTexture(_sceneTextureId, _glFrameBuf2->texture());
+    _glFrameBufAntialiased = new QOpenGLFramebufferObject(width, height, fboFormat);
+    _glFrameBufSceneTexture = new QOpenGLFramebufferObject(width, height);
+    _glFrameBufSceneAndInteractorTexture = new QOpenGLFramebufferObject(width, height);
+    GlTextureManager::registerExternalTexture(_sceneTextureId, _glFrameBufSceneTexture->texture());
+    GlTextureManager::registerExternalTexture(_sceneAndInteractorTextureId,
+                                              _glFrameBufSceneAndInteractorTexture->texture());
     _widthStored = width;
     _heightStored = height;
   }
 }
 //==================================================
 void GlWidget::deleteFramebuffers() {
-  delete _glFrameBuf;
-  _glFrameBuf = nullptr;
-  delete _glFrameBuf2;
-  _glFrameBuf2 = nullptr;
+  delete _glFrameBufAntialiased;
+  _glFrameBufAntialiased = nullptr;
+  delete _glFrameBufSceneTexture;
+  _glFrameBufSceneTexture = nullptr;
+  delete _glFrameBufSceneAndInteractorTexture;
+  _glFrameBufSceneAndInteractorTexture = nullptr;
 }
 
 //==================================================
@@ -144,50 +152,52 @@ void GlWidget::render(RenderingOptions options, bool checkVisibility) {
       options |= RenderScene;
     }
 
-    computeInteractors();
+    auto renderTexture = [width, height, this](const string &textureId) {
+      Camera camera2D(_scene.graphCamera().getScene(), false);
+      camera2D.setScene(_scene.graphCamera().getScene());
+      camera2D.initGl();
+      Gl2DRect rect(height, 0, 0, width, textureId);
+      rect.draw(0, &camera2D);
+    };
 
-    if (options.testFlag(RenderScene)) {
-      createFramebuffers(width, height);
-
-      // render the graph in the antialiased framebuffer.
-      _glFrameBuf->bind();
-      _scene.draw();
-      _glFrameBuf->release();
-
-      // copy rendered scene in a texture/QImage compatible framebuffer
+    auto blitFramebuffer = [width, height](QOpenGLFramebufferObject *target,
+                                           QOpenGLFramebufferObject *source) {
       QRect fbRect(0, 0, width, height);
-      QOpenGLFramebufferObject::blitFramebuffer(_glFrameBuf2, fbRect, _glFrameBuf, fbRect);
+      QOpenGLFramebufferObject::blitFramebuffer(target, fbRect, source, fbRect);
+    };
 
-      // restore internal QOpenGLWidget framebuffer binding
-      makeCurrent();
-      glBindFramebuffer(GL_FRAMEBUFFER, drawFboId);
+    computeInteractor();
+
+    createFramebuffers(width, height);
+
+    // render the graph in the antialiased framebuffer.
+    _glFrameBufAntialiased->bind();
+    if (options.testFlag(RenderScene)) {
+      _scene.draw();
+      // copy antialiased rendered scene into a texture compatible framebuffer
+      blitFramebuffer(_glFrameBufSceneTexture, _glFrameBufAntialiased);
     } else {
       _scene.initGlParameters();
+      // draw rendered scene from texture
+      renderTexture(_sceneTextureId);
     }
+    // draw current interactor
+    _scene.setClearBufferAtDraw(false);
+    _scene.initGlParameters();
+    _scene.setClearBufferAtDraw(true);
+    drawInteractor();
+    _glFrameBufAntialiased->release();
 
-    glDisable(GL_TEXTURE_2D);
-    glDisable(GL_STENCIL_TEST);
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_BLEND);
-    glDisable(GL_LIGHTING);
+    // copy antialiased rendered scene and interactor into a texture compatible framebuffer
+    blitFramebuffer(_glFrameBufSceneAndInteractorTexture, _glFrameBufAntialiased);
 
-    // draw rendered scene from texture
-    Camera camera2D(_scene.graphCamera().getScene(), false);
-    camera2D.setScene(_scene.graphCamera().getScene());
-    camera2D.initGl();
-    Gl2DRect rect(height, 0, 0, width, _sceneTextureId);
-    rect.draw(0, &camera2D);
-    _scene.graphCamera().initGl();
+    // restore internal QOpenGLWidget framebuffer binding
+    makeCurrent();
+    glBindFramebuffer(GL_FRAMEBUFFER, drawFboId);
 
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glEnable(GL_LIGHTING);
-
-    // draw interactors and foreground entities.
-    drawInteractors();
-
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_STENCIL_TEST);
+    // draw rendered scene and interactor from texture
+    _scene.initGlParameters();
+    renderTexture(_sceneAndInteractorTextureId);
 
     if (options.testFlag(SwapBuffers)) {
       update();
@@ -207,7 +217,7 @@ void GlWidget::draw(bool graphChanged) {
   emit viewDrawn(this, graphChanged);
 }
 //==================================================
-void GlWidget::computeInteractors() {
+void GlWidget::computeInteractor() {
   if (!_view) {
     return;
   }
@@ -221,7 +231,7 @@ void GlWidget::computeInteractors() {
   interactor->compute(this);
 }
 //==================================================
-void GlWidget::drawInteractors() {
+void GlWidget::drawInteractor() {
   if (!_view) {
     return;
   }
@@ -232,6 +242,7 @@ void GlWidget::drawInteractors() {
     return;
   }
 
+  glDisable(GL_STENCIL_TEST);
   interactor->draw(this);
 }
 //==================================================
@@ -276,7 +287,7 @@ bool GlWidget::pickGlEntities(const int x, const int y, const int width, const i
                               std::vector<SelectedEntity> &pickedEntities, GlLayer *layer) {
   makeCurrent();
 #if defined(Q_OS_MAC)
-  _glFrameBuf->bind();
+  _glFrameBufAntialiased->bind();
 #endif
 
   bool pickedEntity = _scene.selectEntities(
@@ -285,7 +296,7 @@ bool GlWidget::pickGlEntities(const int x, const int y, const int width, const i
       layer, pickedEntities);
 
 #if defined(Q_OS_MAC)
-  _glFrameBuf->release();
+  _glFrameBufAntialiased->release();
 #endif
 
   return pickedEntity;
@@ -302,7 +313,7 @@ void GlWidget::pickNodesEdges(const int x, const int y, const int width, const i
                               bool pickNodes, bool pickEdges) {
   makeCurrent();
 #if defined(Q_OS_MAC)
-  _glFrameBuf->bind();
+  _glFrameBufAntialiased->bind();
 #endif
 
   if (pickNodes) {
@@ -320,7 +331,7 @@ void GlWidget::pickNodesEdges(const int x, const int y, const int width, const i
   }
 
 #if defined(Q_OS_MAC)
-  _glFrameBuf->release();
+  _glFrameBufAntialiased->release();
 #endif
 }
 //=====================================================
@@ -328,7 +339,7 @@ bool GlWidget::pickNodesEdges(const int x, const int y, SelectedEntity &selected
                               GlLayer *layer, bool pickNodes, bool pickEdges) {
   makeCurrent();
 #if defined(Q_OS_MAC)
-  _glFrameBuf->bind();
+  _glFrameBufAntialiased->bind();
 #endif
 
   bool elementPicked = false;
@@ -352,7 +363,7 @@ bool GlWidget::pickNodesEdges(const int x, const int y, SelectedEntity &selected
   }
 
 #if defined(Q_OS_MAC)
-  _glFrameBuf->release();
+  _glFrameBufAntialiased->release();
 #endif
 
   return elementPicked;
@@ -419,9 +430,9 @@ QImage GlWidget::createPicture(int width, int height, bool center, QImage::Forma
       _scene.adjustSceneToSize(width, height);
     }
 
-    computeInteractors();
+    computeInteractor();
     _scene.draw();
-    drawInteractors();
+    drawInteractor();
     frameBuf.release();
 
     resultImage = frameBuf.toImage();
@@ -499,5 +510,4 @@ void GlWidget::zoomAndPanAnimation(const tlp::BoundingBox &boundingBox, const do
   }
   zoomAndPan.animateZoomAndPan();
 }
-
 }
