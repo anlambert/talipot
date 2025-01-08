@@ -1,10 +1,10 @@
 # Talipot [![license](https://img.shields.io/github/license/anlambert/talipot.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
-[![Build Status](https://github.com/anlambert/talipot/workflows/ubuntu-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/ubuntu-build.yml)
-[![Build Status](https://github.com/anlambert/talipot/workflows/archlinux-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/archlinux-build.yml)
-[![Build Status](https://github.com/anlambert/talipot/workflows/appimage-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/appimage-build.yml)
-[![Build Status](https://github.com/anlambert/talipot/workflows/macos-macports-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-macports-build.yml)
-[![Build Status](https://github.com/anlambert/talipot/workflows/macos-homebrew-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-homebrew-build.yml)
-[![Build Status](https://github.com/anlambert/talipot/workflows/windows-mingw64-build/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-mingw64-build.yml)
+[![Build Status](https://github.com/anlambert/talipot/actions/workflows/ubuntu-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/ubuntu-build.yml)
+[![Build Status](https://github.com/anlambert/talipot/actions/workflows/archlinux-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/archlinux-build.yml)
+[![Build Status](https://github.com/anlambert/talipot/actions/workflows/appimage-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/appimage-build.yml)
+[![Build Status](https://github.com/anlambert/talipot/actions/workflows/macos-macports-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-macports-build.yml)
+[![Build Status](https://github.com/anlambert/talipot/actions/workflows/macos-homebrew-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/macos-homebrew-build.yml)
+[![Build Status](https://github.com/anlambert/talipot/actions/workflows/windows-mingw64-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-mingw64-build.yml)
 [![Build Status](https://github.com/anlambert/talipot/actions/workflows/windows-msvc-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-msvc-build.yml)
 
 Talipot is an open source, cross-platform, data visualization framework mainly
