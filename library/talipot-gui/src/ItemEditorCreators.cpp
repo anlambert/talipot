@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -945,6 +945,7 @@ bool FontEditorCreator::paint(QPainter *painter, const QStyleOptionViewItem &opt
   qFont.setFamily(tlpStringToQString(font.fontFamily()));
   qFont.setStyleName(tlpStringToQString(font.fontStyle()));
   qFont.setPointSize(9);
+  painter->save();
   painter->setFont(qFont);
   if (option.state.testFlag(QStyle::State_Selected) && option.showDecorationSelected) {
     painter->setPen(option.palette.highlightedText().color());
@@ -952,6 +953,7 @@ bool FontEditorCreator::paint(QPainter *painter, const QStyleOptionViewItem &opt
   QRect rect = {option.rect.x() + cellPadding, option.rect.y(), option.rect.width() - cellPadding,
                 option.rect.height()};
   painter->drawText(rect, displayText(v), QTextOption(Qt::AlignCenter));
+  painter->restore();
   return true;
 }
 
