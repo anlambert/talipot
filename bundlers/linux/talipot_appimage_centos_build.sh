@@ -91,7 +91,7 @@ cmake -DCMAKE_BUILD_TYPE=Release \
       -DOpenMP_C_FLAGS=-fopenmp \
       -DOpenMP_CXX_FLAGS=-fopenmp ..
 
-xvfb-run make -j4 install
+xvfb-run make -j$(nproc) install
 
 # run unit tests
 xvfb-run make tests
