@@ -46,8 +46,8 @@ jobs:
             mingw-w64-${{ matrix.config.arch }}-freetype
             mingw-w64-${{ matrix.config.arch }}-fribidi
             mingw-w64-${{ matrix.config.arch }}-glew
-            mingw-w64-${{ matrix.config.arch }}-qt5
-            mingw-w64-${{ matrix.config.arch }}-quazip
+            mingw-w64-${{ matrix.config.arch }}-qt6
+            mingw-w64-${{ matrix.config.arch }}-quazip-qt6
             mingw-w64-${{ matrix.config.arch }}-python-sphinx
             mingw-w64-${{ matrix.config.arch }}-sip
       - name: Prepare ccache timestamp
@@ -76,6 +76,7 @@ jobs:
           -DCMAKE_NEED_RESPONSE=ON
           -DCMAKE_INSTALL_PREFIX=$PWD/install
           -DPython3_EXECUTABLE=/${{ matrix.config.msystem }}/bin/python3
+          -DTALIPOT_USE_QT6=ON
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_USE_CCACHE=ON ..
       - name: Talipot build
