@@ -37,9 +37,7 @@ jobs:
           graphviz
           xvfb
       - name: Install sip
-        run: |
-          sudo pip3 install --upgrade pip
-          sudo pip3 install sip
+        run: sudo pip3 install sip
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
