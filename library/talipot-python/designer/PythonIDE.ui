@@ -867,6 +867,47 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="pipTab">
+       <attribute name="title">
+        <string>pip</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="pipLabel">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::RichText</enum>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="tlp::PythonPipWidget" name="pipWidget" native="true"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
      <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1466,6 +1507,12 @@ can not be undone but performance of the script execution will be better
    <class>tlp::PythonREPLWidget</class>
    <extends>QWidget</extends>
    <header location="global">talipot/PythonREPLWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>tlp::PythonPipWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">talipot/PythonPipWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

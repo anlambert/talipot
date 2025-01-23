@@ -34,7 +34,8 @@ SET(${LibTalipotPythonName}_LIB_SRCS
     PythonIDE.cpp
     PythonPluginCreationDialog.cpp
     PythonREPLWidget.cpp
-    PythonVersionChecker.cpp)
+    PythonVersionChecker.cpp
+    PythonPipWidget.cpp)
 
 SET(TLP_PYTHON_COMPILE_DEFINITIONS TLP_PYTHON="${PYTHON_VERSION}")
 
@@ -44,9 +45,7 @@ IF(MSYS2_PYTHON)
       PYTHON_HOME_PATH="${PYTHON_HOME_PATH}/../")
 ENDIF(MSYS2_PYTHON)
 
-SET_SOURCE_FILES_PROPERTIES(
-  PythonVersionChecker.cpp PythonInterpreter.cpp
-  PROPERTIES COMPILE_DEFINITIONS "${TLP_PYTHON_COMPILE_DEFINITIONS}")
+ADD_COMPILE_DEFINITIONS(${TLP_PYTHON_COMPILE_DEFINITIONS})
 
 SET(${LibTalipotPythonName}_UI
     ../designer/FindReplaceDialog.ui ../designer/PythonPluginCreationDialog.ui

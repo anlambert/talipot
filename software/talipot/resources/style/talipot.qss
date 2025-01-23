@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2020-2024  The Talipot developers
+ * Copyright (C) 2020-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -694,6 +694,10 @@ QFrame[header="true"] QComboBox QAbstractItemView {
 #PythonIDE QWidget[pythonIDEBottomWidget="true"] QLabel {
   color: white;
   font: bold 11px;
+}
+
+#PythonIDE #pipLabel {
+  color: white;
 }
 
 #PythonIDE QTabWidget QPlainTextEdit {

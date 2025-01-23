@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,6 +20,7 @@
 #include <QMainWindow>
 #include <QCryptographicHash>
 #include <QRegularExpression>
+#include <QDesktopServices>
 
 #include <talipot/Algorithm.h>
 #include <talipot/Project.h>
@@ -496,6 +497,18 @@ PythonIDE::PythonIDE(QWidget *parent)
                                       "/api/talipot.api");
   APIDataBase::instance().loadApiFile(tlpStringToQString(tlp::TalipotShareDir) + "/api/Python-" +
                                       PythonInterpreter::instance().getPythonVersionStr() + ".api");
+
+#ifndef MSYS2_PYTHON
+  _ui->pipLabel->setText(
+      "Talipot uses its own Python virtual environment to install external packages from "
+      "the <a href=\"https://pypi.org\">Python Package Index</a>. Use the pip shell below to "
+      "manage external packages that can be directly imported in the current Python session after "
+      "their installation.");
+  connect(_ui->pipLabel, &QLabel::linkActivated,
+          [](const QString &link) { QDesktopServices::openUrl(QUrl(link)); });
+#else
+  _ui->tabWidget->removeTab(4);
+#endif
 }
 
 PythonIDE::~PythonIDE() {
@@ -744,8 +757,10 @@ void PythonIDE::newPythonPlugin() {
 
 void PythonIDE::currentTabChanged(int index) {
   _ui->stackedWidget->setCurrentIndex(min(index, 2));
-  if (index == 3) {
-    _splitterState = _ui->splitter->saveState();
+  if (index >= 3) {
+    if (_splitterState.isNull()) {
+      _splitterState = _ui->splitter->saveState();
+    }
     int size = 0;
     for (auto s : _ui->splitter->sizes()) {
       size += s;
@@ -753,6 +768,7 @@ void PythonIDE::currentTabChanged(int index) {
     _ui->splitter->setSizes({size, 0});
   } else {
     _ui->splitter->restoreState(_splitterState);
+    _splitterState = QByteArray();
   }
 }
 
