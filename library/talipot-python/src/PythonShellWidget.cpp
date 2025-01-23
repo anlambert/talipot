@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -50,6 +50,7 @@ PythonShellWidget::PythonShellWidget(QWidget *parent) : PythonCodeEditor(parent)
   setFindReplaceActivated(false);
   setCommentShortcutsActivated(false);
   setIndentShortcutsActivated(false);
+  setLineNumbersVisible(false);
   insert(PythonInterpreter::instance().getPythonShellBanner() + "\n");
   insert("# Use Ctrl + Space to show dynamic auto-completion dialog\n");
   insert(ps1);
@@ -173,7 +174,7 @@ void PythonShellWidget::keyPressEvent(QKeyEvent *e) {
       if (!line.isEmpty()) {
         if (_currentPs == ps2 || line.endsWith(":")) {
           _currentPs = ps2;
-          insert(ps2 + "  ");
+          insert(ps2 + "    ");
         } else {
           executeCurrentLines();
           _currentPs = ps1;

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -563,7 +563,11 @@ int PythonCodeEditor::lineNumberAreaWidth() const {
 }
 
 void PythonCodeEditor::updateLineNumberAreaWidth() {
-  setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
+  int lnaWidth = lineNumberAreaWidth();
+  if (!_lineNumberArea->isVisible()) {
+    lnaWidth = 0;
+  }
+  setViewportMargins(lnaWidth, 0, 0, 0);
 }
 
 void PythonCodeEditor::updateLineNumberArea(const QRect &rect, int dy) {
@@ -582,6 +586,10 @@ void PythonCodeEditor::resizeEvent(QResizeEvent *e) {
   QPlainTextEdit::resizeEvent(e);
   QRect cr = contentsRect();
   _lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+}
+
+void PythonCodeEditor::setLineNumbersVisible(const bool visible) {
+  _lineNumberArea->setVisible(visible);
 }
 
 void PythonCodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
