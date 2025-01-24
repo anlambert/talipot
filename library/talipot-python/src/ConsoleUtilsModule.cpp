@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -122,6 +122,10 @@ static PyObject *consoleutils_ConsoleOutput_flush(PyObject *self, PyObject *) {
   Py_RETURN_NONE;
 }
 
+static PyObject *consoleutils_ConsoleOutput_close(PyObject *, PyObject *) {
+  Py_RETURN_NONE;
+}
+
 // T_BOOL is not defined for older versions of Python (2.5 for instance)
 // define it as T_INT in that case
 #ifndef T_BOOL
@@ -144,6 +148,7 @@ static PyMethodDef consoleutils_ConsoleOutput_methods[] = {
      static_cast<PyCFunction>(consoleutils_ConsoleOutput_enableConsoleOutput), METH_VARARGS,
      "enable / disable console output"},
     {"flush", static_cast<PyCFunction>(consoleutils_ConsoleOutput_flush), METH_VARARGS, ""},
+    {"close", static_cast<PyCFunction>(consoleutils_ConsoleOutput_close), METH_VARARGS, ""},
     {NULL, NULL, 0, NULL} /* Sentinel */
 };
 
