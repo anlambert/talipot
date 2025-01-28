@@ -24,6 +24,11 @@ IF(POLICY CMP0072)
   CMAKE_POLICY(SET CMP0072 NEW)
 ENDIF(POLICY CMP0072)
 
+# install() DESTINATION paths are normalized.
+IF(POLICY CMP0177)
+  CMAKE_POLICY(SET CMP0177 NEW)
+ENDIF(POLICY CMP0177)
+
 # enable the use of ccache for Talipot developers to speed up the build process
 IF(NOT MSVC)
   SET(TALIPOT_USE_CCACHE
