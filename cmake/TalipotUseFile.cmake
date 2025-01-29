@@ -563,8 +563,7 @@ Please provide a valid one in order to determine the dll the application depends
 ENDIF(WIN32)
 
 MACRO(TALIPOT_COPY_TARGET_LIBRARY_POST_BUILD target_name destination)
-  STRING(MD5 DESTINATION_HASH "${destination}")
-  SET(COPY_TARGET_NAME copy-${target_name}-${DESTINATION_HASH})
+  SET(COPY_TARGET_NAME copy-${target_name})
 
   IF(WIN32)
     ADD_CUSTOM_TARGET(
