@@ -5,18 +5,19 @@ concurrency:
   cancel-in-progress: true
 jobs:
   macos:
-    name: ${{ matrix.config.name }}
+    name: Talipot wheel build for Python ${{ matrix.python-version }}
+      on ${{ matrix.config.os }}
     runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
       matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
         config:
-          - name: Talipot wheels build on macOS x86_64
-            os: macos-13
+          - os: macos-13
             macosx_deployment_target: "12.0"
-          - name: Talipot wheels build on macOS arm64
-            os: macos-14
+          - os: macos-14
             macosx_deployment_target: "14.0"
+
     env:
       CLANG_VERSION: 19
       MACOSX_DEPLOYMENT_TARGET: ${{ matrix.config.macosx_deployment_target }}
@@ -27,6 +28,16 @@ jobs:
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v4
+      - name: Install Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        id: python-install
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install sip, twine and wheel Python packages
+        run: |
+          which python
+          python --version
+          sudo pip install sip twine wheel
       - name: Get wheel next dev version
         run: |
           JSON=$(curl -s 'https://test.pypi.org/pypi/talipot/json')
@@ -43,9 +54,11 @@ jobs:
             # check if dev wheel version needs to be incremented
             VERSION_INCREMENT=$(echo $JSON | python -c "
           import sys, json, platform
+          from wheel._bdist_wheel import get_abi_tag
           releases = json.load(sys.stdin)['releases']['$LAST_VERSION']
           machine = platform.uname().machine
-          print(any(['macosx' in r['filename'] and machine in r['filename'] for r in releases]))")
+          abi_tag = get_abi_tag() + '-'
+          print(any(['macosx' in r['filename'] and machine in r['filename'] and abi_tag in r['filename'] for r in releases]))")
             DEV_VERSION=$(echo $LAST_VERSION | cut -f4 -d '.' | sed 's/dev//')
 
             if [ "$VERSION_INCREMENT" == "True" ]
@@ -70,6 +83,7 @@ jobs:
           restore-keys: |
             ${{ matrix.config.os }}-ccache-
           save-always: true
+
       - name: Install MacPorts
         run: |
           curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
@@ -86,58 +100,37 @@ jobs:
           yajl
           libgit2
           graphviz
-      - name: Install Python versions to build wheels against
-        run: |
-          os_ver=$(sw_vers -productVersion | cut -c1-2)
-          if [[ $os_ver -lt 13 ]]; then
-            curl -LO https://www.python.org/ftp/python/3.9.0/python-3.9.0-macosx10.9.pkg
-            sudo installer -pkg python-3.9.0-macosx10.9.pkg -target /
-            sudo /Library/Frameworks/Python.framework/Versions/3.9/bin/pip3 install wheel
-          fi
-          curl -LO https://www.python.org/ftp/python/3.10.10/python-3.10.10-macos11.pkg
-          sudo installer -pkg python-3.10.10-macos11.pkg -target /
-          sudo /Library/Frameworks/Python.framework/Versions/3.10/bin/pip3 install wheel
-          curl -LO https://www.python.org/ftp/python/3.11.0/python-3.11.0-macos11.pkg
-          sudo installer -pkg python-3.11.0-macos11.pkg -target /
-          sudo /Library/Frameworks/Python.framework/Versions/3.11/bin/pip3 install wheel
-          curl -LO https://www.python.org/ftp/python/3.12.7/python-3.12.7-macos11.pkg
-          sudo installer -pkg python-3.12.7-macos11.pkg -target /
-          sudo /Library/Frameworks/Python.framework/Versions/3.12/bin/pip3 install wheel
-          curl -LO https://www.python.org/ftp/python/3.13.0/python-3.13.0-macos11.pkg
-          sudo installer -pkg python-3.13.0-macos11.pkg -target /
-          sudo /Library/Frameworks/Python.framework/Versions/3.13/bin/pip3 install wheel twine
       - name: Create build directory
         run: mkdir build
       - name: Build Talipot Python wheels
         working-directory: ./build
         run: |
-          os_ver=$(sw_vers -productVersion | cut -c1-2)
-          if [[ $os_ver -lt 13 ]]; then
-            py3Versions="3.9 3.10 3.11 3.12 3.13"
-          else
-            py3Versions="3.10 3.11 3.12 3.13"
-          fi
-          for py3Version in $py3Versions
-          do
-            rm -f CMakeCache.txt || true
-            sudo /Library/Frameworks/Python.framework/Versions/$py3Version/bin/pip3 install sip
-            cmake .. -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_INSTALL_PREFIX=$PWD/install \
-              -DCMAKE_C_COMPILER=/opt/local/bin/clang-mp-${{ env.CLANG_VERSION }} \
-              -DCMAKE_CXX_COMPILER=/opt/local/bin/clang++-mp-${{ env.CLANG_VERSION }} \
-              -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON \
-              -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a3.dev${{ env.DEV_VERSION }}\
-              -DPython3_EXECUTABLE=/Library/Frameworks/Python.framework/Versions/$py3Version/bin/python3 \
-              -DTALIPOT_USE_CCACHE=ON \
-              -DTALIPOT_BUILD_CORE_ONLY=ON \
-              -DTALIPOT_BUILD_DOC=OFF
-            make -j4 test-wheel
-          done
-      - name: Upload Talipot Python wheels on test PyPI
+          cmake .. -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=$PWD/install \
+            -DCMAKE_C_COMPILER=/opt/local/bin/clang-mp-${{ env.CLANG_VERSION }} \
+            -DCMAKE_CXX_COMPILER=/opt/local/bin/clang++-mp-${{ env.CLANG_VERSION }} \
+            -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON \
+            -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a3.dev${{ env.DEV_VERSION }}\
+            -DPython3_EXECUTABLE=$Python3_ROOT_DIR/bin/python3 \
+            -DTALIPOT_USE_CCACHE=ON \
+            -DTALIPOT_BUILD_CORE_ONLY=ON \
+            -DTALIPOT_BUILD_DOC=OFF
+          make -j4 test-wheel
+      - name: Test built wheel can be installed and imported
+        working-directory: ./build/library/talipot-python/bindings/talipot-core/talipot_module/dist
+        run: |
+          pip install $(ls -t | head -1)
+          python -c "
+          from talipot import tlp
+          from platform import python_version
+          print('Talipot %s successfully imported in Python %s' %
+                (tlp.getRelease(), python_version()))
+          "
+      - name: Upload Talipot Python wheel on test PyPI
         if: github.ref == 'refs/tags/dev-latest'
         working-directory: ./build
         run: make test-wheel-upload
-      - name: Test uploaded wheels in clean environment
+      - name: Test uploaded wheel in clean environment
         if: github.ref == 'refs/tags/dev-latest'
         run: |
           os_ver=$(sw_vers -productVersion | cut -c1-2)
@@ -149,36 +142,12 @@ jobs:
             libgit2 \
             graphviz
 
+          pyVer="${{ matrix.python-version }}"
+
           sudo port -N install \
-            python39 \
-            py39-pip \
-            python310 \
-            py310-pip \
-            python311 \
-            py311-pip \
-            python312 \
-            py312-pip \
-            python313 \
-            py313-pip
+            python${pyVer/./} \
+            py${pyVer/./}-pip
 
-          if [[ $os_ver -lt 13 ]]; then
-            sudo pip-3.9 install --index-url https://test.pypi.org/simple/ talipot
-            python3.9 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-            python3.9 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
-          fi
-
-          sudo pip-3.10 install --index-url https://test.pypi.org/simple/ talipot
-          python3.10 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-          python3.10 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
-
-          sudo pip-3.11 install --index-url https://test.pypi.org/simple/ talipot
-          python3.11 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-          python3.11 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
-
-          sudo pip-3.12 install --index-url https://test.pypi.org/simple/ talipot
-          python3.12 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-          python3.12 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
-
-          sudo pip-3.13 install --index-url https://test.pypi.org/simple/ talipot
-          python3.13 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-          python3.13 -c "from talipot import tlp; print(tlp.getImportPluginsList())"
+          sudo pip-$pyVer install --index-url https://test.pypi.org/simple/ talipot
+          python$pyVer -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+          python$pyVer -c "from talipot import tlp; print(tlp.getImportPluginsList())"
