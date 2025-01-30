@@ -33,7 +33,7 @@ set -e
 
 # install MacPorts
 curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
-source ./macports-ci install
+source ./macports-ci install --sync=rsync
 source ./macports-ci ccache
 
 CLANG_VERSION=13
