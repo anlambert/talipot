@@ -33,11 +33,11 @@ jobs:
         id: python-install
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install sip, twine and wheel Python packages
+      - name: Install sip, build, twine and wheel Python packages
         run: |
           which python
           python --version
-          sudo pip install sip twine wheel
+          sudo pip install sip twine wheel build
       - name: Get wheel next dev version
         run: |
           JSON=$(curl -s 'https://test.pypi.org/pypi/talipot/json')

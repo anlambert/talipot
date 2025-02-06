@@ -71,7 +71,8 @@ do
     continue
   fi
   rm -rf *
-  ${CPYBIN}/pip install twine sip
+  export PYTHONPATH=$(${CPYBIN}/python -c 'import site; print(site.getsitepackages()[0])')
+  ${CPYBIN}/pip install --upgrade build wheel twine sip setuptools
   # configure and build python wheel with specific Python version
   cmake ${TALIPOT_SRC} \
         -DCMAKE_BUILD_TYPE=Release \
@@ -81,7 +82,7 @@ do
         -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a3.dev$DEV_VERSION \
         -DTALIPOT_BUILD_DOC=OFF \
         -DTALIPOT_USE_CCACHE=ON
-  make -j4
+  make -j$(nproc)
   if [ -n "$DEV_VERSION" ]
   then
     make test-wheel

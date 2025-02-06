@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=68.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "talipot"
+version = "@TALIPOT_PYTHON_WHEEL_VERSION@"
+license = {text = "GPL-3.0-or-later"}
+authors = [
+  { name = "The Talipot developers", email = "antoine.lambert33@gmail.com" },
+]
+description = "Large graphs analysis and drawing"
+readme = "README.rst"
+requires-python = ">=3.9"
+keywords = ["graph", "algorithms", "visualization", "network"]
+classifiers = [
+  'Development Status :: 3 - Alpha',
+
+  'Intended Audience :: Developers',
+  'Intended Audience :: Education',
+  'Intended Audience :: Science/Research',
+
+  'Topic :: Scientific/Engineering',
+  'Topic :: Scientific/Engineering :: Information Analysis',
+  'Topic :: Scientific/Engineering :: Mathematics',
+  'Topic :: Scientific/Engineering :: Visualization',
+
+  'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+
+  'Operating System :: POSIX :: Linux',
+  'Operating System :: MacOS :: MacOS X',
+  'Operating System :: Microsoft :: Windows :: Windows 11',
+  'Operating System :: Microsoft :: Windows :: Windows 10',
+  'Operating System :: Microsoft :: Windows :: Windows 8',
+  'Operating System :: Microsoft :: Windows :: Windows 7',
+
+  'Programming Language :: Python :: Implementation :: CPython',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3.9',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: 3.12',
+  'Programming Language :: Python :: 3.13',
+]
+
+[project.urls]
+Homepage = "https://github.com/anlambert/talipot"
+Issues = "https://github.com/anlambert/talipot"
+
+[tool.setuptools]
+packages = [
+  "talipot",
+  "talipot.native",
+  "talipot.native.graphviz",
+  "talipot.native.plugins",
+  "talipotplugins",
+  "talipot.plugins.color",
+  "talipot.plugins.general",
+  "talipot.plugins.import",
+  "talipot.plugins.layout",
+  "talipot.plugins.layout.h3",
+]
+include-package-data = true

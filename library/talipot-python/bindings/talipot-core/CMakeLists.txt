@@ -190,13 +190,14 @@ ADD_CUSTOM_TARGET(
 IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
   ADD_DEPENDENCIES(wheel copyTalipotInitPy)
 
-  CONFIGURE_FILE(packaging/setup.cfg.in ${TALIPOT_PYTHON_FOLDER}/../setup.cfg)
+  CONFIGURE_FILE(packaging/pyproject.toml.in
+                 ${TALIPOT_PYTHON_FOLDER}/../pyproject.toml)
   CONFIGURE_FILE(packaging/setup.py.in ${TALIPOT_PYTHON_FOLDER}/../setup.py)
 
   IF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
     SET(TALIPOT_PYTHON_WHEEL_VERSION ${TALIPOT_PYTHON_TEST_WHEEL_VERSION})
-    CONFIGURE_FILE(packaging/setup.py.in
-                   ${TALIPOT_PYTHON_FOLDER}/../setuptest.py)
+    CONFIGURE_FILE(packaging/pyproject.toml.in
+                   ${TALIPOT_PYTHON_FOLDER}/../pyproject.toml.in)
   ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
 
   ADD_CUSTOM_TARGET(
@@ -212,8 +213,7 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
       ${CMAKE_COMMAND} -E copy_if_different
       ${CMAKE_CURRENT_SOURCE_DIR}/packaging/copyTalipotCoreDllDependencies.cmake
       ${TALIPOT_PYTHON_FOLDER}/../copyTalipotCoreDllDependencies.cmake
-    DEPENDS ${TALIPOT_PYTHON_FOLDER}/../setup.py
-            ${TALIPOT_PYTHON_FOLDER}/../setup.cfg)
+    DEPENDS ${TALIPOT_PYTHON_FOLDER}/../setup.py)
   ADD_DEPENDENCIES(wheel copyTalipotPythonPackagingFiles)
 
   IF(TALIPOT_GENERATE_TESTPYPI_WHEEL)

@@ -1,63 +1,66 @@
 # Always prefer setuptools over distutils
-from setuptools import setup
-from setuptools.dist import Distribution
-# To use a consistent encoding
-from codecs import open
-import os
-from os import path
 import fnmatch
+import os
 import platform
+import shutil
 import subprocess
 import sys
-import shutil
 
+from setuptools import setup
+from setuptools.dist import Distribution
+
+try:
+    from wheel._bdist_wheel import get_platform
+except ImportError:
+    from wheel.bdist_wheel import get_platform
 from wheel.bdist_wheel import bdist_wheel
-from wheel._bdist_wheel import get_platform
 
 # On MacOS, we need to relink dylibs and set correct rpaths in
 # order for the modules to be imported in a portable way when
 # distributed through pip
-if platform.system() == 'Darwin' and len(sys.argv) > 1 \
-        and sys.argv[1] == 'bdist_wheel':
+if platform.system() == "Darwin" and len(sys.argv) > 1 and sys.argv[1] == "bdist_wheel":
 
     def getDyLibDependencies(dylib):
-        otool = subprocess.check_output('otool -L %s' % dylib, shell=True)
-        otool = otool.decode('utf-8')
-        L = otool.split('\n')[1:-1]
-        L = map(lambda d: d[1:].split(' ')[0], L)
-        L = filter(lambda d: '/usr/lib' not in d and
-                             '/System' not in d and
-                             'Python' not in d and
-                             '@rpath' not in d, L)
+        otool = subprocess.check_output("otool -L %s" % dylib, shell=True)
+        otool = otool.decode("utf-8")
+        L = otool.split("\n")[1:-1]
+        L = map(lambda d: d[1:].split(" ")[0], L)
+        L = filter(
+            lambda d: "/usr/lib" not in d
+            and "/System" not in d
+            and "Python" not in d
+            and "@rpath" not in d,
+            L,
+        )
         return set(L)
 
     def relinkDyLibAndSetRpaths(dylib, rpaths=[]):
         libs = getDyLibDependencies(dylib)
         for L in libs:
             subprocess.call(
-                'install_name_tool -change %s @rpath/%s %s 2>/dev/null' %
-                (L, os.path.basename(L), dylib),
-                shell=True)
+                f"install_name_tool -change {L} @rpath/{os.path.basename(L)} {dylib} 2>/dev/null",
+                shell=True,
+            )
         # add rpaths in dylib
         for rpath in rpaths:
             subprocess.call(
-                'install_name_tool -add_rpath %s %s 2>/dev/null' %
-                (rpath, dylib),
-                shell=True)
+                f"install_name_tool -add_rpath {rpath} {dylib} 2>/dev/null",
+                shell=True,
+            )
 
     def relinkDyLibsInDirAndSetRpaths(dirPath, rpaths):
         for lib in os.listdir(dirPath):
-            if not fnmatch.fnmatch(lib, '*.py'):
+            if not fnmatch.fnmatch(lib, "*.py"):
                 libPath = dirPath + lib
                 if not os.path.isdir(libPath):
                     relinkDyLibAndSetRpaths(libPath, rpaths)
 
-    def copyDyLibsDependencies(dirPath, relativeCopyPath='./'):
+    def copyDyLibsDependencies(dirPath, relativeCopyPath="./"):
         lastNbProcessed = 0
         toProcess = os.listdir(dirPath)
         while lastNbProcessed == 0 or len(toProcess) > lastNbProcessed:
             for lib in toProcess:
-                if not fnmatch.fnmatch(lib, '*.py'):
+                if not fnmatch.fnmatch(lib, "*.py"):
                     libPath = dirPath + lib
                     if not os.path.isdir(libPath):
                         libs = getDyLibDependencies(libPath)
@@ -67,26 +70,24 @@ if platform.system() == 'Darwin' and len(sys.argv) > 1 \
                             if not os.path.isfile(dylibCopy):
                                 shutil.copyfile(L, dylibCopy)
                                 subprocess.call(
-                                    ('install_name_tool -id @rpath/%s %s '
-                                     '2>/dev/null') % (filename, dylibCopy),
-                                    shell=True)
+                                    f"install_name_tool -id @rpath/{filename} {dylibCopy} 2>/dev/null",
+                                    shell=True,
+                                )
             lastNbProcessed = len(toProcess)
             toProcess = os.listdir(dirPath)
 
-    talipotNativeLibsPath = os.getcwd() + '/talipot/native/'
-    talipotNativePluginsLibsPath = os.getcwd() + '/talipot/native/plugins/'
-    talipotGraphvizPluginsLibsPath = os.getcwd() + '/talipot/native/graphviz/'
+    talipotNativeLibsPath = os.getcwd() + "/talipot/native/"
+    talipotNativePluginsLibsPath = os.getcwd() + "/talipot/native/plugins/"
+    talipotGraphvizPluginsLibsPath = os.getcwd() + "/talipot/native/graphviz/"
 
     print("Copying dylibs dependencies in talipot wheel ...")
     copyDyLibsDependencies(talipotNativeLibsPath)
-    copyDyLibsDependencies(talipotNativePluginsLibsPath, '../')
-    copyDyLibsDependencies(talipotGraphvizPluginsLibsPath, '../')
+    copyDyLibsDependencies(talipotNativePluginsLibsPath, "../")
+    copyDyLibsDependencies(talipotGraphvizPluginsLibsPath, "../")
     print("Relinking dylibs and setting rpaths in talipot wheel ...")
-    relinkDyLibsInDirAndSetRpaths(talipotNativeLibsPath, ['@loader_path/'])
-    relinkDyLibsInDirAndSetRpaths(talipotNativePluginsLibsPath,
-                                  ['@loader_path/..'])
-    relinkDyLibsInDirAndSetRpaths(talipotGraphvizPluginsLibsPath,
-                                  ['@loader_path/..'])
+    relinkDyLibsInDirAndSetRpaths(talipotNativeLibsPath, ["@loader_path/"])
+    relinkDyLibsInDirAndSetRpaths(talipotNativePluginsLibsPath, ["@loader_path/.."])
+    relinkDyLibsInDirAndSetRpaths(talipotGraphvizPluginsLibsPath, ["@loader_path/.."])
 
 
 class BinaryDistribution(Distribution):
@@ -98,21 +99,34 @@ class BinaryDistribution(Distribution):
 
 
 talipot_native_libs = []
-if platform.system() == 'Windows':
-    talipot_native_libs = ['native/*.pyd', 'native/*.dll',
-                         'native/plugins/*.dll', 'native/graphviz/*.dll']
+if platform.system() == "Windows":
+    talipot_native_libs = [
+        "native/*.pyd",
+        "native/*.dll",
+        "native/plugins/*.dll",
+        "native/graphviz/*.dll",
+    ]
     # on Windows, call a CMake script that will gather all the required DLLs
     # to import the modules and copy them to the wheel native folder
-    command = ('"${CMAKE_COMMAND}" -DCWD=%s '
-               '-DLIBRARY_PATHS=${CMAKE_LIBRARY_PATH} '
-               '-P copyTalipotCoreDllDependencies.cmake') % os.getcwd()
+    command = (
+        '"${CMAKE_COMMAND}" -DCWD=%s '
+        "-DLIBRARY_PATHS=${CMAKE_LIBRARY_PATH} "
+        "-P copyTalipotCoreDllDependencies.cmake"
+    ) % os.getcwd()
     p = subprocess.call(command, shell=True)
-elif platform.system() == 'Darwin':
-    talipot_native_libs = ['native/*.so', 'native/*.dylib',
-                           'native/plugins/*.dylib', 'native/graphviz/*.dylib']
-elif platform.system() == 'Linux':
-    talipot_native_libs = ['native/*.so*', 'native/plugins/*.so',
-                           'native/graphviz/*.so']
+elif platform.system() == "Darwin":
+    talipot_native_libs = [
+        "native/*.so",
+        "native/*.dylib",
+        "native/plugins/*.dylib",
+        "native/graphviz/*.dylib",
+    ]
+elif platform.system() == "Linux":
+    talipot_native_libs = [
+        "native/*.so*",
+        "native/plugins/*.so",
+        "native/graphviz/*.so",
+    ]
 
 
 class CustomWheel(bdist_wheel):
@@ -121,81 +135,14 @@ class CustomWheel(bdist_wheel):
     def finalize_options(self):
         platform_name = get_platform("_")
         if "universal2" in platform_name:
-            self.plat_name = platform_name.replace("universal2", platform.uname().machine)
+            self.plat_name = platform_name.replace(
+                "universal2", platform.uname().machine
+            )
         super().finalize_options()
 
 
-here = path.abspath(path.dirname(__file__))
-
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
-
 setup(
-    name='talipot',
-
-    # Versions should comply with PEP440.  For a discussion on single-sourcing
-    # the version across setup.py and the project code, see
-    # https://packaging.python.org/en/latest/single_source_version.html
-    version='@TALIPOT_PYTHON_WHEEL_VERSION@',
-
-    description='Large graphs analysis and drawing',
-    long_description=long_description,
-
-    url='http://github.com/anlambert/talipot',
-    project_urls={
-        'Issue Tracker': 'https://github.com/anlambert/talipot/issues',
-        'Sources': 'https://github.com/anlambert/talipot',
-    },
-
-    author='The Talipot developers',
-    author_email='antoine.lambert33@gmail.com',
-
-    license='GPLv3+',
-
-    # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
-    classifiers=[
-        'Development Status :: 3 - Alpha',
-
-        'Intended Audience :: Developers',
-        'Intended Audience :: Education',
-        'Intended Audience :: Science/Research',
-
-        'Topic :: Scientific/Engineering',
-        'Topic :: Scientific/Engineering :: Information Analysis',
-        'Topic :: Scientific/Engineering :: Mathematics',
-        'Topic :: Scientific/Engineering :: Visualization',
-
-        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
-
-        'Operating System :: POSIX :: Linux',
-        'Operating System :: MacOS :: MacOS X',
-        'Operating System :: Microsoft :: Windows :: Windows 10',
-        'Operating System :: Microsoft :: Windows :: Windows 8',
-        'Operating System :: Microsoft :: Windows :: Windows 7',
-
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
-        'Programming Language :: Python :: 3.10',
-        'Programming Language :: Python :: 3.11',
-    ],
-
-    keywords='graph theory algorithms visualization',
-
-    packages=['talipot', 'talipot.native', 'talipotplugins'],
-
-    package_data={
-        'talipot': talipot_native_libs + ['plugins/color/*',
-                                          'plugins/general/*',
-                                          'plugins/import/*',
-                                          'plugins/layout/H3Layout.py',
-                                          'plugins/layout/h3/*',
-                                          'native/graphviz/config6'],
-    },
-
-    include_package_data=True,
+    package_data={"talipot": talipot_native_libs},
     distclass=BinaryDistribution,
     cmdclass={"bdist_wheel": CustomWheel},
 )

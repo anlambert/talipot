@@ -213,19 +213,6 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
     # for MacOs as we don't install the project in that case
     SET(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
   ELSEIF(LINUX)
-    FILE(READ /etc/centos-release LINUX_ISSUE)
-
-    IF(NOT "${LINUX_ISSUE}" MATCHES ".*CentOS Linux release 7\\.9.*"
-       OR NOT EXISTS /usr/local/bin/auditwheel)
-      MESSAGE(
-        FATAL_ERROR
-          "Python binary wheels for Linux platform must be compiled "
-          "using the CentOS 7.9 docker image provided by the manylinux "
-          "project from the Python Packaging Authority.\n"
-          "See https://github.com/pypa/manylinux for more details.")
-    ENDIF(NOT "${LINUX_ISSUE}" MATCHES ".*CentOS Linux release 7\\.9.*"
-          OR NOT EXISTS /usr/local/bin/auditwheel)
-
     # build binaries with install rpath when generating Talipot Python wheels
     # for Linux as we don't install the project in that case
     SET(CMAKE_BUILD_WITH_INSTALL_RPATH ON)

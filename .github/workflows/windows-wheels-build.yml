@@ -41,10 +41,10 @@ jobs:
         id: python-install
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install sip, twine and wheel Python packages
+      - name: Install sip, build, twine and wheel Python packages
         run: |
           set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%
-          pip install sip twine wheel
+          pip install sip twine wheel build
         shell: cmd
       - name: Get wheel next dev version
         run: |

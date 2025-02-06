@@ -140,15 +140,43 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
   SET(TALIPOT_PYTHON_WHEEL_VERSION
       "${TalipotMajorVersion}.${TalipotMinorVersion}.${TalipotReleaseVersion}")
 
-  IF(WIN32)
-    SET(WHEEL_INSTALL_PATH "\\")
-  ELSE(WIN32)
-    SET(WHEEL_INSTALL_PATH "/")
-  ENDIF(WIN32)
+  EXECUTE_PROCESS(
+    COMMAND ${PYTHON_EXECUTABLE} -c "import wheel"
+    RESULT_VARIABLE WHEEL_OK
+    OUTPUT_QUIET ERROR_QUIET)
+  EXECUTE_PROCESS(
+    COMMAND ${PYTHON_EXECUTABLE} -c "import twine"
+    RESULT_VARIABLE TWINE_OK
+    OUTPUT_QUIET ERROR_QUIET)
+  EXECUTE_PROCESS(
+    COMMAND ${PYTHON_EXECUTABLE} -c "import build"
+    RESULT_VARIABLE BUILD_OK
+    OUTPUT_QUIET ERROR_QUIET)
+
+  IF(NOT BUILD_OK EQUAL 0)
+    MESSAGE(
+      "The 'build' Python module has to be installed to generate wheels for "
+      "talipot modules.")
+    MESSAGE("You can install it through the 'pip' tool ($ pip install build)")
+  ENDIF(NOT BUILD_OK EQUAL 0)
+
+  IF(NOT WHEEL_OK EQUAL 0)
+    MESSAGE(
+      "The 'wheel' Python module has to be installed to generate wheels for "
+      "talipot modules.")
+    MESSAGE("You can install it through the 'pip' tool ($ pip install wheel)")
+  ENDIF(NOT WHEEL_OK EQUAL 0)
+
+  IF(NOT TWINE_OK EQUAL 0)
+    MESSAGE(
+      "The 'twine' Python module has to be installed to upload talipot wheels"
+      " on PyPi.")
+    MESSAGE("You can install it through the 'pip' tool ($ pip install twine)")
+  ENDIF(NOT TWINE_OK EQUAL 0)
 
   ADD_CUSTOM_TARGET(
     wheel
-    COMMAND ${PYTHON_EXECUTABLE} setup.py bdist_wheel
+    COMMAND ${PYTHON_EXECUTABLE} -m build --wheel
     WORKING_DIRECTORY ${TALIPOT_PYTHON_ROOT_FOLDER})
 
   # check generation of test wheels
@@ -161,36 +189,12 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 
     ADD_CUSTOM_TARGET(
       test-wheel
-      COMMAND ${PYTHON_EXECUTABLE} setuptest.py bdist_wheel
+      COMMAND ${PYTHON_EXECUTABLE} -m build --wheel
       WORKING_DIRECTORY ${TALIPOT_PYTHON_ROOT_FOLDER})
     ADD_DEPENDENCIES(test-wheel wheel)
   ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
 
-  IF(NOT LINUX)
-    EXECUTE_PROCESS(
-      COMMAND ${PYTHON_EXECUTABLE} -c "import wheel"
-      RESULT_VARIABLE WHEEL_OK
-      OUTPUT_QUIET ERROR_QUIET)
-    EXECUTE_PROCESS(
-      COMMAND ${PYTHON_EXECUTABLE} -c "import twine"
-      RESULT_VARIABLE TWINE_OK
-      OUTPUT_QUIET ERROR_QUIET)
-
-    IF(NOT WHEEL_OK EQUAL 0)
-      MESSAGE(
-        "The 'wheel' Python module has to be installed to generate wheels for "
-        "talipot modules.")
-      MESSAGE("You can install it through the 'pip' tool ($ pip install wheel)")
-    ENDIF(NOT WHEEL_OK EQUAL 0)
-
-    IF(NOT TWINE_OK EQUAL 0)
-      MESSAGE(
-        "The 'twine' Python module has to be installed to upload talipot wheels"
-        " on PyPi.")
-      MESSAGE("You can install it through the 'pip' tool ($ pip install twine)")
-    ENDIF(NOT TWINE_OK EQUAL 0)
-
-  ELSE(NOT LINUX)
+  IF(LINUX)
     IF(EXISTS ${PYTHON_HOME_PATH}/../include/python${PYTHON_VERSION}m)
       SET(PYTHON_INCLUDE_DIR
           ${PYTHON_HOME_PATH}/../include/python${PYTHON_VERSION}m
@@ -200,14 +204,6 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
           ${PYTHON_HOME_PATH}/../include/python${PYTHON_VERSION}
           CACHE PATH "" FORCE)
     ENDIF()
-
-    IF(NOT EXISTS ${PYTHON_HOME_PATH}/wheel)
-      EXECUTE_PROCESS(COMMAND ${PYTHON_HOME_PATH}/pip install --upgrade wheel)
-    ENDIF(NOT EXISTS ${PYTHON_HOME_PATH}/wheel)
-
-    IF(NOT EXISTS ${PYTHON_HOME_PATH}/twine)
-      EXECUTE_PROCESS(COMMAND ${PYTHON_HOME_PATH}/pip install --upgrade twine)
-    ENDIF(NOT EXISTS ${PYTHON_HOME_PATH}/twine)
 
     # When building Python binary wheels on Linux, produced binaries have to be
     # patched in order for the talipot module to be successfully imported and
@@ -236,7 +232,7 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
         COMMENT "Repairing linux talipot test wheel"
         VERBATIM)
     ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-  ENDIF(NOT LINUX)
+  ENDIF(LINUX)
 
   # In order to upload the generated wheels, an account must be created on PyPi
   # and the following configuration must be stored in the ~/.pypirc file
