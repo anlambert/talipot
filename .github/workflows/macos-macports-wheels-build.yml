@@ -79,9 +79,9 @@ jobs:
           path: |
             /Users/runner/Library/Caches/ccache
             /Users/runner/.macports-ci-ccache
-          key: macos-wheels-ccache-${{ steps.get-current-date.outputs.date }}
+          key: macos-wheels-ccache-${{ matrix.python-version }}-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
-            ${{ matrix.config.os }}-ccache-
+            ${{ matrix.config.os }}-ccache-${{ matrix.python-version }}-
           save-always: true
 
       - name: Install MacPorts
