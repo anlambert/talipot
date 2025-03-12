@@ -46,7 +46,8 @@ jobs:
           xvfb
       - name: Install sip
         run: |
-          sudo pip3 install sip
+          sudo apt remove python3-packaging || true
+          sudo pip3 install sip packaging
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
