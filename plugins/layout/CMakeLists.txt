@@ -1,6 +1,7 @@
-IF(Graphviz_FOUND)
+IF(Graphviz_FOUND AND NOT TALIPOT_BUILD_PYTHON_WHEEL)
+  # TODO: find a way to bundle external graphviz layout plugins into wheel
   ADD_SUBDIRECTORY(Graphviz)
-ENDIF(Graphviz_FOUND)
+ENDIF(Graphviz_FOUND AND NOT TALIPOT_BUILD_PYTHON_WHEEL)
 ADD_SUBDIRECTORY(OGDF)
 ADD_SUBDIRECTORY(Grip)
 ADD_SUBDIRECTORY(LinLog)

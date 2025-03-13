@@ -5,14 +5,12 @@ concurrency:
   cancel-in-progress: true
 jobs:
   manylinux:
-    name: Talipot manylinux ${{ matrix.python-version }} wheel build on CentOS 7.9
+    name: Talipot manylinux ${{ matrix.python-version }} wheel build
     runs-on: ubuntu-24.04
-    env:
-      DOCKER_IMAGE: quay.io/pypa/manylinux2014_x86_64
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["cp39", "cp310", "cp311", "cp312", "cp313"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v4
@@ -24,115 +22,51 @@ jobs:
       - name: Cache files
         uses: actions/cache@v4
         with:
-          path: ~/ccache
+          path: /ccache
           key: manylinux2014-ccache-${{ matrix.python-version }}-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             manylinux2014-ccache-${{ matrix.python-version }}-
           save-always: true
-      - name: Pull ${{ env.DOCKER_IMAGE }} docker image
-        run: docker pull ${DOCKER_IMAGE}
-      - name: Create ccache docker volume
-        run: docker create
-          -v ~/ccache:/ccache
-          --name ccache
-          ${DOCKER_IMAGE}
-      - name: Build and upload Talipot Python wheel
-        uses: addnab/docker-run-action@v3
+      - name: Install Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        id: python-install
         with:
-          image: ${{ env.DOCKER_IMAGE }}
-          shell: bash
-          options: -e CCACHE_DIR=/ccache
-            --volumes-from ccache
-            -v ${{ github.workspace }}:/talipot:rw
-          run: |
-            # install talipot-core wheel deps
-            yum -y install epel-release ccache
-            yum -y install zlib-devel libzstd-devel yajl-devel qhull-devel \
-              graphviz-devel libgit2-devel
-            PYTHON3_DIR=${{ matrix.python-version }}-${{ matrix.python-version }}
-            PYTHON3_BIN_DIR=/opt/python/$PYTHON3_DIR/bin
-            PYTHON3_EXECUTABLE=$PYTHON3_BIN_DIR/python3
-            ${PYTHON3_BIN_DIR}/pip install --upgrade build wheel twine sip setuptools
-
-            # compute new dev version
-            JSON=$(curl -s 'https://test.pypi.org/pypi/talipot/json')
-            LAST_VERSION=$(echo $JSON | $PYTHON3_EXECUTABLE -c "
-            import sys, json
-            print(json.load(sys.stdin)['info']['version'])" 2>/dev/null)
-            if [ $? -ne 0 ]
-            then
-              DEV_VERSION=1
-            else
-              echo last wheel dev version = $LAST_VERSION
-              DEV_VERSION=$(echo $LAST_VERSION | cut -f4 -d '.' | sed 's/dev//')
-              VERSION_INCREMENT=$(echo $JSON | $PYTHON3_EXECUTABLE -c "
-            import sys, json
-            from wheel._bdist_wheel import get_abi_tag
-            releases = json.load(sys.stdin)['releases']['$LAST_VERSION']
-            abi_tag = get_abi_tag() + '-'
-            print(any(['manylinux' in r['filename'] and abi_tag in r['filename'] for r in releases]))")
-              if [ "$VERSION_INCREMENT" == "True" ]
-              then
-                let DEV_VERSION+=1
-              fi
-            fi
-
-            echo current wheel dev version = $DEV_VERSION
-
-            # setup connection to test pypi
-            cat > ~/.pypirc << EOF
-            [distutils]
-            index-servers=
-                testpypi
-            [testpypi]
-            repository: https://test.pypi.org/legacy/
-            username: __token__
-            password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-            EOF
-
-            # abort script on first error
-            set -e
-
-            # configure and build talipot wheel
-            mkdir /talipot_build && cd /talipot_build
-            export PYTHONPATH=$($PYTHON3_EXECUTABLE -c 'import site; print(site.getsitepackages()[0])')
-            # configure and build python wheel with specific Python version
-            cmake ../talipot \
-                  -DCMAKE_BUILD_TYPE=Release \
-                  -DCMAKE_INSTALL_PREFIX=$PWD/install \
-                  -DPython3_EXECUTABLE=$PYTHON3_EXECUTABLE \
-                  -DTALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET=ON \
-                  -DTALIPOT_PYTHON_TEST_WHEEL_SUFFIX=a3.dev$DEV_VERSION \
-                  -DTALIPOT_BUILD_DOC=OFF \
-                  -DTALIPOT_USE_CCACHE=ON
-            make -j$(nproc) test-wheel
-
-            # check the talipot wheel
-            pushd ./library/talipot-python/bindings/talipot-core/talipot_module/dist
-            ${PYTHON3_BIN_DIR}/pip install $(ls -t | head -1)
-            ${PYTHON3_EXECUTABLE} -c "
-            from talipot import tlp
-            from platform import python_version
-            print('Talipot %s successfully imported in Python %s' %
-                  (tlp.getRelease(), python_version()))
-            "
-            popd
-
-            # upload on test pypi on dev-latest tag
-            if [ "${{ github.ref }}" == "refs/tags/dev-latest" ]
-            then
-              make test-wheel-upload
-            fi
-
-      - name: Test uploaded wheel
-        if: github.ref == 'refs/tags/dev-latest'
-        working-directory: tests/python
+          python-version: ${{ matrix.python-version }}
+      - name: Sets CIBW_BUILD environment variable
+        env:
+          pyVer: "${{matrix.python-version}}"
         run: |
-          # wait one minute to ensure freshly uploaded wheels are registered on PyPI
-          sleep 60
-
+          echo "CIBW_BUILD=cp${pyVer/./}-manylinux_x86_64" >> $GITHUB_ENV
+      - name: Build Talipot wheel with cibuildwheel
+        run: |
           sudo apt install python3-pip
-          pip3 install --upgrade pip --user
-          pip3 install --index-url https://test.pypi.org/simple/ talipot --user
-          python3 -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
-          TALIPOT_BUILD_DIR= python3 -m unittest discover
+          pip3 install cibuildwheel --user
+          python3 -m cibuildwheel --output-dir wheelhouse
+        env:
+          CCACHE_DIR: /host/ccache
+          CIBW_BUILD_VERBOSITY: 1
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+          CIBW_BEFORE_ALL: >
+            mkdir /host/ccache &&
+            yum -y install epel-release ccache &&
+            yum -y install zlib-devel libzstd-devel yajl-devel qhull-devel graphviz-devel libgit2-devel
+      - name: Test wheel can be installed and talipot module imported
+        run: |
+          $Python3_ROOT_DIR/bin/pip install $(ls -t | head -1)
+          $Python3_ROOT_DIR/bin/python -c "
+          from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+          $Python3_ROOT_DIR/bin/python -c "
+          from talipot import tlp; print(tlp.getImportPluginsList())"
+        working-directory: wheelhouse
+      - uses: actions/upload-artifact@v4
+        with:
+          name: talipot-wheel-${{ matrix.python-version }}
+          path: ./wheelhouse/*.whl
+      - name: Publish Talipot wheel to TestPyPI
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: wheelhouse/
+          skip-existing: true

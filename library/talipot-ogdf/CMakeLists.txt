@@ -24,8 +24,3 @@ INSTALL(
 INSTALL(FILES include/talipot/OGDFLayoutPluginBase.h
               include/talipot/TalipotToOGDF.h include/talipot/OGDFUtils.h
         DESTINATION ${TalipotIncludeInstallDir}/talipot/)
-
-IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-  TALIPOT_COPY_TARGET_LIBRARY_POST_BUILD(${LibTalipotOGDFName}
-                                         ${TALIPOT_PYTHON_NATIVE_FOLDER} wheel)
-ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
