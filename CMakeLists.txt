@@ -263,7 +263,7 @@ FIND_PACKAGE(Qhull)
 FIND_PACKAGE(Yajl)
 
 # Graphviz
-FIND_PACKAGE(Graphviz REQUIRED)
+FIND_PACKAGE(Graphviz)
 
 # Libgit2
 FIND_PACKAGE(Libgit2 REQUIRED)

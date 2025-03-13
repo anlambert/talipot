@@ -1,4 +1,6 @@
-ADD_SUBDIRECTORY(utils/graphviz)
+IF(Graphviz_FOUND)
+  ADD_SUBDIRECTORY(utils/graphviz)
+ENDIF(Graphviz_FOUND)
 ADD_SUBDIRECTORY(clustering)
 ADD_SUBDIRECTORY(export)
 ADD_SUBDIRECTORY(general)

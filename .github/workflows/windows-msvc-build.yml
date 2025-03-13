@@ -37,6 +37,7 @@ jobs:
       - name: Install build dependencies with vcpkg
         uses: johnwason/vcpkg-action@v6
         id: vcpkg
+        continue-on-error: true
         with:
           pkgs: zlib
             zstd
@@ -50,7 +51,7 @@ jobs:
             fontconfig
             fribidi
           triplet: x64-windows-release
-          extra-args: --allow-unsupported --recurse
+          extra-args: --allow-unsupported --recurse --keep-going
           token: ${{ github.token }}
           github-binarycache: true
       - name: Install Qt6
