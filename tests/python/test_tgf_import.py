@@ -1,4 +1,4 @@
-# Copyright (C) 2023  The Talipot developers
+# Copyright (C) 2023-2025  The Talipot developers
 #
 # Talipot is a fork of Tulip, created by David Auber
 # and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,11 +19,11 @@ class TestTGFImportPlugin(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tgfPluginName = "Trivial Graph Format (TGF)"
-        if "TALIPOT_BUILD_DIR" in os.environ:
-            talipot_build_dir = os.environ["TALIPOT_BUILD_DIR"]
-            if talipot_build_dir:
+        if "TALIPOT_SOURCE_DIR" in os.environ:
+            talipot_source_dir = os.environ["TALIPOT_SOURCE_DIR"]
+            if talipot_source_dir:
                 tlp.loadPluginsFromDir(
-                    os.path.join(talipot_build_dir, "library/talipot-python")
+                    os.path.join(talipot_source_dir, "library/talipot-python/plugins")
                 )
 
     def test_tgf_plugin_loaded(self):
@@ -111,17 +111,11 @@ class TestTGFImportPlugin(unittest.TestCase):
                 )
             with self.assertRaises(ValueError) as cm:
                 tlp.importGraph(self.tgfPluginName, {"filename": tgfFile})
-            self.assertEqual(
-                cm.exception.args[0],
-                "Invalid edge definition: 4"
-            )
+            self.assertEqual(cm.exception.args[0], "Invalid edge definition: 4")
 
             with self.assertRaises(ValueError) as cm:
                 tlp.loadGraph(tgfFile)
-            self.assertEqual(
-                cm.exception.args[0],
-                "Invalid edge definition: 4"
-            )
+            self.assertEqual(cm.exception.args[0], "Invalid edge definition: 4")
 
     def test_load_tgf_graph_invalid_node_id(self):
         with tempfile.TemporaryDirectory() as tgfDir:
@@ -143,12 +137,12 @@ class TestTGFImportPlugin(unittest.TestCase):
                 tlp.importGraph(self.tgfPluginName, {"filename": tgfFile})
             self.assertEqual(
                 cm.exception.args[0],
-                "Invalid node identifier found when parsing edges: 4"
+                "Invalid node identifier found when parsing edges: 4",
             )
 
             with self.assertRaises(ValueError) as cm:
                 tlp.loadGraph(tgfFile)
             self.assertEqual(
                 cm.exception.args[0],
-                "Invalid node identifier found when parsing edges: 4"
+                "Invalid node identifier found when parsing edges: 4",
             )

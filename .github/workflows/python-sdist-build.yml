@@ -1,0 +1,53 @@
+name: python-sdist-build
+on: [push, pull_request]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  ubuntu:
+    name: Talipot Python sdist build
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Talipot code
+        uses: actions/checkout@v4
+      - name: Apt update
+        run: sudo apt update
+      - name: Install Talipot Python package build dependencies
+        run: sudo apt install
+          cmake
+          ccache
+          ninja-build
+          libqhull-dev
+          libyajl-dev
+          libgraphviz-dev
+          libpython3-dev
+          libzstd-dev
+          libgit2-dev
+          python3
+          python3-build
+          python3-pip
+          graphviz
+      - name: Prepare ccache timestamp
+        id: get-current-date
+        run: |
+          echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
+        shell: bash
+      - name: Cache files
+        uses: actions/cache@v4
+        with:
+          path: ~/.ccache
+          key: sdist-ccache-${{ steps.get-current-date.outputs.date }}
+          restore-keys: |
+            sdist-ccache-
+          save-always: true
+      - name: Talipot sdist generation
+        run: python3 -m build --sdist
+      - name: Check Talipot package can be installed from sdist
+        run: pip3 -v install dist/*
+      - name: Publish Talipot sdist to TestPyPI
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true

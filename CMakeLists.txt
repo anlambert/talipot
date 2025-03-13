@@ -87,12 +87,22 @@ TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS()
 # ========================================================
 INCLUDE(GNUInstallDirs)
 
-SET(TalipotLibInstallDir ${CMAKE_INSTALL_LIBDIR})
-SET(TalipotPluginsInstallDir ${TalipotLibInstallDir}/talipot)
+SET(TALIPOT_BUILD_PYTHON_WHEEL
+    OFF
+    CACHE BOOL "Configure cmake build to generate Talipot Python wheel")
+
+IF(NOT TALIPOT_BUILD_PYTHON_WHEEL)
+  SET(TalipotBinInstallDir ${CMAKE_INSTALL_BINDIR})
+  SET(TalipotLibInstallDir ${CMAKE_INSTALL_LIBDIR})
+  SET(TalipotPluginsInstallDir ${TalipotLibInstallDir}/talipot)
+ELSE(NOT TALIPOT_BUILD_PYTHON_WHEEL)
+  SET(TalipotBinInstallDir ${CMAKE_INSTALL_PREFIX}/talipot/native)
+  SET(TalipotLibInstallDir ${CMAKE_INSTALL_PREFIX}/talipot/native)
+  SET(TalipotPluginsInstallDir ${CMAKE_INSTALL_PREFIX}/talipot/native/plugins)
+ENDIF(NOT TALIPOT_BUILD_PYTHON_WHEEL)
 SET(TalipotGlyphPluginsInstallDir ${TalipotPluginsInstallDir}/glyph)
 SET(TalipotViewPluginsInstallDir ${TalipotPluginsInstallDir}/view)
 SET(TalipotInteractorPluginsInstallDir ${TalipotPluginsInstallDir}/interactor)
-SET(TalipotBinInstallDir ${CMAKE_INSTALL_BINDIR})
 SET(TalipotIncludeInstallDir ${CMAKE_INSTALL_INCLUDEDIR})
 SET(TalipotShareInstallDir ${CMAKE_INSTALL_DATADIR}/talipot)
 SET(TalipotBitmapInstallDir ${TalipotShareInstallDir}/bitmaps)
@@ -198,14 +208,8 @@ SET(TALIPOT_PYTHON_ROOT_FOLDER
 )
 SET(TALIPOT_PYTHON_FOLDER ${TALIPOT_PYTHON_ROOT_FOLDER}/talipot)
 SET(TALIPOT_PYTHON_NATIVE_FOLDER ${TALIPOT_PYTHON_FOLDER}/native)
-SET(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET
-    OFF
-    CACHE
-      BOOL
-      "Add a wheel make target for generating Python talipot-core module wheel ?"
-)
 
-IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+IF(TALIPOT_BUILD_PYTHON_WHEEL)
   SET(TALIPOT_BUILD_CORE_ONLY ON)
 
   IF(APPLE)
@@ -217,7 +221,7 @@ IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
     # for Linux as we don't install the project in that case
     SET(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
   ENDIF(APPLE)
-ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+ENDIF(TALIPOT_BUILD_PYTHON_WHEEL)
 
 # ========================================================
 # Required packages
@@ -361,16 +365,16 @@ FUNCTION(ADD_LIBRARY name)
   IF(APPLE)
     # relative locations of Talipot dylibs dependencies are not the sames when
     # generating Python wheel
-    IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+    IF(TALIPOT_BUILD_PYTHON_WHEEL)
       SET_TARGET_PROPERTIES(${name} PROPERTIES INSTALL_RPATH
                                                "@loader_path/;@loader_path/../")
-    ELSE(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+    ELSE(TALIPOT_BUILD_PYTHON_WHEEL)
       SET_TARGET_PROPERTIES(
         ${name}
         PROPERTIES
           INSTALL_RPATH
           "@loader_path/../lib;@loader_path/../Frameworks;${QT_FRAMEWORKS_DIR}")
-    ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+    ENDIF(TALIPOT_BUILD_PYTHON_WHEEL)
   ELSE(APPLE)
     # CMake >= 3.1.0 does not allow to set the INSTALL_RPATH property on
     # INTERFACE_LIBRARY target type
@@ -417,10 +421,6 @@ FUNCTION(ADD_LIBRARY name)
       ENDIF(MSVC)
     ENDIF(NOT "${TARGET_TYPE}" STREQUAL "INTERFACE_LIBRARY")
   ENDIF(APPLE)
-
-  IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-    ADD_DEPENDENCIES(wheel ${name})
-  ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 ENDFUNCTION()
 
 FUNCTION(ADD_EXECUTABLE name)
@@ -511,7 +511,9 @@ ADD_SUBDIRECTORY(thirdparty)
 INCLUDE_DIRECTORIES(${GtlInclude})
 ADD_SUBDIRECTORY(library)
 ADD_SUBDIRECTORY(plugins)
-ADD_SUBDIRECTORY(utils/crash_handler)
+IF(NOT TALIPOT_BUILD_PYTHON_WHEEL)
+  ADD_SUBDIRECTORY(utils/crash_handler)
+ENDIF(NOT TALIPOT_BUILD_PYTHON_WHEEL)
 
 IF(NOT TALIPOT_BUILD_CORE_ONLY)
   ADD_SUBDIRECTORY(demos)

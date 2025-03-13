@@ -1,4 +1,4 @@
-# Copyright (C) 2020-2023  The Talipot developers
+# Copyright (C) 2020-2025  The Talipot developers
 #
 # Talipot is a fork of Tulip, created by David Auber
 # and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,6 +27,12 @@ class TestTalipotPlugins(unittest.TestCase):
                     "library/talipot-python",
                 ):
                     tlp.loadPluginsFromDir(os.path.join(talipot_build_dir, pluginsPath))
+        if "TALIPOT_SOURCE_DIR" in os.environ:
+            talipot_source_dir = os.environ["TALIPOT_SOURCE_DIR"]
+            if talipot_source_dir:
+                tlp.loadPluginsFromDir(
+                    os.path.join(talipot_source_dir, "library/talipot-python/plugins")
+                )
 
     def test_cpp_plugins_loaded(self):
         self.assertTrue("Edge bundling" in tlp.getAlgorithmPluginsList())

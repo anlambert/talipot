@@ -72,3 +72,6 @@ library/talipot-python/bindings/talipot-core/LayoutProperty.sip
 library/talipot-python/bindings/talipot-core/SizeProperty.sip
 library/talipot-python/bindings/talipot-core/StringProperty.sip
 library/talipot-python/bindings/talipot-core/pyproject.toml
+
+# Python packaging
+dist/
