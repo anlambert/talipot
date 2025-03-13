@@ -1,4 +1,4 @@
-# Copyright (C) 2019-2024  The Talipot developers
+# Copyright (C) 2019-2025  The Talipot developers
 #
 # Talipot is a fork of Tulip, created by David Auber
 # and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,11 +16,13 @@ import sys
 import traceback
 
 _talipotNativeLibsPath = os.path.join(os.path.dirname(__file__), 'native')
+_talipotLibsPath = os.path.join(os.path.dirname(__file__), '../talipot.libs')
 sys.path.insert(0, os.path.dirname(__file__))
 
 if platform.system() == 'Windows':
-    os.environ['PATH'] = '%s;%s;%s' % (
+    os.environ['PATH'] = '%s;%s;%s;%s' % (
         _talipotNativeLibsPath,
+        _talipotLibsPath,
         os.path.join(_talipotNativeLibsPath, '../../..'),
         os.environ['PATH'])
     for path in os.environ['PATH'].split(';'):

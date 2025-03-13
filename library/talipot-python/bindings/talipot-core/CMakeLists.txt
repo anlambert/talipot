@@ -187,38 +187,6 @@ ADD_CUSTOM_TARGET(
   ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py
   ${TALIPOT_PYTHON_FOLDER}/__init__.py)
 
-IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-  ADD_DEPENDENCIES(wheel copyTalipotInitPy)
-
-  IF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-    SET(TALIPOT_PYTHON_WHEEL_VERSION ${TALIPOT_PYTHON_TEST_WHEEL_VERSION})
-  ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-
-  CONFIGURE_FILE(packaging/pyproject.toml.in
-                 ${TALIPOT_PYTHON_FOLDER}/../pyproject.toml)
-  CONFIGURE_FILE(packaging/setup.py.in ${TALIPOT_PYTHON_FOLDER}/../setup.py)
-
-  ADD_CUSTOM_TARGET(
-    copyTalipotPythonPackagingFiles ALL
-    ${CMAKE_COMMAND} -E copy_if_different
-    ${CMAKE_CURRENT_SOURCE_DIR}/packaging/MANIFEST.in
-    ${TALIPOT_PYTHON_FOLDER}/../MANIFEST.in
-    COMMAND
-      ${CMAKE_COMMAND} -E copy_if_different
-      ${CMAKE_CURRENT_SOURCE_DIR}/packaging/README.rst
-      ${TALIPOT_PYTHON_FOLDER}/../README.rst
-    COMMAND
-      ${CMAKE_COMMAND} -E copy_if_different
-      ${CMAKE_CURRENT_SOURCE_DIR}/packaging/copyTalipotCoreDllDependencies.cmake
-      ${TALIPOT_PYTHON_FOLDER}/../copyTalipotCoreDllDependencies.cmake
-    DEPENDS ${TALIPOT_PYTHON_FOLDER}/../setup.py)
-  ADD_DEPENDENCIES(wheel copyTalipotPythonPackagingFiles)
-
-  IF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-    ADD_DEPENDENCIES(wheel copyTalipotPythonPackagingFiles)
-  ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-
 # On MacOS, add the paths of dependencies dylibs in install rpaths of the
 # talipot.so binary That way, the talipot module can be imported in a classical
 # Python shell without having to modify the content of the DYLD_LIBRARY_PATH
@@ -227,7 +195,7 @@ FILE(RELATIVE_PATH TalipotLibsInstallRelPath
      ${TalipotPythonModulesInstallDir}/talipot/native
      ${CMAKE_INSTALL_PREFIX}/${TalipotLibInstallDir})
 
-IF(APPLE AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+IF(APPLE AND NOT TALIPOT_BUILD_PYTHON_WHEEL)
   GET_TARGET_PROPERTY(CURRENT_INSTALL_RPATHS ${TalipotPythonModuleName}
                       INSTALL_RPATH)
   SET_TARGET_PROPERTIES(
@@ -242,7 +210,7 @@ IF(APPLE AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
       INSTALL_RPATH
       "${CURRENT_INSTALL_RPATHS};@loader_path/${TalipotLibsInstallRelPath};@loader_path/../../../../Frameworks"
   )
-ELSEIF(LINUX AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+ELSEIF(LINUX AND NOT TALIPOT_BUILD_PYTHON_WHEEL)
   GET_TARGET_PROPERTY(CURRENT_INSTALL_RPATHS ${TalipotPythonModuleName}
                       INSTALL_RPATH)
   SET_TARGET_PROPERTIES(
@@ -253,7 +221,7 @@ ELSEIF(LINUX AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
     sip
     PROPERTIES INSTALL_RPATH
                "${CURRENT_INSTALL_RPATHS}:$ORIGIN/${TalipotLibsInstallRelPath}")
-ENDIF(APPLE AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+ENDIF(APPLE AND NOT TALIPOT_BUILD_PYTHON_WHEEL)
 
 TARGET_LINK_LIBRARIES(${TalipotPythonModuleName} PUBLIC ${LibTalipotCoreName})
 
@@ -262,11 +230,11 @@ TARGET_LINK_LIBRARIES(${TalipotPythonModuleName} PUBLIC ${LibTalipotCoreName})
 # way, we can produce a C extension module that can be imported through the
 # Python interpreter provided by Apple with the System and the one provided by
 # Python.org
-IF(APPLE AND TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+IF(APPLE AND TALIPOT_BUILD_PYTHON_WHEEL)
   SET_TARGET_PROPERTIES(${TalipotPythonModuleName}
                         PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
   SET_TARGET_PROPERTIES(sip PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-ENDIF(APPLE AND TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+ENDIF(APPLE AND TALIPOT_BUILD_PYTHON_WHEEL)
 
 TALIPOT_INSTALL_PYTHON_FILES(talipot ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py)
 TALIPOT_INSTALL_PYTHON_FILES(talipot/native sip ${TalipotPythonModuleName})

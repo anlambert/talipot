@@ -371,7 +371,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
   ENDIF(CMAKE_COMPILER_IS_GNUCXX AND TALIPOT_CODE_COVERAGE)
 
   IF(NOT MINGW OR CLANG)
-    IF(TalipotBuildIsRelease AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+    IF(TalipotBuildIsRelease AND NOT TALIPOT_BUILD_PYTHON_WHEEL)
       # activate LTO in Release builds
       INCLUDE(CheckIPOSupported)
       CHECK_IPO_SUPPORTED(RESULT IPO_SUPPORTED)
@@ -379,7 +379,7 @@ MACRO(TALIPOT_SET_COMPILER_OPTIONS_AND_DEFINITIONS)
       IF(IPO_SUPPORTED)
         SET(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
       ENDIF(IPO_SUPPORTED)
-    ENDIF(TalipotBuildIsRelease AND NOT TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+    ENDIF(TalipotBuildIsRelease AND NOT TALIPOT_BUILD_PYTHON_WHEEL)
   ENDIF(NOT MINGW OR CLANG)
 
   IF(MINGW AND CLANG)
@@ -562,37 +562,6 @@ Please provide a valid one in order to determine the dll the application depends
   ENDMACRO(TALIPOT_GET_DLL_NAME_FROM_IMPORT_LIBRARY)
 ENDIF(WIN32)
 
-MACRO(TALIPOT_COPY_TARGET_LIBRARY_POST_BUILD target_name destination)
-  SET(COPY_TARGET_NAME copy-${target_name})
-
-  IF(WIN32)
-    ADD_CUSTOM_TARGET(
-      ${COPY_TARGET_NAME} ALL
-      COMMAND
-        ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${target_name}>
-        ${destination}/$<TARGET_FILE_NAME:${target_name}>
-      DEPENDS ${target_name}
-      VERBATIM)
-  ELSE(WIN32)
-    ADD_CUSTOM_TARGET(
-      ${COPY_TARGET_NAME} ALL
-      COMMAND
-        ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_SONAME_FILE:${target_name}>
-        ${destination}/$<TARGET_SONAME_FILE_NAME:${target_name}>
-      DEPENDS ${target_name}
-      VERBATIM)
-  ENDIF(WIN32)
-
-  # optional parameters of the macro corresponds to targets that depend on the
-  # above created custom target
-  SET(DEPENDENCIES_TARGETS ${ARGN})
-
-  FOREACH(DEPENDENCY_TARGET ${DEPENDENCIES_TARGETS})
-    ADD_DEPENDENCIES(${DEPENDENCY_TARGET} ${COPY_TARGET_NAME})
-  ENDFOREACH()
-ENDMACRO(TALIPOT_COPY_TARGET_LIBRARY_POST_BUILD)
-
 # internal cache variable to hold the names of the Talipot plugin targets
 SET(TALIPOT_PLUGIN_TARGETS
     ""
@@ -612,16 +581,6 @@ MACRO(TALIPOT_INSTALL_PLUGIN plugin_target destination)
   SET(TALIPOT_PLUGIN_TARGETS
       "${TALIPOT_PLUGIN_TARGETS};${plugin_target}"
       CACHE INTERNAL "")
-
-  # When building a Python wheel, copy Talipot plugins in wheel build folder in
-  # order to package them with the Talipot Python bindings
-  IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-    SET(TALIPOT_PLUGIN_WHEEL_INSTALL_DIR
-        "${TALIPOT_PYTHON_NATIVE_FOLDER}/plugins")
-
-    TALIPOT_COPY_TARGET_LIBRARY_POST_BUILD(
-      ${plugin_target} ${TALIPOT_PLUGIN_WHEEL_INSTALL_DIR} wheel)
-  ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
 ENDMACRO(TALIPOT_INSTALL_PLUGIN)
 
 # for backward compatibility with Talipot < 5.1 for external projects

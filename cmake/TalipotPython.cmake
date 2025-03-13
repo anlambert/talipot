@@ -2,11 +2,11 @@
 # installed on the host system. If not, compile the SIP version located in
 # thirdparty.
 
-IF(LINUX AND TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+IF(LINUX AND TALIPOT_BUILD_PYTHON_WHEEL)
   SET(PYTHON_COMPONENTS Interpreter Development.Module)
-ELSE(LINUX AND TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+ELSE(LINUX AND TALIPOT_BUILD_PYTHON_WHEEL)
   SET(PYTHON_COMPONENTS Interpreter Development)
-ENDIF(LINUX AND TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
+ENDIF(LINUX AND TALIPOT_BUILD_PYTHON_WHEEL)
 
 FIND_PACKAGE(
   Python3
@@ -33,8 +33,12 @@ EXECUTE_PROCESS(
   OUTPUT_VARIABLE PYTHON_STDLIB_DIR)
 STRING(REPLACE "\n" "" PYTHON_STDLIB_DIR "${PYTHON_STDLIB_DIR}")
 
-SET(TalipotPythonModulesInstallDir
-    ${CMAKE_INSTALL_PREFIX}/${TalipotLibInstallDir}/talipot/python)
+IF(NOT TALIPOT_BUILD_PYTHON_WHEEL)
+  SET(TalipotPythonModulesInstallDir
+      ${CMAKE_INSTALL_PREFIX}/${TalipotLibInstallDir}/talipot/python)
+ELSE(NOT TALIPOT_BUILD_PYTHON_WHEEL)
+  SET(TalipotPythonModulesInstallDir ${CMAKE_INSTALL_PREFIX})
+ENDIF(NOT TALIPOT_BUILD_PYTHON_WHEEL)
 
 # Unset the previous values of the CMake cache variables related to Python
 # libraries in case the value of PYTHON_EXECUTABLE CMake variable changed
@@ -135,141 +139,3 @@ IF(APPLE)
 ENDIF(APPLE)
 
 FIND_PACKAGE(SIP 6.8.5 REQUIRED)
-
-IF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)
-  SET(TALIPOT_PYTHON_WHEEL_VERSION
-      "${TalipotMajorVersion}.${TalipotMinorVersion}.${TalipotReleaseVersion}")
-
-  EXECUTE_PROCESS(
-    COMMAND ${PYTHON_EXECUTABLE} -c "import wheel"
-    RESULT_VARIABLE WHEEL_OK
-    OUTPUT_QUIET ERROR_QUIET)
-  EXECUTE_PROCESS(
-    COMMAND ${PYTHON_EXECUTABLE} -c "import twine"
-    RESULT_VARIABLE TWINE_OK
-    OUTPUT_QUIET ERROR_QUIET)
-  EXECUTE_PROCESS(
-    COMMAND ${PYTHON_EXECUTABLE} -c "import build"
-    RESULT_VARIABLE BUILD_OK
-    OUTPUT_QUIET ERROR_QUIET)
-
-  IF(NOT BUILD_OK EQUAL 0)
-    MESSAGE(
-      "The 'build' Python module has to be installed to generate wheels for "
-      "talipot modules.")
-    MESSAGE("You can install it through the 'pip' tool ($ pip install build)")
-  ENDIF(NOT BUILD_OK EQUAL 0)
-
-  IF(NOT WHEEL_OK EQUAL 0)
-    MESSAGE(
-      "The 'wheel' Python module has to be installed to generate wheels for "
-      "talipot modules.")
-    MESSAGE("You can install it through the 'pip' tool ($ pip install wheel)")
-  ENDIF(NOT WHEEL_OK EQUAL 0)
-
-  IF(NOT TWINE_OK EQUAL 0)
-    MESSAGE(
-      "The 'twine' Python module has to be installed to upload talipot wheels"
-      " on PyPi.")
-    MESSAGE("You can install it through the 'pip' tool ($ pip install twine)")
-  ENDIF(NOT TWINE_OK EQUAL 0)
-
-  ADD_CUSTOM_TARGET(
-    wheel
-    COMMAND ${PYTHON_EXECUTABLE} -m build --wheel
-    WORKING_DIRECTORY ${TALIPOT_PYTHON_ROOT_FOLDER})
-
-  # check generation of test wheels
-  STRING(COMPARE NOTEQUAL "${TALIPOT_PYTHON_TEST_WHEEL_SUFFIX}" ""
-                 TALIPOT_GENERATE_TESTPYPI_WHEEL)
-
-  IF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-    SET(TALIPOT_PYTHON_TEST_WHEEL_VERSION
-        ${TALIPOT_PYTHON_WHEEL_VERSION}${TALIPOT_PYTHON_TEST_WHEEL_SUFFIX})
-
-    ADD_CUSTOM_TARGET(
-      test-wheel
-      COMMAND ${PYTHON_EXECUTABLE} -m build --wheel
-      WORKING_DIRECTORY ${TALIPOT_PYTHON_ROOT_FOLDER})
-    ADD_DEPENDENCIES(test-wheel wheel)
-  ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-
-  IF(LINUX)
-    IF(EXISTS ${PYTHON_HOME_PATH}/../include/python${PYTHON_VERSION}m)
-      SET(PYTHON_INCLUDE_DIR
-          ${PYTHON_HOME_PATH}/../include/python${PYTHON_VERSION}m
-          CACHE PATH "" FORCE)
-    ELSE()
-      SET(PYTHON_INCLUDE_DIR
-          ${PYTHON_HOME_PATH}/../include/python${PYTHON_VERSION}
-          CACHE PATH "" FORCE)
-    ENDIF()
-
-    # When building Python binary wheels on Linux, produced binaries have to be
-    # patched in order for the talipot module to be successfully imported and
-    # loaded on every computer. The auditwheel tool has been developed in order
-    # to ease that patching task (see https://github.com/pypa/auditwheel).
-    ADD_CUSTOM_COMMAND(
-      TARGET wheel
-      POST_BUILD
-      COMMAND
-        bash -c
-        "auditwheel repair -L /native -w ./dist ./dist/$(ls -t ./dist/ | head -1)"
-      COMMAND bash -c "rm ./dist/$(ls -t ./dist/ | head -2 | tail -1)"
-      WORKING_DIRECTORY ${TALIPOT_PYTHON_ROOT_FOLDER}
-      COMMENT "Repairing linux talipot wheel"
-      VERBATIM)
-
-    IF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-      ADD_CUSTOM_COMMAND(
-        TARGET test-wheel
-        POST_BUILD
-        COMMAND
-          bash -c
-          "auditwheel repair -L /native -w ./dist ./dist/$(ls -t ./dist/ | head -1)"
-        COMMAND bash -c "rm ./dist/$(ls -t ./dist/ | head -2 | tail -1)"
-        WORKING_DIRECTORY ${TALIPOT_PYTHON_ROOT_FOLDER}
-        COMMENT "Repairing linux talipot test wheel"
-        VERBATIM)
-    ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-  ENDIF(LINUX)
-
-  # In order to upload the generated wheels, an account must be created on PyPi
-  # and the following configuration must be stored in the ~/.pypirc file
-  # ############################################################################
-  # [distutils] index-servers= pypi testpypi
-  #
-  # [testpypi] repository: https://test.pypi.org/legacy/ username: <your user
-  # name goes here> password: <your password goes here>
-  #
-  # [pypi] repository: https://upload.pypi.org/legacy/ username: <your user name
-  # goes here> password: <your password goes here>
-  # ############################################################################
-  SET(TWINE twine)
-
-  IF(EXISTS ${PYTHON_HOME_PATH}/twine)
-    SET(TWINE ${PYTHON_HOME_PATH}/twine)
-  ENDIF(EXISTS ${PYTHON_HOME_PATH}/twine)
-
-  IF(WIN32)
-    SET(TWINE ${PYTHON_INCLUDE_DIR}/../Scripts/twine.exe)
-  ENDIF(WIN32)
-
-  SET(WHEEL_FILES_REGEXP "*${TALIPOT_PYTHON_WHEEL_VERSION}-cp*")
-  ADD_CUSTOM_TARGET(
-    wheel-upload
-    COMMAND bash -c "echo 'Uploading wheels ...'"
-    COMMAND ${TWINE} upload -r pypi dist/${WHEEL_FILES_REGEXP}
-    WORKING_DIRECTORY ${TALIPOT_PYTHON_ROOT_FOLDER}
-    VERBATIM)
-
-  IF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-    SET(TEST_WHEEL_FILES_REGEXP "*${TALIPOT_PYTHON_TEST_WHEEL_VERSION}*")
-    ADD_CUSTOM_TARGET(
-      test-wheel-upload
-      COMMAND bash -c "echo 'Uploading test wheels ...'"
-      COMMAND ${TWINE} upload -r testpypi dist/${TEST_WHEEL_FILES_REGEXP}
-      WORKING_DIRECTORY ${TALIPOT_PYTHON_ROOT_FOLDER}
-      VERBATIM)
-  ENDIF(TALIPOT_GENERATE_TESTPYPI_WHEEL)
-ENDIF(TALIPOT_ACTIVATE_PYTHON_WHEEL_TARGET)

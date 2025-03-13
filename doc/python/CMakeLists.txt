@@ -36,7 +36,6 @@ ADD_CUSTOM_TARGET(
   -P
   ${CMAKE_CURRENT_SOURCE_DIR}/genSphinxDoc.cmake
   DEPENDS ${TalipotPythonModuleName} ${TALIPOT_PLUGIN_TARGETS}
-          copyTalipotPythonPlugins
   VERBATIM)
 
 SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "doc;doctrees")
