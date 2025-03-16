@@ -21,6 +21,7 @@ QFrame {
 QHeaderView,
 QMenuBar {
   background: %2;
+  color: %3;
 }
 
 QWizard QHeaderView,

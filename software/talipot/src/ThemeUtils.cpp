@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2020-2022  The Talipot developers
+ * Copyright (C) 2020-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -225,7 +225,8 @@ void setApplicationGuiTheme(const QString &guiTheme, bool updateGui) {
   QFile talipotQssFile(":/talipot/app/style/talipot.qss");
   talipotQssFile.open(QIODevice::ReadOnly | QIODevice::Text);
   QString talipotQss = talipotQssFile.readAll();
-  talipotQss = talipotQss.arg(backgroundColor().name(), alternateBackgroundColor().name());
+  talipotQss = talipotQss.arg(backgroundColor().name(), alternateBackgroundColor().name(),
+                              textColor().name());
   if (applicationHasDarkGuiTheme()) {
     QFile talipotDarkQssFile(":/talipot/app/style/talipotDark.qss");
     talipotDarkQssFile.open(QIODevice::ReadOnly | QIODevice::Text);
