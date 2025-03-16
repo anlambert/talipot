@@ -107,13 +107,44 @@ SET(TalipotIncludeInstallDir ${CMAKE_INSTALL_INCLUDEDIR})
 SET(TalipotShareInstallDir ${CMAKE_INSTALL_DATADIR}/talipot)
 SET(TalipotBitmapInstallDir ${TalipotShareInstallDir}/bitmaps)
 
+# ==========================================================
+# Dump git commit id to file and get version from latest tag
+# ==========================================================
+INCLUDE(cmake/GetGitRevisionDescription.cmake)
+
+IF(EXISTS ${PROJECT_SOURCE_DIR}/.git)
+  SET(TALIPOT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
+  GET_GIT_HEAD_REVISION(TALIPOT_REFSPEC TALIPOT_GIT_REVISION)
+  CONFIGURE_FILE(utils/cmake-templates/GIT_COMMIT.in
+                 ${CMAKE_CURRENT_BINARY_DIR}/GIT_COMMIT)
+  INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/GIT_COMMIT
+          DESTINATION ${TalipotShareInstallDir})
+  GIT_DESCRIBE(TALIPOT_GIT_VERSION --tags --abbrev=0)
+  FILE(WRITE version.txt ${TALIPOT_GIT_VERSION})
+ELSE(EXISTS ${PROJECT_SOURCE_DIR}/.git)
+  FILE(READ version.txt TALIPOT_GIT_VERSION)
+ENDIF(EXISTS ${PROJECT_SOURCE_DIR}/.git)
+
 # ========================================================
 # Talipot version variables
 # ========================================================
-SET(TalipotMajorVersion 1)
-SET(TalipotMinorVersion 0)
-SET(TalipotReleaseVersion 0)
-SET(TalipotVersionSuffix "-alpha3-dev")
+
+STRING(REGEX MATCH "[v]*([0-9]+)\\.([0-9]+)\\.([0-9]+)([a-z0-9-]+)" _dummy
+             ${TALIPOT_GIT_VERSION})
+
+IF(CMAKE_MATCH_1)
+  SET(TalipotMajorVersion ${CMAKE_MATCH_1})
+  SET(TalipotMinorVersion ${CMAKE_MATCH_2})
+  SET(TalipotReleaseVersion ${CMAKE_MATCH_3})
+  IF(CMAKE_MATCH_4)
+    SET(TalipotVersionSuffix ${CMAKE_MATCH_4})
+  ENDIF(CMAKE_MATCH_4)
+ELSE(CMAKE_MATCH_1)
+  SET(TalipotMajorVersion 1)
+  SET(TalipotMinorVersion 0)
+  SET(TalipotReleaseVersion 0)
+  SET(TalipotVersionSuffix -dev)
+ENDIF(CMAKE_MATCH_1)
 SET(TalipotVersionSeparator .)
 
 IF(MSVC) # specific options for Visual Studio
@@ -150,20 +181,6 @@ ELSE(TalipotReleaseVersion MATCHES "^[0-9]+$")
   # bar when it contains non digit characters (like alpha, beta, dev, ...)
   SET(TalipotIntVersion "${TalipotMajorVersion}${TalipotMinorVersion}1")
 ENDIF(TalipotReleaseVersion MATCHES "^[0-9]+$")
-
-# ========================================================
-# Dump git commit id to file
-# ========================================================
-INCLUDE(cmake/GetGitRevisionDescription.cmake)
-
-IF(EXISTS ${PROJECT_SOURCE_DIR}/.git)
-  SET(TALIPOT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
-  GET_GIT_HEAD_REVISION(TALIPOT_REFSPEC TALIPOT_GIT_REVISION)
-  CONFIGURE_FILE(utils/cmake-templates/GIT_COMMIT.in
-                 ${CMAKE_CURRENT_BINARY_DIR}/GIT_COMMIT)
-  INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/GIT_COMMIT
-          DESTINATION ${TalipotShareInstallDir})
-ENDIF(EXISTS ${PROJECT_SOURCE_DIR}/.git)
 
 # ========================================================
 # Talipot libraries names
