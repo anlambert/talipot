@@ -23,7 +23,7 @@ yum -y update
 
 # install base build system
 yum -y install epel-release
-yum -y install xz tar gzip make wget ccache
+yum -y install xz tar gzip make wget ccache git
 yum -y install dnf-plugins-core
 
 if [ "$centos8" = true ]
@@ -78,6 +78,10 @@ if [ -d /talipot/build ]; then
 fi
 mkdir /talipot/build
 cd /talipot/build
+
+# ensure talipot version can be fetched from git when
+# source folder on host is mounted as a docker volume
+git config --global --add safe.directory /talipot
 
 cmake -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_C_COMPILER=/opt/rh/gcc-toolset-13/root/bin/gcc \
