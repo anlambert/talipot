@@ -23,7 +23,7 @@ jobs:
     env:
       CLANG_VERSION: 19
       MACOSX_DEPLOYMENT_TARGET: ${{ matrix.config.macosx_deployment_target }}
-      TWINE_REPOSITORY: https://test.pypi.org/legacy/
+      TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
       

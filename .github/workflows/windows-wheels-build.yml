@@ -9,7 +9,7 @@ jobs:
     runs-on: windows-latest
     env:
       VCPKG_INSTALL_DIR: ${{ github.workspace }}\vcpkg\installed\x64-windows-release
-      TWINE_REPOSITORY: https://test.pypi.org/legacy/
+      TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
     defaults:
