@@ -7,6 +7,8 @@
 [![Build Status](https://github.com/anlambert/talipot/actions/workflows/windows-mingw64-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-mingw64-build.yml)
 [![Build Status](https://github.com/anlambert/talipot/actions/workflows/windows-msvc-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/windows-msvc-build.yml)
 
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/talipot?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org)](https://test.pypi.org/project/talipot)
+
 Talipot is an open source, cross-platform, data visualization framework mainly
 dedicated to the analysis, the drawing and the visualization of very large graphs
 (up to the million of nodes and edges).
