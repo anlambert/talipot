@@ -9,6 +9,9 @@ jobs:
     runs-on: windows-latest
     env:
       VCPKG_INSTALL_DIR: ${{ github.workspace }}\vcpkg\installed\x64-windows-release
+      TWINE_REPOSITORY: https://test.pypi.org/legacy/
+      TWINE_USERNAME: __token__
+      TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
     defaults:
       run:
         shell: cmd
@@ -80,10 +83,10 @@ jobs:
           name: talipot-wheel-${{ matrix.python-version }}
           path: ./wheelhouse/*.whl
       - name: Publish Talipot wheel to TestPyPI
+        working-directory: wheelhouse
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository-url: https://test.pypi.org/legacy/
-          packages-dir: wheelhouse/
-          skip-existing: true
+        run: |
+          set PATH=%Python3_ROOT_DIR%\Scripts;%PATH%
+          for /f "tokens=*" %%g in ('dir /b *.whl') do (set wheel=%%g)
+          twine check %wheel%
+          twine upload --skip-existing %wheel%
