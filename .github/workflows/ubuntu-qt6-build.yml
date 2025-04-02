@@ -65,7 +65,6 @@ jobs:
           key: ubuntu-qt6-build-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             ubuntu-qt6-build-ccache-
-          save-always: true
       - name: Create build directory
         run: mkdir build
       - name: Configure Talipot build with CMake

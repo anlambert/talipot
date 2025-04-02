@@ -22,7 +22,6 @@ jobs:
           key: archlinux-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             archlinux-ccache-
-          save-always: true
       - name: Pull archlinux docker image
         run: docker pull archlinux
       - name: Create ccache docker volume

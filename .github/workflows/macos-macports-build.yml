@@ -39,7 +39,6 @@ jobs:
           key: ${{ matrix.config.os }}-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             ${{ matrix.config.os }}-ccache-
-          save-always: true
       - name: Install MacPorts
         run: |
           curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci

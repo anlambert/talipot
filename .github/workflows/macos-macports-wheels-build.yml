@@ -54,7 +54,6 @@ jobs:
           key: macos-wheels-ccache-${{ matrix.python-version }}-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             ${{ matrix.config.os }}-ccache-${{ matrix.python-version }}-
-          save-always: true
       - name: Install MacPorts
         run: |
           curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci

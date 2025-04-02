@@ -26,7 +26,6 @@ jobs:
           key: manylinux2014-ccache-${{ matrix.python-version }}-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             manylinux2014-ccache-${{ matrix.python-version }}-
-          save-always: true
       - name: Install Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         id: python-install

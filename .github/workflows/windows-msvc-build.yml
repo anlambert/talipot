@@ -34,7 +34,6 @@ jobs:
           key: windows-msvc-build-clcache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             windows-msvc-build-clcache
-          save-always: true
       - name: Install CMake 3.31
         uses: jwlawson/actions-setup-cmake@v2
         with:

@@ -77,7 +77,6 @@ jobs:
           key: windows-${{ matrix.config.arch }}-build-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             windows-${{ matrix.config.arch }}-build-ccache
-          save-always: true
       - name: Create build directory
         run: mkdir build
       - name: Configure Talipot build with CMake

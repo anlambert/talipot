@@ -39,7 +39,6 @@ jobs:
           key: sdist-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             sdist-ccache-
-          save-always: true
       - name: Talipot sdist generation
         run: python3 -m build --sdist
       - name: Check Talipot package can be installed from sdist

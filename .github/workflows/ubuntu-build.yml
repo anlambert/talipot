@@ -60,7 +60,6 @@ jobs:
           key: ${{ matrix.config.os }}-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             ${{ matrix.config.os }}-ccache-
-          save-always: true
       - name: Create build directory
         run: mkdir build
       - name: Configure Talipot core build with CMake

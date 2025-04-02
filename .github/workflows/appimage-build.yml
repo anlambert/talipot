@@ -32,7 +32,6 @@ jobs:
           key: appimage-${{ matrix.config.docker-image }}-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             appimage-${{ matrix.config.docker-image }}-ccache-
-          save-always: true
       - name: Pull ${{ matrix.config.docker-image }} docker image
         run: docker pull ${{ matrix.config.docker-image }}
       - name: Create ccache docker volume
