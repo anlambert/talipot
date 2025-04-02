@@ -12,6 +12,7 @@ jobs:
       TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+      VCPKG_FORCE_SYSTEM_BINARIES: 1
     defaults:
       run:
         shell: cmd
@@ -33,6 +34,10 @@ jobs:
         run: |
           set PATH=%Python3_ROOT_DIR%\Scripts;%PATH%
           pip install twine build
+      - name: Install CMake 3.31
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: "3.31.6"
       - name: Install build dependencies with vcpkg
         uses: johnwason/vcpkg-action@v6
         id: vcpkg
@@ -43,7 +48,7 @@ jobs:
             yajl
             libgit2
           triplet: x64-windows-release
-          extra-args: --allow-unsupported --recurse
+          extra-args: --allow-unsupported --recurse --keep-going
           token: ${{ github.token }}
           github-binarycache: true
       - name: Sets CIBW_BUILD environment variable

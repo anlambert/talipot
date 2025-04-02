@@ -16,6 +16,7 @@ jobs:
       MSVC_ARCH: x64
       VCPKG_INSTALL_DIR: ${{ github.workspace }}\vcpkg\installed\x64-windows-release
       CLCACHE_DIR: C:/clcache
+      VCPKG_FORCE_SYSTEM_BINARIES: 1
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v4
@@ -34,6 +35,10 @@ jobs:
           restore-keys: |
             windows-msvc-build-clcache
           save-always: true
+      - name: Install CMake 3.31
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: "3.31.6"
       - name: Install build dependencies with vcpkg
         uses: johnwason/vcpkg-action@v6
         id: vcpkg
