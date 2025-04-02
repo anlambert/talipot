@@ -152,7 +152,7 @@ with open(fa_data_path, 'w', **open_kwargs) as fa_data_cpp:
 
 # Material Design Icons metadata file copied from
 # https://github.com/Templarian/MaterialDesign-SVG/blob/master/meta.json
-with open(os.path.join(path, 'md-icons.json'), 'r',
+with open(os.path.join(path, 'mdi-icons.json'), 'r',
           **open_kwargs) as md_data_file:
     md_data = json.load(md_data_file)
 
@@ -177,7 +177,7 @@ with open(md_constants_path, 'w',
             '  {MaterialDesignIcons::%s, {0x%s, "%s"}},\n' %
             (icon_constant_name, icon['codepoint'].lower(), to_c_str(icon['codepoint'].lower())))
         md_constants += ('const char *MaterialDesignIcons::%s = "%s";\n' %
-                         (icon_constant_name, 'md-' + icon['name']))
+                         (icon_constant_name, 'mdi-' + icon['name']))
 
         if version_tuple(icon['version']) > version_tuple(md_version):
             md_version = icon['version']

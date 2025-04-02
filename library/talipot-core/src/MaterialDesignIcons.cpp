@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,6 +15,8 @@
 #include <talipot/TlpTools.h>
 
 #include <talipot/hash.h>
+
+#include <regex>
 
 using namespace std;
 using namespace tlp;
@@ -34,7 +36,7 @@ string MaterialDesignIcons::getWOFF2Location() {
 }
 
 bool MaterialDesignIcons::isIconSupported(const string &iconName) {
-  return iconCodePoint.find(iconName.c_str()) != iconCodePoint.end();
+  return MaterialDesignIcons::getIconCodePoint(iconName) != 0;
 }
 
 const vector<string> &MaterialDesignIcons::getSupportedIcons() {
@@ -51,6 +53,10 @@ uint MaterialDesignIcons::getIconCodePoint(const string &iconName) {
   if (const auto it = iconCodePoint.find(iconName.c_str()); it != iconCodePoint.end()) {
     return it->second.first;
   }
+  string oldIconNameFallback = regex_replace(iconName, regex("^md-"), "mdi-");
+  if (const auto it = iconCodePoint.find(oldIconNameFallback.c_str()); it != iconCodePoint.end()) {
+    return it->second.first;
+  }
   return 0;
 }
 
@@ -62,9 +68,14 @@ string MaterialDesignIcons::getIconUtf8String(const string &iconName) {
   try {
     return iconCodePoint.at(iconName.c_str()).second;
   } catch (std::out_of_range &) {
-    tlp::warning() << iconName << " icon does not exist, falling back to "
-                   << MaterialDesignIcons::HelpCircle << std::endl;
-    return getIconUtf8String(MaterialDesignIcons::HelpCircle);
+    string oldIconNameFallback = regex_replace(iconName, regex("^md-"), "mdi-");
+    try {
+      return iconCodePoint.at(oldIconNameFallback.c_str()).second;
+    } catch (std::out_of_range &) {
+      tlp::warning() << iconName << " icon does not exist, falling back to "
+                     << MaterialDesignIcons::HelpCircle << std::endl;
+      return getIconUtf8String(MaterialDesignIcons::HelpCircle);
+    }
   }
 }
 }
