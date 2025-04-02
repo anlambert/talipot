@@ -47,6 +47,7 @@ jobs:
             qhull
             yajl
             libgit2
+            graphviz
           triplet: x64-windows-release
           extra-args: --allow-unsupported --recurse --keep-going
           token: ${{ github.token }}
