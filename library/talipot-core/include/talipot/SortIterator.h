@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,56 +27,56 @@ namespace tlp {
 class Graph;
 
 struct LessThan {
-  LessThan(const tlp::NumericProperty *m) : metric(m) {}
-  const tlp::NumericProperty *metric;
-  bool operator()(const node &n1, const node &n2) const {
-    return (metric->getNodeDoubleValue(n1) < metric->getNodeDoubleValue(n2));
-  }
-  bool operator()(const edge &e1, const edge &e2) const {
-    return (metric->getEdgeDoubleValue(e1) < metric->getEdgeDoubleValue(e2));
-  }
+    LessThan(const tlp::NumericProperty *m) : metric(m) {}
+    const tlp::NumericProperty *metric;
+    bool operator()(const node &n1, const node &n2) const {
+        return (metric->getNodeDoubleValue(n1) < metric->getNodeDoubleValue(n2));
+    }
+    bool operator()(const edge &e1, const edge &e2) const {
+        return (metric->getEdgeDoubleValue(e1) < metric->getEdgeDoubleValue(e2));
+    }
 };
 
 struct LessThanEdgeTargetMetric {
-  LessThanEdgeTargetMetric(const Graph *sg, const tlp::NumericProperty *metric)
-      : metric(metric), sg(sg) {}
-  bool operator()(const edge &e1, const edge &e2) const {
-    return (metric->getNodeDoubleValue(sg->target(e1)) <
-            metric->getNodeDoubleValue(sg->target(e2)));
-  }
+    LessThanEdgeTargetMetric(const Graph *sg, const tlp::NumericProperty *metric)
+        : metric(metric), sg(sg) {}
+    bool operator()(const edge &e1, const edge &e2) const {
+        return (metric->getNodeDoubleValue(sg->target(e1)) <
+                metric->getNodeDoubleValue(sg->target(e2)));
+    }
 
-private:
-  const tlp::NumericProperty *metric;
-  const Graph *sg;
+  private:
+    const tlp::NumericProperty *metric;
+    const Graph *sg;
 };
 
 struct LessThanEdgeSourceMetric {
-  LessThanEdgeSourceMetric(const Graph *sg, const tlp::NumericProperty *metric)
-      : metric(metric), sg(sg) {}
-  bool operator()(const edge &e1, const edge &e2) const {
-    return (metric->getNodeDoubleValue(sg->source(e1)) <
-            metric->getNodeDoubleValue(sg->source(e2)));
-  }
+    LessThanEdgeSourceMetric(const Graph *sg, const tlp::NumericProperty *metric)
+        : metric(metric), sg(sg) {}
+    bool operator()(const edge &e1, const edge &e2) const {
+        return (metric->getNodeDoubleValue(sg->source(e1)) <
+                metric->getNodeDoubleValue(sg->source(e2)));
+    }
 
-private:
-  const tlp::NumericProperty *metric;
-  const Graph *sg;
+  private:
+    const tlp::NumericProperty *metric;
+    const Graph *sg;
 };
 
 struct LessThanEdgeExtremitiesMetric {
-  LessThanEdgeExtremitiesMetric(const Graph *sg, const tlp::NumericProperty *metric)
-      : metric(metric), sg(sg) {}
-  bool operator()(const edge &e1, const edge &e2) const {
-    const auto &[src1, tgt1] = sg->ends(e1);
-    Vec2d v1 = {metric->getNodeDoubleValue(src1), metric->getNodeDoubleValue(tgt1)};
-    const auto &[src2, tgt2] = sg->ends(e2);
-    Vec2d v2 = {metric->getNodeDoubleValue(src2), metric->getNodeDoubleValue(tgt2)};
-    return v1 < v2;
-  }
+    LessThanEdgeExtremitiesMetric(const Graph *sg, const tlp::NumericProperty *metric)
+        : metric(metric), sg(sg) {}
+    bool operator()(const edge &e1, const edge &e2) const {
+        const auto &[src1, tgt1] = sg->ends(e1);
+        Vec2d v1 = {metric->getNodeDoubleValue(src1), metric->getNodeDoubleValue(tgt1)};
+        const auto &[src2, tgt2] = sg->ends(e2);
+        Vec2d v2 = {metric->getNodeDoubleValue(src2), metric->getNodeDoubleValue(tgt2)};
+        return v1 < v2;
+    }
 
-private:
-  const tlp::NumericProperty *metric;
-  const Graph *sg;
+  private:
+    const tlp::NumericProperty *metric;
+    const Graph *sg;
 };
 
 /**
@@ -84,20 +84,20 @@ private:
  **/
 struct SortNodeIterator : public StableIterator<tlp::node> {
 
-  SortNodeIterator(Iterator<tlp::node> *itIn, const tlp::NumericProperty *metric,
-                   bool ascendingOrder = true)
-      : StableIterator<tlp::node>(itIn) {
-    LessThan tmp(metric);
-    sort(sequenceCopy.begin(), sequenceCopy.end(), tmp);
+    SortNodeIterator(Iterator<tlp::node> *itIn, const tlp::NumericProperty *metric,
+                     bool ascendingOrder = true)
+        : StableIterator<tlp::node>(itIn) {
+        LessThan tmp(metric);
+        sort(sequenceCopy.begin(), sequenceCopy.end(), tmp);
 
-    if (!ascendingOrder) {
-      reverse(sequenceCopy.begin(), sequenceCopy.end());
+        if (!ascendingOrder) {
+            reverse(sequenceCopy.begin(), sequenceCopy.end());
+        }
+
+        copyIterator = sequenceCopy.begin();
     }
 
-    copyIterator = sequenceCopy.begin();
-  }
-
-  ~SortNodeIterator() override = default;
+    ~SortNodeIterator() override = default;
 };
 
 /**
@@ -105,20 +105,20 @@ struct SortNodeIterator : public StableIterator<tlp::node> {
  **/
 struct SortEdgeIterator : public StableIterator<tlp::edge> {
 
-  SortEdgeIterator(Iterator<tlp::edge> *itIn, const tlp::NumericProperty *metric,
-                   bool ascendingOrder = true)
-      : StableIterator<tlp::edge>(itIn) {
-    LessThan tmp(metric);
-    sort(sequenceCopy.begin(), sequenceCopy.end(), tmp);
+    SortEdgeIterator(Iterator<tlp::edge> *itIn, const tlp::NumericProperty *metric,
+                     bool ascendingOrder = true)
+        : StableIterator<tlp::edge>(itIn) {
+        LessThan tmp(metric);
+        sort(sequenceCopy.begin(), sequenceCopy.end(), tmp);
 
-    if (!ascendingOrder) {
-      reverse(sequenceCopy.begin(), sequenceCopy.end());
+        if (!ascendingOrder) {
+            reverse(sequenceCopy.begin(), sequenceCopy.end());
+        }
+
+        copyIterator = sequenceCopy.begin();
     }
 
-    copyIterator = sequenceCopy.begin();
-  }
-
-  ~SortEdgeIterator() override = default;
+    ~SortEdgeIterator() override = default;
 };
 
 /**
@@ -127,20 +127,20 @@ struct SortEdgeIterator : public StableIterator<tlp::edge> {
  **/
 struct SortTargetEdgeIterator : public StableIterator<tlp::edge> {
 
-  SortTargetEdgeIterator(Iterator<tlp::edge> *itIn, const Graph *sg,
-                         const tlp::NumericProperty *metric, bool ascendingOrder = true)
-      : StableIterator<tlp::edge>(itIn) {
-    LessThanEdgeTargetMetric tmp(sg, metric);
-    sort(sequenceCopy.begin(), sequenceCopy.end(), tmp);
+    SortTargetEdgeIterator(Iterator<tlp::edge> *itIn, const Graph *sg,
+                           const tlp::NumericProperty *metric, bool ascendingOrder = true)
+        : StableIterator<tlp::edge>(itIn) {
+        LessThanEdgeTargetMetric tmp(sg, metric);
+        sort(sequenceCopy.begin(), sequenceCopy.end(), tmp);
 
-    if (!ascendingOrder) {
-      reverse(sequenceCopy.begin(), sequenceCopy.end());
+        if (!ascendingOrder) {
+            reverse(sequenceCopy.begin(), sequenceCopy.end());
+        }
+
+        copyIterator = sequenceCopy.begin();
     }
 
-    copyIterator = sequenceCopy.begin();
-  }
-
-  ~SortTargetEdgeIterator() override = default;
+    ~SortTargetEdgeIterator() override = default;
 };
 
 /**
@@ -149,20 +149,20 @@ struct SortTargetEdgeIterator : public StableIterator<tlp::edge> {
  **/
 struct SortSourceEdgeIterator : public StableIterator<tlp::edge> {
 
-  SortSourceEdgeIterator(Iterator<tlp::edge> *itIn, const Graph *sg,
-                         const tlp::NumericProperty *metric, bool ascendingOrder = true)
-      : StableIterator<tlp::edge>(itIn) {
-    LessThanEdgeSourceMetric tmp(sg, metric);
-    sort(sequenceCopy.begin(), sequenceCopy.end(), tmp);
+    SortSourceEdgeIterator(Iterator<tlp::edge> *itIn, const Graph *sg,
+                           const tlp::NumericProperty *metric, bool ascendingOrder = true)
+        : StableIterator<tlp::edge>(itIn) {
+        LessThanEdgeSourceMetric tmp(sg, metric);
+        sort(sequenceCopy.begin(), sequenceCopy.end(), tmp);
 
-    if (!ascendingOrder) {
-      reverse(sequenceCopy.begin(), sequenceCopy.end());
+        if (!ascendingOrder) {
+            reverse(sequenceCopy.begin(), sequenceCopy.end());
+        }
+
+        copyIterator = sequenceCopy.begin();
     }
 
-    copyIterator = sequenceCopy.begin();
-  }
-
-  ~SortSourceEdgeIterator() override = default;
+    ~SortSourceEdgeIterator() override = default;
 };
 
 /**
@@ -171,20 +171,20 @@ struct SortSourceEdgeIterator : public StableIterator<tlp::edge> {
  **/
 struct SortExtremitiesEdgeIterator : public StableIterator<tlp::edge> {
 
-  SortExtremitiesEdgeIterator(Iterator<tlp::edge> *itIn, const Graph *sg,
-                              const tlp::NumericProperty *metric, bool ascendingOrder = true)
-      : StableIterator<tlp::edge>(itIn) {
-    LessThanEdgeExtremitiesMetric tmp(sg, metric);
-    sort(sequenceCopy.begin(), sequenceCopy.end(), tmp);
+    SortExtremitiesEdgeIterator(Iterator<tlp::edge> *itIn, const Graph *sg,
+                                const tlp::NumericProperty *metric, bool ascendingOrder = true)
+        : StableIterator<tlp::edge>(itIn) {
+        LessThanEdgeExtremitiesMetric tmp(sg, metric);
+        sort(sequenceCopy.begin(), sequenceCopy.end(), tmp);
 
-    if (!ascendingOrder) {
-      reverse(sequenceCopy.begin(), sequenceCopy.end());
+        if (!ascendingOrder) {
+            reverse(sequenceCopy.begin(), sequenceCopy.end());
+        }
+
+        copyIterator = sequenceCopy.begin();
     }
 
-    copyIterator = sequenceCopy.begin();
-  }
-
-  ~SortExtremitiesEdgeIterator() override = default;
+    ~SortExtremitiesEdgeIterator() override = default;
 };
 
 /**
@@ -202,12 +202,12 @@ struct SortExtremitiesEdgeIterator : public StableIterator<tlp::edge> {
 template <typename T, typename CompareFunction>
 struct SortIterator : public tlp::StableIterator<T> {
 
-  SortIterator(Iterator<T> *itIn, CompareFunction &&compFunc) : StableIterator<T>(itIn) {
-    sort(this->sequenceCopy.begin(), this->sequenceCopy.end(), compFunc);
-    this->copyIterator = this->sequenceCopy.begin();
-  }
+    SortIterator(Iterator<T> *itIn, CompareFunction &&compFunc) : StableIterator<T>(itIn) {
+        sort(this->sequenceCopy.begin(), this->sequenceCopy.end(), compFunc);
+        this->copyIterator = this->sequenceCopy.begin();
+    }
 
-  ~SortIterator() = default;
+    ~SortIterator() = default;
 };
 
 /**
@@ -227,7 +227,7 @@ struct SortIterator : public tlp::StableIterator<T> {
  **/
 template <typename T, typename CompareFunction>
 inline Iterator<T> *sortIterator(Iterator<T> *it, CompareFunction &&compFunc) {
-  return new SortIterator<T, CompareFunction>(it, compFunc);
+    return new SortIterator<T, CompareFunction>(it, compFunc);
 }
 
 /**
@@ -247,8 +247,8 @@ inline Iterator<T> *sortIterator(Iterator<T> *it, CompareFunction &&compFunc) {
 template <typename Container, typename CompareFunction>
 inline Iterator<typename Container::value_type> *sortIterator(const Container &stlContainer,
                                                               CompareFunction &&compFunc) {
-  return new SortIterator<typename Container::value_type, CompareFunction>(
-      stlIterator(stlContainer), compFunc);
+    return new SortIterator<typename Container::value_type, CompareFunction>(
+        stlIterator(stlContainer), compFunc);
 }
 }
 #endif // TALIPOT_SORT_ITERATOR_H

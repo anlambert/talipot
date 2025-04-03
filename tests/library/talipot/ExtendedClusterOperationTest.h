@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,29 +20,29 @@
 #include "CppUnitIncludes.h"
 
 class ExtendedClusterOperationTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(ExtendedClusterOperationTest);
-  CPPUNIT_TEST(testCreateMetaNode);
-  CPPUNIT_TEST(testBugCreateOpenMetaNode);
-  CPPUNIT_TEST(testBugOpenInSubgraph);
-  CPPUNIT_TEST(testOpenMetaNode);
-  CPPUNIT_TEST(testOpenMetaNodes);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(ExtendedClusterOperationTest);
+    CPPUNIT_TEST(testCreateMetaNode);
+    CPPUNIT_TEST(testBugCreateOpenMetaNode);
+    CPPUNIT_TEST(testBugOpenInSubgraph);
+    CPPUNIT_TEST(testOpenMetaNode);
+    CPPUNIT_TEST(testOpenMetaNodes);
+    CPPUNIT_TEST_SUITE_END();
 
-private:
-  tlp::Graph *graph, *quotient;
-  tlp::node meta;
-  std::vector<tlp::node> nodes;
-  std::vector<tlp::edge> edges;
-  std::vector<tlp::node> group;
+  private:
+    tlp::Graph *graph, *quotient;
+    tlp::node meta;
+    std::vector<tlp::node> nodes;
+    std::vector<tlp::edge> edges;
+    std::vector<tlp::node> group;
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testCreateMetaNode();
-  void testBugCreateOpenMetaNode();
-  void testBugOpenInSubgraph();
-  void testOpenMetaNode();
-  void testOpenMetaNodes();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testCreateMetaNode();
+    void testBugCreateOpenMetaNode();
+    void testBugOpenInSubgraph();
+    void testOpenMetaNode();
+    void testOpenMetaNodes();
 };
 
 #endif // EXTENDED_CLUSTER_OPERATION_TEST_H

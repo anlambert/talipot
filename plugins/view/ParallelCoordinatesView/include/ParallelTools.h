@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -48,10 +48,10 @@ const float DEFAULT_CAPTION_VERTICAl_OFFSET = 20;
 
 template <typename T>
 std::string getStringFromNumber(T number) {
-  std::ostringstream oss;
-  oss.precision(5);
-  oss << number;
-  return oss.str();
+    std::ostringstream oss;
+    oss.precision(5);
+    oss << number;
+    return oss.str();
 }
 
 float computeABACAngleWithAlKashi(const Coord &A, const Coord &B, const Coord &C);

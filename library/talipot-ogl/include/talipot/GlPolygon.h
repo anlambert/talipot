@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,46 +28,46 @@ namespace tlp {
  *
  */
 class TLP_GL_SCOPE GlPolygon : public GlAbstractPolygon {
-public:
-  /**
-   * @brief Constructor where specify if the polygon is filled, is outlines the texture name and the
-   * outline size
-   */
-  GlPolygon(const bool filled = true, const bool outlined = true,
-            const std::string &textureName = "", const float outlineSize = 1);
-  /**
-   * @brief Constructor with a vector of point, a vector of fill color, a vector of outline color
-   * and if the polygon is filled, is outlined and the outline size
-   */
-  GlPolygon(const std::vector<Coord> &points, const std::vector<Color> &fillColors,
-            const std::vector<Color> &outlineColors, const bool filled, const bool outlined,
-            const std::string &textureName = "", const float outlineSize = 1);
-  /**
-   * @brief Constructor with a number of point, a number of fill color, a number of outline color
-   * and if the polygon is filled, outlined and the outline size
-   */
-  GlPolygon(const uint nbPoints, const uint nbFillColors, const uint nbOutlineColors,
-            const bool filled = true, const bool outlined = true,
-            const std::string &textureName = "", const float outlineSize = 1);
-  ~GlPolygon() override;
+  public:
+    /**
+     * @brief Constructor where specify if the polygon is filled, is outlines the texture name and
+     * the outline size
+     */
+    GlPolygon(const bool filled = true, const bool outlined = true,
+              const std::string &textureName = "", const float outlineSize = 1);
+    /**
+     * @brief Constructor with a vector of point, a vector of fill color, a vector of outline color
+     * and if the polygon is filled, is outlined and the outline size
+     */
+    GlPolygon(const std::vector<Coord> &points, const std::vector<Color> &fillColors,
+              const std::vector<Color> &outlineColors, const bool filled, const bool outlined,
+              const std::string &textureName = "", const float outlineSize = 1);
+    /**
+     * @brief Constructor with a number of point, a number of fill color, a number of outline color
+     * and if the polygon is filled, outlined and the outline size
+     */
+    GlPolygon(const uint nbPoints, const uint nbFillColors, const uint nbOutlineColors,
+              const bool filled = true, const bool outlined = true,
+              const std::string &textureName = "", const float outlineSize = 1);
+    ~GlPolygon() override;
 
-  /**
-   * @brief Change number of point of the polygon
-   */
-  virtual void resizePoints(const uint nbPoints);
-  /**
-   * @brief Change number of colors of the polygon
-   */
-  virtual void resizeColors(const uint nbColors);
+    /**
+     * @brief Change number of point of the polygon
+     */
+    virtual void resizePoints(const uint nbPoints);
+    /**
+     * @brief Change number of colors of the polygon
+     */
+    virtual void resizeColors(const uint nbColors);
 
-  /**
-   * @brief return the ith point
-   */
-  virtual const Coord &point(const uint i) const;
-  /**
-   * @brief return the ith point
-   */
-  virtual Coord &point(const uint i);
+    /**
+     * @brief return the ith point
+     */
+    virtual const Coord &point(const uint i) const;
+    /**
+     * @brief return the ith point
+     */
+    virtual Coord &point(const uint i);
 };
 }
 #endif // TALIPOT_GL_POLYGON_H

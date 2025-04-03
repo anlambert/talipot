@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,27 +33,27 @@ namespace tlp {
  *
  **/
 class TLP_QT_SCOPE TextureFileDialog : public QDialog {
-  Q_OBJECT
-public:
-  Ui::TextureFileDialog *ui;
-  TextureFile _data;
-  int ok;
-  TextureFileDialog(QWidget *parent = nullptr);
+    Q_OBJECT
+  public:
+    Ui::TextureFileDialog *ui;
+    TextureFile _data;
+    int ok;
+    TextureFileDialog(QWidget *parent = nullptr);
 
-  ~TextureFileDialog() override;
+    ~TextureFileDialog() override;
 
-  void done(int res) override;
+    void done(int res) override;
 
-  void setData(const TextureFile &tf);
+    void setData(const TextureFile &tf);
 
-  const TextureFile &data() const {
-    return _data;
-  }
+    const TextureFile &data() const {
+        return _data;
+    }
 
-  void showEvent(QShowEvent *ev) override;
+    void showEvent(QShowEvent *ev) override;
 
-public slots:
-  void browse();
+  public slots:
+    void browse();
 };
 }
 #endif // TALIPOT_TEXTURE_FILE_DIALOG_H

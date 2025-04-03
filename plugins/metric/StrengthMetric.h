@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,23 +26,23 @@
  *
  */
 class StrengthMetric : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION("Strength", "David Auber", "26/02/2003",
-                    "Computes the Strength metric described in<br/><b>Software component capture "
-                    "using graph clustering</b>, Y. Chiricota. F.Jourdan, an G.Melancon, IWPC "
-                    "(2002).",
-                    "1.0", "Graph")
-  StrengthMetric(const tlp::PluginContext *context);
-  ~StrengthMetric() override;
-  double getNodeValue(const tlp::node n);
-  double getEdgeValue(const tlp::edge n);
-  bool run() override;
+  public:
+    PLUGININFORMATION("Strength", "David Auber", "26/02/2003",
+                      "Computes the Strength metric described in<br/><b>Software component capture "
+                      "using graph clustering</b>, Y. Chiricota. F.Jourdan, an G.Melancon, IWPC "
+                      "(2002).",
+                      "1.0", "Graph")
+    StrengthMetric(const tlp::PluginContext *context);
+    ~StrengthMetric() override;
+    double getNodeValue(const tlp::node n);
+    double getEdgeValue(const tlp::edge n);
+    bool run() override;
 
-private:
-  double e(const std::unordered_set<tlp::node> &U);
-  double e(std::unordered_set<tlp::node> &U, std::unordered_set<tlp::node> &V);
-  double s(std::unordered_set<tlp::node> &U, std::unordered_set<tlp::node> &V);
-  double s(const std::unordered_set<tlp::node> &U);
+  private:
+    double e(const std::unordered_set<tlp::node> &U);
+    double e(std::unordered_set<tlp::node> &U, std::unordered_set<tlp::node> &V);
+    double s(std::unordered_set<tlp::node> &U, std::unordered_set<tlp::node> &V);
+    double s(const std::unordered_set<tlp::node> &U);
 };
 
 #endif // STRENGTH_METRIC_H

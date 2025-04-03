@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2024  The Talipot developers
+ * Copyright (C) 2024-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,27 +27,27 @@ static constexpr string_view paramHelp[] = {
 //=================================================================================
 
 class OGDFRandomSimpleGraph : public OGDFImportBase {
-public:
-  PLUGININFORMATION("Random Simple Graph (OGDF)", "Antoine Lambert", "06/2024",
-                    "Creates a random simple graph", "1.0", "OGDF")
+  public:
+    PLUGININFORMATION("Random Simple Graph (OGDF)", "Antoine Lambert", "06/2024",
+                      "Creates a random simple graph", "1.0", "OGDF")
 
-  OGDFRandomSimpleGraph(tlp::PluginContext *context) : OGDFImportBase(context) {
-    addInParameter<int>("n", paramHelp[0].data(), "500");
-    addInParameter<int>("m", paramHelp[1].data(), "1500");
-  }
-
-  bool importOGDFGraph() override {
-    int n = 500;
-    int m = 1500;
-
-    if (dataSet != nullptr) {
-      dataSet->get("n", n);
-      dataSet->get("m", m);
+    OGDFRandomSimpleGraph(tlp::PluginContext *context) : OGDFImportBase(context) {
+        addInParameter<int>("n", paramHelp[0].data(), "500");
+        addInParameter<int>("m", paramHelp[1].data(), "1500");
     }
 
-    ogdf::randomSimpleGraph(G, n, m);
-    return true;
-  }
+    bool importOGDFGraph() override {
+        int n = 500;
+        int m = 1500;
+
+        if (dataSet != nullptr) {
+            dataSet->get("n", n);
+            dataSet->get("m", m);
+        }
+
+        ogdf::randomSimpleGraph(G, n, m);
+        return true;
+    }
 };
 
 PLUGIN(OGDFRandomSimpleGraph)

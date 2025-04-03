@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,30 +23,30 @@ using namespace tlp;
 
 ParallelEdgesSelection::ParallelEdgesSelection(const tlp::PluginContext *context)
     : BooleanAlgorithm(context) {
-  addInParameter<bool>("directed",
-                       "Indicates if the graph should be considered as directed or not.", "false");
-  addOutParameter<uint>("#edges selected", "The number of parallel edges selected");
+    addInParameter<bool>(
+        "directed", "Indicates if the graph should be considered as directed or not.", "false");
+    addOutParameter<uint>("#edges selected", "The number of parallel edges selected");
 }
 
 bool ParallelEdgesSelection::run() {
-  bool directed = false;
-  if (dataSet) {
-    dataSet->get("directed", directed);
-  }
+    bool directed = false;
+    if (dataSet) {
+        dataSet->get("directed", directed);
+    }
 
-  auto [loops, parallelEdges] = SimpleTest::getLoopsAndParallelEdges(graph, directed);
+    auto [loops, parallelEdges] = SimpleTest::getLoopsAndParallelEdges(graph, directed);
 
-  result->setAllNodeValue(false);
-  result->setAllEdgeValue(false);
+    result->setAllNodeValue(false);
+    result->setAllEdgeValue(false);
 
-  for (auto e : parallelEdges) {
-    result->setEdgeValue(e, true);
-  }
+    for (auto e : parallelEdges) {
+        result->setEdgeValue(e, true);
+    }
 
-  // output some useful information
-  if (dataSet != nullptr) {
-    dataSet->set("#edges selected", uint(parallelEdges.size()));
-  }
+    // output some useful information
+    if (dataSet != nullptr) {
+        dataSet->set("#edges selected", uint(parallelEdges.size()));
+    }
 
-  return true;
+    return true;
 }

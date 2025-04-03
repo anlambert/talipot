@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,18 +23,18 @@ namespace tlp {
 
 class PixelOrientedViewNavigator : public GLInteractorComponent {
 
-public:
-  PixelOrientedViewNavigator();
-  ~PixelOrientedViewNavigator() override;
+  public:
+    PixelOrientedViewNavigator();
+    ~PixelOrientedViewNavigator() override;
 
-  bool eventFilter(QObject *, QEvent *) override;
-  void viewChanged(View *view) override;
+    bool eventFilter(QObject *, QEvent *) override;
+    void viewChanged(View *view) override;
 
-private:
-  PixelOrientedOverview *getOverviewUnderPointer(Coord &sceneCoord);
+  private:
+    PixelOrientedOverview *getOverviewUnderPointer(Coord &sceneCoord);
 
-  PixelOrientedView *pixelView;
-  PixelOrientedOverview *selectedOverview;
+    PixelOrientedView *pixelView;
+    PixelOrientedOverview *selectedOverview;
 };
 }
 

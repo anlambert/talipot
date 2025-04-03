@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,45 +30,45 @@
 
 bool tlp::OpenMPLock::_canUseLock = true;
 tlp::OpenMPLock::OpenMPLock() : _lock(nullptr) {
-  if (_canUseLock) {
-    _lock = new omp_lock_t;
-    omp_init_lock(_lock);
-  }
+    if (_canUseLock) {
+        _lock = new omp_lock_t;
+        omp_init_lock(_lock);
+    }
 }
 tlp::OpenMPLock::~OpenMPLock() {
-  if (_canUseLock) {
-    omp_destroy_lock(_lock);
-  }
-  delete _lock;
+    if (_canUseLock) {
+        omp_destroy_lock(_lock);
+    }
+    delete _lock;
 }
 void tlp::OpenMPLock::lock() {
-  if (_canUseLock) {
-    omp_set_lock(_lock);
-  }
+    if (_canUseLock) {
+        omp_set_lock(_lock);
+    }
 }
 void tlp::OpenMPLock::unlock() {
-  if (_canUseLock) {
-    omp_unset_lock(_lock);
-  }
+    if (_canUseLock) {
+        omp_unset_lock(_lock);
+    }
 }
 void tlp::OpenMPLock::exitHandler() {
-  _canUseLock = false;
+    _canUseLock = false;
 }
 void tlp::OpenMPLock::registerExitHandler() {
-  atexit(tlp::OpenMPLock::exitHandler);
+    atexit(tlp::OpenMPLock::exitHandler);
 }
 
 #endif // __APPLE__
 
 struct OpenMPDefaultOptions {
-  OpenMPDefaultOptions() {
-    int num_threads = omp_get_num_procs();
-    auto *num_threads_ptr = getenv("OMP_NUM_THREADS");
-    if (num_threads_ptr) {
-      num_threads = atoi(num_threads_ptr);
+    OpenMPDefaultOptions() {
+        int num_threads = omp_get_num_procs();
+        auto *num_threads_ptr = getenv("OMP_NUM_THREADS");
+        if (num_threads_ptr) {
+            num_threads = atoi(num_threads_ptr);
+        }
+        omp_set_num_threads(num_threads);
     }
-    omp_set_num_threads(num_threads);
-  }
 };
 
 static OpenMPDefaultOptions openMpDefaultOptions;
@@ -99,21 +99,21 @@ uint ThreadManager::maxNumberOfThreads(1);
 #endif
 
 uint ThreadManager::getNumberOfProcs() {
-  return numberOfProcs;
+    return numberOfProcs;
 }
 
 uint ThreadManager::getNumberOfThreads() {
-  return maxNumberOfThreads;
+    return maxNumberOfThreads;
 }
 
 void ThreadManager::setNumberOfThreads(uint nbThreads) {
 #ifndef TLP_NO_THREADS
-  maxNumberOfThreads = std::min(nbThreads, uint(TLP_MAX_NB_THREADS));
+    maxNumberOfThreads = std::min(nbThreads, uint(TLP_MAX_NB_THREADS));
 #ifdef _OPENMP
-  omp_set_num_threads(maxNumberOfThreads);
+    omp_set_num_threads(maxNumberOfThreads);
 #endif
 #else
-  std::ignore = nbThreads;
+    std::ignore = nbThreads;
 #endif
 }
 
@@ -129,24 +129,24 @@ static std::mutex tNumMtx;
 static flat_hash_map<std::thread::id, uint> tNumMap;
 
 void ThreadManager::allocateThreadNumber() {
-  // exclusive access to tNumManager
-  tNumMtx.lock();
-  // 0 is reserved for main thread
-  auto num = tNumManager.add() + 1;
-  auto tNum = std::this_thread::get_id();
-  tNumMap[tNum] = num;
-  tNumMtx.unlock();
+    // exclusive access to tNumManager
+    tNumMtx.lock();
+    // 0 is reserved for main thread
+    auto num = tNumManager.add() + 1;
+    auto tNum = std::this_thread::get_id();
+    tNumMap[tNum] = num;
+    tNumMtx.unlock();
 }
 
 void ThreadManager::freeThreadNumber() {
-  // exclusive access to tNumManager
-  tNumMtx.lock();
-  auto tNum = std::this_thread::get_id();
-  uint num = tNumMap[tNum];
-  tNumMap.erase(tNum);
-  assert(num > 0);
-  tNumManager.free(num - 1);
-  tNumMtx.unlock();
+    // exclusive access to tNumManager
+    tNumMtx.lock();
+    auto tNum = std::this_thread::get_id();
+    uint num = tNumMap[tNum];
+    tNumMap.erase(tNum);
+    assert(num > 0);
+    tNumManager.free(num - 1);
+    tNumMtx.unlock();
 }
 
 #endif
@@ -154,17 +154,17 @@ void ThreadManager::freeThreadNumber() {
 uint ThreadManager::getThreadNumber() {
 #ifndef TLP_NO_THREADS
 #ifdef _OPENMP
-  return omp_get_thread_num();
+    return omp_get_thread_num();
 #else
-  tNumMtx.lock();
+    tNumMtx.lock();
 
-  if (const auto it = tNumMap.find(std::this_thread::get_id()); it != tNumMap.end()) {
+    if (const auto it = tNumMap.find(std::this_thread::get_id()); it != tNumMap.end()) {
+        tNumMtx.unlock();
+        return it->second;
+    }
     tNumMtx.unlock();
-    return it->second;
-  }
-  tNumMtx.unlock();
 #endif
 #endif
-  return 0;
+    return 0;
 }
 }

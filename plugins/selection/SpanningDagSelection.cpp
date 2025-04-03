@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,31 +24,31 @@ using namespace tlp;
 //=================================================================
 SpanningDagSelection::SpanningDagSelection(const tlp::PluginContext *context)
     : BooleanAlgorithm(context) {
-  addOutParameter<uint>("#edges selected", "The number of 'dag' selected edges");
+    addOutParameter<uint>("#edges selected", "The number of 'dag' selected edges");
 }
 //=================================================================
 bool SpanningDagSelection::run() {
-  for (auto n : graph->nodes()) {
-    result->setNodeValue(n, true);
-  }
+    for (auto n : graph->nodes()) {
+        result->setNodeValue(n, true);
+    }
 
-  EdgeVectorProperty<bool> edgeprop(graph);
-  edgeprop.setAll(true);
+    EdgeVectorProperty<bool> edgeprop(graph);
+    edgeprop.setAll(true);
 
-  vector<edge> obstructions;
-  AcyclicTest::acyclicTest(graph, &obstructions);
+    vector<edge> obstructions;
+    AcyclicTest::acyclicTest(graph, &obstructions);
 
-  for (auto e : obstructions) {
-    edgeprop[e] = false;
-  }
+    for (auto e : obstructions) {
+        edgeprop[e] = false;
+    }
 
-  edgeprop.copyToProperty(result);
+    edgeprop.copyToProperty(result);
 
-  // output some useful information
-  if (dataSet != nullptr) {
-    dataSet->set("#edges selected", uint(graph->numberOfEdges() - obstructions.size()));
-  }
+    // output some useful information
+    if (dataSet != nullptr) {
+        dataSet->set("#edges selected", uint(graph->numberOfEdges() - obstructions.size()));
+    }
 
-  return true;
+    return true;
 }
 //=================================================================

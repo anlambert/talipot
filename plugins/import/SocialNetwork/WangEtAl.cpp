@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,53 +31,53 @@ static constexpr std::string_view paramHelp[] = {
  *
  */
 struct WangEtAl : public ImportModule {
-  PLUGININFORMATION("Wang et al. Model", "Arnaud Sallaberry", "21/02/2011",
-                    "Randomly generates a small world graph using the model described "
-                    "in<br/>L.Wang, F. Du, H. P. Dai, and Y. X. Sun.<br/><b>Random pseudofractal "
-                    "scale-free networks with small-world effect.</b><br/>The European Physical "
-                    "Journal B - Condensed Matter and Complex Systems, 53, 361-366, (2006).",
-                    "1.0", "Social network")
+    PLUGININFORMATION("Wang et al. Model", "Arnaud Sallaberry", "21/02/2011",
+                      "Randomly generates a small world graph using the model described "
+                      "in<br/>L.Wang, F. Du, H. P. Dai, and Y. X. Sun.<br/><b>Random pseudofractal "
+                      "scale-free networks with small-world effect.</b><br/>The European Physical "
+                      "Journal B - Condensed Matter and Complex Systems, 53, 361-366, (2006).",
+                      "1.0", "Social network")
 
-  WangEtAl(PluginContext *context) : ImportModule(context) {
-    addInParameter<uint>("nodes", paramHelp[0].data(), "300");
-  }
-
-  bool importGraph() override {
-
-    uint n = 300;
-
-    if (dataSet != nullptr) {
-      dataSet->get("nodes", n);
+    WangEtAl(PluginContext *context) : ImportModule(context) {
+        addInParameter<uint>("nodes", paramHelp[0].data(), "300");
     }
 
-    pluginProgress->showPreview(false);
-    tlp::initRandomSequence();
+    bool importGraph() override {
 
-    graph->addNodes(n);
-    const vector<node> &nodes = graph->nodes();
+        uint n = 300;
 
-    graph->reserveEdges(2 * n - 3);
-
-    vector<edge> e(2 * n - 3);
-    e[0] = graph->addEdge(nodes[0], nodes[1]);
-    uint nbe = 1;
-
-    for (unsigned i = 2; i < n; ++i) {
-      if (i % 100 == 0) {
-        if (pluginProgress->progress(i, n) != ProgressState::TLP_CONTINUE) {
-          return pluginProgress->state() != ProgressState::TLP_CANCEL;
+        if (dataSet != nullptr) {
+            dataSet->get("nodes", n);
         }
-      }
 
-      int id = tlp::randomNumber(nbe - 1);
-      auto [src, tgt] = graph->ends(e[id]);
-      e[nbe] = graph->addEdge(src, nodes[i]);
-      e[nbe + 1] = graph->addEdge(tgt, nodes[i]);
-      nbe += 2;
+        pluginProgress->showPreview(false);
+        tlp::initRandomSequence();
+
+        graph->addNodes(n);
+        const vector<node> &nodes = graph->nodes();
+
+        graph->reserveEdges(2 * n - 3);
+
+        vector<edge> e(2 * n - 3);
+        e[0] = graph->addEdge(nodes[0], nodes[1]);
+        uint nbe = 1;
+
+        for (unsigned i = 2; i < n; ++i) {
+            if (i % 100 == 0) {
+                if (pluginProgress->progress(i, n) != ProgressState::TLP_CONTINUE) {
+                    return pluginProgress->state() != ProgressState::TLP_CANCEL;
+                }
+            }
+
+            int id = tlp::randomNumber(nbe - 1);
+            auto [src, tgt] = graph->ends(e[id]);
+            e[nbe] = graph->addEdge(src, nodes[i]);
+            e[nbe + 1] = graph->addEdge(tgt, nodes[i]);
+            nbe += 2;
+        }
+
+        return true;
     }
-
-    return true;
-  }
 };
 
 PLUGIN(WangEtAl)

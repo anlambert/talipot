@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,23 +23,24 @@ namespace tlp {
  */
 class TLP_GL_SCOPE GlCubicBSplineInterpolation : public GlOpenUniformCubicBSpline {
 
-public:
-  /**
-   * GlCubicBSplineInterpolation constructor
-   *
-   * \param pointsToInterpolate the set of points to interpolate
-   * \param startColor the color at the start of the curve
-   * \param endColor the color at the end of the curve
-   * \param startSize the width at the start of the curve
-   * \param endSize the width at the end of the curve
-   * \param nbCurvePoints the number of curve points to generate
-   */
-  GlCubicBSplineInterpolation(const std::vector<Coord> &pointsToInterpolate,
-                              const Color &startColor, const Color &endColor, const float startSize,
-                              const float endSize, const uint nbCurvePoints = 100);
+  public:
+    /**
+     * GlCubicBSplineInterpolation constructor
+     *
+     * \param pointsToInterpolate the set of points to interpolate
+     * \param startColor the color at the start of the curve
+     * \param endColor the color at the end of the curve
+     * \param startSize the width at the start of the curve
+     * \param endSize the width at the end of the curve
+     * \param nbCurvePoints the number of curve points to generate
+     */
+    GlCubicBSplineInterpolation(const std::vector<Coord> &pointsToInterpolate,
+                                const Color &startColor, const Color &endColor,
+                                const float startSize, const float endSize,
+                                const uint nbCurvePoints = 100);
 
-private:
-  std::vector<Coord>
-  constructInterpolatingCubicBSpline(const std::vector<Coord> &pointsToInterpolate);
+  private:
+    std::vector<Coord>
+    constructInterpolatingCubicBSpline(const std::vector<Coord> &pointsToInterpolate);
 };
 }

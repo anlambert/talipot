@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,7 +35,7 @@ GeographicViewInteractor::GeographicViewInteractor(const QIcon &icon, const QStr
     : NodeLinkDiagramViewInteractor(icon, text, priority) {}
 
 bool GeographicViewInteractor::isCompatible(const std::string &viewName) const {
-  return (viewName == ViewName::GeographicViewName);
+    return (viewName == ViewName::GeographicViewName);
 }
 
 GeographicViewInteractorNavigation::GeographicViewInteractorNavigation(const PluginContext *)
@@ -43,11 +43,11 @@ GeographicViewInteractorNavigation::GeographicViewInteractorNavigation(const Plu
                                StandardInteractorPriority::Navigation) {}
 
 void GeographicViewInteractorNavigation::construct() {
-  push_back(new GeographicViewNavigator);
+    push_back(new GeographicViewNavigator);
 }
 
 QWidget *GeographicViewInteractorNavigation::configurationWidget() const {
-  return nullptr;
+    return nullptr;
 }
 
 GeographicViewInteractorSelection::GeographicViewInteractorSelection(const PluginContext *)
@@ -55,16 +55,16 @@ GeographicViewInteractorSelection::GeographicViewInteractorSelection(const Plugi
                                StandardInteractorPriority::RectangleSelection) {}
 
 void GeographicViewInteractorSelection::construct() {
-  push_back(new GeographicViewNavigator);
-  push_back(new MouseSelector);
+    push_back(new GeographicViewNavigator);
+    push_back(new MouseSelector);
 }
 
 QWidget *GeographicViewInteractorSelection::configurationWidget() const {
-  return nullptr;
+    return nullptr;
 }
 
 QCursor GeographicViewInteractorSelection::cursor() const {
-  return Qt::CrossCursor;
+    return Qt::CrossCursor;
 }
 
 PLUGIN(GeographicViewInteractorSelection)
@@ -76,17 +76,17 @@ GeographicViewInteractorSelectionEditor::GeographicViewInteractorSelectionEditor
                                StandardInteractorPriority::RectangleSelectionModifier) {}
 
 void GeographicViewInteractorSelectionEditor::construct() {
-  push_back(new GeographicViewNavigator);
-  push_back(new MouseSelector);
-  push_back(new MouseSelectionEditor);
+    push_back(new GeographicViewNavigator);
+    push_back(new MouseSelector);
+    push_back(new MouseSelectionEditor);
 }
 
 QWidget *GeographicViewInteractorSelectionEditor::configurationWidget() const {
-  return nullptr;
+    return nullptr;
 }
 
 QCursor GeographicViewInteractorSelectionEditor::cursor() const {
-  return Qt::CrossCursor;
+    return Qt::CrossCursor;
 }
 
 PLUGIN(GeographicViewInteractorSelectionEditor)
@@ -98,144 +98,144 @@ GeographicViewNavigator::~GeographicViewNavigator() = default;
 void GeographicViewNavigator::viewChanged(View *) {}
 
 void trans(Coord &c1, Coord &c2, float angle1, float angle2) {
-  float rho1 = sqrt(c1[0] * c1[0] + c1[1] * c1[1] + c1[2] * c1[2]);
-  float theta1 = acos(c1[2] / rho1);
-  float phi1 = acos(c1[0] / sqrt(c1[0] * c1[0] + c1[1] * c1[1]));
+    float rho1 = sqrt(c1[0] * c1[0] + c1[1] * c1[1] + c1[2] * c1[2]);
+    float theta1 = acos(c1[2] / rho1);
+    float phi1 = acos(c1[0] / sqrt(c1[0] * c1[0] + c1[1] * c1[1]));
 
-  float rho2 = sqrt(c2[0] * c2[0] + c2[1] * c2[1] + c2[2] * c2[2]);
-  float theta2 = acos(c2[2] / rho2);
-  float phi2 = acos(c2[0] / sqrt(c2[0] * c2[0] + c2[1] * c2[1]));
+    float rho2 = sqrt(c2[0] * c2[0] + c2[1] * c2[1] + c2[2] * c2[2]);
+    float theta2 = acos(c2[2] / rho2);
+    float phi2 = acos(c2[0] / sqrt(c2[0] * c2[0] + c2[1] * c2[1]));
 
-  if (c1[1] < 0) {
-    phi1 = 2 * M_PI - phi1;
-  }
-
-  if (c1[0] == 0 && c1[1] == 0) {
-    phi1 = 0;
-  }
-
-  if (c2[1] < 0) {
-    phi2 = 2 * M_PI - phi2;
-  }
-
-  if (c2[0] == 0 && c2[1] == 0) {
-    phi2 = 0;
-  }
-
-  if (theta1 + angle1 > 0.001 && theta1 + angle1 < M_PI && theta2 + angle1 > 0.001 &&
-      theta2 + angle1 < M_PI) {
-    theta1 += angle1;
-    theta2 += angle1;
-
-    if (theta2 > theta1) {
-      float tmp = theta1;
-      theta1 = theta2;
-      theta2 = tmp;
+    if (c1[1] < 0) {
+        phi1 = 2 * M_PI - phi1;
     }
-  }
 
-  phi2 += angle2;
-  phi1 = phi2;
+    if (c1[0] == 0 && c1[1] == 0) {
+        phi1 = 0;
+    }
 
-  c1[0] = rho1 * sin(theta1) * cos(phi1);
-  c1[1] = rho1 * sin(theta1) * sin(phi1);
-  c1[2] = rho1 * cos(theta1);
+    if (c2[1] < 0) {
+        phi2 = 2 * M_PI - phi2;
+    }
 
-  c2[0] = rho2 * sin(theta2) * cos(phi2);
-  c2[1] = rho2 * sin(theta2) * sin(phi2);
-  c2[2] = rho2 * cos(theta2);
+    if (c2[0] == 0 && c2[1] == 0) {
+        phi2 = 0;
+    }
+
+    if (theta1 + angle1 > 0.001 && theta1 + angle1 < M_PI && theta2 + angle1 > 0.001 &&
+        theta2 + angle1 < M_PI) {
+        theta1 += angle1;
+        theta2 += angle1;
+
+        if (theta2 > theta1) {
+            float tmp = theta1;
+            theta1 = theta2;
+            theta2 = tmp;
+        }
+    }
+
+    phi2 += angle2;
+    phi1 = phi2;
+
+    c1[0] = rho1 * sin(theta1) * cos(phi1);
+    c1[1] = rho1 * sin(theta1) * sin(phi1);
+    c1[2] = rho1 * cos(theta1);
+
+    c2[0] = rho2 * sin(theta2) * cos(phi2);
+    c2[1] = rho2 * sin(theta2) * sin(phi2);
+    c2[2] = rho2 * cos(theta2);
 }
 
 bool GeographicViewNavigator::eventFilter(QObject *widget, QEvent *e) {
-  auto *geoView = static_cast<GeographicView *>(view());
-  auto *g = static_cast<GlWidget *>(widget);
-  auto *qMouseEv = dynamic_cast<QMouseEvent *>(e);
-  auto *qWheelEv = dynamic_cast<QWheelEvent *>(e);
+    auto *geoView = static_cast<GeographicView *>(view());
+    auto *g = static_cast<GlWidget *>(widget);
+    auto *qMouseEv = dynamic_cast<QMouseEvent *>(e);
+    auto *qWheelEv = dynamic_cast<QWheelEvent *>(e);
 
-  if (geoView->viewType() <= GeographicView::CustomTilesLayer) {
-    return false;
-  } else if (geoView->viewType() == GeographicView::Globe) {
+    if (geoView->viewType() <= GeographicView::CustomTilesLayer) {
+        return false;
+    } else if (geoView->viewType() == GeographicView::Globe) {
 
-    if (e->type() == QEvent::Wheel) {
-      int numSteps = qWheelEv->angleDelta().y() / 120;
-      g->scene()->zoomXY(numSteps, g->width() / 2., g->height() / 2.);
-      view()->draw();
-      return true;
+        if (e->type() == QEvent::Wheel) {
+            int numSteps = qWheelEv->angleDelta().y() / 120;
+            g->scene()->zoomXY(numSteps, g->width() / 2., g->height() / 2.);
+            view()->draw();
+            return true;
+        }
+
+        if (e->type() == QEvent::MouseButtonPress && !inRotation) {
+            if (qMouseEv->button() == Qt::LeftButton) {
+                x = qMouseEv->pos().x();
+                y = qMouseEv->pos().y();
+                inRotation = true;
+                return true;
+            }
+        }
+
+        if (e->type() == QEvent::MouseButtonRelease) {
+            if (qMouseEv->button() == Qt::LeftButton) {
+                inRotation = false;
+                return true;
+            }
+        }
+
+        if (e->type() == QEvent::MouseMove && inRotation) {
+
+            Camera &camera = g->scene()->graphCamera();
+            Coord c1 = camera.getEyes() - camera.getCenter();
+            Coord c2 = camera.getEyes() - camera.getCenter() + camera.getUp();
+            trans(c1, c2, -0.005 * (qMouseEv->pos().y() - y), -0.005 * (qMouseEv->pos().x() - x));
+            camera.setCenter(Coord(0, 0, 0));
+            camera.setEyes(c1);
+            camera.setUp(c2 - camera.getEyes());
+
+            x = qMouseEv->pos().x();
+            y = qMouseEv->pos().y();
+
+            view()->draw();
+            return true;
+        }
+
+        if (e->type() == QEvent::KeyPress) {
+
+            float angle1 = 0;
+            float angle2 = 0;
+
+            switch (static_cast<QKeyEvent *>(e)->key()) {
+            case Qt::Key_Left:
+                angle2 = -0.05f;
+                break;
+
+            case Qt::Key_Right:
+                angle2 = 0.05f;
+                break;
+
+            case Qt::Key_Up:
+                angle1 = 0.05f;
+                break;
+
+            case Qt::Key_Down:
+                angle1 = -0.05f;
+                break;
+            }
+
+            Camera &camera = g->scene()->graphCamera();
+            Coord c1 = camera.getEyes() - camera.getCenter();
+            Coord c2 = camera.getEyes() - camera.getCenter() + camera.getUp();
+            trans(c1, c2, angle1, angle2);
+            camera.setCenter(Coord(0, 0, 0));
+            camera.setEyes(c1);
+            camera.setUp(c2 - camera.getEyes());
+
+            view()->draw();
+
+            return true;
+        }
+
+        return false;
+    } else {
+        return MouseNKeysNavigator::eventFilter(widget, e);
     }
-
-    if (e->type() == QEvent::MouseButtonPress && !inRotation) {
-      if (qMouseEv->button() == Qt::LeftButton) {
-        x = qMouseEv->pos().x();
-        y = qMouseEv->pos().y();
-        inRotation = true;
-        return true;
-      }
-    }
-
-    if (e->type() == QEvent::MouseButtonRelease) {
-      if (qMouseEv->button() == Qt::LeftButton) {
-        inRotation = false;
-        return true;
-      }
-    }
-
-    if (e->type() == QEvent::MouseMove && inRotation) {
-
-      Camera &camera = g->scene()->graphCamera();
-      Coord c1 = camera.getEyes() - camera.getCenter();
-      Coord c2 = camera.getEyes() - camera.getCenter() + camera.getUp();
-      trans(c1, c2, -0.005 * (qMouseEv->pos().y() - y), -0.005 * (qMouseEv->pos().x() - x));
-      camera.setCenter(Coord(0, 0, 0));
-      camera.setEyes(c1);
-      camera.setUp(c2 - camera.getEyes());
-
-      x = qMouseEv->pos().x();
-      y = qMouseEv->pos().y();
-
-      view()->draw();
-      return true;
-    }
-
-    if (e->type() == QEvent::KeyPress) {
-
-      float angle1 = 0;
-      float angle2 = 0;
-
-      switch (static_cast<QKeyEvent *>(e)->key()) {
-      case Qt::Key_Left:
-        angle2 = -0.05f;
-        break;
-
-      case Qt::Key_Right:
-        angle2 = 0.05f;
-        break;
-
-      case Qt::Key_Up:
-        angle1 = 0.05f;
-        break;
-
-      case Qt::Key_Down:
-        angle1 = -0.05f;
-        break;
-      }
-
-      Camera &camera = g->scene()->graphCamera();
-      Coord c1 = camera.getEyes() - camera.getCenter();
-      Coord c2 = camera.getEyes() - camera.getCenter() + camera.getUp();
-      trans(c1, c2, angle1, angle2);
-      camera.setCenter(Coord(0, 0, 0));
-      camera.setEyes(c1);
-      camera.setUp(c2 - camera.getEyes());
-
-      view()->draw();
-
-      return true;
-    }
-
-    return false;
-  } else {
-    return MouseNKeysNavigator::eventFilter(widget, e);
-  }
 }
 
 PLUGIN(GeographicViewInteractorNavigation)
@@ -245,19 +245,20 @@ GeographicViewInteractorAddEdges::GeographicViewInteractorAddEdges(const PluginC
                                StandardInteractorPriority::AddNodesOrEdges) {}
 
 void GeographicViewInteractorAddEdges::construct() {
-  setConfigurationWidgetText("<h3>Add nodes/edges</h3>To add a node: <b>Mouse left</b> click "
-                             "outside any node.<br/>To add an edge: <b>Mouse left</b> click on the "
-                             "source node,<br/>then <b>Mouse left</b> click on the target "
-                             "node.<br/>Any <b>Mouse left</b> click outside a node before the "
-                             "click on the target node will add an edge bend,<br/><b>Mouse "
-                             "middle</b> click will cancel the current edge construction.");
-  push_back(new GeographicViewNavigator);
-  push_back(new MouseNodeBuilder);
-  push_back(new MouseEdgeBuilder);
+    setConfigurationWidgetText(
+        "<h3>Add nodes/edges</h3>To add a node: <b>Mouse left</b> click "
+        "outside any node.<br/>To add an edge: <b>Mouse left</b> click on the "
+        "source node,<br/>then <b>Mouse left</b> click on the target "
+        "node.<br/>Any <b>Mouse left</b> click outside a node before the "
+        "click on the target node will add an edge bend,<br/><b>Mouse "
+        "middle</b> click will cancel the current edge construction.");
+    push_back(new GeographicViewNavigator);
+    push_back(new MouseNodeBuilder);
+    push_back(new MouseEdgeBuilder);
 }
 
 QCursor GeographicViewInteractorAddEdges::cursor() const {
-  return QCursor(Qt::PointingHandCursor);
+    return QCursor(Qt::PointingHandCursor);
 }
 
 PLUGIN(GeographicViewInteractorAddEdges)
@@ -267,51 +268,51 @@ GeographicViewInteractorEditEdgeBends::GeographicViewInteractorEditEdgeBends(con
                                StandardInteractorPriority::EditEdgeBends) {}
 
 void GeographicViewInteractorEditEdgeBends::construct() {
-  push_back(new GeographicViewNavigator);
-  push_back(new MouseSelector);
-  push_back(new MouseEdgeBendEditor);
+    push_back(new GeographicViewNavigator);
+    push_back(new MouseSelector);
+    push_back(new MouseEdgeBendEditor);
 }
 
 PLUGIN(GeographicViewInteractorEditEdgeBends)
 
 class GeographicViewMouseBoxZoomer : public MouseBoxZoomer {
-public:
-  GeographicViewMouseBoxZoomer(Qt::MouseButton button = Qt::LeftButton,
-                               Qt::KeyboardModifier modifier = Qt::NoModifier)
-      : MouseBoxZoomer(button, modifier) {}
+  public:
+    GeographicViewMouseBoxZoomer(Qt::MouseButton button = Qt::LeftButton,
+                                 Qt::KeyboardModifier modifier = Qt::NoModifier)
+        : MouseBoxZoomer(button, modifier) {}
 
-  bool eventFilter(QObject *widget, QEvent *event) override {
-    GeographicView *geoView = static_cast<GeographicView *>(view());
+    bool eventFilter(QObject *widget, QEvent *event) override {
+        GeographicView *geoView = static_cast<GeographicView *>(view());
 
-    if (geoView->viewType() > GeographicView::CustomTilesLayer) {
-      return false;
+        if (geoView->viewType() > GeographicView::CustomTilesLayer) {
+            return false;
+        }
+
+        if (event->type() == QEvent::MouseButtonDblClick) {
+            geoView->centerView();
+            return true;
+        }
+
+        if (started) {
+            bool ok = MouseBoxZoomer::eventFilter(widget, event);
+            auto *qgvMap = geoView->getGeographicViewGraphicsView()->getQGVMap();
+            auto *projection = qgvMap->getProjection();
+            auto *qMouseEv = static_cast<QMouseEvent *>(event);
+
+            if (ok && !started && (event->type() == QEvent::MouseButtonRelease) && graph &&
+                (qMouseEv->button() & mButton)) {
+                auto *glWidget = static_cast<GlWidget *>(widget);
+                auto minBound =
+                    projection->projToGeo(qgvMap->mapToProj(QPoint(x, glWidget->height() - y + h)));
+                auto maxBound =
+                    projection->projToGeo(qgvMap->mapToProj(QPoint(x + w, glWidget->height() - y)));
+                QGV::GeoRect bounds(minBound, maxBound);
+                qgvMap->flyTo(QGVCameraActions(qgvMap).scaleTo(bounds));
+            }
+            return ok;
+        }
+        return MouseBoxZoomer::eventFilter(widget, event);
     }
-
-    if (event->type() == QEvent::MouseButtonDblClick) {
-      geoView->centerView();
-      return true;
-    }
-
-    if (started) {
-      bool ok = MouseBoxZoomer::eventFilter(widget, event);
-      auto *qgvMap = geoView->getGeographicViewGraphicsView()->getQGVMap();
-      auto *projection = qgvMap->getProjection();
-      auto *qMouseEv = static_cast<QMouseEvent *>(event);
-
-      if (ok && !started && (event->type() == QEvent::MouseButtonRelease) && graph &&
-          (qMouseEv->button() & mButton)) {
-        auto *glWidget = static_cast<GlWidget *>(widget);
-        auto minBound =
-            projection->projToGeo(qgvMap->mapToProj(QPoint(x, glWidget->height() - y + h)));
-        auto maxBound =
-            projection->projToGeo(qgvMap->mapToProj(QPoint(x + w, glWidget->height() - y)));
-        QGV::GeoRect bounds(minBound, maxBound);
-        qgvMap->flyTo(QGVCameraActions(qgvMap).scaleTo(bounds));
-      }
-      return ok;
-    }
-    return MouseBoxZoomer::eventFilter(widget, event);
-  }
 };
 
 GeographicViewInteractorRectangleZoom::GeographicViewInteractorRectangleZoom(const PluginContext *)
@@ -319,8 +320,8 @@ GeographicViewInteractorRectangleZoom::GeographicViewInteractorRectangleZoom(con
                                StandardInteractorPriority::ZoomOnRectangle) {}
 
 void GeographicViewInteractorRectangleZoom::construct() {
-  push_back(new GeographicViewNavigator);
-  push_back(new GeographicViewMouseBoxZoomer);
+    push_back(new GeographicViewNavigator);
+    push_back(new GeographicViewMouseBoxZoomer);
 }
 
 PLUGIN(GeographicViewInteractorRectangleZoom)

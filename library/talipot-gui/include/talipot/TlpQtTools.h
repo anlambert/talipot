@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -37,29 +37,29 @@ TLP_QT_SCOPE bool getColorDialog(const QColor &color, QWidget *parent, const QSt
                                  QColor &result);
 
 inline QColor colorToQColor(const Color &color) {
-  return QColor(color.getR(), color.getG(), color.getB(), color.getA());
+    return QColor(color.getR(), color.getG(), color.getB(), color.getA());
 }
 inline Color QColorToColor(const QColor &color) {
-  return Color(color.red(), color.green(), color.blue(), color.alpha());
+    return Color(color.red(), color.green(), color.blue(), color.alpha());
 }
 /**
  * @brief Convert a QString to a Tulip UTF-8 encoded std::string.
  **/
 inline std::string QStringToTlpString(const QString &toConvert) {
-  return std::string(toConvert.toUtf8());
+    return std::string(toConvert.toUtf8());
 }
 /**
  * @brief Convert a Tulip UTF-8 encoded std::string to a QString
  **/
 inline QString tlpStringToQString(const std::string &toConvert) {
-  return QString::fromUtf8(toConvert.c_str());
+    return QString::fromUtf8(toConvert.c_str());
 }
 
 /**
  * @brief Case insensitive comparison of two QStrings
  **/
 inline bool QStringCaseCmp(const QString &s1, const QString &s2) {
-  return QString::localeAwareCompare(s1, s2) < 0;
+    return QString::localeAwareCompare(s1, s2) < 0;
 }
 
 /**
@@ -75,7 +75,7 @@ TLP_QT_SCOPE QString propertyTypeToPropertyTypeLabel(const std::string &typeName
  * By example for a property of type "double" the label displayed in the GUI will be "Metric".
  **/
 inline QString propertyInterfaceToPropertyTypeLabel(const tlp::PropertyInterface *const property) {
-  return propertyTypeToPropertyTypeLabel(property->getTypename());
+    return propertyTypeToPropertyTypeLabel(property->getTypename());
 }
 
 /**
@@ -153,17 +153,17 @@ TLP_QT_SCOPE QIcon addToSelectionIcon();
 
 // QDebug extension
 inline QDebug operator<<(QDebug dbg, const std::string &s) {
-  dbg.nospace() << s.c_str();
-  return dbg.space();
+    dbg.nospace() << s.c_str();
+    return dbg.space();
 }
 
 // useful function needed for menu actions building
 template <class QElt>
 inline void setToolTipWithCtrlShortcut(QElt *elt, const QString &tt, const QString &sc) {
 #ifdef __APPLE__
-  elt->setToolTip(tt + tlp::tlpStringToQString(" [⌘+") + sc + "]");
+    elt->setToolTip(tt + tlp::tlpStringToQString(" [⌘+") + sc + "]");
 #else
-  elt->setToolTip(tt + " [Ctrl+" + sc + "]");
+    elt->setToolTip(tt + " [Ctrl+" + sc + "]");
 #endif
 }
 
@@ -171,18 +171,18 @@ inline void setToolTipWithCtrlShortcut(QElt *elt, const QString &tt, const QStri
 // taken from Qt6 source code
 template <typename T, typename Predicate>
 qsizetype erase_if(QSet<T> &set, Predicate pred) {
-  qsizetype result = 0;
-  auto it = set.begin();
-  const auto e = set.end();
-  while (it != e) {
-    if (pred(*it)) {
-      ++result;
-      it = set.erase(it);
-    } else {
-      ++it;
+    qsizetype result = 0;
+    auto it = set.begin();
+    const auto e = set.end();
+    while (it != e) {
+        if (pred(*it)) {
+            ++result;
+            it = set.erase(it);
+        } else {
+            ++it;
+        }
     }
-  }
-  return result;
+    return result;
 }
 #endif
 

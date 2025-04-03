@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2024  The Talipot developers
+ * Copyright (C) 2024-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,21 +14,21 @@
 #include "QGVCustomTilesLayer.h"
 
 QGVCustomTilesLayer::QGVCustomTilesLayer() {
-  setName("Custom Tiles Layer");
+    setName("Custom Tiles Layer");
 }
 
 int QGVCustomTilesLayer::minZoomlevel() const {
-  return 0;
+    return 0;
 }
 
 int QGVCustomTilesLayer::maxZoomlevel() const {
-  return 21;
+    return 21;
 }
 
 QString QGVCustomTilesLayer::tilePosToUrl(const QGV::GeoTilePos &tilePos) const {
-  QString url = _tilesUrl;
-  url.replace("{z}", QString::number(tilePos.zoom()));
-  url.replace("{x}", QString::number(tilePos.pos().x()));
-  url.replace("{y}", QString::number(tilePos.pos().y()));
-  return url;
+    QString url = _tilesUrl;
+    url.replace("{z}", QString::number(tilePos.zoom()));
+    url.replace("{x}", QString::number(tilePos.pos().x()));
+    url.replace("{y}", QString::number(tilePos.pos().y()));
+    return url;
 }

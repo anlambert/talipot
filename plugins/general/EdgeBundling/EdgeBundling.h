@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -37,30 +37,30 @@
  *   auber@labri.fr
  */
 class EdgeBundling : public tlp::Algorithm {
-public:
-  EdgeBundling(const tlp::PluginContext *);
-  PLUGININFORMATION("Edge bundling", "David Auber/ Romain Bourqui / Antoine Lambert", "2010",
-                    "Edges routing algorithm, implementing the intuitive Edge Bundling technique "
-                    "published in :<br/>"
-                    "<b>Winding Roads: Routing edges into bundles</b>, Antoine Lambert, Romain "
-                    "Bourqui and David Auber, Computer Graphics Forum special issue on 12th "
-                    "Eurographics/IEEE-VGTC Symposium on Visualization, pages 853-862 (2010).",
-                    "1.3", "")
-  bool run() override;
+  public:
+    EdgeBundling(const tlp::PluginContext *);
+    PLUGININFORMATION("Edge bundling", "David Auber/ Romain Bourqui / Antoine Lambert", "2010",
+                      "Edges routing algorithm, implementing the intuitive Edge Bundling technique "
+                      "published in :<br/>"
+                      "<b>Winding Roads: Routing edges into bundles</b>, Antoine Lambert, Romain "
+                      "Bourqui and David Auber, Computer Graphics Forum special issue on 12th "
+                      "Eurographics/IEEE-VGTC Symposium on Visualization, pages 853-862 (2010).",
+                      "1.3", "")
+    bool run() override;
 
-private:
-  void fixEdgeType(tlp::EdgeVectorProperty<uint> &);
-  void computeDistances();
-  void computeDistance(tlp::node);
-  double longEdges;
-  double splitRatio;
-  uint optimizationLevel;
-  uint maxThread;
-  bool forceEdgeTest;
-  bool edgeNodeOverlap;
-  bool layout3D;
-  tlp::LayoutProperty *layout;
-  tlp::Graph *vertexCoverGraph, *oriGraph, *gridGraph;
+  private:
+    void fixEdgeType(tlp::EdgeVectorProperty<uint> &);
+    void computeDistances();
+    void computeDistance(tlp::node);
+    double longEdges;
+    double splitRatio;
+    uint optimizationLevel;
+    uint maxThread;
+    bool forceEdgeTest;
+    bool edgeNodeOverlap;
+    bool layout3D;
+    tlp::LayoutProperty *layout;
+    tlp::Graph *vertexCoverGraph, *oriGraph, *gridGraph;
 };
 
 #endif // EDGE_BUNDLING_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,64 +26,64 @@ HistogramViewNavigator::HistogramViewNavigator()
 HistogramViewNavigator::~HistogramViewNavigator() = default;
 
 void HistogramViewNavigator::viewChanged(View *view) {
-  histoView = static_cast<HistogramView *>(view);
+    histoView = static_cast<HistogramView *>(view);
 }
 
 bool HistogramViewNavigator::eventFilter(QObject *widget, QEvent *e) {
 
-  auto *glWidget = static_cast<GlWidget *>(widget);
+    auto *glWidget = static_cast<GlWidget *>(widget);
 
-  if (!glWidget->hasMouseTracking()) {
-    glWidget->setMouseTracking(true);
-  }
-
-  if (!histoView->smallMultiplesViewSet() && !histoView->interactorsEnabled()) {
-    histoView->toggleInteractors(true);
-  }
-
-  if (histoView->getHistograms().size() == 1) {
-    return false;
-  }
-
-  if (e->type() == QEvent::MouseMove && histoView->smallMultiplesViewSet()) {
-    auto *me = static_cast<QMouseEvent *>(e);
-    float x = glWidget->width() - me->pos().x();
-    float y = me->pos().y();
-    Coord screenCoords = {x, y};
-    Coord sceneCoords = glWidget->scene()->graphCamera().viewportTo3DWorld(
-        glWidget->screenToViewport(screenCoords));
-    selectedHistoOverview = getOverviewUnderPointer(sceneCoords);
-    return true;
-  } else if (e->type() == QEvent::MouseButtonDblClick) {
-    if (selectedHistoOverview != nullptr && histoView->smallMultiplesViewSet()) {
-      glWidget->zoomAndPanAnimation(selectedHistoOverview->getBoundingBox());
-      histoView->switchFromSmallMultiplesToDetailedView(selectedHistoOverview);
-      selectedHistoOverview = nullptr;
-    } else if (!histoView->smallMultiplesViewSet()) {
-      histoView->switchFromDetailedViewToSmallMultiples();
-      glWidget->zoomAndPanAnimation(histoView->getSmallMultiplesBoundingBox());
+    if (!glWidget->hasMouseTracking()) {
+        glWidget->setMouseTracking(true);
     }
 
-    return true;
-  }
+    if (!histoView->smallMultiplesViewSet() && !histoView->interactorsEnabled()) {
+        histoView->toggleInteractors(true);
+    }
 
-  return false;
+    if (histoView->getHistograms().size() == 1) {
+        return false;
+    }
+
+    if (e->type() == QEvent::MouseMove && histoView->smallMultiplesViewSet()) {
+        auto *me = static_cast<QMouseEvent *>(e);
+        float x = glWidget->width() - me->pos().x();
+        float y = me->pos().y();
+        Coord screenCoords = {x, y};
+        Coord sceneCoords = glWidget->scene()->graphCamera().viewportTo3DWorld(
+            glWidget->screenToViewport(screenCoords));
+        selectedHistoOverview = getOverviewUnderPointer(sceneCoords);
+        return true;
+    } else if (e->type() == QEvent::MouseButtonDblClick) {
+        if (selectedHistoOverview != nullptr && histoView->smallMultiplesViewSet()) {
+            glWidget->zoomAndPanAnimation(selectedHistoOverview->getBoundingBox());
+            histoView->switchFromSmallMultiplesToDetailedView(selectedHistoOverview);
+            selectedHistoOverview = nullptr;
+        } else if (!histoView->smallMultiplesViewSet()) {
+            histoView->switchFromDetailedViewToSmallMultiples();
+            glWidget->zoomAndPanAnimation(histoView->getSmallMultiplesBoundingBox());
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 Histogram *HistogramViewNavigator::getOverviewUnderPointer(const Coord &sceneCoords) const {
-  Histogram *ret = nullptr;
-  vector<Histogram *> overviews = histoView->getHistograms();
+    Histogram *ret = nullptr;
+    vector<Histogram *> overviews = histoView->getHistograms();
 
-  for (auto *h : overviews) {
-    BoundingBox overviewBB = h->getBoundingBox();
+    for (auto *h : overviews) {
+        BoundingBox overviewBB = h->getBoundingBox();
 
-    if (sceneCoords.getX() >= overviewBB[0][0] && sceneCoords.getX() <= overviewBB[1][0] &&
-        sceneCoords.getY() >= overviewBB[0][1] && sceneCoords.getY() <= overviewBB[1][1]) {
-      ret = h;
-      break;
+        if (sceneCoords.getX() >= overviewBB[0][0] && sceneCoords.getX() <= overviewBB[1][0] &&
+            sceneCoords.getY() >= overviewBB[0][1] && sceneCoords.getY() <= overviewBB[1][1]) {
+            ret = h;
+            break;
+        }
     }
-  }
 
-  return ret;
+    return ret;
 }
 }

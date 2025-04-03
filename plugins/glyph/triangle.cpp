@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,13 +23,13 @@ using namespace tlp;
 namespace tlp {
 
 class Triangle : public Glyph {
-public:
-  GLYPHINFORMATION("2D - Triangle", "David Auber", "09/07/2002", "Textured Triangle", "1.0",
-                   NodeShape::Triangle)
-  Triangle(const tlp::PluginContext *context = nullptr);
-  ~Triangle() override;
-  BoundingBox getIncludeBoundingBox(node) override;
-  void draw(node n, float lod) override;
+  public:
+    GLYPHINFORMATION("2D - Triangle", "David Auber", "09/07/2002", "Textured Triangle", "1.0",
+                     NodeShape::Triangle)
+    Triangle(const tlp::PluginContext *context = nullptr);
+    ~Triangle() override;
+    BoundingBox getIncludeBoundingBox(node) override;
+    void draw(node n, float lod) override;
 };
 
 //=====================================================
@@ -40,34 +40,34 @@ Triangle::Triangle(const tlp::PluginContext *context) : Glyph(context) {}
 Triangle::~Triangle() = default;
 //=====================================================
 BoundingBox Triangle::getIncludeBoundingBox(node) {
-  return {{-0.25, -0.5, 0}, {0.25, 0, 0}};
+    return {{-0.25, -0.5, 0}, {0.25, 0, 0}};
 }
 //=====================================================
 void Triangle::draw(node n, float lod) {
-  GlTriangle triangle(Coord(0, 0, 0), Size(0.5, 0.5, 0));
+    GlTriangle triangle(Coord(0, 0, 0), Size(0.5, 0.5, 0));
 
-  triangle.setFillColor(glGraphInputData->colors()->getNodeValue(n));
+    triangle.setFillColor(glGraphInputData->colors()->getNodeValue(n));
 
-  string texFile = glGraphInputData->textures()->getNodeValue(n);
+    string texFile = glGraphInputData->textures()->getNodeValue(n);
 
-  if (!texFile.empty()) {
-    string texturePath = glGraphInputData->renderingParameters()->getTexturePath();
-    triangle.setTextureName(texturePath + texFile);
-  } else {
-    triangle.setTextureName("");
-  }
+    if (!texFile.empty()) {
+        string texturePath = glGraphInputData->renderingParameters()->getTexturePath();
+        triangle.setTextureName(texturePath + texFile);
+    } else {
+        triangle.setTextureName("");
+    }
 
-  double lineWidth = glGraphInputData->borderWidths()->getNodeValue(n);
+    double lineWidth = glGraphInputData->borderWidths()->getNodeValue(n);
 
-  if (lineWidth > 0) {
-    triangle.setOutlineMode(true);
-    triangle.setOutlineColor(glGraphInputData->borderColors()->getNodeValue(n));
-    triangle.setOutlineSize(lineWidth);
-  } else {
-    triangle.setOutlineMode(false);
-  }
+    if (lineWidth > 0) {
+        triangle.setOutlineMode(true);
+        triangle.setOutlineColor(glGraphInputData->borderColors()->getNodeValue(n));
+        triangle.setOutlineSize(lineWidth);
+    } else {
+        triangle.setOutlineMode(false);
+    }
 
-  triangle.draw(lod, nullptr);
+    triangle.draw(lod, nullptr);
 }
 //=====================================================
 

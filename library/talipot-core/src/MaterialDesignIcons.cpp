@@ -28,54 +28,55 @@ static vector<string> iconsNames;
 #include "MaterialDesignIconsData.cpp"
 
 string MaterialDesignIcons::getTTFLocation() {
-  return TalipotShareDir + "fonts/MaterialDesignIcons/" + "materialdesignicons-webfont.ttf";
+    return TalipotShareDir + "fonts/MaterialDesignIcons/" + "materialdesignicons-webfont.ttf";
 }
 
 string MaterialDesignIcons::getWOFF2Location() {
-  return TalipotShareDir + "fonts/MaterialDesignIcons/" + "materialdesignicons-webfont.woff2";
+    return TalipotShareDir + "fonts/MaterialDesignIcons/" + "materialdesignicons-webfont.woff2";
 }
 
 bool MaterialDesignIcons::isIconSupported(const string &iconName) {
-  return MaterialDesignIcons::getIconCodePoint(iconName) != 0;
+    return MaterialDesignIcons::getIconCodePoint(iconName) != 0;
 }
 
 const vector<string> &MaterialDesignIcons::getSupportedIcons() {
-  if (iconsNames.empty()) {
-    iconsNames.reserve(iconCodePoint.size());
-    for (const auto &[iconName, codePoint] : iconCodePoint) {
-      iconsNames.push_back(iconName);
+    if (iconsNames.empty()) {
+        iconsNames.reserve(iconCodePoint.size());
+        for (const auto &[iconName, codePoint] : iconCodePoint) {
+            iconsNames.push_back(iconName);
+        }
     }
-  }
-  return iconsNames;
+    return iconsNames;
 }
 
 uint MaterialDesignIcons::getIconCodePoint(const string &iconName) {
-  if (const auto it = iconCodePoint.find(iconName.c_str()); it != iconCodePoint.end()) {
-    return it->second.first;
-  }
-  string oldIconNameFallback = regex_replace(iconName, regex("^md-"), "mdi-");
-  if (const auto it = iconCodePoint.find(oldIconNameFallback.c_str()); it != iconCodePoint.end()) {
-    return it->second.first;
-  }
-  return 0;
+    if (const auto it = iconCodePoint.find(iconName.c_str()); it != iconCodePoint.end()) {
+        return it->second.first;
+    }
+    string oldIconNameFallback = regex_replace(iconName, regex("^md-"), "mdi-");
+    if (const auto it = iconCodePoint.find(oldIconNameFallback.c_str());
+        it != iconCodePoint.end()) {
+        return it->second.first;
+    }
+    return 0;
 }
 
 string MaterialDesignIcons::getIconFamily(const string &) {
-  return "materialdesignicons";
+    return "materialdesignicons";
 }
 
 string MaterialDesignIcons::getIconUtf8String(const string &iconName) {
-  try {
-    return iconCodePoint.at(iconName.c_str()).second;
-  } catch (std::out_of_range &) {
-    string oldIconNameFallback = regex_replace(iconName, regex("^md-"), "mdi-");
     try {
-      return iconCodePoint.at(oldIconNameFallback.c_str()).second;
+        return iconCodePoint.at(iconName.c_str()).second;
     } catch (std::out_of_range &) {
-      tlp::warning() << iconName << " icon does not exist, falling back to "
-                     << MaterialDesignIcons::HelpCircle << std::endl;
-      return getIconUtf8String(MaterialDesignIcons::HelpCircle);
+        string oldIconNameFallback = regex_replace(iconName, regex("^md-"), "mdi-");
+        try {
+            return iconCodePoint.at(oldIconNameFallback.c_str()).second;
+        } catch (std::out_of_range &) {
+            tlp::warning() << iconName << " icon does not exist, falling back to "
+                           << MaterialDesignIcons::HelpCircle << std::endl;
+            return getIconUtf8String(MaterialDesignIcons::HelpCircle);
+        }
     }
-  }
 }
 }

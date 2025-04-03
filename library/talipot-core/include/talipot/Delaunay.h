@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -44,83 +44,83 @@ TLP_SCOPE bool delaunayTriangulation(std::vector<Coord> &points,
  * @brief The VoronoiDiagram class
  */
 class TLP_SCOPE VoronoiDiagram {
-public:
-  // A voronoi site.
-  typedef Coord Site;
+  public:
+    // A voronoi site.
+    typedef Coord Site;
 
-  // A voronoi vertex.
-  typedef Coord Vertex;
+    // A voronoi vertex.
+    typedef Coord Vertex;
 
-  // A voronoi edge defined by the indexes of its extremities in the vertices vector
-  typedef std::pair<uint, uint> Edge;
+    // A voronoi edge defined by the indexes of its extremities in the vertices vector
+    typedef std::pair<uint, uint> Edge;
 
-  // A voronoi Cell defined by the indexes of its vertices in the vertices vector
-  typedef std::set<uint> Cell;
+    // A voronoi Cell defined by the indexes of its vertices in the vertices vector
+    typedef std::set<uint> Cell;
 
-  // Returns the number of voronoi sites
-  uint nbSites() const {
-    return sites.size();
-  }
-
-  // Returns the number of voronoi vertices
-  uint nbVertices() const {
-    return vertices.size();
-  }
-
-  // Returns the number of voronoi edges
-  uint nbEdges() const {
-    return edges.size();
-  }
-
-  // Returns the ith site
-  const Site &site(const uint siteIdx) {
-    return sites[siteIdx];
-  }
-
-  // Returns the ith voronoi vertex
-  const Vertex &vertex(const uint vertexIdx) {
-    return vertices[vertexIdx];
-  }
-
-  // Returns the ith voronoi edge
-  const Edge &edge(const uint edgeIdx) {
-    return edges[edgeIdx];
-  }
-
-  // Returns the ith voronoi cell
-  const Cell &cell(const uint cellIdx) {
-    return cells[cellIdx];
-  }
-
-  // Returns the degree of the ith voronoi vertex
-  uint degreeOfVertex(const uint vertexIdx) {
-    return verticesDegree[vertexIdx];
-  }
-
-  // Returns the edges of the voronoi cell for the ith site
-  std::vector<Edge> voronoiEdgesForSite(const uint siteIdx) {
-    std::vector<Edge> ret;
-
-    for (uint i : siteToCellEdges[siteIdx]) {
-      ret.push_back(edges[i]);
+    // Returns the number of voronoi sites
+    uint nbSites() const {
+        return sites.size();
     }
 
-    return ret;
-  }
+    // Returns the number of voronoi vertices
+    uint nbVertices() const {
+        return vertices.size();
+    }
 
-  // Returns the cell for the ith site
-  const Cell &voronoiCellForSite(const uint siteIdx) {
-    return cells[siteToCell[siteIdx]];
-  }
+    // Returns the number of voronoi edges
+    uint nbEdges() const {
+        return edges.size();
+    }
 
-  // Stores lists of each of these types defining the voronoi diagram
-  std::vector<Site> sites;
-  std::vector<Vertex> vertices;
-  std::vector<Edge> edges;
-  std::vector<Cell> cells;
-  node_hash_map<uint, std::vector<uint>> siteToCellEdges;
-  node_hash_map<uint, uint> siteToCell;
-  node_hash_map<uint, uint> verticesDegree;
+    // Returns the ith site
+    const Site &site(const uint siteIdx) {
+        return sites[siteIdx];
+    }
+
+    // Returns the ith voronoi vertex
+    const Vertex &vertex(const uint vertexIdx) {
+        return vertices[vertexIdx];
+    }
+
+    // Returns the ith voronoi edge
+    const Edge &edge(const uint edgeIdx) {
+        return edges[edgeIdx];
+    }
+
+    // Returns the ith voronoi cell
+    const Cell &cell(const uint cellIdx) {
+        return cells[cellIdx];
+    }
+
+    // Returns the degree of the ith voronoi vertex
+    uint degreeOfVertex(const uint vertexIdx) {
+        return verticesDegree[vertexIdx];
+    }
+
+    // Returns the edges of the voronoi cell for the ith site
+    std::vector<Edge> voronoiEdgesForSite(const uint siteIdx) {
+        std::vector<Edge> ret;
+
+        for (uint i : siteToCellEdges[siteIdx]) {
+            ret.push_back(edges[i]);
+        }
+
+        return ret;
+    }
+
+    // Returns the cell for the ith site
+    const Cell &voronoiCellForSite(const uint siteIdx) {
+        return cells[siteToCell[siteIdx]];
+    }
+
+    // Stores lists of each of these types defining the voronoi diagram
+    std::vector<Site> sites;
+    std::vector<Vertex> vertices;
+    std::vector<Edge> edges;
+    std::vector<Cell> cells;
+    node_hash_map<uint, std::vector<uint>> siteToCellEdges;
+    node_hash_map<uint, uint> siteToCell;
+    node_hash_map<uint, uint> verticesDegree;
 };
 
 /**

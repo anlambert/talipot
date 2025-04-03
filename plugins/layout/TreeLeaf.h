@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,21 +40,22 @@ class OrientableLayout;
 class OrientableSizeProxy;
 
 class TreeLeaf : public tlp::LayoutAlgorithm {
-public:
-  PLUGININFORMATION("Tree Leaf", "David Auber", "01/12/1999",
-                    "Implements a simple level-based tree layout.", "1.1", "Tree")
-  TreeLeaf(const tlp::PluginContext *context);
-  ~TreeLeaf() override;
-  bool run() override;
+  public:
+    PLUGININFORMATION("Tree Leaf", "David Auber", "01/12/1999",
+                      "Implements a simple level-based tree layout.", "1.1", "Tree")
+    TreeLeaf(const tlp::PluginContext *context);
+    ~TreeLeaf() override;
+    bool run() override;
 
-private:
-  float minLayerSpacing;
-  float nodeSpacing;
-  bool uniformLayerDistance;
-  std::vector<float> levelHeights;
-  float dfsPlacement(tlp::Graph *tree, tlp::node n, float x, float y, uint depth,
-                     OrientableLayout *oriLayout, OrientableSizeProxy *oriSize);
-  void computeLevelHeights(tlp::Graph *tree, tlp::node n, uint depth, OrientableSizeProxy *oriSize);
+  private:
+    float minLayerSpacing;
+    float nodeSpacing;
+    bool uniformLayerDistance;
+    std::vector<float> levelHeights;
+    float dfsPlacement(tlp::Graph *tree, tlp::node n, float x, float y, uint depth,
+                       OrientableLayout *oriLayout, OrientableSizeProxy *oriSize);
+    void computeLevelHeights(tlp::Graph *tree, tlp::node n, uint depth,
+                             OrientableSizeProxy *oriSize);
 };
 
 #endif // TREE_LEAF_H

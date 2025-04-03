@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -376,8 +376,8 @@ AbstractGlCurve::AbstractGlCurve(const string &shaderProgramName,
       curveShaderProgram(nullptr), outlined(false), outlineColor(Color(0, 0, 0)), texCoordFactor(1),
       billboardCurve(false), lookDir(Coord(0, 0, 1)), lineCurve(false), curveLineWidth(1.0f),
       curveQuadBordersWidth(1.0f), outlineColorInterpolation(false) {
-  canUseGeometryShader = GlShaderProgram::geometryShaderSupported();
-  initShader(shaderProgramName, curveSpecificShaderCode);
+    canUseGeometryShader = GlShaderProgram::geometryShaderSupported();
+    initShader(shaderProgramName, curveSpecificShaderCode);
 }
 
 AbstractGlCurve::AbstractGlCurve(const string &shaderProgramName,
@@ -393,511 +393,524 @@ AbstractGlCurve::AbstractGlCurve(const string &shaderProgramName,
       lookDir(Coord(0, 0, 1)), lineCurve(false), curveLineWidth(1.0f), curveQuadBordersWidth(1.0f),
       outlineColorInterpolation(false) {
 
-  canUseGeometryShader = GlShaderProgram::geometryShaderSupported();
-  initShader(shaderProgramName, curveSpecificShaderCode);
+    canUseGeometryShader = GlShaderProgram::geometryShaderSupported();
+    initShader(shaderProgramName, curveSpecificShaderCode);
 
-  for (const auto &controlPoint : controlPoints) {
-    boundingBox.expand(controlPoint);
-  }
+    for (const auto &controlPoint : controlPoints) {
+        boundingBox.expand(controlPoint);
+    }
 }
 
 AbstractGlCurve::~AbstractGlCurve() = default;
 
 void AbstractGlCurve::buildCurveVertexBuffers(const uint nbCurvePoints, bool vboOk) {
-  curveVertexBuffersObject[nbCurvePoints].resize(5);
-  curveVertexBuffersData[nbCurvePoints].resize(nbCurvePoints * 6);
-  curveVertexBuffersIndices[nbCurvePoints].resize(4);
-  curveVertexBuffersIndices[nbCurvePoints][0].resize(nbCurvePoints * 2);
-  curveVertexBuffersIndices[nbCurvePoints][1].resize(nbCurvePoints);
-  curveVertexBuffersIndices[nbCurvePoints][2].resize(nbCurvePoints);
-  curveVertexBuffersIndices[nbCurvePoints][3].resize(nbCurvePoints);
+    curveVertexBuffersObject[nbCurvePoints].resize(5);
+    curveVertexBuffersData[nbCurvePoints].resize(nbCurvePoints * 6);
+    curveVertexBuffersIndices[nbCurvePoints].resize(4);
+    curveVertexBuffersIndices[nbCurvePoints][0].resize(nbCurvePoints * 2);
+    curveVertexBuffersIndices[nbCurvePoints][1].resize(nbCurvePoints);
+    curveVertexBuffersIndices[nbCurvePoints][2].resize(nbCurvePoints);
+    curveVertexBuffersIndices[nbCurvePoints][3].resize(nbCurvePoints);
 
-  for (uint i = 0; i < nbCurvePoints; ++i) {
-    float t = i / float(nbCurvePoints - 1);
-    curveVertexBuffersData[nbCurvePoints][6 * i] = t;
-    curveVertexBuffersData[nbCurvePoints][6 * i + 1] = 1.0f;
-    curveVertexBuffersData[nbCurvePoints][6 * i + 2] = t;
-    curveVertexBuffersData[nbCurvePoints][6 * i + 3] = 0.0f;
-    curveVertexBuffersData[nbCurvePoints][6 * i + 4] = t;
-    curveVertexBuffersData[nbCurvePoints][6 * i + 5] = -1.0f;
+    for (uint i = 0; i < nbCurvePoints; ++i) {
+        float t = i / float(nbCurvePoints - 1);
+        curveVertexBuffersData[nbCurvePoints][6 * i] = t;
+        curveVertexBuffersData[nbCurvePoints][6 * i + 1] = 1.0f;
+        curveVertexBuffersData[nbCurvePoints][6 * i + 2] = t;
+        curveVertexBuffersData[nbCurvePoints][6 * i + 3] = 0.0f;
+        curveVertexBuffersData[nbCurvePoints][6 * i + 4] = t;
+        curveVertexBuffersData[nbCurvePoints][6 * i + 5] = -1.0f;
 
-    curveVertexBuffersIndices[nbCurvePoints][0][2 * i] = 3 * i;
-    curveVertexBuffersIndices[nbCurvePoints][0][2 * i + 1] = 3 * i + 2;
-    curveVertexBuffersIndices[nbCurvePoints][1][i] = 3 * i + 1;
-    curveVertexBuffersIndices[nbCurvePoints][2][i] = 3 * i;
-    curveVertexBuffersIndices[nbCurvePoints][3][i] = 3 * i + 2;
-  }
+        curveVertexBuffersIndices[nbCurvePoints][0][2 * i] = 3 * i;
+        curveVertexBuffersIndices[nbCurvePoints][0][2 * i + 1] = 3 * i + 2;
+        curveVertexBuffersIndices[nbCurvePoints][1][i] = 3 * i + 1;
+        curveVertexBuffersIndices[nbCurvePoints][2][i] = 3 * i;
+        curveVertexBuffersIndices[nbCurvePoints][3][i] = 3 * i + 2;
+    }
 
-  if (vboOk) {
-    glGenBuffers(5, curveVertexBuffersObject[nbCurvePoints].data());
-    glBindBuffer(GL_ARRAY_BUFFER, curveVertexBuffersObject[nbCurvePoints][0]);
-    glBufferData(GL_ARRAY_BUFFER, 6 * nbCurvePoints * sizeof(GLfloat),
-                 curveVertexBuffersData[nbCurvePoints].data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, curveVertexBuffersObject[nbCurvePoints][1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 2 * nbCurvePoints * sizeof(GLushort),
-                 curveVertexBuffersIndices[nbCurvePoints][0].data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, curveVertexBuffersObject[nbCurvePoints][2]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nbCurvePoints * sizeof(GLushort),
-                 curveVertexBuffersIndices[nbCurvePoints][1].data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, curveVertexBuffersObject[nbCurvePoints][3]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nbCurvePoints * sizeof(GLushort),
-                 curveVertexBuffersIndices[nbCurvePoints][2].data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, curveVertexBuffersObject[nbCurvePoints][4]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nbCurvePoints * sizeof(GLushort),
-                 curveVertexBuffersIndices[nbCurvePoints][3].data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-  }
+    if (vboOk) {
+        glGenBuffers(5, curveVertexBuffersObject[nbCurvePoints].data());
+        glBindBuffer(GL_ARRAY_BUFFER, curveVertexBuffersObject[nbCurvePoints][0]);
+        glBufferData(GL_ARRAY_BUFFER, 6 * nbCurvePoints * sizeof(GLfloat),
+                     curveVertexBuffersData[nbCurvePoints].data(), GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, curveVertexBuffersObject[nbCurvePoints][1]);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, 2 * nbCurvePoints * sizeof(GLushort),
+                     curveVertexBuffersIndices[nbCurvePoints][0].data(), GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, curveVertexBuffersObject[nbCurvePoints][2]);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, nbCurvePoints * sizeof(GLushort),
+                     curveVertexBuffersIndices[nbCurvePoints][1].data(), GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, curveVertexBuffersObject[nbCurvePoints][3]);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, nbCurvePoints * sizeof(GLushort),
+                     curveVertexBuffersIndices[nbCurvePoints][2].data(), GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, curveVertexBuffersObject[nbCurvePoints][4]);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, nbCurvePoints * sizeof(GLushort),
+                     curveVertexBuffersIndices[nbCurvePoints][3].data(), GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
 }
 
 void AbstractGlCurve::draw(float, Camera *) {
-  drawCurve(controlPoints, startColor, endColor, startSize, endSize, nbCurvePoints);
+    drawCurve(controlPoints, startColor, endColor, startSize, endSize, nbCurvePoints);
 }
 
 void AbstractGlCurve::initShader(const std::string &shaderProgramName,
                                  const std::string &curveSpecificShaderCode) {
-  // restrict shaders compilation on compatible hardware, crashes can happen
-  // when using a software implementation of OpenGL
-  static string glVendor = OpenGlConfigManager::getOpenGLVendor();
-  static bool glVendorOk = (glVendor.find("NVIDIA") != string::npos) ||
-                           (glVendor.find("ATI") != string::npos) ||
-                           (glVendor.find("Intel") != string::npos);
+    // restrict shaders compilation on compatible hardware, crashes can happen
+    // when using a software implementation of OpenGL
+    static string glVendor = OpenGlConfigManager::getOpenGLVendor();
+    static bool glVendorOk = (glVendor.find("NVIDIA") != string::npos) ||
+                             (glVendor.find("ATI") != string::npos) ||
+                             (glVendor.find("Intel") != string::npos);
 
-  static unique_ptr<GlShader> curveVertexShaderNormalMain;
-  static unique_ptr<GlShader> curveVertexShaderBillboardMain;
-  static unique_ptr<GlShader> curveFragmentShader;
-  static unique_ptr<GlShader> curveVertexGeometryShaderNormalMain;
+    static unique_ptr<GlShader> curveVertexShaderNormalMain;
+    static unique_ptr<GlShader> curveVertexShaderBillboardMain;
+    static unique_ptr<GlShader> curveFragmentShader;
+    static unique_ptr<GlShader> curveVertexGeometryShaderNormalMain;
 
-  if (glVendorOk && GlShaderProgram::shaderProgramsSupported()) {
+    if (glVendorOk && GlShaderProgram::shaderProgramsSupported()) {
 
-    if (curveVertexShaderNormalMain.get() == nullptr) {
-      curveVertexShaderNormalMain.reset(new GlShader(Vertex));
-      curveVertexShaderNormalMain->compileFromSourceCode(curveVertexShaderNormalMainSrc);
+        if (curveVertexShaderNormalMain.get() == nullptr) {
+            curveVertexShaderNormalMain.reset(new GlShader(Vertex));
+            curveVertexShaderNormalMain->compileFromSourceCode(curveVertexShaderNormalMainSrc);
+        }
+
+        if (curveVertexShaderBillboardMain.get() == nullptr) {
+            curveVertexShaderBillboardMain.reset(new GlShader(Vertex));
+            curveVertexShaderBillboardMain->compileFromSourceCode(
+                curveVertexShaderBillboardMainSrc);
+        }
+
+        if (curveVertexGeometryShaderNormalMain.get() == nullptr) {
+            curveVertexGeometryShaderNormalMain.reset(new GlShader(Vertex));
+            curveVertexGeometryShaderNormalMain->compileFromSourceCode(
+                curveVertexShaderGeometryNormalMainSrc);
+        }
+
+        if (curveFragmentShader.get() == nullptr) {
+            curveFragmentShader.reset(new GlShader(Fragment));
+            curveFragmentShader->compileFromSourceCode(curveFragmentShaderSrc);
+        }
+
+        if (!curvesShadersMap.contains(shaderProgramName)) {
+            curvesShadersMap[shaderProgramName].reset(new GlShaderProgram(shaderProgramName));
+            curvesShadersMap[shaderProgramName]->addShaderFromSourceCode(
+                Vertex, commonUniformVariables + curveSpecificShaderCode);
+            curvesShadersMap[shaderProgramName]->addShader(curveVertexShaderNormalMain.get());
+            curvesShadersMap[shaderProgramName]->addShader(curveFragmentShader.get());
+            curvesShadersMap[shaderProgramName]->link();
+            curvesShadersMap[shaderProgramName]->printInfoLog();
+        }
+
+        if (canUseGeometryShader && !curvesGeometryShadersMap.contains(shaderProgramName)) {
+            auto *polygonShader = new GlShaderProgram(shaderProgramName);
+            polygonShader->addShaderFromSourceCode(Vertex, commonUniformVariables +
+                                                               curveSpecificShaderCode);
+            polygonShader->addShader(curveVertexGeometryShaderNormalMain.get());
+            polygonShader->addGeometryShaderFromSourceCode(
+                curveExtrusionGeometryShaderSrc, GL_LINES_ADJACENCY_EXT, GL_TRIANGLE_STRIP);
+            polygonShader->setMaxGeometryShaderOutputVertices(6);
+            polygonShader->addShader(curveFragmentShader.get());
+            polygonShader->link();
+            polygonShader->printInfoLog();
+
+            if (!polygonShader->isLinked()) {
+                delete polygonShader;
+                polygonShader = nullptr;
+            }
+
+            auto *lineShader = new GlShaderProgram(shaderProgramName);
+            lineShader->addShaderFromSourceCode(Vertex,
+                                                commonUniformVariables + curveSpecificShaderCode);
+            lineShader->addShader(curveVertexGeometryShaderNormalMain.get());
+            lineShader->addGeometryShaderFromSourceCode(curveExtrusionGeometryShaderSrc,
+                                                        GL_LINES_ADJACENCY_EXT, GL_LINE_STRIP);
+            lineShader->setMaxGeometryShaderOutputVertices(6);
+            lineShader->addShader(curveFragmentShader.get());
+            lineShader->link();
+            lineShader->printInfoLog();
+
+            if (!lineShader->isLinked()) {
+                delete lineShader;
+                lineShader = nullptr;
+            }
+
+            curvesGeometryShadersMap[shaderProgramName].first.reset(polygonShader);
+            curvesGeometryShadersMap[shaderProgramName].second.reset(lineShader);
+        }
+
+        if (!curvesBillboardShadersMap.contains(shaderProgramName)) {
+            curvesBillboardShadersMap[shaderProgramName].reset(
+                new GlShaderProgram(shaderProgramName));
+            curvesBillboardShadersMap[shaderProgramName]->addShaderFromSourceCode(
+                Vertex, commonUniformVariables + curveSpecificShaderCode);
+
+            curvesBillboardShadersMap[shaderProgramName]->addShader(
+                curveVertexShaderBillboardMain.get());
+            curvesBillboardShadersMap[shaderProgramName]->addShader(curveFragmentShader.get());
+            curvesBillboardShadersMap[shaderProgramName]->link();
+            curvesBillboardShadersMap[shaderProgramName]->printInfoLog();
+        }
+
+        if (canUseGeometryShader && curvesBillboardGeometryShadersMap.find(shaderProgramName) ==
+                                        curvesBillboardGeometryShadersMap.end()) {
+            auto *polygonShader = new GlShaderProgram(shaderProgramName);
+            polygonShader->addShaderFromSourceCode(Vertex, commonUniformVariables +
+                                                               curveSpecificShaderCode);
+            polygonShader->addShader(curveVertexGeometryShaderNormalMain.get());
+            polygonShader->addGeometryShaderFromSourceCode(curveExtrusionBillboardGeometryShaderSrc,
+                                                           GL_LINES_ADJACENCY_EXT,
+                                                           GL_TRIANGLE_STRIP);
+            polygonShader->setMaxGeometryShaderOutputVertices(6);
+            polygonShader->addShader(curveFragmentShader.get());
+            polygonShader->link();
+            polygonShader->printInfoLog();
+
+            if (!polygonShader->isLinked()) {
+                delete polygonShader;
+                polygonShader = nullptr;
+            }
+
+            auto *lineShader = new GlShaderProgram(shaderProgramName);
+            lineShader->addShaderFromSourceCode(Vertex,
+                                                commonUniformVariables + curveSpecificShaderCode);
+            lineShader->addShader(curveVertexGeometryShaderNormalMain.get());
+            lineShader->addGeometryShaderFromSourceCode(curveExtrusionBillboardGeometryShaderSrc,
+                                                        GL_LINES_ADJACENCY_EXT, GL_LINE_STRIP);
+            lineShader->setMaxGeometryShaderOutputVertices(6);
+            lineShader->addShader(curveFragmentShader.get());
+            lineShader->link();
+            lineShader->printInfoLog();
+
+            if (!lineShader->isLinked()) {
+                delete lineShader;
+                lineShader = nullptr;
+            }
+
+            curvesBillboardGeometryShadersMap[shaderProgramName].first.reset(polygonShader);
+            curvesBillboardGeometryShadersMap[shaderProgramName].second.reset(lineShader);
+        }
+
+        if (curvesShadersMap[shaderProgramName]->isLinked()) {
+            curveShaderProgramNormal = curvesShadersMap[shaderProgramName].get();
+        }
+
+        if (curvesBillboardShadersMap[shaderProgramName]->isLinked()) {
+            curveShaderProgramBillboard = curvesBillboardShadersMap[shaderProgramName].get();
+        }
     }
-
-    if (curveVertexShaderBillboardMain.get() == nullptr) {
-      curveVertexShaderBillboardMain.reset(new GlShader(Vertex));
-      curveVertexShaderBillboardMain->compileFromSourceCode(curveVertexShaderBillboardMainSrc);
-    }
-
-    if (curveVertexGeometryShaderNormalMain.get() == nullptr) {
-      curveVertexGeometryShaderNormalMain.reset(new GlShader(Vertex));
-      curveVertexGeometryShaderNormalMain->compileFromSourceCode(
-          curveVertexShaderGeometryNormalMainSrc);
-    }
-
-    if (curveFragmentShader.get() == nullptr) {
-      curveFragmentShader.reset(new GlShader(Fragment));
-      curveFragmentShader->compileFromSourceCode(curveFragmentShaderSrc);
-    }
-
-    if (!curvesShadersMap.contains(shaderProgramName)) {
-      curvesShadersMap[shaderProgramName].reset(new GlShaderProgram(shaderProgramName));
-      curvesShadersMap[shaderProgramName]->addShaderFromSourceCode(
-          Vertex, commonUniformVariables + curveSpecificShaderCode);
-      curvesShadersMap[shaderProgramName]->addShader(curveVertexShaderNormalMain.get());
-      curvesShadersMap[shaderProgramName]->addShader(curveFragmentShader.get());
-      curvesShadersMap[shaderProgramName]->link();
-      curvesShadersMap[shaderProgramName]->printInfoLog();
-    }
-
-    if (canUseGeometryShader && !curvesGeometryShadersMap.contains(shaderProgramName)) {
-      auto *polygonShader = new GlShaderProgram(shaderProgramName);
-      polygonShader->addShaderFromSourceCode(Vertex,
-                                             commonUniformVariables + curveSpecificShaderCode);
-      polygonShader->addShader(curveVertexGeometryShaderNormalMain.get());
-      polygonShader->addGeometryShaderFromSourceCode(curveExtrusionGeometryShaderSrc,
-                                                     GL_LINES_ADJACENCY_EXT, GL_TRIANGLE_STRIP);
-      polygonShader->setMaxGeometryShaderOutputVertices(6);
-      polygonShader->addShader(curveFragmentShader.get());
-      polygonShader->link();
-      polygonShader->printInfoLog();
-
-      if (!polygonShader->isLinked()) {
-        delete polygonShader;
-        polygonShader = nullptr;
-      }
-
-      auto *lineShader = new GlShaderProgram(shaderProgramName);
-      lineShader->addShaderFromSourceCode(Vertex, commonUniformVariables + curveSpecificShaderCode);
-      lineShader->addShader(curveVertexGeometryShaderNormalMain.get());
-      lineShader->addGeometryShaderFromSourceCode(curveExtrusionGeometryShaderSrc,
-                                                  GL_LINES_ADJACENCY_EXT, GL_LINE_STRIP);
-      lineShader->setMaxGeometryShaderOutputVertices(6);
-      lineShader->addShader(curveFragmentShader.get());
-      lineShader->link();
-      lineShader->printInfoLog();
-
-      if (!lineShader->isLinked()) {
-        delete lineShader;
-        lineShader = nullptr;
-      }
-
-      curvesGeometryShadersMap[shaderProgramName].first.reset(polygonShader);
-      curvesGeometryShadersMap[shaderProgramName].second.reset(lineShader);
-    }
-
-    if (!curvesBillboardShadersMap.contains(shaderProgramName)) {
-      curvesBillboardShadersMap[shaderProgramName].reset(new GlShaderProgram(shaderProgramName));
-      curvesBillboardShadersMap[shaderProgramName]->addShaderFromSourceCode(
-          Vertex, commonUniformVariables + curveSpecificShaderCode);
-
-      curvesBillboardShadersMap[shaderProgramName]->addShader(curveVertexShaderBillboardMain.get());
-      curvesBillboardShadersMap[shaderProgramName]->addShader(curveFragmentShader.get());
-      curvesBillboardShadersMap[shaderProgramName]->link();
-      curvesBillboardShadersMap[shaderProgramName]->printInfoLog();
-    }
-
-    if (canUseGeometryShader && curvesBillboardGeometryShadersMap.find(shaderProgramName) ==
-                                    curvesBillboardGeometryShadersMap.end()) {
-      auto *polygonShader = new GlShaderProgram(shaderProgramName);
-      polygonShader->addShaderFromSourceCode(Vertex,
-                                             commonUniformVariables + curveSpecificShaderCode);
-      polygonShader->addShader(curveVertexGeometryShaderNormalMain.get());
-      polygonShader->addGeometryShaderFromSourceCode(curveExtrusionBillboardGeometryShaderSrc,
-                                                     GL_LINES_ADJACENCY_EXT, GL_TRIANGLE_STRIP);
-      polygonShader->setMaxGeometryShaderOutputVertices(6);
-      polygonShader->addShader(curveFragmentShader.get());
-      polygonShader->link();
-      polygonShader->printInfoLog();
-
-      if (!polygonShader->isLinked()) {
-        delete polygonShader;
-        polygonShader = nullptr;
-      }
-
-      auto *lineShader = new GlShaderProgram(shaderProgramName);
-      lineShader->addShaderFromSourceCode(Vertex, commonUniformVariables + curveSpecificShaderCode);
-      lineShader->addShader(curveVertexGeometryShaderNormalMain.get());
-      lineShader->addGeometryShaderFromSourceCode(curveExtrusionBillboardGeometryShaderSrc,
-                                                  GL_LINES_ADJACENCY_EXT, GL_LINE_STRIP);
-      lineShader->setMaxGeometryShaderOutputVertices(6);
-      lineShader->addShader(curveFragmentShader.get());
-      lineShader->link();
-      lineShader->printInfoLog();
-
-      if (!lineShader->isLinked()) {
-        delete lineShader;
-        lineShader = nullptr;
-      }
-
-      curvesBillboardGeometryShadersMap[shaderProgramName].first.reset(polygonShader);
-      curvesBillboardGeometryShadersMap[shaderProgramName].second.reset(lineShader);
-    }
-
-    if (curvesShadersMap[shaderProgramName]->isLinked()) {
-      curveShaderProgramNormal = curvesShadersMap[shaderProgramName].get();
-    }
-
-    if (curvesBillboardShadersMap[shaderProgramName]->isLinked()) {
-      curveShaderProgramBillboard = curvesBillboardShadersMap[shaderProgramName].get();
-    }
-  }
 }
 
 void AbstractGlCurve::drawCurve(std::vector<Coord> &controlPoints, const Color &startColor,
                                 const Color &endColor, const float startSize, const float endSize,
                                 const uint nbCurvePoints) {
 
-  GLint renderMode;
-  glGetIntegerv(GL_RENDER_MODE, &renderMode);
+    GLint renderMode;
+    glGetIntegerv(GL_RENDER_MODE, &renderMode);
 
-  float currentLineWidth;
-  glGetFloatv(GL_LINE_WIDTH, &currentLineWidth);
+    float currentLineWidth;
+    glGetFloatv(GL_LINE_WIDTH, &currentLineWidth);
 
-  glDisable(GL_LIGHTING);
-  glDisable(GL_CULL_FACE);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_CULL_FACE);
 
-  if (!texture.empty()) {
-    uint i = nbCurvePoints / 2;
-    Coord firstCurvePoint = computeCurvePointOnCPU(controlPoints, i / float(nbCurvePoints - 1));
-    Coord nexCurvePoint = computeCurvePointOnCPU(controlPoints, (i + 1) / float(nbCurvePoints - 1));
-    float dist = firstCurvePoint.dist(nexCurvePoint);
-    texCoordFactor = dist / (startSize * 2.0f);
-  }
-
-  if (billboardCurve) {
-    curveShaderProgram = curveShaderProgramBillboard;
-  } else {
-    curveShaderProgram = curveShaderProgramNormal;
-  }
-
-  static bool canUseFloatTextures =
-      OpenGlConfigManager::isExtensionSupported("GL_ARB_texture_float");
-
-  if (curveShaderProgram != nullptr && canUseFloatTextures && renderMode != GL_SELECT) {
-
-    static bool vboOk = OpenGlConfigManager::hasVertexBufferObject();
-
-    pair<GlShaderProgram *, GlShaderProgram *> geometryShaders = {nullptr, nullptr};
-    pair<GlShaderProgram *, GlShaderProgram *> geometryBillboardShaders = {nullptr, nullptr};
-
-    if (canUseGeometryShader && curvesGeometryShadersMap.find(curveShaderProgram->getName()) !=
-                                    curvesGeometryShadersMap.end()) {
-      auto &p = curvesGeometryShadersMap[curveShaderProgram->getName()];
-      geometryShaders = {p.first.get(), p.second.get()};
-      auto &p2 = curvesBillboardGeometryShadersMap[curveShaderProgram->getName()];
-      geometryBillboardShaders = {p2.first.get(), p2.second.get()};
+    if (!texture.empty()) {
+        uint i = nbCurvePoints / 2;
+        Coord firstCurvePoint = computeCurvePointOnCPU(controlPoints, i / float(nbCurvePoints - 1));
+        Coord nexCurvePoint =
+            computeCurvePointOnCPU(controlPoints, (i + 1) / float(nbCurvePoints - 1));
+        float dist = firstCurvePoint.dist(nexCurvePoint);
+        texCoordFactor = dist / (startSize * 2.0f);
     }
-
-    if (!curveVertexBuffersData.contains(nbCurvePoints)) {
-      buildCurveVertexBuffers(nbCurvePoints, vboOk);
-    }
-
-    GLuint *vbo = curveVertexBuffersObject[nbCurvePoints].data();
-
-    static GLuint controlPointsTexId = 0;
-
-    if (controlPointsTexId == 0) {
-      glGenTextures(1, &controlPointsTexId);
-    }
-
-    glEnable(GL_TEXTURE_1D);
-    glBindTexture(GL_TEXTURE_1D, controlPointsTexId);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexImage1D(GL_TEXTURE_1D, 0, GL_RGB32F_ARB, controlPoints.size(), 0, GL_RGB, GL_FLOAT,
-                 &controlPoints[0][0]);
-    glBindTexture(GL_TEXTURE_1D, 0);
-    glDisable(GL_TEXTURE_1D);
-
-    bool geometryShaderActivated = false;
-
-    if (canUseGeometryShader && nbCurvePoints > 3 && !lineCurve && geometryShaders.first) {
-      if (!billboardCurve) {
-        curveShaderProgram = geometryShaders.first;
-      } else {
-        curveShaderProgram = geometryBillboardShaders.first;
-      }
-
-      geometryShaderActivated = true;
-    }
-
-    curveShaderProgram->activate();
-    curveShaderProgram->setUniformTextureSampler("controlPoints", 3);
-    curveShaderProgram->setUniformInt("nbControlPoints", controlPoints.size());
-    curveShaderProgram->setUniformInt("nbCurvePoints", nbCurvePoints);
-    curveShaderProgram->setUniformFloat("startSize", startSize);
-    curveShaderProgram->setUniformFloat("endSize", endSize);
-    curveShaderProgram->setUniformColor("startColor", startColor);
-    curveShaderProgram->setUniformColor("endColor", endColor);
-    curveShaderProgram->setUniformTextureSampler("texture", 0);
-    curveShaderProgram->setUniformTextureSampler("texture3d", 1);
-    curveShaderProgram->setUniformBool("useTexture", !texture.empty() && !lineCurve);
-    curveShaderProgram->setUniformBool("billboard", billboardCurve && !lineCurve);
-
-    if (!geometryShaderActivated) {
-      curveShaderProgram->setUniformFloat("step", 1.0f / (float(nbCurvePoints) - 1.0f));
-    } else {
-      curveShaderProgram->setUniformBool("topOutline", true);
-      curveShaderProgram->setUniformBool("bottomOutline", true);
-    }
-
-    curveShaderProgram->setUniformFloat("texCoordFactor", texCoordFactor);
 
     if (billboardCurve) {
-      curveShaderProgram->setUniformVec3Float("lookDir", lookDir);
+        curveShaderProgram = curveShaderProgramBillboard;
+    } else {
+        curveShaderProgram = curveShaderProgramNormal;
     }
 
-    setCurveVertexShaderRenderingSpecificParameters();
+    static bool canUseFloatTextures =
+        OpenGlConfigManager::isExtensionSupported("GL_ARB_texture_float");
 
-    glEnableClientState(GL_VERTEX_ARRAY);
+    if (curveShaderProgram != nullptr && canUseFloatTextures && renderMode != GL_SELECT) {
 
-    if (vboOk) {
-      glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-      glVertexPointer(2, GL_FLOAT, 2 * sizeof(GLfloat), nullptr);
-    } else {
-      glVertexPointer(2, GL_FLOAT, 2 * sizeof(GLfloat),
-                      curveVertexBuffersData[nbCurvePoints].data());
-    }
+        static bool vboOk = OpenGlConfigManager::hasVertexBufferObject();
 
-    glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_1D, controlPointsTexId);
+        pair<GlShaderProgram *, GlShaderProgram *> geometryShaders = {nullptr, nullptr};
+        pair<GlShaderProgram *, GlShaderProgram *> geometryBillboardShaders = {nullptr, nullptr};
 
-    if (lineCurve) {
-      glLineWidth(curveLineWidth);
-
-      if (vboOk) {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[2]);
-        glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT, nullptr);
-      } else {
-        glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT,
-                       curveVertexBuffersIndices[nbCurvePoints][1].data());
-      }
-
-    } else {
-      if (!texture.empty()) {
-        glActiveTexture(GL_TEXTURE0);
-        GlTextureManager::activateTexture(texture);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-      }
-
-      if (billboardCurve) {
-        glActiveTexture(GL_TEXTURE1);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        GlTextureManager::activateTexture(TalipotBitmapDir + "cylinderTexture.png");
-      }
-
-      if (vboOk) {
-        if (geometryShaderActivated) {
-          glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
-          glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints, GL_UNSIGNED_SHORT, nullptr);
-        } else {
-          glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[1]);
-          glDrawElements(GL_TRIANGLE_STRIP, nbCurvePoints * 2, GL_UNSIGNED_SHORT, nullptr);
+        if (canUseGeometryShader && curvesGeometryShadersMap.find(curveShaderProgram->getName()) !=
+                                        curvesGeometryShadersMap.end()) {
+            auto &p = curvesGeometryShadersMap[curveShaderProgram->getName()];
+            geometryShaders = {p.first.get(), p.second.get()};
+            auto &p2 = curvesBillboardGeometryShadersMap[curveShaderProgram->getName()];
+            geometryBillboardShaders = {p2.first.get(), p2.second.get()};
         }
-      } else {
-        if (geometryShaderActivated) {
-          glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints, GL_UNSIGNED_SHORT,
-                         curveVertexBuffersIndices[nbCurvePoints][1].data());
-        } else {
-          glDrawElements(GL_TRIANGLE_STRIP, nbCurvePoints * 2, GL_UNSIGNED_SHORT,
-                         curveVertexBuffersIndices[nbCurvePoints][0].data());
+
+        if (!curveVertexBuffersData.contains(nbCurvePoints)) {
+            buildCurveVertexBuffers(nbCurvePoints, vboOk);
         }
-      }
 
-      if (billboardCurve) {
-        glActiveTexture(GL_TEXTURE1);
-        GlTextureManager::deactivateTexture();
-      }
+        GLuint *vbo = curveVertexBuffersObject[nbCurvePoints].data();
 
-      if (!texture.empty()) {
-        glActiveTexture(GL_TEXTURE0);
-        GlTextureManager::deactivateTexture();
-      }
+        static GLuint controlPointsTexId = 0;
 
-      if (outlined) {
+        if (controlPointsTexId == 0) {
+            glGenTextures(1, &controlPointsTexId);
+        }
 
-        if (canUseGeometryShader && nbCurvePoints > 3 && geometryShaders.second) {
-          curveShaderProgram->deactivate();
+        glEnable(GL_TEXTURE_1D);
+        glBindTexture(GL_TEXTURE_1D, controlPointsTexId);
+        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexImage1D(GL_TEXTURE_1D, 0, GL_RGB32F_ARB, controlPoints.size(), 0, GL_RGB, GL_FLOAT,
+                     &controlPoints[0][0]);
+        glBindTexture(GL_TEXTURE_1D, 0);
+        glDisable(GL_TEXTURE_1D);
 
-          if (billboardCurve) {
-            curveShaderProgram = geometryBillboardShaders.second;
-          } else {
-            curveShaderProgram = geometryShaders.second;
-          }
+        bool geometryShaderActivated = false;
 
-          curveShaderProgram->activate();
-          curveShaderProgram->setUniformTextureSampler("controlPoints", 3);
-          curveShaderProgram->setUniformInt("nbControlPoints", controlPoints.size());
-          curveShaderProgram->setUniformInt("nbCurvePoints", nbCurvePoints);
-          curveShaderProgram->setUniformFloat("startSize", startSize);
-          curveShaderProgram->setUniformFloat("endSize", endSize);
-          curveShaderProgram->setUniformBool("topOutline", true);
-          curveShaderProgram->setUniformBool("bottomOutline", false);
-          curveShaderProgram->setUniformFloat("texCoordFactor", texCoordFactor);
+        if (canUseGeometryShader && nbCurvePoints > 3 && !lineCurve && geometryShaders.first) {
+            if (!billboardCurve) {
+                curveShaderProgram = geometryShaders.first;
+            } else {
+                curveShaderProgram = geometryBillboardShaders.first;
+            }
 
-          if (billboardCurve) {
+            geometryShaderActivated = true;
+        }
+
+        curveShaderProgram->activate();
+        curveShaderProgram->setUniformTextureSampler("controlPoints", 3);
+        curveShaderProgram->setUniformInt("nbControlPoints", controlPoints.size());
+        curveShaderProgram->setUniformInt("nbCurvePoints", nbCurvePoints);
+        curveShaderProgram->setUniformFloat("startSize", startSize);
+        curveShaderProgram->setUniformFloat("endSize", endSize);
+        curveShaderProgram->setUniformColor("startColor", startColor);
+        curveShaderProgram->setUniformColor("endColor", endColor);
+        curveShaderProgram->setUniformTextureSampler("texture", 0);
+        curveShaderProgram->setUniformTextureSampler("texture3d", 1);
+        curveShaderProgram->setUniformBool("useTexture", !texture.empty() && !lineCurve);
+        curveShaderProgram->setUniformBool("billboard", billboardCurve && !lineCurve);
+
+        if (!geometryShaderActivated) {
+            curveShaderProgram->setUniformFloat("step", 1.0f / (float(nbCurvePoints) - 1.0f));
+        } else {
+            curveShaderProgram->setUniformBool("topOutline", true);
+            curveShaderProgram->setUniformBool("bottomOutline", true);
+        }
+
+        curveShaderProgram->setUniformFloat("texCoordFactor", texCoordFactor);
+
+        if (billboardCurve) {
             curveShaderProgram->setUniformVec3Float("lookDir", lookDir);
-          }
-
-          setCurveVertexShaderRenderingSpecificParameters();
         }
 
-        if (outlineColorInterpolation) {
-          curveShaderProgram->setUniformColor("startColor", startColor);
-          curveShaderProgram->setUniformColor("endColor", endColor);
-        } else {
-          curveShaderProgram->setUniformColor("startColor", outlineColor);
-          curveShaderProgram->setUniformColor("endColor", outlineColor);
-        }
+        setCurveVertexShaderRenderingSpecificParameters();
 
-        glLineWidth(curveQuadBordersWidth);
+        glEnableClientState(GL_VERTEX_ARRAY);
 
         if (vboOk) {
-          glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
-
-          if (geometryShaderActivated) {
-            glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints, GL_UNSIGNED_SHORT, nullptr);
-          } else {
-            glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT, nullptr);
-          }
+            glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
+            glVertexPointer(2, GL_FLOAT, 2 * sizeof(GLfloat), nullptr);
         } else {
-          if (geometryShaderActivated) {
-            glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints, GL_UNSIGNED_SHORT,
-                           curveVertexBuffersIndices[nbCurvePoints][2].data());
-          } else {
-            glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT,
-                           curveVertexBuffersIndices[nbCurvePoints][2].data());
-          }
+            glVertexPointer(2, GL_FLOAT, 2 * sizeof(GLfloat),
+                            curveVertexBuffersData[nbCurvePoints].data());
         }
 
-        if (canUseGeometryShader && nbCurvePoints > 3 && geometryShaders.second) {
-          curveShaderProgram->setUniformBool("topOutline", false);
-          curveShaderProgram->setUniformBool("bottomOutline", true);
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_1D, controlPointsTexId);
+
+        if (lineCurve) {
+            glLineWidth(curveLineWidth);
+
+            if (vboOk) {
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[2]);
+                glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT, nullptr);
+            } else {
+                glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT,
+                               curveVertexBuffersIndices[nbCurvePoints][1].data());
+            }
+
+        } else {
+            if (!texture.empty()) {
+                glActiveTexture(GL_TEXTURE0);
+                GlTextureManager::activateTexture(texture);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            }
+
+            if (billboardCurve) {
+                glActiveTexture(GL_TEXTURE1);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                GlTextureManager::activateTexture(TalipotBitmapDir + "cylinderTexture.png");
+            }
+
+            if (vboOk) {
+                if (geometryShaderActivated) {
+                    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
+                    glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints, GL_UNSIGNED_SHORT,
+                                   nullptr);
+                } else {
+                    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[1]);
+                    glDrawElements(GL_TRIANGLE_STRIP, nbCurvePoints * 2, GL_UNSIGNED_SHORT,
+                                   nullptr);
+                }
+            } else {
+                if (geometryShaderActivated) {
+                    glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints, GL_UNSIGNED_SHORT,
+                                   curveVertexBuffersIndices[nbCurvePoints][1].data());
+                } else {
+                    glDrawElements(GL_TRIANGLE_STRIP, nbCurvePoints * 2, GL_UNSIGNED_SHORT,
+                                   curveVertexBuffersIndices[nbCurvePoints][0].data());
+                }
+            }
+
+            if (billboardCurve) {
+                glActiveTexture(GL_TEXTURE1);
+                GlTextureManager::deactivateTexture();
+            }
+
+            if (!texture.empty()) {
+                glActiveTexture(GL_TEXTURE0);
+                GlTextureManager::deactivateTexture();
+            }
+
+            if (outlined) {
+
+                if (canUseGeometryShader && nbCurvePoints > 3 && geometryShaders.second) {
+                    curveShaderProgram->deactivate();
+
+                    if (billboardCurve) {
+                        curveShaderProgram = geometryBillboardShaders.second;
+                    } else {
+                        curveShaderProgram = geometryShaders.second;
+                    }
+
+                    curveShaderProgram->activate();
+                    curveShaderProgram->setUniformTextureSampler("controlPoints", 3);
+                    curveShaderProgram->setUniformInt("nbControlPoints", controlPoints.size());
+                    curveShaderProgram->setUniformInt("nbCurvePoints", nbCurvePoints);
+                    curveShaderProgram->setUniformFloat("startSize", startSize);
+                    curveShaderProgram->setUniformFloat("endSize", endSize);
+                    curveShaderProgram->setUniformBool("topOutline", true);
+                    curveShaderProgram->setUniformBool("bottomOutline", false);
+                    curveShaderProgram->setUniformFloat("texCoordFactor", texCoordFactor);
+
+                    if (billboardCurve) {
+                        curveShaderProgram->setUniformVec3Float("lookDir", lookDir);
+                    }
+
+                    setCurveVertexShaderRenderingSpecificParameters();
+                }
+
+                if (outlineColorInterpolation) {
+                    curveShaderProgram->setUniformColor("startColor", startColor);
+                    curveShaderProgram->setUniformColor("endColor", endColor);
+                } else {
+                    curveShaderProgram->setUniformColor("startColor", outlineColor);
+                    curveShaderProgram->setUniformColor("endColor", outlineColor);
+                }
+
+                glLineWidth(curveQuadBordersWidth);
+
+                if (vboOk) {
+                    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
+
+                    if (geometryShaderActivated) {
+                        glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints,
+                                       GL_UNSIGNED_SHORT, nullptr);
+                    } else {
+                        glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT, nullptr);
+                    }
+                } else {
+                    if (geometryShaderActivated) {
+                        glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints,
+                                       GL_UNSIGNED_SHORT,
+                                       curveVertexBuffersIndices[nbCurvePoints][2].data());
+                    } else {
+                        glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT,
+                                       curveVertexBuffersIndices[nbCurvePoints][2].data());
+                    }
+                }
+
+                if (canUseGeometryShader && nbCurvePoints > 3 && geometryShaders.second) {
+                    curveShaderProgram->setUniformBool("topOutline", false);
+                    curveShaderProgram->setUniformBool("bottomOutline", true);
+                }
+
+                if (vboOk) {
+                    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[4]);
+
+                    if (geometryShaderActivated) {
+                        glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints,
+                                       GL_UNSIGNED_SHORT, nullptr);
+                    } else {
+                        glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT, nullptr);
+                    }
+                } else {
+                    if (geometryShaderActivated) {
+                        glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints,
+                                       GL_UNSIGNED_SHORT,
+                                       curveVertexBuffersIndices[nbCurvePoints][3].data());
+                    } else {
+                        glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT,
+                                       curveVertexBuffersIndices[nbCurvePoints][3].data());
+                    }
+                }
+            }
         }
 
         if (vboOk) {
-          glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[4]);
-
-          if (geometryShaderActivated) {
-            glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints, GL_UNSIGNED_SHORT, nullptr);
-          } else {
-            glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT, nullptr);
-          }
-        } else {
-          if (geometryShaderActivated) {
-            glDrawElements(GL_LINE_STRIP_ADJACENCY_EXT, nbCurvePoints, GL_UNSIGNED_SHORT,
-                           curveVertexBuffersIndices[nbCurvePoints][3].data());
-          } else {
-            glDrawElements(GL_LINE_STRIP, nbCurvePoints, GL_UNSIGNED_SHORT,
-                           curveVertexBuffersIndices[nbCurvePoints][3].data());
-          }
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         }
-      }
-    }
 
-    if (vboOk) {
-      glBindBuffer(GL_ARRAY_BUFFER, 0);
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
+        glDisableClientState(GL_VERTEX_ARRAY);
 
-    glDisableClientState(GL_VERTEX_ARRAY);
+        curveShaderProgram->deactivate();
 
-    curveShaderProgram->deactivate();
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_1D, 0);
 
-    glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_1D, 0);
+        glActiveTexture(GL_TEXTURE0);
 
-    glActiveTexture(GL_TEXTURE0);
+        cleanupAfterCurveVertexShaderRendering();
 
-    cleanupAfterCurveVertexShaderRendering();
-
-  } else {
-    vector<Coord> curvePoints;
-    computeCurvePointsOnCPU(controlPoints, curvePoints, nbCurvePoints);
-
-    if (lineCurve) {
-      glLineWidth(curveLineWidth);
-      polyLine(curvePoints, startColor, endColor);
-    } else if (!billboardCurve) {
-      polyQuad(
-          curvePoints, startColor, endColor, startSize, endSize,
-          Coord(2.f * curvePoints[0] - curvePoints[1]),
-          Coord(2.f * curvePoints[curvePoints.size() - 1] - curvePoints[curvePoints.size() - 2]),
-          outlineColorInterpolation, outlineColor, texture, curveQuadBordersWidth);
     } else {
-      simpleQuad(
-          curvePoints, startColor, endColor, startSize, endSize,
-          Coord(2.f * curvePoints[0] - curvePoints[1]),
-          Coord(2.f * curvePoints[curvePoints.size() - 1] - curvePoints[curvePoints.size() - 2]),
-          lookDir, !outlined, outlineColor, texture);
+        vector<Coord> curvePoints;
+        computeCurvePointsOnCPU(controlPoints, curvePoints, nbCurvePoints);
+
+        if (lineCurve) {
+            glLineWidth(curveLineWidth);
+            polyLine(curvePoints, startColor, endColor);
+        } else if (!billboardCurve) {
+            polyQuad(curvePoints, startColor, endColor, startSize, endSize,
+                     Coord(2.f * curvePoints[0] - curvePoints[1]),
+                     Coord(2.f * curvePoints[curvePoints.size() - 1] -
+                           curvePoints[curvePoints.size() - 2]),
+                     outlineColorInterpolation, outlineColor, texture, curveQuadBordersWidth);
+        } else {
+            simpleQuad(curvePoints, startColor, endColor, startSize, endSize,
+                       Coord(2.f * curvePoints[0] - curvePoints[1]),
+                       Coord(2.f * curvePoints[curvePoints.size() - 1] -
+                             curvePoints[curvePoints.size() - 2]),
+                       lookDir, !outlined, outlineColor, texture);
+        }
     }
-  }
 
-  glLineWidth(currentLineWidth);
+    glLineWidth(currentLineWidth);
 
-  glEnable(GL_LIGHTING);
-  glEnable(GL_CULL_FACE);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_CULL_FACE);
 }
 
 void AbstractGlCurve::translate(const Coord &move) {
-  for (auto &controlPoint : controlPoints) {
-    controlPoint += move;
-  }
+    for (auto &controlPoint : controlPoints) {
+        controlPoint += move;
+    }
 
-  boundingBox.translate(move);
+    boundingBox.translate(move);
 }
 
 void AbstractGlCurve::getXML(string &) {}

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,23 +19,23 @@
  *to infinity.
  */
 class Number {
-public:
-  float value;         /**< Contain the value of the number. */
+  public:
+    float value; /**< Contain the value of the number. */
 
-  static float infini; /**< contain our value of infinity. */
+    static float infini; /**< contain our value of infinity. */
 
-public:
-  /**
-   *The constructor initializes the field value to the float f.
-   */
-  Number(float f) {
-    value = f;
-  }
+  public:
+    /**
+     *The constructor initializes the field value to the float f.
+     */
+    Number(float f) {
+        value = f;
+    }
 
-  /**
-   *Overload of the operator >.
-   */
-  bool operator>(float b) const;
+    /**
+     *Overload of the operator >.
+     */
+    bool operator>(float b) const;
 };
 
 #endif // NUMBER_H

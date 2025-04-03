@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,91 +29,91 @@ class QCloseEvent;
 namespace tlp {
 
 class TLP_QT_SCOPE SimplePluginProgressWidget : public QWidget, public tlp::PluginProgress {
-  Q_OBJECT
-  Ui::SimplePluginProgressWidget *_ui;
+    Q_OBJECT
+    Ui::SimplePluginProgressWidget *_ui;
 
-  QTime _lastUpdate;
-  void checkLastUpdate();
+    QTime _lastUpdate;
+    void checkLastUpdate();
 
-  std::string _error;
-  tlp::ProgressState _state;
+    std::string _error;
+    tlp::ProgressState _state;
 
-public:
-  explicit SimplePluginProgressWidget(QWidget *parent = nullptr,
-                                      Qt::WindowFlags f = Qt::WindowFlags());
-  ~SimplePluginProgressWidget() override;
+  public:
+    explicit SimplePluginProgressWidget(QWidget *parent = nullptr,
+                                        Qt::WindowFlags f = Qt::WindowFlags());
+    ~SimplePluginProgressWidget() override;
 
-  void setComment(const std::string &) override;
-  void setComment(const QString &);
-  void setComment(const char *);
+    void setComment(const std::string &) override;
+    void setComment(const QString &);
+    void setComment(const char *);
 
-  void setTitle(const std::string &) override {}
+    void setTitle(const std::string &) override {}
 
-  tlp::ProgressState progress(int step, int max_step) override;
+    tlp::ProgressState progress(int step, int max_step) override;
 
-  void cancel() override;
-  void stop() override;
+    void cancel() override;
+    void stop() override;
 
-  bool isPreviewMode() const override;
-  void setPreviewMode(bool drawPreview) override;
-  void showPreview(bool showPreview) override;
-  void showStops(bool showButtons) override;
+    bool isPreviewMode() const override;
+    void setPreviewMode(bool drawPreview) override;
+    void showPreview(bool showPreview) override;
+    void showStops(bool showButtons) override;
 
-  tlp::ProgressState state() const override;
+    tlp::ProgressState state() const override;
 
-  std::string getError() override;
-  void setError(const std::string &error) override;
+    std::string getError() override;
+    void setError(const std::string &error) override;
 
-protected:
-  void closeEvent(QCloseEvent *) override;
+  protected:
+    void closeEvent(QCloseEvent *) override;
 
-public slots:
-  void setCancelButtonVisible(bool);
-  void setStopButtonVisible(bool);
+  public slots:
+    void setCancelButtonVisible(bool);
+    void setStopButtonVisible(bool);
 
-protected slots:
-  void cancelClicked();
-  void stopClicked();
+  protected slots:
+    void cancelClicked();
+    void stopClicked();
 };
 
 class TLP_QT_SCOPE SimplePluginProgressDialog : public QDialog, public tlp::PluginProgress {
-  Q_OBJECT
-public:
-  explicit SimplePluginProgressDialog(QWidget *parent = nullptr);
-  ~SimplePluginProgressDialog() override;
+    Q_OBJECT
+  public:
+    explicit SimplePluginProgressDialog(QWidget *parent = nullptr);
+    ~SimplePluginProgressDialog() override;
 
-  void setComment(const std::string &) override;
-  void setComment(const QString &);
-  void setComment(const char *);
+    void setComment(const std::string &) override;
+    void setComment(const QString &);
+    void setComment(const char *);
 
-  void setTitle(const std::string &title) override;
+    void setTitle(const std::string &title) override;
 
-  tlp::ProgressState progress(int step, int max_step) override;
+    tlp::ProgressState progress(int step, int max_step) override;
 
-  void cancel() override;
-  void stop() override;
+    void cancel() override;
+    void stop() override;
 
-  bool isPreviewMode() const override;
-  void setPreviewMode(bool drawPreview) override;
-  void showPreview(bool showPreview) override;
-  void showStops(bool showButtons) override;
+    bool isPreviewMode() const override;
+    void setPreviewMode(bool drawPreview) override;
+    void showPreview(bool showPreview) override;
+    void showStops(bool showButtons) override;
 
-  tlp::ProgressState state() const override;
+    tlp::ProgressState state() const override;
 
-  std::string getError() override;
-  void setError(const std::string &error) override;
+    std::string getError() override;
+    void setError(const std::string &error) override;
 
-protected:
-  void closeEvent(QCloseEvent *) override;
-  void paintEvent(QPaintEvent *) override;
-  bool _painted;
+  protected:
+    void closeEvent(QCloseEvent *) override;
+    void paintEvent(QPaintEvent *) override;
+    bool _painted;
 
-public slots:
-  void setCancelButtonVisible(bool v);
-  void setStopButtonVisible(bool v);
+  public slots:
+    void setCancelButtonVisible(bool v);
+    void setStopButtonVisible(bool v);
 
-private:
-  tlp::SimplePluginProgressWidget *_progress;
+  private:
+    tlp::SimplePluginProgressWidget *_progress;
 };
 }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,53 +30,53 @@ namespace tlp {
 
 class TLP_QT_SCOPE ColorScaleConfigDialog : public QDialog {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  ColorScaleConfigDialog(const ColorScale &colorScale = ColorScale(), QWidget *parent = nullptr);
-  ~ColorScaleConfigDialog() override;
-  void setColorScale(const ColorScale &colorScale);
-  const ColorScale &getColorScale() const;
-  static ColorScale getColorScaleFromImageFile(const std::string &imageFilePath,
-                                               bool gradient = true);
+  public:
+    ColorScaleConfigDialog(const ColorScale &colorScale = ColorScale(), QWidget *parent = nullptr);
+    ~ColorScaleConfigDialog() override;
+    void setColorScale(const ColorScale &colorScale);
+    const ColorScale &getColorScale() const;
+    static ColorScale getColorScaleFromImageFile(const std::string &imageFilePath,
+                                                 bool gradient = true);
 
-protected:
-  void resizeEvent(QResizeEvent *event) override;
-  void showEvent(QShowEvent *event) override;
+  protected:
+    void resizeEvent(QResizeEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 
-private slots:
+  private slots:
 
-  void accept() override;
-  void pressButtonBrowse();
-  void nbColorsValueChanged(int value);
-  void colorTableItemDoubleClicked(QTableWidgetItem *item);
-  void displaySavedGradientPreview();
-  void displayUserGradientPreview();
-  void saveCurrentColorScale();
-  void deleteSavedColorScale();
-  void reeditSaveColorScale(QListWidgetItem *savedColorScaleItem);
-  void importColorScaleFromImageFile();
-  void invertEditedColorScale();
-  void applyGlobalAlphaToColorScale();
+    void accept() override;
+    void pressButtonBrowse();
+    void nbColorsValueChanged(int value);
+    void colorTableItemDoubleClicked(QTableWidgetItem *item);
+    void displaySavedGradientPreview();
+    void displayUserGradientPreview();
+    void saveCurrentColorScale();
+    void deleteSavedColorScale();
+    void reeditSaveColorScale(QListWidgetItem *savedColorScaleItem);
+    void importColorScaleFromImageFile();
+    void invertEditedColorScale();
+    void applyGlobalAlphaToColorScale();
 
-private:
-  Ui::ColorScaleDialog *_ui;
+  private:
+    Ui::ColorScaleDialog *_ui;
 
-  void setColorScaleFromImage(const QString &imageFilePath);
+    void setColorScaleFromImage(const QString &imageFilePath);
 
-  void loadUserSavedColorScales();
-  void displayGradientPreview(const QList<QColor> &colorsVector, bool gradient,
-                              QLabel *displayLabel);
-  void importColorScaleFromFile(const QString &currentDir);
+    void loadUserSavedColorScales();
+    void displayGradientPreview(const QList<QColor> &colorsVector, bool gradient,
+                                QLabel *displayLabel);
+    void importColorScaleFromFile(const QString &currentDir);
 
-  ColorScale colorScale;
-  ColorScale latestColorScale;
-  std::string gradientsImageDirectory;
+    ColorScale colorScale;
+    ColorScale latestColorScale;
+    std::string gradientsImageDirectory;
 
-  static std::map<QString, std::vector<Color>> talipotImageColorScales;
-  static void loadImageColorScales();
-  static void loadImageColorScalesFromDir(const QString &colorScalesDir);
-  static std::vector<Color> getColorScaleFromImageFile(const QString &imageFilePath);
+    static std::map<QString, std::vector<Color>> talipotImageColorScales;
+    static void loadImageColorScales();
+    static void loadImageColorScalesFromDir(const QString &colorScalesDir);
+    static std::vector<Color> getColorScaleFromImageFile(const QString &imageFilePath);
 };
 }
 

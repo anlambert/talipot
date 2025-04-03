@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,10 +18,10 @@
 
 class ScreenFunction {
 
-public:
-  virtual ~ScreenFunction() = default;
-  virtual tlp::Vec2f project(const tlp::Vec2f &) const = 0;
-  virtual tlp::Vec2f unproject(const tlp::Vec2f &) const = 0;
+  public:
+    virtual ~ScreenFunction() = default;
+    virtual tlp::Vec2f project(const tlp::Vec2f &) const = 0;
+    virtual tlp::Vec2f unproject(const tlp::Vec2f &) const = 0;
 };
 
 #endif // SCREEN_FUNCTION_H

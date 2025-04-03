@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,28 +25,28 @@ class QWidget;
 namespace tlp {
 class SizeScaleConfigDialog : public QDialog {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::SizeScaleConfigDialog *_ui;
+    Ui::SizeScaleConfigDialog *_ui;
 
-public:
-  SizeScaleConfigDialog(QWidget *d = nullptr);
-  ~SizeScaleConfigDialog() override;
+  public:
+    SizeScaleConfigDialog(QWidget *d = nullptr);
+    ~SizeScaleConfigDialog() override;
 
-  bool doMappingOnViewSize() const;
+    bool doMappingOnViewSize() const;
 
-  float getMinSize() const;
-  float getMaxSize() const;
+    float getMinSize() const;
+    float getMaxSize() const;
 
-  bool applySizeMappingOnX() const;
-  bool applySizeMappingOnY() const;
-  bool applySizeMappingOnZ() const;
+    bool applySizeMappingOnX() const;
+    bool applySizeMappingOnY() const;
+    bool applySizeMappingOnZ() const;
 
-private slots:
+  private slots:
 
-  void minSizeValueChanged(double newValue);
-  void maxSizeValueChanged(double newValue);
-  void viewSizeRadioButtonToggled(bool checked);
+    void minSizeValueChanged(double newValue);
+    void maxSizeValueChanged(double newValue);
+    void viewSizeRadioButtonToggled(bool checked);
 };
 }
 #endif // SIZE_SCALE_CONFIG_DIALOG_H

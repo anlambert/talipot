@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,52 +28,53 @@ GlConvexGraphHull::GlConvexGraphHull(GlComposite *parent, const std::string &nam
                                      SizeProperty *size, DoubleProperty *rotation)
     : _parent(parent), _name(name), _fcolor(fcolor), _polygon(nullptr), graph(graph),
       _layout(layout), _size(size), _rotation(rotation) {
-  assert(graph);
+    assert(graph);
 
-  updateHull();
+    updateHull();
 }
 
 GlConvexGraphHull::~GlConvexGraphHull() {
-  delete _polygon;
+    delete _polygon;
 }
 
 void GlConvexGraphHull::updateHull(LayoutProperty *layout, SizeProperty *size,
                                    DoubleProperty *rotation) {
-  bool visible = !_polygon || _polygon->isVisible();
+    bool visible = !_polygon || _polygon->isVisible();
 
-  if (_polygon) {
-    _parent->deleteGlEntity(_polygon);
-    delete _polygon;
-    _polygon = nullptr;
-  }
+    if (_polygon) {
+        _parent->deleteGlEntity(_polygon);
+        delete _polygon;
+        _polygon = nullptr;
+    }
 
-  if (layout) {
-    _layout = layout;
-  }
+    if (layout) {
+        _layout = layout;
+    }
 
-  if (size) {
-    _size = size;
-  }
+    if (size) {
+        _size = size;
+    }
 
-  if (rotation) {
-    _rotation = rotation;
-  }
+    if (rotation) {
+        _rotation = rotation;
+    }
 
-  if (!graph->isEmpty()) {
-    _polygon = new GlComplexPolygon(computeConvexHull(graph, _layout, _size, _rotation, nullptr),
-                                    _fcolor, GlConvexGraphHull::bezierValue);
-    _polygon->setVisible(visible);
-    _parent->addGlEntity(_polygon, _name);
-  }
+    if (!graph->isEmpty()) {
+        _polygon =
+            new GlComplexPolygon(computeConvexHull(graph, _layout, _size, _rotation, nullptr),
+                                 _fcolor, GlConvexGraphHull::bezierValue);
+        _polygon->setVisible(visible);
+        _parent->addGlEntity(_polygon, _name);
+    }
 }
 
 bool GlConvexGraphHull::isVisible() {
-  return _polygon && _polygon->isVisible();
+    return _polygon && _polygon->isVisible();
 }
 
 void GlConvexGraphHull::setVisible(bool visible) {
-  if (_polygon) {
-    _polygon->setVisible(visible);
-  }
+    if (_polygon) {
+        _polygon->setVisible(visible);
+    }
 }
 }

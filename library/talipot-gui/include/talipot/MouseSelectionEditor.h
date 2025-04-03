@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,69 +31,69 @@ class GlLayer;
 /// This interactor allows to move/rotate/stretch the current selection layout
 class TLP_QT_SCOPE MouseSelectionEditor : public GLInteractorComponent {
 
-public:
-  MouseSelectionEditor();
-  ~MouseSelectionEditor() override;
-  void clear() override;
-  bool compute(GlWidget *glWidget) override;
-  bool draw(GlWidget *) override;
-  bool eventFilter(QObject *, QEvent *) override;
+  public:
+    MouseSelectionEditor();
+    ~MouseSelectionEditor() override;
+    void clear() override;
+    bool compute(GlWidget *glWidget) override;
+    bool draw(GlWidget *) override;
+    bool eventFilter(QObject *, QEvent *) override;
 
-private:
-  enum EditOperation {
-    NONE = 0,
-    ROTATE_Z,
-    ROTATE_XY,
-    STRETCH_X,
-    STRETCH_Y,
-    STRETCH_XY,
-    TRANSLATE,
-    ALIGN_TOP,
-    ALIGN_BOTTOM,
-    ALIGN_LEFT,
-    ALIGN_RIGHT,
-    ALIGN_VERTICALLY,
-    ALIGN_HORIZONTALLY
-  };
-  enum OperationTarget { COORD = 0, SIZE, COORD_AND_SIZE };
+  private:
+    enum EditOperation {
+        NONE = 0,
+        ROTATE_Z,
+        ROTATE_XY,
+        STRETCH_X,
+        STRETCH_Y,
+        STRETCH_XY,
+        TRANSLATE,
+        ALIGN_TOP,
+        ALIGN_BOTTOM,
+        ALIGN_LEFT,
+        ALIGN_RIGHT,
+        ALIGN_VERTICALLY,
+        ALIGN_HORIZONTALLY
+    };
+    enum OperationTarget { COORD = 0, SIZE, COORD_AND_SIZE };
 
-  GlWidget *glWidget;
-  DoubleProperty *_rotation;
+    GlWidget *glWidget;
+    DoubleProperty *_rotation;
 
-  void initProxies(GlWidget *glWidget);
-  void initEdition();
-  void undoEdition();
-  void stopEdition();
+    void initProxies(GlWidget *glWidget);
+    void initEdition();
+    void undoEdition();
+    void stopEdition();
 
-  Coord ffdCenter;
+    Coord ffdCenter;
 
-  GlLayer *layer;
-  GlComposite *composite;
-  GlCircle _controls[8];
-  GlComplexPolygon _advControls[6];
-  GlRect centerRect;
-  GlRect advRect;
-  Coord _layoutCenter;
+    GlLayer *layer;
+    GlComposite *composite;
+    GlCircle _controls[8];
+    GlComplexPolygon _advControls[6];
+    GlRect centerRect;
+    GlRect advRect;
+    Coord _layoutCenter;
 
-  bool computeFFD(GlWidget *);
-  void getOperation(GlEntity *select);
+    bool computeFFD(GlWidget *);
+    void getOperation(GlEntity *select);
 
-protected:
-  EditOperation operation;
-  OperationTarget mode;
+  protected:
+    EditOperation operation;
+    OperationTarget mode;
 
-  Coord editCenter;
-  Coord editPosition;
-  Graph *_graph;
-  LayoutProperty *_layout;
-  BooleanProperty *_selection;
-  SizeProperty *_sizes;
-  Coord editLayoutCenter;
+    Coord editCenter;
+    Coord editPosition;
+    Graph *_graph;
+    LayoutProperty *_layout;
+    BooleanProperty *_selection;
+    SizeProperty *_sizes;
+    Coord editLayoutCenter;
 
-  virtual void mMouseTranslate(double, double, GlWidget *);
-  virtual void mMouseRotate(double, double, GlWidget *);
-  virtual void mMouseStretchAxis(double, double, GlWidget *);
-  virtual void mAlign(EditOperation operation, GlWidget *);
+    virtual void mMouseTranslate(double, double, GlWidget *);
+    virtual void mMouseRotate(double, double, GlWidget *);
+    virtual void mMouseStretchAxis(double, double, GlWidget *);
+    virtual void mAlign(EditOperation operation, GlWidget *);
 };
 }
 

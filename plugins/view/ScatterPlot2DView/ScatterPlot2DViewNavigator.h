@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,26 +24,26 @@ class ScatterPlot2D;
 
 class ScatterPlot2DViewNavigator : public GLInteractorComponent {
 
-public:
-  ScatterPlot2DViewNavigator();
-  ~ScatterPlot2DViewNavigator() override;
+  public:
+    ScatterPlot2DViewNavigator();
+    ~ScatterPlot2DViewNavigator() override;
 
-  bool eventFilter(QObject *, QEvent *) override;
-  bool draw(GlWidget *) override {
-    return false;
-  }
-  bool compute(GlWidget *) override {
-    return false;
-  }
-  void viewChanged(View *view) override;
+    bool eventFilter(QObject *, QEvent *) override;
+    bool draw(GlWidget *) override {
+        return false;
+    }
+    bool compute(GlWidget *) override {
+        return false;
+    }
+    void viewChanged(View *view) override;
 
-private:
-  ScatterPlot2D *getOverviewUnderPointer(const Coord &sceneCoord);
+  private:
+    ScatterPlot2D *getOverviewUnderPointer(const Coord &sceneCoord);
 
-  ScatterPlot2DView *scatterPlot2dView;
-  ScatterPlot2D *selectedScatterPlotOverview;
+    ScatterPlot2DView *scatterPlot2dView;
+    ScatterPlot2D *selectedScatterPlotOverview;
 
-  GlWidget *glWidget;
+    GlWidget *glWidget;
 };
 }
 

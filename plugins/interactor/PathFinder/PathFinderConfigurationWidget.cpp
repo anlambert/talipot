@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,53 +19,53 @@ using namespace std;
 
 PathFinderConfigurationWidget::PathFinderConfigurationWidget(QWidget *parent)
     : QWidget(parent), _ui(new Ui::PathFinderConfiguration) {
-  _ui->setupUi(this);
+    _ui->setupUi(this);
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
-  connect(_ui->weightCombo, &QComboBox::textActivated, this,
-          &PathFinderConfigurationWidget::setWeightMetric);
-  connect(_ui->edgeOrientationCombo, &QComboBox::textActivated, this,
-          &PathFinderConfigurationWidget::setEdgeOrientation);
-  connect(_ui->pathsTypeCombo, &QComboBox::textActivated, this,
-          &PathFinderConfigurationWidget::setPathsType);
+    connect(_ui->weightCombo, &QComboBox::textActivated, this,
+            &PathFinderConfigurationWidget::setWeightMetric);
+    connect(_ui->edgeOrientationCombo, &QComboBox::textActivated, this,
+            &PathFinderConfigurationWidget::setEdgeOrientation);
+    connect(_ui->pathsTypeCombo, &QComboBox::textActivated, this,
+            &PathFinderConfigurationWidget::setPathsType);
 #else
-  connect(_ui->weightCombo, QOverload<const QString &>::of(&QComboBox::activated), this,
-          &PathFinderConfigurationWidget::setWeightMetric);
-  connect(_ui->edgeOrientationCombo, QOverload<const QString &>::of(&QComboBox::activated), this,
-          &PathFinderConfigurationWidget::setEdgeOrientation);
-  connect(_ui->pathsTypeCombo, QOverload<const QString &>::of(&QComboBox::activated), this,
-          &PathFinderConfigurationWidget::setPathsType);
+    connect(_ui->weightCombo, QOverload<const QString &>::of(&QComboBox::activated), this,
+            &PathFinderConfigurationWidget::setWeightMetric);
+    connect(_ui->edgeOrientationCombo, QOverload<const QString &>::of(&QComboBox::activated), this,
+            &PathFinderConfigurationWidget::setEdgeOrientation);
+    connect(_ui->pathsTypeCombo, QOverload<const QString &>::of(&QComboBox::activated), this,
+            &PathFinderConfigurationWidget::setPathsType);
 #endif
 }
 
 PathFinderConfigurationWidget::~PathFinderConfigurationWidget() {
-  delete _ui;
+    delete _ui;
 }
 
 void PathFinderConfigurationWidget::addWeightComboItem(const QString &s) {
-  _ui->weightCombo->addItem(s);
+    _ui->weightCombo->addItem(s);
 }
 
 void PathFinderConfigurationWidget::addEdgeOrientationComboItem(const QString &s) {
-  _ui->edgeOrientationCombo->addItem(s);
+    _ui->edgeOrientationCombo->addItem(s);
 }
 
 void PathFinderConfigurationWidget::addPathsTypeComboItem(const QString &s) {
-  _ui->pathsTypeCombo->addItem(s);
+    _ui->pathsTypeCombo->addItem(s);
 }
 
 void PathFinderConfigurationWidget::setCurrentweightComboIndex(const int i) {
-  _ui->weightCombo->setCurrentIndex(i);
+    _ui->weightCombo->setCurrentIndex(i);
 }
 
 int PathFinderConfigurationWidget::weightComboFindText(const QString &text) const {
-  return _ui->weightCombo->findText(text);
+    return _ui->weightCombo->findText(text);
 }
 
 void PathFinderConfigurationWidget::setCurrentedgeOrientationComboIndex(const int i) {
-  _ui->edgeOrientationCombo->setCurrentIndex(i);
+    _ui->edgeOrientationCombo->setCurrentIndex(i);
 }
 
 int PathFinderConfigurationWidget::edgeOrientationComboFindText(const QString &text) const {
-  return _ui->edgeOrientationCombo->findText(text);
+    return _ui->edgeOrientationCombo->findText(text);
 }

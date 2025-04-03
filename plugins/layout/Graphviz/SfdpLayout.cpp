@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2022-2023  The Talipot developers
+ * Copyright (C) 2022-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,14 +17,15 @@ using namespace std;
 using namespace tlp;
 
 class SfdpLayout : public GraphvizLayoutBase {
-public:
-  PLUGININFORMATION(
-      "sfdp (Graphviz)", "Antoine Lambert", "04/2022",
-      "sfdp is a fast, multilevel, force-directed algorithm that efficiently layouts large graphs, "
-      "outlined in \"Efficient and High Quality Force-Dircted Graph Drawing\".\n\n Multiscale "
-      "version of the fdp layout, for the layout of large graphs.",
-      "1.0", "Multilevel")
-  SfdpLayout(const PluginContext *context) : GraphvizLayoutBase(context, "sfdp") {}
+  public:
+    PLUGININFORMATION(
+        "sfdp (Graphviz)", "Antoine Lambert", "04/2022",
+        "sfdp is a fast, multilevel, force-directed algorithm that efficiently layouts large "
+        "graphs, "
+        "outlined in \"Efficient and High Quality Force-Dircted Graph Drawing\".\n\n Multiscale "
+        "version of the fdp layout, for the layout of large graphs.",
+        "1.0", "Multilevel")
+    SfdpLayout(const PluginContext *context) : GraphvizLayoutBase(context, "sfdp") {}
 };
 
 PLUGIN(SfdpLayout)

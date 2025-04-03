@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,38 +24,38 @@ namespace tlp {
 
 class TLP_PYTHON_SCOPE PythonShellWidget : public PythonCodeEditor {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  QString _currentPs;
-  QString _currentCodeLines;
+    QString _currentPs;
+    QString _currentCodeLines;
 
-  QVector<QString> _history;
-  int _currentHistoryPos;
+    QVector<QString> _history;
+    int _currentHistoryPos;
 
-public:
-  explicit PythonShellWidget(QWidget *parent = nullptr);
+  public:
+    explicit PythonShellWidget(QWidget *parent = nullptr);
 
-signals:
+  signals:
 
-  void beginCurrentLinesExecution();
-  void endCurrentLinesExecution();
+    void beginCurrentLinesExecution();
+    void endCurrentLinesExecution();
 
-protected:
-  void keyPressEvent(QKeyEvent *e) override;
+  protected:
+    void keyPressEvent(QKeyEvent *e) override;
 
-  bool isCursorOnLastLine();
+    bool isCursorOnLastLine();
 
-  void executeCurrentLines();
+    void executeCurrentLines();
 
-  void showEvent(QShowEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 
-public slots:
+  public slots:
 
-  void insert(const QString &txt, const bool atEnd = false);
+    void insert(const QString &txt, const bool atEnd = false);
 
-protected slots:
+  protected slots:
 
-  void updateAutoCompletionList(bool dotContext = false) override;
+    void updateAutoCompletionList(bool dotContext = false) override;
 };
 }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,13 +29,13 @@
  *   auber@labri.fr
  */
 class InducedSubGraphSelection : public tlp::BooleanAlgorithm {
-public:
-  PLUGININFORMATION(
-      tlp::SelectionAlgorithm::InducedSubGraphSelection, "David Auber", "08/08/2001",
-      "Selects all the nodes/edges of the subgraph induced by a set of selected nodes.", "1.1",
-      "Selection")
-  InducedSubGraphSelection(const tlp::PluginContext *context);
-  bool run() override;
+  public:
+    PLUGININFORMATION(
+        tlp::SelectionAlgorithm::InducedSubGraphSelection, "David Auber", "08/08/2001",
+        "Selects all the nodes/edges of the subgraph induced by a set of selected nodes.", "1.1",
+        "Selection")
+    InducedSubGraphSelection(const tlp::PluginContext *context);
+    bool run() override;
 };
 
 #endif // INDUCED_SUB_GRAPH_SELECTION_H

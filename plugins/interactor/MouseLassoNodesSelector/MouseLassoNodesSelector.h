@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,36 +31,36 @@ namespace tlp {
 class MouseLassoNodesSelectorInteractor
     : public NodeLinkDiagramViewInteractor { /* GLInteractorComposite*/
 
-public:
-  PLUGININFORMATION("MouseLassoNodesSelectorInteractor", "Antoine Lambert", "19/06/2009",
-                    "Mouse Lasso Nodes Selector Interactor", "1.0", "Modification")
+  public:
+    PLUGININFORMATION("MouseLassoNodesSelectorInteractor", "Antoine Lambert", "19/06/2009",
+                      "Mouse Lasso Nodes Selector Interactor", "1.0", "Modification")
 
-  MouseLassoNodesSelectorInteractor(const tlp::PluginContext *);
+    MouseLassoNodesSelectorInteractor(const tlp::PluginContext *);
 
-  void construct() override;
+    void construct() override;
 
-  bool isCompatible(const std::string &viewName) const override;
+    bool isCompatible(const std::string &viewName) const override;
 };
 
 class MouseLassoNodesSelectorInteractorComponent : public GLInteractorComponent {
 
-public:
-  MouseLassoNodesSelectorInteractorComponent();
-  ~MouseLassoNodesSelectorInteractorComponent() override;
+  public:
+    MouseLassoNodesSelectorInteractorComponent();
+    ~MouseLassoNodesSelectorInteractorComponent() override;
 
-  bool draw(GlWidget *glWidget) override;
-  bool eventFilter(QObject *obj, QEvent *e) override;
+    bool draw(GlWidget *glWidget) override;
+    bool eventFilter(QObject *obj, QEvent *e) override;
 
-private:
-  void selectGraphElementsUnderPolygon(GlWidget *glWidget);
+  private:
+    void selectGraphElementsUnderPolygon(GlWidget *glWidget);
 
-  std::vector<Coord> polygon;
-  Coord currentPointerScreenCoord;
-  bool drawInteractor;
-  Camera *camera;
-  Graph *graph;
-  BooleanProperty *viewSelection;
-  bool dragStarted;
+    std::vector<Coord> polygon;
+    Coord currentPointerScreenCoord;
+    bool drawInteractor;
+    Camera *camera;
+    Graph *graph;
+    BooleanProperty *viewSelection;
+    bool dragStarted;
 };
 }
 

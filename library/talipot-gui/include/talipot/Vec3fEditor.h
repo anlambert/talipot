@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,31 +28,31 @@ namespace tlp {
  * @brief Simple Coord edition widget.
  **/
 class TLP_QT_SCOPE Vec3fEditor : public QDialog {
-  Q_OBJECT
-  Q_PROPERTY(Vec3f vec3f READ vec3f WRITE setVec3f NOTIFY vecChanged)
+    Q_OBJECT
+    Q_PROPERTY(Vec3f vec3f READ vec3f WRITE setVec3f NOTIFY vecChanged)
 
-  Ui::Vec3fEditor *ui;
-  Vec3f currentVec;
+    Ui::Vec3fEditor *ui;
+    Vec3f currentVec;
 
-public:
-  explicit Vec3fEditor(QWidget *parent = nullptr, bool editSize = false);
-  ~Vec3fEditor() override;
+  public:
+    explicit Vec3fEditor(QWidget *parent = nullptr, bool editSize = false);
+    ~Vec3fEditor() override;
 
-  tlp::Vec3f vec3f() const;
+    tlp::Vec3f vec3f() const;
 
-  // redefinition to ensure it is shown in the center of its parent
-  void showEvent(QShowEvent *ev) override;
+    // redefinition to ensure it is shown in the center of its parent
+    void showEvent(QShowEvent *ev) override;
 
-public slots:
-  void setVec3f(const tlp::Vec3f &vec);
-  // redefinition to ensure to catch the end of input
-  void done(int r) override;
+  public slots:
+    void setVec3f(const tlp::Vec3f &vec);
+    // redefinition to ensure to catch the end of input
+    void done(int r) override;
 
-signals:
-  void vecChanged(tlp::Vec3f vec);
+  signals:
+    void vecChanged(tlp::Vec3f vec);
 
-private slots:
-  void vecUpdated();
+  private slots:
+    void vecUpdated();
 };
 }
 

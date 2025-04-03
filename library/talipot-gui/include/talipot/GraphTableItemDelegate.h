@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,11 +26,11 @@ namespace tlp {
  *architecture.
  **/
 class TLP_QT_SCOPE GraphTableItemDelegate : public ItemDelegate {
-  Q_OBJECT
-public:
-  GraphTableItemDelegate(QObject *parent = nullptr);
-  void paint(QPainter *painter, const QStyleOptionViewItem &option,
-             const QModelIndex &index) const override;
+    Q_OBJECT
+  public:
+    GraphTableItemDelegate(QObject *parent = nullptr);
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index) const override;
 };
 }
 #endif // TALIPOT_GRAPH_TABLE_ITEM_DELEGATE_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,31 +25,31 @@ using namespace tlp;
  */
 class InteractorDeleteElement : public NodeLinkDiagramViewInteractor {
 
-public:
-  PLUGININFORMATION("InteractorDeleteElement", "Tulip Team", "01/04/2009",
-                    "Delete Element Interactor", "1.0", "Modification")
-  /**
-   * Default constructor
-   */
-  InteractorDeleteElement(const tlp::PluginContext *)
-      : NodeLinkDiagramViewInteractor(interactorIcon(InteractorType::DeleteElement),
-                                      "Delete nodes or edges",
-                                      StandardInteractorPriority::DeleteElement) {}
+  public:
+    PLUGININFORMATION("InteractorDeleteElement", "Tulip Team", "01/04/2009",
+                      "Delete Element Interactor", "1.0", "Modification")
+    /**
+     * Default constructor
+     */
+    InteractorDeleteElement(const tlp::PluginContext *)
+        : NodeLinkDiagramViewInteractor(interactorIcon(InteractorType::DeleteElement),
+                                        "Delete nodes or edges",
+                                        StandardInteractorPriority::DeleteElement) {}
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override {
-    setConfigurationWidgetText(QString("<h3>Delete nodes or edges</h3>") +
-                               "<b>Mouse left</b> click on an element to delete it.<br/>No "
-                               "deletion confirmation will be asked.");
-    push_back(new MousePanNZoomNavigator);
-    push_back(new MouseElementDeleter);
-  }
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override {
+        setConfigurationWidgetText(QString("<h3>Delete nodes or edges</h3>") +
+                                   "<b>Mouse left</b> click on an element to delete it.<br/>No "
+                                   "deletion confirmation will be asked.");
+        push_back(new MousePanNZoomNavigator);
+        push_back(new MouseElementDeleter);
+    }
 
-  bool isCompatible(const std::string &viewName) const override {
-    return (viewName == NodeLinkDiagramView::viewName);
-  }
+    bool isCompatible(const std::string &viewName) const override {
+        return (viewName == NodeLinkDiagramView::viewName);
+    }
 };
 
 PLUGIN(InteractorDeleteElement)

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -37,71 +37,71 @@ class CSVImportParameters;
  * @brief QWIzardPage encapsulating a CSVParserConfigurationWidget and a preview.
  **/
 class CSVParsingConfigurationQWizardPage : public QWizardPage {
-  Q_OBJECT
-public:
-  CSVParsingConfigurationQWizardPage(QWidget *parent = nullptr);
-  bool isComplete() const override;
-  CSVParser *buildParser(int firstLine = 0) const;
-  int getFirstLineIndex() const;
+    Q_OBJECT
+  public:
+    CSVParsingConfigurationQWizardPage(QWidget *parent = nullptr);
+    bool isComplete() const override;
+    CSVParser *buildParser(int firstLine = 0) const;
+    int getFirstLineIndex() const;
 
-private:
-  void updatePreview();
-  CSVParserConfigurationWidget *parserConfigurationWidget;
-  CSVTableWidget *previewTableWidget;
-  uint previewLineNumber;
+  private:
+    void updatePreview();
+    CSVParserConfigurationWidget *parserConfigurationWidget;
+    CSVTableWidget *previewTableWidget;
+    uint previewLineNumber;
 
-private slots:
-  void parserChanged();
+  private slots:
+    void parserChanged();
 };
 
 class CSVImportConfigurationQWizardPage : public QWizardPage {
-  Q_OBJECT
-public:
-  CSVImportConfigurationQWizardPage(QWidget *parent = nullptr);
-  void initializePage() override;
-  CSVImportParameters getImportParameters() const;
+    Q_OBJECT
+  public:
+    CSVImportConfigurationQWizardPage(QWidget *parent = nullptr);
+    void initializePage() override;
+    CSVImportParameters getImportParameters() const;
 
-private:
-  CSVImportConfigurationWidget *importConfigurationWidget;
+  private:
+    CSVImportConfigurationWidget *importConfigurationWidget;
 };
 
 class CSVGraphMappingConfigurationQWizardPage : public QWizardPage {
-  Q_OBJECT
-public:
-  CSVGraphMappingConfigurationQWizardPage(QWidget *parent = nullptr);
-  void initializePage() override;
-  bool isComplete() const override;
-  CSVToGraphDataMapping *buildMappingObject() const;
+    Q_OBJECT
+  public:
+    CSVGraphMappingConfigurationQWizardPage(QWidget *parent = nullptr);
+    void initializePage() override;
+    bool isComplete() const override;
+    CSVToGraphDataMapping *buildMappingObject() const;
 
-private:
-  CSVGraphMappingConfigurationWidget *graphMappingConfigurationWidget;
+  private:
+    CSVGraphMappingConfigurationWidget *graphMappingConfigurationWidget;
 };
 
 class TLP_QT_SCOPE CSVImportWizard : public QWizard {
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  explicit CSVImportWizard(QWidget *parent = nullptr);
-  ~CSVImportWizard() override;
+  public:
+    explicit CSVImportWizard(QWidget *parent = nullptr);
+    ~CSVImportWizard() override;
 
-  CSVParsingConfigurationQWizardPage *getParsingConfigurationPage() const;
-  CSVImportConfigurationQWizardPage *getImportConfigurationPage() const;
-  CSVGraphMappingConfigurationQWizardPage *getMappingConfigurationPage() const;
+    CSVParsingConfigurationQWizardPage *getParsingConfigurationPage() const;
+    CSVImportConfigurationQWizardPage *getImportConfigurationPage() const;
+    CSVGraphMappingConfigurationQWizardPage *getMappingConfigurationPage() const;
 
-  static void setGraph(Graph *g) {
-    graph = g;
-  }
+    static void setGraph(Graph *g) {
+        graph = g;
+    }
 
-  static Graph *getGraph() {
-    return graph;
-  }
+    static Graph *getGraph() {
+        return graph;
+    }
 
-public slots:
-  void accept() override;
+  public slots:
+    void accept() override;
 
-private:
-  Ui::CSVImportWizard *ui;
-  static tlp::Graph *graph;
+  private:
+    Ui::CSVImportWizard *ui;
+    static tlp::Graph *graph;
 };
 }
 #endif // TALIPOT_CSV_IMPORT_WIZARD_H

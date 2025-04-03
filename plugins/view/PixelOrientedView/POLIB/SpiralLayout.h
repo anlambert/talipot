@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,9 +18,9 @@
 #include "LayoutFunction.h"
 
 class SpiralLayout : public LayoutFunction {
-public:
-  tlp::Vec2i project(const uint id) const override;
-  uint unproject(const tlp::Vec2i &) const override;
+  public:
+    tlp::Vec2i project(const uint id) const override;
+    uint unproject(const tlp::Vec2i &) const override;
 };
 
 #endif // SPIRAL_LAYOUT_H

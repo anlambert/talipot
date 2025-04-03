@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,106 +28,106 @@
 namespace tlp {
 
 class SOMMap : public tlp::GraphDecorator {
-public:
-  /**
-   * The node connectivity.
-   */
-  enum SOMMapConnectivity { four = 4, six = 6, eight = 8 };
+  public:
+    /**
+     * The node connectivity.
+     */
+    enum SOMMapConnectivity { four = 4, six = 6, eight = 8 };
 
-  /**
-   * Build a SOM from an already existing graph.
-   * @param root The graph to store SOM grid into.
-   * @param width The width of the grid.
-   * @param height The height of the grid.
-   * @param connectivity The connectivity of each node of the grid (the neighborhood)
-   * @param oppositeConnected Connect opposite node of the map to build a torus.
-   * @return
-   */
-  SOMMap(Graph *root, unsigned int width, unsigned int height,
-         SOMMapConnectivity connectivity = four, bool oppositeConnected = false);
-  /**
-   * Build a SOM in a new Graph.
-   * @param width The width of the grid.
-   * @param height The height of the grid.
-   * @param connectivity The connectivity of each node of the grid (the neighborhood)
-   * @param oppositeConnected Connect opposite node of the map to build a torus.
-   * @return
-   */
-  SOMMap(unsigned int width, unsigned int height, SOMMapConnectivity connectivity = four,
-         bool oppositeConnected = false);
-  ~SOMMap() override;
+    /**
+     * Build a SOM from an already existing graph.
+     * @param root The graph to store SOM grid into.
+     * @param width The width of the grid.
+     * @param height The height of the grid.
+     * @param connectivity The connectivity of each node of the grid (the neighborhood)
+     * @param oppositeConnected Connect opposite node of the map to build a torus.
+     * @return
+     */
+    SOMMap(Graph *root, unsigned int width, unsigned int height,
+           SOMMapConnectivity connectivity = four, bool oppositeConnected = false);
+    /**
+     * Build a SOM in a new Graph.
+     * @param width The width of the grid.
+     * @param height The height of the grid.
+     * @param connectivity The connectivity of each node of the grid (the neighborhood)
+     * @param oppositeConnected Connect opposite node of the map to build a torus.
+     * @return
+     */
+    SOMMap(unsigned int width, unsigned int height, SOMMapConnectivity connectivity = four,
+           bool oppositeConnected = false);
+    ~SOMMap() override;
 
-  /**
-   * Get the weight linked to the node n.
-   * @param n The node.
-   * @return The reference on the weight linked to the node.
-   */
-  DynamicVector<double> &getWeight(tlp::node n);
-  /**
-   * Get the weight linked to the node n.
-   * @param n The node.
-   * @return The constant reference on the weight linked to the node.
-   */
-  const DynamicVector<double> getWeight(const tlp::node &n) const;
+    /**
+     * Get the weight linked to the node n.
+     * @param n The node.
+     * @return The reference on the weight linked to the node.
+     */
+    DynamicVector<double> &getWeight(tlp::node n);
+    /**
+     * Get the weight linked to the node n.
+     * @param n The node.
+     * @return The constant reference on the weight linked to the node.
+     */
+    const DynamicVector<double> getWeight(const tlp::node &n) const;
 
-  /**
-   * Set the weight for the node n.
-   * @param n The node.
-   * @param weight The weight.
-   */
-  void setWeight(tlp::node n, const DynamicVector<double> &weight);
+    /**
+     * Set the weight for the node n.
+     * @param n The node.
+     * @param weight The weight.
+     */
+    void setWeight(tlp::node n, const DynamicVector<double> &weight);
 
-  /**
-   * Copy each node weight value in the given graph properties. If properties doesn't exist create
-   * them.
-   * @param propertiesToListen The vector with the name of the properties to store weight into.
-   */
-  void registerModification(const std::vector<std::string> &propertiesToListen);
+    /**
+     * Copy each node weight value in the given graph properties. If properties doesn't exist create
+     * them.
+     * @param propertiesToListen The vector with the name of the properties to store weight into.
+     */
+    void registerModification(const std::vector<std::string> &propertiesToListen);
 
-  tlp::node getNodeAt(unsigned int pos);
-  /**
-   * Get the node at the x and y coordinates.
-   * @param x
-   * @param y
-   * @return The node or an invalid node if coordinates are invalid.
-   */
-  tlp::node getNodeAt(unsigned int x, unsigned int y);
-  /**
-   * Return the position for the node n. If the node is invalid or isn't an element of the graph
-   * return false.
-   * @param
-   * @param x
-   * @param y
-   * @return
-   */
-  bool getPosForNode(tlp::node, unsigned int &x, unsigned int &y);
+    tlp::node getNodeAt(unsigned int pos);
+    /**
+     * Get the node at the x and y coordinates.
+     * @param x
+     * @param y
+     * @return The node or an invalid node if coordinates are invalid.
+     */
+    tlp::node getNodeAt(unsigned int x, unsigned int y);
+    /**
+     * Return the position for the node n. If the node is invalid or isn't an element of the graph
+     * return false.
+     * @param
+     * @param x
+     * @param y
+     * @return
+     */
+    bool getPosForNode(tlp::node, unsigned int &x, unsigned int &y);
 
-  unsigned int getWidth() const {
-    return width;
-  }
-  unsigned int getHeight() const {
-    return height;
-  }
+    unsigned int getWidth() const {
+        return width;
+    }
+    unsigned int getHeight() const {
+        return height;
+    }
 
-  SOMMapConnectivity getConnectivity() {
-    return connectivity;
-  }
-  bool getOppositeConnected() const {
-    return oppositeConnected;
-  }
+    SOMMapConnectivity getConnectivity() {
+        return connectivity;
+    }
+    bool getOppositeConnected() const {
+        return oppositeConnected;
+    }
 
-protected:
-  void initMap();
+  protected:
+    void initMap();
 
-  unsigned int width;
-  unsigned int height;
+    unsigned int width;
+    unsigned int height;
 
-  flat_hash_map<tlp::node, DynamicVector<double>> nodeToNodeVec;
+    flat_hash_map<tlp::node, DynamicVector<double>> nodeToNodeVec;
 
-  SOMMapConnectivity connectivity;
-  bool oppositeConnected;
+    SOMMapConnectivity connectivity;
+    bool oppositeConnected;
 
-  bool graphCreated;
+    bool graphCreated;
 };
 }
 #endif // SOM_MAP_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -93,19 +93,19 @@ available.
 const sipTypeDef *sipType = sipFindType("tlp::Vec3f");
 // Check if type is compatible
 if (sipIsErr == NULL) {
-  if (sipCanConvertToType(sipPy, sipType, SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
-    return 1;
-  }
-  return isTupleAndCanConvertToVec3fType(sipPy);
+    if (sipCanConvertToType(sipPy, sipType, SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
+        return 1;
+    }
+    return isTupleAndCanConvertToVec3fType(sipPy);
 }
 if (sipCanConvertToType(sipPy, sipType, SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
-  int state = 0, err = 0;
-  tlp::Vec3f *v = static_cast<tlp::Vec3f *>(sipConvertToType(
-      sipPy, sipType, sipTransferObj, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
-  *sipCppPtr = new tlp::Vec3f(*v);
-  sipReleaseType(v, sipType, state);
+    int state = 0, err = 0;
+    tlp::Vec3f *v = static_cast<tlp::Vec3f *>(sipConvertToType(
+        sipPy, sipType, sipTransferObj, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
+    *sipCppPtr = new tlp::Vec3f(*v);
+    sipReleaseType(v, sipType, state);
 } else {
-  *sipCppPtr = convertToVec3fType<tlp::Vec3f>(sipPy);
+    *sipCppPtr = convertToVec3fType<tlp::Vec3f>(sipPy);
 }
 return sipGetState(sipTransferObj);
 %End
@@ -123,20 +123,20 @@ public:
   float operator[](const uint i) const;
 %MethodCode
 if (a0 < 3) {
-  sipRes = (*sipCpp)[a0];
+    sipRes = (*sipCpp)[a0];
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 
   void __setitem__(int i, const float &value);
 %MethodCode
 if (a0 < 3) {
-  (*sipCpp)[a0] = a1;
+    (*sipCpp)[a0] = a1;
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 
@@ -147,21 +147,21 @@ if (a0 < 3) {
   tlp::Vec3f & operator/=(const float &);
 %MethodCode
 if (a0 != 0) {
-  sipCpp->tlp::Vec3f::operator/=(a0);
+    sipCpp->tlp::Vec3f::operator/=(a0);
 } else {
-  sipIsErr = -1;
-  PyErr_SetString(PyExc_ZeroDivisionError, "division of a float vector[3] by zero");
+    sipIsErr = -1;
+    PyErr_SetString(PyExc_ZeroDivisionError, "division of a float vector[3] by zero");
 }
 %End
 
   tlp::Vec3f & operator/=(const tlp::Vec3f &);
 %MethodCode
 if ((*a0)[0] && (*a0)[1] && (*a0)[2]) {
-  sipCpp->tlp::Vec3f::operator/=(*a0);
+    sipCpp->tlp::Vec3f::operator/=(*a0);
 } else {
-  sipIsErr = -1;
-  PyErr_SetString(PyExc_ZeroDivisionError,
-                  "division of a float vector[3] by a float vector[3] with a zero element");
+    sipIsErr = -1;
+    PyErr_SetString(PyExc_ZeroDivisionError,
+                    "division of a float vector[3] by a float vector[3] with a zero element");
 }
 %End
 
@@ -190,21 +190,21 @@ if ((*a0)[0] && (*a0)[1] && (*a0)[2]) {
   tlp::Vec3f operator/(const  tlp::Vec3f &) const;
 %MethodCode
 if ((*a1)[0] && (*a1)[1] && (*a1)[2]) {
-  sipRes = new tlp::Vec3f((*a0 / *a1));
+    sipRes = new tlp::Vec3f((*a0 / *a1));
 } else {
-  sipIsErr = -1;
-  PyErr_SetString(PyExc_ZeroDivisionError,
-                  "division of a float vector[3] by a float vector[3] with a zero element");
+    sipIsErr = -1;
+    PyErr_SetString(PyExc_ZeroDivisionError,
+                    "division of a float vector[3] by a float vector[3] with a zero element");
 }
 %End
 
   tlp::Vec3f operator/(const float &) const;
 %MethodCode
 if (a1 != 0) {
-  sipRes = new tlp::Vec3f((*a0 / a1));
+    sipRes = new tlp::Vec3f((*a0 / a1));
 } else {
-  sipIsErr = -1;
-  PyErr_SetString(PyExc_ZeroDivisionError, "division of a float vector[3] by zero");
+    sipIsErr = -1;
+    PyErr_SetString(PyExc_ZeroDivisionError, "division of a float vector[3] by zero");
 }
 %End
 
@@ -346,20 +346,20 @@ public:
   float operator[](const uint i) const;
 %MethodCode
 if (a0 < 4) {
-  sipRes = (*sipCpp)[a0];
+    sipRes = (*sipCpp)[a0];
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 
   void __setitem__(int i, const float &value);
 %MethodCode
 if (a0 < 4) {
-  (*sipCpp)[a0] = a1;
+    (*sipCpp)[a0] = a1;
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 
@@ -370,21 +370,21 @@ if (a0 < 4) {
   tlp::Vec4f & operator/=(const float &);
 %MethodCode
 if (a0 != 0) {
-  sipCpp->tlp::Vec4f::operator/=(a0);
+    sipCpp->tlp::Vec4f::operator/=(a0);
 } else {
-  sipIsErr = -1;
-  PyErr_SetString(PyExc_ZeroDivisionError, "division of a float vector[4] by zero");
+    sipIsErr = -1;
+    PyErr_SetString(PyExc_ZeroDivisionError, "division of a float vector[4] by zero");
 }
 %End
 
   tlp::Vec4f & operator/=(const tlp::Vec4f &);
 %MethodCode
 if ((*a0)[0] && (*a0)[1] && (*a0)[2] && (*a0)[3]) {
-  sipCpp->tlp::Vec4f::operator/=(*a0);
+    sipCpp->tlp::Vec4f::operator/=(*a0);
 } else {
-  sipIsErr = -1;
-  PyErr_SetString(PyExc_ZeroDivisionError,
-                  "division of a float vector[4] by a float vector[4] with a zero element");
+    sipIsErr = -1;
+    PyErr_SetString(PyExc_ZeroDivisionError,
+                    "division of a float vector[4] by a float vector[4] with a zero element");
 }
 %End
 
@@ -415,21 +415,21 @@ if ((*a0)[0] && (*a0)[1] && (*a0)[2] && (*a0)[3]) {
   tlp::Vec4f operator/(const  tlp::Vec4f &) const;
 %MethodCode
 if ((*a1)[0] && (*a1)[1] && (*a1)[2] && (*a1)[3]) {
-  sipRes = new tlp::Vec4f((*a0 / *a1));
+    sipRes = new tlp::Vec4f((*a0 / *a1));
 } else {
-  sipIsErr = -1;
-  PyErr_SetString(PyExc_ZeroDivisionError,
-                  "division of a float vector[4] by a float vector[4] with a zero element");
+    sipIsErr = -1;
+    PyErr_SetString(PyExc_ZeroDivisionError,
+                    "division of a float vector[4] by a float vector[4] with a zero element");
 }
 %End
 
   tlp::Vec4f operator/(const float &) const;
 %MethodCode
 if (a1 != 0) {
-  sipRes = new tlp::Vec4f((*a0 / a1));
+    sipRes = new tlp::Vec4f((*a0 / a1));
 } else {
-  sipIsErr = -1;
-  PyErr_SetString(PyExc_ZeroDivisionError, "division of a float vector[4] by zero");
+    sipIsErr = -1;
+    PyErr_SetString(PyExc_ZeroDivisionError, "division of a float vector[4] by zero");
 }
 %End
 
@@ -490,20 +490,20 @@ public:
   int operator[](const uint i) const;
 %MethodCode
 if (a0 < 4) {
-  sipRes = (*sipCpp)[a0];
+    sipRes = (*sipCpp)[a0];
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 
   void __setitem__(int i, const int &value);
 %MethodCode
 if (a0 < 4) {
-  (*sipCpp)[a0] = a1;
+    (*sipCpp)[a0] = a1;
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 

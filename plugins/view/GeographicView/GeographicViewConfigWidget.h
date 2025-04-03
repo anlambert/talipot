@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,49 +25,49 @@ class GeographicViewConfigWidget;
 namespace tlp {
 class GeographicViewConfigWidget : public QWidget {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::GeographicViewConfigWidget *_ui;
+    Ui::GeographicViewConfigWidget *_ui;
 
-public:
-  enum PolyFileType { None = -1, Default = 0, CsvFile, PolyFile };
+  public:
+    enum PolyFileType { None = -1, Default = 0, CsvFile, PolyFile };
 
-  GeographicViewConfigWidget(QWidget *parent = nullptr);
-  ~GeographicViewConfigWidget() override;
+    GeographicViewConfigWidget(QWidget *parent = nullptr);
+    ~GeographicViewConfigWidget() override;
 
-  bool useSharedLayoutProperty() const;
-  bool useSharedSizeProperty() const;
-  bool useSharedShapeProperty() const;
+    bool useSharedLayoutProperty() const;
+    bool useSharedSizeProperty() const;
+    bool useSharedShapeProperty() const;
 
-  PolyFileType polyFileType() const;
-  void setPolyFileType(PolyFileType &fileType);
-  QString getCsvFile() const;
-  QString getPolyFile() const;
+    PolyFileType polyFileType() const;
+    void setPolyFileType(PolyFileType &fileType);
+    QString getCsvFile() const;
+    QString getPolyFile() const;
 
-  bool polyOptionsChanged();
+    bool polyOptionsChanged();
 
-  QString getCustomTilesLayerUrl() const;
-  QString getCustomTilesLayerAttribution() const;
+    QString getCustomTilesLayerUrl() const;
+    QString getCustomTilesLayerAttribution() const;
 
-  void setState(const DataSet &dataSet);
+    void setState(const DataSet &dataSet);
 
-  DataSet state() const;
+    DataSet state() const;
 
-signals:
+  signals:
 
-  void mapToPolygonSignal();
+    void mapToPolygonSignal();
 
-public slots:
-  void openCsvFileBrowser();
-  void openPolyFileBrowser();
+  public slots:
+    void openCsvFileBrowser();
+    void openPolyFileBrowser();
 
-  void mapToPolygonSlot() {
-    emit mapToPolygonSignal();
-  }
+    void mapToPolygonSlot() {
+        emit mapToPolygonSignal();
+    }
 
-protected:
-  PolyFileType _oldPolyFileType;
-  std::string _oldFileLoaded;
+  protected:
+    PolyFileType _oldPolyFileType;
+    std::string _oldFileLoaded;
 };
 }
 

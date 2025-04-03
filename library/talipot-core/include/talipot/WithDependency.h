@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,23 +35,23 @@ namespace tlp {
  * @see tlp::WithDependency
  */
 struct Dependency {
-  /**
-   * @brief The name of the plug-in, as registered in the Talipot plug-in system.
-   */
-  std::string pluginName;
-  /**
-   * @brief The required version of the plug-in.
-   */
-  std::string pluginRelease;
+    /**
+     * @brief The name of the plug-in, as registered in the Talipot plug-in system.
+     */
+    std::string pluginName;
+    /**
+     * @brief The required version of the plug-in.
+     */
+    std::string pluginRelease;
 
-  /**
-   * @brief Constructs a new dependency.
-   *
-   * @param pName The name of the plug-in, as registered in the Talipot plug-in system.
-   * @param pRelease The required version of the plug-in.
-   */
-  Dependency(std::string pName, std::string pRelease)
-      : pluginName(pName), pluginRelease(pRelease) {}
+    /**
+     * @brief Constructs a new dependency.
+     *
+     * @param pName The name of the plug-in, as registered in the Talipot plug-in system.
+     * @param pRelease The required version of the plug-in.
+     */
+    Dependency(std::string pName, std::string pRelease)
+        : pluginName(pName), pluginRelease(pRelease) {}
 };
 
 /**
@@ -63,32 +63,32 @@ struct Dependency {
  * statically, or hoping depended plug-in will be there.
  */
 class WithDependency {
-protected:
-  /**
-   * @brief The inner list of dependencies.
-   */
-  std::list<Dependency> _dependencies;
+  protected:
+    /**
+     * @brief The inner list of dependencies.
+     */
+    std::list<Dependency> _dependencies;
 
-public:
-  /**
-   * @brief Adds a dependency upon another plug-in.
-   *
-   * @param factory The type name of the plug-in (e.g. 'DoubleAlgorithm')
-   * @param name The name of the plug-in, as registered in the Talipot plug-in system.
-   * @param release The required version of the depended plug-in.
-   */
-  void addDependency(const char *name, const char *release) {
-    _dependencies.push_back(Dependency(name, release));
-  }
+  public:
+    /**
+     * @brief Adds a dependency upon another plug-in.
+     *
+     * @param factory The type name of the plug-in (e.g. 'DoubleAlgorithm')
+     * @param name The name of the plug-in, as registered in the Talipot plug-in system.
+     * @param release The required version of the depended plug-in.
+     */
+    void addDependency(const char *name, const char *release) {
+        _dependencies.push_back(Dependency(name, release));
+    }
 
-  /**
-   * @brief Gets the list of Dependencies of this plug-in.
-   *
-   * @return list<Dependency> The list of dependencies of this plug-in.
-   */
-  const std::list<Dependency> &dependencies() const {
-    return _dependencies;
-  }
+    /**
+     * @brief Gets the list of Dependencies of this plug-in.
+     *
+     * @return list<Dependency> The list of dependencies of this plug-in.
+     */
+    const std::list<Dependency> &dependencies() const {
+        return _dependencies;
+    }
 };
 }
 #endif // TALIPOT_WITH_DEPENDENCY_H

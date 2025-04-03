@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,38 +27,39 @@ GlCubicBSplineInterpolation::GlCubicBSplineInterpolation(const vector<Coord> &po
 
 vector<Coord> GlCubicBSplineInterpolation::constructInterpolatingCubicBSpline(
     const vector<Coord> &pointsToInterpolate) {
-  vector<Coord> Ai(pointsToInterpolate.size());
-  vector<float> Bi(pointsToInterpolate.size());
-  vector<Coord> di(pointsToInterpolate.size());
-  di[0] = (pointsToInterpolate[1] - pointsToInterpolate[0]) / 3.0f;
-  di[pointsToInterpolate.size() - 1] = (pointsToInterpolate[pointsToInterpolate.size() - 1] -
-                                        pointsToInterpolate[pointsToInterpolate.size() - 2]) /
-                                       3.0f;
-  Bi[1] = -0.25f;
-  Ai[1] = (pointsToInterpolate[2] - pointsToInterpolate[0] - di[0]) / 4.0f;
+    vector<Coord> Ai(pointsToInterpolate.size());
+    vector<float> Bi(pointsToInterpolate.size());
+    vector<Coord> di(pointsToInterpolate.size());
+    di[0] = (pointsToInterpolate[1] - pointsToInterpolate[0]) / 3.0f;
+    di[pointsToInterpolate.size() - 1] = (pointsToInterpolate[pointsToInterpolate.size() - 1] -
+                                          pointsToInterpolate[pointsToInterpolate.size() - 2]) /
+                                         3.0f;
+    Bi[1] = -0.25f;
+    Ai[1] = (pointsToInterpolate[2] - pointsToInterpolate[0] - di[0]) / 4.0f;
 
-  for (size_t i = 2; i < pointsToInterpolate.size() - 1; ++i) {
-    Bi[i] = -1.0f / (4.0f + Bi[i - 1]);
-    Ai[i] = Coord(-(pointsToInterpolate[i + 1] - pointsToInterpolate[i - 1] - Ai[i - 1]) * Bi[i]);
-  }
+    for (size_t i = 2; i < pointsToInterpolate.size() - 1; ++i) {
+        Bi[i] = -1.0f / (4.0f + Bi[i - 1]);
+        Ai[i] =
+            Coord(-(pointsToInterpolate[i + 1] - pointsToInterpolate[i - 1] - Ai[i - 1]) * Bi[i]);
+    }
 
-  for (size_t i = pointsToInterpolate.size() - 2; i > 0; --i) {
-    di[i] = Ai[i] + di[i + 1] * Bi[i];
-  }
+    for (size_t i = pointsToInterpolate.size() - 2; i > 0; --i) {
+        di[i] = Ai[i] + di[i + 1] * Bi[i];
+    }
 
-  vector<Coord> bSplineControlPoints;
-  bSplineControlPoints.push_back(pointsToInterpolate[0]);
-  bSplineControlPoints.push_back(pointsToInterpolate[0] + di[0]);
+    vector<Coord> bSplineControlPoints;
+    bSplineControlPoints.push_back(pointsToInterpolate[0]);
+    bSplineControlPoints.push_back(pointsToInterpolate[0] + di[0]);
 
-  for (size_t i = 1; i < pointsToInterpolate.size() - 1; ++i) {
-    bSplineControlPoints.push_back(pointsToInterpolate[i] - di[i]);
-    bSplineControlPoints.push_back(pointsToInterpolate[i]);
-    bSplineControlPoints.push_back(pointsToInterpolate[i] + di[i]);
-  }
+    for (size_t i = 1; i < pointsToInterpolate.size() - 1; ++i) {
+        bSplineControlPoints.push_back(pointsToInterpolate[i] - di[i]);
+        bSplineControlPoints.push_back(pointsToInterpolate[i]);
+        bSplineControlPoints.push_back(pointsToInterpolate[i] + di[i]);
+    }
 
-  bSplineControlPoints.push_back(pointsToInterpolate[pointsToInterpolate.size() - 1] -
-                                 di[pointsToInterpolate.size() - 1]);
-  bSplineControlPoints.push_back(pointsToInterpolate[pointsToInterpolate.size() - 1]);
-  return bSplineControlPoints;
+    bSplineControlPoints.push_back(pointsToInterpolate[pointsToInterpolate.size() - 1] -
+                                   di[pointsToInterpolate.size() - 1]);
+    bSplineControlPoints.push_back(pointsToInterpolate[pointsToInterpolate.size() - 1]);
+    return bSplineControlPoints;
 }
 }

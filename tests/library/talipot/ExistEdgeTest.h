@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,19 +19,19 @@
 #include "CppUnitIncludes.h"
 
 class ExistEdgeTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(ExistEdgeTest);
-  CPPUNIT_TEST(testExistEdge);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(ExistEdgeTest);
+    CPPUNIT_TEST(testExistEdge);
+    CPPUNIT_TEST_SUITE_END();
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testExistEdge();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testExistEdge();
 
-private:
-  tlp::Graph *graph;
-  tlp::node n0, n1, n2;
-  tlp::edge e0, e1, e2, e3;
+  private:
+    tlp::Graph *graph;
+    tlp::node n0, n1, n2;
+    tlp::edge e0, e1, e2, e3;
 };
 
 #endif // EXIST_EDGE_TEST_H

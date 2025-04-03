@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,23 +20,23 @@
 #include "CppUnitIncludes.h"
 
 class IntegerPropertyMinMaxSubgraphTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(IntegerPropertyMinMaxSubgraphTest);
-  CPPUNIT_TEST(testIntegerPropertyRootGraphMin);
-  CPPUNIT_TEST(testIntegerPropertyRootGraphMax);
-  CPPUNIT_TEST(testIntegerPropertySubgraphMin);
-  CPPUNIT_TEST(testIntegerPropertySubgraphMax);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(IntegerPropertyMinMaxSubgraphTest);
+    CPPUNIT_TEST(testIntegerPropertyRootGraphMin);
+    CPPUNIT_TEST(testIntegerPropertyRootGraphMax);
+    CPPUNIT_TEST(testIntegerPropertySubgraphMin);
+    CPPUNIT_TEST(testIntegerPropertySubgraphMax);
+    CPPUNIT_TEST_SUITE_END();
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testIntegerPropertyRootGraphMin();
-  void testIntegerPropertyRootGraphMax();
-  void testIntegerPropertySubgraphMin();
-  void testIntegerPropertySubgraphMax();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testIntegerPropertyRootGraphMin();
+    void testIntegerPropertyRootGraphMax();
+    void testIntegerPropertySubgraphMin();
+    void testIntegerPropertySubgraphMax();
 
-private:
-  tlp::Graph *graph, *subGraph;
+  private:
+    tlp::Graph *graph, *subGraph;
 };
 
 #endif // INTEGER_PROPERTY_MIN_MAX_SUBGRAPH_TEST_H

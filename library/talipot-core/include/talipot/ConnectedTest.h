@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,49 +33,49 @@ struct edge;
  *connected." (i.e. there is a path between every pair of vertices).
  **/
 class TLP_SCOPE ConnectedTest {
-public:
-  /**
-   * @brief Checks if a graph is connected (i.e. there is a path between every pair of vertices).
-   *
-   * @param graph The graph to check.
-   * @return bool True if the graph is connected, false otherwise.
-   **/
-  static bool isConnected(const Graph *const graph);
+  public:
+    /**
+     * @brief Checks if a graph is connected (i.e. there is a path between every pair of vertices).
+     *
+     * @param graph The graph to check.
+     * @return bool True if the graph is connected, false otherwise.
+     **/
+    static bool isConnected(const Graph *const graph);
 
-  /**
-   * @brief If the graph is not connected, adds edges to make it connected.
-   *
-   * @param graph The graph to make connected.
-   * @return The edges that were added to make it connected.
-   **/
-  static std::vector<edge> makeConnected(Graph *graph);
+    /**
+     * @brief If the graph is not connected, adds edges to make it connected.
+     *
+     * @param graph The graph to make connected.
+     * @return The edges that were added to make it connected.
+     **/
+    static std::vector<edge> makeConnected(Graph *graph);
 
-  /**
-   * @brief Gets the number of connected components in the graph.
-   *
-   * @param graph The graph in which to count the number of connected components.
-   * @return uint The number of connected componments.
-   **/
-  static uint numberOfConnectedComponents(const Graph *const graph);
+    /**
+     * @brief Gets the number of connected components in the graph.
+     *
+     * @param graph The graph in which to count the number of connected components.
+     * @return uint The number of connected componments.
+     **/
+    static uint numberOfConnectedComponents(const Graph *const graph);
 
-  /**
-   * @brief Computes the set of connected components.
-   *
-   * @param graph The graph on which to compute connected components.
-   * @return The components that were found as vectors of nodes.
-   **/
-  static std::vector<std::vector<node>> computeConnectedComponents(const Graph *graph);
+    /**
+     * @brief Computes the set of connected components.
+     *
+     * @param graph The graph on which to compute connected components.
+     * @return The components that were found as vectors of nodes.
+     **/
+    static std::vector<std::vector<node>> computeConnectedComponents(const Graph *graph);
 
-  /**
-   * @brief Computes the bridges of a graph.
-   *
-   * A bridge is defined as an edge which, when removed, makes the graph disconnected
-   * (or more precisely, increases the number of connected components in the graph).
-   *
-   * @param graph The graph on which to compute bridges
-   * @return The bridges that were found as a vector of edges.
-   **/
-  static std::vector<tlp::edge> computeBridges(const Graph *graph);
+    /**
+     * @brief Computes the bridges of a graph.
+     *
+     * A bridge is defined as an edge which, when removed, makes the graph disconnected
+     * (or more precisely, increases the number of connected components in the graph).
+     *
+     * @param graph The graph on which to compute bridges
+     * @return The bridges that were found as a vector of edges.
+     **/
+    static std::vector<tlp::edge> computeBridges(const Graph *graph);
 };
 }
 

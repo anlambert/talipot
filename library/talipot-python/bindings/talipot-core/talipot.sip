@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -51,117 +51,118 @@
 #include <iostream>
 
 inline tlp::PropertyInterface *copyValue(tlp::PropertyInterface *value) {
-  return value;
+    return value;
 }
 
 inline tlp::Graph *copyValue(tlp::Graph *value) {
-  return value;
+    return value;
 }
 
 inline std::string *copyValue(const std::string &value) {
-  return new std::string(value);
+    return new std::string(value);
 }
 
 inline const std::string &getValue(const std::string *value) {
-  return *value;
+    return *value;
 }
 
 inline tlp::node *copyValue(const tlp::node &value) {
-  return new tlp::node(value);
+    return new tlp::node(value);
 }
 
 inline tlp::edge *copyValue(const tlp::edge &value) {
-  return new tlp::edge(value);
+    return new tlp::edge(value);
 }
 
 inline int copyValue(const int &value) {
-  return value;
+    return value;
 }
 
 inline int getValue(const int &value) {
-  return value;
+    return value;
 }
 
 inline double copyValue(double value) {
-  return value;
+    return value;
 }
 
 inline double getValue(double value) {
-  return value;
+    return value;
 }
 
 inline tlp::Coord *copyValue(const tlp::Coord &value) {
-  return new tlp::Coord(value);
+    return new tlp::Coord(value);
 }
 
 inline const tlp::Coord &getValue(const tlp::Coord *value) {
-  return *value;
+    return *value;
 }
 
 inline tlp::Size *copyValue(const tlp::Size &value) {
-  return new tlp::Size(value);
+    return new tlp::Size(value);
 }
 
 inline const tlp::Size &getValue(const tlp::Size *value) {
-  return *value;
+    return *value;
 }
 
 inline tlp::Color *copyValue(const tlp::Color &value) {
-  return new tlp::Color(value);
+    return new tlp::Color(value);
 }
 
 inline const tlp::Color &getValue(const tlp::Color *value) {
-  return *value;
+    return *value;
 }
 
 inline tlp::ParameterDescription *copyValue(const tlp::ParameterDescription &value) {
-  return new tlp::ParameterDescription(value);
+    return new tlp::ParameterDescription(value);
 }
 
 inline const tlp::ParameterDescription &getValue(const tlp::ParameterDescription *value) {
-  return *value;
+    return *value;
 }
 
 inline std::vector<tlp::Coord> *copyValue(const std::vector<tlp::Coord> &value) {
-  return new std::vector<tlp::Coord>(value);
+    return new std::vector<tlp::Coord>(value);
 }
 
 inline const std::vector<tlp::Coord> &getValue(const std::vector<tlp::Coord> *value) {
-  return *value;
+    return *value;
 }
 
 inline std::vector<tlp::Size> *copyValue(const std::vector<tlp::Size> &value) {
-  return new std::vector<tlp::Size>(value);
+    return new std::vector<tlp::Size>(value);
 }
 
 inline const std::vector<tlp::Size> &getValue(const std::vector<tlp::Size> *value) {
-  return *value;
+    return *value;
 }
 
 template <typename T>
 bool pluginExists(std::string pluginName) {
-  if (typeid(T).name() == typeid(tlp::Algorithm).name()) {
-    std::list<std::string> algoList = tlp::PluginsManager::availablePlugins<tlp::Algorithm>();
-    std::list<std::string> propAlgoList =
-        tlp::PluginsManager::availablePlugins<tlp::PropertyAlgorithm>();
-    std::list<std::string> realAlgoList;
-    for (const auto &algo : algoList) {
-      if (std::find(propAlgoList.begin(), propAlgoList.end(), algo) == propAlgoList.end()) {
-        realAlgoList.push_back(algo);
-      }
+    if (typeid(T).name() == typeid(tlp::Algorithm).name()) {
+        std::list<std::string> algoList = tlp::PluginsManager::availablePlugins<tlp::Algorithm>();
+        std::list<std::string> propAlgoList =
+            tlp::PluginsManager::availablePlugins<tlp::PropertyAlgorithm>();
+        std::list<std::string> realAlgoList;
+        for (const auto &algo : algoList) {
+            if (std::find(propAlgoList.begin(), propAlgoList.end(), algo) == propAlgoList.end()) {
+                realAlgoList.push_back(algo);
+            }
+        }
+        return std::find(realAlgoList.begin(), realAlgoList.end(), pluginName) !=
+               realAlgoList.end();
+    } else {
+        return tlp::PluginsManager::pluginExists<T>(pluginName);
     }
-    return std::find(realAlgoList.begin(), realAlgoList.end(), pluginName) != realAlgoList.end();
-  } else {
-    return tlp::PluginsManager::pluginExists<T>(pluginName);
-  }
 }
 
 template <typename PROP>
 bool canGetProperty(const tlp::Graph *graph, const std::string &propName) {
-  if (!graph->existProperty(propName)) {
-    return true;
-  }
-  return dynamic_cast<PROP *>(graph->getProperty(propName)) != NULL;
+    if (!graph->existProperty(propName)) {
+        return true;
+    }
+    return dynamic_cast<PROP *>(graph->getProperty(propName)) != NULL;
 }
 
 extern int throwInvalidNodeException(const tlp::Graph *graph, tlp::node n);
@@ -190,36 +191,36 @@ extern bool isTupleAndCanConvertToVec3fType(PyObject *pyObj);
 
 template <typename VEC_TYPE>
 VEC_TYPE *convertToVec3fType(PyObject *pyObj, float zVal = 0) {
-  float x = 0, y = 0, z = zVal;
-  long xl = 0, yl = 0, zl = 0;
-  double xd = 0, yd = 0, zd = 0;
+    float x = 0, y = 0, z = zVal;
+    long xl = 0, yl = 0, zl = 0;
+    double xd = 0, yd = 0, zd = 0;
 
-  bool isList = PyList_Check(pyObj);
+    bool isList = PyList_Check(pyObj);
 
-  PyObject *f = isList ? PyList_GET_ITEM(pyObj, 0) : PyTuple_GET_ITEM(pyObj, 0);
-  if (convertPyObjectToLong(f, xl)) {
-    x = float(xl);
-  } else if (convertPyObjectToDouble(f, xd)) {
-    x = float(xd);
-  }
-
-  f = isList ? PyList_GET_ITEM(pyObj, 1) : PyTuple_GET_ITEM(pyObj, 1);
-  if (convertPyObjectToLong(f, yl)) {
-    y = float(yl);
-  } else if (convertPyObjectToDouble(f, yd)) {
-    y = float(yd);
-  }
-
-  if ((isList && PyList_GET_SIZE(pyObj) > 2) || PyTuple_GET_SIZE(pyObj) > 2) {
-    f = isList ? PyList_GET_ITEM(pyObj, 2) : PyTuple_GET_ITEM(pyObj, 2);
-    if (convertPyObjectToLong(f, zl)) {
-      z = float(zl);
-    } else if (convertPyObjectToDouble(f, zd)) {
-      z = float(zd);
+    PyObject *f = isList ? PyList_GET_ITEM(pyObj, 0) : PyTuple_GET_ITEM(pyObj, 0);
+    if (convertPyObjectToLong(f, xl)) {
+        x = float(xl);
+    } else if (convertPyObjectToDouble(f, xd)) {
+        x = float(xd);
     }
-  }
 
-  return new VEC_TYPE(x, y, z);
+    f = isList ? PyList_GET_ITEM(pyObj, 1) : PyTuple_GET_ITEM(pyObj, 1);
+    if (convertPyObjectToLong(f, yl)) {
+        y = float(yl);
+    } else if (convertPyObjectToDouble(f, yd)) {
+        y = float(yd);
+    }
+
+    if ((isList && PyList_GET_SIZE(pyObj) > 2) || PyTuple_GET_SIZE(pyObj) > 2) {
+        f = isList ? PyList_GET_ITEM(pyObj, 2) : PyTuple_GET_ITEM(pyObj, 2);
+        if (convertPyObjectToLong(f, zl)) {
+            z = float(zl);
+        } else if (convertPyObjectToDouble(f, zd)) {
+            z = float(zd);
+        }
+    }
+
+    return new VEC_TYPE(x, y, z);
 }
 %End
 
@@ -227,123 +228,123 @@ VEC_TYPE *convertToVec3fType(PyObject *pyObj, float zVal = 0) {
 %ModuleCode
 
 int throwInvalidNodeException(const tlp::Graph *graph, tlp::node n) {
-  std::ostringstream oss;
-  oss << "Node with id " << n.id << " does not belong to graph \"" << graph->getName() << "\" (id "
-      << graph->getId() << ")";
-  PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-  return -1;
+    std::ostringstream oss;
+    oss << "Node with id " << n.id << " does not belong to graph \"" << graph->getName()
+        << "\" (id " << graph->getId() << ")";
+    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+    return -1;
 }
 
 int throwInvalidEdgeException(const tlp::Graph *graph, tlp::edge e) {
-  std::ostringstream oss;
-  oss << "Edge with id " << e.id << " does not belong to graph \"" << graph->getName() << "\" (id "
-      << graph->getId() << ")";
-  PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-  return -1;
+    std::ostringstream oss;
+    oss << "Edge with id " << e.id << " does not belong to graph \"" << graph->getName()
+        << "\" (id " << graph->getId() << ")";
+    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+    return -1;
 }
 
 int throwInvalidSgException(const tlp::Graph *graph, const tlp::Graph *sg) {
-  std::ostringstream oss;
-  oss << "Graph \"" << sg->getName() << "\" (id " << sg->getId()
-      << ") is not a subgraph of graph \"" << graph->getName() << "\" (id " << graph->getId()
-      << ")";
-  PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  return -1;
+    std::ostringstream oss;
+    oss << "Graph \"" << sg->getName() << "\" (id " << sg->getId()
+        << ") is not a subgraph of graph \"" << graph->getName() << "\" (id " << graph->getId()
+        << ")";
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    return -1;
 }
 
 int throwPropertyNameExistsException(const tlp::Graph *graph, const std::string &propertyName) {
-  tlp::PropertyInterface *prop = graph->getProperty(propertyName);
-  std::ostringstream oss;
-  oss << "A property named \"" << propertyName << "\" of type " << prop->getTypename()
-      << " already exists in graph \"" << graph->getName() << "\" (id " << graph->getId() << ")";
-  PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  return -1;
+    tlp::PropertyInterface *prop = graph->getProperty(propertyName);
+    std::ostringstream oss;
+    oss << "A property named \"" << propertyName << "\" of type " << prop->getTypename()
+        << " already exists in graph \"" << graph->getName() << "\" (id " << graph->getId() << ")";
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    return -1;
 }
 
 static bool errorMessagesEnabled = true;
 
 void enableErrorMessages(bool enable) {
-  errorMessagesEnabled = enable;
+    errorMessagesEnabled = enable;
 }
 
 void printErrorMessage(const std::string &errMsg) {
-  if (errorMessagesEnabled) {
-    std::string pythonCode = "import sys\n"
-                             "sys.stderr.write(\"";
-    pythonCode += errMsg;
-    pythonCode += "\\n\")";
-    PyRun_SimpleString(pythonCode.c_str());
-  }
+    if (errorMessagesEnabled) {
+        std::string pythonCode = "import sys\n"
+                                 "sys.stderr.write(\"";
+        pythonCode += errMsg;
+        pythonCode += "\\n\")";
+        PyRun_SimpleString(pythonCode.c_str());
+    }
 }
 
 void releaseSIPWrapper(void *wrappedCppObject, const sipTypeDef *td) {
-  PyObject *pyObj = sipGetPyObject(wrappedCppObject, td);
-  if (pyObj) {
-    sipTransferTo(pyObj, pyObj);
-    sipSimpleWrapper *wrapper = reinterpret_cast<sipSimpleWrapper *>(pyObj);
-    sipInstanceDestroyed(wrapper);
-  }
+    PyObject *pyObj = sipGetPyObject(wrappedCppObject, td);
+    if (pyObj) {
+        sipTransferTo(pyObj, pyObj);
+        sipSimpleWrapper *wrapper = reinterpret_cast<sipSimpleWrapper *>(pyObj);
+        sipInstanceDestroyed(wrapper);
+    }
 }
 
 void replaceAll(std::string &s, const std::string &replaceWhat,
                 const std::string &replaceWithWhat) {
-  while (1) {
-    const size_t pos = s.find(replaceWhat);
-    if (pos == std::string::npos)
-      break;
-    s.replace(pos, replaceWhat.size(), replaceWithWhat);
-  }
+    while (1) {
+        const size_t pos = s.find(replaceWhat);
+        if (pos == std::string::npos)
+            break;
+        s.replace(pos, replaceWhat.size(), replaceWithWhat);
+    }
 }
 
 bool isValidGraphSelection(const tlp::Graph *graph, tlp::BooleanProperty *selection) {
-  for (const tlp::edge &e : graph->edges()) {
-    if (selection->getEdgeValue(e)) {
-      if (!selection->getNodeValue(graph->source(e)) ||
-          !selection->getNodeValue(graph->target(e))) {
-        return false;
-      }
+    for (const tlp::edge &e : graph->edges()) {
+        if (selection->getEdgeValue(e)) {
+            if (!selection->getNodeValue(graph->source(e)) ||
+                !selection->getNodeValue(graph->target(e))) {
+                return false;
+            }
+        }
     }
-  }
-  return true;
+    return true;
 }
 
 PyObject *evalPythonStatement(const std::string &pythonStatement) {
-  PyObject *pName = PyUnicode_FromString("__main__");
+    PyObject *pName = PyUnicode_FromString("__main__");
 
-  PyObject *pMainModule = PyImport_Import(pName);
-  Py_XDECREF(pName);
-  PyObject *pMainDict = PyModule_GetDict(pMainModule);
+    PyObject *pMainModule = PyImport_Import(pName);
+    Py_XDECREF(pName);
+    PyObject *pMainDict = PyModule_GetDict(pMainModule);
 
-  PyObject *ret = PyRun_String(pythonStatement.c_str(), Py_eval_input, pMainDict, pMainDict);
+    PyObject *ret = PyRun_String(pythonStatement.c_str(), Py_eval_input, pMainDict, pMainDict);
 
-  if (PyErr_Occurred()) {
-    PyErr_Print();
-    PyErr_Clear();
-  }
+    if (PyErr_Occurred()) {
+        PyErr_Print();
+        PyErr_Clear();
+    }
 
-  return ret;
+    return ret;
 }
 
 bool isTupleAndCanConvertToVec3fType(PyObject *pyObj) {
-  if (!PyTuple_Check(pyObj) || PyTuple_GET_SIZE(pyObj) < 2 || PyTuple_GET_SIZE(pyObj) > 3) {
-    return false;
-  }
+    if (!PyTuple_Check(pyObj) || PyTuple_GET_SIZE(pyObj) < 2 || PyTuple_GET_SIZE(pyObj) > 3) {
+        return false;
+    }
 
-  for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(pyObj); ++i) {
-    PyObject *item = PyTuple_GET_ITEM(pyObj, i);
-    bool canConvert = false;
-    if (!PyBool_Check(item) && PyLong_Check(item)) {
-      canConvert = canConvert || true;
+    for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(pyObj); ++i) {
+        PyObject *item = PyTuple_GET_ITEM(pyObj, i);
+        bool canConvert = false;
+        if (!PyBool_Check(item) && PyLong_Check(item)) {
+            canConvert = canConvert || true;
+        }
+        if (!PyBool_Check(item) && PyFloat_Check(item)) {
+            canConvert = canConvert || true;
+        }
+        if (!canConvert) {
+            return false;
+        }
     }
-    if (!PyBool_Check(item) && PyFloat_Check(item)) {
-      canConvert = canConvert || true;
-    }
-    if (!canConvert) {
-      return false;
-    }
-  }
 
-  return true;
+    return true;
 }
 %End
 

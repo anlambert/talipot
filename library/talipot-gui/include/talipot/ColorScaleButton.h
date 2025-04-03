@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,22 +23,22 @@ namespace tlp {
 class ColorScaleConfigDialog;
 
 class TLP_QT_SCOPE ColorScaleButton : public QPushButton {
-  Q_OBJECT
-  ColorScale _colorScale;
-  ColorScaleConfigDialog *dlg;
+    Q_OBJECT
+    ColorScale _colorScale;
+    ColorScaleConfigDialog *dlg;
 
-public:
-  static void paintScale(QPainter *, const QRect &, const ColorScale &);
+  public:
+    static void paintScale(QPainter *, const QRect &, const ColorScale &);
 
-  ColorScaleButton(ColorScale colorScale = ColorScale(), QWidget *parent = nullptr);
+    ColorScaleButton(ColorScale colorScale = ColorScale(), QWidget *parent = nullptr);
 
-  const ColorScale &colorScale() const;
-  void setColorScale(const ColorScale &) const;
-  void paintEvent(QPaintEvent *event) override;
-  void editColorScale(const ColorScale &colorScale);
+    const ColorScale &colorScale() const;
+    void setColorScale(const ColorScale &) const;
+    void paintEvent(QPaintEvent *event) override;
+    void editColorScale(const ColorScale &colorScale);
 
-public slots:
-  void editColorScale();
+  public slots:
+    void editColorScale();
 };
 }
 #endif // TALIPOT_COLOR_SCALE_BUTTON_H

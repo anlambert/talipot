@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,60 +40,61 @@ class GlLayer;
  */
 class TLP_QT_SCOPE GlCompositeHierarchyManager : private Observable {
 
-public:
-  GlCompositeHierarchyManager(Graph *graph, GlLayer *layer, const std::string &layerName,
-                              LayoutProperty *layout, SizeProperty *size, DoubleProperty *rotation,
-                              bool visible = false, const std::string &namingProperty = "name",
-                              const std::string &subCompositeSuffix = " sub-hulls");
+  public:
+    GlCompositeHierarchyManager(Graph *graph, GlLayer *layer, const std::string &layerName,
+                                LayoutProperty *layout, SizeProperty *size,
+                                DoubleProperty *rotation, bool visible = false,
+                                const std::string &namingProperty = "name",
+                                const std::string &subCompositeSuffix = " sub-hulls");
 
-  void setGraph(tlp::Graph *graph);
-  DataSet getData();
-  void setData(const DataSet &dataSet);
+    void setGraph(tlp::Graph *graph);
+    DataSet getData();
+    void setData(const DataSet &dataSet);
 
-  void createComposite();
+    void createComposite();
 
-  void setVisible(bool visible);
-  bool isVisible() const;
+    void setVisible(bool visible);
+    bool isVisible() const;
 
-protected:
-  void treatEvents(const std::vector<Event> &events) override;
-  void treatEvent(const Event &) override;
+  protected:
+    void treatEvents(const std::vector<Event> &events) override;
+    void treatEvent(const Event &) override;
 
-private:
-  const tlp::Color getColor();
-  int _currentColor;
+  private:
+    const tlp::Color getColor();
+    int _currentColor;
 
-  /**
-   * Create the hierarchy of ConvexHullItem
-   */
-  void buildComposite(tlp::Graph *current, tlp::GlComposite *composite);
+    /**
+     * Create the hierarchy of ConvexHullItem
+     */
+    void buildComposite(tlp::Graph *current, tlp::GlComposite *composite);
 
-  Graph *_graph;
-  GlLayer *_layer;
-  GlComposite *_composite;
-  LayoutProperty *_layout;
-  SizeProperty *_size;
-  DoubleProperty *_rotation;
-  std::vector<Color> _fillColors;
-  std::string _layerName;
-  bool _isVisible;
-  const std::string _subCompositesSuffix;
-  const std::string _nameAttribute;
+    Graph *_graph;
+    GlLayer *_layer;
+    GlComposite *_composite;
+    LayoutProperty *_layout;
+    SizeProperty *_size;
+    DoubleProperty *_rotation;
+    std::vector<Color> _fillColors;
+    std::string _layerName;
+    bool _isVisible;
+    const std::string _subCompositesSuffix;
+    const std::string _nameAttribute;
 
-  const static std::string temporaryPropertyValue;
-  /**
-   * This map contains the composite that contains the associated graph's hull.
-   */
-  std::map<tlp::Graph *, std::pair<tlp::GlComposite *, GlConvexGraphHull *>> _graphsComposites;
+    const static std::string temporaryPropertyValue;
+    /**
+     * This map contains the composite that contains the associated graph's hull.
+     */
+    std::map<tlp::Graph *, std::pair<tlp::GlComposite *, GlConvexGraphHull *>> _graphsComposites;
 };
 
 class GlHierarchyMainComposite : public GlComposite {
-public:
-  GlHierarchyMainComposite(GlCompositeHierarchyManager *manager);
-  void setVisible(bool visible) override;
+  public:
+    GlHierarchyMainComposite(GlCompositeHierarchyManager *manager);
+    void setVisible(bool visible) override;
 
-private:
-  GlCompositeHierarchyManager *_manager;
+  private:
+    GlCompositeHierarchyManager *_manager;
 };
 }
 

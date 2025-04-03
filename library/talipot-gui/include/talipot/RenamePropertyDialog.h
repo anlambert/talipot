@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,17 +29,17 @@ class PropertyInterface;
  **/
 
 class TLP_QT_SCOPE RenamePropertyDialog {
-public:
-  /**
-   * @brief This is a convenience static function to rename a property using a dialog. If the user
-   *presses Cancel or an error occurs, it returns false.
-   *
-   * The function creates a modal property rename dialog with the given property, and parent
-   *widget.
-   *
-   * @param toRenameProp The property to rename.
-   **/
-  static bool renameProperty(tlp::PropertyInterface *toRenameProp, QWidget *parent = nullptr);
+  public:
+    /**
+     * @brief This is a convenience static function to rename a property using a dialog. If the user
+     *presses Cancel or an error occurs, it returns false.
+     *
+     * The function creates a modal property rename dialog with the given property, and parent
+     *widget.
+     *
+     * @param toRenameProp The property to rename.
+     **/
+    static bool renameProperty(tlp::PropertyInterface *toRenameProp, QWidget *parent = nullptr);
 };
 }
 #endif // TALIPOT_RENAME_PROPERTY_DIALOG_H

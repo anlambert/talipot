@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,107 +33,108 @@ static constexpr std::string_view paramHelp[] = {
  */
 class RandomTree : public ImportModule {
 
-  bool buildNode(node n, uint sizeM) {
-    if (graph->numberOfNodes() >= sizeM - 1) {
-      return false;
+    bool buildNode(node n, uint sizeM) {
+        if (graph->numberOfNodes() >= sizeM - 1) {
+            return false;
+        }
+
+        bool result = true;
+        int randNumber = randomNumber(RAND_MAX);
+
+        if (randNumber > RAND_MAX / 2) {
+            node n1, n2;
+            n1 = graph->addNode();
+            graph->addEdge(n, n1);
+            result = buildNode(n1, sizeM);
+
+            if (result) {
+                n2 = graph->addNode();
+                graph->addEdge(n, n2);
+                result = buildNode(n2, sizeM);
+            }
+        }
+
+        return result;
     }
 
-    bool result = true;
-    int randNumber = randomNumber(RAND_MAX);
-
-    if (randNumber > RAND_MAX / 2) {
-      node n1, n2;
-      n1 = graph->addNode();
-      graph->addEdge(n, n1);
-      result = buildNode(n1, sizeM);
-
-      if (result) {
-        n2 = graph->addNode();
-        graph->addEdge(n, n2);
-        result = buildNode(n2, sizeM);
-      }
+  public:
+    PLUGININFORMATION("Uniform Random Binary Tree", "Auber", "16/02/2001",
+                      "Imports a new randomly generated uniform binary tree.", "1.1", "Graph")
+    RandomTree(tlp::PluginContext *context) : ImportModule(context) {
+        addInParameter<uint>("Minimum size", paramHelp[0].data(), "50");
+        addInParameter<uint>("Maximum size", paramHelp[1].data(), "60");
+        addInParameter<bool>("tree layout", paramHelp[2].data(), "false");
+        addDependency("Tree Leaf", "1.0");
     }
 
-    return result;
-  }
+    bool importGraph() override {
+        // initialize a random sequence according the given seed
+        tlp::initRandomSequence();
 
-public:
-  PLUGININFORMATION("Uniform Random Binary Tree", "Auber", "16/02/2001",
-                    "Imports a new randomly generated uniform binary tree.", "1.1", "Graph")
-  RandomTree(tlp::PluginContext *context) : ImportModule(context) {
-    addInParameter<uint>("Minimum size", paramHelp[0].data(), "50");
-    addInParameter<uint>("Maximum size", paramHelp[1].data(), "60");
-    addInParameter<bool>("tree layout", paramHelp[2].data(), "false");
-    addDependency("Tree Leaf", "1.0");
-  }
+        uint minSize = 100;
+        uint maxSize = 1000;
+        bool needLayout = false;
 
-  bool importGraph() override {
-    // initialize a random sequence according the given seed
-    tlp::initRandomSequence();
+        if (dataSet != nullptr) {
+            if (!dataSet->get("Minimum size", minSize)) {
+                dataSet->get("minsize", minSize); // keep old name for backward compatibility
+            }
 
-    uint minSize = 100;
-    uint maxSize = 1000;
-    bool needLayout = false;
+            if (!dataSet->get("Maximum size", maxSize)) {
+                dataSet->get("maxsize", maxSize); // keep old name for backward compatibility
+            }
 
-    if (dataSet != nullptr) {
-      if (!dataSet->get("Minimum size", minSize)) {
-        dataSet->get("minsize", minSize); // keep old name for backward compatibility
-      }
+            dataSet->get("tree layout", needLayout);
+        }
 
-      if (!dataSet->get("Maximum size", maxSize)) {
-        dataSet->get("maxsize", maxSize); // keep old name for backward compatibility
-      }
+        if (maxSize < 1) {
+            if (pluginProgress) {
+                pluginProgress->setError("Error: maximum size must be a strictly positive integer");
+            }
 
-      dataSet->get("tree layout", needLayout);
+            return false;
+        }
+
+        if (maxSize < minSize) {
+            if (pluginProgress) {
+                pluginProgress->setError("Error: maximum size must be greater than minimum size");
+            }
+
+            return false;
+        }
+
+        bool ok = true;
+        int i = 0;
+
+        while (ok) {
+            if (pluginProgress->progress(i % 100, 100) != ProgressState::TLP_CONTINUE) {
+                break;
+            }
+
+            ++i;
+            graph->clear();
+            node n = graph->addNode();
+            ok = !buildNode(n, maxSize);
+
+            if (graph->numberOfNodes() < minSize) {
+                ok = true;
+            }
+        }
+
+        if (pluginProgress->progress(100, 100) == ProgressState::TLP_CANCEL) {
+            return false;
+        }
+
+        if (needLayout) {
+            // apply Tree Leaf
+            string errMsg;
+            LayoutProperty *layout = graph->getLayoutProperty("viewLayout");
+            return graph->applyPropertyAlgorithm("Tree Leaf", layout, errMsg, nullptr,
+                                                 pluginProgress);
+        }
+
+        return true;
     }
-
-    if (maxSize < 1) {
-      if (pluginProgress) {
-        pluginProgress->setError("Error: maximum size must be a strictly positive integer");
-      }
-
-      return false;
-    }
-
-    if (maxSize < minSize) {
-      if (pluginProgress) {
-        pluginProgress->setError("Error: maximum size must be greater than minimum size");
-      }
-
-      return false;
-    }
-
-    bool ok = true;
-    int i = 0;
-
-    while (ok) {
-      if (pluginProgress->progress(i % 100, 100) != ProgressState::TLP_CONTINUE) {
-        break;
-      }
-
-      ++i;
-      graph->clear();
-      node n = graph->addNode();
-      ok = !buildNode(n, maxSize);
-
-      if (graph->numberOfNodes() < minSize) {
-        ok = true;
-      }
-    }
-
-    if (pluginProgress->progress(100, 100) == ProgressState::TLP_CANCEL) {
-      return false;
-    }
-
-    if (needLayout) {
-      // apply Tree Leaf
-      string errMsg;
-      LayoutProperty *layout = graph->getLayoutProperty("viewLayout");
-      return graph->applyPropertyAlgorithm("Tree Leaf", layout, errMsg, nullptr, pluginProgress);
-    }
-
-    return true;
-  }
 };
 
 PLUGIN(RandomTree)

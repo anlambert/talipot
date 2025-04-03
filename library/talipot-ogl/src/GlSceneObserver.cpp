@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,18 +27,18 @@ GlSceneEvent::GlSceneEvent(const GlScene &scene, GlSceneEventType sceneEventType
     : Event(scene, EventType::TLP_MODIFICATION), sceneEventType(sceneEventType), entity(entity) {}
 
 GlEntity *GlSceneEvent::getGlEntity() const {
-  return entity;
+    return entity;
 }
 
 std::string GlSceneEvent::getLayerName() const {
-  return layerName;
+    return layerName;
 }
 
 GlLayer *GlSceneEvent::getLayer() const {
-  return layer;
+    return layer;
 }
 
 GlSceneEvent::GlSceneEventType GlSceneEvent::getSceneEventType() const {
-  return sceneEventType;
+    return sceneEventType;
 }
 }

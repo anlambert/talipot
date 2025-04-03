@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,53 +20,54 @@ using namespace tlp;
 
 NeighborhoodHighlighterConfigWidget::NeighborhoodHighlighterConfigWidget(QWidget *parent)
     : QWidget(parent), _ui(new Ui::NeighborhoodHighlighterConfigWidget) {
-  _ui->setupUi(this);
+    _ui->setupUi(this);
 }
 
 NeighborhoodHighlighterConfigWidget::~NeighborhoodHighlighterConfigWidget() {
-  delete _ui;
+    delete _ui;
 }
 
 NodeNeighborhoodView::NeighborNodesType
 NeighborhoodHighlighterConfigWidget::getNeighborsType() const {
-  if (_ui->outputEdgesRB->isChecked()) {
-    return NodeNeighborhoodView::OUT_NEIGHBORS;
-  } else if (_ui->inputEdgesRB->isChecked()) {
-    return NodeNeighborhoodView::IN_NEIGHBORS;
-  } else {
-    return NodeNeighborhoodView::IN_OUT_NEIGHBORS;
-  }
+    if (_ui->outputEdgesRB->isChecked()) {
+        return NodeNeighborhoodView::OUT_NEIGHBORS;
+    } else if (_ui->inputEdgesRB->isChecked()) {
+        return NodeNeighborhoodView::IN_NEIGHBORS;
+    } else {
+        return NodeNeighborhoodView::IN_OUT_NEIGHBORS;
+    }
 }
 
 bool NeighborhoodHighlighterConfigWidget::computeReachableSubGraph() const {
-  return _ui->computeReachableSGCB->isChecked();
+    return _ui->computeReachableSGCB->isChecked();
 }
 
 void NeighborhoodHighlighterConfigWidget::setCurrentMaxDistanceForReachableNodes(uint distance) {
-  _ui->distanceLineEdit->setText(QString::number(distance));
+    _ui->distanceLineEdit->setText(QString::number(distance));
 }
 
 bool NeighborhoodHighlighterConfigWidget::bringAndGoAnimation1() const {
-  return _ui->bagAnimation1->isChecked();
+    return _ui->bagAnimation1->isChecked();
 }
 
 int NeighborhoodHighlighterConfigWidget::numberOfNodesToBring() const {
-  return _ui->nodesNumber->value();
+    return _ui->nodesNumber->value();
 }
 
 std::string NeighborhoodHighlighterConfigWidget::propertyToUse() const {
-  return tlp::QStringToTlpString(_ui->propertyName->currentText());
+    return tlp::QStringToTlpString(_ui->propertyName->currentText());
 }
 
 void NeighborhoodHighlighterConfigWidget::setNumberOfNodes(int nodesNb) {
-  _ui->nodesNumber->setValue(nodesNb);
+    _ui->nodesNumber->setValue(nodesNb);
 }
 
 void NeighborhoodHighlighterConfigWidget::setPropertyToUse(const std::string &propertyName) {
-  _ui->propertyName->addItem(tlpStringToQString(propertyName));
-  _ui->propertyName->setCurrentIndex(_ui->propertyName->findText(tlpStringToQString(propertyName)));
+    _ui->propertyName->addItem(tlpStringToQString(propertyName));
+    _ui->propertyName->setCurrentIndex(
+        _ui->propertyName->findText(tlpStringToQString(propertyName)));
 }
 
 bool NeighborhoodHighlighterConfigWidget::isdisplayEdgesCBChecked() const {
-  return _ui->displayEdgesCB->isChecked();
+    return _ui->displayEdgesCB->isChecked();
 }

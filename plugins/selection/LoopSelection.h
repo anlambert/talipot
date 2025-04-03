@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,13 +27,13 @@
  *   auber@labri.fr
  */
 class LoopSelection : public tlp::BooleanAlgorithm {
-public:
-  PLUGININFORMATION(
-      tlp::SelectionAlgorithm::LoopSelection, "David Auber", "20/01/2003",
-      "Selects loops in a graph.<br/>A loop is an edge that has the same source and target.", "1.0",
-      "Selection")
-  LoopSelection(const tlp::PluginContext *context);
-  bool run() override;
+  public:
+    PLUGININFORMATION(
+        tlp::SelectionAlgorithm::LoopSelection, "David Auber", "20/01/2003",
+        "Selects loops in a graph.<br/>A loop is an edge that has the same source and target.",
+        "1.0", "Selection")
+    LoopSelection(const tlp::PluginContext *context);
+    bool run() override;
 };
 
 #endif // LOOP_SELECTION_H

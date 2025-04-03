@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,7 +32,7 @@ SOMViewInteractor::SOMViewInteractor(const QIcon &icon, const QString &text, con
     : NodeLinkDiagramViewInteractor(icon, text, priority) {}
 
 bool SOMViewInteractor::isCompatible(const std::string &viewName) const {
-  return (viewName == ViewName::SOMViewName);
+    return (viewName == ViewName::SOMViewName);
 }
 
 SOMViewNavigation::SOMViewNavigation(PluginContext *)
@@ -40,8 +40,8 @@ SOMViewNavigation::SOMViewNavigation(PluginContext *)
                         StandardInteractorPriority::Navigation) {}
 
 void SOMViewNavigation::construct() {
-  push_back(new MouseNKeysNavigator());
-  push_back(new EditColorScaleInteractor());
+    push_back(new MouseNKeysNavigator());
+    push_back(new EditColorScaleInteractor());
 }
 
 SOMViewSelection::SOMViewSelection(PluginContext *)
@@ -49,9 +49,9 @@ SOMViewSelection::SOMViewSelection(PluginContext *)
                         StandardInteractorPriority::RectangleSelection) {}
 
 void SOMViewSelection::construct() {
-  push_back(new MouseSelector());
-  push_back(new MousePanNZoomNavigator());
-  push_back(new EditColorScaleInteractor());
+    push_back(new MouseSelector());
+    push_back(new MousePanNZoomNavigator());
+    push_back(new EditColorScaleInteractor());
 }
 
 SOMViewProperties::SOMViewProperties(PluginContext *)
@@ -59,9 +59,9 @@ SOMViewProperties::SOMViewProperties(PluginContext *)
                         StandardInteractorPriority::GetInformation) {}
 
 void SOMViewProperties::construct() {
-  push_back(new MouseShowElementInfo());
-  push_back(new MousePanNZoomNavigator());
-  push_back(new EditColorScaleInteractor());
+    push_back(new MouseShowElementInfo());
+    push_back(new MousePanNZoomNavigator());
+    push_back(new EditColorScaleInteractor());
 }
 
 SOMViewThreshold::SOMViewThreshold(PluginContext *)
@@ -69,11 +69,11 @@ SOMViewThreshold::SOMViewThreshold(PluginContext *)
                         StandardInteractorPriority::ViewInteractor1) {}
 
 void SOMViewThreshold::construct() {
-  setConfigurationWidgetText(QString(
-      "<H1>Threshold Interactor</H1><p>This interactor is used to select nodes with a value "
-      "between those indicated by the two sliders</p><p>Move the each slider to change the "
-      "bound.</p><p>Press the Ctrl button to add the new threshold selection to the current "
-      "selection. If Ctrl is not pressed the old selection will be replaced</p>"));
-  push_back(new MouseNKeysNavigator());
-  push_back(new ThresholdInteractor());
+    setConfigurationWidgetText(QString(
+        "<H1>Threshold Interactor</H1><p>This interactor is used to select nodes with a value "
+        "between those indicated by the two sliders</p><p>Move the each slider to change the "
+        "bound.</p><p>Press the Ctrl button to add the new threshold selection to the current "
+        "selection. If Ctrl is not pressed the old selection will be replaced</p>"));
+    push_back(new MouseNKeysNavigator());
+    push_back(new ThresholdInteractor());
 }

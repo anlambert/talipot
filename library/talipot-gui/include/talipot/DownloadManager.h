@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,20 +28,20 @@ DECLARE_DLL_TEMPLATE_INSTANCE(Singleton<DownloadManager>, TLP_QT_TEMPLATE_DECLAR
 
 class TLP_QT_SCOPE DownloadManager : public QNetworkAccessManager,
                                      public Singleton<DownloadManager> {
-  Q_OBJECT
+    Q_OBJECT
 
-  friend class Singleton<DownloadManager>;
+    friend class Singleton<DownloadManager>;
 
-  QList<QNetworkReply *> currentDownloads;
-  QMap<QUrl, QString> downloadDestinations;
+    QList<QNetworkReply *> currentDownloads;
+    QMap<QUrl, QString> downloadDestinations;
 
-  DownloadManager();
+    DownloadManager();
 
-public:
-  QNetworkReply *downloadPlugin(const QUrl &url, const QString &destination);
-  bool saveToDisk(const QString &filename, QIODevice *data);
+  public:
+    QNetworkReply *downloadPlugin(const QUrl &url, const QString &destination);
+    bool saveToDisk(const QString &filename, QIODevice *data);
 
-public slots:
-  void downloadFinished(QNetworkReply *reply);
+  public slots:
+    void downloadFinished(QNetworkReply *reply);
 };
 }

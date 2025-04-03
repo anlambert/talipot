@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,43 +24,44 @@ static constexpr std::string_view paramHelp[] = {
 
 class OGDFVisibility : public tlp::OGDFLayoutPluginBase {
 
-public:
-  PLUGININFORMATION("Visibility (OGDF)", "Hoi-Ming Wong", "12/11/2007",
-                    "Implements a simple upward drawing algorithm based on visibility "
-                    "representations (horizontal segments for nodes, vertical segments for edges).",
-                    "1.1", "Hierarchical")
-  OGDFVisibility(const tlp::PluginContext *context)
-      : OGDFLayoutPluginBase(context, tlp::getOGDFLayoutModule<ogdf::VisibilityLayout>(context)),
-        visibility(static_cast<ogdf::VisibilityLayout *>(ogdfLayoutAlgo)) {
-    addInParameter<int>("minimum grid distance", paramHelp[0].data(), "1");
-    addInParameter<bool>("transpose", paramHelp[1].data(), "false");
-  }
-
-  void beforeCall() override {
-
-    if (dataSet != nullptr) {
-      int ival = 0;
-
-      if (dataSet->get("minimum grid distance", ival)) {
-        visibility->setMinGridDistance(ival);
-      }
+  public:
+    PLUGININFORMATION(
+        "Visibility (OGDF)", "Hoi-Ming Wong", "12/11/2007",
+        "Implements a simple upward drawing algorithm based on visibility "
+        "representations (horizontal segments for nodes, vertical segments for edges).",
+        "1.1", "Hierarchical")
+    OGDFVisibility(const tlp::PluginContext *context)
+        : OGDFLayoutPluginBase(context, tlp::getOGDFLayoutModule<ogdf::VisibilityLayout>(context)),
+          visibility(static_cast<ogdf::VisibilityLayout *>(ogdfLayoutAlgo)) {
+        addInParameter<int>("minimum grid distance", paramHelp[0].data(), "1");
+        addInParameter<bool>("transpose", paramHelp[1].data(), "false");
     }
-  }
 
-  void afterCall() override {
-    if (dataSet != nullptr) {
-      bool bval = false;
+    void beforeCall() override {
 
-      if (dataSet->get("transpose", bval)) {
-        if (bval) {
-          transposeLayoutVertically();
+        if (dataSet != nullptr) {
+            int ival = 0;
+
+            if (dataSet->get("minimum grid distance", ival)) {
+                visibility->setMinGridDistance(ival);
+            }
         }
-      }
     }
-  }
 
-private:
-  ogdf::VisibilityLayout *visibility;
+    void afterCall() override {
+        if (dataSet != nullptr) {
+            bool bval = false;
+
+            if (dataSet->get("transpose", bval)) {
+                if (bval) {
+                    transposeLayoutVertically();
+                }
+            }
+        }
+    }
+
+  private:
+    ogdf::VisibilityLayout *visibility;
 };
 
 PLUGIN(OGDFVisibility)

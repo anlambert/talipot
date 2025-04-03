@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,17 +32,17 @@ namespace tlp {
 
 template <typename TYPE, typename OTYPE>
 inline OTYPE tlpsqr(const TYPE a) {
-  return static_cast<OTYPE>(a) * static_cast<OTYPE>(a);
+    return static_cast<OTYPE>(a) * static_cast<OTYPE>(a);
 }
 
 template <typename TYPE, typename OTYPE>
 inline TYPE tlpsqrt(const OTYPE a) {
-  return static_cast<TYPE>(std::sqrt(a));
+    return static_cast<TYPE>(std::sqrt(a));
 }
 
 template <>
 inline double tlpsqrt<double, long double>(long double a) {
-  return double(sqrtl(a));
+    return double(sqrtl(a));
 }
 
 /**
@@ -60,94 +60,94 @@ inline double tlpsqrt<double, long double>(long double a) {
  */
 template <typename TYPE, size_t SIZE, typename OTYPE = double, typename DTYPE = TYPE>
 class Vector : public Array<TYPE, SIZE> {
-public:
-  Vector();
+  public:
+    Vector();
 
-  Vector(const VECTOR &v) = default;
+    Vector(const VECTOR &v) = default;
 
-  Vector(VECTOR &&v) = default;
+    Vector(VECTOR &&v) = default;
 
-  Vector(const Vector<TYPE, SIZE + 1, OTYPE> &v);
+    Vector(const Vector<TYPE, SIZE + 1, OTYPE> &v);
 
-  Vector(const TYPE x);
+    Vector(const TYPE x);
 
-  Vector(const TYPE x, const TYPE y);
+    Vector(const TYPE x, const TYPE y);
 
-  Vector(const TYPE x, const TYPE y, const TYPE z);
+    Vector(const TYPE x, const TYPE y, const TYPE z);
 
-  Vector(const Vector<TYPE, 2, OTYPE> &v, const TYPE z);
+    Vector(const Vector<TYPE, 2, OTYPE> &v, const TYPE z);
 
-  Vector(const TYPE x, const TYPE y, const TYPE z, const TYPE w);
+    Vector(const TYPE x, const TYPE y, const TYPE z, const TYPE w);
 
-  Vector(const Vector<TYPE, 2, OTYPE> &v, const TYPE z, const TYPE w);
+    Vector(const Vector<TYPE, 2, OTYPE> &v, const TYPE z, const TYPE w);
 
-  Vector(const Vector<TYPE, 3, OTYPE> &v, const TYPE w);
+    Vector(const Vector<TYPE, 3, OTYPE> &v, const TYPE w);
 
-  void set(const TYPE x);
+    void set(const TYPE x);
 
-  void set(const TYPE x, const TYPE y);
+    void set(const TYPE x, const TYPE y);
 
-  void set(const TYPE x, const TYPE y, const TYPE z);
+    void set(const TYPE x, const TYPE y, const TYPE z);
 
-  void set(const TYPE x, const TYPE y, const TYPE z, const TYPE w);
+    void set(const TYPE x, const TYPE y, const TYPE z, const TYPE w);
 
-  void set(const Vector<TYPE, 2, OTYPE> &v, const TYPE z);
+    void set(const Vector<TYPE, 2, OTYPE> &v, const TYPE z);
 
-  void set(const Vector<TYPE, 2, OTYPE> &v, const TYPE z, const TYPE w);
+    void set(const Vector<TYPE, 2, OTYPE> &v, const TYPE z, const TYPE w);
 
-  void set(const Vector<TYPE, 3, OTYPE> &v, const TYPE w);
+    void set(const Vector<TYPE, 3, OTYPE> &v, const TYPE w);
 
-  void set(const VECTOR &v);
+    void set(const VECTOR &v);
 
-  void set(const Vector<TYPE, SIZE + 1, OTYPE> &v);
+    void set(const Vector<TYPE, SIZE + 1, OTYPE> &v);
 
-  VECTOR &operator*=(const TYPE);
+    VECTOR &operator*=(const TYPE);
 
-  VECTOR &operator*=(const VECTOR &);
+    VECTOR &operator*=(const VECTOR &);
 
-  VECTOR &operator/=(const TYPE);
+    VECTOR &operator/=(const TYPE);
 
-  VECTOR &operator/=(const VECTOR &);
+    VECTOR &operator/=(const VECTOR &);
 
-  VECTOR &operator+=(const TYPE);
+    VECTOR &operator+=(const TYPE);
 
-  VECTOR &operator+=(const VECTOR &);
+    VECTOR &operator+=(const VECTOR &);
 
-  VECTOR &operator-=(const TYPE);
+    VECTOR &operator-=(const TYPE);
 
-  VECTOR &operator-=(const VECTOR &);
+    VECTOR &operator-=(const VECTOR &);
 
-  VECTOR &operator^=(const VECTOR &);
+    VECTOR &operator^=(const VECTOR &);
 
-  bool operator>(const VECTOR &) const;
+    bool operator>(const VECTOR &) const;
 
-  bool operator<(const VECTOR &) const;
+    bool operator<(const VECTOR &) const;
 
-  bool operator!=(const VECTOR &) const;
+    bool operator!=(const VECTOR &) const;
 
-  bool operator==(const VECTOR &) const;
+    bool operator==(const VECTOR &) const;
 
-  TYPE norm() const;
+    TYPE norm() const;
 
-  TYPE length() const;
+    TYPE length() const;
 
-  VECTOR &normalize();
+    VECTOR &normalize();
 
-  DTYPE dist(const VECTOR &) const;
+    DTYPE dist(const VECTOR &) const;
 
-  TYPE dotProduct(const VECTOR &) const;
+    TYPE dotProduct(const VECTOR &) const;
 
-  VECTOR &operator=(const VECTOR &) = default;
+    VECTOR &operator=(const VECTOR &) = default;
 };
 
 TEMPLATEVECTOR
 inline TYPE dotProduct(const VECTOR &a, const VECTOR &b) {
-  return a.dotProduct(b);
+    return a.dotProduct(b);
 }
 
 TEMPLATEVECTOR
 inline TYPE dist(const VECTOR &a, const VECTOR &b) {
-  return a.dist(b);
+    return a.dist(b);
 }
 
 /**
@@ -157,13 +157,13 @@ inline TYPE dist(const VECTOR &a, const VECTOR &b) {
  */
 TEMPLATEVECTOR
 inline VECTOR minVector(const VECTOR &u, const VECTOR &v) {
-  VECTOR tmp;
+    VECTOR tmp;
 
-  for (size_t i = 0; i < SIZE; ++i) {
-    tmp[i] = std::min(u[i], v[i]);
-  }
+    for (size_t i = 0; i < SIZE; ++i) {
+        tmp[i] = std::min(u[i], v[i]);
+    }
 
-  return tmp;
+    return tmp;
 }
 /**
  * Return the maximum of each dimension of the two vectors
@@ -172,13 +172,13 @@ inline VECTOR minVector(const VECTOR &u, const VECTOR &v) {
  */
 TEMPLATEVECTOR
 inline VECTOR maxVector(const VECTOR &u, const VECTOR &v) {
-  VECTOR tmp;
+    VECTOR tmp;
 
-  for (size_t i = 0; i < SIZE; ++i) {
-    tmp[i] = std::max(u[i], v[i]);
-  }
+    for (size_t i = 0; i < SIZE; ++i) {
+        tmp[i] = std::max(u[i], v[i]);
+    }
 
-  return tmp;
+    return tmp;
 }
 
 /**
@@ -186,15 +186,15 @@ inline VECTOR maxVector(const VECTOR &u, const VECTOR &v) {
  */
 TEMPLATEVECTOR
 inline void minMaxVectors(const VECTOR &u, const VECTOR &v, VECTOR &min, VECTOR &max) {
-  for (size_t i = 0; i < SIZE; ++i) {
-    if (u[i] > v[i]) {
-      max[i] = u[i];
-      min[i] = v[i];
-    } else {
-      min[i] = u[i];
-      max[i] = v[i];
+    for (size_t i = 0; i < SIZE; ++i) {
+        if (u[i] > v[i]) {
+            max[i] = u[i];
+            min[i] = v[i];
+        } else {
+            min[i] = u[i];
+            max[i] = v[i];
+        }
     }
-  }
 }
 
 TEMPLATEVECTOR
@@ -309,104 +309,104 @@ DECLARE_DLL_TEMPLATE_INSTANCE(SINGLE_ARG(Vector<unsigned char, 4>), TLP_TEMPLATE
 
 #ifdef _MSC_VER
 static double sqrt(tlp::Vector<float, 5> &v) {
-  return sqrt((double)v[0]);
+    return sqrt((double)v[0]);
 }
 #endif
 
 namespace std {
 TEMPLATEVECTOR
 size_t hash_vector(const tlp::VECTOR &v) {
-  size_t seed = 0;
+    size_t seed = 0;
 
-  for (size_t i = 0; i < SIZE; ++i) {
-    tlp_hash_combine(seed, v[i]);
-  }
+    for (size_t i = 0; i < SIZE; ++i) {
+        tlp_hash_combine(seed, v[i]);
+    }
 
-  return seed;
+    return seed;
 }
 
 template <>
 struct hash<tlp::Vec2ui> {
-  std::size_t operator()(const tlp::Vec2ui &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec2ui &v) const {
+        return hash_vector(v);
+    }
 };
 
 template <>
 struct hash<tlp::Vec3ui> {
-  std::size_t operator()(const tlp::Vec3ui &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec3ui &v) const {
+        return hash_vector(v);
+    }
 };
 
 template <>
 struct hash<tlp::Vec4ui> {
-  std::size_t operator()(const tlp::Vec4ui &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec4ui &v) const {
+        return hash_vector(v);
+    }
 };
 
 template <>
 struct hash<tlp::Vec2i> {
-  std::size_t operator()(const tlp::Vec2i &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec2i &v) const {
+        return hash_vector(v);
+    }
 };
 
 template <>
 struct hash<tlp::Vec3i> {
-  std::size_t operator()(const tlp::Vec3i &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec3i &v) const {
+        return hash_vector(v);
+    }
 };
 
 template <>
 struct hash<tlp::Vec4i> {
-  std::size_t operator()(const tlp::Vec4i &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec4i &v) const {
+        return hash_vector(v);
+    }
 };
 
 template <>
 struct hash<tlp::Vec2d> {
-  std::size_t operator()(const tlp::Vec2d &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec2d &v) const {
+        return hash_vector(v);
+    }
 };
 
 template <>
 struct hash<tlp::Vec3d> {
-  std::size_t operator()(const tlp::Vec3f &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec3f &v) const {
+        return hash_vector(v);
+    }
 };
 
 template <>
 struct hash<tlp::Vec4d> {
-  std::size_t operator()(const tlp::Vec4d &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec4d &v) const {
+        return hash_vector(v);
+    }
 };
 
 template <>
 struct hash<tlp::Vec2f> {
-  std::size_t operator()(const tlp::Vec2f &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec2f &v) const {
+        return hash_vector(v);
+    }
 };
 
 template <>
 struct hash<tlp::Vec3f> {
-  std::size_t operator()(const tlp::Vec3f &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec3f &v) const {
+        return hash_vector(v);
+    }
 };
 
 template <>
 struct hash<tlp::Vec4f> {
-  std::size_t operator()(const tlp::Vec4f &v) const {
-    return hash_vector(v);
-  }
+    std::size_t operator()(const tlp::Vec4f &v) const {
+        return hash_vector(v);
+    }
 };
 } // namespace std
 

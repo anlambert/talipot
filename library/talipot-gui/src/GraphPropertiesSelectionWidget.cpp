@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,89 +29,89 @@ GraphPropertiesSelectionWidget::GraphPropertiesSelectionWidget(
     const bool includeViewProperties)
     : StringsListSelectionWidget(parent, listType, maxNbSelectedProperties), graph(graph),
       propertiesTypes(propertiesTypes), includeViewProperties(includeViewProperties) {
-  initWidget();
+    initWidget();
 }
 
 void GraphPropertiesSelectionWidget::setWidgetParameters(
     Graph *graph, const std::vector<std::string> &propertiesTypes,
     const bool includeViewProperties) {
-  this->graph = graph;
-  this->propertiesTypes = propertiesTypes;
-  this->includeViewProperties = includeViewProperties;
+    this->graph = graph;
+    this->propertiesTypes = propertiesTypes;
+    this->includeViewProperties = includeViewProperties;
 
-  if (graph) {
-    initWidget();
-  }
+    if (graph) {
+        initWidget();
+    }
 }
 
 void GraphPropertiesSelectionWidget::initWidget() {
-  vector<string> inputProperties;
+    vector<string> inputProperties;
 
-  setUnselectedStringsListLabel("Available properties");
-  setSelectedStringsListLabel("Selected properties");
+    setUnselectedStringsListLabel("Available properties");
+    setSelectedStringsListLabel("Selected properties");
 
-  for (const string &propertyName : graph->getProperties()) {
+    for (const string &propertyName : graph->getProperties()) {
 
-    if (propertySelectable(propertyName)) {
-      inputProperties.push_back(propertyName);
+        if (propertySelectable(propertyName)) {
+            inputProperties.push_back(propertyName);
+        }
     }
-  }
 
-  setUnselectedStringsList(inputProperties);
+    setUnselectedStringsList(inputProperties);
 }
 
 bool GraphPropertiesSelectionWidget::propertySelectable(const std::string &propertyName) {
-  bool selectProperty = false;
+    bool selectProperty = false;
 
-  if (propertiesTypes.size() > 0) {
-    string propertyType = graph->getProperty(propertyName)->getTypename();
+    if (propertiesTypes.size() > 0) {
+        string propertyType = graph->getProperty(propertyName)->getTypename();
 
-    if (std::find(propertiesTypes.begin(), propertiesTypes.end(), propertyType) !=
-        propertiesTypes.end()) {
-      selectProperty = true;
+        if (std::find(propertiesTypes.begin(), propertiesTypes.end(), propertyType) !=
+            propertiesTypes.end()) {
+            selectProperty = true;
+        }
+    } else {
+        selectProperty = true;
     }
-  } else {
-    selectProperty = true;
-  }
 
-  if (selectProperty && !includeViewProperties && propertyName.find("view") == 0 &&
-      propertyName != "viewMetric") {
-    selectProperty = false;
-  }
+    if (selectProperty && !includeViewProperties && propertyName.find("view") == 0 &&
+        propertyName != "viewMetric") {
+        selectProperty = false;
+    }
 
-  return selectProperty;
+    return selectProperty;
 }
 
 void GraphPropertiesSelectionWidget::setInputPropertiesList(vector<string> &inputPropertiesList) {
-  vector<string> inputPropertiesListFiltered;
+    vector<string> inputPropertiesListFiltered;
 
-  for (const auto &prop : inputPropertiesList) {
-    if (propertySelectable(prop)) {
-      inputPropertiesListFiltered.push_back(prop);
+    for (const auto &prop : inputPropertiesList) {
+        if (propertySelectable(prop)) {
+            inputPropertiesListFiltered.push_back(prop);
+        }
     }
-  }
 
-  setUnselectedStringsList(inputPropertiesListFiltered);
+    setUnselectedStringsList(inputPropertiesListFiltered);
 }
 
 void GraphPropertiesSelectionWidget::setOutputPropertiesList(vector<string> &outputPropertiesList) {
-  vector<string> outputPropertiesListFiltered;
+    vector<string> outputPropertiesListFiltered;
 
-  for (const auto &prop : outputPropertiesList) {
-    if (propertySelectable(prop)) {
-      outputPropertiesListFiltered.push_back(prop);
+    for (const auto &prop : outputPropertiesList) {
+        if (propertySelectable(prop)) {
+            outputPropertiesListFiltered.push_back(prop);
+        }
     }
-  }
 
-  setSelectedStringsList(outputPropertiesListFiltered);
+    setSelectedStringsList(outputPropertiesListFiltered);
 }
 
 vector<string> GraphPropertiesSelectionWidget::getSelectedProperties() const {
-  return getSelectedStringsList();
+    return getSelectedStringsList();
 }
 
 void GraphPropertiesSelectionWidget::clearLists() {
-  clearSelectedStringsList();
-  clearUnselectedStringsList();
+    clearSelectedStringsList();
+    clearUnselectedStringsList();
 }
 }

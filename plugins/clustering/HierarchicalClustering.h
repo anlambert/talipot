@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,20 +20,21 @@
 #include <talipot/PluginHeaders.h>
 
 class HierarchicalClustering : public tlp::Algorithm {
-public:
-  PLUGININFORMATION("Hierarchical", "David Auber", "27/01/2000",
-                    "This algorithm divides the graph in 2 different subgraphs; the first one "
-                    "contains the nodes which have their viewMetric value below the mean, and, the "
-                    "other one, in which nodes have their viewMetric value above that mean value. "
-                    "Then, the algorithm is recursively applied to this subgraph (the one with the "
-                    "values above the threshold) until one subgraph contains less than 10 nodes.",
-                    "1.0", "Clustering")
-  HierarchicalClustering(tlp::PluginContext *context);
-  ~HierarchicalClustering() override;
-  bool run() override;
+  public:
+    PLUGININFORMATION(
+        "Hierarchical", "David Auber", "27/01/2000",
+        "This algorithm divides the graph in 2 different subgraphs; the first one "
+        "contains the nodes which have their viewMetric value below the mean, and, the "
+        "other one, in which nodes have their viewMetric value above that mean value. "
+        "Then, the algorithm is recursively applied to this subgraph (the one with the "
+        "values above the threshold) until one subgraph contains less than 10 nodes.",
+        "1.0", "Clustering")
+    HierarchicalClustering(tlp::PluginContext *context);
+    ~HierarchicalClustering() override;
+    bool run() override;
 
-private:
-  bool split(tlp::DoubleProperty *, std::list<tlp::node> &);
+  private:
+    bool split(tlp::DoubleProperty *, std::list<tlp::node> &);
 };
 
 #endif // HIERARCHICAL_CLUSTERING_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,31 +35,31 @@ struct OcclusionTest;
  */
 class TLP_GL_SCOPE GlGraphHighDetailsRenderer : public GlGraphRenderer {
 
-public:
-  GlGraphHighDetailsRenderer(const GlGraphInputData *inputData);
-  GlGraphHighDetailsRenderer(const GlGraphInputData *inputData, GlScene *scene);
+  public:
+    GlGraphHighDetailsRenderer(const GlGraphInputData *inputData);
+    GlGraphHighDetailsRenderer(const GlGraphInputData *inputData, GlScene *scene);
 
-  ~GlGraphHighDetailsRenderer() override;
+    ~GlGraphHighDetailsRenderer() override;
 
-  void draw(float lod, Camera *camera) override;
+    void draw(float lod, Camera *camera) override;
 
-  void selectEntities(Camera *camera, RenderingEntitiesFlag type, int x, int y, int w, int h,
-                      std::vector<SelectedEntity> &selectedEntities) override;
+    void selectEntities(Camera *camera, RenderingEntitiesFlag type, int x, int y, int w, int h,
+                        std::vector<SelectedEntity> &selectedEntities) override;
 
-protected:
-  void initSelectionRendering(RenderingEntitiesFlag type, int x, int y, int w, int h,
-                              flat_hash_map<uint, SelectedEntity> &idMap, uint &currentId);
+  protected:
+    void initSelectionRendering(RenderingEntitiesFlag type, int x, int y, int w, int h,
+                                flat_hash_map<uint, SelectedEntity> &idMap, uint &currentId);
 
-  void buildSortedList();
+    void buildSortedList();
 
-  void drawLabelsForComplexEntities(bool drawSelected, OcclusionTest *occlusionTest,
-                                    LayerLODUnit &layerLODUnit);
+    void drawLabelsForComplexEntities(bool drawSelected, OcclusionTest *occlusionTest,
+                                      LayerLODUnit &layerLODUnit);
 
-  GlLODCalculator *lodCalculator;
+    GlLODCalculator *lodCalculator;
 
-  GlScene *baseScene;
-  GlScene *fakeScene;
-  Vec4i selectionViewport;
+    GlScene *baseScene;
+    GlScene *fakeScene;
+    Vec4i selectionViewport;
 };
 }
 

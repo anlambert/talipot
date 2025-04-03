@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,21 +21,21 @@
 #include "CppUnitIncludes.h"
 
 class GraphPropertyTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(GraphPropertyTest);
-  CPPUNIT_TEST(testDestroyGraph);
-  CPPUNIT_TEST(testSetGet);
-  CPPUNIT_TEST(testSetAll);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(GraphPropertyTest);
+    CPPUNIT_TEST(testDestroyGraph);
+    CPPUNIT_TEST(testSetGet);
+    CPPUNIT_TEST(testSetAll);
+    CPPUNIT_TEST_SUITE_END();
 
-private:
-  tlp::Graph *graph;
+  private:
+    tlp::Graph *graph;
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testDestroyGraph();
-  void testSetGet();
-  void testSetAll();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testDestroyGraph();
+    void testSetGet();
+    void testSetAll();
 };
 
 #endif // GRAPH_PROPERTY_TEST_H

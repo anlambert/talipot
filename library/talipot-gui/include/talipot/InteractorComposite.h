@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,44 +31,44 @@ namespace tlp {
   This system is inherited from Qt event handling, see QObject::eventFilter() for details.
   */
 class TLP_QT_SCOPE InteractorComponent : public QObject {
-  Q_OBJECT
+    Q_OBJECT
 
-  View *_view;
+    View *_view;
 
-public:
-  /**
-   * @brief The init() method is called after the component gets installed on a target. Note that
-   * this method is called before any event from could have been retrieved.
-   */
-  virtual void init();
+  public:
+    /**
+     * @brief The init() method is called after the component gets installed on a target. Note that
+     * this method is called before any event from could have been retrieved.
+     */
+    virtual void init();
 
-  /**
-   * @brief The main event handling method.
-   * See QObject::eventFilter for details.
-   * @note The target object is the one on which the InteractorComponent has been installed.
-   */
-  bool eventFilter(QObject *, QEvent *) override;
+    /**
+     * @brief The main event handling method.
+     * See QObject::eventFilter for details.
+     * @note The target object is the one on which the InteractorComponent has been installed.
+     */
+    bool eventFilter(QObject *, QEvent *) override;
 
-  /**
-   * @brief This method is called after the component is uninstalled from its target.
-   */
-  virtual void clear() {}
+    /**
+     * @brief This method is called after the component is uninstalled from its target.
+     */
+    virtual void clear() {}
 
-  /**
-   * @brief setView is called when the InteractorComposite is installed on a new view.
-   * @see InteractorComposite::setView
-   */
-  void setView(View *view);
+    /**
+     * @brief setView is called when the InteractorComposite is installed on a new view.
+     * @see InteractorComposite::setView
+     */
+    void setView(View *view);
 
-  /**
-   * @return The view on which the interactor is installed (nullptr if none)
-   */
-  View *view() const;
+    /**
+     * @return The view on which the interactor is installed (nullptr if none)
+     */
+    View *view() const;
 
-  /**
-   * @brief A callback method after setView was called.
-   */
-  virtual void viewChanged(View *) {}
+    /**
+     * @brief A callback method after setView was called.
+     */
+    virtual void viewChanged(View *) {}
 };
 
 /**
@@ -89,82 +89,82 @@ public:
   components.
   */
 class TLP_QT_SCOPE InteractorComposite : public tlp::Interactor {
-  Q_OBJECT
-  QAction *_action;
-  tlp::View *_view;
-  QObject *_lastTarget;
+    Q_OBJECT
+    QAction *_action;
+    tlp::View *_view;
+    QObject *_lastTarget;
 
-protected:
-  QList<tlp::InteractorComponent *> _components;
-  /**
-    @brief backup a QObject into the InteractorComposite.
-    This can be used to store the last target the interactor was installed on. This can be used when
-    uninstall is called.
-    */
-  void setLastTarget(QObject *);
+  protected:
+    QList<tlp::InteractorComponent *> _components;
+    /**
+      @brief backup a QObject into the InteractorComposite.
+      This can be used to store the last target the interactor was installed on. This can be used
+      when uninstall is called.
+      */
+    void setLastTarget(QObject *);
 
-  /**
-    @return The last target the interactor was installed on.
-    @note If the lastTarget is destroyed before uninstall was called, the lastTarget() method will
-    return nullptr.
-    */
-  QObject *lastTarget() const;
+    /**
+      @return The last target the interactor was installed on.
+      @note If the lastTarget is destroyed before uninstall was called, the lastTarget() method will
+      return nullptr.
+      */
+    QObject *lastTarget() const;
 
-protected slots:
-  void lastTargetDestroyed();
+  protected slots:
+    void lastTargetDestroyed();
 
-public:
-  typedef QList<InteractorComponent *>::iterator iterator;
-  typedef QList<InteractorComponent *>::const_iterator const_iterator;
+  public:
+    typedef QList<InteractorComponent *>::iterator iterator;
+    typedef QList<InteractorComponent *>::const_iterator const_iterator;
 
-  /**
-    @brief Default constructor
-    @param icon The icon set on the interactor's action
-    @param text The text set on the interactor's action
-    */
-  InteractorComposite(const QIcon &icon, const QString &text = "");
-  ~InteractorComposite() override;
+    /**
+      @brief Default constructor
+      @param icon The icon set on the interactor's action
+      @param text The text set on the interactor's action
+      */
+    InteractorComposite(const QIcon &icon, const QString &text = "");
+    ~InteractorComposite() override;
 
-  tlp::View *view() const override;
-  QAction *action() const override;
-  QCursor cursor() const override;
+    tlp::View *view() const override;
+    QAction *action() const override;
+    QCursor cursor() const override;
 
-  /**
-    @brief Since InteractorComposte behaves like a list of InteractorComponent, this method is here
-    to allow this class to be iterable
-    */
-  iterator begin();
-  /**
-    @brief Since InteractorComposte behaves like a list of InteractorComponent, this method is here
-    to allow this class to be iterable
-    */
-  iterator end();
-  /**
-    @brief Since InteractorComposte behaves like a list of InteractorComponent, this method is here
-    to allow this class to be iterable
-    */
-  const_iterator begin() const;
-  /**
-    @brief Since InteractorComposte behaves like a list of InteractorComponent, this method is here
-    to allow this class to be iterable
-    */
-  const_iterator end() const;
+    /**
+      @brief Since InteractorComposte behaves like a list of InteractorComponent, this method is
+      here to allow this class to be iterable
+      */
+    iterator begin();
+    /**
+      @brief Since InteractorComposte behaves like a list of InteractorComponent, this method is
+      here to allow this class to be iterable
+      */
+    iterator end();
+    /**
+      @brief Since InteractorComposte behaves like a list of InteractorComponent, this method is
+      here to allow this class to be iterable
+      */
+    const_iterator begin() const;
+    /**
+      @brief Since InteractorComposte behaves like a list of InteractorComponent, this method is
+      here to allow this class to be iterable
+      */
+    const_iterator end() const;
 
-  /**
-    @brief Pushs an InteractorComponent at the end of the list
-    */
-  void push_back(InteractorComponent *component);
+    /**
+      @brief Pushs an InteractorComponent at the end of the list
+      */
+    void push_back(InteractorComponent *component);
 
-  /**
-    @brief Pushs an InteractorComponent at the beginning of the list
-    */
-  void push_front(InteractorComponent *component);
+    /**
+      @brief Pushs an InteractorComponent at the beginning of the list
+      */
+    void push_front(InteractorComponent *component);
 
-public slots:
-  void undoIsDone() override;
-  void setView(tlp::View *view) override;
-  void install(QObject *target) override;
-  void uninstall() override;
+  public slots:
+    void undoIsDone() override;
+    void setView(tlp::View *view) override;
+    void install(QObject *target) override;
+    void uninstall() override;
 };
 }
 #endif // TALIPOT_INTERACTOR_COMPOSITE_H

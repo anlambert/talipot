@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -369,9 +369,9 @@ one.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->erase(*a0);
+    sipCpp->erase(*a0);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -396,9 +396,9 @@ one.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->erase(*a0);
+    sipCpp->erase(*a0);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -425,9 +425,9 @@ Returns a string conversion of the value registered for the given node.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = new std::string(sipCpp->getNodeStringValue(*a0));
+    sipRes = new std::string(sipCpp->getNodeStringValue(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -454,9 +454,9 @@ Returns a string conversion of the value registered for the given edge.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = new std::string(sipCpp->getEdgeStringValue(*a0));
+    sipRes = new std::string(sipCpp->getEdgeStringValue(*a0));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -491,9 +491,9 @@ Registers a new value for the given node in converting the given string represen
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setNodeStringValue(*a0, *a1);
+    sipCpp->setNodeStringValue(*a0, *a1);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -528,9 +528,9 @@ Registers a new value for the given edge in converting the given string represen
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setEdgeStringValue(*a0, *a1);
+    sipCpp->setEdgeStringValue(*a0, *a1);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -539,9 +539,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   std::string __getitem__(const tlp::node node);
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = new std::string(sipCpp->getNodeStringValue(*a0));
+    sipRes = new std::string(sipCpp->getNodeStringValue(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -550,9 +550,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   void __setitem__(const tlp::node node, const std::string &strVal);
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setNodeStringValue(*a0, *a1);
+    sipCpp->setNodeStringValue(*a0, *a1);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -561,9 +561,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   std::string __getitem__(const tlp::edge edge);
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = new std::string(sipCpp->getEdgeStringValue(*a0));
+    sipRes = new std::string(sipCpp->getEdgeStringValue(*a0));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -573,9 +573,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   void __setitem__(const tlp::edge edge, const std::string &strVal);
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setEdgeStringValue(*a0, *a1);
+    sipCpp->setEdgeStringValue(*a0, *a1);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 

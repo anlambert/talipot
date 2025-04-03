@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,48 +27,48 @@ static map<string, string> iconFamily = {
 #include "FontAwesomeData.cpp"
 
 string FontAwesome::getTTFLocation(const string &iconName) {
-  return TalipotShareDir + "fonts/FontAwesome/" + getIconFamily(iconName) + ".ttf";
+    return TalipotShareDir + "fonts/FontAwesome/" + getIconFamily(iconName) + ".ttf";
 }
 
 string FontAwesome::getWOFF2Location(const string &iconName) {
-  return TalipotShareDir + "fonts/FontAwesome/" + getIconFamily(iconName) + ".woff2";
+    return TalipotShareDir + "fonts/FontAwesome/" + getIconFamily(iconName) + ".woff2";
 }
 
 bool FontAwesome::isIconSupported(const string &iconName) {
-  return iconCodePoint.find(iconName.c_str()) != iconCodePoint.end();
+    return iconCodePoint.find(iconName.c_str()) != iconCodePoint.end();
 }
 
 const vector<string> &FontAwesome::getSupportedIcons() {
-  if (iconsNames.empty()) {
-    iconsNames.reserve(iconCodePoint.size());
-    for (const auto &[iconName, codePoint] : iconCodePoint) {
-      iconsNames.push_back(iconName);
+    if (iconsNames.empty()) {
+        iconsNames.reserve(iconCodePoint.size());
+        for (const auto &[iconName, codePoint] : iconCodePoint) {
+            iconsNames.push_back(iconName);
+        }
     }
-  }
-  return iconsNames;
+    return iconsNames;
 }
 
 uint FontAwesome::getIconCodePoint(const string &iconName) {
-  if (const auto it = iconCodePoint.find(iconName.c_str()); it != iconCodePoint.end()) {
-    return it->second.first;
-  }
-  return 0;
+    if (const auto it = iconCodePoint.find(iconName.c_str()); it != iconCodePoint.end()) {
+        return it->second.first;
+    }
+    return 0;
 }
 
 string FontAwesome::getIconFamily(const string &iconName) {
-  string prefix = iconName.substr(0, 3);
-  if (prefix.length() == 3 && iconFamily.contains(prefix)) {
-    return iconFamily[prefix];
-  }
-  return "";
+    string prefix = iconName.substr(0, 3);
+    if (prefix.length() == 3 && iconFamily.contains(prefix)) {
+        return iconFamily[prefix];
+    }
+    return "";
 }
 
 string FontAwesome::getIconUtf8String(const string &iconName) {
-  try {
-    return iconCodePoint.at(iconName.c_str()).second;
-  } catch (std::out_of_range &) {
-    tlp::warning() << iconName << " icon does not exist, falling back to "
-                   << FontAwesome::Solid::QuestionCircle << std::endl;
-    return getIconUtf8String(FontAwesome::Solid::QuestionCircle);
-  }
+    try {
+        return iconCodePoint.at(iconName.c_str()).second;
+    } catch (std::out_of_range &) {
+        tlp::warning() << iconName << " icon does not exist, falling back to "
+                       << FontAwesome::Solid::QuestionCircle << std::endl;
+        return getIconUtf8String(FontAwesome::Solid::QuestionCircle);
+    }
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,17 +25,17 @@
  *
  */
 class NodeMetric : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION("Node", "David Auber", "20/12/1999",
-                    "Computes the number of nodes in the subtree induced by each node.<br/>"
-                    "<b>The graph must be acyclic</b>.",
-                    "1.0", "Hierarchical")
-  NodeMetric(const tlp::PluginContext *context);
-  bool run() override;
-  bool check(std::string &) override;
+  public:
+    PLUGININFORMATION("Node", "David Auber", "20/12/1999",
+                      "Computes the number of nodes in the subtree induced by each node.<br/>"
+                      "<b>The graph must be acyclic</b>.",
+                      "1.0", "Hierarchical")
+    NodeMetric(const tlp::PluginContext *context);
+    bool run() override;
+    bool check(std::string &) override;
 
-private:
-  double getNodeValue(const tlp::node n);
+  private:
+    double getNodeValue(const tlp::node n);
 };
 
 #endif // NODE_METRIC_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2023-2024  The Talipot developers
+ * Copyright (C) 2023-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,31 +28,31 @@ static constexpr string_view paramHelp[] = {
 //=================================================================================
 
 class OGDFPetersenGraph : public OGDFImportBase {
-public:
-  PLUGININFORMATION(
-      "Petersen Graph (OGDF)", "Antoine Lambert", "11/2023",
-      "Creates an outer cycle of nodes 1, ..., n, each of which has a direct neighbor (a "
-      "corresponding inner node). For two outer nodes i, j, there is an edge between their "
-      "corresponding inner nodes if the absolute difference of i and j equals the jump length m.",
-      "1.0", "OGDF")
+  public:
+    PLUGININFORMATION(
+        "Petersen Graph (OGDF)", "Antoine Lambert", "11/2023",
+        "Creates an outer cycle of nodes 1, ..., n, each of which has a direct neighbor (a "
+        "corresponding inner node). For two outer nodes i, j, there is an edge between their "
+        "corresponding inner nodes if the absolute difference of i and j equals the jump length m.",
+        "1.0", "OGDF")
 
-  OGDFPetersenGraph(tlp::PluginContext *context) : OGDFImportBase(context) {
-    addInParameter<int>("n", paramHelp[0].data(), "5");
-    addInParameter<int>("m", paramHelp[1].data(), "2");
-  }
-
-  bool importOGDFGraph() override {
-    int n = 5;
-    int m = 2;
-
-    if (dataSet != nullptr) {
-      dataSet->get("n", n);
-      dataSet->get("m", m);
+    OGDFPetersenGraph(tlp::PluginContext *context) : OGDFImportBase(context) {
+        addInParameter<int>("n", paramHelp[0].data(), "5");
+        addInParameter<int>("m", paramHelp[1].data(), "2");
     }
 
-    petersenGraph(G, n, m);
-    return true;
-  }
+    bool importOGDFGraph() override {
+        int n = 5;
+        int m = 2;
+
+        if (dataSet != nullptr) {
+            dataSet->get("n", n);
+            dataSet->get("m", m);
+        }
+
+        petersenGraph(G, n, m);
+        return true;
+    }
 };
 
 PLUGIN(OGDFPetersenGraph)

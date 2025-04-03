@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,23 +27,23 @@ namespace tlp {
 class GlWidget;
 
 class TLP_QT_SCOPE SceneLayersConfigWidget : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::SceneLayersConfigWidget *_ui;
-  tlp::GlWidget *_glWidget;
+    Ui::SceneLayersConfigWidget *_ui;
+    tlp::GlWidget *_glWidget;
 
-public:
-  explicit SceneLayersConfigWidget(QWidget *parent = nullptr);
-  ~SceneLayersConfigWidget() override;
+  public:
+    explicit SceneLayersConfigWidget(QWidget *parent = nullptr);
+    ~SceneLayersConfigWidget() override;
 
-  void setGlWidget(tlp::GlWidget *glWidget);
+    void setGlWidget(tlp::GlWidget *glWidget);
 
-public slots:
+  public slots:
 
-  void resizeFirstColumn();
+    void resizeFirstColumn();
 
-signals:
-  void drawNeeded();
+  signals:
+    void drawNeeded();
 };
 }
 

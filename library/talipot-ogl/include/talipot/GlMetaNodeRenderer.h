@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,29 +30,29 @@ class GlScene;
  */
 class TLP_GL_SCOPE GlMetaNodeRenderer : public Observable {
 
-public:
-  GlMetaNodeRenderer(GlGraphInputData *inputData);
+  public:
+    GlMetaNodeRenderer(GlGraphInputData *inputData);
 
-  ~GlMetaNodeRenderer() override;
+    ~GlMetaNodeRenderer() override;
 
-  virtual void render(node, float, Camera *);
+    virtual void render(node, float, Camera *);
 
-  virtual void setInputData(GlGraphInputData *inputData);
+    virtual void setInputData(GlGraphInputData *inputData);
 
-  virtual GlGraphInputData *inputData() const;
+    virtual GlGraphInputData *inputData() const;
 
-  GlScene *getSceneForMetaGraph(Graph *g) const;
+    GlScene *getSceneForMetaGraph(Graph *g) const;
 
-protected:
-  void clearScenes();
+  protected:
+    void clearScenes();
 
-  void treatEvent(const Event &) override;
+    void treatEvent(const Event &) override;
 
-  virtual GlScene *createScene(Graph *) const;
+    virtual GlScene *createScene(Graph *) const;
 
-private:
-  GlGraphInputData *_inputData;
-  flat_hash_map<Graph *, GlScene *> _metaGraphToSceneMap;
+  private:
+    GlGraphInputData *_inputData;
+    flat_hash_map<Graph *, GlScene *> _metaGraphToSceneMap;
 };
 }
 

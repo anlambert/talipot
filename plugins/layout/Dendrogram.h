@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -34,38 +34,39 @@ class OrientableSizeProxy;
  *  University Bordeaux I France
  **/
 class Dendrogram : public tlp::LayoutAlgorithm {
-public:
-  PLUGININFORMATION("Dendrogram",
-                    "Julien Testut, Antony Durand, Pascal Ollier, Yashvin Nababsing, "
-                    "Sebastien Leclerc, Thibault Ruchon, Eric Dauchier",
-                    "03/12/04",
-                    "This is an implementation of a dendrogram, an extended "
-                    "implementation of a <b>Bio representation</b> which includes "
-                    "variable orientation and variable node sizelayout.",
-                    "1.0", "Tree")
-  Dendrogram(const tlp::PluginContext *context);
-  ~Dendrogram() override;
+  public:
+    PLUGININFORMATION("Dendrogram",
+                      "Julien Testut, Antony Durand, Pascal Ollier, Yashvin Nababsing, "
+                      "Sebastien Leclerc, Thibault Ruchon, Eric Dauchier",
+                      "03/12/04",
+                      "This is an implementation of a dendrogram, an extended "
+                      "implementation of a <b>Bio representation</b> which includes "
+                      "variable orientation and variable node sizelayout.",
+                      "1.0", "Tree")
+    Dendrogram(const tlp::PluginContext *context);
+    ~Dendrogram() override;
 
-  bool run() override;
+    bool run() override;
 
-private:
-  float spacing;
-  float nodeSpacing;
+  private:
+    float spacing;
+    float nodeSpacing;
 
-  std::map<tlp::node, float> leftshift;
-  tlp::node root;
-  tlp::Graph *tree;
-  std::vector<float> levelHeights;
+    std::map<tlp::node, float> leftshift;
+    tlp::node root;
+    tlp::Graph *tree;
+    std::vector<float> levelHeights;
 
-  float setAllNodesCoordX(tlp::node n, float rightMargin, OrientableLayout *oriLayout,
-                          OrientableSizeProxy *oriSize);
-  void setAllNodesCoordY(OrientableLayout *oriLayout, OrientableSizeProxy *oriSize);
-  float computeFatherXPosition(tlp::node father, OrientableLayout *oriLayout);
-  void shiftAllNodes(tlp::node n, float shift, OrientableLayout *oriLayout);
-  void setNodePosition(tlp::node n, float x, float y, float z, OrientableLayout *oriLayout);
-  void setCoordY(tlp::node n, float &maxYLeaf, OrientableLayout *oriLayout,
-                 OrientableSizeProxy *oriSize);
-  void computeLevelHeights(tlp::Graph *tree, tlp::node n, uint depth, OrientableSizeProxy *oriSize);
+    float setAllNodesCoordX(tlp::node n, float rightMargin, OrientableLayout *oriLayout,
+                            OrientableSizeProxy *oriSize);
+    void setAllNodesCoordY(OrientableLayout *oriLayout, OrientableSizeProxy *oriSize);
+    float computeFatherXPosition(tlp::node father, OrientableLayout *oriLayout);
+    void shiftAllNodes(tlp::node n, float shift, OrientableLayout *oriLayout);
+    void setNodePosition(tlp::node n, float x, float y, float z, OrientableLayout *oriLayout);
+    void setCoordY(tlp::node n, float &maxYLeaf, OrientableLayout *oriLayout,
+                   OrientableSizeProxy *oriSize);
+    void computeLevelHeights(tlp::Graph *tree, tlp::node n, uint depth,
+                             OrientableSizeProxy *oriSize);
 };
 
 #endif // DENDROGRAM_H

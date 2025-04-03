@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,36 +21,36 @@
 #include <talipot/DrawingTools.h>
 
 class QuadTreeBundle {
-public:
-  static void compute(tlp::Graph *graph, double splitRatio, tlp::LayoutProperty *layout = nullptr,
-                      tlp::SizeProperty *size = nullptr);
-  //=====================================
-  static bool isIn(const tlp::Coord &p, const tlp::Coord &a, const tlp::Coord &b);
+  public:
+    static void compute(tlp::Graph *graph, double splitRatio, tlp::LayoutProperty *layout = nullptr,
+                        tlp::SizeProperty *size = nullptr);
+    //=====================================
+    static bool isIn(const tlp::Coord &p, const tlp::Coord &a, const tlp::Coord &b);
 
-protected:
-  void createQuadTree(tlp::Graph *graph, tlp::LayoutProperty *layout = nullptr,
-                      tlp::SizeProperty *size = nullptr);
+  protected:
+    void createQuadTree(tlp::Graph *graph, tlp::LayoutProperty *layout = nullptr,
+                        tlp::SizeProperty *size = nullptr);
 
-private:
-  double minSize;
-  double nbNodesInOriginalGraph;
-  std::vector<tlp::node> resultNode;
-  tlp::LayoutProperty *layout;
-  tlp::SizeProperty *size;
-  tlp::DoubleProperty *rot;
-  tlp::Graph *graph;
-  double splitRatio;
-  typedef tlp::Vec2d Vec2D;
-  typedef flat_hash_map<Vec2D, tlp::node> MapVecNode;
-  MapVecNode mapN;
-  //=====================================
-  tlp::node splitEdge(tlp::node a, tlp::node b);
-  //=====================================
-  void elmentSplitting(const tlp::Coord &a, const tlp::Coord &b,
-                       const std::vector<tlp::node> &input, std::vector<tlp::node> &in,
-                       std::vector<tlp::node> &out);
-  //=====================================
-  void recQuad(const tlp::node a, const tlp::node b, const tlp::node c, const tlp::node d,
-               const std::vector<tlp::node> &input);
+  private:
+    double minSize;
+    double nbNodesInOriginalGraph;
+    std::vector<tlp::node> resultNode;
+    tlp::LayoutProperty *layout;
+    tlp::SizeProperty *size;
+    tlp::DoubleProperty *rot;
+    tlp::Graph *graph;
+    double splitRatio;
+    typedef tlp::Vec2d Vec2D;
+    typedef flat_hash_map<Vec2D, tlp::node> MapVecNode;
+    MapVecNode mapN;
+    //=====================================
+    tlp::node splitEdge(tlp::node a, tlp::node b);
+    //=====================================
+    void elmentSplitting(const tlp::Coord &a, const tlp::Coord &b,
+                         const std::vector<tlp::node> &input, std::vector<tlp::node> &in,
+                         std::vector<tlp::node> &out);
+    //=====================================
+    void recQuad(const tlp::node a, const tlp::node b, const tlp::node c, const tlp::node d,
+                 const std::vector<tlp::node> &input);
 };
 #endif // QUAD_TREE_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,27 +23,27 @@
 namespace tlp {
 
 class IdManagerTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(IdManagerTest);
-  CPPUNIT_TEST(testIsFree);
-  CPPUNIT_TEST(testFragmentation);
-  CPPUNIT_TEST(testGetFree);
-  CPPUNIT_TEST(testIterate);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(IdManagerTest);
+    CPPUNIT_TEST(testIsFree);
+    CPPUNIT_TEST(testFragmentation);
+    CPPUNIT_TEST(testGetFree);
+    CPPUNIT_TEST(testIterate);
+    CPPUNIT_TEST_SUITE_END();
 
-public:
-  void setUp() override {
-    idManager = new IdManager();
-  }
-  void tearDown() override {
-    delete idManager;
-  }
-  void testIsFree();
-  void testFragmentation();
-  void testGetFree();
-  void testIterate();
+  public:
+    void setUp() override {
+        idManager = new IdManager();
+    }
+    void tearDown() override {
+        delete idManager;
+    }
+    void testIsFree();
+    void testFragmentation();
+    void testGetFree();
+    void testIterate();
 
-private:
-  IdManager *idManager;
+  private:
+    IdManager *idManager;
 };
 }
 #endif // ID_MANAGER_TEST_H

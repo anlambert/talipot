@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,17 +17,17 @@ DiffusionRateFunction::DiffusionRateFunction(TimeDecreasingFunction *decreasingF
     : timeFunction(decreasingFunction) {}
 
 DiffusionRateFunction::~DiffusionRateFunction() {
-  delete timeFunction;
+    delete timeFunction;
 }
 
 TimeDecreasingFunction *DiffusionRateFunction::getTimeDecreasingFunction() {
-  return timeFunction;
+    return timeFunction;
 }
 
 void DiffusionRateFunction::setTimeDecreasingFunction(TimeDecreasingFunction *timeFunction) {
-  if (this->timeFunction) {
-    delete this->timeFunction;
-  }
+    if (this->timeFunction) {
+        delete this->timeFunction;
+    }
 
-  this->timeFunction = timeFunction;
+    this->timeFunction = timeFunction;
 }

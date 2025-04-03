@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,12 +22,12 @@
  *
  */
 class DegreeMetric : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION("Degree", "David Auber", "04/10/2001", "Assigns its degree to each node.",
-                    "1.0", "Graph")
-  DegreeMetric(const tlp::PluginContext *context);
-  bool run() override;
-  bool check(std::string &errorMsg) override;
+  public:
+    PLUGININFORMATION("Degree", "David Auber", "04/10/2001", "Assigns its degree to each node.",
+                      "1.0", "Graph")
+    DegreeMetric(const tlp::PluginContext *context);
+    bool run() override;
+    bool check(std::string &errorMsg) override;
 };
 
 #endif // DEGREE_METRIC_H

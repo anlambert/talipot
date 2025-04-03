@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,50 +25,50 @@ class HeaderFrame;
 namespace tlp {
 
 class TLP_QT_SCOPE HeaderFrame : public QFrame {
-  Q_OBJECT
+    Q_OBJECT
 
-  QPair<int, int> _oldHeightInfo;
+    QPair<int, int> _oldHeightInfo;
 
-  Ui::HeaderFrame *_ui;
-  Q_PROPERTY(QString title READ title WRITE setTitle)
-  QString _title;
+    Ui::HeaderFrame *_ui;
+    Q_PROPERTY(QString title READ title WRITE setTitle)
+    QString _title;
 
-  Q_PROPERTY(bool expandable READ isExpandable WRITE setExpandable)
+    Q_PROPERTY(bool expandable READ isExpandable WRITE setExpandable)
 
-  Q_PROPERTY(bool expanded READ isExpanded WRITE expand)
-  bool _expanded;
+    Q_PROPERTY(bool expanded READ isExpanded WRITE expand)
+    bool _expanded;
 
-  Q_PROPERTY(QStringList menus READ menus WRITE setMenus)
+    Q_PROPERTY(QStringList menus READ menus WRITE setMenus)
 
-public:
-  explicit HeaderFrame(QWidget *parent = nullptr);
-  ~HeaderFrame() override;
+  public:
+    explicit HeaderFrame(QWidget *parent = nullptr);
+    ~HeaderFrame() override;
 
-  QString title() const;
-  QStringList menus() const;
-  QString currentMenu() const;
-  int currentMenuIndex() const;
+    QString title() const;
+    QStringList menus() const;
+    QString currentMenu() const;
+    int currentMenuIndex() const;
 
-  bool isExpandable() const;
-  bool isExpanded() const;
+    bool isExpandable() const;
+    bool isExpanded() const;
 
-  QWidget *expandControl() const;
+    QWidget *expandControl() const;
 
-public slots:
-  void setTitle(const QString &title);
-  void setMenus(const QStringList &menus);
-  void setExpandable(bool f);
+  public slots:
+    void setTitle(const QString &title);
+    void setMenus(const QStringList &menus);
+    void setExpandable(bool f);
 
-  void expand(bool e);
-  void insertWidget(QWidget *);
-  void menuChanged(int);
+    void expand(bool e);
+    void insertWidget(QWidget *);
+    void menuChanged(int);
 
-signals:
-  void menuChanged(const QString &);
-  void expanded(bool);
+  signals:
+    void menuChanged(const QString &);
+    void expanded(bool);
 
-protected slots:
-  void setExpanded(bool e);
+  protected slots:
+    void setExpanded(bool e);
 };
 
 }

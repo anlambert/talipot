@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,33 +22,33 @@ using namespace tlp;
 
 SpanningTreeSelection::SpanningTreeSelection(const tlp::PluginContext *context)
     : BooleanAlgorithm(context) {
-  addOutParameter<uint>("#edges selected", "The number of 'tree' selected edges");
+    addOutParameter<uint>("#edges selected", "The number of 'tree' selected edges");
 }
 
 SpanningTreeSelection::~SpanningTreeSelection() = default;
 
 ///===========================================================
 bool SpanningTreeSelection::run() {
-  // first initialize result
-  result->setAllNodeValue(false);
-  result->setAllEdgeValue(false);
+    // first initialize result
+    result->setAllNodeValue(false);
+    result->setAllEdgeValue(false);
 
-  if (graph->existProperty("viewSelection")) {
-    BooleanProperty *viewSelection = graph->getBooleanProperty("viewSelection");
+    if (graph->existProperty("viewSelection")) {
+        BooleanProperty *viewSelection = graph->getBooleanProperty("viewSelection");
 
-    for (auto n : graph->nodes()) {
-      if (viewSelection->getNodeValue(n)) {
-        result->setNodeValue(n, true);
-      }
+        for (auto n : graph->nodes()) {
+            if (viewSelection->getNodeValue(n)) {
+                result->setNodeValue(n, true);
+            }
+        }
     }
-  }
 
-  selectSpanningForest(graph, result, pluginProgress);
+    selectSpanningForest(graph, result, pluginProgress);
 
-  // output some useful information
-  if (dataSet != nullptr) {
-    dataSet->set("#edges selected", result->numberOfNonDefaultValuatedEdges());
-  }
+    // output some useful information
+    if (dataSet != nullptr) {
+        dataSet->set("#edges selected", result->numberOfNonDefaultValuatedEdges());
+    }
 
-  return true;
+    return true;
 }

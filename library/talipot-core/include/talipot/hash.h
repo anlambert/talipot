@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2024  The Talipot developers
+ * Copyright (C) 2024-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -58,8 +58,8 @@
 namespace std {
 template <class T>
 inline void tlp_hash_combine(std::size_t &seed, const T &v) {
-  hash<T> hasher;
-  seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+    hash<T> hasher;
+    seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 } // namespace std
 

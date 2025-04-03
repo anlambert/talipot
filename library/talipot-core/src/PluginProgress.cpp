@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,19 +18,19 @@ using namespace tlp;
 PluginProgress::PluginProgress() : _previewHandler(nullptr) {}
 
 PluginProgress::~PluginProgress() {
-  delete _previewHandler;
+    delete _previewHandler;
 }
 
 void PluginProgress::setPreviewHandler(ProgressPreviewHandler *handler) {
-  delete _previewHandler;
-  _previewHandler = handler;
+    delete _previewHandler;
+    _previewHandler = handler;
 }
 ProgressState PluginProgress::progress(int step, int max_step) {
-  if (_previewHandler != nullptr && isPreviewMode()) {
-    _previewHandler->progressStateChanged(step, max_step);
-  }
+    if (_previewHandler != nullptr && isPreviewMode()) {
+        _previewHandler->progressStateChanged(step, max_step);
+    }
 
-  return ProgressState::TLP_CONTINUE;
+    return ProgressState::TLP_CONTINUE;
 }
 
 ProgressPreviewHandler::~ProgressPreviewHandler() = default;

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,13 +15,13 @@
 #include <talipot/GraphTest.h>
 
 class OuterplanarTest : public tlp::GraphTest {
-public:
-  PLUGININFORMATION("Outer Planar", "Tulip team", "18/04/2012",
-                    "Tests whether a graph is outer planar or not.", "1.0", "Topological Test")
-  OuterplanarTest(const tlp::PluginContext *context) : tlp::GraphTest(context) {}
+  public:
+    PLUGININFORMATION("Outer Planar", "Tulip team", "18/04/2012",
+                      "Tests whether a graph is outer planar or not.", "1.0", "Topological Test")
+    OuterplanarTest(const tlp::PluginContext *context) : tlp::GraphTest(context) {}
 
-  bool test() override {
-    return tlp::OuterPlanarTest::isOuterPlanar(graph);
-  }
+    bool test() override {
+        return tlp::OuterPlanarTest::isOuterPlanar(graph);
+    }
 };
 PLUGIN(OuterplanarTest)

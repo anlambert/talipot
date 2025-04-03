@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,46 +28,46 @@ class NumericProperty;
 class SizeProperty;
 
 class TLP_OGDF_SCOPE TalipotToOGDF {
-public:
-  TalipotToOGDF(Graph *g, bool importEdgeBends = true);
+  public:
+    TalipotToOGDF(Graph *g, bool importEdgeBends = true);
 
-  Graph *getTalipotGraph() {
-    return talipotGraph;
-  }
+    Graph *getTalipotGraph() {
+        return talipotGraph;
+    }
 
-  ogdf::GraphAttributes &getOGDFGraphAttr() {
-    return ogdfGraphAttributes;
-  }
+    ogdf::GraphAttributes &getOGDFGraphAttr() {
+        return ogdfGraphAttributes;
+    }
 
-  ogdf::Graph &getOGDFGraph() {
-    return ogdfGraph;
-  }
+    ogdf::Graph &getOGDFGraph() {
+        return ogdfGraph;
+    }
 
-  ogdf::node getOGDFGraphNode(node nTlp) {
-    return ogdfNodes[nTlp];
-  }
+    ogdf::node getOGDFGraphNode(node nTlp) {
+        return ogdfNodes[nTlp];
+    }
 
-  ogdf::edge getOGDFGraphEdge(edge eTlp) {
-    return ogdfEdges[eTlp];
-  }
+    ogdf::edge getOGDFGraphEdge(edge eTlp) {
+        return ogdfEdges[eTlp];
+    }
 
-  void makeOGDFGraphSimple();
+    void makeOGDFGraphSimple();
 
-  void enable3DLayout(bool enable3D);
+    void enable3DLayout(bool enable3D);
 
-  Coord getNodeCoordFromOGDFGraphAttr(node n);
-  std::vector<Coord> getEdgeCoordFromOGDFGraphAttr(edge e);
+    Coord getNodeCoordFromOGDFGraphAttr(node n);
+    std::vector<Coord> getEdgeCoordFromOGDFGraphAttr(edge e);
 
-  void copyTlpNumericPropertyToOGDFEdgeLength(NumericProperty *);
-  void copyTlpNumericPropertyToOGDFNodeWeight(NumericProperty *);
-  void copyTlpNodeSizeToOGDF(SizeProperty *);
+    void copyTlpNumericPropertyToOGDFEdgeLength(NumericProperty *);
+    void copyTlpNumericPropertyToOGDFNodeWeight(NumericProperty *);
+    void copyTlpNodeSizeToOGDF(SizeProperty *);
 
-private:
-  Graph *talipotGraph;
-  flat_hash_map<node, ogdf::node> ogdfNodes;
-  flat_hash_map<edge, ogdf::edge> ogdfEdges;
-  ogdf::Graph ogdfGraph;
-  ogdf::GraphAttributes ogdfGraphAttributes;
+  private:
+    Graph *talipotGraph;
+    flat_hash_map<node, ogdf::node> ogdfNodes;
+    flat_hash_map<edge, ogdf::edge> ogdfEdges;
+    ogdf::Graph ogdfGraph;
+    ogdf::GraphAttributes ogdfGraphAttributes;
 };
 }
 #endif // TALIPOT_TALIPOT_TO_OGDF_H

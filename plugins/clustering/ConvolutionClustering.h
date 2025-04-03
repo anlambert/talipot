@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,26 +33,26 @@
 namespace tlp {
 
 class ConvolutionClustering : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION(
-      "Convolution", "David Auber", "14/08/2001",
-      "Discretization and filtering of the distribution of a node metric using a convolution.",
-      "2.1", "Clustering")
-  ConvolutionClustering(tlp::PluginContext *context);
-  bool run() override;
-  bool check(std::string &) override;
-  std::vector<double> *getHistogram();
-  void setParameters(int histosize, int threshold, int width);
-  void getParameters(int &histosize, int &threshold, int &width) const;
-  void autoSetParameter();
-  std::list<int> getLocalMinimum();
+  public:
+    PLUGININFORMATION(
+        "Convolution", "David Auber", "14/08/2001",
+        "Discretization and filtering of the distribution of a node metric using a convolution.",
+        "2.1", "Clustering")
+    ConvolutionClustering(tlp::PluginContext *context);
+    bool run() override;
+    bool check(std::string &) override;
+    std::vector<double> *getHistogram();
+    void setParameters(int histosize, int threshold, int width);
+    void getParameters(int &histosize, int &threshold, int &width) const;
+    void autoSetParameter();
+    std::list<int> getLocalMinimum();
 
-private:
-  void getClusters(const std::vector<int> &ranges);
-  std::vector<double> smoothHistogram;
-  std::map<int, int> histogramOfValues;
-  int histosize, threshold, width;
-  tlp::NumericProperty *metric;
+  private:
+    void getClusters(const std::vector<int> &ranges);
+    std::vector<double> smoothHistogram;
+    std::map<int, int> histogramOfValues;
+    int histosize, threshold, width;
+    tlp::NumericProperty *metric;
 };
 }
 

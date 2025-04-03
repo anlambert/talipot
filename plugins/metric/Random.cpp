@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,50 +30,50 @@ static constexpr std::string_view paramHelp[] = {
 #define BOTH_TARGET 0
 
 RandomMetric::RandomMetric(const tlp::PluginContext *context) : DoubleAlgorithm(context) {
-  addInParameter<StringCollection>(TARGET_TYPE, paramHelp[0].data(), TARGET_TYPES, true,
-                                   "<b>both</b> <br> <b>nodes</b> <br> <b>edges</b>");
+    addInParameter<StringCollection>(TARGET_TYPE, paramHelp[0].data(), TARGET_TYPES, true,
+                                     "<b>both</b> <br> <b>nodes</b> <br> <b>edges</b>");
 
-  // result needs to be an inout parameter
-  // in order to preserve the original values of non targeted elements
-  // i.e if "target" = "nodes", the values of edges must be preserved
-  // and if "target" = "edges", the values of nodes must be preserved
-  parameters.setDirection("result", INOUT_PARAM);
+    // result needs to be an inout parameter
+    // in order to preserve the original values of non targeted elements
+    // i.e if "target" = "nodes", the values of edges must be preserved
+    // and if "target" = "edges", the values of nodes must be preserved
+    parameters.setDirection("result", INOUT_PARAM);
 }
 
 //===========================================
 bool RandomMetric::run() {
-  // initialize a random sequence according the given seed
-  tlp::initRandomSequence();
+    // initialize a random sequence according the given seed
+    tlp::initRandomSequence();
 
-  bool nodes(true), edges(true);
+    bool nodes(true), edges(true);
 
-  if (dataSet != nullptr) {
-    StringCollection targetType;
-    dataSet->get(TARGET_TYPE, targetType);
+    if (dataSet != nullptr) {
+        StringCollection targetType;
+        dataSet->get(TARGET_TYPE, targetType);
 
-    if (targetType.getCurrent() == NODES_TARGET) {
-      edges = false;
-      nodes = true;
-    } else if (targetType.getCurrent() == EDGES_TARGET) {
-      edges = true;
-      nodes = false;
-    } else {
-      edges = true;
-      nodes = true;
+        if (targetType.getCurrent() == NODES_TARGET) {
+            edges = false;
+            nodes = true;
+        } else if (targetType.getCurrent() == EDGES_TARGET) {
+            edges = true;
+            nodes = false;
+        } else {
+            edges = true;
+            nodes = true;
+        }
     }
-  }
 
-  if (nodes) {
-    for (auto n : graph->nodes()) {
-      result->setNodeValue(n, randomNumber());
+    if (nodes) {
+        for (auto n : graph->nodes()) {
+            result->setNodeValue(n, randomNumber());
+        }
     }
-  }
 
-  if (edges) {
-    for (auto e : graph->edges()) {
-      result->setEdgeValue(e, randomNumber());
+    if (edges) {
+        for (auto e : graph->edges()) {
+            result->setEdgeValue(e, randomNumber());
+        }
     }
-  }
 
-  return true;
+    return true;
 }

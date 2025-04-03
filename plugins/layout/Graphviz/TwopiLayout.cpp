@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2022-2023  The Talipot developers
+ * Copyright (C) 2022-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,12 +17,12 @@ using namespace std;
 using namespace tlp;
 
 class TwopiLayout : public GraphvizLayoutBase {
-public:
-  PLUGININFORMATION(
-      "twopi (Graphviz)", "Antoine Lambert", "04/2022",
-      "Nodes are placed on concentric circles depending their distance from a given root node.",
-      "1.0", "Hierarchical")
-  TwopiLayout(const PluginContext *context) : GraphvizLayoutBase(context, "twopi") {}
+  public:
+    PLUGININFORMATION(
+        "twopi (Graphviz)", "Antoine Lambert", "04/2022",
+        "Nodes are placed on concentric circles depending their distance from a given root node.",
+        "1.0", "Hierarchical")
+    TwopiLayout(const PluginContext *context) : GraphvizLayoutBase(context, "twopi") {}
 };
 
 PLUGIN(TwopiLayout)

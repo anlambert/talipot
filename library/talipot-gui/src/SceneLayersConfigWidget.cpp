@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,24 +21,25 @@ using namespace tlp;
 
 SceneLayersConfigWidget::SceneLayersConfigWidget(QWidget *parent)
     : QWidget(parent), _ui(new Ui::SceneLayersConfigWidget), _glWidget(nullptr) {
-  _ui->setupUi(this);
+    _ui->setupUi(this);
 }
 
 SceneLayersConfigWidget::~SceneLayersConfigWidget() {
-  delete _ui;
+    delete _ui;
 }
 
 void SceneLayersConfigWidget::setGlWidget(GlWidget *glWidget) {
-  _glWidget = glWidget;
-  auto *model = new SceneLayersModel(_glWidget->scene(), _ui->treeView);
-  _ui->treeView->setModel(model);
-  connect(model, &SceneLayersModel::drawNeeded, this, &SceneLayersConfigWidget::drawNeeded);
-  connect(_ui->treeView, &QTreeView::collapsed, this, &SceneLayersConfigWidget::resizeFirstColumn);
-  connect(_ui->treeView, &QTreeView::expanded, this, &SceneLayersConfigWidget::resizeFirstColumn);
-  _ui->treeView->setColumnWidth(0, 110);
+    _glWidget = glWidget;
+    auto *model = new SceneLayersModel(_glWidget->scene(), _ui->treeView);
+    _ui->treeView->setModel(model);
+    connect(model, &SceneLayersModel::drawNeeded, this, &SceneLayersConfigWidget::drawNeeded);
+    connect(_ui->treeView, &QTreeView::collapsed, this,
+            &SceneLayersConfigWidget::resizeFirstColumn);
+    connect(_ui->treeView, &QTreeView::expanded, this, &SceneLayersConfigWidget::resizeFirstColumn);
+    _ui->treeView->setColumnWidth(0, 110);
 }
 
 void SceneLayersConfigWidget::resizeFirstColumn() {
-  _ui->treeView->resizeColumnToContents(0);
-  _ui->treeView->resizeColumnToContents(1);
+    _ui->treeView->resizeColumnToContents(0);
+    _ui->treeView->resizeColumnToContents(1);
 }

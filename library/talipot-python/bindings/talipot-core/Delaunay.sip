@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,10 +49,10 @@ Edges and simplices are defined using indexes into the original list of points.
 std::vector<std::pair<uint, uint>> edges;
 std::vector<std::vector<uint>> simplices;
 if (tlp::delaunayTriangulation(*a0, edges, simplices)) {
-  sipRes = new std::pair<std::vector<std::pair<uint, uint>>, std::vector<std::vector<uint>>>(
-      edges, simplices);
+    sipRes = new std::pair<std::vector<std::pair<uint, uint>>, std::vector<std::vector<uint>>>(
+        edges, simplices);
 } else {
-  sipRes = NULL;
+    sipRes = NULL;
 }
 %End
 
@@ -234,9 +234,9 @@ to have a connected voronoi cell for each input site.
 %MethodCode
 tlp::VoronoiDiagram voronoiDiagram;
 if (tlp::voronoiDiagram(*a0, voronoiDiagram)) {
-  sipRes = new tlp::VoronoiDiagram(voronoiDiagram);
+    sipRes = new tlp::VoronoiDiagram(voronoiDiagram);
 } else {
-  sipRes = NULL;
+    sipRes = NULL;
 }
 %End
 

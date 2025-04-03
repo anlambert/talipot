@@ -39,16 +39,17 @@
 #include <talipot/MutableContainer.h>
 
 class FastOverlapRemoval : public tlp::LayoutAlgorithm {
-public:
-  PLUGININFORMATION(
-      "Fast Overlap Removal", "Daniel Archambault", "08/12/2006",
-      "Implements a layout algorithm removing the nodes overlaps. It was first published as:<br/>"
-      "<b>Fast Node Overlap Removal</b>, Tim Dwyer, Kim Marriot, Peter J. Stuckey, Graph Drawing, "
-      "Vol. 3843 (2006), pp. 153-164.",
-      "1.3", "Misc")
+  public:
+    PLUGININFORMATION(
+        "Fast Overlap Removal", "Daniel Archambault", "08/12/2006",
+        "Implements a layout algorithm removing the nodes overlaps. It was first published as:<br/>"
+        "<b>Fast Node Overlap Removal</b>, Tim Dwyer, Kim Marriot, Peter J. Stuckey, Graph "
+        "Drawing, "
+        "Vol. 3843 (2006), pp. 153-164.",
+        "1.3", "Misc")
 
-  FastOverlapRemoval(const tlp::PluginContext *context);
-  ~FastOverlapRemoval() override = default;
-  bool run() override;
+    FastOverlapRemoval(const tlp::PluginContext *context);
+    ~FastOverlapRemoval() override = default;
+    bool run() override;
 };
 #endif // FAST_OVERLAP_REMOVAL_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,10 +33,10 @@ namespace tlp {
  */
 class TLP_QT_SCOPE FloatValidator : public QValidator {
 
-public:
-  State validate(QString &input, int &pos) const override;
+  public:
+    State validate(QString &input, int &pos) const override;
 
-  void fixup(QString &text) const override;
+    void fixup(QString &text) const override;
 };
 
 /**
@@ -45,18 +45,18 @@ public:
  */
 class TLP_QT_SCOPE ScientificDoubleSpinBox : public QDoubleSpinBox {
 
-public:
-  ScientificDoubleSpinBox(QWidget *parent = nullptr);
+  public:
+    ScientificDoubleSpinBox(QWidget *parent = nullptr);
 
-  QValidator::State validate(QString &input, int &pos) const override;
+    QValidator::State validate(QString &input, int &pos) const override;
 
-  void fixup(QString &input) const override;
+    void fixup(QString &input) const override;
 
-  double valueFromText(const QString &text) const override;
+    double valueFromText(const QString &text) const override;
 
-  QString textFromValue(double value) const override;
+    QString textFromValue(double value) const override;
 
-  void stepBy(int steps) override;
+    void stepBy(int steps) override;
 };
 }
 

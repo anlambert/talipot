@@ -18,21 +18,21 @@
 using namespace std;
 
 tlp::Graph *convertOGDFGraphToTalipotGraph(ogdf::Graph &graph, tlp::Graph *tlpGraph) {
-  if (!tlpGraph) {
-    tlpGraph = tlp::newGraph();
-  } else {
-    tlpGraph->clear();
-  }
+    if (!tlpGraph) {
+        tlpGraph = tlp::newGraph();
+    } else {
+        tlpGraph->clear();
+    }
 
-  flat_hash_map<ogdf::node, tlp::node> nodesMap;
+    flat_hash_map<ogdf::node, tlp::node> nodesMap;
 
-  for (ogdf::node n : graph.nodes) {
-    nodesMap[n] = tlpGraph->addNode();
-  }
+    for (ogdf::node n : graph.nodes) {
+        nodesMap[n] = tlpGraph->addNode();
+    }
 
-  for (ogdf::edge e : graph.edges) {
-    tlpGraph->addEdge(nodesMap[e->source()], nodesMap[e->target()]);
-  }
+    for (ogdf::edge e : graph.edges) {
+        tlpGraph->addEdge(nodesMap[e->source()], nodesMap[e->target()]);
+    }
 
-  return tlpGraph;
+    return tlpGraph;
 }

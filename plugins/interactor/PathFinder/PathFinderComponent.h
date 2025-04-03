@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,20 +32,20 @@ class PathFinder;
  * nodes have been selected.
  */
 class PathFinderComponent : public GLInteractorComponent {
-public:
-  PathFinderComponent(PathFinder *parent);
-  ~PathFinderComponent() override;
-  bool eventFilter(QObject *, QEvent *) override;
+  public:
+    PathFinderComponent(PathFinder *parent);
+    ~PathFinderComponent() override;
+    bool eventFilter(QObject *, QEvent *) override;
 
-  void clear() override;
+    void clear() override;
 
-private:
-  tlp::node src;
-  tlp::node tgt;
-  tlp::node tmp;
-  PathFinder *parent;
+  private:
+    tlp::node src;
+    tlp::node tgt;
+    tlp::node tmp;
+    PathFinder *parent;
 
-  void selectPath(GlWidget *glWidget, tlp::Graph *graph);
+    void selectPath(GlWidget *glWidget, tlp::Graph *graph);
 };
 }
 

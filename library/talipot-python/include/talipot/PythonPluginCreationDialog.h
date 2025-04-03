@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,35 +26,35 @@ namespace tlp {
 
 class TLP_PYTHON_SCOPE PythonPluginCreationDialog : public QDialog {
 
-  Q_OBJECT
-  Ui::PythonPluginCreationDialog *_ui;
+    Q_OBJECT
+    Ui::PythonPluginCreationDialog *_ui;
 
-public:
-  PythonPluginCreationDialog(QWidget *parent = nullptr);
-  ~PythonPluginCreationDialog() override;
-  QString getPluginFileName() const;
+  public:
+    PythonPluginCreationDialog(QWidget *parent = nullptr);
+    ~PythonPluginCreationDialog() override;
+    QString getPluginFileName() const;
 
-  QString getPluginType() const;
+    QString getPluginType() const;
 
-  QString getPluginClassName() const;
+    QString getPluginClassName() const;
 
-  QString getPluginName() const;
+    QString getPluginName() const;
 
-  QString getPluginAuthor() const;
+    QString getPluginAuthor() const;
 
-  QString getPluginDate() const;
+    QString getPluginDate() const;
 
-  QString getPluginInfo() const;
+    QString getPluginInfo() const;
 
-  QString getPluginRelease() const;
+    QString getPluginRelease() const;
 
-  QString getPluginGroup() const;
+    QString getPluginGroup() const;
 
-protected slots:
+  protected slots:
 
-  void accept() override;
+    void accept() override;
 
-  void selectPluginSourceFile();
+    void selectPluginSourceFile();
 };
 }
 

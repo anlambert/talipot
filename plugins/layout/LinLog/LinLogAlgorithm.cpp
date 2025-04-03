@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -48,60 +48,60 @@ static constexpr std::string_view paramHelp[] = {
     "given the initial position will be computed by the algorithm."};
 
 LinLogAlgorithm::LinLogAlgorithm(const tlp::PluginContext *context) : LayoutAlgorithm(context) {
-  addInParameter<bool>("3D layout", paramHelp[0].data(), "false");
-  addInParameter<bool>("octtree", paramHelp[1].data(), "true");
-  addInParameter<NumericProperty *>("edge weight", paramHelp[2].data(), "", false);
-  addInParameter<uint>("max iterations", paramHelp[3].data(), "100");
-  addInParameter<float>("repulsion exponent", paramHelp[4].data(), "0.0");
-  addInParameter<float>("attraction exponent", paramHelp[5].data(), "1.0");
-  addInParameter<float>("gravitation factor", paramHelp[6].data(), "0.05");
-  addInParameter<BooleanProperty>("skip nodes", paramHelp[7].data(), "", false);
-  addInParameter<LayoutProperty>("initial layout", paramHelp[8].data(), "", false);
+    addInParameter<bool>("3D layout", paramHelp[0].data(), "false");
+    addInParameter<bool>("octtree", paramHelp[1].data(), "true");
+    addInParameter<NumericProperty *>("edge weight", paramHelp[2].data(), "", false);
+    addInParameter<uint>("max iterations", paramHelp[3].data(), "100");
+    addInParameter<float>("repulsion exponent", paramHelp[4].data(), "0.0");
+    addInParameter<float>("attraction exponent", paramHelp[5].data(), "1.0");
+    addInParameter<float>("gravitation factor", paramHelp[6].data(), "0.05");
+    addInParameter<BooleanProperty>("skip nodes", paramHelp[7].data(), "", false);
+    addInParameter<LayoutProperty>("initial layout", paramHelp[8].data(), "", false);
 }
 
 LinLogAlgorithm::~LinLogAlgorithm() = default;
 
 bool LinLogAlgorithm::run() {
-  bool is3D = false;
-  bool useOctTree = false;
+    bool is3D = false;
+    bool useOctTree = false;
 
-  uint max_iter = 100;
-  tlp::NumericProperty *edgeWeight = nullptr;
-  tlp::BooleanProperty *skipNodes = nullptr;
-  float aExp = 1.0;
-  float rExp = 0.0;
-  float gFac = 0.9f;
-  LayoutProperty *layout = nullptr;
+    uint max_iter = 100;
+    tlp::NumericProperty *edgeWeight = nullptr;
+    tlp::BooleanProperty *skipNodes = nullptr;
+    float aExp = 1.0;
+    float rExp = 0.0;
+    float gFac = 0.9f;
+    LayoutProperty *layout = nullptr;
 
-  if (dataSet != nullptr) {
-    dataSet->get("3D layout", is3D);
-    dataSet->get("octtree", useOctTree);
-    dataSet->get("edge weight", edgeWeight);
-    dataSet->get("max iterations", max_iter);
-    dataSet->get("attraction exponent", aExp);
-    dataSet->get("repulsion exponent", rExp);
-    dataSet->get("gravitation factor", gFac);
-    dataSet->get("skip nodes", skipNodes);
-    dataSet->get("initial layout", layout);
-  }
-
-  LinLogLayout linlog(graph, pluginProgress);
-
-  if (layout) {
-    *result = *layout;
-  } else {
-    std::string err;
-
-    if (!graph->applyPropertyAlgorithm("Random layout", result, err)) {
-      pluginProgress->setError(err);
-      return false;
+    if (dataSet != nullptr) {
+        dataSet->get("3D layout", is3D);
+        dataSet->get("octtree", useOctTree);
+        dataSet->get("edge weight", edgeWeight);
+        dataSet->get("max iterations", max_iter);
+        dataSet->get("attraction exponent", aExp);
+        dataSet->get("repulsion exponent", rExp);
+        dataSet->get("gravitation factor", gFac);
+        dataSet->get("skip nodes", skipNodes);
+        dataSet->get("initial layout", layout);
     }
-  }
 
-  // launches the lin log algorithm
-  linlog.initAlgo(result, edgeWeight, aExp, rExp, gFac, max_iter, is3D, useOctTree, skipNodes);
+    LinLogLayout linlog(graph, pluginProgress);
 
-  return linlog.startAlgo();
+    if (layout) {
+        *result = *layout;
+    } else {
+        std::string err;
+
+        if (!graph->applyPropertyAlgorithm("Random layout", result, err)) {
+            pluginProgress->setError(err);
+            return false;
+        }
+    }
+
+    // launches the lin log algorithm
+    linlog.initAlgo(result, edgeWeight, aExp, rExp, gFac, max_iter, is3D, useOctTree, skipNodes);
+
+    return linlog.startAlgo();
 }
 
 PLUGIN(LinLogAlgorithm)

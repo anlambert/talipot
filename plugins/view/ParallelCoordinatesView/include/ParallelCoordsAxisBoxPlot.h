@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,31 +26,32 @@ class QuantitativeParallelAxis;
 
 class GlAxisBoxPlot : public GlEntity {
 
-public:
-  GlAxisBoxPlot(QuantitativeParallelAxis *axis, const Color &fillColor, const Color &outlineColor);
-  ~GlAxisBoxPlot() override = default;
+  public:
+    GlAxisBoxPlot(QuantitativeParallelAxis *axis, const Color &fillColor,
+                  const Color &outlineColor);
+    ~GlAxisBoxPlot() override = default;
 
-  void draw(float lod, Camera *camera) override;
+    void draw(float lod, Camera *camera) override;
 
-  void getXML(std::string &) override {}
+    void getXML(std::string &) override {}
 
-  void setWithXML(const std::string &, uint &) override {}
+    void setWithXML(const std::string &, uint &) override {}
 
-  void setHighlightRangeIfAny(Coord sceneCoords);
+    void setHighlightRangeIfAny(Coord sceneCoords);
 
-private:
-  void drawLabel(const Coord &position, const std::string &labelName, Camera *camera);
+  private:
+    void drawLabel(const Coord &position, const std::string &labelName, Camera *camera);
 
-  QuantitativeParallelAxis *axis;
-  Coord bottomOutlierCoord;
-  Coord firstQuartileCoord;
-  Coord medianCoord;
-  Coord thirdQuartileCoord;
-  Coord topOutlierCoord;
-  float boxWidth;
-  Color fillColor, outlineColor;
-  Coord *highlightRangeLowBound;
-  Coord *highlightRangeHighBound;
+    QuantitativeParallelAxis *axis;
+    Coord bottomOutlierCoord;
+    Coord firstQuartileCoord;
+    Coord medianCoord;
+    Coord thirdQuartileCoord;
+    Coord topOutlierCoord;
+    float boxWidth;
+    Color fillColor, outlineColor;
+    Coord *highlightRangeLowBound;
+    Coord *highlightRangeHighBound;
 };
 
 class ParallelAxis;
@@ -58,25 +59,25 @@ class ParallelCoordinatesView;
 
 class ParallelCoordsAxisBoxPlot : public GLInteractorComponent {
 
-public:
-  ParallelCoordsAxisBoxPlot();
-  ~ParallelCoordsAxisBoxPlot() override;
-  bool eventFilter(QObject *, QEvent *) override;
-  bool draw(GlWidget *glWidget) override;
-  bool compute(GlWidget *glWidget) override;
-  void viewChanged(View *view) override;
+  public:
+    ParallelCoordsAxisBoxPlot();
+    ~ParallelCoordsAxisBoxPlot() override;
+    bool eventFilter(QObject *, QEvent *) override;
+    bool draw(GlWidget *glWidget) override;
+    bool compute(GlWidget *glWidget) override;
+    void viewChanged(View *view) override;
 
-private:
-  void buildGlAxisPlot(std::vector<ParallelAxis *> currentAxis);
-  void deleteGlAxisPlot();
+  private:
+    void buildGlAxisPlot(std::vector<ParallelAxis *> currentAxis);
+    void deleteGlAxisPlot();
 
-  void initOrUpdateBoxPlots();
+    void initOrUpdateBoxPlots();
 
-  ParallelCoordinatesView *parallelView;
-  Graph *currentGraph;
-  std::map<QuantitativeParallelAxis *, GlAxisBoxPlot *> axisBoxPlotMap;
-  ParallelAxis *selectedAxis;
-  uint lastNbAxis;
+    ParallelCoordinatesView *parallelView;
+    Graph *currentGraph;
+    std::map<QuantitativeParallelAxis *, GlAxisBoxPlot *> axisBoxPlotMap;
+    ParallelAxis *selectedAxis;
+    uint lastNbAxis;
 };
 }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2020  The Talipot developers
+ * Copyright (C) 2020-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,15 +13,15 @@
 
 #include <talipot/Matrix.h>
 
-#define INSTANTIATE_OPERATORS(MATRIX, TYPE, SIZE)                                           \
-  template TLP_TEMPLATE_DEFINE_SCOPE MATRIX tlp::operator+(const MATRIX &, const MATRIX &); \
-  template TLP_TEMPLATE_DEFINE_SCOPE MATRIX tlp::operator-(const MATRIX &, const MATRIX &); \
-  template TLP_TEMPLATE_DEFINE_SCOPE MATRIX tlp::operator*(const MATRIX &, const TYPE &);   \
-  template TLP_TEMPLATE_DEFINE_SCOPE MATRIX tlp::operator*(const MATRIX &, const MATRIX &); \
-  template TLP_TEMPLATE_DEFINE_SCOPE tlp::Vector<TYPE, SIZE> tlp::operator*(                \
-      const tlp::Vector<TYPE, SIZE> &vec, const MATRIX &);                                  \
-  template TLP_TEMPLATE_DEFINE_SCOPE tlp::Vector<TYPE, SIZE> tlp::operator*(                \
-      const MATRIX &, const tlp::Vector<TYPE, SIZE> &vec);
+#define INSTANTIATE_OPERATORS(MATRIX, TYPE, SIZE)                                             \
+    template TLP_TEMPLATE_DEFINE_SCOPE MATRIX tlp::operator+(const MATRIX &, const MATRIX &); \
+    template TLP_TEMPLATE_DEFINE_SCOPE MATRIX tlp::operator-(const MATRIX &, const MATRIX &); \
+    template TLP_TEMPLATE_DEFINE_SCOPE MATRIX tlp::operator*(const MATRIX &, const TYPE &);   \
+    template TLP_TEMPLATE_DEFINE_SCOPE MATRIX tlp::operator*(const MATRIX &, const MATRIX &); \
+    template TLP_TEMPLATE_DEFINE_SCOPE tlp::Vector<TYPE, SIZE> tlp::operator*(                \
+        const tlp::Vector<TYPE, SIZE> &vec, const MATRIX &);                                  \
+    template TLP_TEMPLATE_DEFINE_SCOPE tlp::Vector<TYPE, SIZE> tlp::operator*(                \
+        const MATRIX &, const tlp::Vector<TYPE, SIZE> &vec);
 
 INSTANTIATE_DLL_TEMPLATE(SINGLE_ARG(tlp::Matrix<float, 3>), TLP_TEMPLATE_DEFINE_SCOPE)
 INSTANTIATE_OPERATORS(SINGLE_ARG(tlp::Matrix<float, 3>), float, 3)

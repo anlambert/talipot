@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,429 +19,429 @@
 namespace tlp {
 template <typename Obj>
 class Matrix<Obj, 1> : public Array<Vector<Obj, 1>, 1> {
-public:
-  Obj determinant() {
-    return (*this)[0][0];
-  }
-  //      Matrix<Obj,1>& fill(Obj obj) {return *this;}
-  Matrix<Obj, 1> &inverse() {
-    (*this)[0][0] = 1.0 / (*this)[0][0];
-    return *this;
-  }
-  Matrix<Obj, 1> &transpose() {
-    return *this;
-  }
-  Matrix<Obj, 1> &operator*=(const Matrix<Obj, 1> &mat) {
-    (*this)[0][0] *= mat[0][0];
-    return *this;
-  }
-  //      Matrix<Obj,1>& operator/=(const Obj &obj){return *this;}
-  Matrix<Obj, 1> cofactor() {
-    return *this;
-  }
+  public:
+    Obj determinant() {
+        return (*this)[0][0];
+    }
+    //      Matrix<Obj,1>& fill(Obj obj) {return *this;}
+    Matrix<Obj, 1> &inverse() {
+        (*this)[0][0] = 1.0 / (*this)[0][0];
+        return *this;
+    }
+    Matrix<Obj, 1> &transpose() {
+        return *this;
+    }
+    Matrix<Obj, 1> &operator*=(const Matrix<Obj, 1> &mat) {
+        (*this)[0][0] *= mat[0][0];
+        return *this;
+    }
+    //      Matrix<Obj,1>& operator/=(const Obj &obj){return *this;}
+    Matrix<Obj, 1> cofactor() {
+        return *this;
+    }
 };
 }
 
 //===================================================================
 template <typename Obj, size_t SIZE>
 MATRIX::Matrix(const std::vector<std::vector<Obj>> &covarianceMatrix) {
-  for (size_t i = 0; i < SIZE; i++) {
-    for (size_t j = 0; j < SIZE; j++) {
-      (*this)[i][j] =
-          covarianceMatrix[i][j] / (sqrt(covarianceMatrix[i][i] * covarianceMatrix[j][j]));
+    for (size_t i = 0; i < SIZE; i++) {
+        for (size_t j = 0; j < SIZE; j++) {
+            (*this)[i][j] =
+                covarianceMatrix[i][j] / (sqrt(covarianceMatrix[i][i] * covarianceMatrix[j][j]));
+        }
     }
-  }
 }
 
 //===================================================================
 template <typename Obj, size_t SIZE>
 MATRIX &MATRIX::fill(Obj obj) {
-  for (size_t i = 0; i < SIZE; ++i) {
-    (*this)[i].fill(obj);
-  }
+    for (size_t i = 0; i < SIZE; ++i) {
+        (*this)[i].fill(obj);
+    }
 
-  return (*this);
+    return (*this);
 }
 //======================================================
 template <typename Obj, size_t SIZE>
 MATRIX &MATRIX::operator+=(const MATRIX &mat) {
-  for (size_t i = 0; i < SIZE; ++i) {
-    (*this)[i] += mat[i];
-  }
+    for (size_t i = 0; i < SIZE; ++i) {
+        (*this)[i] += mat[i];
+    }
 
-  return (*this);
+    return (*this);
 }
 //======================================================
 template <typename Obj, size_t SIZE>
 MATRIX &MATRIX::operator-=(const MATRIX &mat) {
-  for (size_t i = 0; i < SIZE; ++i) {
-    (*this)[i] -= mat[i];
-  }
+    for (size_t i = 0; i < SIZE; ++i) {
+        (*this)[i] -= mat[i];
+    }
 
-  return (*this);
+    return (*this);
 }
 //======================================================
 template <typename Obj, size_t SIZE>
 bool MATRIX::operator==(const MATRIX &mat) const {
-  for (size_t i = 0; i < SIZE; ++i) {
-    if (((*this)[i] != mat[i])) {
-      return false;
+    for (size_t i = 0; i < SIZE; ++i) {
+        if (((*this)[i] != mat[i])) {
+            return false;
+        }
     }
-  }
 
-  return true;
+    return true;
 }
 //======================================================
 template <typename Obj, size_t SIZE>
 bool MATRIX::operator!=(const MATRIX &mat) const {
-  for (size_t i = 0; i < SIZE; ++i) {
-    if (((*this)[i] != mat[i])) {
-      return true;
+    for (size_t i = 0; i < SIZE; ++i) {
+        if (((*this)[i] != mat[i])) {
+            return true;
+        }
     }
-  }
 
-  return false;
+    return false;
 }
 //===================================================================
 template <typename Obj, size_t SIZE>
 MATRIX &MATRIX::operator*=(const MATRIX &mat) {
-  (*this) = (*this) * mat;
-  return (*this);
+    (*this) = (*this) * mat;
+    return (*this);
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX &MATRIX::operator*=(const Obj &obj) {
-  for (size_t i = 0; i < SIZE; ++i) {
-    (*this)[i] *= obj;
-  }
+    for (size_t i = 0; i < SIZE; ++i) {
+        (*this)[i] *= obj;
+    }
 
-  return (*this);
+    return (*this);
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX &MATRIX::operator/=(const MATRIX &mat) {
-  MATRIX tmpMat(mat);
-  tmpMat.inverse();
-  (*this) *= tmpMat;
-  return (*this);
+    MATRIX tmpMat(mat);
+    tmpMat.inverse();
+    (*this) *= tmpMat;
+    return (*this);
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX &MATRIX::operator/=(const Obj &obj) {
-  for (size_t i = 0; i < SIZE; ++i) {
-    (*this)[i] /= obj;
-  }
+    for (size_t i = 0; i < SIZE; ++i) {
+        (*this)[i] /= obj;
+    }
 
-  return (*this);
+    return (*this);
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 Obj MATRIX::determinant() const {
-  if constexpr (SIZE == 2) {
-    return (*this)[0][0] * (*this)[1][1] - (*this)[1][0] * (*this)[0][1];
-  } else if constexpr (SIZE == 3) {
-    return (*this)[0][0] * ((*this)[1][1] * (*this)[2][2] - (*this)[1][2] * (*this)[2][1]) -
-           (*this)[0][1] * ((*this)[1][0] * (*this)[2][2] - (*this)[1][2] * (*this)[2][0]) +
-           (*this)[0][2] * ((*this)[1][0] * (*this)[2][1] - (*this)[1][1] * (*this)[2][0]);
-  } else {
-    int j2;
-    Obj det = 0;
+    if constexpr (SIZE == 2) {
+        return (*this)[0][0] * (*this)[1][1] - (*this)[1][0] * (*this)[0][1];
+    } else if constexpr (SIZE == 3) {
+        return (*this)[0][0] * ((*this)[1][1] * (*this)[2][2] - (*this)[1][2] * (*this)[2][1]) -
+               (*this)[0][1] * ((*this)[1][0] * (*this)[2][2] - (*this)[1][2] * (*this)[2][0]) +
+               (*this)[0][2] * ((*this)[1][0] * (*this)[2][1] - (*this)[1][1] * (*this)[2][0]);
+    } else {
+        int j2;
+        Obj det = 0;
 
-    for (size_t j1 = 0; j1 < SIZE; ++j1) {
-      tlp::Matrix<Obj, SIZE - 1> m;
+        for (size_t j1 = 0; j1 < SIZE; ++j1) {
+            tlp::Matrix<Obj, SIZE - 1> m;
 
-      for (size_t i = 1; i < SIZE; i++) {
-        j2 = 0;
+            for (size_t i = 1; i < SIZE; i++) {
+                j2 = 0;
 
-        for (size_t j = 0; j < SIZE; ++j) {
-          if (j == j1) {
-            continue;
-          }
+                for (size_t j = 0; j < SIZE; ++j) {
+                    if (j == j1) {
+                        continue;
+                    }
 
-          m[i - 1][j2] = (*this)[i][j];
-          ++j2;
+                    m[i - 1][j2] = (*this)[i][j];
+                    ++j2;
+                }
+            }
+
+            if (j1 & 1) {
+                det += (*this)[0][j1] * m.determinant();
+            } else {
+                det -= (*this)[0][j1] * m.determinant();
+            }
         }
-      }
 
-      if (j1 & 1) {
-        det += (*this)[0][j1] * m.determinant();
-      } else {
-        det -= (*this)[0][j1] * m.determinant();
-      }
+        return (det);
     }
-
-    return (det);
-  }
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX MATRIX::cofactor() const {
-  MATRIX result;
+    MATRIX result;
 
-  if constexpr (SIZE == 2) {
-    (result)[0][0] = (*this)[1][1];
-    (result)[0][1] = -(*this)[1][0];
-    (result)[1][0] = -(*this)[0][1];
-    (result)[1][1] = (*this)[0][0];
-  } else if constexpr (SIZE == 3) {
-    (result)[0][0] = (*this)[1][1] * (*this)[2][2] - (*this)[1][2] * (*this)[2][1];
-    (result)[0][1] = -((*this)[1][0] * (*this)[2][2] - (*this)[2][0] * (*this)[1][2]);
-    (result)[0][2] = (*this)[1][0] * (*this)[2][1] - (*this)[1][1] * (*this)[2][0];
-    (result)[1][0] = -((*this)[0][1] * (*this)[2][2] - (*this)[0][2] * (*this)[2][1]);
-    (result)[1][1] = (*this)[0][0] * (*this)[2][2] - (*this)[0][2] * (*this)[2][0];
-    (result)[1][2] = -((*this)[0][0] * (*this)[2][1] - (*this)[0][1] * (*this)[2][0]);
-    (result)[2][0] = (*this)[0][1] * (*this)[1][2] - (*this)[0][2] * (*this)[1][1];
-    (result)[2][1] = -((*this)[0][0] * (*this)[1][2] - (*this)[0][2] * (*this)[1][0]);
-    (result)[2][2] = (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
-  } else {
-    int i1, j1;
-    tlp::Matrix<Obj, SIZE - 1> c;
+    if constexpr (SIZE == 2) {
+        (result)[0][0] = (*this)[1][1];
+        (result)[0][1] = -(*this)[1][0];
+        (result)[1][0] = -(*this)[0][1];
+        (result)[1][1] = (*this)[0][0];
+    } else if constexpr (SIZE == 3) {
+        (result)[0][0] = (*this)[1][1] * (*this)[2][2] - (*this)[1][2] * (*this)[2][1];
+        (result)[0][1] = -((*this)[1][0] * (*this)[2][2] - (*this)[2][0] * (*this)[1][2]);
+        (result)[0][2] = (*this)[1][0] * (*this)[2][1] - (*this)[1][1] * (*this)[2][0];
+        (result)[1][0] = -((*this)[0][1] * (*this)[2][2] - (*this)[0][2] * (*this)[2][1]);
+        (result)[1][1] = (*this)[0][0] * (*this)[2][2] - (*this)[0][2] * (*this)[2][0];
+        (result)[1][2] = -((*this)[0][0] * (*this)[2][1] - (*this)[0][1] * (*this)[2][0]);
+        (result)[2][0] = (*this)[0][1] * (*this)[1][2] - (*this)[0][2] * (*this)[1][1];
+        (result)[2][1] = -((*this)[0][0] * (*this)[1][2] - (*this)[0][2] * (*this)[1][0]);
+        (result)[2][2] = (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
+    } else {
+        int i1, j1;
+        tlp::Matrix<Obj, SIZE - 1> c;
 
-    for (size_t j = 0; j < SIZE; ++j) {
-      for (size_t i = 0; i < SIZE; ++i) {
-        i1 = 0;
+        for (size_t j = 0; j < SIZE; ++j) {
+            for (size_t i = 0; i < SIZE; ++i) {
+                i1 = 0;
 
-        for (size_t ii = 0; ii < SIZE; ++ii) {
-          if (ii == i) {
-            continue;
-          }
+                for (size_t ii = 0; ii < SIZE; ++ii) {
+                    if (ii == i) {
+                        continue;
+                    }
 
-          j1 = 0;
+                    j1 = 0;
 
-          for (size_t jj = 0; jj < SIZE; jj++) {
-            if (jj == j) {
-              continue;
+                    for (size_t jj = 0; jj < SIZE; jj++) {
+                        if (jj == j) {
+                            continue;
+                        }
+
+                        c[i1][j1] = (*this)[ii][jj];
+                        ++j1;
+                    }
+
+                    ++i1;
+                }
+
+                if ((i + j) & 1) {
+                    result[i][j] = c.determinant();
+                } else {
+                    result[i][j] = -c.determinant();
+                }
             }
-
-            c[i1][j1] = (*this)[ii][jj];
-            ++j1;
-          }
-
-          ++i1;
         }
-
-        if ((i + j) & 1) {
-          result[i][j] = c.determinant();
-        } else {
-          result[i][j] = -c.determinant();
-        }
-      }
     }
-  }
 
-  return result;
+    return result;
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX &MATRIX::transpose() {
-  Obj tmp;
+    Obj tmp;
 
-  for (size_t i = 1; i < SIZE; ++i) {
-    for (size_t j = 0; j < i; ++j) {
-      tmp = (*this)[i][j];
-      (*this)[i][j] = (*this)[j][i];
-      (*this)[j][i] = tmp;
+    for (size_t i = 1; i < SIZE; ++i) {
+        for (size_t j = 0; j < i; ++j) {
+            tmp = (*this)[i][j];
+            (*this)[i][j] = (*this)[j][i];
+            (*this)[j][i] = tmp;
+        }
     }
-  }
 
-  return (*this);
+    return (*this);
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX &MATRIX::inverse() {
-  (*this) = (*this).cofactor().transpose() /= (*this).determinant();
-  return (*this);
+    (*this) = (*this).cofactor().transpose() /= (*this).determinant();
+    return (*this);
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX tlp::operator+(const MATRIX &mat1, const MATRIX &mat2) {
-  return MATRIX(mat1) += mat2;
+    return MATRIX(mat1) += mat2;
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX tlp::operator-(const MATRIX &mat1, const MATRIX &mat2) {
-  return MATRIX(mat1) -= mat2;
+    return MATRIX(mat1) -= mat2;
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX tlp::operator*(const MATRIX &mat1, const MATRIX &mat2) {
-  MATRIX result;
+    MATRIX result;
 
-  for (size_t i = 0; i < SIZE; ++i) {
-    for (size_t j = 0; j < SIZE; ++j) {
-      result[i][j] = mat1[i][0] * mat2[0][j];
+    for (size_t i = 0; i < SIZE; ++i) {
+        for (size_t j = 0; j < SIZE; ++j) {
+            result[i][j] = mat1[i][0] * mat2[0][j];
 
-      for (size_t k = 1; k < SIZE; ++k) {
-        result[i][j] += mat1[i][k] * mat2[k][j];
-      }
+            for (size_t k = 1; k < SIZE; ++k) {
+                result[i][j] += mat1[i][k] * mat2[k][j];
+            }
+        }
     }
-  }
 
-  return result;
+    return result;
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX MATRIX::operator/(const MATRIX &mat2) const {
-  return MATRIX(*this) /= mat2;
+    return MATRIX(*this) /= mat2;
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX MATRIX::operator/(const Obj &obj) const {
-  return MATRIX(*this) /= obj;
+    return MATRIX(*this) /= obj;
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 MATRIX tlp::operator*(const MATRIX &mat, const Obj &obj) {
-  return MATRIX(mat) *= obj;
+    return MATRIX(mat) *= obj;
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 tlp::Vector<Obj, SIZE> tlp::operator*(const MATRIX &mat, const tlp::Vector<Obj, SIZE> &vec) {
-  tlp::Vector<Obj, SIZE> result;
+    tlp::Vector<Obj, SIZE> result;
 
-  for (size_t row = 0; row < SIZE; ++row) {
-    result[row] = mat[row][0] * vec[0];
-  }
-
-  for (size_t col = 1; col < SIZE; ++col) {
     for (size_t row = 0; row < SIZE; ++row) {
-      result[row] += mat[row][col] * vec[col];
+        result[row] = mat[row][0] * vec[0];
     }
-  }
 
-  return result;
+    for (size_t col = 1; col < SIZE; ++col) {
+        for (size_t row = 0; row < SIZE; ++row) {
+            result[row] += mat[row][col] * vec[col];
+        }
+    }
+
+    return result;
 }
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 tlp::Vector<Obj, SIZE> tlp::operator*(const tlp::Vector<Obj, SIZE> &vec, const MATRIX &mat) {
-  tlp::Vector<Obj, SIZE> result;
+    tlp::Vector<Obj, SIZE> result;
 
-  for (size_t row = 0; row < SIZE; ++row) {
-    result[row] = mat[0][row] * vec[0];
-  }
-
-  for (size_t col = 1; col < SIZE; ++col) {
     for (size_t row = 0; row < SIZE; ++row) {
-      result[row] += mat[col][row] * vec[col];
+        result[row] = mat[0][row] * vec[0];
     }
-  }
 
-  return result;
+    for (size_t col = 1; col < SIZE; ++col) {
+        for (size_t row = 0; row < SIZE; ++row) {
+            result[row] += mat[col][row] * vec[col];
+        }
+    }
+
+    return result;
 }
 
 //=====================================================================================
 template <typename Obj, size_t SIZE>
 tlp::Vector<Obj, SIZE> MATRIX::powerIteration(const uint nIterations) const {
-  tlp::Vector<Obj, SIZE> iteration;
+    tlp::Vector<Obj, SIZE> iteration;
 
-  for (size_t i = 0; i < SIZE; i++) {
-    iteration[i] = 1;
-  }
+    for (size_t i = 0; i < SIZE; i++) {
+        iteration[i] = 1;
+    }
 
-  for (uint i = 0; i < nIterations; i++) {
-    iteration = (*this) * iteration;
-    iteration /= iteration.norm();
-  }
+    for (uint i = 0; i < nIterations; i++) {
+        iteration = (*this) * iteration;
+        iteration /= iteration.norm();
+    }
 
-  return iteration;
+    return iteration;
 }
 
 //=====================================================================================
 
 template <typename Obj, size_t SIZE>
 bool MATRIX::simplify(tlp::Matrix<Obj, 2> &simplifiedMatrix) const {
-  if constexpr (SIZE != 3) {
-    std::ignore = simplifiedMatrix;
-    tlp::warning() << "Computation allowed only for 3x3 Matrices. Yours sizes : " << SIZE << "x"
-                   << SIZE << std::endl;
+    if constexpr (SIZE != 3) {
+        std::ignore = simplifiedMatrix;
+        tlp::warning() << "Computation allowed only for 3x3 Matrices. Yours sizes : " << SIZE << "x"
+                       << SIZE << std::endl;
 
-    return false;
-  } else {
-    // We start with a matrix representing an equation system under the following form :
-    //
-    // ax + by + cz = 0
-    // dx + ey + fz = 0
-    // gx + hy + iz = 0
-    //
-    // So M looks like :
-    //
-    //     ( ax by cz )  *(e1)*
-    // M = ( dx ey fz )  *(e2)*
-    //     ( gx hy iz )  *(e3)*
-    //
-    // What we want is something like that :
-    //
-    // jx + ky = 0
-    // lx + mz = 0
-    //
-    // So to reduce the matrix, we will use the Gaussian Elimination.
-    // For the first line we will apply a Gaussian Elimination between (e1) and (e2)
-    // For the second line we will apply a Gaussian Elimination between (e1) and (e3)
+        return false;
+    } else {
+        // We start with a matrix representing an equation system under the following form :
+        //
+        // ax + by + cz = 0
+        // dx + ey + fz = 0
+        // gx + hy + iz = 0
+        //
+        // So M looks like :
+        //
+        //     ( ax by cz )  *(e1)*
+        // M = ( dx ey fz )  *(e2)*
+        //     ( gx hy iz )  *(e3)*
+        //
+        // What we want is something like that :
+        //
+        // jx + ky = 0
+        // lx + mz = 0
+        //
+        // So to reduce the matrix, we will use the Gaussian Elimination.
+        // For the first line we will apply a Gaussian Elimination between (e1) and (e2)
+        // For the second line we will apply a Gaussian Elimination between (e1) and (e3)
 
-    float coeff;
+        float coeff;
 
-    // First Gaussian Elimination :
-    // The pivot is z
+        // First Gaussian Elimination :
+        // The pivot is z
 
-    coeff = (*this)[1][2] / (*this)[0][2]; // fz / cz
+        coeff = (*this)[1][2] / (*this)[0][2]; // fz / cz
 
-    // After that:
-    // jx = dx - (coeff * ax)
-    // ky = ey - (coeff * by)
-    simplifiedMatrix[0][0] = (*this)[1][0] - (coeff * (*this)[0][0]);
-    simplifiedMatrix[0][1] = (*this)[1][1] - (coeff * (*this)[0][1]);
+        // After that:
+        // jx = dx - (coeff * ax)
+        // ky = ey - (coeff * by)
+        simplifiedMatrix[0][0] = (*this)[1][0] - (coeff * (*this)[0][0]);
+        simplifiedMatrix[0][1] = (*this)[1][1] - (coeff * (*this)[0][1]);
 
-    // Second Gaussian Elimination :
-    // The pivot is y
+        // Second Gaussian Elimination :
+        // The pivot is y
 
-    coeff = (*this)[2][1] / (*this)[0][1]; // hy / by
+        coeff = (*this)[2][1] / (*this)[0][1]; // hy / by
 
-    // Idem :
-    // lx = gx - (coeff * ax)
-    // mz = iz - (coeff * cz)
-    simplifiedMatrix[1][0] = (*this)[2][0] - (coeff * (*this)[0][0]);
-    simplifiedMatrix[1][1] = (*this)[2][2] - (coeff * (*this)[0][2]);
+        // Idem :
+        // lx = gx - (coeff * ax)
+        // mz = iz - (coeff * cz)
+        simplifiedMatrix[1][0] = (*this)[2][0] - (coeff * (*this)[0][0]);
+        simplifiedMatrix[1][1] = (*this)[2][2] - (coeff * (*this)[0][2]);
 
-    return true;
-  }
+        return true;
+    }
 }
 
 //=====================================================================================
 
 template <typename Obj, size_t SIZE>
 bool MATRIX::computeEigenVector(const float x, tlp::Vector<Obj, 3> &eigenVector) const {
-  if constexpr (SIZE != 2) {
-    std::ignore = x;
-    std::ignore = eigenVector;
-    tlp::warning() << "Computation allowed only for 2x2 Matrices. Yours sizes : " << SIZE << "x"
-                   << SIZE << std::endl;
+    if constexpr (SIZE != 2) {
+        std::ignore = x;
+        std::ignore = eigenVector;
+        tlp::warning() << "Computation allowed only for 2x2 Matrices. Yours sizes : " << SIZE << "x"
+                       << SIZE << std::endl;
 
-    return false;
-  } else {
+        return false;
+    } else {
 
-    eigenVector[0] = x; // Fixed by user
+        eigenVector[0] = x; // Fixed by user
 
-    // We know that the matrix we are using is under that form :
-    //
-    //     ( ax   by )
-    // M = (         )
-    //     ( cx   dz )
-    //
-    // Since we have a fixed x, we can compute y and z :
-    //
-    // y = -a / b
-    // z = -c / d
+        // We know that the matrix we are using is under that form :
+        //
+        //     ( ax   by )
+        // M = (         )
+        //     ( cx   dz )
+        //
+        // Since we have a fixed x, we can compute y and z :
+        //
+        // y = -a / b
+        // z = -c / d
 
-    float a, b, c, d;
+        float a, b, c, d;
 
-    a = (*this)[0][0];
-    b = (*this)[0][1];
-    c = (*this)[1][0];
-    d = (*this)[1][1];
+        a = (*this)[0][0];
+        b = (*this)[0][1];
+        c = (*this)[1][0];
+        d = (*this)[1][1];
 
-    eigenVector[1] = (-a * x) / b;
-    eigenVector[2] = (-c * x) / d;
+        eigenVector[1] = (-a * x) / b;
+        eigenVector[2] = (-c * x) / d;
 
-    return true;
-  }
+        return true;
+    }
 }

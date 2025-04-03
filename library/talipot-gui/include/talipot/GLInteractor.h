@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,24 +39,24 @@ class GlWidget;
  * @endlist
  */
 class TLP_QT_SCOPE GLInteractorComponent : public tlp::InteractorComponent {
-  Q_OBJECT
-public slots:
+    Q_OBJECT
+  public slots:
 
-  /**
-   * @brief Draws an OpenGL visual feedback for the interactor into a given GlWidget.
-   * This method is called after the scene was rendered.
-   * @return true if the rendering completed successfully
-   */
-  virtual bool draw(tlp::GlWidget *) {
-    return false;
-  }
+    /**
+     * @brief Draws an OpenGL visual feedback for the interactor into a given GlWidget.
+     * This method is called after the scene was rendered.
+     * @return true if the rendering completed successfully
+     */
+    virtual bool draw(tlp::GlWidget *) {
+        return false;
+    }
 
-  /**
-   * @brief Initializes the interactor before the scene in the given GlWidget is rendered
-   */
-  virtual bool compute(tlp::GlWidget *) {
-    return false;
-  }
+    /**
+     * @brief Initializes the interactor before the scene in the given GlWidget is rendered
+     */
+    virtual bool compute(tlp::GlWidget *) {
+        return false;
+    }
 };
 
 /**
@@ -66,25 +66,25 @@ public slots:
  * do OpenGL rendering. Storing them into an InteractorComposite will have no effect.
  */
 class TLP_QT_SCOPE GLInteractorComposite : public tlp::InteractorComposite {
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  GLInteractorComposite(const QIcon &icon, const QString &text = "");
+  public:
+    GLInteractorComposite(const QIcon &icon, const QString &text = "");
 
-public slots:
-  /**
-   * @brief Calls the compute method on every sub-components
-   * @note You can subclass this method to add custom behavior before or after components are
-   * called.
-   */
-  virtual void compute(tlp::GlWidget *);
+  public slots:
+    /**
+     * @brief Calls the compute method on every sub-components
+     * @note You can subclass this method to add custom behavior before or after components are
+     * called.
+     */
+    virtual void compute(tlp::GlWidget *);
 
-  /**
-   * @brief Calls the draw method on every sub-components
-   * @note You can subclass this method to add custom behavior before or after components are
-   * called.
-   */
-  virtual void draw(tlp::GlWidget *);
+    /**
+     * @brief Calls the draw method on every sub-components
+     * @note You can subclass this method to add custom behavior before or after components are
+     * called.
+     */
+    virtual void draw(tlp::GlWidget *);
 };
 }
 

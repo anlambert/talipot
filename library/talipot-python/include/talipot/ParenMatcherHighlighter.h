@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,36 +20,36 @@
 class QTextDocument;
 
 struct ParenInfo {
-  char character;
-  int position;
+    char character;
+    int position;
 
-  bool operator<(const ParenInfo &info) const {
-    return position < info.position;
-  }
+    bool operator<(const ParenInfo &info) const {
+        return position < info.position;
+    }
 };
 
 class ParenInfoTextBlockData : public QTextBlockUserData {
 
-  QVector<ParenInfo> _parenInfo;
+    QVector<ParenInfo> _parenInfo;
 
-public:
-  ParenInfoTextBlockData();
+  public:
+    ParenInfoTextBlockData();
 
-  QVector<ParenInfo> parens();
-  void insert(const ParenInfo &parenInfo);
-  void sortParenInfo();
+    QVector<ParenInfo> parens();
+    void insert(const ParenInfo &parenInfo);
+    void sortParenInfo();
 };
 
 class ParenMatcherHighlighter : public QSyntaxHighlighter {
 
-  QVector<char> _leftParensToMatch;
-  QVector<char> _rightParensToMatch;
+    QVector<char> _leftParensToMatch;
+    QVector<char> _rightParensToMatch;
 
-public:
-  explicit ParenMatcherHighlighter(QTextDocument *parent = nullptr);
+  public:
+    explicit ParenMatcherHighlighter(QTextDocument *parent = nullptr);
 
-protected:
-  void highlightBlock(const QString &text) override;
+  protected:
+    void highlightBlock(const QString &text) override;
 };
 
 #endif // TALIPOT_PAREN_MATCHER_HIGHLIGHTER_H

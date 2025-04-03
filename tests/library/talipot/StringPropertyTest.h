@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,20 +21,20 @@ class Graph;
 }
 
 class StringPropertyTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(StringPropertyTest);
-  CPPUNIT_TEST(simpleVectorTest);
-  CPPUNIT_TEST(complexVectorTest);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(StringPropertyTest);
+    CPPUNIT_TEST(simpleVectorTest);
+    CPPUNIT_TEST(complexVectorTest);
+    CPPUNIT_TEST_SUITE_END();
 
-private:
-  tlp::Graph *graph;
+  private:
+    tlp::Graph *graph;
 
-public:
-  void setUp() override;
-  void tearDown() override;
+  public:
+    void setUp() override;
+    void tearDown() override;
 
-  void simpleVectorTest();
-  void complexVectorTest();
+    void simpleVectorTest();
+    void complexVectorTest();
 };
 
 #endif // STRING_PROPERTY_TEST_H

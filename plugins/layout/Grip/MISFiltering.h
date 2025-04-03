@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,33 +22,33 @@
 
 class MISFiltering {
 
-public:
-  MISFiltering(tlp::Graph *);
-  ~MISFiltering();
+  public:
+    MISFiltering(tlp::Graph *);
+    ~MISFiltering();
 
-  void computeFiltering();
-  void getNearest(tlp::node, std::vector<tlp::node> &, std::vector<uint> &, uint, uint = 3);
+    void computeFiltering();
+    void getNearest(tlp::node, std::vector<tlp::node> &, std::vector<uint> &, uint, uint = 3);
 
-  std::vector<tlp::node> ordering;
-  std::vector<uint> index;
+    std::vector<tlp::node> ordering;
+    std::vector<uint> index;
 
-private:
-  uint level;
-  tlp::MutableContainer<bool> inLastVi;
-  tlp::MutableContainer<bool> inCurVi;
-  tlp::MutableContainer<bool> removed;
-  std::vector<uint> v_dist;
+  private:
+    uint level;
+    tlp::MutableContainer<bool> inLastVi;
+    tlp::MutableContainer<bool> inCurVi;
+    tlp::MutableContainer<bool> removed;
+    std::vector<uint> v_dist;
 
-  flat_hash_map<uint, std::unordered_set<tlp::node>> levelToNodes;
+    flat_hash_map<uint, std::unordered_set<tlp::node>> levelToNodes;
 
-  void bfsDepth(tlp::node, uint);
-  void updateVectors();
+    void bfsDepth(tlp::node, uint);
+    void updateVectors();
 
-  tlp::Graph *g_copy;
-  tlp::MutableContainer<bool> removedVisit;
-  tlp::MutableContainer<bool> attendedVisit;
-  tlp::MutableContainer<bool> visited;
+    tlp::Graph *g_copy;
+    tlp::MutableContainer<bool> removedVisit;
+    tlp::MutableContainer<bool> attendedVisit;
+    tlp::MutableContainer<bool> visited;
 
-  std::vector<tlp::node> toVisit;
+    std::vector<tlp::node> toVisit;
 };
 #endif // MIS_FILTERING_H

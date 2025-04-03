@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,26 +18,26 @@
 class OrientableSizeProxy;
 
 class OrientableSize : public tlp::Size {
-public:
-  OrientableSize(OrientableSizeProxy *fatherParam, const float width = 0, const float height = 0,
-                 const float depth = 0);
-  OrientableSize(OrientableSizeProxy *fatherParam, const tlp::Size &size);
+  public:
+    OrientableSize(OrientableSizeProxy *fatherParam, const float width = 0, const float height = 0,
+                   const float depth = 0);
+    OrientableSize(OrientableSizeProxy *fatherParam, const tlp::Size &size);
 
-  void set(const float width = 0, const float height = 0, const float depth = 0);
-  void set(const tlp::Size &size);
+    void set(const float width = 0, const float height = 0, const float depth = 0);
+    void set(const tlp::Size &size);
 
-  void setW(const float width);
-  void setH(const float height);
-  void setD(const float depth);
+    void setW(const float width);
+    void setH(const float height);
+    void setD(const float depth);
 
-  float getW() const;
-  float getH() const;
-  float getD() const;
+    float getW() const;
+    float getH() const;
+    float getD() const;
 
-  void get(float *width, float *height, float *depth) const;
+    void get(float *width, float *height, float *depth) const;
 
-protected:
-  OrientableSizeProxy *father;
+  protected:
+    OrientableSizeProxy *father;
 };
 
 #endif // ORIENTABLE_SIZE_H

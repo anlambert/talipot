@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -46,12 +46,12 @@ static constexpr std::string_view paramHelp[] = {
 
 //====================================================================
 SquarifiedTreeMap::SquarifiedTreeMap(const tlp::PluginContext *context) : LayoutAlgorithm(context) {
-  aspectRatio = DEFAULT_RATIO;
-  addInParameter<NumericProperty *>("metric", paramHelp[0].data(), "viewMetric", false);
-  addInParameter<double>("Aspect Ratio", paramHelp[1].data(), "1.");
-  addInParameter<bool>("Treemap Type", paramHelp[2].data(), "false");
-  addOutParameter<SizeProperty>("Node Size", paramHelp[3].data(), "viewSize");
-  addOutParameter<IntegerProperty>("Node Shape", paramHelp[4].data(), "viewShape");
+    aspectRatio = DEFAULT_RATIO;
+    addInParameter<NumericProperty *>("metric", paramHelp[0].data(), "viewMetric", false);
+    addInParameter<double>("Aspect Ratio", paramHelp[1].data(), "1.");
+    addInParameter<bool>("Treemap Type", paramHelp[2].data(), "false");
+    addOutParameter<SizeProperty>("Node Size", paramHelp[3].data(), "viewSize");
+    addOutParameter<IntegerProperty>("Node Shape", paramHelp[4].data(), "viewShape");
 }
 
 //====================================================================
@@ -59,155 +59,156 @@ SquarifiedTreeMap::~SquarifiedTreeMap() = default;
 
 //====================================================================
 bool SquarifiedTreeMap::check(std::string &errorMsg) {
-  if (!TreeTest::isTree(graph)) {
-    errorMsg = "The graph must be a tree.";
-    return false;
-  }
-
-  metric = nullptr;
-
-  if (dataSet != nullptr) {
-    dataSet->get("metric", metric);
-  }
-
-  if (!metric && graph->existProperty("viewMetric")) {
-    metric = graph->getDoubleProperty("viewMetric");
-
-    if (metric->getNodeDoubleMin(graph) < 0.) {
-      errorMsg = "Graph nodes must have a positive metric.";
-      return false;
+    if (!TreeTest::isTree(graph)) {
+        errorMsg = "The graph must be a tree.";
+        return false;
     }
-  }
 
-  errorMsg = "";
-  return true;
+    metric = nullptr;
+
+    if (dataSet != nullptr) {
+        dataSet->get("metric", metric);
+    }
+
+    if (!metric && graph->existProperty("viewMetric")) {
+        metric = graph->getDoubleProperty("viewMetric");
+
+        if (metric->getNodeDoubleMin(graph) < 0.) {
+            errorMsg = "Graph nodes must have a positive metric.";
+            return false;
+        }
+    }
+
+    errorMsg = "";
+    return true;
 }
 
 //====================================================================
 bool SquarifiedTreeMap::run() {
-  double aspectRatio = DEFAULT_RATIO;
-  shneidermanTreeMap = false;
-  sizeResult = nullptr;
-  glyphResult = nullptr;
+    double aspectRatio = DEFAULT_RATIO;
+    shneidermanTreeMap = false;
+    sizeResult = nullptr;
+    glyphResult = nullptr;
 
-  if (dataSet != nullptr) {
-    dataSet->get("Aspect Ratio", aspectRatio);
-    dataSet->get("Treemap Type", shneidermanTreeMap);
-    dataSet->get("Node Size", sizeResult);
-    dataSet->get("Node Shape", glyphResult);
-  }
-
-  if (sizeResult == nullptr) {
-    sizeResult = graph->getSizeProperty("viewSize");
-  }
-
-  if (glyphResult == nullptr) {
-    glyphResult = graph->getLocalIntegerProperty("viewShape");
-  }
-
-  {
-    // change the glyph of all internal nodes to be a window
-    for (auto n : graph->nodes()) {
-      if (graph->outdeg(n) != 0) {
-        glyphResult->setNodeValue(n, NodeShape::Window);
-      }
+    if (dataSet != nullptr) {
+        dataSet->get("Aspect Ratio", aspectRatio);
+        dataSet->get("Treemap Type", shneidermanTreeMap);
+        dataSet->get("Node Size", sizeResult);
+        dataSet->get("Node Shape", glyphResult);
     }
-  }
 
-  Rectd initialSpace(0, 0, DEFAULT_WIDTH * aspectRatio, DEFAULT_HEIGHT);
+    if (sizeResult == nullptr) {
+        sizeResult = graph->getSizeProperty("viewSize");
+    }
 
-  node root = graph->getSource();
-  computeNodesSize(root);
+    if (glyphResult == nullptr) {
+        glyphResult = graph->getLocalIntegerProperty("viewShape");
+    }
 
-  Vec2d center = initialSpace.center();
-  result->setNodeValue(root, Coord(float(center[0]), float(center[1]), 0));
-  Size initialSpaceSize = {float(initialSpace.width()), float(initialSpace.height())};
-  sizeResult->setNodeValue(root, initialSpaceSize);
-  vector<node> toTreat(orderedChildren(root));
+    {
+        // change the glyph of all internal nodes to be a window
+        for (auto n : graph->nodes()) {
+            if (graph->outdeg(n) != 0) {
+                glyphResult->setNodeValue(n, NodeShape::Window);
+            }
+        }
+    }
 
-  if (!toTreat.empty()) {
-    Rectd tmp = adjustRectangle(initialSpace);
-    squarify(toTreat, tmp, 1);
-  }
+    Rectd initialSpace(0, 0, DEFAULT_WIDTH * aspectRatio, DEFAULT_HEIGHT);
 
-  return true;
+    node root = graph->getSource();
+    computeNodesSize(root);
+
+    Vec2d center = initialSpace.center();
+    result->setNodeValue(root, Coord(float(center[0]), float(center[1]), 0));
+    Size initialSpaceSize = {float(initialSpace.width()), float(initialSpace.height())};
+    sizeResult->setNodeValue(root, initialSpaceSize);
+    vector<node> toTreat(orderedChildren(root));
+
+    if (!toTreat.empty()) {
+        Rectd tmp = adjustRectangle(initialSpace);
+        squarify(toTreat, tmp, 1);
+    }
+
+    return true;
 }
 //====================================================================
 tlp::Rectd SquarifiedTreeMap::adjustRectangle(const tlp::Rectd &r) const {
-  assert(r.isValid());
-  Rectd result(r);
-  Vec2d dist(r[1] - r[0]);
-  // header size
-  result[1][1] -= dist[1] * 0.1;
-  // border size
-  result[1][1] -= dist[1] * 0.02;
-  result[1][0] -= dist[0] * 0.02;
-  result[0][0] += dist[0] * 0.02;
-  result[0][1] += dist[1] * 0.02;
+    assert(r.isValid());
+    Rectd result(r);
+    Vec2d dist(r[1] - r[0]);
+    // header size
+    result[1][1] -= dist[1] * 0.1;
+    // border size
+    result[1][1] -= dist[1] * 0.02;
+    result[1][0] -= dist[0] * 0.02;
+    result[0][0] += dist[0] * 0.02;
+    result[0][1] += dist[1] * 0.02;
 
-  assert(result.isValid());
-  return result;
+    assert(result.isValid());
+    return result;
 }
 //====================================================================
 void SquarifiedTreeMap::layoutRow(const std::vector<tlp::node> &row, const int depth,
                                   const tlp::Rectd &rectArea) {
-  assert(rectArea.isValid());
-  assert(!row.empty());
-  double rowArea = 0;
+    assert(rectArea.isValid());
+    assert(!row.empty());
+    double rowArea = 0;
 
-  for (auto n : row) {
-    rowArea += nodesSize.get(n.id);
-  }
-
-  double sum = 0;
-  Vec2d dist = rectArea[1] - rectArea[0];
-
-  for (auto n : row) {
-    Rectd layoutRec(rectArea);
-
-    if (rectArea.width() > rectArea.height()) {
-      layoutRec[0][0] = rectArea[0][0] + (sum / rowArea) * dist[0];
-      layoutRec[1][0] = layoutRec[0][0] + (nodesSize.get(n.id) / rowArea) * dist[0];
-    } else {
-      layoutRec[0][1] = rectArea[0][1] + (sum / rowArea) * dist[1];
-      layoutRec[1][1] = layoutRec[0][1] + (nodesSize.get(n.id) / rowArea) * dist[1];
+    for (auto n : row) {
+        rowArea += nodesSize.get(n.id);
     }
 
-    assert(layoutRec.isValid());
-    sum += nodesSize.get(n.id);
-    Vec2d center = layoutRec.center();
-    result->setNodeValue(n, Coord(float(center[0]), float(center[1]), float(depth * SEPARATION_Z)));
-    sizeResult->setNodeValue(n, Size(float(layoutRec.width()), float(layoutRec.height()), 0));
+    double sum = 0;
+    Vec2d dist = rectArea[1] - rectArea[0];
 
-    if (graph->outdeg(n) > 0) {
-      vector<node> toTreat(orderedChildren(n));
-      Rectd newRec(adjustRectangle(layoutRec));
-      squarify(toTreat, newRec, depth + 1);
+    for (auto n : row) {
+        Rectd layoutRec(rectArea);
+
+        if (rectArea.width() > rectArea.height()) {
+            layoutRec[0][0] = rectArea[0][0] + (sum / rowArea) * dist[0];
+            layoutRec[1][0] = layoutRec[0][0] + (nodesSize.get(n.id) / rowArea) * dist[0];
+        } else {
+            layoutRec[0][1] = rectArea[0][1] + (sum / rowArea) * dist[1];
+            layoutRec[1][1] = layoutRec[0][1] + (nodesSize.get(n.id) / rowArea) * dist[1];
+        }
+
+        assert(layoutRec.isValid());
+        sum += nodesSize.get(n.id);
+        Vec2d center = layoutRec.center();
+        result->setNodeValue(
+            n, Coord(float(center[0]), float(center[1]), float(depth * SEPARATION_Z)));
+        sizeResult->setNodeValue(n, Size(float(layoutRec.width()), float(layoutRec.height()), 0));
+
+        if (graph->outdeg(n) > 0) {
+            vector<node> toTreat(orderedChildren(n));
+            Rectd newRec(adjustRectangle(layoutRec));
+            squarify(toTreat, newRec, depth + 1);
+        }
     }
-  }
 }
 //==================================================================
 class IsGreater {
-public:
-  IsGreater(const tlp::MutableContainer<double> &measure) : measure(measure) {}
-  bool operator()(const node a, const node b) const {
-    return measure.get(a.id) > measure.get(b.id);
-  }
-  const tlp::MutableContainer<double> &measure;
+  public:
+    IsGreater(const tlp::MutableContainer<double> &measure) : measure(measure) {}
+    bool operator()(const node a, const node b) const {
+        return measure.get(a.id) > measure.get(b.id);
+    }
+    const tlp::MutableContainer<double> &measure;
 };
 //======================================
 vector<node> SquarifiedTreeMap::orderedChildren(const tlp::node n) const {
-  // sort children of n and store it in result
-  //======================================
-  vector<node> result(graph->outdeg(n));
-  // build a list of pair <node, size>
-  size_t i = 0;
-  for (auto child : graph->getOutNodes(n)) {
-    result[i++] = child;
-  }
-  IsGreater sortFunctor(nodesSize);
-  sort(result.begin(), result.end(), sortFunctor);
-  return result;
+    // sort children of n and store it in result
+    //======================================
+    vector<node> result(graph->outdeg(n));
+    // build a list of pair <node, size>
+    size_t i = 0;
+    for (auto child : graph->getOutNodes(n)) {
+        result[i++] = child;
+    }
+    IsGreater sortFunctor(nodesSize);
+    sort(result.begin(), result.end(), sortFunctor);
+    return result;
 }
 //==========================================================
 /*
@@ -220,136 +221,136 @@ class Row {
 double SquarifiedTreeMap::evaluateRow(const std::vector<tlp::node> &row, tlp::node n, double width,
                                       double length, double surface) {
 
-  double sumOfNodesSurface = nodesSize.get(n.id);
+    double sumOfNodesSurface = nodesSize.get(n.id);
 
-  for (auto nr : row) {
-    sumOfNodesSurface += nodesSize.get(nr.id);
-  }
+    for (auto nr : row) {
+        sumOfNodesSurface += nodesSize.get(nr.id);
+    }
 
-  //====================
-  double size = nodesSize.get(n.id);
-  // ratio is the aspect ratio of rectangle of the considered elements
-  double nodeRectangleWidth = length * sumOfNodesSurface / surface;
-  double nodeRectangleHeight = width * size / sumOfNodesSurface;
-  double ratio = std::min(nodeRectangleHeight, nodeRectangleWidth) /
-                 std::max(nodeRectangleHeight, nodeRectangleWidth);
-  double minratio = ratio;
-  double maxratio = ratio;
-  double sumratio = ratio;
-
-  for (auto nr : row) {
-    double size = nodesSize.get(nr.id);
+    //====================
+    double size = nodesSize.get(n.id);
+    // ratio is the aspect ratio of rectangle of the considered elements
     double nodeRectangleWidth = length * sumOfNodesSurface / surface;
     double nodeRectangleHeight = width * size / sumOfNodesSurface;
     double ratio = std::min(nodeRectangleHeight, nodeRectangleWidth) /
                    std::max(nodeRectangleHeight, nodeRectangleWidth);
-    sumratio += ratio;
-    minratio = std::min(minratio, ratio);
-    maxratio = std::max(maxratio, ratio);
-  }
+    double minratio = ratio;
+    double maxratio = ratio;
+    double sumratio = ratio;
 
-  // The paper formula does not give the best result
-  // return std::max(surface*surface*maxratio/(sumOfNodesSurface*sumOfNodesSurface),
-  //                sumOfNodesSurface*sumOfNodesSurface / (surface*surface*minratio));
-  return sumratio / (row.size() + 1);
+    for (auto nr : row) {
+        double size = nodesSize.get(nr.id);
+        double nodeRectangleWidth = length * sumOfNodesSurface / surface;
+        double nodeRectangleHeight = width * size / sumOfNodesSurface;
+        double ratio = std::min(nodeRectangleHeight, nodeRectangleWidth) /
+                       std::max(nodeRectangleHeight, nodeRectangleWidth);
+        sumratio += ratio;
+        minratio = std::min(minratio, ratio);
+        maxratio = std::max(maxratio, ratio);
+    }
+
+    // The paper formula does not give the best result
+    // return std::max(surface*surface*maxratio/(sumOfNodesSurface*sumOfNodesSurface),
+    //                sumOfNodesSurface*sumOfNodesSurface / (surface*surface*minratio));
+    return sumratio / (row.size() + 1);
 }
 
 //====================================================================
 void SquarifiedTreeMap::squarify(const std::vector<tlp::node> &toTreat, const tlp::Rectd &rectArea,
                                  const int depth) {
-  assert(rectArea.isValid());
-  assert(!toTreat.empty());
+    assert(rectArea.isValid());
+    assert(!toTreat.empty());
 
-  vector<node> rowNodes;
-  vector<node> unTreated;
-  double unTreatedSurface = 0;
+    vector<node> rowNodes;
+    vector<node> unTreated;
+    double unTreatedSurface = 0;
 
-  double surface = 0;
+    double surface = 0;
 
-  for (auto n : toTreat) {
-    surface += nodesSize.get(n.id);
-  }
-
-  auto it = toTreat.begin();
-  double length = std::max(rectArea.width(), rectArea.height());
-  double width = std::min(rectArea.width(), rectArea.height());
-  double ratio = evaluateRow(rowNodes, *it, width, length, surface);
-  rowNodes.push_back(*it);
-  ++it;
-
-  // build the new row
-  while (it != toTreat.end()) { // add node in the current row while condition is ok
-    if (shneidermanTreeMap) {
-      rowNodes.push_back(*it);
-    } else {
-      double newRatio = evaluateRow(rowNodes, *it, width, length, surface);
-
-      if (newRatio < ratio) { // we finish to build that row
-        break;
-        /*unTreated.push_back(*it);
-        unTreatedSurface += nodesSize.get(it->id);*/
-      } else {
-        ratio = newRatio;
-        rowNodes.push_back(*it); // add the node to the current row
-      }
+    for (auto n : toTreat) {
+        surface += nodesSize.get(n.id);
     }
 
+    auto it = toTreat.begin();
+    double length = std::max(rectArea.width(), rectArea.height());
+    double width = std::min(rectArea.width(), rectArea.height());
+    double ratio = evaluateRow(rowNodes, *it, width, length, surface);
+    rowNodes.push_back(*it);
     ++it;
-  }
 
-  // Compute measure on unTreated nodes to do a recursive call
-  while (it != toTreat.end()) {
-    unTreated.push_back(*it);
-    unTreatedSurface += nodesSize.get(it->id);
-    ++it;
-  }
+    // build the new row
+    while (it != toTreat.end()) { // add node in the current row while condition is ok
+        if (shneidermanTreeMap) {
+            rowNodes.push_back(*it);
+        } else {
+            double newRatio = evaluateRow(rowNodes, *it, width, length, surface);
 
-  assert(unTreated.size() + rowNodes.size() == toTreat.size());
+            if (newRatio < ratio) { // we finish to build that row
+                break;
+                /*unTreated.push_back(*it);
+                unTreatedSurface += nodesSize.get(it->id);*/
+            } else {
+                ratio = newRatio;
+                rowNodes.push_back(*it); // add the node to the current row
+            }
+        }
 
-  Vec2d dist = rectArea[1] - rectArea[0];
-  assert(!rowNodes.empty());
+        ++it;
+    }
 
-  Rectd rowRec(rectArea); // The rectangle for that row
+    // Compute measure on unTreated nodes to do a recursive call
+    while (it != toTreat.end()) {
+        unTreated.push_back(*it);
+        unTreatedSurface += nodesSize.get(it->id);
+        ++it;
+    }
 
-  if (rectArea.width() > rectArea.height()) {
-    rowRec[1][0] -= (unTreatedSurface / surface) * dist[0];
-  } else {
-    rowRec[0][1] += (unTreatedSurface / surface) * dist[1];
-  }
+    assert(unTreated.size() + rowNodes.size() == toTreat.size());
 
-  assert(rowRec.isValid());
+    Vec2d dist = rectArea[1] - rectArea[0];
+    assert(!rowNodes.empty());
 
-  layoutRow(rowNodes, depth, rowRec);
-
-  if (!unTreated.empty()) {
-    Rectd subRec(rectArea); // the rectangle of unTreated nodes
+    Rectd rowRec(rectArea); // The rectangle for that row
 
     if (rectArea.width() > rectArea.height()) {
-      subRec[0][0] = rowRec[1][0];
+        rowRec[1][0] -= (unTreatedSurface / surface) * dist[0];
     } else {
-      subRec[1][1] = rowRec[0][1];
+        rowRec[0][1] += (unTreatedSurface / surface) * dist[1];
     }
 
-    assert(subRec.isValid());
-    squarify(unTreated, subRec, depth);
-  }
+    assert(rowRec.isValid());
+
+    layoutRow(rowNodes, depth, rowRec);
+
+    if (!unTreated.empty()) {
+        Rectd subRec(rectArea); // the rectangle of unTreated nodes
+
+        if (rectArea.width() > rectArea.height()) {
+            subRec[0][0] = rowRec[1][0];
+        } else {
+            subRec[1][1] = rowRec[0][1];
+        }
+
+        assert(subRec.isValid());
+        squarify(unTreated, subRec, depth);
+    }
 }
 //====================================================================
 void SquarifiedTreeMap::computeNodesSize(const tlp::node n) {
 
-  if (graph->outdeg(n) == 0) { // the node is a leaf of the tree
-    double leafValue = metric ? metric->getNodeDoubleValue(n) : 1.;
+    if (graph->outdeg(n) == 0) { // the node is a leaf of the tree
+        double leafValue = metric ? metric->getNodeDoubleValue(n) : 1.;
 
-    nodesSize.set(n.id, (leafValue > 0) ? leafValue : 1.);
-    return;
-  }
+        nodesSize.set(n.id, (leafValue > 0) ? leafValue : 1.);
+        return;
+    }
 
-  double internalNodeValue = 0.;
-  for (auto child : graph->getOutNodes(n)) {
-    computeNodesSize(child);
-    internalNodeValue += nodesSize.get(child.id);
-  }
+    double internalNodeValue = 0.;
+    for (auto child : graph->getOutNodes(n)) {
+        computeNodesSize(child);
+        internalNodeValue += nodesSize.get(child.id);
+    }
 
-  nodesSize.set(n.id, internalNodeValue);
+    nodesSize.set(n.id, internalNodeValue);
 }
 //====================================================================

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -203,11 +203,11 @@ Computes the distances from a node to all the other nodes of a graph and return 
 
 %MethodCode
 if (a0->isElement(*a1)) {
-  tlp::NodeVectorProperty<uint> result(a0);
-  sipRes = tlp::maxDistance(a0, *a1, result, a3);
-  result.copyToProperty(a2);
+    tlp::NodeVectorProperty<uint> result(a0);
+    sipRes = tlp::maxDistance(a0, *a1, result, a3);
+    result.copyToProperty(a2);
 } else {
-  sipIsErr = throwInvalidNodeException(a0, *a1);
+    sipIsErr = throwInvalidNodeException(a0, *a1);
 }
 %End
 
@@ -259,11 +259,11 @@ one.
 
 %MethodCode
 if (a0->isElement(*a1)) {
-  tlp::NodeVectorProperty<double> result(a0);
-  sipRes = tlp::maxDistance(a0, *a1, result, a3, a4);
-  result.copyToProperty(a2);
+    tlp::NodeVectorProperty<double> result(a0);
+    sipRes = tlp::maxDistance(a0, *a1, result, a3, a4);
+    result.copyToProperty(a2);
 } else {
-  sipIsErr = throwInvalidNodeException(a0, *a1);
+    sipIsErr = throwInvalidNodeException(a0, *a1);
 }
 %End
 
@@ -310,9 +310,9 @@ equal to a maximum one.
 
 %MethodCode
 if (a0->isElement(*a1)) {
-  sipRes = new std::set(reachableNodes(a0, *a1, a2, a3));
+    sipRes = new std::set(reachableNodes(a0, *a1, a2, a3));
 } else {
-  sipIsErr = throwInvalidNodeException(a0, *a1);
+    sipIsErr = throwInvalidNodeException(a0, *a1);
 }
 %End
 };

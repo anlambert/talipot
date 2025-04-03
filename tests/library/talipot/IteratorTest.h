@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,42 +24,42 @@ class DoubleProperty;
 }
 
 class IteratorTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(IteratorTest);
-  CPPUNIT_TEST(testIterator);
-  CPPUNIT_TEST(testStableIterator);
-  CPPUNIT_TEST(testSortIterator);
-  CPPUNIT_TEST(testFilterIterator);
-  CPPUNIT_TEST(testUniqueIterator);
-  CPPUNIT_TEST(testConversionIterator);
-  CPPUNIT_TEST(testConcatIterator);
-  CPPUNIT_TEST(testIteratorCount);
-  CPPUNIT_TEST(testIteratorMap);
-  CPPUNIT_TEST(testIteratorReduce);
-  CPPUNIT_TEST(testIteratorCountCheck);
-  CPPUNIT_TEST(testIteratorToStlContainers);
-  CPPUNIT_TEST(testStlMapIterator);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(IteratorTest);
+    CPPUNIT_TEST(testIterator);
+    CPPUNIT_TEST(testStableIterator);
+    CPPUNIT_TEST(testSortIterator);
+    CPPUNIT_TEST(testFilterIterator);
+    CPPUNIT_TEST(testUniqueIterator);
+    CPPUNIT_TEST(testConversionIterator);
+    CPPUNIT_TEST(testConcatIterator);
+    CPPUNIT_TEST(testIteratorCount);
+    CPPUNIT_TEST(testIteratorMap);
+    CPPUNIT_TEST(testIteratorReduce);
+    CPPUNIT_TEST(testIteratorCountCheck);
+    CPPUNIT_TEST(testIteratorToStlContainers);
+    CPPUNIT_TEST(testStlMapIterator);
+    CPPUNIT_TEST_SUITE_END();
 
-private:
-  tlp::Graph *graph;
-  tlp::DoubleProperty *idMetric;
+  private:
+    tlp::Graph *graph;
+    tlp::DoubleProperty *idMetric;
 
-public:
-  void setUp();
-  void tearDown();
-  void testIterator();
-  void testStableIterator();
-  void testSortIterator();
-  void testFilterIterator();
-  void testUniqueIterator();
-  void testConversionIterator();
-  void testConcatIterator();
-  void testIteratorCount();
-  void testIteratorMap();
-  void testIteratorReduce();
-  void testIteratorCountCheck();
-  void testIteratorToStlContainers();
-  void testStlMapIterator();
+  public:
+    void setUp();
+    void tearDown();
+    void testIterator();
+    void testStableIterator();
+    void testSortIterator();
+    void testFilterIterator();
+    void testUniqueIterator();
+    void testConversionIterator();
+    void testConcatIterator();
+    void testIteratorCount();
+    void testIteratorMap();
+    void testIteratorReduce();
+    void testIteratorCountCheck();
+    void testIteratorToStlContainers();
+    void testStlMapIterator();
 };
 
 #endif // ITERATOR_TEST_H

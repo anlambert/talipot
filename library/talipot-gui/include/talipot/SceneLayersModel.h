@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,28 +25,29 @@ namespace tlp {
 class GlScene;
 
 class TLP_QT_SCOPE SceneLayersModel : public Model, tlp::Observable {
-  Q_OBJECT
+    Q_OBJECT
 
-  tlp::GlScene *_scene;
+    tlp::GlScene *_scene;
 
-  QModelIndex glGraphIndex() const;
+    QModelIndex glGraphIndex() const;
 
-public:
-  explicit SceneLayersModel(tlp::GlScene *scene, QObject *parent = nullptr);
+  public:
+    explicit SceneLayersModel(tlp::GlScene *scene, QObject *parent = nullptr);
 
-  QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
-  QModelIndex parent(const QModelIndex &child) const override;
-  int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-  int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-  bool setData(const QModelIndex &index, const QVariant &value, int role) override;
-  Qt::ItemFlags flags(const QModelIndex &index) const override;
-  QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+    QModelIndex index(int row, int column,
+                      const QModelIndex &parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex &child) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-  void treatEvent(const tlp::Event &) override;
+    void treatEvent(const tlp::Event &) override;
 
-signals:
-  void drawNeeded(tlp::GlScene *);
+  signals:
+    void drawNeeded(tlp::GlScene *);
 };
 }
 

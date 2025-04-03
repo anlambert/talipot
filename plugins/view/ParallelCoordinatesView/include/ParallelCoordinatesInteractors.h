@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,12 +29,12 @@ namespace tlp {
  */
 class ParallelCoordinatesInteractor : public NodeLinkDiagramViewInteractor {
 
-public:
-  ParallelCoordinatesInteractor(const QIcon &icon, const QString &text, const uint priority = 0);
-  /**
-   * return if this interactor is compatible with given View
-   */
-  bool isCompatible(const std::string &viewName) const override;
+  public:
+    ParallelCoordinatesInteractor(const QIcon &icon, const QString &text, const uint priority = 0);
+    /**
+     * return if this interactor is compatible with given View
+     */
+    bool isCompatible(const std::string &viewName) const override;
 };
 
 /** \brief Parallel coordinates interactor to select elements
@@ -42,19 +42,19 @@ public:
  */
 class InteractorParallelCoordsSelection : public ParallelCoordinatesInteractor {
 
-public:
-  PLUGININFORMATION("InteractorParallelCoordsSelection", "Tulip Team", "02/04/2009",
-                    "Selection Interactor", "1.0", "Selection")
+  public:
+    PLUGININFORMATION("InteractorParallelCoordsSelection", "Tulip Team", "02/04/2009",
+                      "Selection Interactor", "1.0", "Selection")
 
-  /**
-   * Default constructor
-   */
-  InteractorParallelCoordsSelection(const tlp::PluginContext *);
+    /**
+     * Default constructor
+     */
+    InteractorParallelCoordsSelection(const tlp::PluginContext *);
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override;
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override;
 };
 
 /** \brief Parallel coordinates interactor to highlite elements
@@ -62,19 +62,19 @@ public:
  */
 class InteractorHighLighter : public ParallelCoordinatesInteractor {
 
-public:
-  PLUGININFORMATION("InteractorHighLiter", "Tulip Team", "02/04/2009",
-                    "Element Highliter Interactor", "1.0", "Information")
+  public:
+    PLUGININFORMATION("InteractorHighLiter", "Tulip Team", "02/04/2009",
+                      "Element Highliter Interactor", "1.0", "Information")
 
-  /**
-   * Default constructor
-   */
-  InteractorHighLighter(const tlp::PluginContext *);
+    /**
+     * Default constructor
+     */
+    InteractorHighLighter(const tlp::PluginContext *);
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override;
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override;
 };
 
 /** \brief Parallel coordinates interactor to swap axis
@@ -82,19 +82,19 @@ public:
  */
 class InteractorAxisSwapper : public ParallelCoordinatesInteractor {
 
-public:
-  PLUGININFORMATION("InteractorAxisSwapper", "Tulip Team", "02/04/2009", "Axis Swap Interactor",
-                    "1.0", "Modification")
+  public:
+    PLUGININFORMATION("InteractorAxisSwapper", "Tulip Team", "02/04/2009", "Axis Swap Interactor",
+                      "1.0", "Modification")
 
-  /**
-   * Default constructor
-   */
-  InteractorAxisSwapper(const tlp::PluginContext *);
+    /**
+     * Default constructor
+     */
+    InteractorAxisSwapper(const tlp::PluginContext *);
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override;
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override;
 };
 
 /** \brief Parallel coordinates interactor to have sliders on axis
@@ -103,37 +103,37 @@ public:
 
 class AxisSliderOptions : public QWidget {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::AxisSlidersOptions *_ui;
+    Ui::AxisSlidersOptions *_ui;
 
-public:
-  AxisSliderOptions(QWidget *parent = nullptr);
-  ~AxisSliderOptions();
+  public:
+    AxisSliderOptions(QWidget *parent = nullptr);
+    ~AxisSliderOptions();
 
-signals:
-  void resetSliders();
+  signals:
+    void resetSliders();
 };
 
 class InteractorAxisSliders : public ParallelCoordinatesInteractor {
 
-  AxisSliderOptions *configwidget;
+    AxisSliderOptions *configwidget;
 
-public:
-  PLUGININFORMATION("InteractorAxisSliders", "Tulip Team", "02/04/2009", "Axis Sliders Interactor",
-                    "1.0", "Modification")
+  public:
+    PLUGININFORMATION("InteractorAxisSliders", "Tulip Team", "02/04/2009",
+                      "Axis Sliders Interactor", "1.0", "Modification")
 
-  /**
-   * Default constructor
-   */
-  InteractorAxisSliders(const tlp::PluginContext *);
-  ~InteractorAxisSliders();
+    /**
+     * Default constructor
+     */
+    InteractorAxisSliders(const tlp::PluginContext *);
+    ~InteractorAxisSliders();
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override;
-  virtual QWidget *configurationWidget() const override;
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override;
+    virtual QWidget *configurationWidget() const override;
 };
 
 /** \brief Parallel coordinates interactor to have boxplot
@@ -141,19 +141,19 @@ public:
  */
 class InteractorBoxPlot : public ParallelCoordinatesInteractor {
 
-public:
-  PLUGININFORMATION("InteractorBoxPlot", "Tulip Team", "02/04/2009", "Box Plot Interactor", "1.0",
-                    "Information")
+  public:
+    PLUGININFORMATION("InteractorBoxPlot", "Tulip Team", "02/04/2009", "Box Plot Interactor", "1.0",
+                      "Information")
 
-  /**
-   * Default constructor
-   */
-  InteractorBoxPlot(const tlp::PluginContext *);
+    /**
+     * Default constructor
+     */
+    InteractorBoxPlot(const tlp::PluginContext *);
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override;
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override;
 };
 
 /** \brief Parallel coordinates interactor to show element properties when clicking on it
@@ -161,19 +161,19 @@ public:
  */
 class InteractorShowElementInfo : public ParallelCoordinatesInteractor {
 
-public:
-  PLUGININFORMATION("InteractorShowElementInfo", "Tulip Team", "02/04/2009",
-                    "Show Element Info Interactor", "1.0", "Information")
+  public:
+    PLUGININFORMATION("InteractorShowElementInfo", "Tulip Team", "02/04/2009",
+                      "Show Element Info Interactor", "1.0", "Information")
 
-  /**
-   * Default constructor
-   */
-  InteractorShowElementInfo(const tlp::PluginContext *);
+    /**
+     * Default constructor
+     */
+    InteractorShowElementInfo(const tlp::PluginContext *);
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override;
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override;
 };
 
 /** \brief Parallel coordinates interactor to modify space between two consecutive axis by using the
@@ -182,19 +182,19 @@ public:
  */
 class InteractorAxisSpacer : public ParallelCoordinatesInteractor {
 
-public:
-  PLUGININFORMATION("InteractorAxisSpacer", "Tulip Team", "02/04/2009", "Axis Spacer Interactor",
-                    "1.0", "Modification")
+  public:
+    PLUGININFORMATION("InteractorAxisSpacer", "Tulip Team", "02/04/2009", "Axis Spacer Interactor",
+                      "1.0", "Modification")
 
-  /**
-   * Default constructor
-   */
-  InteractorAxisSpacer(const tlp::PluginContext *);
+    /**
+     * Default constructor
+     */
+    InteractorAxisSpacer(const tlp::PluginContext *);
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override;
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override;
 };
 }
 

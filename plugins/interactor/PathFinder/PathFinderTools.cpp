@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,35 +21,35 @@ using namespace std;
 namespace tlp {
 // Computes the enclosing circle of the elements contained in a boolean property.
 Circlef getEnclosingCircle(GlGraphInputData *inputData, BooleanProperty *selection) {
-  BoundingBox bbox(computeBoundingBox(inputData->graph(), inputData->layout(), inputData->sizes(),
-                                      inputData->rotations(), selection));
-  Coord center = bbox.center();
-  float norm = (bbox[1] - bbox[0]).norm();
-  Circlef result;
-  result[0] = center.getX();
-  result[1] = center.getY();
-  result.radius = norm;
-  return result;
+    BoundingBox bbox(computeBoundingBox(inputData->graph(), inputData->layout(), inputData->sizes(),
+                                        inputData->rotations(), selection));
+    Coord center = bbox.center();
+    float norm = (bbox[1] - bbox[0]).norm();
+    Circlef result;
+    result[0] = center.getX();
+    result[1] = center.getY();
+    result.radius = norm;
+    return result;
 }
 
 bool getNodeEnclosingCircle(Circlef &circle, GlGraphInputData *inputData, node n) {
-  auto *selection = new BooleanProperty(inputData->graph());
-  selection->setAllNodeValue(false);
-  selection->setNodeValue(n, true);
-  circle = getEnclosingCircle(inputData, selection);
-  return true;
+    auto *selection = new BooleanProperty(inputData->graph());
+    selection->setAllNodeValue(false);
+    selection->setNodeValue(n, true);
+    circle = getEnclosingCircle(inputData, selection);
+    return true;
 }
 
 bool getEdgeEnclosingCircle(Circlef &circle, GlGraphInputData *inputData, edge e) {
-  auto *selection = new BooleanProperty(inputData->graph());
-  selection->setAllEdgeValue(false);
-  selection->setEdgeValue(e, true);
+    auto *selection = new BooleanProperty(inputData->graph());
+    selection->setAllEdgeValue(false);
+    selection->setEdgeValue(e, true);
 
-  if (inputData->layout()->getEdgeValue(e).empty()) {
-    return false;
-  }
+    if (inputData->layout()->getEdgeValue(e).empty()) {
+        return false;
+    }
 
-  circle = getEnclosingCircle(inputData, selection);
-  return true;
+    circle = getEnclosingCircle(inputData, selection);
+    return true;
 }
 }

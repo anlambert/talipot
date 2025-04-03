@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,24 +23,24 @@ using namespace std;
 using namespace tlp;
 
 Random::Random(const tlp::PluginContext *context) : LayoutAlgorithm(context) {
-  addInParameter<bool>("3D layout", paramHelp[0].data(), "false");
+    addInParameter<bool>("3D layout", paramHelp[0].data(), "false");
 }
 
 bool Random::run() {
-  bool is3D = false;
+    bool is3D = false;
 
-  if (dataSet != nullptr) {
-    dataSet->get("3D layout", is3D);
-  }
+    if (dataSet != nullptr) {
+        dataSet->get("3D layout", is3D);
+    }
 
-  result->setAllEdgeValue(vector<Coord>(0));
-  // initialize a random sequence according the given seed
-  tlp::initRandomSequence();
+    result->setAllEdgeValue(vector<Coord>(0));
+    // initialize a random sequence according the given seed
+    tlp::initRandomSequence();
 
-  for (auto n : graph->nodes()) {
-    result->setNodeValue(
-        n, Coord(randomNumber(1024), randomNumber(1024), is3D ? randomNumber(1024) : 0));
-  }
+    for (auto n : graph->nodes()) {
+        result->setNodeValue(
+            n, Coord(randomNumber(1024), randomNumber(1024), is3D ? randomNumber(1024) : 0));
+    }
 
-  return true;
+    return true;
 }

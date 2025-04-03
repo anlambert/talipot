@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,24 +23,24 @@ namespace tlp {
 template <typename TYPE>
 class BmdLink {
 
-  friend class BmdList<TYPE>;
-  friend class BmdListTest<TYPE>;
+    friend class BmdList<TYPE>;
+    friend class BmdListTest<TYPE>;
 
-public:
-  TYPE getData() {
-    return data;
-  }
-  BmdLink *prev() {
-    return pre;
-  }
-  BmdLink *succ() {
-    return suc;
-  }
-  // protected:
-  TYPE data;
-  BmdLink *pre;
-  BmdLink *suc;
-  BmdLink(TYPE a, BmdLink<TYPE> *pre, BmdLink<TYPE> *suc);
+  public:
+    TYPE getData() {
+        return data;
+    }
+    BmdLink *prev() {
+        return pre;
+    }
+    BmdLink *succ() {
+        return suc;
+    }
+    // protected:
+    TYPE data;
+    BmdLink *pre;
+    BmdLink *suc;
+    BmdLink(TYPE a, BmdLink<TYPE> *pre, BmdLink<TYPE> *suc);
 };
 }
 #include <talipot/cxx/BmdLink.cxx>

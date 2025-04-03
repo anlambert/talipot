@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -44,119 +44,119 @@ class GlGraphRenderer;
  */
 class TLP_GL_SCOPE GlGraph : public GlComposite, public Observable {
 
-public:
-  /**
-   * @brief Build a GlGraph with the graph data
-   *
-   * You can specify a GlGraphRenderer, if you don't do this a GlGraphHighDetailsRenderer will be
-   * used to display the graph
-   */
-  GlGraph(Graph *graph, GlGraphRenderer *graphRenderer = nullptr);
+  public:
+    /**
+     * @brief Build a GlGraph with the graph data
+     *
+     * You can specify a GlGraphRenderer, if you don't do this a GlGraphHighDetailsRenderer will be
+     * used to display the graph
+     */
+    GlGraph(Graph *graph, GlGraphRenderer *graphRenderer = nullptr);
 
-  /**
-   * @brief Build a GlGraph with the graph data
-   *
-   * Is better to use the other one constructor
-   *
-   * This graph composite is associated to the scene passed in parameter
-   */
-  GlGraph(Graph *graph, GlScene *scene);
+    /**
+     * @brief Build a GlGraph with the graph data
+     *
+     * Is better to use the other one constructor
+     *
+     * This graph composite is associated to the scene passed in parameter
+     */
+    GlGraph(Graph *graph, GlScene *scene);
 
-  /**
-   * @brief Destructor
-   */
-  ~GlGraph() override;
+    /**
+     * @brief Destructor
+     */
+    ~GlGraph() override;
 
-  /**
-   * @brief Return a copy of rendering parameters used for rendering
-   *
-   */
-  const GlGraphRenderingParameters &renderingParameters() const;
-  GlGraphRenderingParameters &renderingParameters();
-  /**
-   * @brief Set the rendering parameters used for rendering
-   */
-  void setRenderingParameters(const GlGraphRenderingParameters &parameter);
+    /**
+     * @brief Return a copy of rendering parameters used for rendering
+     *
+     */
+    const GlGraphRenderingParameters &renderingParameters() const;
+    GlGraphRenderingParameters &renderingParameters();
+    /**
+     * @brief Set the rendering parameters used for rendering
+     */
+    void setRenderingParameters(const GlGraphRenderingParameters &parameter);
 
-  /**
-   * @brief Return the inputData use by the composite
-   *
-   * In GlGraphInputData you have properties used to render the graph
-   */
-  GlGraphInputData *inputData() const;
+    /**
+     * @brief Return the inputData use by the composite
+     *
+     * In GlGraphInputData you have properties used to render the graph
+     */
+    GlGraphInputData *inputData() const;
 
-  /**
-   * @brief Return the graph used by this GlGraph
-   */
-  Graph *graph() {
-    return _inputData.graph();
-  }
-
-  /**
-   * Function used to visit composite's children
-   */
-  void acceptVisitor(GlSceneVisitor *visitor) override;
-  /**
-   * You have to use this function if you want to visit nodes/edges of the graph composite
-   */
-  virtual void acceptVisitorOnGraph(GlSceneVisitor *visitor);
-
-  void draw(float lod, Camera *camera) override;
-
-  virtual void selectEntities(Camera *camera, RenderingEntitiesFlag type, int x, int y, int w,
-                              int h, std::vector<SelectedEntity> &selectedEntities);
-
-  /**
-   * Return set of metaNodes
-   */
-  std::set<node> &getMetaNodes() {
-    if (nodesModified) {
-      metaNodes.clear();
-
-      Graph *graph = _inputData.graph();
-
-      for (auto n : graph->nodes()) {
-        if (graph->getNodeMetaInfo(n)) {
-          metaNodes.insert(n);
-        }
-      }
-      nodesModified = false;
+    /**
+     * @brief Return the graph used by this GlGraph
+     */
+    Graph *graph() {
+        return _inputData.graph();
     }
 
-    return metaNodes;
-  }
+    /**
+     * Function used to visit composite's children
+     */
+    void acceptVisitor(GlSceneVisitor *visitor) override;
+    /**
+     * You have to use this function if you want to visit nodes/edges of the graph composite
+     */
+    virtual void acceptVisitorOnGraph(GlSceneVisitor *visitor);
 
-  GlGraphRenderer *getRenderer() {
-    return graphRenderer;
-  }
+    void draw(float lod, Camera *camera) override;
 
-  /**
-   * @brief setRenderer Delete the old renderer and replace it by the new one. If the new renderer
-   * is equal to nullptr create a GlGraphHighDetailsRenderer.
-   */
-  void setRenderer(tlp::GlGraphRenderer *);
+    virtual void selectEntities(Camera *camera, RenderingEntitiesFlag type, int x, int y, int w,
+                                int h, std::vector<SelectedEntity> &selectedEntities);
 
-  /**
-   * @brief Function to export data in outString (in XML format)
-   */
-  void getXML(std::string &outString) override;
+    /**
+     * Return set of metaNodes
+     */
+    std::set<node> &getMetaNodes() {
+        if (nodesModified) {
+            metaNodes.clear();
 
-  /**
-   * @brief Function to set data with inString (in XML format)
-   */
-  void setWithXML(const std::string &inString, uint &currentPosition) override;
+            Graph *graph = _inputData.graph();
 
-protected:
-  void treatEvent(const Event &evt) override;
+            for (auto n : graph->nodes()) {
+                if (graph->getNodeMetaInfo(n)) {
+                    metaNodes.insert(n);
+                }
+            }
+            nodesModified = false;
+        }
 
-  GlGraphRenderingParameters parameters;
-  GlGraphInputData _inputData;
-  Graph *rootGraph;
+        return metaNodes;
+    }
 
-  GlGraphRenderer *graphRenderer;
+    GlGraphRenderer *getRenderer() {
+        return graphRenderer;
+    }
 
-  bool nodesModified;
-  std::set<node> metaNodes;
+    /**
+     * @brief setRenderer Delete the old renderer and replace it by the new one. If the new renderer
+     * is equal to nullptr create a GlGraphHighDetailsRenderer.
+     */
+    void setRenderer(tlp::GlGraphRenderer *);
+
+    /**
+     * @brief Function to export data in outString (in XML format)
+     */
+    void getXML(std::string &outString) override;
+
+    /**
+     * @brief Function to set data with inString (in XML format)
+     */
+    void setWithXML(const std::string &inString, uint &currentPosition) override;
+
+  protected:
+    void treatEvent(const Event &evt) override;
+
+    GlGraphRenderingParameters parameters;
+    GlGraphInputData _inputData;
+    Graph *rootGraph;
+
+    GlGraphRenderer *graphRenderer;
+
+    bool nodesModified;
+    std::set<node> metaNodes;
 };
 }
 

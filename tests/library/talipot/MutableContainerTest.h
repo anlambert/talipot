@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,26 +23,26 @@
 
 namespace tlp {
 class MutableContainerTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(MutableContainerTest);
-  CPPUNIT_TEST(testSetAll);
-  CPPUNIT_TEST(testSetGet);
-  CPPUNIT_TEST(testFindAll);
-  CPPUNIT_TEST(testCompression);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(MutableContainerTest);
+    CPPUNIT_TEST(testSetAll);
+    CPPUNIT_TEST(testSetGet);
+    CPPUNIT_TEST(testFindAll);
+    CPPUNIT_TEST(testCompression);
+    CPPUNIT_TEST_SUITE_END();
 
-private:
-  tlp::MutableContainer<bool> *mutBool;
-  tlp::MutableContainer<double> *mutDouble;
-  tlp::MutableContainer<std::string> *mutString;
-  static const uint NBTEST = 1000;
+  private:
+    tlp::MutableContainer<bool> *mutBool;
+    tlp::MutableContainer<double> *mutDouble;
+    tlp::MutableContainer<std::string> *mutString;
+    static const uint NBTEST = 1000;
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testSetAll();
-  void testSetGet();
-  void testFindAll();
-  void testCompression();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testSetAll();
+    void testSetGet();
+    void testFindAll();
+    void testCompression();
 };
 }
 #endif // MUTABLE_CONTAINER_TEST_H

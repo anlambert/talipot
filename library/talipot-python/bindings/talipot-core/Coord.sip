@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,25 +21,25 @@ class Coord : tlp::Vec3f /TypeHint="tlp.Coord"/ {
 %ConvertToTypeCode
 
 if (sipIsErr == NULL) {
-  if (sipCanConvertToType(sipPy, sipFindType("tlp::Coord"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
-    return 1;
-  }
-  if (isTupleAndCanConvertToVec3fType(sipPy)) {
-    return 1;
-  }
-  return 0;
+    if (sipCanConvertToType(sipPy, sipFindType("tlp::Coord"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
+        return 1;
+    }
+    if (isTupleAndCanConvertToVec3fType(sipPy)) {
+        return 1;
+    }
+    return 0;
 }
 
 int state = 0, err = 0;
 
 if (sipCanConvertToType(sipPy, sipFindType("tlp::Coord"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
-  const sipTypeDef *sipType = sipFindType("tlp::Coord");
-  tlp::Coord *ps = static_cast<tlp::Coord *>(
-      sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
-  *sipCppPtr = new tlp::Coord(*ps);
-  sipReleaseType(ps, sipType, state);
+    const sipTypeDef *sipType = sipFindType("tlp::Coord");
+    tlp::Coord *ps = static_cast<tlp::Coord *>(
+        sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
+    *sipCppPtr = new tlp::Coord(*ps);
+    sipReleaseType(ps, sipType, state);
 } else {
-  *sipCppPtr = convertToVec3fType<tlp::Coord>(sipPy, 1);
+    *sipCppPtr = convertToVec3fType<tlp::Coord>(sipPy, 1);
 }
 return sipGetState(sipTransferObj);
 %End

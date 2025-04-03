@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,32 +29,32 @@ class PanelSelectionWizard;
 }
 
 class PanelSelectionWizard : public QWizard {
-  Q_OBJECT
+    Q_OBJECT
 
-  QWizardPage *_placeHolder;
-  Ui::PanelSelectionWizard *_ui;
-  tlp::GraphHierarchiesModel *_model;
-  tlp::View *_view;
-  QString _currentItem;
+    QWizardPage *_placeHolder;
+    Ui::PanelSelectionWizard *_ui;
+    tlp::GraphHierarchiesModel *_model;
+    tlp::View *_view;
+    QString _currentItem;
 
-  void createView();
-  void clearView();
+    void createView();
+    void clearView();
 
-public:
-  explicit PanelSelectionWizard(tlp::GraphHierarchiesModel *model, QWidget *parent = nullptr);
-  ~PanelSelectionWizard() override;
+  public:
+    explicit PanelSelectionWizard(tlp::GraphHierarchiesModel *model, QWidget *parent = nullptr);
+    ~PanelSelectionWizard() override;
 
-  tlp::Graph *graph() const;
-  QString panelName() const;
-  tlp::View *panel() const;
-  void setSelectedGraph(tlp::Graph *);
+    tlp::Graph *graph() const;
+    QString panelName() const;
+    tlp::View *panel() const;
+    void setSelectedGraph(tlp::Graph *);
 
-protected slots:
-  void pageChanged(int);
-  void panelSelected(const QModelIndex &index);
+  protected slots:
+    void pageChanged(int);
+    void panelSelected(const QModelIndex &index);
 
-protected:
-  void done(int result) override;
+  protected:
+    void done(int result) override;
 };
 
 #endif // PANEL_SELECTION_WIZARD_H

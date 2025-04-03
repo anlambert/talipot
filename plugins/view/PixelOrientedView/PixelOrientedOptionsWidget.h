@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,26 +26,26 @@ namespace tlp {
 
 class PixelOrientedOptionsWidget : public QWidget {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::PixelOrientedOptionsWidget *_ui;
+    Ui::PixelOrientedOptionsWidget *_ui;
 
-public:
-  PixelOrientedOptionsWidget(QWidget *parent = nullptr);
-  ~PixelOrientedOptionsWidget() override;
+  public:
+    PixelOrientedOptionsWidget(QWidget *parent = nullptr);
+    ~PixelOrientedOptionsWidget() override;
 
-  Color getBackgroundColor() const;
-  void setBackgroundColor(const Color &color);
+    Color getBackgroundColor() const;
+    void setBackgroundColor(const Color &color);
 
-  std::string getLayoutType() const;
-  void setLayoutType(const std::string &layoutType);
+    std::string getLayoutType() const;
+    void setLayoutType(const std::string &layoutType);
 
-  bool configurationChanged();
+    bool configurationChanged();
 
-private:
-  bool oldValuesInitialized;
-  Color oldBackgroundColor;
-  std::string oldLayoutType;
+  private:
+    bool oldValuesInitialized;
+    Color oldBackgroundColor;
+    std::string oldLayoutType;
 };
 }
 #endif // PIXEL_ORIENTED_OPTIONS_WIDGET_H

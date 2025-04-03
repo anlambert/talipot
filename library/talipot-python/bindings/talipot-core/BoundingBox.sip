@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -194,20 +194,20 @@ result is always :const:`False`.
   tlp::Coord& operator[](const uint i) const /NoCopy/;
 %MethodCode
 if (a0 < 2) {
-  sipRes = &(*sipCpp)[a0];
+    sipRes = &(*sipCpp)[a0];
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 
   void __setitem__(int i, const tlp::Coord &value);
 %MethodCode
 if (a0 < 2) {
-  (*sipCpp)[a0] = *a1;
+    (*sipCpp)[a0] = *a1;
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 
@@ -217,11 +217,11 @@ std::ostringstream oss;
 oss << *sipCpp;
 std::string s = oss.str();
 for (size_t i = 0; i < s.length(); ++i) {
-  if (s[i] == '(') {
-    s[i] = '[';
-  } else if (s[i] == ')') {
-    s[i] = ']';
-  }
+    if (s[i] == '(') {
+        s[i] = '[';
+    } else if (s[i] == ')') {
+        s[i] = ']';
+    }
 }
 sipRes = new std::string(s);
 %End

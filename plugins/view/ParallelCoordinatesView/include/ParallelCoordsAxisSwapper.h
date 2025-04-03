@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,23 +24,23 @@ class ParallelCoordinatesView;
 
 class ParallelCoordsAxisSwapper : public GLInteractorComponent {
 
-public:
-  ParallelCoordsAxisSwapper();
-  ~ParallelCoordsAxisSwapper() override;
-  bool eventFilter(QObject *, QEvent *) override;
-  bool draw(GlWidget *glWidget) override;
-  void viewChanged(View *view) override;
+  public:
+    ParallelCoordsAxisSwapper();
+    ~ParallelCoordsAxisSwapper() override;
+    bool eventFilter(QObject *, QEvent *) override;
+    bool draw(GlWidget *glWidget) override;
+    void viewChanged(View *view) override;
 
-private:
-  ParallelCoordinatesView *parallelView;
-  ParallelAxis *selectedAxis;
-  ParallelAxis *otherAxisToSwap;
-  Coord initialSelectedAxisCoord;
-  float initialSelectedAxisRotAngle;
-  bool dragStarted;
-  int x, y;
-  bool mouseMove;
-  bool axisSwapStarted;
+  private:
+    ParallelCoordinatesView *parallelView;
+    ParallelAxis *selectedAxis;
+    ParallelAxis *otherAxisToSwap;
+    Coord initialSelectedAxisCoord;
+    float initialSelectedAxisRotAngle;
+    bool dragStarted;
+    int x, y;
+    bool mouseMove;
+    bool axisSwapStarted;
 };
 }
 

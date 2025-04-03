@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -73,76 +73,77 @@ static const char *rootSelectionValuesDescription =
 
 class OGDFTree : public tlp::OGDFLayoutPluginBase {
 
-public:
-  PLUGININFORMATION("Improved Walker (OGDF)", "Christoph Buchheim", "12/11/2007",
-                    "Implements a linear-time tree layout algorithm with straight-line or "
-                    "orthogonal edge routing.",
-                    "1.5", "Tree")
-  OGDFTree(const tlp::PluginContext *context)
-      : OGDFLayoutPluginBase(context, tlp::getOGDFLayoutModule<ogdf::TreeLayout>(context)) {
-    addInParameter<double>("siblings distance", paramHelp[0].data(), "20");
-    addInParameter<double>("subtrees distance", paramHelp[1].data(), "20");
-    addInParameter<double>("levels distance", paramHelp[2].data(), "50");
-    addInParameter<double>("trees distance", paramHelp[3].data(), "50");
-    addInParameter<bool>("orthogonal layout", paramHelp[4].data(), "false");
-    addInParameter<tlp::StringCollection>(ELT_ORIENTATION, paramHelp[5].data(), ELT_ORIENTATIONLIST,
-                                          true, orientationValuesDescription);
-    addInParameter<tlp::StringCollection>(ELT_ROOTSELECTION, paramHelp[6].data(),
-                                          ELT_ROOTSELECTIONLIST, true,
-                                          rootSelectionValuesDescription);
-  }
-
-  void beforeCall() override {
-    auto *tree = static_cast<ogdf::TreeLayout *>(ogdfLayoutAlgo);
-
-    if (dataSet != nullptr) {
-      double dval = 0;
-      bool bval = false;
-      tlp::StringCollection sc;
-
-      if (dataSet->get("siblings distance", dval)) {
-        tree->siblingDistance(dval);
-      }
-
-      if (dataSet->get("subtrees distance", dval)) {
-        tree->subtreeDistance(dval);
-      }
-
-      if (dataSet->get("levels distance", dval)) {
-        tree->levelDistance(dval);
-      }
-
-      if (dataSet->get("trees distance", dval)) {
-        tree->treeDistance(dval);
-      }
-
-      if (dataSet->get("orthogonal layout", bval)) {
-        tree->orthogonalLayout(bval);
-      }
-
-      if (dataSet->get(ELT_ORIENTATION, sc)) {
-        tree->orientation(orientation[sc.getCurrent()]);
-      }
-
-      if (dataSet->get(ELT_ROOTSELECTION, sc)) {
-        tree->rootSelection(rootSelection[sc.getCurrent()]);
-      }
+  public:
+    PLUGININFORMATION("Improved Walker (OGDF)", "Christoph Buchheim", "12/11/2007",
+                      "Implements a linear-time tree layout algorithm with straight-line or "
+                      "orthogonal edge routing.",
+                      "1.5", "Tree")
+    OGDFTree(const tlp::PluginContext *context)
+        : OGDFLayoutPluginBase(context, tlp::getOGDFLayoutModule<ogdf::TreeLayout>(context)) {
+        addInParameter<double>("siblings distance", paramHelp[0].data(), "20");
+        addInParameter<double>("subtrees distance", paramHelp[1].data(), "20");
+        addInParameter<double>("levels distance", paramHelp[2].data(), "50");
+        addInParameter<double>("trees distance", paramHelp[3].data(), "50");
+        addInParameter<bool>("orthogonal layout", paramHelp[4].data(), "false");
+        addInParameter<tlp::StringCollection>(ELT_ORIENTATION, paramHelp[5].data(),
+                                              ELT_ORIENTATIONLIST, true,
+                                              orientationValuesDescription);
+        addInParameter<tlp::StringCollection>(ELT_ROOTSELECTION, paramHelp[6].data(),
+                                              ELT_ROOTSELECTIONLIST, true,
+                                              rootSelectionValuesDescription);
     }
-  }
 
-  bool check(string &errorMsg) {
-    auto connectedComponents = tlp::ConnectedTest::computeConnectedComponents(graph);
-    for (const auto &connectedComponent : connectedComponents) {
-      auto *sg = graph->inducedSubGraph(connectedComponent);
-      if (!tlp::TreeTest::isTree(sg)) {
-        graph->delSubGraph(sg);
-        errorMsg = "Each connected component must be a tree.";
-        return false;
-      }
-      graph->delSubGraph(sg);
+    void beforeCall() override {
+        auto *tree = static_cast<ogdf::TreeLayout *>(ogdfLayoutAlgo);
+
+        if (dataSet != nullptr) {
+            double dval = 0;
+            bool bval = false;
+            tlp::StringCollection sc;
+
+            if (dataSet->get("siblings distance", dval)) {
+                tree->siblingDistance(dval);
+            }
+
+            if (dataSet->get("subtrees distance", dval)) {
+                tree->subtreeDistance(dval);
+            }
+
+            if (dataSet->get("levels distance", dval)) {
+                tree->levelDistance(dval);
+            }
+
+            if (dataSet->get("trees distance", dval)) {
+                tree->treeDistance(dval);
+            }
+
+            if (dataSet->get("orthogonal layout", bval)) {
+                tree->orthogonalLayout(bval);
+            }
+
+            if (dataSet->get(ELT_ORIENTATION, sc)) {
+                tree->orientation(orientation[sc.getCurrent()]);
+            }
+
+            if (dataSet->get(ELT_ROOTSELECTION, sc)) {
+                tree->rootSelection(rootSelection[sc.getCurrent()]);
+            }
+        }
     }
-    return true;
-  }
+
+    bool check(string &errorMsg) {
+        auto connectedComponents = tlp::ConnectedTest::computeConnectedComponents(graph);
+        for (const auto &connectedComponent : connectedComponents) {
+            auto *sg = graph->inducedSubGraph(connectedComponent);
+            if (!tlp::TreeTest::isTree(sg)) {
+                graph->delSubGraph(sg);
+                errorMsg = "Each connected component must be a tree.";
+                return false;
+            }
+            graph->delSubGraph(sg);
+        }
+        return true;
+    }
 };
 
 PLUGIN(OGDFTree)

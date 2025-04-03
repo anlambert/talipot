@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,40 +27,40 @@ namespace tlp {
  */
 class TLP_GL_SCOPE GlProgressBar : public GlComposite, public SimplePluginProgress {
 
-public:
-  /**
-   * GlProgressBar constructor
-   * \param centerPosition the position of the center of the frame containing the progress bar
-   * \param width the width of the frame containing the progress bar
-   * \param height the height of the frame containing the progress bar
-   * \param progressBarColor the color of the progress bar
-   * \param commentColor the color of the comment and the frame
-   */
-  GlProgressBar(const Coord &centerPosition, const uint width, const uint height,
-                const Color &progressBarcolor, const Color &commentColor = Color(0, 0, 0));
+  public:
+    /**
+     * GlProgressBar constructor
+     * \param centerPosition the position of the center of the frame containing the progress bar
+     * \param width the width of the frame containing the progress bar
+     * \param height the height of the frame containing the progress bar
+     * \param progressBarColor the color of the progress bar
+     * \param commentColor the color of the comment and the frame
+     */
+    GlProgressBar(const Coord &centerPosition, const uint width, const uint height,
+                  const Color &progressBarcolor, const Color &commentColor = Color(0, 0, 0));
 
-  ~GlProgressBar() override;
+    ~GlProgressBar() override;
 
-  /**
-   * This method allow to set a comment message above the progress bar
-   * \param msg the text of the comment to display
-   */
-  void setComment(const std::string &msg) override {
-    comment = msg;
-  }
+    /**
+     * This method allow to set a comment message above the progress bar
+     * \param msg the text of the comment to display
+     */
+    void setComment(const std::string &msg) override {
+        comment = msg;
+    }
 
-protected:
-  void progress_handler(int step, int max_step) override;
+  protected:
+    void progress_handler(int step, int max_step) override;
 
-private:
-  Color progressBarColor, commentColor;
-  float progressBarMaxWidth, progressBarHeight;
-  float commentWidth, commentHeight;
-  Coord progressBarTLCorner;
-  Coord commentLabelCenter;
+  private:
+    Color progressBarColor, commentColor;
+    float progressBarMaxWidth, progressBarHeight;
+    float commentWidth, commentHeight;
+    Coord progressBarTLCorner;
+    Coord commentLabelCenter;
 
-  uint currentPercent;
-  std::string comment;
+    uint currentPercent;
+    std::string comment;
 };
 }
 #endif // TALIPOT_GL_PROGRESS_BAR_H

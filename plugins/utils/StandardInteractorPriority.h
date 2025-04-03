@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,30 +19,30 @@ namespace tlp {
 // List of standard interactors priorities
 // just insert a new one at the right place
 class StandardInteractorPriority {
-public:
-  enum priority {
-    None = 0,
-    ViewInteractor1,
-    ViewInteractor2,
-    ViewInteractor3,
-    ViewInteractor4,
-    ViewInteractor5,
-    ViewInteractor6,
-    ViewInteractor7,
-    MagnifyingGlass,
-    Fisheye,
-    NeighborhoodHighlighter,
-    ZoomOnRectangle,
-    DeleteElement,
-    EditEdgeBends,
-    AddNodesOrEdges,
-    PathSelection,
-    FreeHandSelection,
-    RectangleSelectionModifier,
-    RectangleSelection,
-    GetInformation,
-    Navigation
-  };
+  public:
+    enum priority {
+        None = 0,
+        ViewInteractor1,
+        ViewInteractor2,
+        ViewInteractor3,
+        ViewInteractor4,
+        ViewInteractor5,
+        ViewInteractor6,
+        ViewInteractor7,
+        MagnifyingGlass,
+        Fisheye,
+        NeighborhoodHighlighter,
+        ZoomOnRectangle,
+        DeleteElement,
+        EditEdgeBends,
+        AddNodesOrEdges,
+        PathSelection,
+        FreeHandSelection,
+        RectangleSelectionModifier,
+        RectangleSelection,
+        GetInformation,
+        Navigation
+    };
 };
 }
 

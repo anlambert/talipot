@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -48,29 +48,30 @@
  */
 class CliqueEnumeration : public tlp::Algorithm {
 
-  void addClique(const std::vector<tlp::node> &);
+    void addClique(const std::vector<tlp::node> &);
 
-  void getDegenerateOrdering(std::vector<tlp::node> &);
-  void getNeighborhood(const tlp::node, std::set<tlp::node> &);
-  tlp::node choosePivot(const std::set<tlp::node> &);
-  void maxCliquePivot(std::set<tlp::node> &, const std::vector<tlp::node> &, std::set<tlp::node> &);
+    void getDegenerateOrdering(std::vector<tlp::node> &);
+    void getNeighborhood(const tlp::node, std::set<tlp::node> &);
+    tlp::node choosePivot(const std::set<tlp::node> &);
+    void maxCliquePivot(std::set<tlp::node> &, const std::vector<tlp::node> &,
+                        std::set<tlp::node> &);
 
-  uint minsize;
-  unsigned cliqueid;
+    uint minsize;
+    unsigned cliqueid;
 
-public:
-  PLUGININFORMATION(
-      "Maximal Cliques Enumeration", "Francois Queyroi", "24/10/2013",
-      "Compute all maximal cliques (or maximal cliques whose size is above a given threshold)"
-      " according to the Eppstein algorithm. See"
-      " Eppstein, Loffler and Strash, "
-      "Listing All Maximal Cliques in Sparse Graphs in Near-optimal Time, "
-      "Experimental Algorithms, Springer, "
-      "2011",
-      "1.0", "Clustering")
+  public:
+    PLUGININFORMATION(
+        "Maximal Cliques Enumeration", "Francois Queyroi", "24/10/2013",
+        "Compute all maximal cliques (or maximal cliques whose size is above a given threshold)"
+        " according to the Eppstein algorithm. See"
+        " Eppstein, Loffler and Strash, "
+        "Listing All Maximal Cliques in Sparse Graphs in Near-optimal Time, "
+        "Experimental Algorithms, Springer, "
+        "2011",
+        "1.0", "Clustering")
 
-  CliqueEnumeration(tlp::PluginContext *);
-  bool run() override;
-  bool check(std::string &) override;
+    CliqueEnumeration(tlp::PluginContext *);
+    bool run() override;
+    bool check(std::string &) override;
 };
 #endif // CLIQUE_ENUMERATION_H

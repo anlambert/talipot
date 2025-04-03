@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,55 +29,55 @@ namespace tlp {
 
 class ProgressWidget : public QWidget {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::ProgressWidget *_ui;
+    Ui::ProgressWidget *_ui;
 
-public:
-  ProgressWidget(QWidget *parent = nullptr);
-  ~ProgressWidget() override;
+  public:
+    ProgressWidget(QWidget *parent = nullptr);
+    ~ProgressWidget() override;
 
-  void setComment(const QString &comment);
+    void setComment(const QString &comment);
 
-  void setProgress(int value, int max);
+    void setProgress(int value, int max);
 
-  bool cancelRequested() const {
-    return cancelClicked;
-  }
+    bool cancelRequested() const {
+        return cancelClicked;
+    }
 
-protected:
-  void showEvent(QShowEvent *event) override;
+  protected:
+    void showEvent(QShowEvent *event) override;
 
-private slots:
+  private slots:
 
-  void cancelButtonClicked();
+    void cancelButtonClicked();
 
-private:
-  bool cancelClicked;
+  private:
+    bool cancelClicked;
 };
 
 class ProgressWidgetGraphicsProxy : public QGraphicsProxyWidget {
 
-public:
-  ProgressWidgetGraphicsProxy();
+  public:
+    ProgressWidgetGraphicsProxy();
 
-  void setComment(const QString &comment);
+    void setComment(const QString &comment);
 
-  void setProgress(int value, int max);
+    void setProgress(int value, int max);
 
-  void setFrameColor(const QColor &frameColor) {
-    this->frameColor = frameColor;
-  }
+    void setFrameColor(const QColor &frameColor) {
+        this->frameColor = frameColor;
+    }
 
-  bool cancelRequested() const;
+    bool cancelRequested() const;
 
-protected:
-  void paintWindowFrame(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                        QWidget *widget = nullptr) override;
+  protected:
+    void paintWindowFrame(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                          QWidget *widget = nullptr) override;
 
-private:
-  ProgressWidget *progressWidget;
-  QColor frameColor;
+  private:
+    ProgressWidget *progressWidget;
+    QColor frameColor;
 };
 }
 

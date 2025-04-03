@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -51,141 +51,141 @@ class GeolocationConfigWidget;
  */
 class GeographicView : public View {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  PLUGININFORMATION(
-      ViewName::GeographicViewName, "Antoine Lambert and Morgan Mathiaut", "06/2012",
-      "<p>The Geographic view allows to visualize a geolocated Talipot graph on top of "
-      "maps or projected on a globe.</p>"
-      "<p>If geographic properties are attached to graph nodes (address or "
-      "latitude/longitude), they are used to layout the nodes on the maps or on the globe.</p>"
-      "<p>An interactor for performing selection on graph elements is also bundled "
-      "with the view.</p>",
-      "3.1", "View")
+    PLUGININFORMATION(
+        ViewName::GeographicViewName, "Antoine Lambert and Morgan Mathiaut", "06/2012",
+        "<p>The Geographic view allows to visualize a geolocated Talipot graph on top of "
+        "maps or projected on a globe.</p>"
+        "<p>If geographic properties are attached to graph nodes (address or "
+        "latitude/longitude), they are used to layout the nodes on the maps or on the globe.</p>"
+        "<p>An interactor for performing selection on graph elements is also bundled "
+        "with the view.</p>",
+        "3.1", "View")
 
-public:
-  enum ViewType {
-    OpenStreetMap = 0,
-    EsriSatellite,
-    EsriTerrain,
-    EsriGrayCanvas,
-    GeoportailPlan,
-    GeoportailSatellite,
-    Google,
-    Bing,
-    CustomTilesLayer,
-    Polygon,
-    Globe
-  };
+  public:
+    enum ViewType {
+        OpenStreetMap = 0,
+        EsriSatellite,
+        EsriTerrain,
+        EsriGrayCanvas,
+        GeoportailPlan,
+        GeoportailSatellite,
+        Google,
+        Bing,
+        CustomTilesLayer,
+        Polygon,
+        Globe
+    };
 
-  GeographicView(PluginContext *);
-  ~GeographicView() override;
+    GeographicView(PluginContext *);
+    ~GeographicView() override;
 
-  std::string icon() const override {
-    return ":/talipot/view/geographic/geographic_view.png";
-  }
+    std::string icon() const override {
+        return ":/talipot/view/geographic/geographic_view.png";
+    }
 
-  void setupUi() override;
+    void setupUi() override;
 
-  QPixmap snapshot(const QSize &) const override;
+    QPixmap snapshot(const QSize &) const override;
 
-  void setState(const DataSet &dataSet) override;
-  DataSet state() const override;
+    void setState(const DataSet &dataSet) override;
+    DataSet state() const override;
 
-  QGraphicsView *graphicsView() const override;
+    QGraphicsView *graphicsView() const override;
 
-  QList<QWidget *> configurationWidgets() const override;
+    QList<QWidget *> configurationWidgets() const override;
 
-  QGraphicsItem *centralItem() const override;
+    QGraphicsItem *centralItem() const override;
 
-  void registerTriggers();
+    void registerTriggers();
 
-  ViewType viewType() {
-    return _viewType;
-  }
+    ViewType viewType() {
+        return _viewType;
+    }
 
-  // inherited from View
-  void centerView(bool) override {
-    // call the Qt slot declared below
-    centerView();
-  }
+    // inherited from View
+    void centerView(bool) override {
+        // call the Qt slot declared below
+        centerView();
+    }
 
-  GeographicViewGraphicsView *getGeographicViewGraphicsView() const {
-    return geoViewGraphicsView;
-  }
+    GeographicViewGraphicsView *getGeographicViewGraphicsView() const {
+        return geoViewGraphicsView;
+    }
 
-  bool getNodeOrEdgeAtViewportPos(int x, int y, node &n, edge &e) const override;
+    bool getNodeOrEdgeAtViewportPos(int x, int y, node &n, edge &e) const override;
 
-  GeographicViewConfigWidget *getConfigWidget() const {
-    return geoViewConfigWidget;
-  }
+    GeographicViewConfigWidget *getConfigWidget() const {
+        return geoViewConfigWidget;
+    }
 
-  static ViewType getViewTypeFromName(const QString &name);
+    static ViewType getViewTypeFromName(const QString &name);
 
-  static QString getViewNameFromType(ViewType viewType);
+    static QString getViewNameFromType(ViewType viewType);
 
-  static QList<ViewType> getViewTypes();
+    static QList<ViewType> getViewTypes();
 
-public slots:
+  public slots:
 
-  void computeGeoLayout();
+    void computeGeoLayout();
 
-  void draw() override;
+    void draw() override;
 
-  void refresh() override;
+    void refresh() override;
 
-  void graphChanged(Graph *) override;
+    void graphChanged(Graph *) override;
 
-  void graphDeleted(tlp::Graph *) override {}
+    void graphDeleted(tlp::Graph *) override {}
 
-  void applySettings() override;
+    void applySettings() override;
 
-  void updateSharedProperties();
+    void updateSharedProperties();
 
-  void currentInteractorChanged(tlp::Interactor *i) override;
+    void currentInteractorChanged(tlp::Interactor *i) override;
 
-  void mapToPolygon();
+    void mapToPolygon();
 
-  void centerView();
+    void centerView();
 
-  void viewTypeChanged(int);
+    void viewTypeChanged(int);
 
-  void zoomIn();
-  void zoomOut();
+    void zoomIn();
+    void zoomOut();
 
-protected slots:
+  protected slots:
 
-  void fillContextMenu(QMenu *, const QPointF &) override;
+    void fillContextMenu(QMenu *, const QPointF &) override;
 
-private:
-  void viewTypeChanged(const QString &viewTypeName);
+  private:
+    void viewTypeChanged(const QString &viewTypeName);
 
-  void updatePoly(bool force = false);
+    void updatePoly(bool force = false);
 
-  void loadStoredPolyInformation(const DataSet &dataset);
+    void loadStoredPolyInformation(const DataSet &dataset);
 
-  void saveStoredPolyInformation(DataSet &dataset) const;
+    void saveStoredPolyInformation(DataSet &dataset) const;
 
-  GeographicViewGraphicsView *geoViewGraphicsView;
-  GeographicViewConfigWidget *geoViewConfigWidget;
-  GeolocationConfigWidget *geolocationConfigWidget;
-  SceneConfigWidget *sceneConfigurationWidget;
-  SceneLayersConfigWidget *sceneLayersConfigurationWidget;
+    GeographicViewGraphicsView *geoViewGraphicsView;
+    GeographicViewConfigWidget *geoViewConfigWidget;
+    GeolocationConfigWidget *geolocationConfigWidget;
+    SceneConfigWidget *sceneConfigurationWidget;
+    SceneLayersConfigWidget *sceneLayersConfigurationWidget;
 
-  QAction *centerViewAction;
-  QAction *showConfPanelAction;
+    QAction *centerViewAction;
+    QAction *showConfPanelAction;
 
-  ViewType _viewType;
+    ViewType _viewType;
 
-  bool useSharedLayoutProperty;
-  bool useSharedSizeProperty;
-  bool useSharedShapeProperty;
+    bool useSharedLayoutProperty;
+    bool useSharedSizeProperty;
+    bool useSharedShapeProperty;
 
-  ViewActionsManager *_viewActionsManager;
+    ViewActionsManager *_viewActionsManager;
 
-  bool mapScaleVisible;
+    bool mapScaleVisible;
 
-  static const QMap<ViewType, QString> viewTypeToName;
+    static const QMap<ViewType, QString> viewTypeToName;
 };
 }
 

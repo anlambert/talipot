@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,11 +29,11 @@ static const std::string PROPERTY_ALGORITHM_CATEGORY = "Property";
  * @see tlp::TemplateAlgorithm
  **/
 class TLP_SCOPE PropertyAlgorithm : public tlp::Algorithm {
-public:
-  PropertyAlgorithm(const tlp::PluginContext *context) : Algorithm(context) {}
-  std::string category() const override {
-    return PROPERTY_ALGORITHM_CATEGORY;
-  }
+  public:
+    PropertyAlgorithm(const tlp::PluginContext *context) : Algorithm(context) {}
+    std::string category() const override {
+        return PROPERTY_ALGORITHM_CATEGORY;
+    }
 };
 
 /**
@@ -60,28 +60,28 @@ public:
  */
 template <class Property>
 class TLP_SCOPE TemplateAlgorithm : public PropertyAlgorithm {
-public:
-  Property *result;
-  TemplateAlgorithm(const tlp::PluginContext *context)
-      : tlp::PropertyAlgorithm(context), result(nullptr) {
-    if (dataSet != nullptr) {
-      if (!dataSet->exists("result")) {
-        std::stringstream propname;
-        propname << "result";
-        unsigned number = 0;
+  public:
+    Property *result;
+    TemplateAlgorithm(const tlp::PluginContext *context)
+        : tlp::PropertyAlgorithm(context), result(nullptr) {
+        if (dataSet != nullptr) {
+            if (!dataSet->exists("result")) {
+                std::stringstream propname;
+                propname << "result";
+                unsigned number = 0;
 
-        while (graph->existProperty(propname.str())) {
-          propname.clear();
-          propname << "result" << number;
-          ++number;
+                while (graph->existProperty(propname.str())) {
+                    propname.clear();
+                    propname << "result" << number;
+                    ++number;
+                }
+
+                result = graph->getProperty<Property>(propname.str());
+            } else {
+                dataSet->get("result", result);
+            }
         }
-
-        result = graph->getProperty<Property>(propname.str());
-      } else {
-        dataSet->get("result", result);
-      }
     }
-  }
 };
 }
 #endif // TALIPOT_TEMPLATE_ALGORITHM_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,44 +24,44 @@
 template <typename PROPERTYTYPE, typename PROPERTY>
 class NodeMetricPropertyOrderRelation {
 
-public:
-  NodeMetricPropertyOrderRelation(tlp::Graph *graph, const std::string &dimName) {
-    nodeProperty = graph->getProperty<PROPERTY>(dimName);
-  }
+  public:
+    NodeMetricPropertyOrderRelation(tlp::Graph *graph, const std::string &dimName) {
+        nodeProperty = graph->getProperty<PROPERTY>(dimName);
+    }
 
-  bool operator()(tlp::node n1, tlp::node n2) const {
-    REAL_TYPE(PROPERTYTYPE) v1 = nodeProperty->getNodeValue(n1);
-    REAL_TYPE(PROPERTYTYPE) v2 = nodeProperty->getNodeValue(n2);
-    return v1 < v2;
-  }
+    bool operator()(tlp::node n1, tlp::node n2) const {
+        REAL_TYPE(PROPERTYTYPE) v1 = nodeProperty->getNodeValue(n1);
+        REAL_TYPE(PROPERTYTYPE) v2 = nodeProperty->getNodeValue(n2);
+        return v1 < v2;
+    }
 
-private:
-  PROPERTY *nodeProperty;
+  private:
+    PROPERTY *nodeProperty;
 };
 
 class NodeMetricSorter {
 
-public:
-  static NodeMetricSorter *instance(tlp::Graph *graph);
+  public:
+    static NodeMetricSorter *instance(tlp::Graph *graph);
 
-  ~NodeMetricSorter();
+    ~NodeMetricSorter();
 
-  void sortNodesForProperty(const std::string &propertyName);
-  void cleanupSortNodesForProperty(const std::string &propertyName);
-  uint getNbValuesForProperty(const std::string &propertyName);
-  tlp::node getNodeAtRankForProperty(const uint rank, const std::string &propertyName);
-  uint getNodeRankForProperty(tlp::node n, const std::string &propertyName);
+    void sortNodesForProperty(const std::string &propertyName);
+    void cleanupSortNodesForProperty(const std::string &propertyName);
+    uint getNbValuesForProperty(const std::string &propertyName);
+    tlp::node getNodeAtRankForProperty(const uint rank, const std::string &propertyName);
+    uint getNodeRankForProperty(tlp::node n, const std::string &propertyName);
 
-private:
-  NodeMetricSorter(tlp::Graph *graph);
+  private:
+    NodeMetricSorter(tlp::Graph *graph);
 
-  void reset();
+    void reset();
 
-  tlp::Graph *graph;
-  std::map<std::string, std::vector<tlp::node>> nodeSortingMap;
-  std::map<std::string, uint> nbValuesPropertyMap;
+    tlp::Graph *graph;
+    std::map<std::string, std::vector<tlp::node>> nodeSortingMap;
+    std::map<std::string, uint> nbValuesPropertyMap;
 
-  static std::map<tlp::Graph *, NodeMetricSorter *> instances;
+    static std::map<tlp::Graph *, NodeMetricSorter *> instances;
 };
 
 #endif // NODE_METRIC_SORTER_H

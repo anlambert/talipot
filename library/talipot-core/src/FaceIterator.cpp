@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,7 +21,7 @@ using namespace tlp;
 // Iterator for Face : FaceIterator
 //============================================================
 FaceIterator::FaceIterator(PlanarConMap *m) : i(0), mgraph(m) {
-  assert(m);
+    assert(m);
 }
 
 //============================================================
@@ -29,7 +29,7 @@ FaceIterator::FaceIterator(PlanarConMap *m) : i(0), mgraph(m) {
  * return the next element
  */
 Face FaceIterator::next() {
-  return mgraph->faces[i++];
+    return mgraph->faces[i++];
 }
 
 //============================================================
@@ -37,76 +37,76 @@ Face FaceIterator::next() {
  * test if there's a next element
  */
 bool FaceIterator::hasNext() {
-  return (i != mgraph->faces.size());
+    return (i != mgraph->faces.size());
 }
 
 //============================================================
 // Iterator for Face : FaceAdjIterator
 //============================================================
 FaceAdjIterator::FaceAdjIterator(PlanarConMap *m, const node n) : i(0) {
-  assert(m->isElement(n));
-  facesAdj.erase(facesAdj.begin(), facesAdj.end());
-  edge e;
-  Face f_tmp, f_tmp2;
-  Iterator<edge> *ite = m->getInOutEdges(n);
+    assert(m->isElement(n));
+    facesAdj.erase(facesAdj.begin(), facesAdj.end());
+    edge e;
+    Face f_tmp, f_tmp2;
+    Iterator<edge> *ite = m->getInOutEdges(n);
 
-  while (ite->hasNext()) {
-    e = ite->next();
-
-    if (m->edgesFaces.find(e) != m->edgesFaces.end()) {
-      f_tmp = (m->edgesFaces[e])[0];
-      f_tmp2 = (m->edgesFaces[e])[1];
-      break;
-    }
-  }
-
-  if (ite->hasNext()) {
     while (ite->hasNext()) {
-      e = ite->next();
+        e = ite->next();
 
-      if (m->edgesFaces.find(e) != m->edgesFaces.end()) {
-        if (f_tmp == (m->edgesFaces[e])[0]) {
-          facesAdj.push_back(f_tmp);
-          f_tmp = (m->edgesFaces[e])[1];
-          facesAdj.push_back(f_tmp);
-        } else if (f_tmp == (m->edgesFaces[e])[1]) {
-          facesAdj.push_back(f_tmp);
-          f_tmp = (m->edgesFaces[e])[0];
-          facesAdj.push_back(f_tmp);
-        } else if (f_tmp2 == (m->edgesFaces[e])[0]) {
-          facesAdj.push_back(f_tmp2);
-          f_tmp = (m->edgesFaces[e])[1];
-          facesAdj.push_back(f_tmp);
-        } else if (f_tmp2 == (m->edgesFaces[e])[1]) {
-          facesAdj.push_back(f_tmp2);
-          f_tmp = (m->edgesFaces[e])[0];
-          facesAdj.push_back(f_tmp);
+        if (m->edgesFaces.find(e) != m->edgesFaces.end()) {
+            f_tmp = (m->edgesFaces[e])[0];
+            f_tmp2 = (m->edgesFaces[e])[1];
+            break;
+        }
+    }
+
+    if (ite->hasNext()) {
+        while (ite->hasNext()) {
+            e = ite->next();
+
+            if (m->edgesFaces.find(e) != m->edgesFaces.end()) {
+                if (f_tmp == (m->edgesFaces[e])[0]) {
+                    facesAdj.push_back(f_tmp);
+                    f_tmp = (m->edgesFaces[e])[1];
+                    facesAdj.push_back(f_tmp);
+                } else if (f_tmp == (m->edgesFaces[e])[1]) {
+                    facesAdj.push_back(f_tmp);
+                    f_tmp = (m->edgesFaces[e])[0];
+                    facesAdj.push_back(f_tmp);
+                } else if (f_tmp2 == (m->edgesFaces[e])[0]) {
+                    facesAdj.push_back(f_tmp2);
+                    f_tmp = (m->edgesFaces[e])[1];
+                    facesAdj.push_back(f_tmp);
+                } else if (f_tmp2 == (m->edgesFaces[e])[1]) {
+                    facesAdj.push_back(f_tmp2);
+                    f_tmp = (m->edgesFaces[e])[0];
+                    facesAdj.push_back(f_tmp);
+                }
+
+                break;
+            }
         }
 
-        break;
-      }
+    } else {
+        facesAdj.push_back(f_tmp);
+        //  facesAdj.push_back(f_tmp2);
     }
 
-  } else {
-    facesAdj.push_back(f_tmp);
-    //  facesAdj.push_back(f_tmp2);
-  }
+    while (ite->hasNext()) {
+        e = ite->next();
 
-  while (ite->hasNext()) {
-    e = ite->next();
-
-    if (m->edgesFaces.find(e) != m->edgesFaces.end()) {
-      if (f_tmp == (m->edgesFaces[e])[0]) {
-        f_tmp = (m->edgesFaces[e])[1];
-        facesAdj.push_back((m->edgesFaces[e])[1]);
-      } else {
-        f_tmp = (m->edgesFaces[e])[0];
-        facesAdj.push_back((m->edgesFaces[e])[0]);
-      }
+        if (m->edgesFaces.find(e) != m->edgesFaces.end()) {
+            if (f_tmp == (m->edgesFaces[e])[0]) {
+                f_tmp = (m->edgesFaces[e])[1];
+                facesAdj.push_back((m->edgesFaces[e])[1]);
+            } else {
+                f_tmp = (m->edgesFaces[e])[0];
+                facesAdj.push_back((m->edgesFaces[e])[0]);
+            }
+        }
     }
-  }
 
-  delete ite;
+    delete ite;
 }
 
 //============================================================
@@ -114,7 +114,7 @@ FaceAdjIterator::FaceAdjIterator(PlanarConMap *m, const node n) : i(0) {
  * return the next element
  */
 Face FaceAdjIterator::next() {
-  return facesAdj[i++];
+    return facesAdj[i++];
 }
 
 //============================================================
@@ -122,40 +122,40 @@ Face FaceAdjIterator::next() {
  * test if there's a next element
  */
 bool FaceAdjIterator::hasNext() {
-  return (i != facesAdj.size());
+    return (i != facesAdj.size());
 }
 
 //============================================================
 // NodeFaceIterator
 //============================================================
 NodeFaceIterator::NodeFaceIterator(PlanarConMap *m, const Face face) : i(0) {
-  const vector<edge> &e = m->facesEdges[face];
-  edge e1 = e[0];
-  edge e2 = e[1];
-  node prev;
-  const auto &[e1Src, e1Tgt] = m->ends(e1);
-  const auto &[e2Src, e2Tgt] = m->ends(e2);
-
-  if (e1Src == e2Src || e1Src == e2Tgt) {
-    prev = e1Src;
-  } else {
-    prev = e1Tgt;
-  }
-
-  nodes.push_back(prev);
-
-  for (uint j = 1; j < m->facesEdges[face].size(); ++j) {
-    e1 = m->facesEdges[face][j];
+    const vector<edge> &e = m->facesEdges[face];
+    edge e1 = e[0];
+    edge e2 = e[1];
+    node prev;
     const auto &[e1Src, e1Tgt] = m->ends(e1);
+    const auto &[e2Src, e2Tgt] = m->ends(e2);
 
-    if (e1Src == prev) {
-      prev = e1Tgt;
-      nodes.push_back(prev);
+    if (e1Src == e2Src || e1Src == e2Tgt) {
+        prev = e1Src;
     } else {
-      prev = e1Src;
-      nodes.push_back(prev);
+        prev = e1Tgt;
     }
-  }
+
+    nodes.push_back(prev);
+
+    for (uint j = 1; j < m->facesEdges[face].size(); ++j) {
+        e1 = m->facesEdges[face][j];
+        const auto &[e1Src, e1Tgt] = m->ends(e1);
+
+        if (e1Src == prev) {
+            prev = e1Tgt;
+            nodes.push_back(prev);
+        } else {
+            prev = e1Src;
+            nodes.push_back(prev);
+        }
+    }
 }
 
 //============================================================
@@ -163,7 +163,7 @@ NodeFaceIterator::NodeFaceIterator(PlanarConMap *m, const Face face) : i(0) {
  * return the next element
  */
 node NodeFaceIterator::next() {
-  return nodes[i++];
+    return nodes[i++];
 }
 
 //============================================================
@@ -171,7 +171,7 @@ node NodeFaceIterator::next() {
  * test if there's a next element
  */
 bool NodeFaceIterator::hasNext() {
-  return (i != nodes.size());
+    return (i != nodes.size());
 }
 
 //============================================================
@@ -184,7 +184,7 @@ EdgeFaceIterator::EdgeFaceIterator(PlanarConMap *m, const Face f) : ve(m->facesE
  * return the next element
  */
 edge EdgeFaceIterator::next() {
-  return ve[i++];
+    return ve[i++];
 }
 
 //============================================================
@@ -192,5 +192,5 @@ edge EdgeFaceIterator::next() {
  * test if there's a next element
  */
 bool EdgeFaceIterator::hasNext() {
-  return (i != ve.size());
+    return (i != ve.size());
 }

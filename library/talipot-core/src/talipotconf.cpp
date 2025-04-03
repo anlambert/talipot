@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,14 +21,14 @@ using namespace std;
 #ifdef NDEBUG
 class NullStreamBuf : public std::streambuf {
 
-protected:
-  int_type overflow(int c) override {
-    return c;
-  }
+  protected:
+    int_type overflow(int c) override {
+        return c;
+    }
 
-  std::streamsize xsputn(const char *, std::streamsize n) override {
-    return n;
-  }
+    std::streamsize xsputn(const char *, std::streamsize n) override {
+        return n;
+    }
 };
 
 static NullStreamBuf nullStreamBuf;
@@ -38,39 +38,39 @@ static ostream noOpStream(&nullStreamBuf);
 static std::ostream *debugStream = nullptr;
 std::ostream &tlp::debug() {
 #ifndef NDEBUG
-  return debugStream ? *debugStream : std::cout;
+    return debugStream ? *debugStream : std::cout;
 #else
-  return noOpStream;
+    return noOpStream;
 #endif
 }
 void tlp::setDebugOutput(std::ostream &os) {
-  debugStream = &os;
+    debugStream = &os;
 }
 
 static std::ostream *warningStream = nullptr;
 std::ostream &tlp::warning() {
-  return warningStream ? *warningStream : std::cerr;
+    return warningStream ? *warningStream : std::cerr;
 }
 void tlp::setWarningOutput(std::ostream &os) {
-  warningStream = &os;
+    warningStream = &os;
 }
 
 static std::ostream *errorStream = nullptr;
 std::ostream &tlp::error() {
-  return errorStream ? *errorStream : std::cerr;
+    return errorStream ? *errorStream : std::cerr;
 }
 void tlp::setErrorOutput(std::ostream &os) {
-  errorStream = &os;
+    errorStream = &os;
 }
 
 static std::ostream *infoStream = nullptr;
 std::ostream &tlp::info() {
-  return infoStream ? *infoStream : std::cout;
+    return infoStream ? *infoStream : std::cout;
 }
 void tlp::setInfoOutput(std::ostream &os) {
-  infoStream = &os;
+    infoStream = &os;
 }
 
 std::string tlp::getTalipotVersion() {
-  return TALIPOT_VERSION;
+    return TALIPOT_VERSION;
 }

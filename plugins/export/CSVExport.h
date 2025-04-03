@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -56,29 +56,29 @@
  * value is double quote.
  */
 class CsvExport : public tlp::ExportModule {
-public:
-  PLUGININFORMATION("CSV Export", "David Auber, Patrick Mary", "18/01/2011",
-                    "<p>Supported extensions: csv</p><p>Exports the values of talipot graph "
-                    "properties associated to graph elements in a CSV file.</p>",
-                    "1.0", "File")
+  public:
+    PLUGININFORMATION("CSV Export", "David Auber, Patrick Mary", "18/01/2011",
+                      "<p>Supported extensions: csv</p><p>Exports the values of talipot graph "
+                      "properties associated to graph elements in a CSV file.</p>",
+                      "1.0", "File")
 
-  std::string icon() const override {
-    return ":/talipot/app/icons/32/spreadsheet.png";
-  }
+    std::string icon() const override {
+        return ":/talipot/app/icons/32/spreadsheet.png";
+    }
 
-  std::string fileExtension() const override {
-    return "csv";
-  }
+    std::string fileExtension() const override {
+        return "csv";
+    }
 
-  CsvExport(const tlp::PluginContext *context);
-  bool exportGraph(std::ostream &) override;
+    CsvExport(const tlp::PluginContext *context);
+    bool exportGraph(std::ostream &) override;
 
-  std::string fieldSeparator;
-  char stringDelimiter;
-  char decimalMark;
+    std::string fieldSeparator;
+    char stringDelimiter;
+    char decimalMark;
 
-  void exportString(std::ostream &os, const std::string &s) const {
-    os << stringDelimiter << s << stringDelimiter;
-  }
+    void exportString(std::ostream &os, const std::string &s) const {
+        os << stringDelimiter << s << stringDelimiter;
+    }
 };
 #endif // CSV_EXPORT_H

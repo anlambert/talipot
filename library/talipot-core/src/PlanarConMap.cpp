@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,971 +29,971 @@ using namespace tlp;
 // PlanarConMap
 //============================================================
 PlanarConMap::PlanarConMap(Graph *s) : GraphDecorator(s), facesEdges(), edgesFaces() {
-  assert(SimpleTest::isSimple(s));
-  assert(ConnectedTest::isConnected(s));
-  assert(PlanarityTest::isPlanar(s) || s->isEmpty());
+    assert(SimpleTest::isSimple(s));
+    assert(ConnectedTest::isConnected(s));
+    assert(PlanarityTest::isPlanar(s) || s->isEmpty());
 
-  faceId = 0;
+    faceId = 0;
 
-  if (!TreeTest::isFreeTree(s)) { // all map of trees are valid (do not change the existing order)
-    if (!PlanarityTest::isPlanarEmbedding(s)) {
-      PlanarityTest::planarEmbedding(s);
+    if (!TreeTest::isFreeTree(s)) { // all map of trees are valid (do not change the existing order)
+        if (!PlanarityTest::isPlanarEmbedding(s)) {
+            PlanarityTest::planarEmbedding(s);
+        }
     }
-  }
 
-  computeFaces();
+    computeFaces();
 }
 
 //============================================================
 void PlanarConMap::clear() {
-  graph_component->clear();
-  facesEdges.clear();
-  edgesFaces.clear();
-  nodesFaces.clear();
-  faces.clear();
+    graph_component->clear();
+    facesEdges.clear();
+    edgesFaces.clear();
+    nodesFaces.clear();
+    faces.clear();
 }
 
 //============================================================
 edge PlanarConMap::addEdgeMap(const node v, const node w, Face f, const edge e1, const edge e2,
                               Face new_face) {
-  assert(e1 != e2);
-  assert(isElement(v) && isElement(w));
-  assert(isElement(e1) && isElement(e2));
-  assert(containNode(f, v) && containNode(f, w));
-  assert(containEdge(f, e1) && containEdge(f, e2));
-  assert(source(e1) == v || target(e1) == v);
-  assert(source(e2) == w || target(e2) == w);
-  assert(containEdge(f, e1) && containEdge(f, e2));
-  assert(containEdge(f, succCycleEdge(e1, v)) && containEdge(f, succCycleEdge(e2, w)));
+    assert(e1 != e2);
+    assert(isElement(v) && isElement(w));
+    assert(isElement(e1) && isElement(e2));
+    assert(containNode(f, v) && containNode(f, w));
+    assert(containEdge(f, e1) && containEdge(f, e2));
+    assert(source(e1) == v || target(e1) == v);
+    assert(source(e2) == w || target(e2) == w);
+    assert(containEdge(f, e1) && containEdge(f, e2));
+    assert(containEdge(f, succCycleEdge(e1, v)) && containEdge(f, succCycleEdge(e2, w)));
 
-  if (new_face == Face()) {
-    new_face = Face(faceId++);
-  }
-
-  edge e_tmp;
-  vector<edge> v_edges1, v_edges2;
-  edge succ1, succ2;
-  uint nb_edges = facesEdges[f].size();
-  uint nb_added = 0;
-  MutableContainer<bool> isInVe2;
-  MutableContainer<bool> isInNewFace;
-  MutableContainer<uint> nbAdjFace;
-  isInVe2.setAll(false);
-  isInNewFace.setAll(false);
-  nbAdjFace.setAll(0);
-  succ1 = succCycleEdge(e1, v);
-  succ2 = succCycleEdge(e2, w);
-
-  Graph *supergraph = getSuperGraph();
-  edge e = supergraph->existEdge(v, w, false);
-
-  if (!e.isValid()) {
-    e = supergraph->addEdge(v, w);
-    graph_component->addEdge(e);
-  } else {
-    graph_component->addEdge(e);
-  }
-
-  // Compute the cycle around v
-  vector<edge> v_order(deg(v));
-  uint cpt = 0;
-  for (auto e_order : incidence(v)) {
-    if (e_order == e) {
-      continue;
+    if (new_face == Face()) {
+        new_face = Face(faceId++);
     }
 
-    if (e_order != succ1) {
-      v_order[cpt] = e_order;
+    edge e_tmp;
+    vector<edge> v_edges1, v_edges2;
+    edge succ1, succ2;
+    uint nb_edges = facesEdges[f].size();
+    uint nb_added = 0;
+    MutableContainer<bool> isInVe2;
+    MutableContainer<bool> isInNewFace;
+    MutableContainer<uint> nbAdjFace;
+    isInVe2.setAll(false);
+    isInNewFace.setAll(false);
+    nbAdjFace.setAll(0);
+    succ1 = succCycleEdge(e1, v);
+    succ2 = succCycleEdge(e2, w);
+
+    Graph *supergraph = getSuperGraph();
+    edge e = supergraph->existEdge(v, w, false);
+
+    if (!e.isValid()) {
+        e = supergraph->addEdge(v, w);
+        graph_component->addEdge(e);
     } else {
-      v_order[cpt] = e;
-      v_order[++cpt] = succ1;
+        graph_component->addEdge(e);
     }
 
-    ++cpt;
-  }
-  setEdgeOrder(v, v_order);
+    // Compute the cycle around v
+    vector<edge> v_order(deg(v));
+    uint cpt = 0;
+    for (auto e_order : incidence(v)) {
+        if (e_order == e) {
+            continue;
+        }
 
-  // Compute the cycle around w
-  vector<edge> v_order2(deg(w));
-  cpt = 0;
-  for (auto e_order : incidence(w)) {
-    if (e_order == e) {
-      continue;
+        if (e_order != succ1) {
+            v_order[cpt] = e_order;
+        } else {
+            v_order[cpt] = e;
+            v_order[++cpt] = succ1;
+        }
+
+        ++cpt;
+    }
+    setEdgeOrder(v, v_order);
+
+    // Compute the cycle around w
+    vector<edge> v_order2(deg(w));
+    cpt = 0;
+    for (auto e_order : incidence(w)) {
+        if (e_order == e) {
+            continue;
+        }
+
+        if (e_order != succ2) {
+            v_order2[cpt] = e_order;
+        } else {
+            v_order2[cpt] = e;
+            v_order2[++cpt] = succ2;
+        }
+
+        ++cpt;
+    }
+    setEdgeOrder(w, v_order2);
+
+    // Search for adjacent nodes and edges to the two faces
+    e_tmp = facesEdges[f][0];
+    uint i = 0;
+
+    while (e_tmp != succ1) {
+        i = (i + 1) % nb_edges;
+        e_tmp = facesEdges[f][i];
     }
 
-    if (e_order != succ2) {
-      v_order2[cpt] = e_order;
-    } else {
-      v_order2[cpt] = e;
-      v_order2[++cpt] = succ2;
+    if (e1 == succ1 && e_tmp == facesEdges[f][(i + 1) % nb_edges]) {
+        i = (i + 1) % nb_edges;
     }
 
-    ++cpt;
-  }
-  setEdgeOrder(w, v_order2);
+    bool e2_found = false;
 
-  // Search for adjacent nodes and edges to the two faces
-  e_tmp = facesEdges[f][0];
-  uint i = 0;
+    while (nb_added != nb_edges && !(e_tmp == succ2 && e2_found)) {
+        v_edges1.push_back(e_tmp);
+        nbAdjFace.set(e_tmp.id, nbAdjFace.get(e_tmp.id) + 1);
+        const auto &[src, tgt] = ends(e_tmp);
+        isInNewFace.set(src.id, true);
+        isInNewFace.set(tgt.id, true);
+        ++nb_added;
 
-  while (e_tmp != succ1) {
-    i = (i + 1) % nb_edges;
-    e_tmp = facesEdges[f][i];
-  }
+        if (e_tmp == e2) {
+            e2_found = true;
+        }
 
-  if (e1 == succ1 && e_tmp == facesEdges[f][(i + 1) % nb_edges]) {
-    i = (i + 1) % nb_edges;
-  }
-
-  bool e2_found = false;
-
-  while (nb_added != nb_edges && !(e_tmp == succ2 && e2_found)) {
-    v_edges1.push_back(e_tmp);
-    nbAdjFace.set(e_tmp.id, nbAdjFace.get(e_tmp.id) + 1);
-    const auto &[src, tgt] = ends(e_tmp);
-    isInNewFace.set(src.id, true);
-    isInNewFace.set(tgt.id, true);
-    ++nb_added;
-
-    if (e_tmp == e2) {
-      e2_found = true;
+        i = (i + 1) % nb_edges;
+        e_tmp = facesEdges[f][i];
     }
 
-    i = (i + 1) % nb_edges;
-    e_tmp = facesEdges[f][i];
-  }
-
-  if (e2 == succ2 && e_tmp == facesEdges[f][(i + 1) % nb_edges]) {
-    v_edges1.push_back(e_tmp);
-    nbAdjFace.set(e_tmp.id, nbAdjFace.get(e_tmp.id) + 1);
-    const auto &[src, tgt] = ends(e_tmp);
-    isInNewFace.set(src.id, true);
-    isInNewFace.set(tgt.id, true);
-    ++nb_added;
-    i = (i + 1) % nb_edges;
-  }
-
-  while (nb_added != nb_edges && !(e_tmp == succ1 && nbAdjFace.get(e_tmp.id) == 2)) {
-    v_edges2.push_back(e_tmp);
-    nbAdjFace.set(e_tmp.id, nbAdjFace.get(e_tmp.id) + 1);
-    isInVe2.set(e_tmp.id, true);
-    ++nb_added;
-    i = (i + 1) % nb_edges;
-    e_tmp = facesEdges[f][i];
-  }
-
-  if (e1 == succ1 && e_tmp == facesEdges[f][(i + 1) % nb_edges]) {
-    v_edges2.push_back(e_tmp);
-    isInVe2.set(e_tmp.id, true);
-  }
-
-  v_edges1.push_back(e);
-  v_edges2.push_back(e);
-  isInVe2.set(e.id, true);
-
-  // initialize and update the list of faces and the two new faces adajcent edges
-  facesEdges.insert(faceMapEntry(new_face, v_edges1));
-  facesEdges[f] = v_edges2;
-  faces.push_back(new_face);
-  vector<Face> v_faces;
-  v_faces.push_back(new_face);
-  v_faces.push_back(f);
-
-  // initialize the list of faces adjacent to all edges of the new face
-  edgesFaces.insert(edgeMapEntry(e, v_faces));
-
-  for (i = 0; i < v_edges1.size() - 1; ++i) {
-    e_tmp = v_edges1[i];
-
-    if (isInVe2.get(e_tmp.id)) {
-      edgesFaces[e_tmp][0] = new_face;
-    } else if (edgesFaces[e_tmp][0] == f) {
-      edgesFaces[e_tmp][0] = new_face;
-    } else {
-      edgesFaces[e_tmp][1] = new_face;
+    if (e2 == succ2 && e_tmp == facesEdges[f][(i + 1) % nb_edges]) {
+        v_edges1.push_back(e_tmp);
+        nbAdjFace.set(e_tmp.id, nbAdjFace.get(e_tmp.id) + 1);
+        const auto &[src, tgt] = ends(e_tmp);
+        isInNewFace.set(src.id, true);
+        isInNewFace.set(tgt.id, true);
+        ++nb_added;
+        i = (i + 1) % nb_edges;
     }
-  }
 
-  // initialize the list of faces adjacent to all nodes of the new face
-  for (uint id : isInNewFace.findAll(true)) {
-    node n_tmp(id);
+    while (nb_added != nb_edges && !(e_tmp == succ1 && nbAdjFace.get(e_tmp.id) == 2)) {
+        v_edges2.push_back(e_tmp);
+        nbAdjFace.set(e_tmp.id, nbAdjFace.get(e_tmp.id) + 1);
+        isInVe2.set(e_tmp.id, true);
+        ++nb_added;
+        i = (i + 1) % nb_edges;
+        e_tmp = facesEdges[f][i];
+    }
+
+    if (e1 == succ1 && e_tmp == facesEdges[f][(i + 1) % nb_edges]) {
+        v_edges2.push_back(e_tmp);
+        isInVe2.set(e_tmp.id, true);
+    }
+
+    v_edges1.push_back(e);
+    v_edges2.push_back(e);
+    isInVe2.set(e.id, true);
+
+    // initialize and update the list of faces and the two new faces adajcent edges
+    facesEdges.insert(faceMapEntry(new_face, v_edges1));
+    facesEdges[f] = v_edges2;
+    faces.push_back(new_face);
     vector<Face> v_faces;
+    v_faces.push_back(new_face);
+    v_faces.push_back(f);
 
-    for (Face f : getFacesAdj(n_tmp)) {
-      v_faces.push_back(f);
+    // initialize the list of faces adjacent to all edges of the new face
+    edgesFaces.insert(edgeMapEntry(e, v_faces));
+
+    for (i = 0; i < v_edges1.size() - 1; ++i) {
+        e_tmp = v_edges1[i];
+
+        if (isInVe2.get(e_tmp.id)) {
+            edgesFaces[e_tmp][0] = new_face;
+        } else if (edgesFaces[e_tmp][0] == f) {
+            edgesFaces[e_tmp][0] = new_face;
+        } else {
+            edgesFaces[e_tmp][1] = new_face;
+        }
     }
 
-    nodesFaces[n_tmp] = v_faces;
-  }
+    // initialize the list of faces adjacent to all nodes of the new face
+    for (uint id : isInNewFace.findAll(true)) {
+        node n_tmp(id);
+        vector<Face> v_faces;
 
-  return e;
+        for (Face f : getFacesAdj(n_tmp)) {
+            v_faces.push_back(f);
+        }
+
+        nodesFaces[n_tmp] = v_faces;
+    }
+
+    return e;
 }
 
 //============================================================
 void PlanarConMap::delEdgeMap(edge e, Face f) {
-  assert((edgesFaces[e][0] != edgesFaces[e][1]) || deg(source(e)) == 1 || deg(target(e)) == 1);
+    assert((edgesFaces[e][0] != edgesFaces[e][1]) || deg(source(e)) == 1 || deg(target(e)) == 1);
 
-  if (f == Face())
-    f = edgesFaces[e][0];
+    if (f == Face())
+        f = edgesFaces[e][0];
 
-  Face f1, f2;
-  vector<edge> v_edges;
-  MutableContainer<bool> isInF2;
-  isInF2.setAll(false);
-  const auto &[n1, n2] = ends(e);
-  f1 = f;
-  f2 = edgesFaces[e][1] == f ? edgesFaces[e][0] : edgesFaces[e][1];
+    Face f1, f2;
+    vector<edge> v_edges;
+    MutableContainer<bool> isInF2;
+    isInF2.setAll(false);
+    const auto &[n1, n2] = ends(e);
+    f1 = f;
+    f2 = edgesFaces[e][1] == f ? edgesFaces[e][0] : edgesFaces[e][1];
 
-  // if there is only one face adjacent to e.
-  if (f1 == f2) {
-    // clear the map if it will contain any node.
-    if (numberOfNodes() == 2) {
-      clear();
-    } else {
-      node n_tmp = (deg(n1) != 1 ? n1 : n2);
-      uint nb_edges = facesEdges[f1].size();
-      bool found = false;
+    // if there is only one face adjacent to e.
+    if (f1 == f2) {
+        // clear the map if it will contain any node.
+        if (numberOfNodes() == 2) {
+            clear();
+        } else {
+            node n_tmp = (deg(n1) != 1 ? n1 : n2);
+            uint nb_edges = facesEdges[f1].size();
+            bool found = false;
 
-      for (uint i = 0; v_edges.size() < nb_edges - 2; i = (i + 1) % nb_edges) {
-        edge e_tmp = facesEdges[f1][i];
+            for (uint i = 0; v_edges.size() < nb_edges - 2; i = (i + 1) % nb_edges) {
+                edge e_tmp = facesEdges[f1][i];
 
-        if (e_tmp == e) {
-          found = true;
-        } else if (found) {
-          v_edges.push_back(e_tmp);
+                if (e_tmp == e) {
+                    found = true;
+                } else if (found) {
+                    v_edges.push_back(e_tmp);
+                }
+            }
+
+            facesEdges[f1] = v_edges;
+            auto it = edgesFaces.find(e);
+            edgesFaces.erase(it, ++it);
+            vector<Face> v_faces;
+            v_faces.push_back(f1);
+            nodesFaces[n_tmp] = v_faces;
+
+            if (n2 == n_tmp) {
+                auto it2 = nodesFaces.find(n1);
+                nodesFaces.erase(it2, ++it2);
+                delNode(n1);
+            } else {
+                auto it2 = nodesFaces.find(n2);
+                nodesFaces.erase(it2, ++it2);
+                delNode(n2);
+            }
         }
-      }
-
-      facesEdges[f1] = v_edges;
-      auto it = edgesFaces.find(e);
-      edgesFaces.erase(it, ++it);
-      vector<Face> v_faces;
-      v_faces.push_back(f1);
-      nodesFaces[n_tmp] = v_faces;
-
-      if (n2 == n_tmp) {
-        auto it2 = nodesFaces.find(n1);
-        nodesFaces.erase(it2, ++it2);
-        delNode(n1);
-      } else {
-        auto it2 = nodesFaces.find(n2);
-        nodesFaces.erase(it2, ++it2);
-        delNode(n2);
-      }
-    }
-  }
-
-  else {
-    uint nb_edges = facesEdges[f1].size();
-    bool found = false;
-
-    for (uint i = 0; v_edges.size() < nb_edges - 1; i = (i + 1) % nb_edges) {
-      edge e_tmp = facesEdges[f1][i];
-
-      if (e_tmp == e) {
-        found = true;
-      } else if (found) {
-        if (edgesFaces[e_tmp][0] == f2) {
-          edgesFaces[e_tmp][0] = f1;
-        }
-
-        if (edgesFaces[e_tmp][1] == f2) {
-          edgesFaces[e_tmp][1] = f1;
-        }
-
-        v_edges.push_back(e_tmp);
-      }
     }
 
-    uint nb_added = 0;
-    nb_edges = facesEdges[f2].size();
-    found = false;
+    else {
+        uint nb_edges = facesEdges[f1].size();
+        bool found = false;
 
-    for (uint i = 0; nb_added < nb_edges - 1; i = (i + 1) % nb_edges) {
-      edge e_tmp = facesEdges[f2][i];
-      const auto &[src, tgt] = ends(e_tmp);
-      isInF2.set(src.id, true);
-      isInF2.set(tgt.id, true);
+        for (uint i = 0; v_edges.size() < nb_edges - 1; i = (i + 1) % nb_edges) {
+            edge e_tmp = facesEdges[f1][i];
 
-      if (e_tmp == e) {
-        found = true;
-      } else if (found) {
-        if (edgesFaces[e_tmp][0] == f2) {
-          edgesFaces[e_tmp][0] = f1;
+            if (e_tmp == e) {
+                found = true;
+            } else if (found) {
+                if (edgesFaces[e_tmp][0] == f2) {
+                    edgesFaces[e_tmp][0] = f1;
+                }
+
+                if (edgesFaces[e_tmp][1] == f2) {
+                    edgesFaces[e_tmp][1] = f1;
+                }
+
+                v_edges.push_back(e_tmp);
+            }
         }
 
-        if (edgesFaces[e_tmp][1] == f2) {
-          edgesFaces[e_tmp][1] = f1;
+        uint nb_added = 0;
+        nb_edges = facesEdges[f2].size();
+        found = false;
+
+        for (uint i = 0; nb_added < nb_edges - 1; i = (i + 1) % nb_edges) {
+            edge e_tmp = facesEdges[f2][i];
+            const auto &[src, tgt] = ends(e_tmp);
+            isInF2.set(src.id, true);
+            isInF2.set(tgt.id, true);
+
+            if (e_tmp == e) {
+                found = true;
+            } else if (found) {
+                if (edgesFaces[e_tmp][0] == f2) {
+                    edgesFaces[e_tmp][0] = f1;
+                }
+
+                if (edgesFaces[e_tmp][1] == f2) {
+                    edgesFaces[e_tmp][1] = f1;
+                }
+
+                v_edges.push_back(e_tmp);
+                ++nb_added;
+            }
         }
 
-        v_edges.push_back(e_tmp);
-        ++nb_added;
-      }
+        facesEdges[f1] = v_edges;
+        auto it = edgesFaces.find(e);
+        edgesFaces.erase(it, ++it);
+        auto it2 = facesEdges.find(f2);
+        facesEdges.erase(it2, ++it2);
+
+        for (uint id : isInF2.findAll(true)) {
+            node n_tmp(id);
+            vector<Face> v_faces;
+
+            for (Face f : getFacesAdj(n_tmp)) {
+                v_faces.push_back(f);
+            }
+
+            nodesFaces[n_tmp] = v_faces;
+        }
+
+        auto itf = std::find(faces.begin(), faces.end(), f2);
+
+        faces.erase(itf);
+        delEdge(e);
     }
-
-    facesEdges[f1] = v_edges;
-    auto it = edgesFaces.find(e);
-    edgesFaces.erase(it, ++it);
-    auto it2 = facesEdges.find(f2);
-    facesEdges.erase(it2, ++it2);
-
-    for (uint id : isInF2.findAll(true)) {
-      node n_tmp(id);
-      vector<Face> v_faces;
-
-      for (Face f : getFacesAdj(n_tmp)) {
-        v_faces.push_back(f);
-      }
-
-      nodesFaces[n_tmp] = v_faces;
-    }
-
-    auto itf = std::find(faces.begin(), faces.end(), f2);
-
-    faces.erase(itf);
-    delEdge(e);
-  }
 }
 
 //============================================================
 edge PlanarConMap::succCycleEdge(const edge e, const node n) const {
-  assert(isElement(e) && isElement(n));
-  assert(source(e) == n || target(e) == n);
+    assert(isElement(e) && isElement(n));
+    assert(source(e) == n || target(e) == n);
 
-  if (deg(n) == 1) {
-    return e;
-  }
-
-  int i = 0;
-  edge e1;
-  Iterator<edge> *it = getInOutEdges(n);
-
-  while (it->hasNext()) {
-    e1 = it->next();
-    i++;
-
-    if ((e == e1) && (it->hasNext())) {
-      e1 = it->next();
-      delete it;
-      return e1;
-    } else if ((e == e1) && (i == 1)) { // cycle = an edge
-      delete it;
-      return e1;
+    if (deg(n) == 1) {
+        return e;
     }
-  }
 
-  delete it;
-  assert(e == e1);
+    int i = 0;
+    edge e1;
+    Iterator<edge> *it = getInOutEdges(n);
 
-  it = getInOutEdges(n); // the last edge is e, so first edge is returned
-  assert(it->hasNext());
-  e1 = it->next();
-  delete it;
-  return e1;
+    while (it->hasNext()) {
+        e1 = it->next();
+        i++;
+
+        if ((e == e1) && (it->hasNext())) {
+            e1 = it->next();
+            delete it;
+            return e1;
+        } else if ((e == e1) && (i == 1)) { // cycle = an edge
+            delete it;
+            return e1;
+        }
+    }
+
+    delete it;
+    assert(e == e1);
+
+    it = getInOutEdges(n); // the last edge is e, so first edge is returned
+    assert(it->hasNext());
+    e1 = it->next();
+    delete it;
+    return e1;
 }
 
 //============================================================
 edge PlanarConMap::predCycleEdge(const edge e, const node n) const {
-  assert(isElement(e) && isElement(n));
-  assert(source(e) == n || target(e) == n);
+    assert(isElement(e) && isElement(n));
+    assert(source(e) == n || target(e) == n);
 
-  if (deg(n) == 1) {
-    return e;
-  }
-
-  Iterator<edge> *it = getInOutEdges(n);
-  edge prec, e1;
-  int i = 0;
-  bool stop = false;
-
-  while (it->hasNext() && (!stop)) {
-    e1 = it->next();
-    i++;
-
-    if (e == e1) {
-      stop = true;
-    } else {
-      prec = e1;
+    if (deg(n) == 1) {
+        return e;
     }
-  }
 
-  assert(e == e1);
+    Iterator<edge> *it = getInOutEdges(n);
+    edge prec, e1;
+    int i = 0;
+    bool stop = false;
 
-  if (i != 1) { // return the precedent edge
-    delete it;
-    return prec;
-  } else {
-    if (!it->hasNext()) { // cycle = an edge
-      delete it;
-      return e1;
-    } else {
-      while (it->hasNext()) // Return the last element
+    while (it->hasNext() && (!stop)) {
         e1 = it->next();
+        i++;
 
-      delete it;
-      return e1;
+        if (e == e1) {
+            stop = true;
+        } else {
+            prec = e1;
+        }
     }
-  }
+
+    assert(e == e1);
+
+    if (i != 1) { // return the precedent edge
+        delete it;
+        return prec;
+    } else {
+        if (!it->hasNext()) { // cycle = an edge
+            delete it;
+            return e1;
+        } else {
+            while (it->hasNext()) // Return the last element
+                e1 = it->next();
+
+            delete it;
+            return e1;
+        }
+    }
 }
 
 //============================================================
 node PlanarConMap::succCycleNode(const node v, const node w) const {
-  assert(isElement(v) && isElement(w));
+    assert(isElement(v) && isElement(w));
 
-  int i = 0;
-  node n;
-  Iterator<node> *it = getInOutNodes(v);
+    int i = 0;
+    node n;
+    Iterator<node> *it = getInOutNodes(v);
 
-  while (it->hasNext()) {
-    n = it->next();
-    i++;
+    while (it->hasNext()) {
+        n = it->next();
+        i++;
 
-    if ((n == w) && (it->hasNext())) {
-      n = it->next();
-      delete it;
-      return n;
-    } else if ((n == w) && (i == 1)) {
-      delete it;
-      return n;
+        if ((n == w) && (it->hasNext())) {
+            n = it->next();
+            delete it;
+            return n;
+        } else if ((n == w) && (i == 1)) {
+            delete it;
+            return n;
+        }
     }
-  }
 
-  delete it;
-  assert(w == n);
+    delete it;
+    assert(w == n);
 
-  it = getInOutNodes(v);
-  assert(it->hasNext());
-  n = it->next();
-  delete it;
-  return n;
+    it = getInOutNodes(v);
+    assert(it->hasNext());
+    n = it->next();
+    delete it;
+    return n;
 }
 
 //============================================================
 node PlanarConMap::predCycleNode(const node v, const node w) const {
-  assert(isElement(v) && isElement(w));
+    assert(isElement(v) && isElement(w));
 
-  node prec, n1;
-  int i = 0;
-  bool stop = false;
+    node prec, n1;
+    int i = 0;
+    bool stop = false;
 
-  Iterator<node> *it = getInOutNodes(v);
+    Iterator<node> *it = getInOutNodes(v);
 
-  while (it->hasNext() && (!stop)) {
-    n1 = it->next();
-    i++;
+    while (it->hasNext() && (!stop)) {
+        n1 = it->next();
+        i++;
 
-    if (w == n1) {
-      stop = true;
+        if (w == n1) {
+            stop = true;
+        } else {
+            prec = n1;
+        }
+    }
+
+    assert(w == n1);
+
+    if (i != 1) {
+        delete it;
+        return prec;
     } else {
-      prec = n1;
+        if (!(it->hasNext())) {
+            delete it;
+            return n1;
+        }
+
+        while (it->hasNext()) {
+            n1 = it->next();
+        }
+
+        delete it;
+        return n1;
     }
-  }
-
-  assert(w == n1);
-
-  if (i != 1) {
-    delete it;
-    return prec;
-  } else {
-    if (!(it->hasNext())) {
-      delete it;
-      return n1;
-    }
-
-    while (it->hasNext()) {
-      n1 = it->next();
-    }
-
-    delete it;
-    return n1;
-  }
 }
 
 //============================================================
 void PlanarConMap::update() {
-  assert(SimpleTest::isSimple(this));
-  assert(PlanarityTest::isPlanar(this));
+    assert(SimpleTest::isSimple(this));
+    assert(PlanarityTest::isPlanar(this));
 
-  PlanarityTest::planarEmbedding(this);
-  computeFaces();
+    PlanarityTest::planarEmbedding(this);
+    computeFaces();
 }
 
 //============================================================
 void PlanarConMap::computeFaces() {
-  facesEdges.clear();
-  edgesFaces.clear();
-  faces.clear();
-  nodesFaces.clear();
+    facesEdges.clear();
+    edgesFaces.clear();
+    faces.clear();
+    nodesFaces.clear();
 
-  uint nbNodes = numberOfNodes();
+    uint nbNodes = numberOfNodes();
 
-  if (nbNodes < 3) {
-    Face f(faceId++);
-    faces.push_back(f);
-    vector<Face> v_faces;
-    v_faces.push_back(f);
+    if (nbNodes < 3) {
+        Face f(faceId++);
+        faces.push_back(f);
+        vector<Face> v_faces;
+        v_faces.push_back(f);
 
-    // Compute the list of adjacent faces of each edge
-    for (auto e : edges()) {
-      edgesFaces.insert(edgeMapEntry(e, v_faces));
+        // Compute the list of adjacent faces of each edge
+        for (auto e : edges()) {
+            edgesFaces.insert(edgeMapEntry(e, v_faces));
 
-      if (const auto itf = facesEdges.find(f); itf == facesEdges.end()) {
-        vector<edge> v_tmp;
-        v_tmp.push_back(e);
-        facesEdges.insert(faceMapEntry(f, v_tmp));
-      } else {
-        facesEdges[f].push_back(e);
-      }
-    }
-
-    // Compute the list of adjacent faces of each node
-    for (auto n : nodes()) {
-      nodesFaces.insert(nodeMapEntry(n, v_faces));
-    }
-
-    if (facesEdges.empty()) {
-      vector<edge> v;
-      facesEdges.insert(faceMapEntry(f, v));
-    }
-  }
-
-  else {
-    MutableContainer<int> considered;
-    MutableContainer<bool> sens;
-
-    considered.setAll(0);
-    sens.setAll(false);
-
-    // Each edge must be considered two times
-    for (int k = 0; k < 2; k++) {
-      vector<edge> edges;
-      for (auto e : this->edges()) {
-        edges.clear();
-
-        if (considered.get(e.id) < 2) {
-          Face lf(faceId++);
-          faces.push_back(lf);
-          edge e1 = e;
-          node n_tmp, n;
-
-          if (sens.get(e1.id)) {
-            n = target(e1);
-          } else {
-            n = source(e1);
-          }
-
-          n_tmp = n;
-
-          // Search for the other edges and nodes of the face lf and compute/update the list of
-          // adjacents faces of those edges/nodes
-          do {
-            considered.set(e1.id, considered.get(e1.id) + 1);
-            EdgeMapIterator it_e(graph_component, e1, n);
-            e1 = it_e.next();
-            n = opposite(e1, n);
-            edges.push_back(e1);
-
-            if (const auto it_n = nodesFaces.find(n); it_n == nodesFaces.end()) {
-              vector<Face> v_tmp;
-              v_tmp.push_back(lf);
-              nodesFaces.insert(nodeMapEntry(n, v_tmp));
+            if (const auto itf = facesEdges.find(f); itf == facesEdges.end()) {
+                vector<edge> v_tmp;
+                v_tmp.push_back(e);
+                facesEdges.insert(faceMapEntry(f, v_tmp));
             } else {
-              nodesFaces[n].push_back(lf);
+                facesEdges[f].push_back(e);
             }
-
-            if (const auto ite = edgesFaces.find(e1); ite == edgesFaces.end()) {
-              vector<Face> v_tmp;
-              v_tmp.push_back(lf);
-              edgesFaces.insert(edgeMapEntry(e1, v_tmp));
-            } else {
-              edgesFaces[e1].push_back(lf);
-            }
-
-            if (source(e1) == n) {
-              sens.set(e1.id, true);
-            }
-
-          } while ((e1 != e) || (n_tmp != n));
-
-          facesEdges.insert(faceMapEntry(lf, edges));
         }
-      }
+
+        // Compute the list of adjacent faces of each node
+        for (auto n : nodes()) {
+            nodesFaces.insert(nodeMapEntry(n, v_faces));
+        }
+
+        if (facesEdges.empty()) {
+            vector<edge> v;
+            facesEdges.insert(faceMapEntry(f, v));
+        }
     }
-  }
+
+    else {
+        MutableContainer<int> considered;
+        MutableContainer<bool> sens;
+
+        considered.setAll(0);
+        sens.setAll(false);
+
+        // Each edge must be considered two times
+        for (int k = 0; k < 2; k++) {
+            vector<edge> edges;
+            for (auto e : this->edges()) {
+                edges.clear();
+
+                if (considered.get(e.id) < 2) {
+                    Face lf(faceId++);
+                    faces.push_back(lf);
+                    edge e1 = e;
+                    node n_tmp, n;
+
+                    if (sens.get(e1.id)) {
+                        n = target(e1);
+                    } else {
+                        n = source(e1);
+                    }
+
+                    n_tmp = n;
+
+                    // Search for the other edges and nodes of the face lf and compute/update the
+                    // list of adjacents faces of those edges/nodes
+                    do {
+                        considered.set(e1.id, considered.get(e1.id) + 1);
+                        EdgeMapIterator it_e(graph_component, e1, n);
+                        e1 = it_e.next();
+                        n = opposite(e1, n);
+                        edges.push_back(e1);
+
+                        if (const auto it_n = nodesFaces.find(n); it_n == nodesFaces.end()) {
+                            vector<Face> v_tmp;
+                            v_tmp.push_back(lf);
+                            nodesFaces.insert(nodeMapEntry(n, v_tmp));
+                        } else {
+                            nodesFaces[n].push_back(lf);
+                        }
+
+                        if (const auto ite = edgesFaces.find(e1); ite == edgesFaces.end()) {
+                            vector<Face> v_tmp;
+                            v_tmp.push_back(lf);
+                            edgesFaces.insert(edgeMapEntry(e1, v_tmp));
+                        } else {
+                            edgesFaces[e1].push_back(lf);
+                        }
+
+                        if (source(e1) == n) {
+                            sens.set(e1.id, true);
+                        }
+
+                    } while ((e1 != e) || (n_tmp != n));
+
+                    facesEdges.insert(faceMapEntry(lf, edges));
+                }
+            }
+        }
+    }
 }
 
 //============================================================
 uint PlanarConMap::nbFaces() {
-  return faces.size();
+    return faces.size();
 }
 
 //============================================================
 uint PlanarConMap::nbFacesNodes(const Face f) {
-  return facesEdges[f].size();
+    return facesEdges[f].size();
 }
 
 //============================================================
 uint PlanarConMap::nbFacesEdges(const Face f) {
-  return facesEdges[f].size();
+    return facesEdges[f].size();
 }
 
 //============================================================
 Iterator<Face> *PlanarConMap::getFaces() {
-  return new FaceIterator(this);
+    return new FaceIterator(this);
 }
 
 //============================================================
 Iterator<Face> *PlanarConMap::getFacesAdj(const node n) {
-  return new FaceAdjIterator(this, n);
+    return new FaceAdjIterator(this, n);
 }
 
 //============================================================
 Iterator<node> *PlanarConMap::getFaceNodes(const Face f) {
-  return new NodeFaceIterator(this, f);
+    return new NodeFaceIterator(this, f);
 }
 
 //============================================================
 Iterator<edge> *PlanarConMap::getFaceEdges(const Face f) {
-  return new EdgeFaceIterator(this, f);
+    return new EdgeFaceIterator(this, f);
 }
 
 //============================================================
 Face PlanarConMap::splitFace(Face f, const edge e) {
-  const auto &[src, tgt] = ends(e);
-  return splitFace(f, src, tgt);
+    const auto &[src, tgt] = ends(e);
+    return splitFace(f, src, tgt);
 }
 
 //============================================================
 Face PlanarConMap::splitFace(Face f, const node v, const node w, node n) {
-  assert(std::find(faces.begin(), faces.end(), f) != faces.end());
-  assert(containNode(f, v) && containNode(f, w));
+    assert(std::find(faces.begin(), faces.end(), f) != faces.end());
+    assert(containNode(f, v) && containNode(f, w));
 
-  edge e1, e2, e_tmp, e_tmp2;
-  bool pred_was_v = false;
-  bool pred_was_w = false;
-  bool first_was_v = false;
-  bool first_was_w = false;
-  bool v_found = false;
-  bool w_found = false;
+    edge e1, e2, e_tmp, e_tmp2;
+    bool pred_was_v = false;
+    bool pred_was_w = false;
+    bool first_was_v = false;
+    bool first_was_w = false;
+    bool v_found = false;
+    bool w_found = false;
 
-  if (!n.isValid()) {
+    if (!n.isValid()) {
 
-    for (auto e : incidence(v)) {
+        for (auto e : incidence(v)) {
 
-      if (edgesFaces[e][0] == f || edgesFaces[e][1] == f) {
-        n = opposite(e, v);
-        break;
-      }
+            if (edgesFaces[e][0] == f || edgesFaces[e][1] == f) {
+                n = opposite(e, v);
+                break;
+            }
+        }
     }
-  }
 
-  // Search for the predecessors of the futur edge (v,w) around v and w
-  if (deg(v) == 1) {
-    Iterator<edge> *ite = getInOutEdges(v);
-    e1 = ite->next();
-    v_found = true;
-    delete ite;
-  }
+    // Search for the predecessors of the futur edge (v,w) around v and w
+    if (deg(v) == 1) {
+        Iterator<edge> *ite = getInOutEdges(v);
+        e1 = ite->next();
+        v_found = true;
+        delete ite;
+    }
 
-  if (deg(w) == 1) {
-    Iterator<edge> *ite = getInOutEdges(w);
-    e2 = ite->next();
-    w_found = true;
-    delete ite;
-  }
+    if (deg(w) == 1) {
+        Iterator<edge> *ite = getInOutEdges(w);
+        e2 = ite->next();
+        w_found = true;
+        delete ite;
+    }
 
-  Iterator<edge> *ite = getFaceEdges(f);
-  e_tmp = ite->next();
-  const auto &[src, tgt] = ends(e_tmp);
-
-  if (src == v || tgt == v) {
-    first_was_v = true;
-    pred_was_v = true;
-    e_tmp2 = e_tmp;
-  }
-
-  if (src == w || tgt == w) {
-    first_was_w = true;
-    pred_was_w = true;
-    e_tmp2 = e_tmp;
-  }
-
-  while (ite->hasNext() && !(v_found && w_found)) {
+    Iterator<edge> *ite = getFaceEdges(f);
     e_tmp = ite->next();
     const auto &[src, tgt] = ends(e_tmp);
 
-    if (!v_found && pred_was_v && (src == v || tgt == v)) {
-      e1 = e_tmp2;
-      v_found = true;
-    } else if (!v_found && (src == v || tgt == v)) {
-      pred_was_v = true;
-      e_tmp2 = e_tmp;
-    } else if (!v_found) {
-      pred_was_v = false;
+    if (src == v || tgt == v) {
+        first_was_v = true;
+        pred_was_v = true;
+        e_tmp2 = e_tmp;
     }
 
-    if (!w_found && pred_was_w && (src == w || tgt == w)) {
-      e2 = e_tmp2;
-      w_found = true;
-    } else if (!w_found && (src == w || tgt == w)) {
-      pred_was_w = true;
-      e_tmp2 = e_tmp;
-    } else if (!w_found) {
-      pred_was_w = false;
+    if (src == w || tgt == w) {
+        first_was_w = true;
+        pred_was_w = true;
+        e_tmp2 = e_tmp;
     }
-  }
 
-  delete ite;
+    while (ite->hasNext() && !(v_found && w_found)) {
+        e_tmp = ite->next();
+        const auto &[src, tgt] = ends(e_tmp);
 
-  if (!v_found && first_was_v) {
-    e1 = e_tmp;
-  }
-
-  if (!w_found && first_was_w) {
-    e2 = e_tmp;
-  }
-
-  Face new_face = Face(faceId++);
-
-  // Add the edge and update the map
-  addEdgeMap(v, w, f, e1, e2, new_face);
-
-  // As n must be contained into f, reverse f and new_face so that n is in f
-  if (!containNode(f, n)) {
-    vector<edge> ve_tmp = facesEdges[f];
-    facesEdges[f] = facesEdges[new_face];
-    facesEdges[new_face] = ve_tmp;
-    MutableContainer<bool> isShared;
-    MutableContainer<bool> nodeToUpdate;
-    isShared.setAll(false);
-    nodeToUpdate.setAll(false);
-
-    for (uint i = 0; i < facesEdges[f].size(); ++i) {
-      edge e = facesEdges[f][i];
-      const auto &[src, tgt] = ends(e);
-      nodeToUpdate.set(src.id, true);
-      nodeToUpdate.set(tgt.id, true);
-
-      if ((edgesFaces[e][0] == f && edgesFaces[e][1] == new_face) ||
-          (edgesFaces[e][0] == new_face && edgesFaces[e][1] == f)) {
-        isShared.set(e.id, true);
-      } else {
-        if (edgesFaces[e][0] == new_face) {
-          edgesFaces[e][0] = f;
+        if (!v_found && pred_was_v && (src == v || tgt == v)) {
+            e1 = e_tmp2;
+            v_found = true;
+        } else if (!v_found && (src == v || tgt == v)) {
+            pred_was_v = true;
+            e_tmp2 = e_tmp;
+        } else if (!v_found) {
+            pred_was_v = false;
         }
 
-        if (edgesFaces[e][1] == new_face) {
-          edgesFaces[e][1] = f;
+        if (!w_found && pred_was_w && (src == w || tgt == w)) {
+            e2 = e_tmp2;
+            w_found = true;
+        } else if (!w_found && (src == w || tgt == w)) {
+            pred_was_w = true;
+            e_tmp2 = e_tmp;
+        } else if (!w_found) {
+            pred_was_w = false;
         }
-      }
     }
 
-    for (uint i = 0; i < facesEdges[new_face].size(); ++i) {
-      edge e = facesEdges[new_face][i];
+    delete ite;
 
-      if (!isShared.get(e.id)) {
-        if (edgesFaces[e][0] == f) {
-          edgesFaces[e][0] = new_face;
-        }
-
-        if (edgesFaces[e][1] == f) {
-          edgesFaces[e][1] = new_face;
-        }
-      }
+    if (!v_found && first_was_v) {
+        e1 = e_tmp;
     }
 
-    for (uint id : nodeToUpdate.findAll(true)) {
-      node n_tmp(id);
-      vector<Face> v_faces;
-
-      for (Face f : getFacesAdj(n_tmp)) {
-        v_faces.push_back(f);
-      }
-
-      nodesFaces[n_tmp] = v_faces;
+    if (!w_found && first_was_w) {
+        e2 = e_tmp;
     }
-  }
 
-  return new_face;
+    Face new_face = Face(faceId++);
+
+    // Add the edge and update the map
+    addEdgeMap(v, w, f, e1, e2, new_face);
+
+    // As n must be contained into f, reverse f and new_face so that n is in f
+    if (!containNode(f, n)) {
+        vector<edge> ve_tmp = facesEdges[f];
+        facesEdges[f] = facesEdges[new_face];
+        facesEdges[new_face] = ve_tmp;
+        MutableContainer<bool> isShared;
+        MutableContainer<bool> nodeToUpdate;
+        isShared.setAll(false);
+        nodeToUpdate.setAll(false);
+
+        for (uint i = 0; i < facesEdges[f].size(); ++i) {
+            edge e = facesEdges[f][i];
+            const auto &[src, tgt] = ends(e);
+            nodeToUpdate.set(src.id, true);
+            nodeToUpdate.set(tgt.id, true);
+
+            if ((edgesFaces[e][0] == f && edgesFaces[e][1] == new_face) ||
+                (edgesFaces[e][0] == new_face && edgesFaces[e][1] == f)) {
+                isShared.set(e.id, true);
+            } else {
+                if (edgesFaces[e][0] == new_face) {
+                    edgesFaces[e][0] = f;
+                }
+
+                if (edgesFaces[e][1] == new_face) {
+                    edgesFaces[e][1] = f;
+                }
+            }
+        }
+
+        for (uint i = 0; i < facesEdges[new_face].size(); ++i) {
+            edge e = facesEdges[new_face][i];
+
+            if (!isShared.get(e.id)) {
+                if (edgesFaces[e][0] == f) {
+                    edgesFaces[e][0] = new_face;
+                }
+
+                if (edgesFaces[e][1] == f) {
+                    edgesFaces[e][1] = new_face;
+                }
+            }
+        }
+
+        for (uint id : nodeToUpdate.findAll(true)) {
+            node n_tmp(id);
+            vector<Face> v_faces;
+
+            for (Face f : getFacesAdj(n_tmp)) {
+                v_faces.push_back(f);
+            }
+
+            nodesFaces[n_tmp] = v_faces;
+        }
+    }
+
+    return new_face;
 }
 
 //============================================================
 void PlanarConMap::mergeFaces(Face f, Face g) {
-  assert(f != g);
+    assert(f != g);
 
-  edge last;
-  bool last_found = false;
-  bool first_found = false;
-  vector<edge> toDel;
-  MutableContainer<bool> isInF;
-  isInF.setAll(false);
+    edge last;
+    bool last_found = false;
+    bool first_found = false;
+    vector<edge> toDel;
+    MutableContainer<bool> isInF;
+    isInF.setAll(false);
 
-  // Search for edges to delete
-  vector<edge> ve = facesEdges[f];
+    // Search for edges to delete
+    vector<edge> ve = facesEdges[f];
 
-  for (auto e : ve) {
-    isInF.set(e.id, true);
+    for (auto e : ve) {
+        isInF.set(e.id, true);
 
-    if (!last_found && containEdge(g, e)) {
-      first_found = true;
-      last = e;
-    } else if (first_found) {
-      last_found = true;
+        if (!last_found && containEdge(g, e)) {
+            first_found = true;
+            last = e;
+        } else if (first_found) {
+            last_found = true;
+        }
     }
-  }
 
-  ve = facesEdges[g];
+    ve = facesEdges[g];
 
-  for (auto e : ve) {
-    if (isInF.get(e.id)) {
-      toDel.push_back(e);
+    for (auto e : ve) {
+        if (isInF.get(e.id)) {
+            toDel.push_back(e);
+        }
     }
-  }
 
-  assert(!toDel.empty());
-  assert(toDel.size() != facesEdges[g].size() && toDel.size() != facesEdges[f].size());
+    assert(!toDel.empty());
+    assert(toDel.size() != facesEdges[g].size() && toDel.size() != facesEdges[f].size());
 
-  // Search for the first edge to delete on vector toDel
-  uint cpt = 0;
+    // Search for the first edge to delete on vector toDel
+    uint cpt = 0;
 
-  for (; cpt < toDel.size() && toDel[cpt] != last; ++cpt) {
-  }
-
-  assert(cpt < toDel.size());
-  cpt = (cpt + 1) % toDel.size();
-
-  // Deletion of the edges and update of the map
-  delEdgeMap(toDel[cpt], f);
-  cpt = (cpt + 1) % toDel.size();
-
-  for (uint i = 1; i < toDel.size(); ++i, cpt = (cpt + 1) % toDel.size()) {
-    edge e = toDel[cpt];
-    const auto &[src, tgt] = ends(e);
-
-    if (deg(src) == 1 || deg(tgt) == 1) {
-      delEdgeMap(e, f);
-    } else {
-      break;
+    for (; cpt < toDel.size() && toDel[cpt] != last; ++cpt) {
     }
-  }
+
+    assert(cpt < toDel.size());
+    cpt = (cpt + 1) % toDel.size();
+
+    // Deletion of the edges and update of the map
+    delEdgeMap(toDel[cpt], f);
+    cpt = (cpt + 1) % toDel.size();
+
+    for (uint i = 1; i < toDel.size(); ++i, cpt = (cpt + 1) % toDel.size()) {
+        edge e = toDel[cpt];
+        const auto &[src, tgt] = ends(e);
+
+        if (deg(src) == 1 || deg(tgt) == 1) {
+            delEdgeMap(e, f);
+        } else {
+            break;
+        }
+    }
 }
 
 //============================================================
 bool PlanarConMap::containNode(Face f, node v) {
 
-  for (Face itf : getFacesAdj(v)) {
-    if (itf == f) {
-      return true;
+    for (Face itf : getFacesAdj(v)) {
+        if (itf == f) {
+            return true;
+        }
     }
-  }
 
-  return false;
+    return false;
 }
 
 //============================================================
 bool PlanarConMap::containEdge(Face f, edge e) {
-  for (uint i = 0; i < 2; ++i)
-    if (edgesFaces[e][i] == f) {
-      return true;
-    }
+    for (uint i = 0; i < 2; ++i)
+        if (edgesFaces[e][i] == f) {
+            return true;
+        }
 
-  return false;
+    return false;
 }
 
 //============================================================
 Face PlanarConMap::getFaceContaining(node v, node w) {
-  edge e = existEdge(v, w, false);
-  assert(e.isValid());
-  Face f1 = edgesFaces[e][0];
-  Face f2 = edgesFaces[e][1];
+    edge e = existEdge(v, w, false);
+    assert(e.isValid());
+    Face f1 = edgesFaces[e][0];
+    Face f2 = edgesFaces[e][1];
 
-  if (f1 == f2) {
-    return f1;
-  }
+    if (f1 == f2) {
+        return f1;
+    }
 
-  Face f_tmp, f_tmp2;
-  int taille1 = facesEdges[f1].size();
-  int taille2 = facesEdges[f2].size();
+    Face f_tmp, f_tmp2;
+    int taille1 = facesEdges[f1].size();
+    int taille2 = facesEdges[f2].size();
 
-  if (taille1 < taille2) {
-    f_tmp = f1;
-    f_tmp2 = f2;
-  } else {
-    taille1 = taille2;
-    f_tmp = f2;
-    f_tmp2 = f1;
-  }
+    if (taille1 < taille2) {
+        f_tmp = f1;
+        f_tmp2 = f2;
+    } else {
+        taille1 = taille2;
+        f_tmp = f2;
+        f_tmp2 = f1;
+    }
 
-  int cpt = 0;
+    int cpt = 0;
 
-  while (cpt < taille1 && facesEdges[f_tmp][cpt] != e) {
-    cpt++;
-  }
+    while (cpt < taille1 && facesEdges[f_tmp][cpt] != e) {
+        cpt++;
+    }
 
-  if (cpt != 0) {
-    const auto &[src, tgt] = ends(facesEdges[f_tmp][cpt - 1]);
+    if (cpt != 0) {
+        const auto &[src, tgt] = ends(facesEdges[f_tmp][cpt - 1]);
+        return ((src == v) || (tgt == v)) ? f_tmp : f_tmp2;
+    }
+
+    const auto &[src, tgt] = ends(facesEdges[f_tmp][taille1 - 1]);
     return ((src == v) || (tgt == v)) ? f_tmp : f_tmp2;
-  }
-
-  const auto &[src, tgt] = ends(facesEdges[f_tmp][taille1 - 1]);
-  return ((src == v) || (tgt == v)) ? f_tmp : f_tmp2;
 }
 
 //=================================================================
 Face PlanarConMap::sameFace(node v, node n) {
-  for (Face f : getFacesAdj(v)) {
-    if (containNode(f, n)) {
-      return f;
+    for (Face f : getFacesAdj(v)) {
+        if (containNode(f, n)) {
+            return f;
+        }
     }
-  }
-  return Face();
+    return Face();
 }
 
 //============================================================
 ostream &operator<<(ostream &os, PlanarConMap *sp) {
-  os << "Faces : " << endl << endl;
+    os << "Faces : " << endl << endl;
 
-  for (Face tmp : sp->getFaces()) {
-    os << "Face " << tmp.id << " : ";
-    os << "(edges : ";
+    for (Face tmp : sp->getFaces()) {
+        os << "Face " << tmp.id << " : ";
+        os << "(edges : ";
 
-    for (auto e : sp->getFaceEdges(tmp)) {
-      os << e.id << " ";
+        for (auto e : sp->getFaceEdges(tmp)) {
+            os << e.id << " ";
+        }
+
+        os << ") and ";
+
+        os << "(nodes : ";
+
+        for (auto n : sp->getFaceNodes(tmp)) {
+            os << n.id << " ";
+        }
+
+        os << ")" << endl;
     }
 
-    os << ") and ";
+    for (auto n : sp->nodes()) {
+        os << "node " << n.id << " : ";
+        os << "(edge : ";
 
-    os << "(nodes : ";
+        for (auto e : sp->incidence(n)) {
+            os << e.id << " ";
+        }
 
-    for (auto n : sp->getFaceNodes(tmp)) {
-      os << n.id << " ";
+        os << ") and ";
+        os << "(Faces : ";
+
+        for (Face f : sp->getFacesAdj(n)) {
+            os << f.id << " ";
+        }
+
+        os << ")" << endl;
     }
 
-    os << ")" << endl;
-  }
-
-  for (auto n : sp->nodes()) {
-    os << "node " << n.id << " : ";
-    os << "(edge : ";
-
-    for (auto e : sp->incidence(n)) {
-      os << e.id << " ";
-    }
-
-    os << ") and ";
-    os << "(Faces : ";
-
-    for (Face f : sp->getFacesAdj(n)) {
-      os << f.id << " ";
-    }
-
-    os << ")" << endl;
-  }
-
-  os << endl;
-  return os;
+    os << endl;
+    return os;
 }
 
 tlp::PlanarConMap *tlp::computePlanarConMap(tlp::Graph *graph) {
-  return (graph && ConnectedTest::isConnected(graph)) ? new PlanarConMap(graph) : nullptr;
+    return (graph && ConnectedTest::isConnected(graph)) ? new PlanarConMap(graph) : nullptr;
 }

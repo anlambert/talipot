@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -61,17 +61,18 @@ const char tlp::PATH_DELIMITER = ':';
 inline std::string getTalipotLibName() {
 #ifdef _WIN32
 #ifdef __MINGW32__
-  return "libtalipot-core-" + getMajor(TALIPOT_VERSION) + "." + getMinor(TALIPOT_VERSION) + ".dll";
+    return "libtalipot-core-" + getMajor(TALIPOT_VERSION) + "." + getMinor(TALIPOT_VERSION) +
+           ".dll";
 #else
-  return "talipot-core-" + getMajor(TALIPOT_VERSION) + "_" + getMinor(TALIPOT_VERSION) + ".dll";
+    return "talipot-core-" + getMajor(TALIPOT_VERSION) + "_" + getMinor(TALIPOT_VERSION) + ".dll";
 #endif
 #else
-  std::string talipotLibName =
-      "libtalipot-core-" + getMajor(TALIPOT_VERSION) + "." + getMinor(TALIPOT_VERSION);
+    std::string talipotLibName =
+        "libtalipot-core-" + getMajor(TALIPOT_VERSION) + "." + getMinor(TALIPOT_VERSION);
 #ifdef __APPLE__
-  return talipotLibName + ".dylib";
+    return talipotLibName + ".dylib";
 #else
-  return talipotLibName + ".so";
+    return talipotLibName + ".so";
 #endif
 #endif
 }
@@ -79,187 +80,187 @@ inline std::string getTalipotLibName() {
 // the path of the loaded shared library libtalipot-core-X.Y.[dll, so, dylib]
 extern "C" {
 const char *getTalipotLibDir() {
-  std::string libTalipotName = getTalipotLibName();
-  std::string libTalipotPath;
+    std::string libTalipotName = getTalipotLibName();
+    std::string libTalipotPath;
 
 #ifdef _WIN32
 
-  HMODULE hmod = GetModuleHandle(libTalipotName.c_str());
+    HMODULE hmod = GetModuleHandle(libTalipotName.c_str());
 
-  if (hmod != nullptr) {
-    TCHAR szPath[512 + 1];
-    DWORD dwLen = GetModuleFileName(hmod, szPath, 512);
+    if (hmod != nullptr) {
+        TCHAR szPath[512 + 1];
+        DWORD dwLen = GetModuleFileName(hmod, szPath, 512);
 
-    if (dwLen > 0) {
-      libTalipotPath = szPath;
-      std::replace(libTalipotPath.begin(), libTalipotPath.end(), '\\', '/');
+        if (dwLen > 0) {
+            libTalipotPath = szPath;
+            std::replace(libTalipotPath.begin(), libTalipotPath.end(), '\\', '/');
+        }
     }
-  }
 
 #else
 
-  void *ptr = dlopen(libTalipotName.c_str(), RTLD_LAZY);
+    void *ptr = dlopen(libTalipotName.c_str(), RTLD_LAZY);
 
-  if (ptr != nullptr) {
-    void *symbol = dlsym(ptr, "getTalipotLibDir");
+    if (ptr != nullptr) {
+        void *symbol = dlsym(ptr, "getTalipotLibDir");
 
-    if (symbol != nullptr) {
-      Dl_info info;
-      if (dladdr(symbol, &info)) {
-        libTalipotPath = info.dli_fname;
-      }
+        if (symbol != nullptr) {
+            Dl_info info;
+            if (dladdr(symbol, &info)) {
+                libTalipotPath = info.dli_fname;
+            }
+        }
+        dlclose(ptr);
     }
-    dlclose(ptr);
-  }
 
 #endif
 
-  static std::string talipotLibDir;
-  talipotLibDir =
-      libTalipotPath.substr(0, libTalipotPath.rfind('/') + 1) + "../" + TALIPOT_INSTALL_LIBDIR_STR;
-  return talipotLibDir.c_str();
+    static std::string talipotLibDir;
+    talipotLibDir = libTalipotPath.substr(0, libTalipotPath.rfind('/') + 1) + "../" +
+                    TALIPOT_INSTALL_LIBDIR_STR;
+    return talipotLibDir.c_str();
 }
 }
 
 // throw an exception if an expected directory does not exist
 static void checkDirectory(std::string dir, bool tlpDirSet, bool throwEx) {
-  // remove ending / separator if any
-  // bug detected on Windows
-  if (dir[dir.length() - 1] == '/') {
-    dir.erase(dir.length() - 1);
-  }
+    // remove ending / separator if any
+    // bug detected on Windows
+    if (dir[dir.length() - 1] == '/') {
+        dir.erase(dir.length() - 1);
+    }
 
-  if (!pathExists(dir)) {
-    std::stringstream ess;
-    ess << "Error - " << dir << ":" << std::endl << strerror(errno) << std::endl;
-    if (tlpDirSet) {
-      ess << std::endl << "Check your TLP_DIR environment variable";
+    if (!pathExists(dir)) {
+        std::stringstream ess;
+        ess << "Error - " << dir << ":" << std::endl << strerror(errno) << std::endl;
+        if (tlpDirSet) {
+            ess << std::endl << "Check your TLP_DIR environment variable";
+        }
+        if (throwEx) {
+            throw Exception(ess.str());
+        } else if ( // output only if not in a python installed wheel
+            (dir.find("/talipot/native/") == string::npos) &&
+            // and not building talipot-core bindings
+            (dir.find("library/talipot-core/src") == string::npos)) {
+            tlp::error() << ess.str();
+        }
     }
-    if (throwEx) {
-      throw Exception(ess.str());
-    } else if ( // output only if not in a python installed wheel
-        (dir.find("/talipot/native/") == string::npos) &&
-        // and not building talipot-core bindings
-        (dir.find("library/talipot-core/src") == string::npos)) {
-      tlp::error() << ess.str();
-    }
-  }
 }
 
 //=========================================================
 void tlp::initTalipotLib(const char *appDirPath) {
-  if (!TalipotShareDir.empty()) { // already initialized
-    return;
-  }
-
-  char *getEnvTlp;
-  string::size_type pos;
-  // we use curDir to ease debugging
-  // Talipot..Dir global variables may be invisible
-  // when using gdb
-  std::string curDir;
-
-  getEnvTlp = getenv("TLP_DIR");
-
-  if (getEnvTlp == nullptr) {
-    if (appDirPath) {
-#ifdef _WIN32
-      curDir = std::string(appDirPath) + "/../" + TALIPOT_INSTALL_LIBDIR_STR;
-#else
-      // one dir up to initialize the lib dir
-      curDir.append(appDirPath, strlen(appDirPath) - strlen(strrchr(appDirPath, '/') + 1));
-      curDir.append(TALIPOT_INSTALL_LIBDIR_STR);
-
-#endif
-    } else {
-      // if no appDirPath is provided, retrieve dynamically the Talipot lib dir
-      curDir = getTalipotLibDir();
+    if (!TalipotShareDir.empty()) { // already initialized
+        return;
     }
-  } else {
-    curDir = string(getEnvTlp);
-  }
 
+    char *getEnvTlp;
+    string::size_type pos;
+    // we use curDir to ease debugging
+    // Talipot..Dir global variables may be invisible
+    // when using gdb
+    std::string curDir;
+
+    getEnvTlp = getenv("TLP_DIR");
+
+    if (getEnvTlp == nullptr) {
+        if (appDirPath) {
 #ifdef _WIN32
-  // ensure it is a unix-style path
-  pos = curDir.find('\\', 0);
-
-  while (pos != string::npos) {
-    curDir[pos] = '/';
-    pos = curDir.find('\\', pos);
-  }
+            curDir = std::string(appDirPath) + "/../" + TALIPOT_INSTALL_LIBDIR_STR;
+#else
+            // one dir up to initialize the lib dir
+            curDir.append(appDirPath, strlen(appDirPath) - strlen(strrchr(appDirPath, '/') + 1));
+            curDir.append(TALIPOT_INSTALL_LIBDIR_STR);
 
 #endif
+        } else {
+            // if no appDirPath is provided, retrieve dynamically the Talipot lib dir
+            curDir = getTalipotLibDir();
+        }
+    } else {
+        curDir = string(getEnvTlp);
+    }
 
-  // ensure it is '/' terminated
-  if (curDir[curDir.length() - 1] != '/') {
-    curDir += '/';
-  }
-
-  bool tlpDirSet = (getEnvTlp != nullptr);
-  bool throwExOnCheck = appDirPath != nullptr;
-
-  TalipotLibDir = curDir;
-  if (!TalipotLibDir.empty() && TalipotLibDir != "/") {
-    checkDirectory(TalipotLibDir, tlpDirSet, throwExOnCheck);
-  }
-
-  getEnvTlp = getenv(TALIPOT_PLUGINS_PATH_VARIABLE);
-
-  if (getEnvTlp != nullptr) {
-    curDir = string(getEnvTlp);
 #ifdef _WIN32
     // ensure it is a unix-style path
     pos = curDir.find('\\', 0);
 
     while (pos != string::npos) {
-      curDir[pos] = '/';
-      pos = curDir.find('\\', pos);
+        curDir[pos] = '/';
+        pos = curDir.find('\\', pos);
     }
 
 #endif
-    curDir = TalipotLibDir + "talipot" + PATH_DELIMITER + curDir;
-  } else {
-    curDir = TalipotLibDir + "talipot";
-  }
-  TalipotPluginsPath = curDir;
 
-  // one dir up to initialize the share dir
-  pos = TalipotLibDir.length() - 2;
-  pos = TalipotLibDir.rfind("/", pos);
-  curDir = TalipotLibDir.substr(0, pos + 1) + "share/talipot/";
+    // ensure it is '/' terminated
+    if (curDir[curDir.length() - 1] != '/') {
+        curDir += '/';
+    }
+
+    bool tlpDirSet = (getEnvTlp != nullptr);
+    bool throwExOnCheck = appDirPath != nullptr;
+
+    TalipotLibDir = curDir;
+    if (!TalipotLibDir.empty() && TalipotLibDir != "/") {
+        checkDirectory(TalipotLibDir, tlpDirSet, throwExOnCheck);
+    }
+
+    getEnvTlp = getenv(TALIPOT_PLUGINS_PATH_VARIABLE);
+
+    if (getEnvTlp != nullptr) {
+        curDir = string(getEnvTlp);
+#ifdef _WIN32
+        // ensure it is a unix-style path
+        pos = curDir.find('\\', 0);
+
+        while (pos != string::npos) {
+            curDir[pos] = '/';
+            pos = curDir.find('\\', pos);
+        }
+
+#endif
+        curDir = TalipotLibDir + "talipot" + PATH_DELIMITER + curDir;
+    } else {
+        curDir = TalipotLibDir + "talipot";
+    }
+    TalipotPluginsPath = curDir;
+
+    // one dir up to initialize the share dir
+    pos = TalipotLibDir.length() - 2;
+    pos = TalipotLibDir.rfind("/", pos);
+    curDir = TalipotLibDir.substr(0, pos + 1) + "share/talipot/";
 
 #ifndef _WIN32
-  // special case for Debian when Talipot install prefix is /usr
-  // as libraries are installed in <prefix>/lib/<arch>
-  if (!pathExists(curDir) != 0) {
-    pos = TalipotLibDir.rfind("/", pos - 1);
-    curDir = TalipotLibDir.substr(0, pos + 1) + "share/talipot/";
-  }
+    // special case for Debian when Talipot install prefix is /usr
+    // as libraries are installed in <prefix>/lib/<arch>
+    if (!pathExists(curDir) != 0) {
+        pos = TalipotLibDir.rfind("/", pos - 1);
+        curDir = TalipotLibDir.substr(0, pos + 1) + "share/talipot/";
+    }
 #endif
 
 #if defined(_OPENMP) && defined(__APPLE__)
-  // Register an exit handler to prevent using OpenMP locks
-  // when application shutdowns as some crashes have been observed
-  // on some MacOS runtimes (10.12 for instance)
-  OpenMPLock::registerExitHandler();
+    // Register an exit handler to prevent using OpenMP locks
+    // when application shutdowns as some crashes have been observed
+    // on some MacOS runtimes (10.12 for instance)
+    OpenMPLock::registerExitHandler();
 #endif
 
-  TalipotShareDir = curDir;
-  if (!TalipotLibDir.empty() && TalipotLibDir != "/") {
-    checkDirectory(TalipotShareDir, tlpDirSet, throwExOnCheck);
-  }
+    TalipotShareDir = curDir;
+    if (!TalipotLibDir.empty() && TalipotLibDir != "/") {
+        checkDirectory(TalipotShareDir, tlpDirSet, throwExOnCheck);
+    }
 
-  TalipotBitmapDir = TalipotShareDir + "bitmaps/";
+    TalipotBitmapDir = TalipotShareDir + "bitmaps/";
 
-  if (!TalipotLibDir.empty() && TalipotLibDir != "/") {
-    checkDirectory(TalipotBitmapDir, tlpDirSet, throwExOnCheck);
-  }
+    if (!TalipotLibDir.empty() && TalipotLibDir != "/") {
+        checkDirectory(TalipotBitmapDir, tlpDirSet, throwExOnCheck);
+    }
 
-  // initialize serializers
-  initTypeSerializers();
+    // initialize serializers
+    initTypeSerializers();
 
-  // initialize pseudo random number generator seed
-  initRandomSequence();
+    // initialize pseudo random number generator seed
+    initRandomSequence();
 }
 //=========================================================
 
@@ -267,33 +268,33 @@ void tlp::initTalipotLib(const char *appDirPath) {
 #if defined(__GNUC__)
 #include <cxxabi.h>
 std::string tlp::demangleClassName(const std::string &className, bool hideTlp) {
-  int status;
-  std::unique_ptr<char, decltype(free) *> demangledNamePtr(
-      abi::__cxa_demangle(className.c_str(), 0, 0, &status), free);
-  std::string demangledName = demangledNamePtr.get();
+    int status;
+    std::unique_ptr<char, decltype(free) *> demangledNamePtr(
+        abi::__cxa_demangle(className.c_str(), 0, 0, &status), free);
+    std::string demangledName = demangledNamePtr.get();
 
-  // skip tlp::
-  if (hideTlp && demangledName.find("tlp::") == 0) {
-    demangledName = demangledName.substr(5);
-  }
+    // skip tlp::
+    if (hideTlp && demangledName.find("tlp::") == 0) {
+        demangledName = demangledName.substr(5);
+    }
 
-  return demangledName;
+    return demangledName;
 }
 #elif defined(_MSC_VER)
 // With Visual Studio, typeid(tlp::T).name() does not return a mangled type name
 // but a human readable type name in the form "class tlp::T"
 // so just remove the first 11 characters to return T
 std::string tlp::demangleClassName(const std::string &className, bool hideTlp) {
-  std::string demangledName = className;
-  if (demangledName.find("class ") == 0) {
-    demangledName = demangledName.substr(6);
-  }
+    std::string demangledName = className;
+    if (demangledName.find("class ") == 0) {
+        demangledName = demangledName.substr(6);
+    }
 
-  if (hideTlp && demangledName.find("tlp::") == 0) {
-    demangledName = demangledName.substr(5);
-  }
+    if (hideTlp && demangledName.find("tlp::") == 0) {
+        demangledName = demangledName.substr(5);
+    }
 
-  return demangledName;
+    return demangledName;
 }
 #else
 #error define symbols demangling function
@@ -310,68 +311,68 @@ static std::random_device rd;
 static std::mt19937 mt;
 
 void tlp::setSeedOfRandomSequence(uint seed) {
-  randomSeed = seed;
+    randomSeed = seed;
 }
 
 uint tlp::getSeedOfRandomSequence() {
-  return randomSeed;
+    return randomSeed;
 }
 
 void tlp::initRandomSequence() {
-  // init seed from random sequence with std::random_device
-  if (randomSeed == UINT_MAX) {
-    mt.seed(rd());
-  } else {
-    mt.seed(randomSeed);
-  }
+    // init seed from random sequence with std::random_device
+    if (randomSeed == UINT_MAX) {
+        mt.seed(rd());
+    } else {
+        mt.seed(randomSeed);
+    }
 }
 
 TLP_SCOPE std::mt19937 &tlp::getRandomNumberGenerator() {
-  return mt;
+    return mt;
 }
 
 int tlp::randomNumber(int max) {
-  if (max == 0) {
-    return 0;
-  } else if (max > 0) {
-    std::uniform_int_distribution<int> dist(0, max);
-    return dist(mt);
-  } else {
-    std::uniform_int_distribution<int> dist(max, 0);
-    return dist(mt);
-  }
+    if (max == 0) {
+        return 0;
+    } else if (max > 0) {
+        std::uniform_int_distribution<int> dist(0, max);
+        return dist(mt);
+    } else {
+        std::uniform_int_distribution<int> dist(max, 0);
+        return dist(mt);
+    }
 }
 
 uint tlp::randomNumber(uint max) {
-  if (max == 0) {
-    return 0;
-  } else {
-    std::uniform_int_distribution<uint> dist(0, max);
-    return dist(mt);
-  }
+    if (max == 0) {
+        return 0;
+    } else {
+        std::uniform_int_distribution<uint> dist(0, max);
+        return dist(mt);
+    }
 }
 
 ulong tlp::randomNumber(ulong max) {
-  if (max == 0) {
-    return 0;
-  } else {
-    std::uniform_int_distribution<ulong> dist(0, max);
-    return dist(mt);
-  }
+    if (max == 0) {
+        return 0;
+    } else {
+        std::uniform_int_distribution<ulong> dist(0, max);
+        return dist(mt);
+    }
 }
 
 ullong tlp::randomNumber(ullong max) {
-  if (max == 0) {
-    return 0;
-  } else {
-    std::uniform_int_distribution<ullong> dist(0, max);
-    return dist(mt);
-  }
+    if (max == 0) {
+        return 0;
+    } else {
+        std::uniform_int_distribution<ullong> dist(0, max);
+        return dist(mt);
+    }
 }
 
 double tlp::randomNumber(double max) {
-  std::uniform_real_distribution<double> dist(0, std::nextafter(max, DBL_MAX));
-  return dist(mt);
+    std::uniform_real_distribution<double> dist(0, std::nextafter(max, DBL_MAX));
+    return dist(mt);
 }
 
 // files management
@@ -379,16 +380,16 @@ double tlp::randomNumber(double max) {
 
 int tlp::statPath(const std::string &pathname, tlp_stat_t *buf) {
 #ifndef WIN32
-  return stat(pathname.c_str(), buf);
+    return stat(pathname.c_str(), buf);
 #else
-  std::wstring utf16pathname = winPath(pathname);
-  return _wstat(utf16pathname.c_str(), buf);
+    std::wstring utf16pathname = winPath(pathname);
+    return _wstat(utf16pathname.c_str(), buf);
 #endif
 }
 
 bool tlp::pathExists(const std::string &pathname) {
-  tlp_stat_t infoEntry;
-  return statPath(pathname, &infoEntry) == 0;
+    tlp_stat_t infoEntry;
+    return statPath(pathname, &infoEntry) == 0;
 }
 
 // file streams management
@@ -397,13 +398,13 @@ bool tlp::pathExists(const std::string &pathname) {
 std::istream *tlp::getInputFileStream(const std::string &filename, std::ios_base::openmode mode) {
 #ifdef WIN32
 #if defined(_MSC_VER) || defined(__clang__)
-  auto u8filename = std::u8string(filename.begin(), filename.end());
-  return new std::ifstream(filesystem::path(u8filename.begin(), u8filename.end()), mode);
+    auto u8filename = std::u8string(filename.begin(), filename.end());
+    return new std::ifstream(filesystem::path(u8filename.begin(), u8filename.end()), mode);
 #else
-  return new std::ifstream(filesystem::path(filename), mode);
+    return new std::ifstream(filesystem::path(filename), mode);
 #endif
 #else
-  return new std::ifstream(filename, mode);
+    return new std::ifstream(filename, mode);
 #endif
 }
 
@@ -412,13 +413,13 @@ std::istream *tlp::getInputFileStream(const std::string &filename, std::ios_base
 std::ostream *tlp::getOutputFileStream(const std::string &filename, std::ios_base::openmode mode) {
 #ifdef WIN32
 #if defined(_MSC_VER) || defined(__clang__)
-  auto u8filename = std::u8string(filename.begin(), filename.end());
-  return new std::ofstream(filesystem::path(u8filename.begin(), u8filename.end()), mode);
+    auto u8filename = std::u8string(filename.begin(), filename.end());
+    return new std::ofstream(filesystem::path(u8filename.begin(), u8filename.end()), mode);
 #else
-  return new std::ofstream(filesystem::path(filename), mode);
+    return new std::ofstream(filesystem::path(filename), mode);
 #endif
 #else
-  return new std::ofstream(filename, mode);
+    return new std::ofstream(filename, mode);
 #endif
 }
 
@@ -426,10 +427,10 @@ std::ostream *tlp::getOutputFileStream(const std::string &filename, std::ios_bas
 
 std::istream *tlp::getZlibInputFileStream(const std::string &filename) {
 #if defined(WIN32) && ZLIB_VERNUM >= 0x1270
-  std::wstring utf16filename = winPath(filename);
-  return new igzstream(utf16filename.c_str(), ios::in | ios::binary);
+    std::wstring utf16filename = winPath(filename);
+    return new igzstream(utf16filename.c_str(), ios::in | ios::binary);
 #else
-  return new igzstream(filename.c_str(), ios::in | ios::binary);
+    return new igzstream(filename.c_str(), ios::in | ios::binary);
 #endif
 }
 
@@ -437,51 +438,51 @@ std::istream *tlp::getZlibInputFileStream(const std::string &filename) {
 
 std::ostream *tlp::getZlibOutputFileStream(const std::string &filename) {
 #if defined(WIN32) && ZLIB_VERNUM >= 0x1270
-  std::wstring utf16filename = winPath(filename);
-  return new ogzstream(utf16filename.c_str(), ios::out | ios::binary);
+    std::wstring utf16filename = winPath(filename);
+    return new ogzstream(utf16filename.c_str(), ios::out | ios::binary);
 #else
-  return new ogzstream(filename.c_str(), ios::out | ios::binary);
+    return new ogzstream(filename.c_str(), ios::out | ios::binary);
 #endif
 }
 
 //=========================================================
 
 std::istream *tlp::getZstdInputFileStream(const std::string &filename) {
-  return new zstd::ZstdIStream(getInputFileStream(filename));
+    return new zstd::ZstdIStream(getInputFileStream(filename));
 }
 
 //=========================================================
 
 std::ostream *tlp::getZstdOutputFileStream(const std::string &filename, int compressionLevel) {
-  return new zstd::ZstdOStream(getOutputFileStream(filename), compressionLevel);
+    return new zstd::ZstdOStream(getOutputFileStream(filename), compressionLevel);
 }
 
 //=========================================================
 
 #ifdef WIN32
 wstring tlp::winPath(const string &path) {
-  auto u8path = std::u8string(path.begin(), path.end());
-  return filesystem::path(u8path.begin(), u8path.end()).wstring();
+    auto u8path = std::u8string(path.begin(), path.end());
+    return filesystem::path(u8path.begin(), u8path.end()).wstring();
 }
 #endif
 
 //=========================================================
 
 vector<string> tlp::tokenize(const string &str, const string &delimiter) {
-  vector<string> tokens;
-  string::size_type lastPos = 0;
-  string::size_type pos = str.find_first_of(delimiter, lastPos);
+    vector<string> tokens;
+    string::size_type lastPos = 0;
+    string::size_type pos = str.find_first_of(delimiter, lastPos);
 
-  while (string::npos != pos || string::npos != lastPos) {
-    tokens.push_back(str.substr(lastPos, pos - lastPos));
+    while (string::npos != pos || string::npos != lastPos) {
+        tokens.push_back(str.substr(lastPos, pos - lastPos));
 
-    if (pos != string::npos) {
-      lastPos = pos + 1;
-    } else {
-      lastPos = string::npos;
+        if (pos != string::npos) {
+            lastPos = pos + 1;
+        } else {
+            lastPos = string::npos;
+        }
+
+        pos = str.find_first_of(delimiter, lastPos);
     }
-
-    pos = str.find_first_of(delimiter, lastPos);
-  }
-  return tokens;
+    return tokens;
 }

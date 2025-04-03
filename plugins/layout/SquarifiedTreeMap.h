@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -52,52 +52,54 @@ typedef std::vector<PairNodeF> PairVector;
  *  University Bordeaux I France
  */
 class SquarifiedTreeMap : public tlp::LayoutAlgorithm {
-  friend class SquarifiedTreeMapUnitTests;
+    friend class SquarifiedTreeMapUnitTests;
 
-public:
-  PLUGININFORMATION("Squarified Tree Map", "Tulip Team", "25/05/2010",
-                    "Implements a TreeMap and Squarified Treemap layout.<br/>"
-                    "For Treemap see:<br/><b>Tree visualization with treemaps: a 2-d space-filling "
-                    "approach</b> , Shneiderman B., ACM Transactions on Graphics, vol. 11, 1 pages "
-                    "92-99 (1992).<br/>"
-                    " For Squarified Treemaps see:<br/> Bruls, M., Huizing, K., & van Wijk, J. J."
-                    " Proc. of Joint Eurographics and IEEE TCVG Symp. on Visualization (TCVG 2000) "
-                    "IEEE Press, pp. 33-42.",
-                    "2.0", "Tree")
-  SquarifiedTreeMap(const tlp::PluginContext *context);
-  ~SquarifiedTreeMap() override;
+  public:
+    PLUGININFORMATION(
+        "Squarified Tree Map", "Tulip Team", "25/05/2010",
+        "Implements a TreeMap and Squarified Treemap layout.<br/>"
+        "For Treemap see:<br/><b>Tree visualization with treemaps: a 2-d space-filling "
+        "approach</b> , Shneiderman B., ACM Transactions on Graphics, vol. 11, 1 pages "
+        "92-99 (1992).<br/>"
+        " For Squarified Treemaps see:<br/> Bruls, M., Huizing, K., & van Wijk, J. J."
+        " Proc. of Joint Eurographics and IEEE TCVG Symp. on Visualization (TCVG 2000) "
+        "IEEE Press, pp. 33-42.",
+        "2.0", "Tree")
+    SquarifiedTreeMap(const tlp::PluginContext *context);
+    ~SquarifiedTreeMap() override;
 
-  bool check(std::string &) override;
-  bool run() override;
+    bool check(std::string &) override;
+    bool run() override;
 
-private:
-  tlp::SizeProperty *sizeResult;
-  tlp::NumericProperty *metric;
-  tlp::IntegerProperty *glyphResult;
-  tlp::MutableContainer<double> nodesSize;
-  bool shneidermanTreeMap;
-  double aspectRatio;
-  /**
-   * return a measure quality of row in which one wants to add n
-   * width is the width of the rectangle in which we create the row
-   * length is the height of the rectangle in which on creates the row
-   * surface is sum of size of elements what belongs to the rectangle
-   */
-  double evaluateRow(const std::vector<tlp::node> &row, tlp::node n, double width, double length,
-                     double surface);
-  void layoutRow(const std::vector<tlp::node> &row, const int depth, const tlp::Rectd &rectArea);
-  void squarify(const std::vector<tlp::node> &toTreat, const tlp::Rectd &rectArea, const int depth);
-  // change the rectangle to take into account space reserved for the drawing of borders and headers
-  // the function currently fix adjust the size for the 2D windwows glyph.
-  tlp::Rectd adjustRectangle(const tlp::Rectd &r) const;
-  // return a vector containing children of n ordered in decreasing order of their size.
-  std::vector<tlp::node> orderedChildren(const tlp::node n) const;
-  /**
-   * compute the size of each node in the tree
-   * the size is the sum of all the size of all leaves descendant of a node
-   * in the tree.
-   */
-  void computeNodesSize(tlp::node n);
+  private:
+    tlp::SizeProperty *sizeResult;
+    tlp::NumericProperty *metric;
+    tlp::IntegerProperty *glyphResult;
+    tlp::MutableContainer<double> nodesSize;
+    bool shneidermanTreeMap;
+    double aspectRatio;
+    /**
+     * return a measure quality of row in which one wants to add n
+     * width is the width of the rectangle in which we create the row
+     * length is the height of the rectangle in which on creates the row
+     * surface is sum of size of elements what belongs to the rectangle
+     */
+    double evaluateRow(const std::vector<tlp::node> &row, tlp::node n, double width, double length,
+                       double surface);
+    void layoutRow(const std::vector<tlp::node> &row, const int depth, const tlp::Rectd &rectArea);
+    void squarify(const std::vector<tlp::node> &toTreat, const tlp::Rectd &rectArea,
+                  const int depth);
+    // change the rectangle to take into account space reserved for the drawing of borders and
+    // headers the function currently fix adjust the size for the 2D windwows glyph.
+    tlp::Rectd adjustRectangle(const tlp::Rectd &r) const;
+    // return a vector containing children of n ordered in decreasing order of their size.
+    std::vector<tlp::node> orderedChildren(const tlp::node n) const;
+    /**
+     * compute the size of each node in the tree
+     * the size is the sum of all the size of all leaves descendant of a node
+     * in the tree.
+     */
+    void computeNodesSize(tlp::node n);
 };
 
 #endif // SQUARIFIED_TREE_MAP_H

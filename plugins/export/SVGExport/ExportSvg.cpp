@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,560 +35,562 @@ using namespace tlp;
 
 namespace {
 QString tlpColor2SvgColor(const Color &color) {
-  // converting color to SVG
-  return QString("rgb(") + QString::number(int(color.getR())) + "," +
-         QString::number(int(color.getG())) + "," + QString::number(int(color.getB())) + ")";
+    // converting color to SVG
+    return QString("rgb(") + QString::number(int(color.getR())) + "," +
+           QString::number(int(color.getG())) + "," + QString::number(int(color.getB())) + ")";
 }
 
 QString tlpAlphaColor2Opacity(const Color &color) {
-  // converting color to SVG
-  return QString::number(color.getA() / 255.f);
+    // converting color to SVG
+    return QString::number(color.getA() / 255.f);
 }
 } // namespace
 
 ExportSvg::ExportSvg(PluginProgress *pp, ostream &os, const bool autoformatting)
     : ExportInterface(pp, os), _res(&_out), _gloweffectAdded(false) {
-  _res.setAutoFormatting(autoformatting);
+    _res.setAutoFormatting(autoformatting);
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-  _res.setCodec("UTF-8");
+    _res.setCodec("UTF-8");
 #endif
 }
 
 bool ExportSvg::writeHeader(const BoundingBox &bb) {
-  _res.writeStartDocument();
-  _res.writeStartElement("svg");
-  double width = bb.width() + 1;
-  double height = bb.height() + 1;
-  _res.writeAttribute("width", QString::number(width));
-  _res.writeAttribute("height", QString::number(height));
-  _res.writeAttribute("xmlns", "http://www.w3.org/2000/svg");
-  _res.writeAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
-  _res.writeAttribute("viewbox", "0 0 " + QString::number(width + MARGIN) + " " +
-                                     QString::number(height + MARGIN));
-  _res.writeAttribute("version", "1.1");
-  return !_res.hasError();
+    _res.writeStartDocument();
+    _res.writeStartElement("svg");
+    double width = bb.width() + 1;
+    double height = bb.height() + 1;
+    _res.writeAttribute("width", QString::number(width));
+    _res.writeAttribute("height", QString::number(height));
+    _res.writeAttribute("xmlns", "http://www.w3.org/2000/svg");
+    _res.writeAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+    _res.writeAttribute("viewbox", "0 0 " + QString::number(width + MARGIN) + " " +
+                                       QString::number(height + MARGIN));
+    _res.writeAttribute("version", "1.1");
+    return !_res.hasError();
 }
 
 bool ExportSvg::writeGraph(const BoundingBox &bb, const Color &background, bool noBackground) {
-  // Background color
-  _res.writeStartElement("rect");
-  _res.writeAttribute("width", QString::number(bb.width() + 1));
-  _res.writeAttribute("height", QString::number(bb.height() + 1));
-  _res.writeAttribute("fill", noBackground ? "none" : tlpColor2SvgColor(background));
-  _res.writeEndElement(); // rect
-  // start to add graph. First translate from Talipot coordinates to SVG coordinates
-  _res.writeStartElement("g");
-  _res.writeAttribute("desc", "Graph");
-  _res.writeAttribute("transform",
-                      "translate(" + QString::number(-bb.center().getX() + bb.width() / 2.f) + "," +
-                          QString::number(bb.center().getY() + bb.height() / 2.f) +
-                          ") scale(1,-1)"); // Translation for having a cartesian landmark in the
-                                            // middle of the graph
-  return !_res.hasError();
+    // Background color
+    _res.writeStartElement("rect");
+    _res.writeAttribute("width", QString::number(bb.width() + 1));
+    _res.writeAttribute("height", QString::number(bb.height() + 1));
+    _res.writeAttribute("fill", noBackground ? "none" : tlpColor2SvgColor(background));
+    _res.writeEndElement(); // rect
+    // start to add graph. First translate from Talipot coordinates to SVG coordinates
+    _res.writeStartElement("g");
+    _res.writeAttribute("desc", "Graph");
+    _res.writeAttribute("transform",
+                        "translate(" + QString::number(-bb.center().getX() + bb.width() / 2.f) +
+                            "," + QString::number(bb.center().getY() + bb.height() / 2.f) +
+                            ") scale(1,-1)"); // Translation for having a cartesian landmark in the
+                                              // middle of the graph
+    return !_res.hasError();
 }
 
 bool ExportSvg::writeMetaGraph(const int transform_X, const int transform_Y, float scale) {
-  _res.writeStartElement("g");
-  _res.writeAttribute("desc", "Meta-Graph");
-  _res.writeAttribute(
-      "transform",
-      "translate(" + QString::number(transform_X) + "," + QString::number(transform_Y) +
-          ") scale(" + QString::number(scale) + "," + QString::number(-scale) +
-          ")"); // Translation for having a cartesian landmark in the middle of the graph
-  return !_res.hasError();
+    _res.writeStartElement("g");
+    _res.writeAttribute("desc", "Meta-Graph");
+    _res.writeAttribute(
+        "transform",
+        "translate(" + QString::number(transform_X) + "," + QString::number(transform_Y) +
+            ") scale(" + QString::number(scale) + "," + QString::number(-scale) +
+            ")"); // Translation for having a cartesian landmark in the middle of the graph
+    return !_res.hasError();
 }
 
 bool ExportSvg::writeEndGraph() {
-  _res.writeEndElement();
-  return !_res.hasError();
+    _res.writeEndElement();
+    return !_res.hasError();
 }
 
 bool ExportSvg::writeEnd() {
-  _res.writeEndDocument();
-  _os << _out.constData();
-  return !_res.hasError();
+    _res.writeEndDocument();
+    _os << _out.constData();
+    return !_res.hasError();
 }
 
 bool ExportSvg::groupNode() {
-  _res.writeStartElement("g");
-  _res.writeAttribute("id", "Nodes");
-  _res.writeAttribute("desc", "This is the group of nodes");
-  return !_res.hasError();
+    _res.writeStartElement("g");
+    _res.writeAttribute("id", "Nodes");
+    _res.writeAttribute("desc", "This is the group of nodes");
+    return !_res.hasError();
 }
 
 bool ExportSvg::groupEdge() {
-  _res.writeStartElement("g");
-  _res.writeAttribute("id", "Edges");
-  _res.writeAttribute("desc", "This is the group of edges");
-  return !_res.hasError();
+    _res.writeStartElement("g");
+    _res.writeAttribute("id", "Edges");
+    _res.writeAttribute("desc", "This is the group of edges");
+    return !_res.hasError();
 }
 
 bool ExportSvg::endGroupNode() {
-  _res.writeEndElement();
-  return !_res.hasError();
+    _res.writeEndElement();
+    return !_res.hasError();
 }
 
 bool ExportSvg::endGroupEdge() {
-  _res.writeEndElement();
-  return !_res.hasError();
+    _res.writeEndElement();
+    return !_res.hasError();
 }
 
 bool ExportSvg::startNode(const unsigned id) {
-  _res.writeStartElement("g");
-  _res.writeAttribute("id", QString::number(id));
-  return !_res.hasError();
+    _res.writeStartElement("g");
+    _res.writeAttribute("id", QString::number(id));
+    return !_res.hasError();
 }
 
 bool ExportSvg::endNode() {
-  _res.writeEndElement();
-  return !_res.hasError();
+    _res.writeEndElement();
+    return !_res.hasError();
 }
 
 bool ExportSvg::startEdge(const unsigned id) {
-  _res.writeStartElement("g");
-  _res.writeAttribute("id", QString::number(id));
-  return !_res.hasError();
+    _res.writeStartElement("g");
+    _res.writeAttribute("id", QString::number(id));
+    return !_res.hasError();
 }
 
 bool ExportSvg::endEdge() {
-  _res.writeEndElement();
-  return !_res.hasError();
+    _res.writeEndElement();
+    return !_res.hasError();
 }
 
 bool ExportSvg::addLabel(const string &type, const string &label, const Color &labelcolor,
                          const Coord &coord, const unsigned &fsize, const Size &size) {
-  if (!label.empty()) {
-    _res.writeStartElement("text");
-    _res.writeAttribute("x", QString::number(coord.getX()));
+    if (!label.empty()) {
+        _res.writeStartElement("text");
+        _res.writeAttribute("x", QString::number(coord.getX()));
 
-    if (type == "node") {
-      // empirically adjust to font-size/3 to ensure centering
-      _res.writeAttribute(
-          "y", QString::number(-(coord.getY() - (size.getW() * 1.2) / (3 * label.length()))));
-      _res.writeAttribute("font-size", QString::number(size.getW() * 1.2 / label.length()));
-    } else {
-      _res.writeAttribute("y", QString::number(-coord.getY()));
-      _res.writeAttribute("font-size", QString::number(fsize / 18));
+        if (type == "node") {
+            // empirically adjust to font-size/3 to ensure centering
+            _res.writeAttribute(
+                "y", QString::number(-(coord.getY() - (size.getW() * 1.2) / (3 * label.length()))));
+            _res.writeAttribute("font-size", QString::number(size.getW() * 1.2 / label.length()));
+        } else {
+            _res.writeAttribute("y", QString::number(-coord.getY()));
+            _res.writeAttribute("font-size", QString::number(fsize / 18));
+        }
+
+        _res.writeAttribute("text-anchor", "middle");
+        _res.writeAttribute("transform",
+                            "scale(1,-1)"); // Translation for not having the text upside down
+        _res.writeAttribute("stroke-width", "0");
+        addColor(labelcolor);
+        _res.writeCharacters(tlp::tlpStringToQString(label));
+        _res.writeEndElement(); // text
     }
 
-    _res.writeAttribute("text-anchor", "middle");
-    _res.writeAttribute("transform",
-                        "scale(1,-1)"); // Translation for not having the text upside down
-    _res.writeAttribute("stroke-width", "0");
-    addColor(labelcolor);
-    _res.writeCharacters(tlp::tlpStringToQString(label));
-    _res.writeEndElement(); // text
-  }
-
-  return !_res.hasError();
+    return !_res.hasError();
 }
 
 bool ExportSvg::addColor(const tlp::Color &color) {
-  _res.writeAttribute("fill", tlpColor2SvgColor(color));
-  _res.writeAttribute("fill-opacity", tlpAlphaColor2Opacity(color));
-  return !_res.hasError();
+    _res.writeAttribute("fill", tlpColor2SvgColor(color));
+    _res.writeAttribute("fill-opacity", tlpAlphaColor2Opacity(color));
+    return !_res.hasError();
 }
 
 bool ExportSvg::addRotation(const double rotation, const Coord &center) {
-  _res.writeAttribute("transform", "rotate(" + QString::number(rotation) + "," +
-                                       QString::number(center.getX()) + "," +
-                                       QString::number(center.getY()) + ")");
-  return !_res.hasError();
+    _res.writeAttribute("transform", "rotate(" + QString::number(rotation) + "," +
+                                         QString::number(center.getX()) + "," +
+                                         QString::number(center.getY()) + ")");
+    return !_res.hasError();
 }
 
 bool ExportSvg::addBorder(const Color &borderColor, const double borderwidth) {
-  _res.writeAttribute("stroke", tlpColor2SvgColor(borderColor));
-  _res.writeAttribute("stroke-opacity", tlpAlphaColor2Opacity(borderColor));
-  _res.writeAttribute("stroke-width", QString::number(borderwidth / 10));
-  return !_res.hasError();
+    _res.writeAttribute("stroke", tlpColor2SvgColor(borderColor));
+    _res.writeAttribute("stroke-opacity", tlpAlphaColor2Opacity(borderColor));
+    _res.writeAttribute("stroke-width", QString::number(borderwidth / 10));
+    return !_res.hasError();
 }
 
 void ExportSvg::addGlowEffect() {
-  if (!_gloweffectAdded) {
-    _gloweffectAdded = true;
-    _res.writeStartElement("defs");
+    if (!_gloweffectAdded) {
+        _gloweffectAdded = true;
+        _res.writeStartElement("defs");
 
-    _res.writeStartElement("filter");
-    _res.writeAttribute("id", "fglow1");
-    _res.writeAttribute("x", "-200%");
-    _res.writeAttribute("y", "-200%");
-    _res.writeAttribute("width", "400%");
-    _res.writeAttribute("height", "400%");
+        _res.writeStartElement("filter");
+        _res.writeAttribute("id", "fglow1");
+        _res.writeAttribute("x", "-200%");
+        _res.writeAttribute("y", "-200%");
+        _res.writeAttribute("width", "400%");
+        _res.writeAttribute("height", "400%");
 
-    _res.writeStartElement("feGaussianBlur");
-    _res.writeAttribute("result", "blurOut");
-    _res.writeAttribute("in", "SourceGraphic");
-    _res.writeAttribute("stdDeviation", "0.5");
-    _res.writeEndElement();
+        _res.writeStartElement("feGaussianBlur");
+        _res.writeAttribute("result", "blurOut");
+        _res.writeAttribute("in", "SourceGraphic");
+        _res.writeAttribute("stdDeviation", "0.5");
+        _res.writeEndElement();
 
-    _res.writeStartElement("feMerge");
+        _res.writeStartElement("feMerge");
 
-    _res.writeStartElement("feMergeNode");
-    _res.writeAttribute("in", "blurOut");
-    _res.writeEndElement();
+        _res.writeStartElement("feMergeNode");
+        _res.writeAttribute("in", "blurOut");
+        _res.writeEndElement();
 
-    _res.writeStartElement("feMergeNode");
-    _res.writeAttribute("in", "SourceGraphic");
-    _res.writeEndElement();
+        _res.writeStartElement("feMergeNode");
+        _res.writeAttribute("in", "SourceGraphic");
+        _res.writeEndElement();
 
-    _res.writeEndElement();
+        _res.writeEndElement();
 
-    _res.writeEndElement();
-    _res.writeEndElement();
-  }
+        _res.writeEndElement();
+        _res.writeEndElement();
+    }
 }
 
 void ExportSvg::addWebFontFromIconName(const string &iconName) {
-  std::string fontFile = IconicFont::getWOFF2Location(iconName);
-  if (!_base64fontAdded.contains(fontFile)) {
-    _base64fontAdded.insert(fontFile);
+    std::string fontFile = IconicFont::getWOFF2Location(iconName);
+    if (!_base64fontAdded.contains(fontFile)) {
+        _base64fontAdded.insert(fontFile);
 
-    QFile file(tlpStringToQString(fontFile));
-    if (!file.open(QIODevice::ReadOnly)) {
-      tlp::warning() << "Cannot open " << fontFile << endl;
+        QFile file(tlpStringToQString(fontFile));
+        if (!file.open(QIODevice::ReadOnly)) {
+            tlp::warning() << "Cannot open " << fontFile << endl;
+        }
+
+        QByteArray byteArray(file.readAll());
+        file.close();
+        _res.writeStartElement("style");
+        _res.writeAttribute("style", "text/css");
+        QString base64code(QString::fromUtf8(byteArray.toBase64().data()));
+        QString header("@font-face {font-family: \"" +
+                       tlpStringToQString(IconicFont::getIconFamily(iconName)) +
+                       "\";src: url(\"data:application/x-font-woff2" + ";base64,");
+        _res.writeCDATA(header + base64code + "\");}");
+        _res.writeEndElement();
     }
-
-    QByteArray byteArray(file.readAll());
-    file.close();
-    _res.writeStartElement("style");
-    _res.writeAttribute("style", "text/css");
-    QString base64code(QString::fromUtf8(byteArray.toBase64().data()));
-    QString header("@font-face {font-family: \"" +
-                   tlpStringToQString(IconicFont::getIconFamily(iconName)) +
-                   "\";src: url(\"data:application/x-font-woff2" + ";base64,");
-    _res.writeCDATA(header + base64code + "\");}");
-    _res.writeEndElement();
-  }
 }
 
 bool ExportSvg::addShape(const tlp::NodeShape::NodeShapes &type, const Coord &coord,
                          const Size &size, const Color &bordercolor, const double borderwidth,
                          const Color &color, string iconName) {
-  // node coord
-  float x = coord.getX();
-  float y = coord.getY();
-  // node size
-  float w = size.getW() / 2.f; // why /2 ????
-  float h = size.getH() / 2.f;
+    // node coord
+    float x = coord.getX();
+    float y = coord.getY();
+    // node size
+    float w = size.getW() / 2.f; // why /2 ????
+    float h = size.getH() / 2.f;
 
-  /*
-    This is the scheme of coordinates of each point used
+    /*
+      This is the scheme of coordinates of each point used
 
-    a * * r * * e * * s * * b
-    *           *           *
-    *           *           *
-    g           *           i
-    *           *           *
-    n           *           o
-    p * * * * * o * * * * * q
-    *           *           *
-    *           *           *
-    j           *           k
-    *           *           *
-    *           *           *
-    d * * l * * f * * m * * c
-  */
+      a * * r * * e * * s * * b
+      *           *           *
+      *           *           *
+      g           *           i
+      *           *           *
+      n           *           o
+      p * * * * * o * * * * * q
+      *           *           *
+      *           *           *
+      j           *           k
+      *           *           *
+      *           *           *
+      d * * l * * f * * m * * c
+    */
 
-  // Rectangle points
-  float xa = x - w;
-  float ya = y + h;
-  float xb = x + w;
-  float yb = y + h;
-  float xc = x + w;
-  float yc = y - h;
-  QString xcstr = QString::number(xc);
-  QString ycstr = QString::number(yc);
+    // Rectangle points
+    float xa = x - w;
+    float ya = y + h;
+    float xb = x + w;
+    float yb = y + h;
+    float xc = x + w;
+    float yc = y - h;
+    QString xcstr = QString::number(xc);
+    QString ycstr = QString::number(yc);
 
-  float xd = x - w;
-  float yd = y - h;
-  QString xdstr = QString::number(xd);
-  QString ydstr = QString::number(yd);
+    float xd = x - w;
+    float yd = y - h;
+    QString xdstr = QString::number(xd);
+    QString ydstr = QString::number(yd);
 
-  // Extra triangle
-  float xe = x;
-  float ye = y + h;
-  QString xestr = QString::number(xe);
-  QString yestr = QString::number(ye);
+    // Extra triangle
+    float xe = x;
+    float ye = y + h;
+    QString xestr = QString::number(xe);
+    QString yestr = QString::number(ye);
 
-  // Extra hexagon
-  float yf = y - h;
-  QString yfstr = QString::number(yf);
-  QString xfstr = QString::number(x);
-  float xg = x - w;
-  float yg = y + (h * 0.5);
-  float xi = x + w;
-  float yi = y + (h * 0.5);
-  float xj = x - w;
-  float yj = y - (h * 0.5);
-  float xk = x + w;
-  float yk = y - (h * 0.5);
-
-  // Extra pentagon
-  float xl = x - (w * 0.5);
-  float yl = y - h;
-  float xm = x + (w * 0.5);
-  float ym = y - h;
-  float xn = x - w;
-  float yn = y + (h * 0.3);
-  float xo = x + w;
-  float yo = y + (h * 0.3);
-
-  // Extra diamond
-  float xp = x - w;
-  float xq = x + w;
-
-  // Now we group up points to get the shape
-  QString list_points_rect = QString::number(xa) + "," + QString::number(ya) + " " +
-                             QString::number(xb) + "," + QString::number(yb) + " " + xcstr + "," +
-                             ycstr + " " + xdstr + "," + ydstr;
-
-  switch (type) {
-
-  case NodeShape::GlowSphere:
-    addGlowEffect();
-    _res.writeStartElement("ellipse");
-    _res.writeAttribute("cx", QString::number(x));
-    _res.writeAttribute("cy", QString::number(y));
-    _res.writeAttribute("rx", QString::number(w));
-    _res.writeAttribute("ry", QString::number(h));
-    addColor(color);
-    _res.writeAttribute("filter", "url(#fglow1)");
-
-    if (borderwidth > 0) {
-      addBorder(bordercolor, borderwidth);
-    }
-
-    break;
-
-  case NodeShape::Circle:
-  case NodeShape::Cylinder:
-  case NodeShape::HalfCylinder:
-  case NodeShape::Sphere:
-    _res.writeStartElement("ellipse");
-    _res.writeAttribute("cx", QString::number(x));
-    _res.writeAttribute("cy", QString::number(y));
-    _res.writeAttribute("rx", QString::number(w));
-    _res.writeAttribute("ry", QString::number(h));
-    addColor(color);
-
-    if (borderwidth > 0) {
-      addBorder(bordercolor, borderwidth);
-    }
-
-    break;
-
-  case NodeShape::CubeOutlinedTransparent:
-    _res.writeStartElement("polygon");
-    _res.writeAttribute("points", list_points_rect);
-    _res.writeAttribute("fill", "none");
-
-    if (borderwidth == 0) {
-      addBorder(tlp::Color::Black, 0.02);
-    } else {
-      addBorder(bordercolor, borderwidth);
-    }
-
-    _res.writeEndElement();
-    break;
-
-  case NodeShape::Triangle:
-    _res.writeStartElement("polygon");
-    _res.writeAttribute("points", xestr + "," + yestr + " " + xcstr + "," + ycstr + " " + xdstr +
-                                      "," + ydstr);
-    addColor(color);
-
-    if (borderwidth > 0) {
-      addBorder(bordercolor, borderwidth);
-    }
-
-    break;
-
-  case NodeShape::Hexagon:
-    _res.writeStartElement("polygon");
-    _res.writeAttribute("points", xestr + "," + yestr + " " + QString::number(xi) + "," +
-                                      QString::number(yi) + " " + QString::number(xk) + "," +
-                                      QString::number(yk) + " " + xfstr + "," + yfstr + " " +
-                                      QString::number(xj) + "," + QString::number(yj) + " " +
-                                      QString::number(xg) + "," + QString::number(yg));
-    addColor(color);
-
-    if (borderwidth > 0) {
-      addBorder(bordercolor, borderwidth);
-    }
-
-    break;
-
-  case NodeShape::Pentagon:
-    _res.writeStartElement("polygon");
-    _res.writeAttribute("points", xestr + "," + yestr + " " + QString::number(xo) + "," +
-                                      QString::number(yo) + " " + QString::number(xm) + "," +
-                                      QString::number(ym) + " " + QString::number(xl) + "," +
-                                      QString::number(yl) + " " + QString::number(xn) + "," +
-                                      QString::number(yn));
-    addColor(color);
-
-    if (borderwidth > 0) {
-      addBorder(bordercolor, borderwidth);
-    }
-
-    break;
-
-  case NodeShape::Diamond:
-    _res.writeStartElement("polygon");
-    _res.writeAttribute("points", xestr + "," + yestr + " " + QString::number(xq) + "," +
-                                      QString::number(y) + " " + xfstr + "," + yfstr + " " +
-                                      QString::number(xp) + "," + QString::number(y));
-    addColor(color);
-
-    if (borderwidth > 0) {
-      addBorder(bordercolor, borderwidth);
-    }
-
-    break;
-
-  case NodeShape::Billboard:
-  case NodeShape::CubeOutlined:
-  case NodeShape::Window:
-    _res.writeStartElement("polygon");
-    _res.writeAttribute("points", list_points_rect);
-    addColor(color);
-
-    if (borderwidth > 0) {
-      addBorder(bordercolor, borderwidth);
-    }
-
-    break;
-
-  case NodeShape::Cube:
-  case NodeShape::Square:
-  case NodeShape::RoundedBox:
-    _res.writeStartElement("rect");
-    _res.writeAttribute("x", QString::number(x - size.getW() / 2));
-    _res.writeAttribute("y", QString::number(y - size.getH() / 2));
-    _res.writeAttribute("width", QString::number(w * 2));
-    _res.writeAttribute("height", QString::number(h * 2));
-
-    if (type == NodeShape::RoundedBox) {
-      _res.writeAttribute("rx", QString::number(w / 10.f));
-      _res.writeAttribute("ry", QString::number(h / 10.f));
-    }
-
-    addColor(color);
-
-    if (borderwidth > 0) {
-      addBorder(bordercolor, borderwidth);
-    }
-
-    break;
-
-  case NodeShape::Ring: // If the shape is a ring, we have to draw the white circle in the middle
-    _res.writeStartElement("ellipse");
-    _res.writeAttribute("cx", QString::number(x));
-    _res.writeAttribute("cy", QString::number(y));
-    _res.writeAttribute("rx", QString::number(w));
-    _res.writeAttribute("ry", QString::number(h));
-    _res.writeAttribute("fill", "none");
-    _res.writeAttribute("fill-opacity", "1");
-    _res.writeAttribute("stroke", tlpColor2SvgColor(color));
-    _res.writeAttribute("stroke-width", QString::number(w / 2));
-    _res.writeEndElement(); // ellipse
-
-    if (borderwidth > 0) {
-      _res.writeStartElement("ellipse");
-      _res.writeAttribute("cx", QString::number(x));
-      _res.writeAttribute("cy", QString::number(y));
-      _res.writeAttribute("rx", QString::number(w + w * 0.1));
-      _res.writeAttribute("ry", QString::number(h + h * 0.1));
-      _res.writeAttribute("fill", "none");
-      addBorder(bordercolor, borderwidth);
-    }
-
-    break;
-
-  case NodeShape::Cross: {
-    // polygon 1
-    float xr = x - (w * 0.25);
-    float yr = y + h;
-    float xs = x + (w * 0.25);
-    float ys = y + h;
-    float xm = x + (w * 0.25);
-    float ym = y - h;
-    float xl = x - (w * 0.25);
-    float yl = y - h;
-
-    // polygon 2
+    // Extra hexagon
+    float yf = y - h;
+    QString yfstr = QString::number(yf);
+    QString xfstr = QString::number(x);
     float xg = x - w;
-    float yg = y + (h * 0.25);
+    float yg = y + (h * 0.5);
     float xi = x + w;
-    float yi = y + (h * 0.25);
-    float xk = x + w;
-    float yk = y - (h * 0.25);
+    float yi = y + (h * 0.5);
     float xj = x - w;
-    float yj = y - (h * 0.25);
+    float yj = y - (h * 0.5);
+    float xk = x + w;
+    float yk = y - (h * 0.5);
 
-    _res.writeStartElement("polygon");
-    _res.writeAttribute("points", QString::number(xr) + "," + QString::number(yr) + " " +
-                                      QString::number(xs) + "," + QString::number(ys) + " " +
-                                      QString::number(xm) + "," + QString::number(ym) + " " +
-                                      QString::number(xl) + "," + QString::number(yl));
+    // Extra pentagon
+    float xl = x - (w * 0.5);
+    float yl = y - h;
+    float xm = x + (w * 0.5);
+    float ym = y - h;
+    float xn = x - w;
+    float yn = y + (h * 0.3);
+    float xo = x + w;
+    float yo = y + (h * 0.3);
+
+    // Extra diamond
+    float xp = x - w;
+    float xq = x + w;
+
+    // Now we group up points to get the shape
+    QString list_points_rect = QString::number(xa) + "," + QString::number(ya) + " " +
+                               QString::number(xb) + "," + QString::number(yb) + " " + xcstr + "," +
+                               ycstr + " " + xdstr + "," + ydstr;
+
+    switch (type) {
+
+    case NodeShape::GlowSphere:
+        addGlowEffect();
+        _res.writeStartElement("ellipse");
+        _res.writeAttribute("cx", QString::number(x));
+        _res.writeAttribute("cy", QString::number(y));
+        _res.writeAttribute("rx", QString::number(w));
+        _res.writeAttribute("ry", QString::number(h));
+        addColor(color);
+        _res.writeAttribute("filter", "url(#fglow1)");
+
+        if (borderwidth > 0) {
+            addBorder(bordercolor, borderwidth);
+        }
+
+        break;
+
+    case NodeShape::Circle:
+    case NodeShape::Cylinder:
+    case NodeShape::HalfCylinder:
+    case NodeShape::Sphere:
+        _res.writeStartElement("ellipse");
+        _res.writeAttribute("cx", QString::number(x));
+        _res.writeAttribute("cy", QString::number(y));
+        _res.writeAttribute("rx", QString::number(w));
+        _res.writeAttribute("ry", QString::number(h));
+        addColor(color);
+
+        if (borderwidth > 0) {
+            addBorder(bordercolor, borderwidth);
+        }
+
+        break;
+
+    case NodeShape::CubeOutlinedTransparent:
+        _res.writeStartElement("polygon");
+        _res.writeAttribute("points", list_points_rect);
+        _res.writeAttribute("fill", "none");
+
+        if (borderwidth == 0) {
+            addBorder(tlp::Color::Black, 0.02);
+        } else {
+            addBorder(bordercolor, borderwidth);
+        }
+
+        _res.writeEndElement();
+        break;
+
+    case NodeShape::Triangle:
+        _res.writeStartElement("polygon");
+        _res.writeAttribute("points", xestr + "," + yestr + " " + xcstr + "," + ycstr + " " +
+                                          xdstr + "," + ydstr);
+        addColor(color);
+
+        if (borderwidth > 0) {
+            addBorder(bordercolor, borderwidth);
+        }
+
+        break;
+
+    case NodeShape::Hexagon:
+        _res.writeStartElement("polygon");
+        _res.writeAttribute("points", xestr + "," + yestr + " " + QString::number(xi) + "," +
+                                          QString::number(yi) + " " + QString::number(xk) + "," +
+                                          QString::number(yk) + " " + xfstr + "," + yfstr + " " +
+                                          QString::number(xj) + "," + QString::number(yj) + " " +
+                                          QString::number(xg) + "," + QString::number(yg));
+        addColor(color);
+
+        if (borderwidth > 0) {
+            addBorder(bordercolor, borderwidth);
+        }
+
+        break;
+
+    case NodeShape::Pentagon:
+        _res.writeStartElement("polygon");
+        _res.writeAttribute("points", xestr + "," + yestr + " " + QString::number(xo) + "," +
+                                          QString::number(yo) + " " + QString::number(xm) + "," +
+                                          QString::number(ym) + " " + QString::number(xl) + "," +
+                                          QString::number(yl) + " " + QString::number(xn) + "," +
+                                          QString::number(yn));
+        addColor(color);
+
+        if (borderwidth > 0) {
+            addBorder(bordercolor, borderwidth);
+        }
+
+        break;
+
+    case NodeShape::Diamond:
+        _res.writeStartElement("polygon");
+        _res.writeAttribute("points", xestr + "," + yestr + " " + QString::number(xq) + "," +
+                                          QString::number(y) + " " + xfstr + "," + yfstr + " " +
+                                          QString::number(xp) + "," + QString::number(y));
+        addColor(color);
+
+        if (borderwidth > 0) {
+            addBorder(bordercolor, borderwidth);
+        }
+
+        break;
+
+    case NodeShape::Billboard:
+    case NodeShape::CubeOutlined:
+    case NodeShape::Window:
+        _res.writeStartElement("polygon");
+        _res.writeAttribute("points", list_points_rect);
+        addColor(color);
+
+        if (borderwidth > 0) {
+            addBorder(bordercolor, borderwidth);
+        }
+
+        break;
+
+    case NodeShape::Cube:
+    case NodeShape::Square:
+    case NodeShape::RoundedBox:
+        _res.writeStartElement("rect");
+        _res.writeAttribute("x", QString::number(x - size.getW() / 2));
+        _res.writeAttribute("y", QString::number(y - size.getH() / 2));
+        _res.writeAttribute("width", QString::number(w * 2));
+        _res.writeAttribute("height", QString::number(h * 2));
+
+        if (type == NodeShape::RoundedBox) {
+            _res.writeAttribute("rx", QString::number(w / 10.f));
+            _res.writeAttribute("ry", QString::number(h / 10.f));
+        }
+
+        addColor(color);
+
+        if (borderwidth > 0) {
+            addBorder(bordercolor, borderwidth);
+        }
+
+        break;
+
+    case NodeShape::Ring: // If the shape is a ring, we have to draw the white circle in the middle
+        _res.writeStartElement("ellipse");
+        _res.writeAttribute("cx", QString::number(x));
+        _res.writeAttribute("cy", QString::number(y));
+        _res.writeAttribute("rx", QString::number(w));
+        _res.writeAttribute("ry", QString::number(h));
+        _res.writeAttribute("fill", "none");
+        _res.writeAttribute("fill-opacity", "1");
+        _res.writeAttribute("stroke", tlpColor2SvgColor(color));
+        _res.writeAttribute("stroke-width", QString::number(w / 2));
+        _res.writeEndElement(); // ellipse
+
+        if (borderwidth > 0) {
+            _res.writeStartElement("ellipse");
+            _res.writeAttribute("cx", QString::number(x));
+            _res.writeAttribute("cy", QString::number(y));
+            _res.writeAttribute("rx", QString::number(w + w * 0.1));
+            _res.writeAttribute("ry", QString::number(h + h * 0.1));
+            _res.writeAttribute("fill", "none");
+            addBorder(bordercolor, borderwidth);
+        }
+
+        break;
+
+    case NodeShape::Cross: {
+        // polygon 1
+        float xr = x - (w * 0.25);
+        float yr = y + h;
+        float xs = x + (w * 0.25);
+        float ys = y + h;
+        float xm = x + (w * 0.25);
+        float ym = y - h;
+        float xl = x - (w * 0.25);
+        float yl = y - h;
+
+        // polygon 2
+        float xg = x - w;
+        float yg = y + (h * 0.25);
+        float xi = x + w;
+        float yi = y + (h * 0.25);
+        float xk = x + w;
+        float yk = y - (h * 0.25);
+        float xj = x - w;
+        float yj = y - (h * 0.25);
+
+        _res.writeStartElement("polygon");
+        _res.writeAttribute("points", QString::number(xr) + "," + QString::number(yr) + " " +
+                                          QString::number(xs) + "," + QString::number(ys) + " " +
+                                          QString::number(xm) + "," + QString::number(ym) + " " +
+                                          QString::number(xl) + "," + QString::number(yl));
+        _res.writeEndElement();
+
+        _res.writeStartElement("polygon");
+        _res.writeAttribute("points", QString::number(xg) + "," + QString::number(yg) + " " +
+                                          QString::number(xi) + "," + QString::number(yi) + " " +
+                                          QString::number(xk) + "," + QString::number(yk) + " " +
+                                          QString::number(xj) + "," + QString::number(yj));
+        addColor(color);
+
+        if (borderwidth > 0) {
+            addBorder(bordercolor, borderwidth);
+        }
+    } break;
+
+    case NodeShape::Icon: {
+        addWebFontFromIconName(iconName);
+
+        _res.writeStartElement("text");
+        _res.writeAttribute("x", QString::number(x));
+        _res.writeAttribute("y", QString::number(-y));
+
+        _res.writeAttribute("font-family", tlpStringToQString(IconicFont::getIconFamily(iconName)));
+
+        _res.writeAttribute("transform",
+                            "scale(1,-1) translate(0," + QString::number(h * 0.72) + ")");
+        _res.writeAttribute("font-size", QString::number(w * 2));
+        _res.writeAttribute("text-anchor", "middle");
+        addColor(color);
+
+        if (borderwidth > 0) {
+            addBorder(bordercolor, borderwidth);
+        }
+
+        _res.writeCharacters("");
+        _res.device()->write("&"); // do not escape the character
+
+        _res.writeCharacters("#x" + QString::number(IconicFont::getIconCodePoint(iconName), 16) +
+                             ";");
+    } break;
+
+    // TODO!!!! Right now, just draw an ellipse
+    case NodeShape::Cone:
+    case NodeShape::Star:
+    default:
+        _res.writeStartElement("ellipse");
+        _res.writeAttribute("cx", QString::number(x));
+        _res.writeAttribute("cy", QString::number(y));
+        _res.writeAttribute("rx", QString::number(w));
+        _res.writeAttribute("ry", QString::number(h));
+        addColor(color);
+
+        if (borderwidth > 0) {
+            addBorder(bordercolor, borderwidth);
+        }
+
+        break;
+    }
+
     _res.writeEndElement();
-
-    _res.writeStartElement("polygon");
-    _res.writeAttribute("points", QString::number(xg) + "," + QString::number(yg) + " " +
-                                      QString::number(xi) + "," + QString::number(yi) + " " +
-                                      QString::number(xk) + "," + QString::number(yk) + " " +
-                                      QString::number(xj) + "," + QString::number(yj));
-    addColor(color);
-
-    if (borderwidth > 0) {
-      addBorder(bordercolor, borderwidth);
-    }
-  } break;
-
-  case NodeShape::Icon: {
-    addWebFontFromIconName(iconName);
-
-    _res.writeStartElement("text");
-    _res.writeAttribute("x", QString::number(x));
-    _res.writeAttribute("y", QString::number(-y));
-
-    _res.writeAttribute("font-family", tlpStringToQString(IconicFont::getIconFamily(iconName)));
-
-    _res.writeAttribute("transform", "scale(1,-1) translate(0," + QString::number(h * 0.72) + ")");
-    _res.writeAttribute("font-size", QString::number(w * 2));
-    _res.writeAttribute("text-anchor", "middle");
-    addColor(color);
-
-    if (borderwidth > 0) {
-      addBorder(bordercolor, borderwidth);
-    }
-
-    _res.writeCharacters("");
-    _res.device()->write("&"); // do not escape the character
-
-    _res.writeCharacters("#x" + QString::number(IconicFont::getIconCodePoint(iconName), 16) + ";");
-  } break;
-
-  // TODO!!!! Right now, just draw an ellipse
-  case NodeShape::Cone:
-  case NodeShape::Star:
-  default:
-    _res.writeStartElement("ellipse");
-    _res.writeAttribute("cx", QString::number(x));
-    _res.writeAttribute("cy", QString::number(y));
-    _res.writeAttribute("rx", QString::number(w));
-    _res.writeAttribute("ry", QString::number(h));
-    addColor(color);
-
-    if (borderwidth > 0) {
-      addBorder(bordercolor, borderwidth);
-    }
-
-    break;
-  }
-
-  _res.writeEndElement();
-  return !_res.hasError();
+    return !_res.hasError();
 }
 
 bool ExportSvg::exportEdge(const unsigned id, const tlp::EdgeShape::EdgeShapes &type,
@@ -598,30 +600,30 @@ bool ExportSvg::exportEdge(const unsigned id, const tlp::EdgeShape::EdgeShapes &
                            const unsigned id_src_shape,
                            const EdgeExtremityShape::EdgeExtremityShapes tgt_anchor_shape_type,
                            const unsigned id_tgt_shape, const std::vector<Coord> &edgeVertice) {
-  // Color gradient
-  QString name("gradient_edge_" + QString::number(id));
-  _res.writeStartElement("defs");
-  _res.writeStartElement("linearGradient");
+    // Color gradient
+    QString name("gradient_edge_" + QString::number(id));
+    _res.writeStartElement("defs");
+    _res.writeStartElement("linearGradient");
 
-  _res.writeAttribute("id", name);
-  _res.writeAttribute("gradientUnits", "objectBoundingBox");
+    _res.writeAttribute("id", name);
+    _res.writeAttribute("gradientUnits", "objectBoundingBox");
 
-  _res.writeStartElement("stop");
-  _res.writeAttribute("offset", "0%");
-  _res.writeAttribute("stop-color", tlpColor2SvgColor(color2));
-  _res.writeAttribute("stop-opacity", tlpAlphaColor2Opacity(color2));
-  _res.writeEndElement();
+    _res.writeStartElement("stop");
+    _res.writeAttribute("offset", "0%");
+    _res.writeAttribute("stop-color", tlpColor2SvgColor(color2));
+    _res.writeAttribute("stop-opacity", tlpAlphaColor2Opacity(color2));
+    _res.writeEndElement();
 
-  _res.writeStartElement("stop");
-  _res.writeAttribute("offset", "100%");
-  _res.writeAttribute("stop-color", tlpColor2SvgColor(color1));
-  _res.writeAttribute("stop-opacity", tlpAlphaColor2Opacity(color1));
-  _res.writeEndElement();
-  _res.writeEndElement();
-  _res.writeEndElement();
+    _res.writeStartElement("stop");
+    _res.writeAttribute("offset", "100%");
+    _res.writeAttribute("stop-color", tlpColor2SvgColor(color1));
+    _res.writeAttribute("stop-opacity", tlpAlphaColor2Opacity(color1));
+    _res.writeEndElement();
+    _res.writeEndElement();
+    _res.writeEndElement();
 
-  return createEdge(type, bends, "url(#" + name + ")", "1", width, src_anchor_shape_type,
-                    id_src_shape, tgt_anchor_shape_type, id_tgt_shape, edgeVertice);
+    return createEdge(type, bends, "url(#" + name + ")", "1", width, src_anchor_shape_type,
+                      id_src_shape, tgt_anchor_shape_type, id_tgt_shape, edgeVertice);
 }
 
 bool ExportSvg::exportEdge(const tlp::EdgeShape::EdgeShapes &type, const vector<Coord> &bends,
@@ -630,9 +632,9 @@ bool ExportSvg::exportEdge(const tlp::EdgeShape::EdgeShapes &type, const vector<
                            const unsigned id_src_shape,
                            const tlp::EdgeExtremityShape::EdgeExtremityShapes tgt_anchor_shape_type,
                            const unsigned id_tgt_shape, const std::vector<Coord> &edgeVertice) {
-  return createEdge(type, bends, tlpColor2SvgColor(color), tlpAlphaColor2Opacity(color), width,
-                    src_anchor_shape_type, id_src_shape, tgt_anchor_shape_type, id_tgt_shape,
-                    edgeVertice);
+    return createEdge(type, bends, tlpColor2SvgColor(color), tlpAlphaColor2Opacity(color), width,
+                      src_anchor_shape_type, id_src_shape, tgt_anchor_shape_type, id_tgt_shape,
+                      edgeVertice);
 }
 
 bool ExportSvg::createEdge(const tlp::EdgeShape::EdgeShapes &type, const vector<Coord> &bends,
@@ -641,91 +643,91 @@ bool ExportSvg::createEdge(const tlp::EdgeShape::EdgeShapes &type, const vector<
                            const unsigned id_src_shape,
                            const tlp::EdgeExtremityShape::EdgeExtremityShapes tgt_anchor_shape_type,
                            const unsigned id_tgt_shape, const std::vector<Coord> &edgeVertice) {
-  QString node_source_X(QString::number(edgeVertice[0].getX()));
-  QString node_source_Y(QString::number(edgeVertice[0].getY()));
-  QString node_target_X(QString::number(edgeVertice[edgeVertice.size() - 1].getX()));
-  QString node_target_Y(QString::number(edgeVertice[edgeVertice.size() - 1].getY()));
+    QString node_source_X(QString::number(edgeVertice[0].getX()));
+    QString node_source_Y(QString::number(edgeVertice[0].getY()));
+    QString node_target_X(QString::number(edgeVertice[edgeVertice.size() - 1].getX()));
+    QString node_target_Y(QString::number(edgeVertice[edgeVertice.size() - 1].getY()));
 
-  _res.writeStartElement("path");
-  QString points("M " + node_source_X + "," + node_source_Y);
+    _res.writeStartElement("path");
+    QString points("M " + node_source_X + "," + node_source_Y);
 
-  if (bends.empty()) { // If there is no checkpoints, it will be a simple line
-    points += " L";
-  } else { // Otherwise, we draw it according to its type
-    vector<Coord> controlPoints;
-    controlPoints.push_back(edgeVertice[0]);
-    controlPoints.insert(controlPoints.end(), bends.begin(), bends.end());
-    controlPoints.push_back(edgeVertice[edgeVertice.size() - 1]);
-    vector<Coord> curvePoints;
+    if (bends.empty()) { // If there is no checkpoints, it will be a simple line
+        points += " L";
+    } else { // Otherwise, we draw it according to its type
+        vector<Coord> controlPoints;
+        controlPoints.push_back(edgeVertice[0]);
+        controlPoints.insert(controlPoints.end(), bends.begin(), bends.end());
+        controlPoints.push_back(edgeVertice[edgeVertice.size() - 1]);
+        vector<Coord> curvePoints;
 
-    switch (type) {
-    case EdgeShape::Polyline: {
-      points += " L";
+        switch (type) {
+        case EdgeShape::Polyline: {
+            points += " L";
 
-      for (const auto &b : bends) {
-        points += " " + QString::number(b.getX()) + "," + QString::number(b.getY());
-      }
+            for (const auto &b : bends) {
+                points += " " + QString::number(b.getX()) + "," + QString::number(b.getY());
+            }
 
-      break;
-    }
-
-    case EdgeShape::BezierCurve: {
-      if (bends.size() == 1) {
-        points += " Q " + QString::number(bends.begin()->getX()) + "," +
-                  QString::number(bends.begin()->getY());
-        break;
-      } else {
-        computeBezierPoints(controlPoints, curvePoints);
-        points += " S";
-
-        for (const auto &p : curvePoints) {
-          points += " " + QString::number(p.getX()) + "," + QString::number(p.getY());
+            break;
         }
-      }
 
-      break;
+        case EdgeShape::BezierCurve: {
+            if (bends.size() == 1) {
+                points += " Q " + QString::number(bends.begin()->getX()) + "," +
+                          QString::number(bends.begin()->getY());
+                break;
+            } else {
+                computeBezierPoints(controlPoints, curvePoints);
+                points += " S";
+
+                for (const auto &p : curvePoints) {
+                    points += " " + QString::number(p.getX()) + "," + QString::number(p.getY());
+                }
+            }
+
+            break;
+        }
+
+        case EdgeShape::CatmullRomCurve: {
+            computeCatmullRomPoints(controlPoints, curvePoints);
+            points += " S";
+
+            for (const auto &p : curvePoints) {
+                points += " " + QString::number(p.getX()) + "," + QString::number(p.getY());
+            }
+
+            break;
+        }
+
+        case EdgeShape::CubicBSplineCurve: {
+            computeOpenUniformBsplinePoints(controlPoints, curvePoints);
+            points += " S";
+
+            for (const auto &p : curvePoints) {
+                points += " " + QString::number(p.getX()) + "," + QString::number(p.getY());
+            }
+
+            break;
+        }
+        }
     }
 
-    case EdgeShape::CatmullRomCurve: {
-      computeCatmullRomPoints(controlPoints, curvePoints);
-      points += " S";
+    _res.writeAttribute("d", points + " " + node_target_X + "," + node_target_Y);
+    _res.writeAttribute("fill", "none");
+    _res.writeAttribute("stroke-width", QString::number(width));
+    _res.writeAttribute("stroke-opacity", qcolorA);
+    _res.writeAttribute("stroke", color);
 
-      for (const auto &p : curvePoints) {
-        points += " " + QString::number(p.getX()) + "," + QString::number(p.getY());
-      }
-
-      break;
+    if (src_anchor_shape_type != EdgeExtremityShape::None) {
+        _res.writeAttribute("marker-start", "url(#Msrc" + QString::number(id_src_shape) + ")");
     }
 
-    case EdgeShape::CubicBSplineCurve: {
-      computeOpenUniformBsplinePoints(controlPoints, curvePoints);
-      points += " S";
-
-      for (const auto &p : curvePoints) {
-        points += " " + QString::number(p.getX()) + "," + QString::number(p.getY());
-      }
-
-      break;
+    if (tgt_anchor_shape_type != EdgeExtremityShape::None) {
+        _res.writeAttribute("marker-end", "url(#Mtgt" + QString::number(id_tgt_shape) + ")");
     }
-    }
-  }
 
-  _res.writeAttribute("d", points + " " + node_target_X + "," + node_target_Y);
-  _res.writeAttribute("fill", "none");
-  _res.writeAttribute("stroke-width", QString::number(width));
-  _res.writeAttribute("stroke-opacity", qcolorA);
-  _res.writeAttribute("stroke", color);
-
-  if (src_anchor_shape_type != EdgeExtremityShape::None) {
-    _res.writeAttribute("marker-start", "url(#Msrc" + QString::number(id_src_shape) + ")");
-  }
-
-  if (tgt_anchor_shape_type != EdgeExtremityShape::None) {
-    _res.writeAttribute("marker-end", "url(#Mtgt" + QString::number(id_tgt_shape) + ")");
-  }
-
-  _res.writeEndElement(); // path
-  return !_res.hasError();
+    _res.writeEndElement(); // path
+    return !_res.hasError();
 }
 
 bool ExportSvg::exportEdgeExtremity(
@@ -734,190 +736,190 @@ bool ExportSvg::exportEdgeExtremity(
     const tlp::EdgeExtremityShape::EdgeExtremityShapes tgt_anchor_shape_type,
     const tlp::Color &color, const uint id_src_gradient, const uint id_tgt_gradient,
     const string &iconName) {
-  if (src_anchor_shape_type != EdgeExtremityShape::None) {
-    if (src_anchor_shape_type == EdgeExtremityShape::GlowSphere) {
-      addGlowEffect();
+    if (src_anchor_shape_type != EdgeExtremityShape::None) {
+        if (src_anchor_shape_type == EdgeExtremityShape::GlowSphere) {
+            addGlowEffect();
+        }
+
+        // Writing the context
+        _res.writeStartElement("defs");
+        _res.writeStartElement("marker");
+        _res.writeAttribute("id", "Msrc" + QString::number(id_src_shape));
+        _res.writeAttribute("markerUnits", "strokeWidth");
+        _res.writeAttribute("orient", "auto");
+        _res.writeAttribute("markerWidth", "4");
+        _res.writeAttribute("markerHeight", "3");
+
+        switch (src_anchor_shape_type) {
+        case EdgeExtremityShape::None:
+            break;
+
+        case EdgeExtremityShape::Icon:
+            addWebFontFromIconName(iconName);
+            ExtremityShape::Icon(_res, tlpColor2SvgColor(color), iconName, false);
+            break;
+
+        case EdgeExtremityShape::Arrow:
+            ExtremityShape::Arrow(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Circle:
+            ExtremityShape::Circle(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Cross:
+            ExtremityShape::Cross(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Diamond:
+            ExtremityShape::Diamond(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Hexagon:
+            ExtremityShape::Hexagon(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Pentagon:
+            ExtremityShape::Pentagon(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Ring:
+            ExtremityShape::Ring(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Square:
+            ExtremityShape::Square(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Star:
+            ExtremityShape::Star(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Cube:
+            ExtremityShape::Cube(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::CubeOutlinedTransparent:
+            ExtremityShape::CubeOutlinedTransparent(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Cone:
+            ExtremityShape::Cone(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Cylinder:
+            ExtremityShape::Cylinder(_res, tlpColor2SvgColor(color), false);
+            break;
+
+        case EdgeExtremityShape::Sphere:
+            ExtremityShape::Sphere(_res, color, false, id_src_gradient);
+            break;
+
+        case EdgeExtremityShape::GlowSphere:
+            ExtremityShape::GlowSphere(_res, color, false, id_src_gradient);
+            break;
+        }
+
+        _res.writeEndElement();
+
+        if (src_anchor_shape_type != EdgeExtremityShape::GlowSphere) {
+            _res.writeEndElement(); // End context "marker"
+            _res.writeEndElement(); // End context "def"
+        }
     }
 
-    // Writing the context
-    _res.writeStartElement("defs");
-    _res.writeStartElement("marker");
-    _res.writeAttribute("id", "Msrc" + QString::number(id_src_shape));
-    _res.writeAttribute("markerUnits", "strokeWidth");
-    _res.writeAttribute("orient", "auto");
-    _res.writeAttribute("markerWidth", "4");
-    _res.writeAttribute("markerHeight", "3");
+    if (tgt_anchor_shape_type != EdgeExtremityShape::None) {
+        if (tgt_anchor_shape_type == EdgeExtremityShape::GlowSphere) {
+            addGlowEffect();
+        }
 
-    switch (src_anchor_shape_type) {
-    case EdgeExtremityShape::None:
-      break;
+        // Writing the context
+        _res.writeStartElement("defs");
+        _res.writeStartElement("marker");
 
-    case EdgeExtremityShape::Icon:
-      addWebFontFromIconName(iconName);
-      ExtremityShape::Icon(_res, tlpColor2SvgColor(color), iconName, false);
-      break;
+        _res.writeAttribute("id", "Mtgt" + QString::number(id_tgt_shape));
+        _res.writeAttribute("markerUnits", "strokeWidth");
+        _res.writeAttribute("orient", "auto");
+        _res.writeAttribute("markerWidth", "4");
+        _res.writeAttribute("markerHeight", "3");
 
-    case EdgeExtremityShape::Arrow:
-      ExtremityShape::Arrow(_res, tlpColor2SvgColor(color), false);
-      break;
+        switch (tgt_anchor_shape_type) {
+        case EdgeExtremityShape::None:
+            break;
 
-    case EdgeExtremityShape::Circle:
-      ExtremityShape::Circle(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::Arrow:
+            ExtremityShape::Arrow(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::Cross:
-      ExtremityShape::Cross(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::Icon:
+            addWebFontFromIconName(iconName);
+            ExtremityShape::Icon(_res, tlpColor2SvgColor(color), iconName, true);
+            break;
 
-    case EdgeExtremityShape::Diamond:
-      ExtremityShape::Diamond(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::Circle:
+            ExtremityShape::Circle(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::Hexagon:
-      ExtremityShape::Hexagon(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::Cross:
+            ExtremityShape::Cross(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::Pentagon:
-      ExtremityShape::Pentagon(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::Diamond:
+            ExtremityShape::Diamond(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::Ring:
-      ExtremityShape::Ring(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::Hexagon:
+            ExtremityShape::Hexagon(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::Square:
-      ExtremityShape::Square(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::Pentagon:
+            ExtremityShape::Pentagon(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::Star:
-      ExtremityShape::Star(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::Ring:
+            ExtremityShape::Ring(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::Cube:
-      ExtremityShape::Cube(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::Square:
+            ExtremityShape::Square(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::CubeOutlinedTransparent:
-      ExtremityShape::CubeOutlinedTransparent(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::Star:
+            ExtremityShape::Star(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::Cone:
-      ExtremityShape::Cone(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::Cube:
+            ExtremityShape::Cube(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::Cylinder:
-      ExtremityShape::Cylinder(_res, tlpColor2SvgColor(color), false);
-      break;
+        case EdgeExtremityShape::CubeOutlinedTransparent:
+            ExtremityShape::CubeOutlinedTransparent(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::Sphere:
-      ExtremityShape::Sphere(_res, color, false, id_src_gradient);
-      break;
+        case EdgeExtremityShape::Cone:
+            ExtremityShape::Cone(_res, tlpColor2SvgColor(color), true);
+            break;
 
-    case EdgeExtremityShape::GlowSphere:
-      ExtremityShape::GlowSphere(_res, color, false, id_src_gradient);
-      break;
+        case EdgeExtremityShape::Cylinder:
+            ExtremityShape::Cone(_res, tlpColor2SvgColor(color), true);
+            break;
+
+        case EdgeExtremityShape::Sphere:
+            ExtremityShape::Sphere(_res, color, true, id_tgt_gradient);
+            break;
+
+        case EdgeExtremityShape::GlowSphere:
+            ExtremityShape::GlowSphere(_res, color, true, id_tgt_gradient);
+            break;
+        }
+
+        _res.writeEndElement();
+
+        if (tgt_anchor_shape_type != EdgeExtremityShape::GlowSphere) {
+            _res.writeEndElement(); // End context "marker"
+            _res.writeEndElement(); // End context "def"
+        }
     }
 
-    _res.writeEndElement();
-
-    if (src_anchor_shape_type != EdgeExtremityShape::GlowSphere) {
-      _res.writeEndElement(); // End context "marker"
-      _res.writeEndElement(); // End context "def"
-    }
-  }
-
-  if (tgt_anchor_shape_type != EdgeExtremityShape::None) {
-    if (tgt_anchor_shape_type == EdgeExtremityShape::GlowSphere) {
-      addGlowEffect();
-    }
-
-    // Writing the context
-    _res.writeStartElement("defs");
-    _res.writeStartElement("marker");
-
-    _res.writeAttribute("id", "Mtgt" + QString::number(id_tgt_shape));
-    _res.writeAttribute("markerUnits", "strokeWidth");
-    _res.writeAttribute("orient", "auto");
-    _res.writeAttribute("markerWidth", "4");
-    _res.writeAttribute("markerHeight", "3");
-
-    switch (tgt_anchor_shape_type) {
-    case EdgeExtremityShape::None:
-      break;
-
-    case EdgeExtremityShape::Arrow:
-      ExtremityShape::Arrow(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Icon:
-      addWebFontFromIconName(iconName);
-      ExtremityShape::Icon(_res, tlpColor2SvgColor(color), iconName, true);
-      break;
-
-    case EdgeExtremityShape::Circle:
-      ExtremityShape::Circle(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Cross:
-      ExtremityShape::Cross(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Diamond:
-      ExtremityShape::Diamond(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Hexagon:
-      ExtremityShape::Hexagon(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Pentagon:
-      ExtremityShape::Pentagon(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Ring:
-      ExtremityShape::Ring(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Square:
-      ExtremityShape::Square(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Star:
-      ExtremityShape::Star(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Cube:
-      ExtremityShape::Cube(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::CubeOutlinedTransparent:
-      ExtremityShape::CubeOutlinedTransparent(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Cone:
-      ExtremityShape::Cone(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Cylinder:
-      ExtremityShape::Cone(_res, tlpColor2SvgColor(color), true);
-      break;
-
-    case EdgeExtremityShape::Sphere:
-      ExtremityShape::Sphere(_res, color, true, id_tgt_gradient);
-      break;
-
-    case EdgeExtremityShape::GlowSphere:
-      ExtremityShape::GlowSphere(_res, color, true, id_tgt_gradient);
-      break;
-    }
-
-    _res.writeEndElement();
-
-    if (tgt_anchor_shape_type != EdgeExtremityShape::GlowSphere) {
-      _res.writeEndElement(); // End context "marker"
-      _res.writeEndElement(); // End context "def"
-    }
-  }
-
-  return !_res.hasError();
+    return !_res.hasError();
 }

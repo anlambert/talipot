@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,27 +28,27 @@ namespace tlp {
 
 template <class OGDFLayoutModule>
 static inline OGDFLayoutModule *getOGDFLayoutModule(const PluginContext *context) {
-  return context ? new OGDFLayoutModule() : nullptr;
+    return context ? new OGDFLayoutModule() : nullptr;
 }
 
 class TLP_OGDF_SCOPE OGDFLayoutPluginBase : public LayoutAlgorithm {
-public:
-  OGDFLayoutPluginBase(const PluginContext *context, ogdf::LayoutModule *ogdfLayoutAlgo,
-                       bool importEdgeBends = false);
-  ~OGDFLayoutPluginBase() override;
+  public:
+    OGDFLayoutPluginBase(const PluginContext *context, ogdf::LayoutModule *ogdfLayoutAlgo,
+                         bool importEdgeBends = false);
+    ~OGDFLayoutPluginBase() override;
 
-  bool run() override;
+    bool run() override;
 
-protected:
-  virtual void beforeCall() {}
-  virtual void callOGDFLayoutAlgorithm(ogdf::GraphAttributes &gAttributes);
-  virtual void afterCall() {}
+  protected:
+    virtual void beforeCall() {}
+    virtual void callOGDFLayoutAlgorithm(ogdf::GraphAttributes &gAttributes);
+    virtual void afterCall() {}
 
-  void transposeLayoutVertically();
+    void transposeLayoutVertically();
 
-  TalipotToOGDF *tlpToOGDF;
-  ogdf::LayoutModule *ogdfLayoutAlgo;
-  ogdf::SimpleCCPacker *simpleCCPacker;
+    TalipotToOGDF *tlpToOGDF;
+    ogdf::LayoutModule *ogdfLayoutAlgo;
+    ogdf::SimpleCCPacker *simpleCCPacker;
 };
 }
 #endif // TALIPOT_OGDF_LAYOUT_PLUGIN_BASE_H

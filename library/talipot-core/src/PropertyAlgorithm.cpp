@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,42 +23,42 @@
 
 tlp::BooleanAlgorithm::BooleanAlgorithm(const tlp::PluginContext *context)
     : tlp::TemplateAlgorithm<BooleanProperty>(context) {
-  addOutParameter<tlp::BooleanProperty>(
-      "result", "This parameter indicates the property to compute.", "viewSelection");
+    addOutParameter<tlp::BooleanProperty>(
+        "result", "This parameter indicates the property to compute.", "viewSelection");
 }
 
 tlp::ColorAlgorithm::ColorAlgorithm(const tlp::PluginContext *context)
     : tlp::TemplateAlgorithm<ColorProperty>(context) {
-  addOutParameter<tlp::ColorProperty>("result", "This parameter indicates the property to compute.",
-                                      "viewColor");
+    addOutParameter<tlp::ColorProperty>(
+        "result", "This parameter indicates the property to compute.", "viewColor");
 }
 
 tlp::DoubleAlgorithm::DoubleAlgorithm(const tlp::PluginContext *context)
     : tlp::TemplateAlgorithm<DoubleProperty>(context) {
-  addOutParameter<tlp::DoubleProperty>(
-      "result", "This parameter indicates the property to compute.", "viewMetric");
+    addOutParameter<tlp::DoubleProperty>(
+        "result", "This parameter indicates the property to compute.", "viewMetric");
 }
 
 tlp::IntegerAlgorithm::IntegerAlgorithm(const tlp::PluginContext *context)
     : tlp::TemplateAlgorithm<IntegerProperty>(context) {
-  addOutParameter<tlp::IntegerProperty>("result",
-                                        "This parameter indicates the property to compute.");
+    addOutParameter<tlp::IntegerProperty>("result",
+                                          "This parameter indicates the property to compute.");
 }
 
 tlp::LayoutAlgorithm::LayoutAlgorithm(const tlp::PluginContext *context)
     : tlp::TemplateAlgorithm<LayoutProperty>(context) {
-  addOutParameter<tlp::LayoutProperty>(
-      "result", "This parameter indicates the property to compute.", "viewLayout");
+    addOutParameter<tlp::LayoutProperty>(
+        "result", "This parameter indicates the property to compute.", "viewLayout");
 }
 
 tlp::SizeAlgorithm::SizeAlgorithm(const tlp::PluginContext *context)
     : tlp::TemplateAlgorithm<SizeProperty>(context) {
-  addOutParameter<tlp::SizeProperty>("result", "This parameter indicates the property to compute.",
-                                     "viewSize");
+    addOutParameter<tlp::SizeProperty>(
+        "result", "This parameter indicates the property to compute.", "viewSize");
 }
 
 tlp::StringAlgorithm::StringAlgorithm(const tlp::PluginContext *context)
     : tlp::TemplateAlgorithm<StringProperty>(context) {
-  addOutParameter<tlp::StringProperty>(
-      "result", "This parameter indicates the property to compute.", "viewLabel");
+    addOutParameter<tlp::StringProperty>(
+        "result", "This parameter indicates the property to compute.", "viewLabel");
 }

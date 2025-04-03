@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2022-2023  The Talipot developers
+ * Copyright (C) 2022-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,12 +17,12 @@ using namespace std;
 using namespace tlp;
 
 class CircoLayout : public GraphvizLayoutBase {
-public:
-  PLUGININFORMATION("circo (Graphviz)", "Antoine Lambert", "04/2022",
-                    "This layout is suitable for certain diagrams of multiple cyclic structures, "
-                    "such as certain telecommunications networks.",
-                    "1.0", "Hierarchical")
-  CircoLayout(const PluginContext *context) : GraphvizLayoutBase(context, "circo") {}
+  public:
+    PLUGININFORMATION("circo (Graphviz)", "Antoine Lambert", "04/2022",
+                      "This layout is suitable for certain diagrams of multiple cyclic structures, "
+                      "such as certain telecommunications networks.",
+                      "1.0", "Hierarchical")
+    CircoLayout(const PluginContext *context) : GraphvizLayoutBase(context, "circo") {}
 };
 
 PLUGIN(CircoLayout)

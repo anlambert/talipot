@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,30 +24,30 @@ QtGlSceneZoomAndPanAnimator::QtGlSceneZoomAndPanAnimator(
     const std::string &layerName, const bool optimalPath, const double velocity, const double p)
     : GlSceneZoomAndPan(glWidget->scene(), boundingBox, layerName, 0, optimalPath, p),
       glWidget(glWidget), animationDurationMsec(duration) {
-  if (doZoomAndPan) {
-    animationDurationMsec *= S / velocity;
-  }
+    if (doZoomAndPan) {
+        animationDurationMsec *= S / velocity;
+    }
 
-  nbAnimationSteps = animationDurationMsec / 40 + 1;
+    nbAnimationSteps = animationDurationMsec / 40 + 1;
 }
 
 void QtGlSceneZoomAndPanAnimator::animateZoomAndPan() {
-  QTimeLine timeLine(animationDurationMsec);
-  timeLine.setFrameRange(0, nbAnimationSteps);
-  connect(&timeLine, &QTimeLine::frameChanged, this,
-          &QtGlSceneZoomAndPanAnimator::zoomAndPanAnimStepSlot);
+    QTimeLine timeLine(animationDurationMsec);
+    timeLine.setFrameRange(0, nbAnimationSteps);
+    connect(&timeLine, &QTimeLine::frameChanged, this,
+            &QtGlSceneZoomAndPanAnimator::zoomAndPanAnimStepSlot);
 
-  if (doZoomAndPan || (additionalAnimation != nullptr)) {
-    timeLine.start();
+    if (doZoomAndPan || (additionalAnimation != nullptr)) {
+        timeLine.start();
 
-    while (timeLine.state() != QTimeLine::NotRunning) {
-      QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+        while (timeLine.state() != QTimeLine::NotRunning) {
+            QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+        }
     }
-  }
 }
 
 void QtGlSceneZoomAndPanAnimator::zoomAndPanAnimStepSlot(int animationStep) {
-  zoomAndPanAnimationStep(animationStep);
-  glWidget->draw(false);
+    zoomAndPanAnimationStep(animationStep);
+    glWidget->draw(false);
 }
 }

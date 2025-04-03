@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,25 +28,26 @@
  */
 
 class MakeSelectionGraph : public tlp::BooleanAlgorithm {
-public:
-  MakeSelectionGraph(const tlp::PluginContext *context);
-  PLUGININFORMATION(tlp::SelectionAlgorithm::MakeSelectionGraph, "Bruno Pinaud", "28/11/2016",
-                    "Extends the selection to have a graph.<br/>"
-                    "All selected edges of the current graph will have their extremities selected "
-                    "(no dangling edges).",
-                    "1.0", "Selection")
-  bool run() override;
+  public:
+    MakeSelectionGraph(const tlp::PluginContext *context);
+    PLUGININFORMATION(
+        tlp::SelectionAlgorithm::MakeSelectionGraph, "Bruno Pinaud", "28/11/2016",
+        "Extends the selection to have a graph.<br/>"
+        "All selected edges of the current graph will have their extremities selected "
+        "(no dangling edges).",
+        "1.0", "Selection")
+    bool run() override;
 };
 
 class IsGraphTest : public tlp::GraphTest {
-  PLUGININFORMATION("Graph", "Bruno Pinaud", "29/11/2016",
-                    "Tests whether the set of the selected "
-                    "elements of the current graph is a "
-                    "graph or not (no dangling edges).",
-                    "1.0", "Topological Test")
-public:
-  IsGraphTest(const tlp::PluginContext *context);
-  bool test() override;
+    PLUGININFORMATION("Graph", "Bruno Pinaud", "29/11/2016",
+                      "Tests whether the set of the selected "
+                      "elements of the current graph is a "
+                      "graph or not (no dangling edges).",
+                      "1.0", "Topological Test")
+  public:
+    IsGraphTest(const tlp::PluginContext *context);
+    bool test() override;
 };
 
 #endif // MAKE_SELECTION_GRAPH_H

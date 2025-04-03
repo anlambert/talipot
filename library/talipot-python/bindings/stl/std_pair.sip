@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,30 +24,30 @@ PyObject *itm2 = NULL;
 const sipTypeDef *kpTypeDef1 = getSipType("T1");
 
 if (!kpTypeDef1) {
-  return 0;
+    return 0;
 }
 
 const sipTypeDef *kpTypeDef2 = getSipType("T2");
 
 if (!kpTypeDef2) {
-  return 0;
+    return 0;
 }
 
 if (sipIsErr == NULL) {
-  if (!(PyTuple_Check(sipPy) && PyTuple_Size(sipPy) == 2))
-    return 0;
+    if (!(PyTuple_Check(sipPy) && PyTuple_Size(sipPy) == 2))
+        return 0;
 
-  itm1 = PyTuple_GetItem(sipPy, 0);
-  itm2 = PyTuple_GetItem(sipPy, 1);
+    itm1 = PyTuple_GetItem(sipPy, 0);
+    itm2 = PyTuple_GetItem(sipPy, 1);
 
-  bool ok = sipCanConvertToType(itm1, kpTypeDef1, SIP_NOT_NONE);
-  ok = ok && sipCanConvertToType(itm2, kpTypeDef2, SIP_NOT_NONE);
+    bool ok = sipCanConvertToType(itm1, kpTypeDef1, SIP_NOT_NONE);
+    ok = ok && sipCanConvertToType(itm2, kpTypeDef2, SIP_NOT_NONE);
 
-  if (!ok) {
-    return 0;
-  }
+    if (!ok) {
+        return 0;
+    }
 
-  return 1;
+    return 1;
 }
 
 itm1 = PyTuple_GetItem(sipPy, 0);
@@ -62,9 +62,9 @@ T2 *t2 = static_cast<T2 *>(
     sipConvertToType(itm2, kpTypeDef2, sipTransferObj, SIP_NOT_NONE, &t2State, sipIsErr));
 
 if (*sipIsErr) {
-  sipReleaseType(t1, kpTypeDef1, t1State);
-  sipReleaseType(t2, kpTypeDef2, t2State);
-  return 0;
+    sipReleaseType(t1, kpTypeDef1, t1State);
+    sipReleaseType(t2, kpTypeDef2, t2State);
+    return 0;
 }
 
 std::pair<T1, T2> *p = new std::pair<T1, T2>(*t1, *t2);
@@ -81,19 +81,19 @@ return sipGetState(sipTransferObj);
 const sipTypeDef *kpTypeDef1 = getSipType("T1");
 
 if (!kpTypeDef1) {
-  return NULL;
+    return NULL;
 }
 
 const sipTypeDef *kpTypeDef2 = getSipType("T2");
 
 if (!kpTypeDef2) {
-  return NULL;
+    return NULL;
 }
 
 PyObject *pyTuple = PyTuple_New(2);
 
 if (pyTuple == NULL) {
-  return NULL;
+    return NULL;
 }
 
 PyObject *pyFirst = NULL;
@@ -106,24 +106,24 @@ pyFirst = sipConvertFromNewType(first, kpTypeDef1, sipTransferObj);
 pySecond = sipConvertFromNewType(second, kpTypeDef2, sipTransferObj);
 
 if (pyFirst == NULL || pySecond == NULL || PyTuple_SetItem(pyTuple, 0, pyFirst)) {
-  if (pyFirst)
-    Py_XDECREF(pyFirst);
-  else
-    delete first;
-  if (pySecond)
-    Py_XDECREF(pySecond);
-  else
-    delete second;
-  Py_XDECREF(pyTuple);
+    if (pyFirst)
+        Py_XDECREF(pyFirst);
+    else
+        delete first;
+    if (pySecond)
+        Py_XDECREF(pySecond);
+    else
+        delete second;
+    Py_XDECREF(pyTuple);
 
-  return NULL;
+    return NULL;
 }
 
 if (PyTuple_SetItem(pyTuple, 1, pySecond)) {
-  Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+    Py_XDECREF(pySecond);
+    Py_XDECREF(pyTuple);
 
-  return NULL;
+    return NULL;
 }
 
 return pyTuple;
@@ -143,30 +143,30 @@ PyObject *itm2 = NULL;
 const sipTypeDef *kpTypeDef1 = getSipType("T1");
 
 if (!kpTypeDef1) {
-  return 0;
+    return 0;
 }
 
 const sipTypeDef *kpTypeDef2 = getSipType("T2");
 
 if (!kpTypeDef2) {
-  return 0;
+    return 0;
 }
 
 if (sipIsErr == NULL) {
-  if (!(PyTuple_Check(sipPy) && PyTuple_Size(sipPy) == 2))
-    return 0;
+    if (!(PyTuple_Check(sipPy) && PyTuple_Size(sipPy) == 2))
+        return 0;
 
-  itm1 = PyTuple_GetItem(sipPy, 0);
-  itm2 = PyTuple_GetItem(sipPy, 1);
+    itm1 = PyTuple_GetItem(sipPy, 0);
+    itm2 = PyTuple_GetItem(sipPy, 1);
 
-  bool ok = sipCanConvertToType(itm1, kpTypeDef1, SIP_NOT_NONE);
-  ok = ok && sipCanConvertToType(itm2, kpTypeDef2, SIP_NOT_NONE);
+    bool ok = sipCanConvertToType(itm1, kpTypeDef1, SIP_NOT_NONE);
+    ok = ok && sipCanConvertToType(itm2, kpTypeDef2, SIP_NOT_NONE);
 
-  if (!ok) {
-    return 0;
-  }
+    if (!ok) {
+        return 0;
+    }
 
-  return 1;
+    return 1;
 }
 
 itm1 = PyTuple_GetItem(sipPy, 0);
@@ -181,9 +181,9 @@ T2 *t2 =
     static_cast<T2 *>(sipConvertToType(itm2, kpTypeDef2, NULL, SIP_NOT_NONE, &t2State, sipIsErr));
 
 if (*sipIsErr) {
-  sipReleaseType(t1, kpTypeDef1, t1State);
-  sipReleaseType(t2, kpTypeDef2, t2State);
-  return 0;
+    sipReleaseType(t1, kpTypeDef1, t1State);
+    sipReleaseType(t2, kpTypeDef2, t2State);
+    return 0;
 }
 
 sipTransferTo(itm1, itm1);
@@ -204,17 +204,17 @@ PyObject *pyTuple = PyTuple_New(2);
 const sipTypeDef *kpTypeDef1 = getSipType("T1");
 
 if (!kpTypeDef1) {
-  return NULL;
+    return NULL;
 }
 
 const sipTypeDef *kpTypeDef2 = getSipType("T2");
 
 if (!kpTypeDef2) {
-  return NULL;
+    return NULL;
 }
 
 if (pyTuple == NULL) {
-  return NULL;
+    return NULL;
 }
 
 PyObject *pyFirst = NULL;
@@ -227,20 +227,20 @@ pyFirst = sipConvertFromType(first, kpTypeDef1, sipTransferObj);
 pySecond = sipConvertFromType(second, kpTypeDef2, sipTransferObj);
 
 if (pyFirst == NULL || pySecond == NULL || PyTuple_SetItem(pyTuple, 0, pyFirst)) {
-  if (pyFirst)
-    Py_XDECREF(pyFirst);
-  if (pySecond)
-    Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+    if (pyFirst)
+        Py_XDECREF(pyFirst);
+    if (pySecond)
+        Py_XDECREF(pySecond);
+    Py_XDECREF(pyTuple);
 
-  return NULL;
+    return NULL;
 }
 
 if (PyTuple_SetItem(pyTuple, 1, pySecond)) {
-  Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+    Py_XDECREF(pySecond);
+    Py_XDECREF(pyTuple);
 
-  return NULL;
+    return NULL;
 }
 
 return pyTuple;
@@ -260,30 +260,30 @@ PyObject *itm2 = NULL;
 const sipTypeDef *kpTypeDef1 = getSipType("T1");
 
 if (!kpTypeDef1) {
-  return 0;
+    return 0;
 }
 
 const sipTypeDef *kpTypeDef2 = getSipType("T2");
 
 if (!kpTypeDef2) {
-  return 0;
+    return 0;
 }
 
 if (sipIsErr == NULL) {
-  if (!(PyTuple_Check(sipPy) && PyTuple_Size(sipPy) == 2))
-    return 0;
+    if (!(PyTuple_Check(sipPy) && PyTuple_Size(sipPy) == 2))
+        return 0;
 
-  itm1 = PyTuple_GetItem(sipPy, 0);
-  itm2 = PyTuple_GetItem(sipPy, 1);
+    itm1 = PyTuple_GetItem(sipPy, 0);
+    itm2 = PyTuple_GetItem(sipPy, 1);
 
-  bool ok = sipCanConvertToType(itm1, kpTypeDef1, SIP_NOT_NONE);
-  ok = ok && sipCanConvertToType(itm2, kpTypeDef2, SIP_NOT_NONE);
+    bool ok = sipCanConvertToType(itm1, kpTypeDef1, SIP_NOT_NONE);
+    ok = ok && sipCanConvertToType(itm2, kpTypeDef2, SIP_NOT_NONE);
 
-  if (!ok) {
-    return 0;
-  }
+    if (!ok) {
+        return 0;
+    }
 
-  return 1;
+    return 1;
 }
 
 itm1 = PyTuple_GetItem(sipPy, 0);
@@ -298,9 +298,9 @@ T2 *t2 = static_cast<T2 *>(
     sipConvertToType(itm2, kpTypeDef2, sipTransferObj, SIP_NOT_NONE, &t2State, sipIsErr));
 
 if (*sipIsErr) {
-  sipReleaseType(t1, kpTypeDef1, t1State);
-  sipReleaseType(t2, kpTypeDef2, t2State);
-  return 0;
+    sipReleaseType(t1, kpTypeDef1, t1State);
+    sipReleaseType(t2, kpTypeDef2, t2State);
+    return 0;
 }
 
 sipTransferTo(itm1, itm1);
@@ -320,17 +320,17 @@ PyObject *pyTuple = PyTuple_New(2);
 const sipTypeDef *kpTypeDef1 = getSipType("T1");
 
 if (!kpTypeDef1) {
-  return NULL;
+    return NULL;
 }
 
 const sipTypeDef *kpTypeDef2 = getSipType("T2");
 
 if (!kpTypeDef2) {
-  return NULL;
+    return NULL;
 }
 
 if (pyTuple == NULL) {
-  return NULL;
+    return NULL;
 }
 
 PyObject *pyFirst = NULL;
@@ -343,21 +343,21 @@ pyFirst = sipConvertFromType(first, kpTypeDef1, sipTransferObj);
 pySecond = sipConvertFromNewType(second, kpTypeDef2, sipTransferObj);
 
 if (pyFirst == NULL || pySecond == NULL || PyTuple_SetItem(pyTuple, 0, pyFirst)) {
-  if (pyFirst)
-    Py_XDECREF(pyFirst);
-  if (pySecond)
-    Py_XDECREF(pySecond);
-  else
-    delete second;
-  Py_XDECREF(pyTuple);
+    if (pyFirst)
+        Py_XDECREF(pyFirst);
+    if (pySecond)
+        Py_XDECREF(pySecond);
+    else
+        delete second;
+    Py_XDECREF(pyTuple);
 
-  return NULL;
+    return NULL;
 }
 
 if (PyTuple_SetItem(pyTuple, 1, pySecond)) {
-  Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
-  return NULL;
+    Py_XDECREF(pySecond);
+    Py_XDECREF(pyTuple);
+    return NULL;
 }
 
 return pyTuple;
@@ -377,30 +377,30 @@ PyObject *itm2 = NULL;
 const sipTypeDef *kpTypeDef1 = getSipType("T1");
 
 if (!kpTypeDef1) {
-  return 0;
+    return 0;
 }
 
 const sipTypeDef *kpTypeDef2 = getSipType("T2");
 
 if (!kpTypeDef2) {
-  return 0;
+    return 0;
 }
 
 if (sipIsErr == NULL) {
-  if (!(PyTuple_Check(sipPy) && PyTuple_Size(sipPy) == 2))
-    return 0;
+    if (!(PyTuple_Check(sipPy) && PyTuple_Size(sipPy) == 2))
+        return 0;
 
-  itm1 = PyTuple_GetItem(sipPy, 0);
-  itm2 = PyTuple_GetItem(sipPy, 1);
+    itm1 = PyTuple_GetItem(sipPy, 0);
+    itm2 = PyTuple_GetItem(sipPy, 1);
 
-  bool ok = sipCanConvertToType(itm1, kpTypeDef1, SIP_NOT_NONE);
-  ok = ok && sipCanConvertToType(itm2, kpTypeDef2, SIP_NOT_NONE);
+    bool ok = sipCanConvertToType(itm1, kpTypeDef1, SIP_NOT_NONE);
+    ok = ok && sipCanConvertToType(itm2, kpTypeDef2, SIP_NOT_NONE);
 
-  if (!ok) {
-    return 0;
-  }
+    if (!ok) {
+        return 0;
+    }
 
-  return 1;
+    return 1;
 }
 
 itm1 = PyTuple_GetItem(sipPy, 0);
@@ -415,9 +415,9 @@ T2 *t2 =
     static_cast<T2 *>(sipConvertToType(itm2, kpTypeDef2, NULL, SIP_NOT_NONE, &t2State, sipIsErr));
 
 if (*sipIsErr) {
-  sipReleaseType(t1, kpTypeDef1, t1State);
-  sipReleaseType(t2, kpTypeDef2, t2State);
-  return 0;
+    sipReleaseType(t1, kpTypeDef1, t1State);
+    sipReleaseType(t2, kpTypeDef2, t2State);
+    return 0;
 }
 
 sipTransferTo(itm2, itm2);
@@ -437,17 +437,17 @@ PyObject *pyTuple = PyTuple_New(2);
 const sipTypeDef *kpTypeDef1 = getSipType("T1");
 
 if (!kpTypeDef1) {
-  return NULL;
+    return NULL;
 }
 
 const sipTypeDef *kpTypeDef2 = getSipType("T2");
 
 if (!kpTypeDef2) {
-  return NULL;
+    return NULL;
 }
 
 if (pyTuple == NULL) {
-  return NULL;
+    return NULL;
 }
 
 PyObject *pyFirst = NULL;
@@ -460,22 +460,22 @@ pyFirst = sipConvertFromNewType(first, kpTypeDef1, sipTransferObj);
 pySecond = sipConvertFromType(second, kpTypeDef2, sipTransferObj);
 
 if (pyFirst == NULL || pySecond == NULL || PyTuple_SetItem(pyTuple, 0, pyFirst)) {
-  if (pyFirst)
-    Py_XDECREF(pyFirst);
-  else
-    delete first;
-  if (pySecond)
-    Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+    if (pyFirst)
+        Py_XDECREF(pyFirst);
+    else
+        delete first;
+    if (pySecond)
+        Py_XDECREF(pySecond);
+    Py_XDECREF(pyTuple);
 
-  return NULL;
+    return NULL;
 }
 
 if (PyTuple_SetItem(pyTuple, 1, pySecond)) {
-  Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+    Py_XDECREF(pySecond);
+    Py_XDECREF(pyTuple);
 
-  return NULL;
+    return NULL;
 }
 
 return pyTuple;
@@ -492,20 +492,20 @@ PyObject *itm1 = NULL;
 PyObject *itm2 = NULL;
 
 if (sipIsErr == NULL) {
-  if (!(PyTuple_Check(sipPy) && PyTuple_Size(sipPy) == 2))
-    return 0;
+    if (!(PyTuple_Check(sipPy) && PyTuple_Size(sipPy) == 2))
+        return 0;
 
-  itm1 = PyTuple_GetItem(sipPy, 0);
-  itm2 = PyTuple_GetItem(sipPy, 1);
+    itm1 = PyTuple_GetItem(sipPy, 0);
+    itm2 = PyTuple_GetItem(sipPy, 1);
 
-  bool ok = PyLong_Check(itm1);
-  ok = ok && PyLong_Check(itm2);
+    bool ok = PyLong_Check(itm1);
+    ok = ok && PyLong_Check(itm2);
 
-  if (!ok) {
-    return 0;
-  }
+    if (!ok) {
+        return 0;
+    }
 
-  return 1;
+    return 1;
 }
 
 itm1 = PyTuple_GetItem(sipPy, 0);
@@ -530,7 +530,7 @@ return sipGetState(sipTransferObj);
 PyObject *pyTuple = PyTuple_New(2);
 
 if (pyTuple == NULL) {
-  return 0;
+    return 0;
 }
 
 PyObject *pyFirst = NULL;
@@ -540,22 +540,22 @@ pyFirst = PyLong_FromUnsignedLong(sipCpp->first);
 pySecond = PyLong_FromUnsignedLong(sipCpp->second);
 
 if (pyFirst == NULL || pySecond == NULL || PyTuple_SetItem(pyTuple, 0, pyFirst)) {
-  if (pyFirst)
-    Py_XDECREF(pyFirst);
+    if (pyFirst)
+        Py_XDECREF(pyFirst);
 
-  if (pySecond)
-    Py_XDECREF(pySecond);
+    if (pySecond)
+        Py_XDECREF(pySecond);
 
-  Py_XDECREF(pyTuple);
+    Py_XDECREF(pyTuple);
 
-  return 0;
+    return 0;
 }
 
 if (PyTuple_SetItem(pyTuple, 1, pySecond)) {
-  Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+    Py_XDECREF(pySecond);
+    Py_XDECREF(pyTuple);
 
-  return 0;
+    return 0;
 }
 
 return pyTuple;

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,5 +18,5 @@ using namespace tlp;
 Exception::Exception(const std::string &desc) : desc(desc) {}
 Exception::~Exception() throw() = default;
 const char *Exception::what() const throw() {
-  return desc.c_str();
+    return desc.c_str();
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,37 +21,37 @@ using namespace std;
 
 namespace tlp {
 GlEntity::~GlEntity() {
-  for (auto *parent : parents) {
-    parent->deleteGlEntity(this, false);
-  }
+    for (auto *parent : parents) {
+        parent->deleteGlEntity(this, false);
+    }
 }
 
 void GlEntity::addParent(GlComposite *composite) {
-  parents.push_back(composite);
+    parents.push_back(composite);
 }
 
 void GlEntity::setVisible(bool visible) {
-  if (this->visible == visible) {
-    return;
-  }
+    if (this->visible == visible) {
+        return;
+    }
 
-  this->visible = visible;
+    this->visible = visible;
 
-  for (auto *parent : parents) {
-    parent->notifyModified(this);
-  }
+    for (auto *parent : parents) {
+        parent->notifyModified(this);
+    }
 }
 
 void GlEntity::removeParent(GlComposite *composite) {
-  auto it = find(parents.begin(), parents.end(), composite);
+    auto it = find(parents.begin(), parents.end(), composite);
 
-  if (it != parents.end()) {
-    parents.erase(it);
-  }
+    if (it != parents.end()) {
+        parents.erase(it);
+    }
 }
 
 void GlEntity::acceptVisitor(GlSceneVisitor *visitor) {
-  visitor->visit(this);
+    visitor->visit(this);
 }
 
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -52,68 +52,68 @@ namespace tlp {
  **/
 template <typename T>
 struct StableIterator : public Iterator<T> {
-  //=============================
-  /**
-   * @brief Creates a stable Iterator, that allows to delete elements from a graph while iterating
-   *on them.
-   *
-   * @param inputIterator Input Iterator, which defines the sequence on which this Iterator will
-   *iterate.
-   * @param nbElements The number of elements the iteration will take place on. Defaults to 0.
-   * @param deleteIterator Whether or not to delete the Iterator given as first parameter. Defaults
-   *to true.
-   **/
-  StableIterator(Iterator<T> *inputIterator, size_t nbElements = 0, bool deleteIterator = true,
-                 bool sortCopy = false) {
-    sequenceCopy.reserve(nbElements);
+    //=============================
+    /**
+     * @brief Creates a stable Iterator, that allows to delete elements from a graph while iterating
+     *on them.
+     *
+     * @param inputIterator Input Iterator, which defines the sequence on which this Iterator will
+     *iterate.
+     * @param nbElements The number of elements the iteration will take place on. Defaults to 0.
+     * @param deleteIterator Whether or not to delete the Iterator given as first parameter.
+     *Defaults to true.
+     **/
+    StableIterator(Iterator<T> *inputIterator, size_t nbElements = 0, bool deleteIterator = true,
+                   bool sortCopy = false) {
+        sequenceCopy.reserve(nbElements);
 
-    for (; inputIterator->hasNext();) {
-      sequenceCopy.push_back(inputIterator->next());
+        for (; inputIterator->hasNext();) {
+            sequenceCopy.push_back(inputIterator->next());
+        }
+
+        if (deleteIterator) {
+            delete inputIterator;
+        }
+
+        if (sortCopy) {
+            std::sort(sequenceCopy.begin(), sequenceCopy.end());
+        }
+
+        copyIterator = sequenceCopy.begin();
     }
-
-    if (deleteIterator) {
-      delete inputIterator;
+    //=============================
+    ~StableIterator() = default;
+    //=============================
+    T next() {
+        T tmp(*copyIterator);
+        ++copyIterator;
+        return tmp;
     }
-
-    if (sortCopy) {
-      std::sort(sequenceCopy.begin(), sequenceCopy.end());
+    //=============================
+    bool hasNext() {
+        return (copyIterator != sequenceCopy.end());
     }
+    //=============================
 
-    copyIterator = sequenceCopy.begin();
-  }
-  //=============================
-  ~StableIterator() = default;
-  //=============================
-  T next() {
-    T tmp(*copyIterator);
-    ++copyIterator;
-    return tmp;
-  }
-  //=============================
-  bool hasNext() {
-    return (copyIterator != sequenceCopy.end());
-  }
-  //=============================
+    /**
+     * @brief Restarts the iteration by moving the Iterator to the beginning of the sequence.
+     *
+     * @return void
+     **/
+    void restart() {
+        copyIterator = sequenceCopy.begin();
+    }
+    //=============================
+  protected:
+    /**
+     * @brief A copy of the sequence of the elements to iterate.
+     **/
+    std::vector<T> sequenceCopy;
 
-  /**
-   * @brief Restarts the iteration by moving the Iterator to the beginning of the sequence.
-   *
-   * @return void
-   **/
-  void restart() {
-    copyIterator = sequenceCopy.begin();
-  }
-  //=============================
-protected:
-  /**
-   * @brief A copy of the sequence of the elements to iterate.
-   **/
-  std::vector<T> sequenceCopy;
-
-  /**
-   * @brief STL const_iterator on the cloned sequence.
-   **/
-  typename std::vector<T>::const_iterator copyIterator;
+    /**
+     * @brief STL const_iterator on the cloned sequence.
+     **/
+    typename std::vector<T>::const_iterator copyIterator;
 };
 
 /**
@@ -128,7 +128,7 @@ protected:
  **/
 template <class T>
 inline Iterator<T> *stableIterator(Iterator<T> *it) {
-  return new StableIterator<T>(it);
+    return new StableIterator<T>(it);
 }
 
 /**
@@ -142,7 +142,7 @@ inline Iterator<T> *stableIterator(Iterator<T> *it) {
  **/
 template <typename Container>
 inline Iterator<typename Container::value_type> *stableIterator(const Container &stlContainer) {
-  return new StableIterator<typename Container::value_type>(stlIterator(stlContainer));
+    return new StableIterator<typename Container::value_type>(stlIterator(stlContainer));
 }
 }
 #endif // TALIPOT_STABLE_ITERATOR_H

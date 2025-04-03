@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,13 +31,13 @@ namespace tlp {
  * PluginProgress::progress is called to allow synchronizing the preview with progression.
  */
 class TLP_SCOPE ProgressPreviewHandler {
-public:
-  virtual ~ProgressPreviewHandler();
+  public:
+    virtual ~ProgressPreviewHandler();
 
-  /**
-   * @brief @brief Called back after PluginProgress::progress has been invoked.
-   */
-  virtual void progressStateChanged(int step, int max_step) = 0;
+    /**
+     * @brief @brief Called back after PluginProgress::progress has been invoked.
+     */
+    virtual void progressStateChanged(int step, int max_step) = 0;
 };
 
 /**
@@ -57,12 +57,12 @@ public:
  * @see tlp::PluginProgress
  **/
 enum class ProgressState {
-  /** The plugin should continue its execution. */
-  TLP_CONTINUE,
-  /** The plugin should cancel, reverting all performed changes since the plugin was called. */
-  TLP_CANCEL,
-  /** The plugin should stop, leaving the graph in its current state. */
-  TLP_STOP
+    /** The plugin should continue its execution. */
+    TLP_CONTINUE,
+    /** The plugin should cancel, reverting all performed changes since the plugin was called. */
+    TLP_CANCEL,
+    /** The plugin should stop, leaving the graph in its current state. */
+    TLP_STOP
 };
 
 /**
@@ -78,115 +78,115 @@ enum class ProgressState {
  *should have (see tlp::ProgressState for details)
  **/
 class TLP_SCOPE PluginProgress {
-  ProgressPreviewHandler *_previewHandler;
+    ProgressPreviewHandler *_previewHandler;
 
-public:
-  PluginProgress();
-  virtual ~PluginProgress();
-  void setPreviewHandler(ProgressPreviewHandler *);
+  public:
+    PluginProgress();
+    virtual ~PluginProgress();
+    void setPreviewHandler(ProgressPreviewHandler *);
 
-  /**
-   * @brief Notifies the progression of the process.
-   *
-   * @param step The current step number.
-   * @param max_step The total number of steps.
-   *
-   * @warning For default previsualisation handling to work, be sure to call
-   * PluginProgress::progress in this method (the return value can be ignored)
-   *
-   * @return tlp::ProgressState a value indicating whether the progress has been stopped, cancelled,
-   *or will continue.
-   * @see tlp::ProgressState
-   **/
-  virtual ProgressState progress(int step, int max_step);
+    /**
+     * @brief Notifies the progression of the process.
+     *
+     * @param step The current step number.
+     * @param max_step The total number of steps.
+     *
+     * @warning For default previsualisation handling to work, be sure to call
+     * PluginProgress::progress in this method (the return value can be ignored)
+     *
+     * @return tlp::ProgressState a value indicating whether the progress has been stopped,
+     *cancelled, or will continue.
+     * @see tlp::ProgressState
+     **/
+    virtual ProgressState progress(int step, int max_step);
 
-  /**
-   * @brief Sets the state flag to cancel, notifying to the process that the user wants to cancel
-   *it. Canceling a process must stop it and revert all the changes performed since its start.
-   *
-   * @return void
-   **/
-  virtual void cancel() = 0;
+    /**
+     * @brief Sets the state flag to cancel, notifying to the process that the user wants to cancel
+     *it. Canceling a process must stop it and revert all the changes performed since its start.
+     *
+     * @return void
+     **/
+    virtual void cancel() = 0;
 
-  /**
-   * @brief Sets the state flag to stop, notifying to the process that the user wants to stop it.
-   * Stopping a process does not revert changes.
-   * @return void
-   **/
-  virtual void stop() = 0;
+    /**
+     * @brief Sets the state flag to stop, notifying to the process that the user wants to stop it.
+     * Stopping a process does not revert changes.
+     * @return void
+     **/
+    virtual void stop() = 0;
 
-  /**
-   * @brief The preview mode redraws the graph while applying the algorithm, making it slower.
-   *
-   * @return bool Whether the preview mode is activated.
-   **/
-  virtual bool isPreviewMode() const = 0;
+    /**
+     * @brief The preview mode redraws the graph while applying the algorithm, making it slower.
+     *
+     * @return bool Whether the preview mode is activated.
+     **/
+    virtual bool isPreviewMode() const = 0;
 
-  /**
-   * @brief The preview mode redraws the graph while applying the algorithm, making it slower.
-   *
-   * @param drawPreview Whether the preview should be drawn.
-   * @return void
-   **/
-  virtual void setPreviewMode(bool drawPreview) = 0;
+    /**
+     * @brief The preview mode redraws the graph while applying the algorithm, making it slower.
+     *
+     * @param drawPreview Whether the preview should be drawn.
+     * @return void
+     **/
+    virtual void setPreviewMode(bool drawPreview) = 0;
 
-  /**
-   * @brief This tells the progress if it can allow the user to decide
-   * if the algorithm should draw a preview or not.
-   *
-   * @param showPreview Whether preview display can be managed or not
-   * @return void
-   **/
-  virtual void showPreview(bool showPreview) = 0;
+    /**
+     * @brief This tells the progress if it can allow the user to decide
+     * if the algorithm should draw a preview or not.
+     *
+     * @param showPreview Whether preview display can be managed or not
+     * @return void
+     **/
+    virtual void showPreview(bool showPreview) = 0;
 
-  /**
-   * @brief This tells the progress if it can allow the user to decide
-   * to stop or cancel the plugin execution
-   *
-   * @param show Whether stop or cancellation can be managed or not
-   * @return void
-   **/
-  virtual void showStops(bool show) = 0;
+    /**
+     * @brief This tells the progress if it can allow the user to decide
+     * to stop or cancel the plugin execution
+     *
+     * @param show Whether stop or cancellation can be managed or not
+     * @return void
+     **/
+    virtual void showStops(bool show) = 0;
 
-  /**
-   * @brief Gets the current internal state of the PluginProgress.
-   *
-   * @return tlp::ProgressState The current state.
-   **/
-  virtual ProgressState state() const = 0;
+    /**
+     * @brief Gets the current internal state of the PluginProgress.
+     *
+     * @return tlp::ProgressState The current state.
+     **/
+    virtual ProgressState state() const = 0;
 
-  /**
-   * @brief Returns a message describing the error encountered during the process. If no error has
-   *been encountered, an empty string is returned.
-   *
-   * @return :string A description of the encountered error, if any.
-   **/
-  virtual std::string getError() = 0;
+    /**
+     * @brief Returns a message describing the error encountered during the process. If no error has
+     *been encountered, an empty string is returned.
+     *
+     * @return :string A description of the encountered error, if any.
+     **/
+    virtual std::string getError() = 0;
 
-  /**
-   * @brief Sets the message describing the error encountered during the process.
-   *
-   * @param error The description of the encountered error.
-   * @return void
-   **/
-  virtual void setError(const std::string &error) = 0;
+    /**
+     * @brief Sets the message describing the error encountered during the process.
+     *
+     * @param error The description of the encountered error.
+     * @return void
+     **/
+    virtual void setError(const std::string &error) = 0;
 
-  /**
-   * @brief Changes the comment about the process progression.
-   *
-   * @param comment A description of what the plugin is currently doing, displayed to inform the
-   *user.
-   * @return void
-   **/
-  virtual void setComment(const std::string &comment) = 0;
+    /**
+     * @brief Changes the comment about the process progression.
+     *
+     * @param comment A description of what the plugin is currently doing, displayed to inform the
+     *user.
+     * @return void
+     **/
+    virtual void setComment(const std::string &comment) = 0;
 
-  /**
-   * @brief Changes the title of that plugin progress
-   *
-   * @param title the title to set
-   * @return void
-   **/
-  virtual void setTitle(const std::string &title) = 0;
+    /**
+     * @brief Changes the title of that plugin progress
+     *
+     * @param title the title to set
+     * @return void
+     **/
+    virtual void setTitle(const std::string &title) = 0;
 };
 }
 #endif // TALIPOT_PLUGIN_PROGRESS_H

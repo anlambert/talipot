@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,13 +17,13 @@
 #include "DiffusionRateFunction.h"
 
 class DifusionRateFunctionGaussian : public DiffusionRateFunction {
-public:
-  DifusionRateFunctionGaussian(TimeDecreasingFunction *decreasingFunction);
-  ~DifusionRateFunctionGaussian() override;
-  double computeSpaceRate(unsigned int distance, unsigned int currentIteration,
-                          unsigned int maxIteration, unsigned int inputSampleSize) override;
+  public:
+    DifusionRateFunctionGaussian(TimeDecreasingFunction *decreasingFunction);
+    ~DifusionRateFunctionGaussian() override;
+    double computeSpaceRate(unsigned int distance, unsigned int currentIteration,
+                            unsigned int maxIteration, unsigned int inputSampleSize) override;
 
-protected:
+  protected:
 };
 
 #endif // DIFUSION_RATE_FUNCTION_GAUSSIAN_H

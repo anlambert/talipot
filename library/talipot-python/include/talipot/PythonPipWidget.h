@@ -24,25 +24,25 @@ namespace tlp {
 
 class TLP_PYTHON_SCOPE PythonPipWidget : public PythonCodeEditor {
 
-public:
-  explicit PythonPipWidget(QWidget *parent = nullptr);
+  public:
+    explicit PythonPipWidget(QWidget *parent = nullptr);
 
-protected:
-  void keyPressEvent(QKeyEvent *e) override;
+  protected:
+    void keyPressEvent(QKeyEvent *e) override;
 
-  bool isCursorOnLastLine();
+    bool isCursorOnLastLine();
 
-  void executePipCommand(const QString &pipArguments);
+    void executePipCommand(const QString &pipArguments);
 
-  void showEvent(QShowEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 
-public slots:
+  public slots:
 
-  void insert(const QString &txt, const bool atEnd = false);
+    void insert(const QString &txt, const bool atEnd = false);
 
-protected slots:
+  protected slots:
 
-  void updateAutoCompletionList(bool dotContext = false) override;
+    void updateAutoCompletionList(bool dotContext = false) override;
 };
 }
 

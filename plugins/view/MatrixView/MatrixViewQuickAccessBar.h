@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,18 +21,18 @@ namespace tlp {
 class MatrixViewConfigurationWidget;
 
 class MatrixViewQuickAccessBar : public tlp::QuickAccessBarImpl {
-  Q_OBJECT
+    Q_OBJECT
 
-  MatrixViewConfigurationWidget *_optionsWidget;
+    MatrixViewConfigurationWidget *_optionsWidget;
 
-public:
-  MatrixViewQuickAccessBar(MatrixViewConfigurationWidget *opt, QWidget *parent = nullptr);
+  public:
+    MatrixViewQuickAccessBar(MatrixViewConfigurationWidget *opt, QWidget *parent = nullptr);
 
-public slots:
-  void reset() override;
-  void setEdgesVisible(bool) override;
-  void setBackgroundColor(const QColor &) override;
-  void setColorInterpolation(bool) override;
+  public slots:
+    void reset() override;
+    void setEdgesVisible(bool) override;
+    void setBackgroundColor(const QColor &) override;
+    void setColorInterpolation(bool) override;
 };
 }
 #endif // MATRIX_VIEW_QUICK_ACCESS_BAR_H

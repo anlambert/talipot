@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2024  The Talipot developers
+ * Copyright (C) 2024-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,22 +25,22 @@ static constexpr string_view paramHelp[] = {
 //=================================================================================
 
 class OGDFCompleteKPartiteGraph : public OGDFImportBase {
-public:
-  PLUGININFORMATION("Complete K-partite Graph (OGDF)", "Antoine Lambert", "05/2024",
-                    "Creates the complete k-partite graph K_{k1,k2,...,kn}.", "1.0", "OGDF")
+  public:
+    PLUGININFORMATION("Complete K-partite Graph (OGDF)", "Antoine Lambert", "05/2024",
+                      "Creates the complete k-partite graph K_{k1,k2,...,kn}.", "1.0", "OGDF")
 
-  OGDFCompleteKPartiteGraph(tlp::PluginContext *context) : OGDFImportBase(context) {
-    addInParameter<vector<int>>("signature", paramHelp[0].data(), "(10, 20, 30, 40)");
-  }
-
-  bool importOGDFGraph() override {
-    vector<int> signature = {10, 20, 30, 40};
-    if (dataSet != nullptr) {
-      dataSet->get("signature", signature);
+    OGDFCompleteKPartiteGraph(tlp::PluginContext *context) : OGDFImportBase(context) {
+        addInParameter<vector<int>>("signature", paramHelp[0].data(), "(10, 20, 30, 40)");
     }
-    ogdf::completeKPartiteGraph(G, vectorToOGDFArray(signature));
-    return true;
-  }
+
+    bool importOGDFGraph() override {
+        vector<int> signature = {10, 20, 30, 40};
+        if (dataSet != nullptr) {
+            dataSet->get("signature", signature);
+        }
+        ogdf::completeKPartiteGraph(G, vectorToOGDFArray(signature));
+        return true;
+    }
 };
 
 PLUGIN(OGDFCompleteKPartiteGraph)

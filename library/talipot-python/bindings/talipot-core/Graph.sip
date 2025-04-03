@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -34,21 +34,21 @@ typedef tlp::Iterator<tlp::PropertyPointer> IteratorProperty;
 typedef std::pair<tlp::node, tlp::node> pairNodeNode;
 
 inline void releasePropertyWrapper(tlp::PropertyInterface *prop) {
-  releaseSIPWrapper(prop, sipFindType("tlp::PropertyInterface"));
+    releaseSIPWrapper(prop, sipFindType("tlp::PropertyInterface"));
 }
 
 inline void releaseGraphWrapper(tlp::Graph *graph) {
-  releaseSIPWrapper(graph, sipFindType("tlp::Graph"));
-  for (tlp::PropertyInterface *prop : graph->getLocalObjectProperties()) {
-    releasePropertyWrapper(prop);
-  }
+    releaseSIPWrapper(graph, sipFindType("tlp::Graph"));
+    for (tlp::PropertyInterface *prop : graph->getLocalObjectProperties()) {
+        releasePropertyWrapper(prop);
+    }
 }
 
 inline void releaseGraphHierarchyWrappers(tlp::Graph *graph) {
-  for (tlp::Graph *sg : graph->getSubGraphs()) {
-    releaseGraphHierarchyWrappers(sg);
-  }
-  releaseGraphWrapper(graph);
+    for (tlp::Graph *sg : graph->getSubGraphs()) {
+        releaseGraphHierarchyWrappers(sg);
+    }
+    releaseGraphWrapper(graph);
 }
 
 extern tlp::DataSet *prepareAlgorithmParameters(const std::string &algoName,
@@ -63,32 +63,32 @@ bool callGraphPropertyAlgorithm(tlp::Graph *graph, const std::string &algoName,
                                 PropertyType *result, tlp::DataSet *inputDataSet,
                                 PyObject *inputDataSetWrapper, std::string &errMsg, int &sipIsErr,
                                 const std::string &propertyType) {
-  bool ret = false;
-  if (pluginExists<AlgorithmType>(algoName)) {
-    tlp::DataSet *params =
-        prepareAlgorithmParameters(algoName, graph, inputDataSet, inputDataSetWrapper);
-    if (params) {
-      PropertyType tmp(graph);
-      tmp = *result;
-      ret = graph->applyPropertyAlgorithm(algoName, &tmp, errMsg, params);
-      *result = tmp;
-      updateWrappedDataSetAfterAlgorithmCall(params, inputDataSetWrapper);
-      delete params;
+    bool ret = false;
+    if (pluginExists<AlgorithmType>(algoName)) {
+        tlp::DataSet *params =
+            prepareAlgorithmParameters(algoName, graph, inputDataSet, inputDataSetWrapper);
+        if (params) {
+            PropertyType tmp(graph);
+            tmp = *result;
+            ret = graph->applyPropertyAlgorithm(algoName, &tmp, errMsg, params);
+            *result = tmp;
+            updateWrappedDataSetAfterAlgorithmCall(params, inputDataSetWrapper);
+            delete params;
+        } else {
+            sipIsErr = 1;
+        }
     } else {
-      sipIsErr = 1;
+        sipIsErr = 1;
+        std::string msg = "No Talipot " + propertyType + " algorithm plugin named ";
+        msg += algoName;
+        msg += ".";
+        PyErr_SetString(PyExc_ValueError, msg.c_str());
     }
-  } else {
-    sipIsErr = 1;
-    std::string msg = "No Talipot " + propertyType + " algorithm plugin named ";
-    msg += algoName;
-    msg += ".";
-    PyErr_SetString(PyExc_ValueError, msg.c_str());
-  }
-  if (PyErr_Occurred()) {
-    // propagate exceptions raised by talipot plugins written in Python
-    sipIsErr = -1;
-  }
-  return ret;
+    if (PyErr_Occurred()) {
+        // propagate exceptions raised by talipot plugins written in Python
+        sipIsErr = -1;
+    }
+    return ret;
 }
 
 tlp::DataSet *getDataSetFilledWithPropertiesValues(tlp::Graph *graph, uint eltId, bool nodeValues);
@@ -101,170 +101,174 @@ bool setPropertiesValuesFromDataSet(tlp::Graph *graph, const tlp::DataSet *dataS
 
 tlp::DataSet *prepareAlgorithmParameters(const std::string &algoName, tlp::Graph *graph,
                                          tlp::DataSet *inputParams, PyObject *inputParamsWrapper) {
-  tlp::DataSet algoParams = ::getDefaultPluginParameters(algoName, graph);
-  tlp::DataSet *params = NULL;
-  if (inputParamsWrapper && PyDict_Check(inputParamsWrapper)) {
-    params = convertPyDictToTlpDataSet(inputParamsWrapper, &algoParams, algoName);
-  } else {
-    params = new tlp::DataSet(algoParams);
-    if (inputParams) {
-      for (const std::pair<std::string, tlp::DataType *> &entry : inputParams->getValues()) {
-        params->setData(entry.first, entry.second);
-      }
-    }
-  }
-  // if some file parameters are defined without the special prefix provided, ensure
-  // the prefixed versions are defined and set their values before calling Talipot algorithm
-  if (params) {
-    std::vector<std::string> filesPrefixes;
-    filesPrefixes.push_back("file::");
-    filesPrefixes.push_back("anyfile::");
-    filesPrefixes.push_back("dir::");
-    for (const std::pair<std::string, tlp::DataType *> &entry :
-         tlp::stableIterator(params->getValues())) {
-      for (size_t i = 0; i < filesPrefixes.size(); ++i) {
-        std::string fileParamTlpName = filesPrefixes[i] + entry.first;
-        if (algoParams.exists(fileParamTlpName)) {
-          std::string fileParamTlp;
-          std::string fileParam;
-          params->get(fileParamTlpName, fileParamTlp);
-          params->get(entry.first, fileParam);
-          if (fileParamTlp.empty() && !fileParam.empty()) {
-            params->set(fileParamTlpName, fileParam);
-          }
-          if (!fileParamTlp.empty() && fileParam.empty()) {
-            params->set(entry.first, fileParamTlp);
-          }
+    tlp::DataSet algoParams = ::getDefaultPluginParameters(algoName, graph);
+    tlp::DataSet *params = NULL;
+    if (inputParamsWrapper && PyDict_Check(inputParamsWrapper)) {
+        params = convertPyDictToTlpDataSet(inputParamsWrapper, &algoParams, algoName);
+    } else {
+        params = new tlp::DataSet(algoParams);
+        if (inputParams) {
+            for (const std::pair<std::string, tlp::DataType *> &entry : inputParams->getValues()) {
+                params->setData(entry.first, entry.second);
+            }
         }
-      }
     }
-  }
-  return params;
+    // if some file parameters are defined without the special prefix provided, ensure
+    // the prefixed versions are defined and set their values before calling Talipot algorithm
+    if (params) {
+        std::vector<std::string> filesPrefixes;
+        filesPrefixes.push_back("file::");
+        filesPrefixes.push_back("anyfile::");
+        filesPrefixes.push_back("dir::");
+        for (const std::pair<std::string, tlp::DataType *> &entry :
+             tlp::stableIterator(params->getValues())) {
+            for (size_t i = 0; i < filesPrefixes.size(); ++i) {
+                std::string fileParamTlpName = filesPrefixes[i] + entry.first;
+                if (algoParams.exists(fileParamTlpName)) {
+                    std::string fileParamTlp;
+                    std::string fileParam;
+                    params->get(fileParamTlpName, fileParamTlp);
+                    params->get(entry.first, fileParam);
+                    if (fileParamTlp.empty() && !fileParam.empty()) {
+                        params->set(fileParamTlpName, fileParam);
+                    }
+                    if (!fileParamTlp.empty() && fileParam.empty()) {
+                        params->set(entry.first, fileParamTlp);
+                    }
+                }
+            }
+        }
+    }
+    return params;
 }
 
 void updateWrappedDataSetAfterAlgorithmCall(tlp::DataSet *algorithmOutputDataset,
                                             PyObject *inputDataSetWrapper) {
-  if (inputDataSetWrapper && PyDict_Check(inputDataSetWrapper)) {
-    convertTlpDataSetToPyDict(*algorithmOutputDataset, inputDataSetWrapper);
-  } else if (inputDataSetWrapper) {
-    tlp::DataSet *wrappedDs = static_cast<tlp::DataSet *>(
-        sipGetAddress(reinterpret_cast<sipSimpleWrapper *>(inputDataSetWrapper)));
-    for (const std::pair<std::string, tlp::DataType *> &entry :
-         algorithmOutputDataset->getValues()) {
-      wrappedDs->setData(entry.first, entry.second);
+    if (inputDataSetWrapper && PyDict_Check(inputDataSetWrapper)) {
+        convertTlpDataSetToPyDict(*algorithmOutputDataset, inputDataSetWrapper);
+    } else if (inputDataSetWrapper) {
+        tlp::DataSet *wrappedDs = static_cast<tlp::DataSet *>(
+            sipGetAddress(reinterpret_cast<sipSimpleWrapper *>(inputDataSetWrapper)));
+        for (const std::pair<std::string, tlp::DataType *> &entry :
+             algorithmOutputDataset->getValues()) {
+            wrappedDs->setData(entry.first, entry.second);
+        }
     }
-  }
 }
 
 tlp::DataSet *getDataSetFilledWithPropertiesValues(tlp::Graph *graph, uint eltId, bool nodeValues) {
-  tlp::DataSet *ret = new tlp::DataSet();
-  for (tlp::PropertyInterface *prop : graph->getObjectProperties()) {
-    tlp::BooleanProperty *booleanProp = dynamic_cast<tlp::BooleanProperty *>(prop);
-    tlp::ColorProperty *colorProp = dynamic_cast<tlp::ColorProperty *>(prop);
-    tlp::DoubleProperty *doubleProp = dynamic_cast<tlp::DoubleProperty *>(prop);
-    tlp::IntegerProperty *integerProp = dynamic_cast<tlp::IntegerProperty *>(prop);
-    tlp::LayoutProperty *layoutProp = dynamic_cast<tlp::LayoutProperty *>(prop);
-    tlp::SizeProperty *sizeProp = dynamic_cast<tlp::SizeProperty *>(prop);
-    tlp::StringProperty *stringProp = dynamic_cast<tlp::StringProperty *>(prop);
-    tlp::BooleanVectorProperty *booleanVecProp = dynamic_cast<tlp::BooleanVectorProperty *>(prop);
-    tlp::ColorVectorProperty *colorVecProp = dynamic_cast<tlp::ColorVectorProperty *>(prop);
-    tlp::DoubleVectorProperty *doubleVecProp = dynamic_cast<tlp::DoubleVectorProperty *>(prop);
-    tlp::IntegerVectorProperty *integerVecProp = dynamic_cast<tlp::IntegerVectorProperty *>(prop);
-    tlp::CoordVectorProperty *coordVecProp = dynamic_cast<tlp::CoordVectorProperty *>(prop);
-    tlp::SizeVectorProperty *sizeVecProp = dynamic_cast<tlp::SizeVectorProperty *>(prop);
-    tlp::StringVectorProperty *stringVecProp = dynamic_cast<tlp::StringVectorProperty *>(prop);
+    tlp::DataSet *ret = new tlp::DataSet();
+    for (tlp::PropertyInterface *prop : graph->getObjectProperties()) {
+        tlp::BooleanProperty *booleanProp = dynamic_cast<tlp::BooleanProperty *>(prop);
+        tlp::ColorProperty *colorProp = dynamic_cast<tlp::ColorProperty *>(prop);
+        tlp::DoubleProperty *doubleProp = dynamic_cast<tlp::DoubleProperty *>(prop);
+        tlp::IntegerProperty *integerProp = dynamic_cast<tlp::IntegerProperty *>(prop);
+        tlp::LayoutProperty *layoutProp = dynamic_cast<tlp::LayoutProperty *>(prop);
+        tlp::SizeProperty *sizeProp = dynamic_cast<tlp::SizeProperty *>(prop);
+        tlp::StringProperty *stringProp = dynamic_cast<tlp::StringProperty *>(prop);
+        tlp::BooleanVectorProperty *booleanVecProp =
+            dynamic_cast<tlp::BooleanVectorProperty *>(prop);
+        tlp::ColorVectorProperty *colorVecProp = dynamic_cast<tlp::ColorVectorProperty *>(prop);
+        tlp::DoubleVectorProperty *doubleVecProp = dynamic_cast<tlp::DoubleVectorProperty *>(prop);
+        tlp::IntegerVectorProperty *integerVecProp =
+            dynamic_cast<tlp::IntegerVectorProperty *>(prop);
+        tlp::CoordVectorProperty *coordVecProp = dynamic_cast<tlp::CoordVectorProperty *>(prop);
+        tlp::SizeVectorProperty *sizeVecProp = dynamic_cast<tlp::SizeVectorProperty *>(prop);
+        tlp::StringVectorProperty *stringVecProp = dynamic_cast<tlp::StringVectorProperty *>(prop);
 
-    if (booleanProp) {
-      ret->set(prop->getName(), nodeValues ? booleanProp->getNodeValue(tlp::node(eltId))
-                                           : booleanProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (colorProp) {
-      ret->set(prop->getName(), nodeValues ? colorProp->getNodeValue(tlp::node(eltId))
-                                           : colorProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (doubleProp) {
-      ret->set(prop->getName(), nodeValues ? doubleProp->getNodeValue(tlp::node(eltId))
-                                           : doubleProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (integerProp) {
-      ret->set(prop->getName(), nodeValues ? integerProp->getNodeValue(tlp::node(eltId))
-                                           : integerProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (layoutProp) {
-      if (nodeValues) {
-        ret->set(prop->getName(), layoutProp->getNodeValue(tlp::node(eltId)));
-      } else {
-        ret->set(prop->getName(), layoutProp->getEdgeValue(tlp::edge(eltId)));
-      }
-    } else if (sizeProp) {
-      ret->set(prop->getName(), nodeValues ? sizeProp->getNodeValue(tlp::node(eltId))
-                                           : sizeProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (stringProp) {
-      ret->set(prop->getName(), nodeValues ? stringProp->getNodeValue(tlp::node(eltId))
-                                           : stringProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (booleanVecProp) {
-      ret->set(prop->getName(), nodeValues ? booleanVecProp->getNodeValue(tlp::node(eltId))
-                                           : booleanVecProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (colorVecProp) {
-      ret->set(prop->getName(), nodeValues ? colorVecProp->getNodeValue(tlp::node(eltId))
-                                           : colorVecProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (doubleVecProp) {
-      ret->set(prop->getName(), nodeValues ? doubleVecProp->getNodeValue(tlp::node(eltId))
-                                           : doubleVecProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (integerVecProp) {
-      ret->set(prop->getName(), nodeValues ? integerVecProp->getNodeValue(tlp::node(eltId))
-                                           : integerVecProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (coordVecProp) {
-      ret->set(prop->getName(), nodeValues ? coordVecProp->getNodeValue(tlp::node(eltId))
-                                           : coordVecProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (sizeVecProp) {
-      ret->set(prop->getName(), nodeValues ? sizeVecProp->getNodeValue(tlp::node(eltId))
-                                           : sizeVecProp->getEdgeValue(tlp::edge(eltId)));
-    } else if (stringVecProp) {
-      ret->set(prop->getName(), nodeValues ? stringVecProp->getNodeValue(tlp::node(eltId))
-                                           : stringVecProp->getEdgeValue(tlp::edge(eltId)));
+        if (booleanProp) {
+            ret->set(prop->getName(), nodeValues ? booleanProp->getNodeValue(tlp::node(eltId))
+                                                 : booleanProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (colorProp) {
+            ret->set(prop->getName(), nodeValues ? colorProp->getNodeValue(tlp::node(eltId))
+                                                 : colorProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (doubleProp) {
+            ret->set(prop->getName(), nodeValues ? doubleProp->getNodeValue(tlp::node(eltId))
+                                                 : doubleProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (integerProp) {
+            ret->set(prop->getName(), nodeValues ? integerProp->getNodeValue(tlp::node(eltId))
+                                                 : integerProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (layoutProp) {
+            if (nodeValues) {
+                ret->set(prop->getName(), layoutProp->getNodeValue(tlp::node(eltId)));
+            } else {
+                ret->set(prop->getName(), layoutProp->getEdgeValue(tlp::edge(eltId)));
+            }
+        } else if (sizeProp) {
+            ret->set(prop->getName(), nodeValues ? sizeProp->getNodeValue(tlp::node(eltId))
+                                                 : sizeProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (stringProp) {
+            ret->set(prop->getName(), nodeValues ? stringProp->getNodeValue(tlp::node(eltId))
+                                                 : stringProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (booleanVecProp) {
+            ret->set(prop->getName(), nodeValues ? booleanVecProp->getNodeValue(tlp::node(eltId))
+                                                 : booleanVecProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (colorVecProp) {
+            ret->set(prop->getName(), nodeValues ? colorVecProp->getNodeValue(tlp::node(eltId))
+                                                 : colorVecProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (doubleVecProp) {
+            ret->set(prop->getName(), nodeValues ? doubleVecProp->getNodeValue(tlp::node(eltId))
+                                                 : doubleVecProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (integerVecProp) {
+            ret->set(prop->getName(), nodeValues ? integerVecProp->getNodeValue(tlp::node(eltId))
+                                                 : integerVecProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (coordVecProp) {
+            ret->set(prop->getName(), nodeValues ? coordVecProp->getNodeValue(tlp::node(eltId))
+                                                 : coordVecProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (sizeVecProp) {
+            ret->set(prop->getName(), nodeValues ? sizeVecProp->getNodeValue(tlp::node(eltId))
+                                                 : sizeVecProp->getEdgeValue(tlp::edge(eltId)));
+        } else if (stringVecProp) {
+            ret->set(prop->getName(), nodeValues ? stringVecProp->getNodeValue(tlp::node(eltId))
+                                                 : stringVecProp->getEdgeValue(tlp::edge(eltId)));
+        }
     }
-  }
-  return ret;
+    return ret;
 }
 
 bool setPropertiesValuesFromDataSet(tlp::Graph *graph, const tlp::DataSet *dataSet, uint eltId,
                                     bool nodeValues) {
-  PyObject *graphWrapper = sipGetPyObject(graph, sipFindType("tlp::Graph"));
-  PyObject *pSetItem = PyUnicode_FromString("__setitem__");
-  PyObject *pGetItem = PyUnicode_FromString("__getitem__");
+    PyObject *graphWrapper = sipGetPyObject(graph, sipFindType("tlp::Graph"));
+    PyObject *pSetItem = PyUnicode_FromString("__setitem__");
+    PyObject *pGetItem = PyUnicode_FromString("__getitem__");
 
-  bool ok = true;
+    bool ok = true;
 
-  tlp::Observable::holdObservers();
-  for (const std::pair<std::string, tlp::DataType *> &entry : dataSet->getValues()) {
-    PyObject *pPropName = PyUnicode_FromString(entry.first.c_str());
-    PyObject *pElement = NULL;
-    if (nodeValues) {
-      pElement = sipConvertFromNewType(new tlp::node(eltId), sipFindType("tlp::node"), Py_None);
-    } else {
-      pElement = sipConvertFromNewType(new tlp::edge(eltId), sipFindType("tlp::edge"), Py_None);
+    tlp::Observable::holdObservers();
+    for (const std::pair<std::string, tlp::DataType *> &entry : dataSet->getValues()) {
+        PyObject *pPropName = PyUnicode_FromString(entry.first.c_str());
+        PyObject *pElement = NULL;
+        if (nodeValues) {
+            pElement =
+                sipConvertFromNewType(new tlp::node(eltId), sipFindType("tlp::node"), Py_None);
+        } else {
+            pElement =
+                sipConvertFromNewType(new tlp::edge(eltId), sipFindType("tlp::edge"), Py_None);
+        }
+
+        PyObject *propProxy = PyObject_CallMethodObjArgs(graphWrapper, pGetItem, pPropName, NULL);
+
+        PyObject *pValue = getPyObjectFromDataType(entry.second);
+        PyObject *ret = PyObject_CallMethodObjArgs(propProxy, pSetItem, pElement, pValue, NULL);
+
+        if (!ret) {
+            ok = false;
+        }
+
+        Py_XDECREF(pPropName);
+        Py_XDECREF(pElement);
+        Py_XDECREF(propProxy);
+        Py_XDECREF(pValue);
+        Py_XDECREF(ret);
+
+        if (!ok) {
+            break;
+        }
     }
-
-    PyObject *propProxy = PyObject_CallMethodObjArgs(graphWrapper, pGetItem, pPropName, NULL);
-
-    PyObject *pValue = getPyObjectFromDataType(entry.second);
-    PyObject *ret = PyObject_CallMethodObjArgs(propProxy, pSetItem, pElement, pValue, NULL);
-
-    if (!ret) {
-      ok = false;
-    }
-
-    Py_XDECREF(pPropName);
-    Py_XDECREF(pElement);
-    Py_XDECREF(propProxy);
-    Py_XDECREF(pValue);
-    Py_XDECREF(ret);
-
-    if (!ok) {
-      break;
-    }
-  }
-  tlp::Observable::unholdObservers();
-  Py_XDECREF(pGetItem);
-  Py_XDECREF(pSetItem);
-  return ok;
+    tlp::Observable::unholdObservers();
+    Py_XDECREF(pGetItem);
+    Py_XDECREF(pSetItem);
+    return ok;
 }
 %End
 
@@ -346,24 +350,24 @@ and second member is a string which can contain an error message.
 
 %MethodCode
 if (pluginExists<tlp::Algorithm>(*a0)) {
-  tlp::DataSet *params = prepareAlgorithmParameters(*a0, sipCpp, a2, a2Wrapper);
-  if (params) {
-    sipRes = sipCpp->applyAlgorithm(*a0, *a1, params);
-    updateWrappedDataSetAfterAlgorithmCall(params, a2Wrapper);
-    delete params;
-  } else {
-    sipIsErr = 1;
-  }
+    tlp::DataSet *params = prepareAlgorithmParameters(*a0, sipCpp, a2, a2Wrapper);
+    if (params) {
+        sipRes = sipCpp->applyAlgorithm(*a0, *a1, params);
+        updateWrappedDataSetAfterAlgorithmCall(params, a2Wrapper);
+        delete params;
+    } else {
+        sipIsErr = 1;
+    }
 } else {
-  sipIsErr = 1;
-  std::string msg = "No Talipot algorithm plugin named ";
-  msg += *a0;
-  msg += ".";
-  PyErr_SetString(PyExc_ValueError, msg.c_str());
+    sipIsErr = 1;
+    std::string msg = "No Talipot algorithm plugin named ";
+    msg += *a0;
+    msg += ".";
+    PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-  // propagate exceptions raised by talipot plugins written in Python
-  sipIsErr = -1;
+    // propagate exceptions raised by talipot plugins written in Python
+    sipIsErr = -1;
 }
 %End
 
@@ -403,15 +407,15 @@ selection. If there is no selection an empty subgraph is returned.
 
 %MethodCode
 if (!a0 || isValidGraphSelection(sipCpp, a0)) {
-  sipRes = sipCpp->addSubGraph(a0, *a1);
+    sipRes = sipCpp->addSubGraph(a0, *a1);
 } else {
-  sipIsErr = -1;
-  std::ostringstream oss;
-  oss << "The selection provided as parameter to the tlp.Graph.addSubGraph([selection, name]) "
-         "method is not valid."
-      << std::endl;
-  oss << "It means that some edges extremities are not in the selection." << std::endl;
-  PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    sipIsErr = -1;
+    std::ostringstream oss;
+    oss << "The selection provided as parameter to the tlp.Graph.addSubGraph([selection, name]) "
+           "method is not valid."
+        << std::endl;
+    oss << "It means that some edges extremities are not in the selection." << std::endl;
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
 }
 %End
 
@@ -550,23 +554,23 @@ Delete a subgraph of this graph. The subgraph's subgraphs become subgraphs of th
 
 %MethodCode
 if (!a0) {
-  PyErr_SetString(PyExc_TypeError,
-                  "Graph.delSubGraph(): argument 1 has unexpected type 'NoneType'");
-  sipIsErr = 1;
+    PyErr_SetString(PyExc_TypeError,
+                    "Graph.delSubGraph(): argument 1 has unexpected type 'NoneType'");
+    sipIsErr = 1;
 } else {
-  if (a0->getSuperGraph() != sipCpp) {
-    sipIsErr = throwInvalidSgException(sipCpp, a0);
-  } else {
-    // the subgraph will be deleted after the call to tlp::Graph::delSubGraph(tlp::Graph *)
-    // we need to release the SIP wrapper associated to the C++ pointer otherwise the following
-    // Python code raises a segmentation fault :
-    // sg = graph.addSubGraph()
-    // graph.delSubGraph(sg)
-    // print sg # or any operation on sg
-    // An exception is now thrown claiming that the underlying C++ object has been deleted
-    releaseGraphWrapper(a0);
-    sipCpp->delSubGraph(a0);
-  }
+    if (a0->getSuperGraph() != sipCpp) {
+        sipIsErr = throwInvalidSgException(sipCpp, a0);
+    } else {
+        // the subgraph will be deleted after the call to tlp::Graph::delSubGraph(tlp::Graph *)
+        // we need to release the SIP wrapper associated to the C++ pointer otherwise the following
+        // Python code raises a segmentation fault :
+        // sg = graph.addSubGraph()
+        // graph.delSubGraph(sg)
+        // print sg # or any operation on sg
+        // An exception is now thrown claiming that the underlying C++ object has been deleted
+        releaseGraphWrapper(a0);
+        sipCpp->delSubGraph(a0);
+    }
 }
 %End
 
@@ -587,21 +591,21 @@ Delete a subgraph of this graph and all its subgraphs.
 
 %MethodCode
 if (!a0) {
-  PyErr_SetString(PyExc_TypeError,
-                  "Graph.delAllSubGraphs(): argument 1 has unexpected type 'NoneType'");
-  sipIsErr = 1;
+    PyErr_SetString(PyExc_TypeError,
+                    "Graph.delAllSubGraphs(): argument 1 has unexpected type 'NoneType'");
+    sipIsErr = 1;
 } else {
-  if (a0->getSuperGraph() != sipCpp) {
-    sipIsErr = throwInvalidSgException(sipCpp, a0);
-  } else {
-    // the subgraphs will be deleted after the call to tlp::Graph::delAllSubGraphs(tlp::Graph *)
-    // we need to release the possible SIP wrappers associated to the C++ pointers otherwise the
-    // following Python code raises a segmentation fault : sg = graph.addSubGraph() sg2 =
-    // sg.addSubGraph() graph.delAllSubGraphs(sg2) print sg2 # or any operation on sg2 An exception
-    // is now thrown claiming that the underlying C++ object has been deleted
-    releaseGraphHierarchyWrappers(a0);
-    sipCpp->delAllSubGraphs(a0);
-  }
+    if (a0->getSuperGraph() != sipCpp) {
+        sipIsErr = throwInvalidSgException(sipCpp, a0);
+    } else {
+        // the subgraphs will be deleted after the call to tlp::Graph::delAllSubGraphs(tlp::Graph *)
+        // we need to release the possible SIP wrappers associated to the C++ pointers otherwise the
+        // following Python code raises a segmentation fault : sg = graph.addSubGraph() sg2 =
+        // sg.addSubGraph() graph.delAllSubGraphs(sg2) print sg2 # or any operation on sg2 An
+        // exception is now thrown claiming that the underlying C++ object has been deleted
+        releaseGraphHierarchyWrappers(a0);
+        sipCpp->delAllSubGraphs(a0);
+    }
 }
 %End
 
@@ -873,10 +877,10 @@ for the newly added node through the use of a dictionary (see
 %MethodCode
 sipRes = new tlp::node(sipCpp->addNode());
 if (a0) {
-  sipIsErr = setPropertiesValuesFromDataSet(sipCpp, a0, sipRes->id, true) ? 0 : 1;
-  if (sipIsErr) {
-    sipCpp->delNode(*sipRes);
-  }
+    sipIsErr = setPropertiesValuesFromDataSet(sipCpp, a0, sipRes->id, true) ? 0 : 1;
+    if (sipIsErr) {
+        sipCpp->delNode(*sipRes);
+    }
 }
 %End
 
@@ -928,9 +932,9 @@ the subgraph relation between graphs.
 
 %MethodCode
 if (sipCpp->getRoot()->isElement(*a0)) {
-  sipCpp->addNode(*a0);
+    sipCpp->addNode(*a0);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getRoot(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getRoot(), *a0);
 }
 %End
 
@@ -965,13 +969,13 @@ the subgraph relation between graphs.
 %MethodCode
 std::vector<tlp::node> nodes = tlp::iteratorVector(a0);
 for (auto n : nodes) {
-  if (!sipCpp->getRoot()->isElement(n)) {
-    sipIsErr = throwInvalidNodeException(sipCpp->getRoot(), n);
-    break;
-  }
+    if (!sipCpp->getRoot()->isElement(n)) {
+        sipIsErr = throwInvalidNodeException(sipCpp->getRoot(), n);
+        break;
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->addNodes(nodes);
+    sipCpp->addNodes(nodes);
 }
 %End
 
@@ -1005,13 +1009,13 @@ the subgraph relation between graphs.
 
 %MethodCode
 for (size_t i = 0; i < a0->size(); ++i) {
-  if (!sipCpp->getRoot()->isElement((*a0)[i])) {
-    sipIsErr = throwInvalidNodeException(sipCpp->getRoot(), (*a0)[i]);
-    break;
-  }
+    if (!sipCpp->getRoot()->isElement((*a0)[i])) {
+        sipIsErr = throwInvalidNodeException(sipCpp->getRoot(), (*a0)[i]);
+        break;
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->addNodes(*a0);
+    sipCpp->addNodes(*a0);
 }
 %End
 
@@ -1042,9 +1046,9 @@ the subgraph relation between graphs.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipCpp->delNode(*a0);
+    sipCpp->delNode(*a0);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -1076,13 +1080,13 @@ graph to maintain the subgraph relation between graphs.
 %MethodCode
 std::vector<tlp::node> nodes = tlp::iteratorVector(a0);
 for (auto n : nodes) {
-  if (!sipCpp->isElement(n)) {
-    sipIsErr = throwInvalidNodeException(sipCpp, n);
-    break;
-  }
+    if (!sipCpp->isElement(n)) {
+        sipIsErr = throwInvalidNodeException(sipCpp, n);
+        break;
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->delNodes(nodes, a1);
+    sipCpp->delNodes(nodes, a1);
 }
 %End
 
@@ -1116,13 +1120,13 @@ graph to maintain the subgraph relation between graphs.
 
 %MethodCode
 for (size_t i = 0; i < a0->size(); ++i) {
-  if (!sipCpp->isElement((*a0)[i])) {
-    sipIsErr = throwInvalidNodeException(sipCpp->getRoot(), (*a0)[i]);
-    break;
-  }
+    if (!sipCpp->isElement((*a0)[i])) {
+        sipIsErr = throwInvalidNodeException(sipCpp->getRoot(), (*a0)[i]);
+        break;
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->delNodes(*a0, a1);
+    sipCpp->delNodes(*a0, a1);
 }
 %End
 
@@ -1164,19 +1168,19 @@ for the newly added edge through the use of a dictionary (see
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  if (sipCpp->isElement(*a1)) {
-    sipRes = new tlp::edge(sipCpp->addEdge(*a0, *a1));
-    if (a2) {
-      sipIsErr = setPropertiesValuesFromDataSet(sipCpp, a2, sipRes->id, false) ? 0 : 1;
-      if (sipIsErr) {
-        sipCpp->delEdge(*sipRes);
-      }
+    if (sipCpp->isElement(*a1)) {
+        sipRes = new tlp::edge(sipCpp->addEdge(*a0, *a1));
+        if (a2) {
+            sipIsErr = setPropertiesValuesFromDataSet(sipCpp, a2, sipRes->id, false) ? 0 : 1;
+            if (sipIsErr) {
+                sipCpp->delEdge(*sipRes);
+            }
+        }
+    } else {
+        sipIsErr = throwInvalidNodeException(sipCpp, *a1);
     }
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp, *a1);
-  }
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -1204,17 +1208,17 @@ graph ancestors to maintain the subgraph relation between graphs.
 
 %MethodCode
 for (size_t i = 0; i < a0->size(); ++i) {
-  if (!sipCpp->isElement((*a0)[i].first)) {
-    sipIsErr = throwInvalidNodeException(sipCpp, (*a0)[i].first);
-    break;
-  }
-  if (!sipCpp->isElement((*a0)[i].second)) {
-    sipIsErr = throwInvalidNodeException(sipCpp, (*a0)[i].second);
-    break;
-  }
+    if (!sipCpp->isElement((*a0)[i].first)) {
+        sipIsErr = throwInvalidNodeException(sipCpp, (*a0)[i].first);
+        break;
+    }
+    if (!sipCpp->isElement((*a0)[i].second)) {
+        sipIsErr = throwInvalidNodeException(sipCpp, (*a0)[i].second);
+        break;
+    }
 }
 if (sipIsErr == 0) {
-  sipRes = new std::vector<tlp::edge>(sipCpp->addEdges(*a0));
+    sipRes = new std::vector<tlp::edge>(sipCpp->addEdges(*a0));
 }
 %End
 
@@ -1248,27 +1252,27 @@ the subgraph relation between graphs.
 
 %MethodCode
 if (sipCpp->getRoot()->isElement(*a0)) {
-  if (sipCpp->isElement(sipCpp->getRoot()->source(*a0))) {
-    if (sipCpp->isElement(sipCpp->getRoot()->target(*a0))) {
-      sipCpp->addEdge(*a0);
+    if (sipCpp->isElement(sipCpp->getRoot()->source(*a0))) {
+        if (sipCpp->isElement(sipCpp->getRoot()->target(*a0))) {
+            sipCpp->addEdge(*a0);
+        } else {
+            std::ostringstream oss;
+            oss << "Error : edge " << a0->id << " can not be added in graph \\\""
+                << sipCpp->getName() << "\\\" (id " << sipCpp->getId() << ") "
+                << "because the graph does not contain its target node.";
+            printErrorMessage(oss.str());
+            sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->target(*a0));
+        }
     } else {
-      std::ostringstream oss;
-      oss << "Error : edge " << a0->id << " can not be added in graph \\\"" << sipCpp->getName()
-          << "\\\" (id " << sipCpp->getId() << ") "
-          << "because the graph does not contain its target node.";
-      printErrorMessage(oss.str());
-      sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->target(*a0));
+        std::ostringstream oss;
+        oss << "Error : edge " << a0->id << " can not be added in graph \\\"" << sipCpp->getName()
+            << "\\\" (id " << sipCpp->getId() << ") "
+            << "because the graph does not contain its source node.";
+        printErrorMessage(oss.str());
+        sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->source(*a0));
     }
-  } else {
-    std::ostringstream oss;
-    oss << "Error : edge " << a0->id << " can not be added in graph \\\"" << sipCpp->getName()
-        << "\\\" (id " << sipCpp->getId() << ") "
-        << "because the graph does not contain its source node.";
-    printErrorMessage(oss.str());
-    sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->source(*a0));
-  }
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getRoot(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getRoot(), *a0);
 }
 %End
 
@@ -1303,32 +1307,32 @@ the subgraph relation between graphs.
 %MethodCode
 std::vector<tlp::edge> edges = tlp::iteratorVector(a0);
 for (auto e : edges) {
-  if (!sipCpp->getRoot()->isElement(e)) {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getRoot(), e);
-    break;
-  } else {
-    if (!sipCpp->isElement(sipCpp->getRoot()->source(e))) {
-      std::ostringstream oss;
-      oss << "Error : edge " << e.id << " cannot be added in graph \\\"" << sipCpp->getName()
-          << "\\\" (id " << sipCpp->getId() << ") "
-          << "because the graph does not contain its source node.";
-      printErrorMessage(oss.str());
-      sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->source(e));
-      break;
+    if (!sipCpp->getRoot()->isElement(e)) {
+        sipIsErr = throwInvalidEdgeException(sipCpp->getRoot(), e);
+        break;
+    } else {
+        if (!sipCpp->isElement(sipCpp->getRoot()->source(e))) {
+            std::ostringstream oss;
+            oss << "Error : edge " << e.id << " cannot be added in graph \\\"" << sipCpp->getName()
+                << "\\\" (id " << sipCpp->getId() << ") "
+                << "because the graph does not contain its source node.";
+            printErrorMessage(oss.str());
+            sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->source(e));
+            break;
+        }
+        if (!sipCpp->isElement(sipCpp->getRoot()->target(e))) {
+            std::ostringstream oss;
+            oss << "Error : edge " << e.id << " cannot be added in graph \\\"" << sipCpp->getName()
+                << "\\\" (id " << sipCpp->getId() << ") "
+                << "because the graph does not contain its target node.";
+            printErrorMessage(oss.str());
+            sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->target(e));
+            break;
+        }
     }
-    if (!sipCpp->isElement(sipCpp->getRoot()->target(e))) {
-      std::ostringstream oss;
-      oss << "Error : edge " << e.id << " cannot be added in graph \\\"" << sipCpp->getName()
-          << "\\\" (id " << sipCpp->getId() << ") "
-          << "because the graph does not contain its target node.";
-      printErrorMessage(oss.str());
-      sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->target(e));
-      break;
-    }
-  }
 }
 if (sipIsErr == 0) {
-  sipCpp->addEdges(edges);
+    sipCpp->addEdges(edges);
 }
 %End
 //===========================================================================================
@@ -1362,33 +1366,33 @@ the subgraph relation between graphs.
 
 %MethodCode
 for (size_t i = 0; i < a0->size(); ++i) {
-  tlp::edge e = (*a0)[i];
-  if (!sipCpp->getRoot()->isElement(e)) {
-    sipIsErr = throwInvalidEdgeException(sipCpp->getRoot(), e);
-    break;
-  } else {
-    if (!sipCpp->isElement(sipCpp->getRoot()->source(e))) {
-      std::ostringstream oss;
-      oss << "Error : edge " << e.id << " cannot be added in graph \\\"" << sipCpp->getName()
-          << "\\\" (id " << sipCpp->getId() << ") "
-          << "because the graph does not contain its source node.";
-      printErrorMessage(oss.str());
-      sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->source(e));
-      break;
+    tlp::edge e = (*a0)[i];
+    if (!sipCpp->getRoot()->isElement(e)) {
+        sipIsErr = throwInvalidEdgeException(sipCpp->getRoot(), e);
+        break;
+    } else {
+        if (!sipCpp->isElement(sipCpp->getRoot()->source(e))) {
+            std::ostringstream oss;
+            oss << "Error : edge " << e.id << " cannot be added in graph \\\"" << sipCpp->getName()
+                << "\\\" (id " << sipCpp->getId() << ") "
+                << "because the graph does not contain its source node.";
+            printErrorMessage(oss.str());
+            sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->source(e));
+            break;
+        }
+        if (!sipCpp->isElement(sipCpp->getRoot()->target(e))) {
+            std::ostringstream oss;
+            oss << "Error : edge " << e.id << " cannot be added in graph \\\"" << sipCpp->getName()
+                << "\\\" (id " << sipCpp->getId() << ") "
+                << "because the graph does not contain its target node.";
+            printErrorMessage(oss.str());
+            sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->target(e));
+            break;
+        }
     }
-    if (!sipCpp->isElement(sipCpp->getRoot()->target(e))) {
-      std::ostringstream oss;
-      oss << "Error : edge " << e.id << " cannot be added in graph \\\"" << sipCpp->getName()
-          << "\\\" (id " << sipCpp->getId() << ") "
-          << "because the graph does not contain its target node.";
-      printErrorMessage(oss.str());
-      sipIsErr = throwInvalidNodeException(sipCpp, sipCpp->getRoot()->target(e));
-      break;
-    }
-  }
 }
 if (sipIsErr == 0) {
-  sipCpp->addEdges(*a0);
+    sipCpp->addEdges(*a0);
 }
 %End
 
@@ -1419,9 +1423,9 @@ maintain the subgraph relation between graphs. The ordering of edges is preserve
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipCpp->delEdge(*a0);
+    sipCpp->delEdge(*a0);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -1454,13 +1458,13 @@ preserved.
 %MethodCode
 std::vector<tlp::edge> edges = tlp::iteratorVector(a0);
 for (auto e : edges) {
-  if (!sipCpp->isElement(e)) {
-    sipIsErr = throwInvalidEdgeException(sipCpp, e);
-    break;
-  }
+    if (!sipCpp->isElement(e)) {
+        sipIsErr = throwInvalidEdgeException(sipCpp, e);
+        break;
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->delEdges(edges, a1);
+    sipCpp->delEdges(edges, a1);
 }
 %End
 
@@ -1494,13 +1498,13 @@ graph to maintain the subgraph relation between graphs.
 
 %MethodCode
 for (size_t i = 0; i < a0->size(); ++i) {
-  if (!sipCpp->isElement((*a0)[i])) {
-    sipIsErr = throwInvalidEdgeException(sipCpp, (*a0)[i]);
-    break;
-  }
+    if (!sipCpp->isElement((*a0)[i])) {
+        sipIsErr = throwInvalidEdgeException(sipCpp, (*a0)[i]);
+        break;
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->delEdges(*a0, a1);
+    sipCpp->delEdges(*a0, a1);
 }
 %End
 
@@ -1531,9 +1535,9 @@ be ordered as they are in the list of edges given in parameter.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipCpp->setEdgeOrder(*a0, *a1);
+    sipCpp->setEdgeOrder(*a0, *a1);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -1569,17 +1573,17 @@ Swaps two edges in the adjacency list of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  if (sipCpp->isElement(*a1)) {
-    if (sipCpp->isElement(*a2)) {
-      sipCpp->swapEdgeOrder(*a0, *a1, *a2);
+    if (sipCpp->isElement(*a1)) {
+        if (sipCpp->isElement(*a2)) {
+            sipCpp->swapEdgeOrder(*a0, *a1, *a2);
+        } else {
+            sipIsErr = throwInvalidEdgeException(sipCpp, *a2);
+        }
     } else {
-      sipIsErr = throwInvalidEdgeException(sipCpp, *a2);
+        sipIsErr = throwInvalidEdgeException(sipCpp, *a1);
     }
-  } else {
-    sipIsErr = throwInvalidEdgeException(sipCpp, *a1);
-  }
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -1609,13 +1613,13 @@ Sets the source of an existing edge.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  if (sipCpp->isElement(*a1)) {
-    sipCpp->setSource(*a0, *a1);
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp, *a1);
-  }
+    if (sipCpp->isElement(*a1)) {
+        sipCpp->setSource(*a0, *a1);
+    } else {
+        sipIsErr = throwInvalidNodeException(sipCpp, *a1);
+    }
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -1645,13 +1649,13 @@ Sets the target of an existing edge.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  if (sipCpp->isElement(*a1)) {
-    sipCpp->setTarget(*a0, *a1);
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp, *a1);
-  }
+    if (sipCpp->isElement(*a1)) {
+        sipCpp->setTarget(*a0, *a1);
+    } else {
+        sipIsErr = throwInvalidNodeException(sipCpp, *a1);
+    }
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -1688,17 +1692,17 @@ Sets both the source and target of an existing edge.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  if (sipCpp->isElement(*a1)) {
-    if (sipCpp->isElement(*a2)) {
-      sipCpp->setEnds(*a0, *a1, *a2);
+    if (sipCpp->isElement(*a1)) {
+        if (sipCpp->isElement(*a2)) {
+            sipCpp->setEnds(*a0, *a1, *a2);
+        } else {
+            sipIsErr = throwInvalidNodeException(sipCpp, *a2);
+        }
     } else {
-      sipIsErr = throwInvalidNodeException(sipCpp, *a2);
+        sipIsErr = throwInvalidNodeException(sipCpp, *a1);
     }
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp, *a1);
-  }
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -1727,9 +1731,9 @@ Reverses the direction of an edge, the source becomes the target and the target 
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipCpp->reverse(*a0);
+    sipCpp->reverse(*a0);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -1819,9 +1823,9 @@ through the :meth:`tlp.Graph.nodes` method.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = sipCpp->nodePos(*a0);
+    sipRes = sipCpp->nodePos(*a0);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 //===========================================================================================
@@ -1871,23 +1875,23 @@ Returns the ith predecessor of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  if (a1 == 0) {
-    PyErr_SetString(PyExc_IndexError, "Error : first index for tlp.Graph.getInNode is 1 not 0");
-    sipIsErr = -1;
-  } else if (a1 <= sipCpp->indeg(*a0)) {
-    sipRes = new tlp::node(sipCpp->getInNode(*a0, a1));
-  } else {
-    std::ostringstream oss;
-    std::string graphName;
-    sipCpp->getAttribute("name", graphName);
-    oss << "node with id " << a0->id << " belonging to graph \"" << graphName << "\" (id "
-        << sipCpp->getId() << ") has " << sipCpp->indeg(*a0)
-        << " predecessor nodes and the requested index is " << a1;
-    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-    sipIsErr = -1;
-  }
+    if (a1 == 0) {
+        PyErr_SetString(PyExc_IndexError, "Error : first index for tlp.Graph.getInNode is 1 not 0");
+        sipIsErr = -1;
+    } else if (a1 <= sipCpp->indeg(*a0)) {
+        sipRes = new tlp::node(sipCpp->getInNode(*a0, a1));
+    } else {
+        std::ostringstream oss;
+        std::string graphName;
+        sipCpp->getAttribute("name", graphName);
+        oss << "node with id " << a0->id << " belonging to graph \"" << graphName << "\" (id "
+            << sipCpp->getId() << ") has " << sipCpp->indeg(*a0)
+            << " predecessor nodes and the requested index is " << a1;
+        PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+        sipIsErr = -1;
+    }
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -1914,9 +1918,9 @@ Return an iterator on the predecessors of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = tlp::stableIterator(sipCpp->getInNodes(*a0));
+    sipRes = tlp::stableIterator(sipCpp->getInNodes(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -1950,23 +1954,24 @@ Returns the ith successor of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  if (a1 == 0) {
-    PyErr_SetString(PyExc_IndexError, "Error : first index for tlp.Graph.getOutNode is 1 not 0");
-    sipIsErr = -1;
-  } else if (a1 <= sipCpp->outdeg(*a0)) {
-    sipRes = new tlp::node(sipCpp->getOutNode(*a0, a1));
-  } else {
-    std::ostringstream oss;
-    std::string graphName;
-    sipCpp->getAttribute("name", graphName);
-    oss << "node with id " << a0->id << " belonging to graph \"" << graphName << "\" (id "
-        << sipCpp->getId() << ") has " << sipCpp->outdeg(*a0)
-        << " successor nodes and the requested index is " << a1;
-    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-    sipIsErr = -1;
-  }
+    if (a1 == 0) {
+        PyErr_SetString(PyExc_IndexError,
+                        "Error : first index for tlp.Graph.getOutNode is 1 not 0");
+        sipIsErr = -1;
+    } else if (a1 <= sipCpp->outdeg(*a0)) {
+        sipRes = new tlp::node(sipCpp->getOutNode(*a0, a1));
+    } else {
+        std::ostringstream oss;
+        std::string graphName;
+        sipCpp->getAttribute("name", graphName);
+        oss << "node with id " << a0->id << " belonging to graph \"" << graphName << "\" (id "
+            << sipCpp->getId() << ") has " << sipCpp->outdeg(*a0)
+            << " successor nodes and the requested index is " << a1;
+        PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+        sipIsErr = -1;
+    }
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -1993,9 +1998,9 @@ Returns an iterator on the successors of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = tlp::stableIterator(sipCpp->getOutNodes(*a0));
+    sipRes = tlp::stableIterator(sipCpp->getOutNodes(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2022,9 +2027,9 @@ Returns an iterator on the neighbours of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = tlp::stableIterator(sipCpp->getInOutNodes(*a0));
+    sipRes = tlp::stableIterator(sipCpp->getInOutNodes(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2059,10 +2064,10 @@ Returns a list of graph nodes in breadth-first search ordering.
 
 %MethodCode
 if (!a0->isValid() || sipCpp->isElement(*a0)) {
-  // tlp::Graph::bfs returns a StableIterator
-  sipRes = new std::vector(sipCpp->bfs(*a0, a1));
+    // tlp::Graph::bfs returns a StableIterator
+    sipRes = new std::vector(sipCpp->bfs(*a0, a1));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2097,10 +2102,10 @@ Returns a list of graph edges in breadth-first search ordering.
 
 %MethodCode
 if (!a0->isValid() || sipCpp->isElement(*a0)) {
-  // tlp::Graph::bfsEdges returns a StableIterator
-  sipRes = new std::vector(sipCpp->bfsEdges(*a0, a1));
+    // tlp::Graph::bfsEdges returns a StableIterator
+    sipRes = new std::vector(sipCpp->bfsEdges(*a0, a1));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2135,10 +2140,10 @@ Returns a list of graph nodes in depth-first search ordering.
 
 %MethodCode
 if (!a0->isValid() || sipCpp->isElement(*a0)) {
-  // tlp::Graph::dfs returns a StableIterator
-  sipRes = new std::vector(sipCpp->dfs(*a0, a1));
+    // tlp::Graph::dfs returns a StableIterator
+    sipRes = new std::vector(sipCpp->dfs(*a0, a1));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2173,10 +2178,10 @@ Returns a list of graph edges in depth-first search ordering.
 
 %MethodCode
 if (!a0->isValid() || sipCpp->isElement(*a0)) {
-  // tlp::Graph::dfsEdges returns a StableIterator
-  sipRes = new std::vector(sipCpp->dfsEdges(*a0, a1));
+    // tlp::Graph::dfsEdges returns a StableIterator
+    sipRes = new std::vector(sipCpp->dfsEdges(*a0, a1));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2203,9 +2208,9 @@ Returns the underlying graph of a meta node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = sipCpp->getNodeMetaInfo(*a0);
+    sipRes = sipCpp->getNodeMetaInfo(*a0);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2244,9 +2249,9 @@ through the :meth:`tlp.Graph.edges` method.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = sipCpp->edgePos(*a0);
+    sipRes = sipCpp->edgePos(*a0);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 //===========================================================================================
@@ -2312,9 +2317,9 @@ Returns a Talipot iterator on the outgoing edges of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = tlp::stableIterator(sipCpp->getOutEdges(*a0));
+    sipRes = tlp::stableIterator(sipCpp->getOutEdges(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2341,9 +2346,9 @@ Returns an iterator on the incoming and outgoing edges of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = tlp::stableIterator(sipCpp->getInOutEdges(*a0));
+    sipRes = tlp::stableIterator(sipCpp->getInOutEdges(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2370,9 +2375,9 @@ Returns an iterator on the incoming edges of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = tlp::stableIterator(sipCpp->getInEdges(*a0));
+    sipRes = tlp::stableIterator(sipCpp->getInEdges(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2399,9 +2404,9 @@ Returns an iterator on the underlying edges of a meta edge.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = tlp::stableIterator(sipCpp->getEdgeMetaInfo(*a0));
+    sipRes = tlp::stableIterator(sipCpp->getEdgeMetaInfo(*a0));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -2428,9 +2433,9 @@ Returns the list of all edges adjacent to a given node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = new std::vector<tlp::edge>(sipCpp->incidence(*a0));
+    sipRes = new std::vector<tlp::edge>(sipCpp->incidence(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2505,9 +2510,9 @@ Returns the degree of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = sipCpp->deg(*a0);
+    sipRes = sipCpp->deg(*a0);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2534,9 +2539,9 @@ Returns the incoming degree of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = sipCpp->indeg(*a0);
+    sipRes = sipCpp->indeg(*a0);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2563,9 +2568,9 @@ Returns the outgoing degree of a node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = sipCpp->outdeg(*a0);
+    sipRes = sipCpp->outdeg(*a0);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2592,9 +2597,9 @@ Returns the source of the edge.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = new tlp::node(sipCpp->source(*a0));
+    sipRes = new tlp::node(sipCpp->source(*a0));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -2621,9 +2626,9 @@ Returns the target of the edge.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = new tlp::node(sipCpp->target(*a0));
+    sipRes = new tlp::node(sipCpp->target(*a0));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -2650,9 +2655,9 @@ Returns a tuple containing the two end nodes of an edge
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = new std::pair(sipCpp->ends(*a0));
+    sipRes = new std::pair(sipCpp->ends(*a0));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -2680,16 +2685,16 @@ Returns the opposite node of the edge for the given node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  if (sipCpp->source(*a0) == *a1 || sipCpp->target(*a0) == *a1) {
-    sipRes = new tlp::node(sipCpp->opposite(*a0, *a1));
-  } else {
-    std::ostringstream oss;
-    oss << "node with id " << a1->id << " is not linked by the edge with id " << a0->id,
-        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-    sipIsErr = -1;
-  }
+    if (sipCpp->source(*a0) == *a1 || sipCpp->target(*a0) == *a1) {
+        sipRes = new tlp::node(sipCpp->opposite(*a0, *a1));
+    } else {
+        std::ostringstream oss;
+        oss << "node with id " << a1->id << " is not linked by the edge with id " << a0->id,
+            PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+        sipIsErr = -1;
+    }
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -2752,9 +2757,9 @@ Returns :const:`True` if the node is a meta-node.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = sipCpp->isMetaNode(*a0);
+    sipRes = sipCpp->isMetaNode(*a0);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2781,9 +2786,9 @@ Returns :const:`True` if the edge is a meta-edge.
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = sipCpp->isMetaEdge(*a0);
+    sipRes = sipCpp->isMetaEdge(*a0);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -2822,13 +2827,13 @@ Returns the first edge found between two nodes. If no edge is found, returns an 
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  if (sipCpp->isElement(*a1)) {
-    sipRes = new tlp::edge(sipCpp->existEdge(*a0, *a1, a2));
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp, *a1);
-  }
+    if (sipCpp->isElement(*a1)) {
+        sipRes = new tlp::edge(sipCpp->existEdge(*a0, *a1, a2));
+    } else {
+        sipIsErr = throwInvalidNodeException(sipCpp, *a1);
+    }
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2867,13 +2872,13 @@ Returns true if it exists an edge between two nodes. If no edge is found, return
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  if (sipCpp->isElement(*a1)) {
-    sipRes = sipCpp->hasEdge(*a0, *a1, a2);
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp, *a1);
-  }
+    if (sipCpp->isElement(*a1)) {
+        sipRes = sipCpp->hasEdge(*a0, *a1, a2);
+    } else {
+        sipIsErr = throwInvalidNodeException(sipCpp, *a1);
+    }
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2912,13 +2917,13 @@ Returns the edges found between two nodes. If no edge is found, returns edges is
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  if (sipCpp->isElement(*a1)) {
-    sipRes = new std::vector<tlp::edge>(sipCpp->getEdges(*a0, *a1, a2));
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp, *a1);
-  }
+    if (sipCpp->isElement(*a1)) {
+        sipRes = new std::vector<tlp::edge>(sipCpp->getEdges(*a0, *a1, a2));
+    } else {
+        sipIsErr = throwInvalidNodeException(sipCpp, *a1);
+    }
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -2945,9 +2950,9 @@ one and returns it. Using of :const:`del` on that property will cause a segmenta
 
 %MethodCode
 if (canGetProperty<tlp::BooleanProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getBooleanProperty(*a0);
+    sipRes = sipCpp->getBooleanProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -2973,9 +2978,9 @@ will cause a segmentation violation (use :meth:`tlp.Graph.delLocalProperty` inst
 
 %MethodCode
 if (canGetProperty<tlp::BooleanProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalBooleanProperty(*a0);
+    sipRes = sipCpp->getLocalBooleanProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3002,9 +3007,9 @@ a new one and returns it. Using of :const:`del` on that property will cause a se
 
 %MethodCode
 if (canGetProperty<tlp::BooleanVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getBooleanVectorProperty(*a0);
+    sipRes = sipCpp->getBooleanVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3030,9 +3035,9 @@ property will cause a segmentation violation (use :meth:`tlp.Graph.delLocalPrope
 
 %MethodCode
 if (canGetProperty<tlp::BooleanVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalBooleanVectorProperty(*a0);
+    sipRes = sipCpp->getLocalBooleanVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3059,9 +3064,9 @@ one and returns it. Using of :const:`del` on that property will cause a segmenta
 
 %MethodCode
 if (canGetProperty<tlp::LayoutProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLayoutProperty(*a0);
+    sipRes = sipCpp->getLayoutProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3087,9 +3092,9 @@ will cause a segmentation violation (use :meth:`tlp.Graph.delLocalProperty` inst
 
 %MethodCode
 if (canGetProperty<tlp::LayoutProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalLayoutProperty(*a0);
+    sipRes = sipCpp->getLocalLayoutProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3116,9 +3121,9 @@ new one and returns it. Using of :const:`del` on that property will cause a segm
 
 %MethodCode
 if (canGetProperty<tlp::CoordVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getCoordVectorProperty(*a0);
+    sipRes = sipCpp->getCoordVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3144,9 +3149,9 @@ property will cause a segmentation violation (use :meth:`tlp.Graph.delLocalPrope
 
 %MethodCode
 if (canGetProperty<tlp::CoordVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalCoordVectorProperty(*a0);
+    sipRes = sipCpp->getLocalCoordVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3173,9 +3178,9 @@ one and returns it. Using of :const:`del` on that property will cause a segmenta
 
 %MethodCode
 if (canGetProperty<tlp::ColorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getColorProperty(*a0);
+    sipRes = sipCpp->getColorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3201,9 +3206,9 @@ will cause a segmentation violation (use :meth:`tlp.Graph.delLocalProperty` inst
 
 %MethodCode
 if (canGetProperty<tlp::ColorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalProperty<tlp::ColorProperty>(*a0);
+    sipRes = sipCpp->getLocalProperty<tlp::ColorProperty>(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3230,9 +3235,9 @@ new one and returns it. Using of :const:`del` on that property will cause a segm
 
 %MethodCode
 if (canGetProperty<tlp::ColorVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getColorVectorProperty(*a0);
+    sipRes = sipCpp->getColorVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3258,9 +3263,9 @@ property will cause a segmentation violation (use :meth:`tlp.Graph.delLocalPrope
 
 %MethodCode
 if (canGetProperty<tlp::ColorVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalColorVectorProperty(*a0);
+    sipRes = sipCpp->getLocalColorVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3287,9 +3292,9 @@ one and returns it. Using of :const:`del` on that property will cause a segmenta
 
 %MethodCode
 if (canGetProperty<tlp::DoubleProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getDoubleProperty(*a0);
+    sipRes = sipCpp->getDoubleProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3315,9 +3320,9 @@ will cause a segmentation violation (use :meth:`tlp.Graph.delLocalProperty` inst
 
 %MethodCode
 if (canGetProperty<tlp::DoubleProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalDoubleProperty(*a0);
+    sipRes = sipCpp->getLocalDoubleProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3344,9 +3349,9 @@ new one and returns it. Using of :const:`del` on that property will cause a segm
 
 %MethodCode
 if (canGetProperty<tlp::DoubleVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getDoubleVectorProperty(*a0);
+    sipRes = sipCpp->getDoubleVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3372,9 +3377,9 @@ property will cause a segmentation violation (use :meth:`tlp.Graph.delLocalPrope
 
 %MethodCode
 if (canGetProperty<tlp::DoubleVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalDoubleVectorProperty(*a0);
+    sipRes = sipCpp->getLocalDoubleVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3401,9 +3406,9 @@ one and returns it. Using of :const:`del` on that property will cause a segmenta
 
 %MethodCode
 if (canGetProperty<tlp::StringProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getStringProperty(*a0);
+    sipRes = sipCpp->getStringProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3429,9 +3434,9 @@ will cause a segmentation violation (use :meth:`tlp.Graph.delLocalProperty` inst
 
 %MethodCode
 if (canGetProperty<tlp::StringProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalStringProperty(*a0);
+    sipRes = sipCpp->getLocalStringProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3458,9 +3463,9 @@ new one and returns it. Using of :const:`del` on that property will cause a segm
 
 %MethodCode
 if (canGetProperty<tlp::StringVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getStringVectorProperty(*a0);
+    sipRes = sipCpp->getStringVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3486,9 +3491,9 @@ property will cause a segmentation violation (use :meth:`tlp.Graph.delLocalPrope
 
 %MethodCode
 if (canGetProperty<tlp::StringVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalStringVectorProperty(*a0);
+    sipRes = sipCpp->getLocalStringVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3515,9 +3520,9 @@ one and returns it. Using of :const:`del` on that property will cause a segmenta
 
 %MethodCode
 if (canGetProperty<tlp::SizeProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getSizeProperty(*a0);
+    sipRes = sipCpp->getSizeProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3543,9 +3548,9 @@ will cause a segmentation violation (use :meth:`tlp.Graph.delLocalProperty` inst
 
 %MethodCode
 if (canGetProperty<tlp::SizeProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalSizeProperty(*a0);
+    sipRes = sipCpp->getLocalSizeProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3572,9 +3577,9 @@ new one and returns it. Using of :const:`del` on that property will cause a segm
 
 %MethodCode
 if (canGetProperty<tlp::SizeVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getSizeVectorProperty(*a0);
+    sipRes = sipCpp->getSizeVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3600,9 +3605,9 @@ property will cause a segmentation violation (use :meth:`tlp.Graph.delLocalPrope
 
 %MethodCode
 if (canGetProperty<tlp::SizeVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalSizeVectorProperty(*a0);
+    sipRes = sipCpp->getLocalSizeVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3629,9 +3634,9 @@ one and returns it. Using of :const:`del` on that property will cause a segmenta
 
 %MethodCode
 if (canGetProperty<tlp::IntegerProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getIntegerProperty(*a0);
+    sipRes = sipCpp->getIntegerProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3657,9 +3662,9 @@ will cause a segmentation violation (use :meth:`tlp.Graph.delLocalProperty` inst
 
 %MethodCode
 if (canGetProperty<tlp::IntegerProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalIntegerProperty(*a0);
+    sipRes = sipCpp->getLocalIntegerProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3686,9 +3691,9 @@ a new one and returns it. Using of :const:`del` on that property will cause a se
 
 %MethodCode
 if (canGetProperty<tlp::IntegerVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getIntegerVectorProperty(*a0);
+    sipRes = sipCpp->getIntegerVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3714,9 +3719,9 @@ property will cause a segmentation violation (use :meth:`tlp.Graph.delLocalPrope
 
 %MethodCode
 if (canGetProperty<tlp::IntegerVectorProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalIntegerVectorProperty(*a0);
+    sipRes = sipCpp->getLocalIntegerVectorProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3743,9 +3748,9 @@ one and returns it. Using of :const:`del` on that property will cause a segmenta
 
 %MethodCode
 if (canGetProperty<tlp::GraphProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getGraphProperty(*a0);
+    sipRes = sipCpp->getGraphProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3771,9 +3776,9 @@ property will cause a segmentation violation (use :meth:`tlp.Graph.delLocalPrope
 
 %MethodCode
 if (canGetProperty<tlp::GraphProperty>(sipCpp, *a0)) {
-  sipRes = sipCpp->getLocalGraphProperty(*a0);
+    sipRes = sipCpp->getLocalGraphProperty(*a0);
 } else {
-  sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
+    sipIsErr = throwPropertyNameExistsException(sipCpp, *a0);
 }
 %End
 
@@ -3853,15 +3858,15 @@ Removes and deletes the property associated to name in the graph properties pool
 
 %MethodCode
 if (sipCpp->existLocalProperty(*a0)) {
-  tlp::PropertyInterface *prop = sipCpp->getProperty(*a0);
-  releasePropertyWrapper(prop);
-  sipCpp->delLocalProperty(*a0);
+    tlp::PropertyInterface *prop = sipCpp->getProperty(*a0);
+    releasePropertyWrapper(prop);
+    sipCpp->delLocalProperty(*a0);
 } else {
-  sipIsErr = -1;
-  std::string msg = "No local graph property named  ";
-  msg += *a0;
-  msg += ".";
-  PyErr_SetString(PyExc_ValueError, msg.c_str());
+    sipIsErr = -1;
+    std::string msg = "No local graph property named  ";
+    msg += *a0;
+    msg += ".";
+    PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 %End
 
@@ -4604,13 +4609,13 @@ nodes are replaced with edges from the metanode to the other nodes.
 
 %MethodCode
 for (auto n : *a0) {
-  if (!sipCpp->isElement(n)) {
-    sipIsErr = throwInvalidNodeException(sipCpp, n);
-    break;
-  }
+    if (!sipCpp->isElement(n)) {
+        sipIsErr = throwInvalidNodeException(sipCpp, n);
+        break;
+    }
 }
 if (sipIsErr != -1) {
-  sipRes = new tlp::node(sipCpp->createMetaNode(*a0, a1, a2));
+    sipRes = new tlp::node(sipCpp->createMetaNode(*a0, a1, a2));
 }
 %End
 
@@ -4661,31 +4666,31 @@ will point to an empty subgraph.
 
 %MethodCode
 if (sipCpp->isDescendantGraph(a0)) {
-  sipIsErr = -1;
-  std::ostringstream oss;
-  oss << "Can not create a metanode from subgraph ";
-  oss << "\"" << a0->getName() << "\" (id " << a0->getId() << ")";
-  oss << " because it is a descendant of graph ";
-  oss << "\"" << sipCpp->getName() << "\" (id " << sipCpp->getId() << ")";
-  PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    sipIsErr = -1;
+    std::ostringstream oss;
+    oss << "Can not create a metanode from subgraph ";
+    oss << "\"" << a0->getName() << "\" (id " << a0->getId() << ")";
+    oss << " because it is a descendant of graph ";
+    oss << "\"" << sipCpp->getName() << "\" (id " << sipCpp->getId() << ")";
+    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
 } else {
-  for (const tlp::node &n : a0->nodes()) {
-    if (!sipCpp->isElement(n)) {
-      sipIsErr = throwInvalidNodeException(sipCpp, n);
-      break;
+    for (const tlp::node &n : a0->nodes()) {
+        if (!sipCpp->isElement(n)) {
+            sipIsErr = throwInvalidNodeException(sipCpp, n);
+            break;
+        }
     }
-  }
-  if (sipIsErr != -1) {
-    for (const tlp::edge &e : a0->edges()) {
-      if (!sipCpp->isElement(e)) {
-        sipIsErr = throwInvalidEdgeException(sipCpp, e);
-        break;
-      }
+    if (sipIsErr != -1) {
+        for (const tlp::edge &e : a0->edges()) {
+            if (!sipCpp->isElement(e)) {
+                sipIsErr = throwInvalidEdgeException(sipCpp, e);
+                break;
+            }
+        }
     }
-  }
-  if (sipIsErr != -1) {
-    sipRes = new tlp::node(sipCpp->createMetaNode(a0, a1, a2));
-  }
+    if (sipIsErr != -1) {
+        sipRes = new tlp::node(sipCpp->createMetaNode(a0, a1, a2));
+    }
 }
 %End
 
@@ -4765,11 +4770,11 @@ return sipCpp->hasEdge(a0->first, a0->second);
   SIP_PYOBJECT __getitem__(const std::string &attributeName) const;
 %MethodCode
 if (sipCpp->existProperty(*a0)) {
-  sipRes =
-      sipConvertFromType(sipCpp->getProperty(*a0), sipFindType("tlp::PropertyInterface"), NULL);
+    sipRes =
+        sipConvertFromType(sipCpp->getProperty(*a0), sipFindType("tlp::PropertyInterface"), NULL);
 } else {
-  sipRes =
-      sipConvertFromNewType(new PropertyProxy(sipCpp, *a0), sipFindType("PropertyProxy"), NULL);
+    sipRes =
+        sipConvertFromNewType(new PropertyProxy(sipCpp, *a0), sipFindType("PropertyProxy"), NULL);
 }
 %End
 
@@ -4825,11 +4830,11 @@ Sets an attribute of the graph.
 tlp::DataType *dataType = sipCpp->getAttribute(*a0);
 ValueSetter valSetter(sipCpp, *a0);
 if (!setCppValueFromPyObject(a1, valSetter, dataType)) {
-  sipIsErr = -1;
-  std::string msg = "Object of type ";
-  msg += std::string(a1->ob_type->tp_name);
-  msg += " can not be store as graph attribute.";
-  PyErr_SetString(PyExc_ValueError, msg.c_str());
+    sipIsErr = -1;
+    std::string msg = "Object of type ";
+    msg += std::string(a1->ob_type->tp_name);
+    msg += " can not be store as graph attribute.";
+    PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 delete dataType;
 %End
@@ -4858,16 +4863,16 @@ Returns a reference on an attribute of the graph or :const:`None` if it does not
 %MethodCode
 sipRes = NULL;
 if (sipCpp->existAttribute(*a0)) {
-  tlp::DataType *dataType = sipCpp->getAttribute(*a0);
-  sipRes = getPyObjectFromDataType(dataType);
-  delete dataType;
+    tlp::DataType *dataType = sipCpp->getAttribute(*a0);
+    sipRes = getPyObjectFromDataType(dataType);
+    delete dataType;
 }
 
 if (!sipRes) {
-  std::ostringstream oss;
-  oss << "Graph attribute named \"" << *a0 << "\" does not exist.";
-  sipIsErr = -1;
-  PyErr_SetString(PyExc_AttributeError, oss.str().c_str());
+    std::ostringstream oss;
+    oss << "Graph attribute named \"" << *a0 << "\" does not exist.";
+    sipIsErr = -1;
+    PyErr_SetString(PyExc_AttributeError, oss.str().c_str());
 }
 %End
 
@@ -4894,12 +4899,12 @@ Removes an attribute of the graph.
 
 %MethodCode
 if (sipCpp->existAttribute(*a0)) {
-  sipCpp->removeAttribute(*a0);
+    sipCpp->removeAttribute(*a0);
 } else {
-  std::ostringstream oss;
-  oss << "Graph attribute named \"" << *a0 << "\" does not exist.";
-  sipIsErr = -1;
-  PyErr_SetString(PyExc_AttributeError, oss.str().c_str());
+    std::ostringstream oss;
+    oss << "Graph attribute named \"" << *a0 << "\" does not exist.";
+    sipIsErr = -1;
+    PyErr_SetString(PyExc_AttributeError, oss.str().c_str());
 }
 %End
 
@@ -4959,9 +4964,9 @@ are typed according to those of the properties (bool, int, float, str, :class:`t
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = getDataSetFilledWithPropertiesValues(sipCpp, a0->id, true);
+    sipRes = getDataSetFilledWithPropertiesValues(sipCpp, a0->id, true);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -4989,9 +4994,9 @@ are typed according to those of the properties (bool, int, float, str, :class:`t
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipRes = getDataSetFilledWithPropertiesValues(sipCpp, a0->id, false);
+    sipRes = getDataSetFilledWithPropertiesValues(sipCpp, a0->id, false);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -5027,9 +5032,9 @@ of those types).
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipIsErr = setPropertiesValuesFromDataSet(sipCpp, a1, a0->id, true) ? 0 : 1;
+    sipIsErr = setPropertiesValuesFromDataSet(sipCpp, a1, a0->id, true) ? 0 : 1;
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp, *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp, *a0);
 }
 %End
 
@@ -5065,9 +5070,9 @@ of those types).
 
 %MethodCode
 if (sipCpp->isElement(*a0)) {
-  sipIsErr = setPropertiesValuesFromDataSet(sipCpp, a1, a0->id, false) ? 0 : 1;
+    sipIsErr = setPropertiesValuesFromDataSet(sipCpp, a1, a0->id, false) ? 0 : 1;
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp, *a0);
 }
 %End
 
@@ -5151,8 +5156,8 @@ Returns the provided graph or :const:`None` if the import fails.
 %MethodCode
 sipRes = tlp::loadGraph(*a0, nullptr, a1);
 if (PyErr_Occurred()) {
-  // propagate exceptions raised by talipot plugins written in Python
-  sipIsErr = -1;
+    // propagate exceptions raised by talipot plugins written in Python
+    sipIsErr = -1;
 }
 %End
 
@@ -5193,8 +5198,8 @@ Returns a new graph or :const:`None` if the import fails.
 %MethodCode
 sipRes = tlp::loadGraph(*a0);
 if (PyErr_Occurred()) {
-  // propagate exceptions raised by talipot plugins written in Python
-  sipIsErr = -1;
+    // propagate exceptions raised by talipot plugins written in Python
+    sipIsErr = -1;
 }
 %End
 
@@ -5236,8 +5241,8 @@ Returns whether the export was successful or not.
 %MethodCode
 sipRes = tlp::saveGraph(a0, *a1);
 if (PyErr_Occurred()) {
-  // propagate exceptions raised by talipot plugins written in Python
-  sipIsErr = -1;
+    // propagate exceptions raised by talipot plugins written in Python
+    sipIsErr = -1;
 }
 %End
 
@@ -5267,21 +5272,21 @@ Returns :const:`True` if the graph has been successfully saved.
 bool ok = false;
 std::string tlpFilePath;
 if (a0->existAttribute("file")) {
-  a0->getAttribute("file", tlpFilePath);
-  ok = true;
+    a0->getAttribute("file", tlpFilePath);
+    ok = true;
 }
 if (ok) {
-  sipRes = tlp::saveGraph(a0, tlpFilePath);
+    sipRes = tlp::saveGraph(a0, tlpFilePath);
 } else {
-  sipIsErr = -1;
-  std::string msg = "No file attached to the graph \"";
-  msg += a0->getName();
-  msg += "\".";
-  PyErr_SetString(PyExc_ValueError, msg.c_str());
+    sipIsErr = -1;
+    std::string msg = "No file attached to the graph \"";
+    msg += a0->getName();
+    msg += "\".";
+    PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-  // propagate exceptions raised by talipot plugins written in Python
-  sipIsErr = -1;
+    // propagate exceptions raised by talipot plugins written in Python
+    sipIsErr = -1;
 }
 %End
 
@@ -5290,19 +5295,19 @@ if (PyErr_Occurred()) {
 tlp::Graph *importGraph(const std::string &importPluginName) /TransferBack/;
 %MethodCode
 if (pluginExists<tlp::ImportModule>(*a0)) {
-  tlp::DataSet *params = prepareAlgorithmParameters(*a0);
-  sipRes = tlp::importGraph(*a0, *params, NULL);
-  delete params;
+    tlp::DataSet *params = prepareAlgorithmParameters(*a0);
+    sipRes = tlp::importGraph(*a0, *params, NULL);
+    delete params;
 } else {
-  sipIsErr = -1;
-  std::string msg = "No Talipot import plugin named  ";
-  msg += *a0;
-  msg += ".";
-  PyErr_SetString(PyExc_ValueError, msg.c_str());
+    sipIsErr = -1;
+    std::string msg = "No Talipot import plugin named  ";
+    msg += *a0;
+    msg += ".";
+    PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-  // propagate exceptions raised by talipot plugins written in Python
-  sipIsErr = -1;
+    // propagate exceptions raised by talipot plugins written in Python
+    sipIsErr = -1;
 }
 %End
 
@@ -5340,24 +5345,24 @@ if the import fails.
 
 %MethodCode
 if (pluginExists<tlp::ImportModule>(*a0)) {
-  tlp::DataSet *params = prepareAlgorithmParameters(*a0, NULL, a1, a1Wrapper);
-  if (params) {
-    sipRes = tlp::importGraph(*a0, *params, NULL);
-    updateWrappedDataSetAfterAlgorithmCall(params, a1Wrapper);
-    delete params;
-  } else {
-    sipIsErr = -1;
-  }
+    tlp::DataSet *params = prepareAlgorithmParameters(*a0, NULL, a1, a1Wrapper);
+    if (params) {
+        sipRes = tlp::importGraph(*a0, *params, NULL);
+        updateWrappedDataSetAfterAlgorithmCall(params, a1Wrapper);
+        delete params;
+    } else {
+        sipIsErr = -1;
+    }
 } else {
-  sipIsErr = -1;
-  std::string msg = "No Talipot import plugin named  ";
-  msg += *a0;
-  msg += ".";
-  PyErr_SetString(PyExc_ValueError, msg.c_str());
+    sipIsErr = -1;
+    std::string msg = "No Talipot import plugin named  ";
+    msg += *a0;
+    msg += ".";
+    PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-  // propagate exceptions raised by talipot plugins written in Python
-  sipIsErr = -1;
+    // propagate exceptions raised by talipot plugins written in Python
+    sipIsErr = -1;
 }
 %End
 
@@ -5399,24 +5404,24 @@ Python. The list of currently loaded import plugins can be retrieved through the
 
 %MethodCode
 if (pluginExists<tlp::ImportModule>(*a0)) {
-  tlp::DataSet *params = prepareAlgorithmParameters(*a0, a2, a1, a1Wrapper);
-  if (params) {
-    sipRes = tlp::importGraph(*a0, *params, 0, a2);
-    updateWrappedDataSetAfterAlgorithmCall(params, a1Wrapper);
-    delete params;
-  } else {
-    sipIsErr = 1;
-  }
+    tlp::DataSet *params = prepareAlgorithmParameters(*a0, a2, a1, a1Wrapper);
+    if (params) {
+        sipRes = tlp::importGraph(*a0, *params, 0, a2);
+        updateWrappedDataSetAfterAlgorithmCall(params, a1Wrapper);
+        delete params;
+    } else {
+        sipIsErr = 1;
+    }
 } else {
-  sipIsErr = -1;
-  std::string msg = "No Talipot import plugin named  ";
-  msg += *a0;
-  msg += ".";
-  PyErr_SetString(PyExc_ValueError, msg.c_str());
+    sipIsErr = -1;
+    std::string msg = "No Talipot import plugin named  ";
+    msg += *a0;
+    msg += ".";
+    PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-  // propagate exceptions raised by talipot plugins written in Python
-  sipIsErr = -1;
+    // propagate exceptions raised by talipot plugins written in Python
+    sipIsErr = -1;
 }
 %End
 
@@ -5461,34 +5466,34 @@ Exports a graph to a file using a Talipot :ref:`export plugin <exportpluginsdoc>
 
 %MethodCode
 if (pluginExists<tlp::ExportModule>(*a0)) {
-  std::ostream *ofs = tlp::getOutputFileStream(*a2);
-  if (ofs->good()) {
-    tlp::DataSet *params = prepareAlgorithmParameters(*a0, a1, a3, a3Wrapper);
-    if (params) {
-      sipRes = tlp::exportGraph(a1, *ofs, *a0, *params);
-      updateWrappedDataSetAfterAlgorithmCall(params, a3Wrapper);
-      delete params;
+    std::ostream *ofs = tlp::getOutputFileStream(*a2);
+    if (ofs->good()) {
+        tlp::DataSet *params = prepareAlgorithmParameters(*a0, a1, a3, a3Wrapper);
+        if (params) {
+            sipRes = tlp::exportGraph(a1, *ofs, *a0, *params);
+            updateWrappedDataSetAfterAlgorithmCall(params, a3Wrapper);
+            delete params;
+        } else {
+            sipIsErr = -1;
+        }
     } else {
-      sipIsErr = -1;
+        std::string msg = "Export error : The specified file path (";
+        msg += *a2;
+        msg += ") is not valid.";
+        printErrorMessage(msg);
+        sipRes = false;
     }
-  } else {
-    std::string msg = "Export error : The specified file path (";
-    msg += *a2;
-    msg += ") is not valid.";
-    printErrorMessage(msg);
-    sipRes = false;
-  }
-  delete ofs;
+    delete ofs;
 } else {
-  sipIsErr = -1;
-  std::string msg = "No Talipot export plugin named  ";
-  msg += *a0;
-  msg += ".";
-  PyErr_SetString(PyExc_ValueError, msg.c_str());
+    sipIsErr = -1;
+    std::string msg = "No Talipot export plugin named  ";
+    msg += *a0;
+    msg += ".";
+    PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 if (PyErr_Occurred()) {
-  // propagate exceptions raised by talipot plugins written in Python
-  sipIsErr = -1;
+    // propagate exceptions raised by talipot plugins written in Python
+    sipIsErr = -1;
 }
 %End
 

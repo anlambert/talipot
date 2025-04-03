@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,41 +33,41 @@ using KernelFunction = std::function<double(double)>;
 
 class HistogramStatistics : public GLInteractorComponent {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  HistogramStatistics(HistoStatsConfigWidget *ConfigWidget);
-  HistogramStatistics(const HistogramStatistics &histoStats);
-  ~HistogramStatistics() override;
+  public:
+    HistogramStatistics(HistoStatsConfigWidget *ConfigWidget);
+    HistogramStatistics(const HistogramStatistics &histoStats);
+    ~HistogramStatistics() override;
 
-  bool eventFilter(QObject *, QEvent *) override;
-  bool draw(GlWidget *glWidget) override;
+    bool eventFilter(QObject *, QEvent *) override;
+    bool draw(GlWidget *glWidget) override;
 
-  void viewChanged(View *view) override;
+    void viewChanged(View *view) override;
 
-private slots:
+  private slots:
 
-  void computeAndDrawInteractor();
+    void computeAndDrawInteractor();
 
-public slots:
-  void computeInteractor();
+  public slots:
+    void computeInteractor();
 
-private:
-  void cleanupAxis();
-  void initKernelFunctionsMap();
+  private:
+    void cleanupAxis();
+    void initKernelFunctionsMap();
 
-protected:
-  HistogramView *histoView;
-  HistoStatsConfigWidget *histoStatsConfigWidget;
-  std::map<uint, double> graphPropertyValueSet;
-  double propertyMean;
-  double propertyStandardDeviation;
-  std::vector<Coord> densityEstimationCurvePoints;
-  std::map<QString, KernelFunction> kernelFunctionsMap;
-  GlQuantitativeAxis *densityAxis;
-  GlAxis *meanAxis, *standardDeviationPosAxis, *standardDeviationNegAxis;
-  GlAxis *standardDeviation2PosAxis, *standardDeviation2NegAxis;
-  GlAxis *standardDeviation3PosAxis, *standardDeviation3NegAxis;
+  protected:
+    HistogramView *histoView;
+    HistoStatsConfigWidget *histoStatsConfigWidget;
+    std::map<uint, double> graphPropertyValueSet;
+    double propertyMean;
+    double propertyStandardDeviation;
+    std::vector<Coord> densityEstimationCurvePoints;
+    std::map<QString, KernelFunction> kernelFunctionsMap;
+    GlQuantitativeAxis *densityAxis;
+    GlAxis *meanAxis, *standardDeviationPosAxis, *standardDeviationNegAxis;
+    GlAxis *standardDeviation2PosAxis, *standardDeviation2NegAxis;
+    GlAxis *standardDeviation3PosAxis, *standardDeviation3NegAxis;
 };
 }
 

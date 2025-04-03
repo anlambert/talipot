@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -65,36 +65,36 @@
  *
  */
 class TLPBExport : public tlp::ExportModule {
-public:
-  PLUGININFORMATION("TLPB Export", "David Auber, Patrick Mary", "13/07/2012",
-                    "<p>Supported extensions: tlpb, tlpbz (compressed), tlpb.gz "
-                    "(compressed)</p><p>Exports a graph in a file using the Tulip binary format.",
-                    "1.2", "File")
+  public:
+    PLUGININFORMATION("TLPB Export", "David Auber, Patrick Mary", "13/07/2012",
+                      "<p>Supported extensions: tlpb, tlpbz (compressed), tlpb.gz "
+                      "(compressed)</p><p>Exports a graph in a file using the Tulip binary format.",
+                      "1.2", "File")
 
-  std::string fileExtension() const override {
-    return "tlpb";
-  }
+    std::string fileExtension() const override {
+        return "tlpb";
+    }
 
-  TLPBExport(const tlp::PluginContext *context) : ExportModule(context) {}
-  ~TLPBExport() override = default;
+    TLPBExport(const tlp::PluginContext *context) : ExportModule(context) {}
+    ~TLPBExport() override = default;
 
-  bool exportGraph(std::ostream &) override;
+    bool exportGraph(std::ostream &) override;
 
-  std::string icon() const override {
-    return ":/talipot/gui/icons/tlpb32x32.png";
-  }
+    std::string icon() const override {
+        return ":/talipot/gui/icons/tlpb32x32.png";
+    }
 
-  tlp::node getNode(tlp::node n) {
-    return tlp::node(graph->nodePos(n));
-  }
+    tlp::node getNode(tlp::node n) {
+        return tlp::node(graph->nodePos(n));
+    }
 
-  tlp::edge getEdge(tlp::edge e) {
-    return tlp::edge(graph->edgePos(e));
-  }
+    tlp::edge getEdge(tlp::edge e) {
+        return tlp::edge(graph->edgePos(e));
+    }
 
-  void getSubGraphs(tlp::Graph *, std::vector<tlp::Graph *> &);
+    void getSubGraphs(tlp::Graph *, std::vector<tlp::Graph *> &);
 
-  void writeAttributes(std::ostream &, tlp::Graph *);
+    void writeAttributes(std::ostream &, tlp::Graph *);
 };
 
 /// Import plugin for TLPB format
@@ -104,25 +104,26 @@ public:
  *
  */
 class TLPBImport : public tlp::ImportModule {
-public:
-  PLUGININFORMATION("TLPB Import", "David Auber, Patrick Mary", "13/07/2012",
-                    "<p>Supported extensions: tlpb, tlpb.gz (compressed), tlpbz "
-                    "(compressed)</p><p>Imports a graph recorded in a file using the Tulip binary "
-                    "format.</p>",
-                    "1.2", "File")
+  public:
+    PLUGININFORMATION(
+        "TLPB Import", "David Auber, Patrick Mary", "13/07/2012",
+        "<p>Supported extensions: tlpb, tlpb.gz (compressed), tlpbz "
+        "(compressed)</p><p>Imports a graph recorded in a file using the Tulip binary "
+        "format.</p>",
+        "1.2", "File")
 
-  TLPBImport(tlp::PluginContext *context);
-  ~TLPBImport() override = default;
+    TLPBImport(tlp::PluginContext *context);
+    ~TLPBImport() override = default;
 
-  std::string icon() const override {
-    return ":/talipot/gui/icons/tlpb32x32.png";
-  }
+    std::string icon() const override {
+        return ":/talipot/gui/icons/tlpb32x32.png";
+    }
 
-  std::list<std::string> fileExtensions() const override {
-    return {"tlpb"};
-  }
+    std::list<std::string> fileExtensions() const override {
+        return {"tlpb"};
+    }
 
-  bool importGraph() override;
+    bool importGraph() override;
 };
 
 // Don't ask why it is David favorite 9 digit number.
@@ -132,19 +133,20 @@ public:
 
 // structures used in both tlpb import/export plugins
 struct TLPBHeader {
-  uint magicNumber;
-  unsigned char major;
-  unsigned char minor;
-  uint numNodes;
-  uint numEdges;
+    uint magicNumber;
+    unsigned char major;
+    unsigned char minor;
+    uint numNodes;
+    uint numEdges;
 
-  TLPBHeader(uint nbN = 0, uint nbE = 0)
-      : magicNumber(TLPB_MAGIC_NUMBER), major(TLPB_MAJOR), minor(TLPB_MINOR), numNodes(nbN),
-        numEdges(nbE) {}
+    TLPBHeader(uint nbN = 0, uint nbE = 0)
+        : magicNumber(TLPB_MAGIC_NUMBER), major(TLPB_MAJOR), minor(TLPB_MINOR), numNodes(nbN),
+          numEdges(nbE) {}
 
-  bool checkCompatibility() const {
-    return ((magicNumber == TLPB_MAGIC_NUMBER) && (major == TLPB_MAJOR) && (minor <= TLPB_MINOR));
-  }
+    bool checkCompatibility() const {
+        return ((magicNumber == TLPB_MAGIC_NUMBER) && (major == TLPB_MAJOR) &&
+                (minor <= TLPB_MINOR));
+    }
 };
 
 #define MAX_EDGES_TO_WRITE 64000

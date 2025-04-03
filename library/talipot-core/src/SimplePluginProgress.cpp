@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,30 +17,30 @@ using namespace std;
 SimplePluginProgress::SimplePluginProgress()
     : _state(ProgressState::TLP_CONTINUE), _preview(false) {}
 ProgressState SimplePluginProgress::progress(int step, int max_step) {
-  PluginProgress::progress(step, max_step);
-  progress_handler(step, max_step);
-  return _state;
+    PluginProgress::progress(step, max_step);
+    progress_handler(step, max_step);
+    return _state;
 }
 //====================================================
 void SimplePluginProgress::stop() {
-  _state = ProgressState::TLP_STOP;
+    _state = ProgressState::TLP_STOP;
 }
 //====================================================
 void SimplePluginProgress::cancel() {
-  _state = ProgressState::TLP_CANCEL;
+    _state = ProgressState::TLP_CANCEL;
 }
 //====================================================
 bool SimplePluginProgress::isPreviewMode() const {
-  return _preview;
+    return _preview;
 }
 //====================================================
 void SimplePluginProgress::setPreviewMode(bool b) {
-  if (b == _preview) {
-    return;
-  }
+    if (b == _preview) {
+        return;
+    }
 
-  _preview = b;
-  preview_handler(_preview);
+    _preview = b;
+    preview_handler(_preview);
 }
 //====================================================
 void SimplePluginProgress::showPreview(bool) {}
@@ -48,7 +48,7 @@ void SimplePluginProgress::showPreview(bool) {}
 void SimplePluginProgress::showStops(bool) {}
 //====================================================
 ProgressState SimplePluginProgress::state() const {
-  return _state;
+    return _state;
 }
 //====================================================
 void SimplePluginProgress::progress_handler(int, int) {}

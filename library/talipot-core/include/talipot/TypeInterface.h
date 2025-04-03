@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,37 +19,37 @@
 namespace tlp {
 template <typename T>
 class TypeInterface {
-public:
-  typedef T RealType;
-  static RealType undefinedValue() {
-    return T();
-  }
-  static RealType defaultValue() {
-    return T();
-  }
+  public:
+    typedef T RealType;
+    static RealType undefinedValue() {
+        return T();
+    }
+    static RealType defaultValue() {
+        return T();
+    }
 
-  static uint valueSize() {
-    return sizeof(T);
-  }
+    static uint valueSize() {
+        return sizeof(T);
+    }
 
-  static void write(std::ostream &, const RealType &) {}
-  static void writeb(std::ostream &oss, const RealType &v) {
-    oss.write(reinterpret_cast<const char *>(&v), sizeof(v));
-  }
+    static void write(std::ostream &, const RealType &) {}
+    static void writeb(std::ostream &oss, const RealType &v) {
+        oss.write(reinterpret_cast<const char *>(&v), sizeof(v));
+    }
 
-  static bool read(std::istream &, RealType &) {
-    return false;
-  }
-  static bool readb(std::istream &iss, RealType &v) {
-    return bool(iss.read(reinterpret_cast<char *>(&v), sizeof(v)));
-  }
+    static bool read(std::istream &, RealType &) {
+        return false;
+    }
+    static bool readb(std::istream &iss, RealType &v) {
+        return bool(iss.read(reinterpret_cast<char *>(&v), sizeof(v)));
+    }
 
-  static std::string toString(const RealType &) {
-    return "";
-  }
-  static bool fromString(RealType &, const std::string &) {
-    return false;
-  }
+    static std::string toString(const RealType &) {
+        return "";
+    }
+    static bool fromString(RealType &, const std::string &) {
+        return false;
+    }
 };
 }
 

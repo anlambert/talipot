@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,16 +19,16 @@ namespace tlp {
 class MatrixView;
 
 class GlMatrixBackgroundGrid : public tlp::GlEntity {
-public:
-  GlMatrixBackgroundGrid(MatrixView *view);
-  tlp::BoundingBox getBoundingBox() override;
-  void draw(float lod, tlp::Camera *camera) override;
+  public:
+    GlMatrixBackgroundGrid(MatrixView *view);
+    tlp::BoundingBox getBoundingBox() override;
+    void draw(float lod, tlp::Camera *camera) override;
 
-  void getXML(std::string &) override {}
-  void setWithXML(const std::string &, uint &) override {}
+    void getXML(std::string &) override {}
+    void setWithXML(const std::string &, uint &) override {}
 
-private:
-  MatrixView *_view;
+  private:
+    MatrixView *_view;
 };
 }
 #endif // GL_MATRIX_BACKGROUND_GRID_H

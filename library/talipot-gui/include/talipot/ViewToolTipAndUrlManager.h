@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,32 +24,32 @@ class QWidget;
 namespace tlp {
 
 class TLP_QT_SCOPE ViewToolTipAndUrlManager : public QObject {
-  Q_OBJECT
+    Q_OBJECT
 
-  View *_view;
-  QWidget *_widget;
-  bool _tooltips;
-  std::string _urlPropName;
-  std::string _url, _contextMenuUrl;
+    View *_view;
+    QWidget *_widget;
+    bool _tooltips;
+    std::string _urlPropName;
+    std::string _url, _contextMenuUrl;
 
-public:
-  ViewToolTipAndUrlManager(tlp::View *view, QWidget *widget);
+  public:
+    ViewToolTipAndUrlManager(tlp::View *view, QWidget *widget);
 
-  // the functions below must be called by the associated view
-  // when overloading the View class corresponding methods
-  void setState(const tlp::DataSet &);
-  void state(tlp::DataSet &) const;
-  void fillContextMenu(QMenu *menu);
-  void fillContextMenu(QMenu *menu, node n);
-  void fillContextMenu(QMenu *menu, edge e);
+    // the functions below must be called by the associated view
+    // when overloading the View class corresponding methods
+    void setState(const tlp::DataSet &);
+    void state(tlp::DataSet &) const;
+    void fillContextMenu(QMenu *menu);
+    void fillContextMenu(QMenu *menu, node n);
+    void fillContextMenu(QMenu *menu, edge e);
 
-protected slots:
-  void displayToolTips(bool display);
-  void setUrlProp(QAction *);
-  void openUrl();
+  protected slots:
+    void displayToolTips(bool display);
+    void setUrlProp(QAction *);
+    void openUrl();
 
-protected:
-  bool eventFilter(QObject *, QEvent *e) override;
+  protected:
+    bool eventFilter(QObject *, QEvent *e) override;
 };
 }
 

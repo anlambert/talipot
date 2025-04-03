@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,164 +32,164 @@ namespace tlp {
 class Graph;
 
 class TLP_SCOPE GraphType : public TypeInterface<tlp::Graph *> {
-public:
-  static RealType undefinedValue();
-  static RealType defaultValue();
-  static void write(std::ostream &oss, const RealType &v);
-  static void writeb(std::ostream &oss, const RealType &v);
-  static bool read(std::istream &iss, RealType &v);
-  static bool readb(std::istream &iss, RealType &v);
-  FORWARD_STRING_METHODS(GraphType)
+  public:
+    static RealType undefinedValue();
+    static RealType defaultValue();
+    static void write(std::ostream &oss, const RealType &v);
+    static void writeb(std::ostream &oss, const RealType &v);
+    static bool read(std::istream &iss, RealType &v);
+    static bool readb(std::istream &iss, RealType &v);
+    FORWARD_STRING_METHODS(GraphType)
 };
 
 class TLP_SCOPE EdgeSetType : public TypeInterface<std::set<tlp::edge>> {
-public:
-  static void write(std::ostream &oss, const RealType &v);
-  static void writeb(std::ostream &oss, const RealType &v);
-  static bool read(std::istream &iss, RealType &v);
-  static bool readb(std::istream &iss, RealType &v);
-  FORWARD_STRING_METHODS(EdgeSetType)
+  public:
+    static void write(std::ostream &oss, const RealType &v);
+    static void writeb(std::ostream &oss, const RealType &v);
+    static bool read(std::istream &iss, RealType &v);
+    static bool readb(std::istream &iss, RealType &v);
+    FORWARD_STRING_METHODS(EdgeSetType)
 };
 
 class TLP_SCOPE DoubleType : public TypeInterface<double> {
-public:
-  static double undefinedValue();
-  static double defaultValue();
-  static void write(std::ostream &oss, const RealType &v) {
-    oss << v;
-  }
-  static bool read(std::istream &iss, RealType &v);
-  FORWARD_STRING_METHODS(DoubleType)
+  public:
+    static double undefinedValue();
+    static double defaultValue();
+    static void write(std::ostream &oss, const RealType &v) {
+        oss << v;
+    }
+    static bool read(std::istream &iss, RealType &v);
+    FORWARD_STRING_METHODS(DoubleType)
 };
 
 class TLP_SCOPE FloatType : public SerializableType<float> {
-public:
-  static float undefinedValue();
-  static float defaultValue();
-  static bool read(std::istream &iss, RealType &v);
-  FORWARD_STRING_METHODS(FloatType)
+  public:
+    static float undefinedValue();
+    static float defaultValue();
+    static bool read(std::istream &iss, RealType &v);
+    FORWARD_STRING_METHODS(FloatType)
 };
 
 typedef SerializableVectorType<double, DoubleType, false> DoubleVectorType;
 
 class TLP_SCOPE IntegerType : public SerializableType<int> {
-public:
-  static int undefinedValue();
-  static int defaultValue();
+  public:
+    static int undefinedValue();
+    static int defaultValue();
 };
 
 class TLP_SCOPE LongType : public SerializableType<long> {
-public:
-  static long undefinedValue();
-  static long defaultValue();
+  public:
+    static long undefinedValue();
+    static long defaultValue();
 };
 
 class TLP_SCOPE UnsignedIntegerType : public SerializableType<uint> {
-public:
-  static uint undefinedValue();
-  static uint defaultValue();
+  public:
+    static uint undefinedValue();
+    static uint defaultValue();
 };
 
 typedef SerializableVectorType<int, IntegerType, false> IntegerVectorType;
 typedef SerializableVectorType<uint, UnsignedIntegerType, false> UnsignedIntegerVectorType;
 
 class TLP_SCOPE BooleanType : public TypeInterface<bool> {
-public:
-  static RealType undefinedValue();
-  static RealType defaultValue();
-  static void write(std::ostream &, const RealType &);
-  static bool read(std::istream &, RealType &, bool untilEnd = false);
-  static bool fromString(RealType &, const std::string &, bool untilEnd = false);
-  FORWARD_TOSTRING(BooleanType)
+  public:
+    static RealType undefinedValue();
+    static RealType defaultValue();
+    static void write(std::ostream &, const RealType &);
+    static bool read(std::istream &, RealType &, bool untilEnd = false);
+    static bool fromString(RealType &, const std::string &, bool untilEnd = false);
+    FORWARD_TOSTRING(BooleanType)
 };
 
 class TLP_SCOPE BooleanVectorType : public TypeInterface<std::vector<bool>> {
-public:
-  static void write(std::ostream &, const RealType &);
-  static void writeb(std::ostream &, const RealType &);
-  static bool read(std::istream &, RealType &, char openChar = '(', char sepChar = ',',
-                   char closeChar = ')');
-  static bool read(const std::vector<std::string> &vs, RealType &v);
-  static bool tokenize(const std::string &, std::vector<std::string> &, char openChar = '(',
-                       char sepChar = ',', char closeChar = ')');
-  static bool readb(std::istream &, RealType &);
-  FORWARD_STRING_METHODS(BooleanVectorType)
+  public:
+    static void write(std::ostream &, const RealType &);
+    static void writeb(std::ostream &, const RealType &);
+    static bool read(std::istream &, RealType &, char openChar = '(', char sepChar = ',',
+                     char closeChar = ')');
+    static bool read(const std::vector<std::string> &vs, RealType &v);
+    static bool tokenize(const std::string &, std::vector<std::string> &, char openChar = '(',
+                         char sepChar = ',', char closeChar = ')');
+    static bool readb(std::istream &, RealType &);
+    FORWARD_STRING_METHODS(BooleanVectorType)
 };
 
 class TLP_SCOPE PointType : public SerializableType<tlp::Coord> {
-public:
-  static RealType undefinedValue();
-  static RealType defaultValue();
-  static bool read(std::istream &, RealType &);
-  static bool fromString(RealType &, const std::string &);
-  FORWARD_TOSTRING(PointType)
+  public:
+    static RealType undefinedValue();
+    static RealType defaultValue();
+    static bool read(std::istream &, RealType &);
+    static bool fromString(RealType &, const std::string &);
+    FORWARD_TOSTRING(PointType)
 };
 
 class TLP_SCOPE LineType : public SerializableVectorType<tlp::Coord, PointType, false> {
-public:
-  static bool read(std::istream &, RealType &, char openChar = '(', char sepChar = ',',
-                   char closeChar = ')');
-  FORWARD_STRING_METHODS(LineType)
+  public:
+    static bool read(std::istream &, RealType &, char openChar = '(', char sepChar = ',',
+                     char closeChar = ')');
+    FORWARD_STRING_METHODS(LineType)
 };
 
 class TLP_SCOPE SizeType : public SerializableType<tlp::Size> {
-public:
-  static RealType undefinedValue();
-  static RealType defaultValue();
-  static bool read(std::istream &, RealType &);
-  static bool fromString(RealType &, const std::string &);
-  FORWARD_TOSTRING(SizeType)
+  public:
+    static RealType undefinedValue();
+    static RealType defaultValue();
+    static bool read(std::istream &, RealType &);
+    static bool fromString(RealType &, const std::string &);
+    FORWARD_TOSTRING(SizeType)
 };
 
 typedef SerializableVectorType<tlp::Size, SizeType, true> SizeVectorType;
 
 class TLP_SCOPE StringType : public TypeInterface<std::string> {
-public:
-  static RealType undefinedValue();
-  static RealType defaultValue();
+  public:
+    static RealType undefinedValue();
+    static RealType defaultValue();
 
-  static void write(std::ostream &, const RealType &, char openCloseChar = '"');
-  static void writeb(std::ostream &, const RealType &);
-  static bool read(std::istream &, RealType &, char openChar = '"', char closeChar = '"');
-  static bool readb(std::istream &, RealType &);
+    static void write(std::ostream &, const RealType &, char openCloseChar = '"');
+    static void writeb(std::ostream &, const RealType &);
+    static bool read(std::istream &, RealType &, char openChar = '"', char closeChar = '"');
+    static bool readb(std::istream &, RealType &);
 
-  static std::string toString(const RealType &v);
-  static bool fromString(RealType &v, const std::string &s);
+    static std::string toString(const RealType &v);
+    static bool fromString(RealType &v, const std::string &s);
 };
 
 class TLP_SCOPE StringVectorType : public TypeInterface<std::vector<std::string>> {
-public:
-  static void write(std::ostream &, const RealType &);
-  static void writeb(std::ostream &oss, const RealType &vStr);
-  static bool read(std::istream &, RealType &, char openChar = '(', char sepchar = ',',
-                   char closeChar = ')');
-  static bool read(const std::vector<std::string> &vs, RealType &v) {
-    v.clear();
-    v.reserve(vs.size());
-    for (const std::string &s : vs) {
-      v.push_back(s);
-    }
+  public:
+    static void write(std::ostream &, const RealType &);
+    static void writeb(std::ostream &oss, const RealType &vStr);
+    static bool read(std::istream &, RealType &, char openChar = '(', char sepchar = ',',
+                     char closeChar = ')');
+    static bool read(const std::vector<std::string> &vs, RealType &v) {
+        v.clear();
+        v.reserve(vs.size());
+        for (const std::string &s : vs) {
+            v.push_back(s);
+        }
 
-    return true;
-  }
-  static bool tokenize(const std::string &s, std::vector<std::string> &v, char openChar = '(',
-                       char sepChar = ',', char closeChar = ')') {
-    std::istringstream is(s);
-    return read(is, v, openChar, sepChar, closeChar);
-  }
-  static bool readb(std::istream &iss, RealType &vStr);
-  FORWARD_STRING_METHODS(StringVectorType)
+        return true;
+    }
+    static bool tokenize(const std::string &s, std::vector<std::string> &v, char openChar = '(',
+                         char sepChar = ',', char closeChar = ')') {
+        std::istringstream is(s);
+        return read(is, v, openChar, sepChar, closeChar);
+    }
+    static bool readb(std::istream &iss, RealType &vStr);
+    FORWARD_STRING_METHODS(StringVectorType)
 };
 
 class TLP_SCOPE ColorType : public TypeInterface<tlp::Color> {
-public:
-  static RealType undefinedValue();
+  public:
+    static RealType undefinedValue();
 
-  static void write(std::ostream &, const RealType &);
-  static bool read(std::istream &, RealType &);
+    static void write(std::ostream &, const RealType &);
+    static bool read(std::istream &, RealType &);
 
-  static std::string toString(const RealType &v);
-  static bool fromString(RealType &v, const std::string &s);
+    static std::string toString(const RealType &v);
+    static bool fromString(RealType &v, const std::string &s);
 };
 
 typedef SerializableVectorType<tlp::Color, ColorType, true> ColorVectorType;
@@ -212,32 +212,32 @@ DECL_STORED_STRUCT(tlp::ColorVectorType::RealType)
 // template class to automate definition of serializers
 template <typename T>
 struct KnownTypeSerializer : public TypedDataSerializer<REAL_TYPE(T)> {
-  KnownTypeSerializer(const std::string &otn) : TypedDataSerializer<REAL_TYPE(T)>(otn) {}
-  KnownTypeSerializer(const char *otn) : TypedDataSerializer<REAL_TYPE(T)>(std::string(otn)) {}
+    KnownTypeSerializer(const std::string &otn) : TypedDataSerializer<REAL_TYPE(T)>(otn) {}
+    KnownTypeSerializer(const char *otn) : TypedDataSerializer<REAL_TYPE(T)>(std::string(otn)) {}
 
-  DataTypeSerializer *clone() const override {
-    return new KnownTypeSerializer<T>(this->outputTypeName);
-  }
-
-  void write(std::ostream &os, const REAL_TYPE(T) & v) override {
-    T::write(os, v);
-  }
-  bool read(std::istream &iss, REAL_TYPE(T) & v) override {
-    return T::read(iss, v);
-  }
-  bool setData(tlp::DataSet &ds, const std::string &prop, const std::string &value) override {
-    bool result = true;
-    REAL_TYPE(T) val;
-
-    if (value.empty()) {
-      val = T::defaultValue();
-    } else {
-      result = T::fromString(val, value);
+    DataTypeSerializer *clone() const override {
+        return new KnownTypeSerializer<T>(this->outputTypeName);
     }
 
-    ds.set(prop, val);
-    return result;
-  }
+    void write(std::ostream &os, const REAL_TYPE(T) & v) override {
+        T::write(os, v);
+    }
+    bool read(std::istream &iss, REAL_TYPE(T) & v) override {
+        return T::read(iss, v);
+    }
+    bool setData(tlp::DataSet &ds, const std::string &prop, const std::string &value) override {
+        bool result = true;
+        REAL_TYPE(T) val;
+
+        if (value.empty()) {
+            val = T::defaultValue();
+        } else {
+            result = T::fromString(val, value);
+        }
+
+        ds.set(prop, val);
+        return result;
+    }
 };
 
 extern void initTypeSerializers();

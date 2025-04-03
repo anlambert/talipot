@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,68 +25,68 @@ using namespace tlp;
 
 class NodeNeighborhoodView : public GraphDecorator {
 
-public:
-  enum NeighborNodesType { IN_NEIGHBORS, OUT_NEIGHBORS, IN_OUT_NEIGHBORS };
+  public:
+    enum NeighborNodesType { IN_NEIGHBORS, OUT_NEIGHBORS, IN_OUT_NEIGHBORS };
 
-  NodeNeighborhoodView(Graph *graph, node n,
-                       NeighborNodesType neighborsNodesType = IN_OUT_NEIGHBORS,
-                       uint neighborhoodDist = 1, bool computeReachableSubGraph = false,
-                       const std::string &propertyName = "", int nbNodes = 0);
+    NodeNeighborhoodView(Graph *graph, node n,
+                         NeighborNodesType neighborsNodesType = IN_OUT_NEIGHBORS,
+                         uint neighborhoodDist = 1, bool computeReachableSubGraph = false,
+                         const std::string &propertyName = "", int nbNodes = 0);
 
-  void updateWithDistance(const uint dist);
+    void updateWithDistance(const uint dist);
 
-  bool isElement(const node n) const override;
-  bool isElement(const edge e) const override;
-  uint nodePos(const node n) const override;
-  uint edgePos(const edge e) const override;
+    bool isElement(const node n) const override;
+    bool isElement(const edge e) const override;
+    uint nodePos(const node n) const override;
+    uint edgePos(const edge e) const override;
 
-  Iterator<node> *getNodes() const override;
-  Iterator<node> *getInNodes(const node n) const override;
-  Iterator<node> *getOutNodes(const node n) const override;
-  Iterator<node> *getInOutNodes(const node n) const override;
-  Iterator<edge> *getEdges() const override;
-  Iterator<edge> *getOutEdges(const node n) const override;
-  Iterator<edge> *getInOutEdges(const node n) const override;
-  Iterator<edge> *getInEdges(const node n) const override;
+    Iterator<node> *getNodes() const override;
+    Iterator<node> *getInNodes(const node n) const override;
+    Iterator<node> *getOutNodes(const node n) const override;
+    Iterator<node> *getInOutNodes(const node n) const override;
+    Iterator<edge> *getEdges() const override;
+    Iterator<edge> *getOutEdges(const node n) const override;
+    Iterator<edge> *getInOutEdges(const node n) const override;
+    Iterator<edge> *getInEdges(const node n) const override;
 
-  const std::vector<node> &nodes() const override {
-    return graphViewNodes;
-  }
+    const std::vector<node> &nodes() const override {
+        return graphViewNodes;
+    }
 
-  uint numberOfNodes() const override {
-    return graphViewNodes.size();
-  }
+    uint numberOfNodes() const override {
+        return graphViewNodes.size();
+    }
 
-  const std::vector<edge> &edges() const override {
-    return graphViewEdges;
-  }
+    const std::vector<edge> &edges() const override {
+        return graphViewEdges;
+    }
 
-  uint numberOfEdges() const override {
-    return graphViewEdges.size();
-  }
+    uint numberOfEdges() const override {
+        return graphViewEdges.size();
+    }
 
-  Graph *getRoot() const override {
-    return const_cast<NodeNeighborhoodView *>(this);
-  }
+    Graph *getRoot() const override {
+        return const_cast<NodeNeighborhoodView *>(this);
+    }
 
-private:
-  void getNeighbors(node n, uint dist, bool noRecursion = false);
-  void getInNeighbors(node n, uint dist, bool noRecursion = false);
-  void getOutNeighbors(node n, uint dist, bool noRecursion = false);
+  private:
+    void getNeighbors(node n, uint dist, bool noRecursion = false);
+    void getInNeighbors(node n, uint dist, bool noRecursion = false);
+    void getOutNeighbors(node n, uint dist, bool noRecursion = false);
 
-  node centralNode;
+    node centralNode;
 
-  std::vector<node> graphViewNodes;
-  std::vector<edge> graphViewEdges;
+    std::vector<node> graphViewNodes;
+    std::vector<edge> graphViewEdges;
 
-  flat_hash_map<uint, std::vector<node>> nodesAtDist;
-  flat_hash_map<uint, std::vector<edge>> edgesAtDist;
+    flat_hash_map<uint, std::vector<node>> nodesAtDist;
+    flat_hash_map<uint, std::vector<edge>> edgesAtDist;
 
-  NeighborNodesType neighborsType;
-  uint currentDist;
-  bool computeReachableSubGraph;
-  int nbNodes;
-  tlp::DoubleProperty *property;
+    NeighborNodesType neighborsType;
+    uint currentDist;
+    bool computeReachableSubGraph;
+    int nbNodes;
+    tlp::DoubleProperty *property;
 };
 
 #endif // NODE_NEIGHBORHOOD_VIEW_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,24 +20,25 @@ namespace tlp {
 
 class Graph;
 class TLP_QT_SCOPE MouseSelector : public GLInteractorComponent {
-public:
-  enum SelectionMode { EdgesAndNodes = 0, EdgesOnly, NodesOnly };
+  public:
+    enum SelectionMode { EdgesAndNodes = 0, EdgesOnly, NodesOnly };
 
-  MouseSelector(Qt::MouseButton button = Qt::LeftButton,
-                Qt::KeyboardModifier modifier = Qt::NoModifier, SelectionMode mode = EdgesAndNodes);
-  ~MouseSelector() override = default;
-  bool draw(GlWidget *) override;
-  bool eventFilter(QObject *, QEvent *) override;
+    MouseSelector(Qt::MouseButton button = Qt::LeftButton,
+                  Qt::KeyboardModifier modifier = Qt::NoModifier,
+                  SelectionMode mode = EdgesAndNodes);
+    ~MouseSelector() override = default;
+    bool draw(GlWidget *) override;
+    bool eventFilter(QObject *, QEvent *) override;
 
-protected:
-  Qt::MouseButton mButton;
-  Qt::KeyboardModifier kModifier;
-  Qt::KeyboardModifiers mousePressModifier;
-  uint x, y;
-  int w, h;
-  bool started;
-  Graph *graph;
-  SelectionMode _mode;
+  protected:
+    Qt::MouseButton mButton;
+    Qt::KeyboardModifier kModifier;
+    Qt::KeyboardModifiers mousePressModifier;
+    uint x, y;
+    int w, h;
+    bool started;
+    Graph *graph;
+    SelectionMode _mode;
 };
 }
 #endif // TALIPOT_MOUSE_SELECTOR_H

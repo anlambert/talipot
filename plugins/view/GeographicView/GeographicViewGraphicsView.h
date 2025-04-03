@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,130 +40,130 @@ class ProgressWidgetGraphicsProxy;
 
 class GeographicViewGraphicsView : public QGraphicsView, public Observable {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  GeographicViewGraphicsView(GeographicView *_geoView, QGraphicsScene *graphicsScene,
-                             QWidget *parent = nullptr);
-  ~GeographicViewGraphicsView() override;
+  public:
+    GeographicViewGraphicsView(GeographicView *_geoView, QGraphicsScene *graphicsScene,
+                               QWidget *parent = nullptr);
+    ~GeographicViewGraphicsView() override;
 
-  void setGraph(Graph *graph);
-  void createLayoutWithAddresses(const std::string &addressPropertyName, bool createLatAndLngProps,
-                                 bool resetLatAndLngValues);
-  void createLayoutWithLatLngs(const std::string &latitudePropertyName,
-                               const std::string &longitudePropertyName,
-                               const std::string &edgesPathsPropertyName);
+    void setGraph(Graph *graph);
+    void createLayoutWithAddresses(const std::string &addressPropertyName,
+                                   bool createLatAndLngProps, bool resetLatAndLngValues);
+    void createLayoutWithLatLngs(const std::string &latitudePropertyName,
+                                 const std::string &longitudePropertyName,
+                                 const std::string &edgesPathsPropertyName);
 
-  GlGraph *glGraph() const;
+    GlGraph *glGraph() const;
 
-  void draw() {
-    glWidgetItem->setRedrawNeeded(true);
-    scene()->update();
-  }
+    void draw() {
+        glWidgetItem->setRedrawNeeded(true);
+        scene()->update();
+    }
 
-  void centerView();
+    void centerView();
 
-  QGVMap *getQGVMap() {
-    return qgvMap;
-  }
+    QGVMap *getQGVMap() {
+        return qgvMap;
+    }
 
-  GlWidget *glWidget() {
-    return _glWidget;
-  }
+    GlWidget *glWidget() {
+        return _glWidget;
+    }
 
-  LayoutProperty *getGeoLayout() const {
-    return geoLayout;
-  }
+    LayoutProperty *getGeoLayout() const {
+        return geoLayout;
+    }
 
-  SizeProperty *getGeoSizes() const {
-    return geoViewSize;
-  }
+    SizeProperty *getGeoSizes() const {
+        return geoViewSize;
+    }
 
-  void setGeoLayout(LayoutProperty *);
+    void setGeoLayout(LayoutProperty *);
 
-  void setGeoSizes(SizeProperty *);
+    void setGeoSizes(SizeProperty *);
 
-  void setGeoShape(IntegerProperty *);
+    void setGeoShape(IntegerProperty *);
 
-  void treatEvent(const Event &ev) override;
+    void treatEvent(const Event &ev) override;
 
-  QGraphicsRectItem *getPlaceHolderItem() const {
-    return _placeholderItem;
-  }
+    QGraphicsRectItem *getPlaceHolderItem() const {
+        return _placeholderItem;
+    }
 
-  void switchViewType();
+    void switchViewType();
 
-  void loadDefaultMap();
-  void loadCsvFile(QString fileName);
-  void loadPolyFile(QString fileName);
+    void loadDefaultMap();
+    void loadCsvFile(QString fileName);
+    void loadPolyFile(QString fileName);
 
-  QComboBox *getViewTypeComboBox() {
-    return viewTypeComboBox;
-  }
+    QComboBox *getViewTypeComboBox() {
+        return viewTypeComboBox;
+    }
 
-  GlComposite *getPolygon() {
-    return polygonEntity;
-  }
+    GlComposite *getPolygon() {
+        return polygonEntity;
+    }
 
-  void setGeoLayoutComputed();
+    void setGeoLayoutComputed();
 
-public slots:
+  public slots:
 
-  void mapToPolygon();
-  void zoomIn();
-  void zoomOut();
-  void refreshMap();
-  void setMapScaleVisible(bool visible);
+    void mapToPolygon();
+    void zoomIn();
+    void zoomOut();
+    void refreshMap();
+    void setMapScaleVisible(bool visible);
 
-protected:
-  void cleanup();
-  void resizeEvent(QResizeEvent *event) override;
+  protected:
+    void cleanup();
+    void resizeEvent(QResizeEvent *event) override;
 
-private:
-  GeographicView *_geoView;
-  Graph *graph;
-  flat_hash_map<node, std::pair<double, double>> nodeLatLng;
-  flat_hash_map<edge, std::vector<std::pair<double, double>>> edgeBendsLatLng;
+  private:
+    GeographicView *_geoView;
+    Graph *graph;
+    flat_hash_map<node, std::pair<double, double>> nodeLatLng;
+    flat_hash_map<edge, std::vector<std::pair<double, double>>> edgeBendsLatLng;
 
-  Camera globeCameraBackup;
-  Camera mapCameraBackup;
+    Camera globeCameraBackup;
+    Camera mapCameraBackup;
 
-  LayoutProperty *geoLayout;
-  SizeProperty *geoViewSize;
-  IntegerProperty *geoViewShape;
-  LayoutProperty *geoLayoutBackup;
+    LayoutProperty *geoLayout;
+    SizeProperty *geoViewSize;
+    IntegerProperty *geoViewShape;
+    LayoutProperty *geoLayoutBackup;
 
-  bool geocodingActive;
-  bool cancelGeocoding;
+    bool geocodingActive;
+    bool cancelGeocoding;
 
-  GlWidget *_glWidget;
-  GlWidgetGraphicsItem *glWidgetItem;
-  QComboBox *viewTypeComboBox;
-  QPushButton *zoomOutButton;
-  QPushButton *zoomInButton;
+    GlWidget *_glWidget;
+    GlWidgetGraphicsItem *glWidgetItem;
+    QComboBox *viewTypeComboBox;
+    QPushButton *zoomOutButton;
+    QPushButton *zoomInButton;
 
-  GlComposite *polygonEntity;
-  GlEntity *planisphereEntity;
+    GlComposite *polygonEntity;
+    GlEntity *planisphereEntity;
 
-  AddressSelectionDialog *addressSelectionDialog;
-  QGraphicsProxyWidget *addressSelectionProxy;
-  ProgressWidgetGraphicsProxy *progressWidget;
-  QGraphicsProxyWidget *noLayoutMsgBox;
+    AddressSelectionDialog *addressSelectionDialog;
+    QGraphicsProxyWidget *addressSelectionProxy;
+    ProgressWidgetGraphicsProxy *progressWidget;
+    QGraphicsProxyWidget *noLayoutMsgBox;
 
-  bool firstGlobeSwitch;
+    bool firstGlobeSwitch;
 
-  QGraphicsRectItem *_placeholderItem;
+    QGraphicsRectItem *_placeholderItem;
 
-  bool geoLayoutComputed;
+    bool geoLayoutComputed;
 
-  DoubleProperty *latitudeProperty;
-  DoubleProperty *longitudeProperty;
+    DoubleProperty *latitudeProperty;
+    DoubleProperty *longitudeProperty;
 
-  QGVMap *qgvMap;
-  QGVLayerTilesOnline *currentMapLayer;
-  QGVWidgetText *mapAttributionWidget;
-  QGVWidgetScale *scaleWidget;
-  flat_hash_map<GeographicView::ViewType, std::unique_ptr<QGVLayerTilesOnline>> tilesLayers;
+    QGVMap *qgvMap;
+    QGVLayerTilesOnline *currentMapLayer;
+    QGVWidgetText *mapAttributionWidget;
+    QGVWidgetScale *scaleWidget;
+    flat_hash_map<GeographicView::ViewType, std::unique_ptr<QGVLayerTilesOnline>> tilesLayers;
 };
 }
 

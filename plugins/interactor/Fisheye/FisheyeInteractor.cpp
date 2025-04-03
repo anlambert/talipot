@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -84,29 +84,29 @@ FisheyeInteractor::FisheyeInteractor(const PluginContext *)
       fisheyeConfigWidget(nullptr) {}
 
 void FisheyeInteractor::construct() {
-  fisheyeConfigWidget = new FisheyeConfigWidget();
-  push_back(new MousePanNZoomNavigator());
-  push_back(new FisheyeInteractorComponent(fisheyeConfigWidget));
+    fisheyeConfigWidget = new FisheyeConfigWidget();
+    push_back(new MousePanNZoomNavigator());
+    push_back(new FisheyeInteractorComponent(fisheyeConfigWidget));
 }
 
 bool FisheyeInteractor::isCompatible(const string &viewName) const {
-  return ((viewName == NodeLinkDiagramView::viewName) ||
-          (viewName == ViewName::HistogramViewName) || (viewName == ViewName::MatrixViewName) ||
-          (viewName == ViewName::ParallelCoordinatesViewName) ||
-          (viewName == ViewName::PixelOrientedViewName) ||
-          (viewName == ViewName::ScatterPlot2DViewName));
+    return ((viewName == NodeLinkDiagramView::viewName) ||
+            (viewName == ViewName::HistogramViewName) || (viewName == ViewName::MatrixViewName) ||
+            (viewName == ViewName::ParallelCoordinatesViewName) ||
+            (viewName == ViewName::PixelOrientedViewName) ||
+            (viewName == ViewName::ScatterPlot2DViewName));
 }
 
 void FisheyeInteractor::uninstall() {
-  InteractorComposite::uninstall();
+    InteractorComposite::uninstall();
 }
 
 FisheyeInteractor::~FisheyeInteractor() {
-  delete fisheyeConfigWidget;
+    delete fisheyeConfigWidget;
 }
 
 QWidget *FisheyeInteractor::configurationWidget() const {
-  return fisheyeConfigWidget;
+    return fisheyeConfigWidget;
 }
 
 PLUGIN(FisheyeInteractor)
@@ -115,171 +115,171 @@ unique_ptr<GlShaderProgram> FisheyeInteractorComponent::fisheyeShader;
 
 FisheyeInteractorComponent::FisheyeInteractorComponent(FisheyeConfigWidget *configWidget)
     : _configWidget(configWidget), _activateFisheye(false) {
-  _fboTextureId = "fisheyeTexture" + to_string(reinterpret_cast<ullong>(this));
+    _fboTextureId = "fisheyeTexture" + to_string(reinterpret_cast<ullong>(this));
 }
 
 FisheyeInteractorComponent::FisheyeInteractorComponent(
     const FisheyeInteractorComponent &fisheyeInteractorComponent) {
-  _configWidget = fisheyeInteractorComponent._configWidget;
-  _activateFisheye = false;
-  _fboTextureId = "fisheyeTexture" + to_string(reinterpret_cast<ullong>(this));
+    _configWidget = fisheyeInteractorComponent._configWidget;
+    _activateFisheye = false;
+    _fboTextureId = "fisheyeTexture" + to_string(reinterpret_cast<ullong>(this));
 }
 
 FisheyeInteractorComponent::~FisheyeInteractorComponent() {
-  delete _fbo;
-  delete _fbo2;
+    delete _fbo;
+    delete _fbo2;
 }
 
 void FisheyeInteractorComponent::viewChanged(View *view) {
-  if (view == nullptr) {
-    return;
-  }
+    if (view == nullptr) {
+        return;
+    }
 
-  auto *glView = static_cast<GlView *>(view);
-  GlWidget *glWidget = glView->glWidget();
+    auto *glView = static_cast<GlView *>(view);
+    GlWidget *glWidget = glView->glWidget();
 
-  if (!glWidget->hasMouseTracking()) {
-    glWidget->setMouseTracking(true);
-  }
+    if (!glWidget->hasMouseTracking()) {
+        glWidget->setMouseTracking(true);
+    }
 
-  if (_configWidget->getFisheyeRadius() == 0) {
-    _configWidget->setFisheyeRadius(200);
-    _configWidget->setFisheyeHeight(0.5);
-  }
+    if (_configWidget->getFisheyeRadius() == 0) {
+        _configWidget->setFisheyeRadius(200);
+        _configWidget->setFisheyeHeight(0.5);
+    }
 }
 
 bool FisheyeInteractorComponent::eventFilter(QObject *obj, QEvent *e) {
 
-  auto *glWidget = static_cast<GlWidget *>(obj);
+    auto *glWidget = static_cast<GlWidget *>(obj);
 
-  _activateFisheye = false;
+    _activateFisheye = false;
 
-  if (e->type() == QEvent::MouseMove || e->type() == QEvent::MouseButtonPress ||
-      e->type() == QEvent::MouseButtonRelease) {
-    _activateFisheye = true;
-    auto *me = static_cast<QMouseEvent *>(e);
-    _x = me->pos().x();
-    _y = me->pos().y();
-  } else if (e->type() == QEvent::Wheel) {
-    auto *wheelEvent = static_cast<QWheelEvent *>(e);
-    int numSteps = wheelEvent->angleDelta().y() / 120;
+    if (e->type() == QEvent::MouseMove || e->type() == QEvent::MouseButtonPress ||
+        e->type() == QEvent::MouseButtonRelease) {
+        _activateFisheye = true;
+        auto *me = static_cast<QMouseEvent *>(e);
+        _x = me->pos().x();
+        _y = me->pos().y();
+    } else if (e->type() == QEvent::Wheel) {
+        auto *wheelEvent = static_cast<QWheelEvent *>(e);
+        int numSteps = wheelEvent->angleDelta().y() / 120;
 
-    if (numSteps && (wheelEvent->modifiers() == Qt::ControlModifier)) {
-      _activateFisheye = true;
-      double newRadius = _configWidget->getFisheyeRadius() +
-                         _configWidget->getFisheyeRadiusIncrementStep() * numSteps * 10;
-      if (newRadius < 0) {
-        newRadius = 0;
-      }
-      _configWidget->setFisheyeRadius(newRadius);
-    } else if (numSteps && (wheelEvent->modifiers() == Qt::ShiftModifier)) {
-      _activateFisheye = true;
-      double newHeight = _configWidget->getFisheyeHeight() +
-                         _configWidget->getFisheyeHeightIncrementStep() * numSteps * 0.05;
-      newHeight = clamp(newHeight, 0.2, 0.9);
-      _configWidget->setFisheyeHeight(newHeight);
+        if (numSteps && (wheelEvent->modifiers() == Qt::ControlModifier)) {
+            _activateFisheye = true;
+            double newRadius = _configWidget->getFisheyeRadius() +
+                               _configWidget->getFisheyeRadiusIncrementStep() * numSteps * 10;
+            if (newRadius < 0) {
+                newRadius = 0;
+            }
+            _configWidget->setFisheyeRadius(newRadius);
+        } else if (numSteps && (wheelEvent->modifiers() == Qt::ShiftModifier)) {
+            _activateFisheye = true;
+            double newHeight = _configWidget->getFisheyeHeight() +
+                               _configWidget->getFisheyeHeightIncrementStep() * numSteps * 0.05;
+            newHeight = clamp(newHeight, 0.2, 0.9);
+            _configWidget->setFisheyeHeight(newHeight);
+        }
     }
-  }
 
-  if (_activateFisheye) {
-    generateFisheyeTexture(glWidget);
-    glWidget->redraw();
-  }
+    if (_activateFisheye) {
+        generateFisheyeTexture(glWidget);
+        glWidget->redraw();
+    }
 
-  return _activateFisheye;
+    return _activateFisheye;
 }
 
 void FisheyeInteractorComponent::generateFisheyeTexture(GlWidget *glWidget) {
-  if (_maxTextureSize == 0) {
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &_maxTextureSize);
-    if (_maxTextureSize > 4096) {
-      _maxTextureSize = 4096;
+    if (_maxTextureSize == 0) {
+        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &_maxTextureSize);
+        if (_maxTextureSize > 4096) {
+            _maxTextureSize = 4096;
+        }
     }
-  }
-  GlScene *glScene = glWidget->scene();
-  Vec4i viewport = glScene->getViewport();
+    GlScene *glScene = glWidget->scene();
+    Vec4i viewport = glScene->getViewport();
 
-  float factor = 1;
-  float fisheyeHeight = glWidget->viewportToScreen(_configWidget->getFisheyeHeight());
-  float fisheyeRadius = glWidget->viewportToScreen(_configWidget->getFisheyeRadius());
-  if (fisheyeHeight > 0.1) {
-    factor = fisheyeHeight * 10;
-  }
-  int fboSize = factor * 2 * fisheyeRadius;
-  fboSize = min(fboSize, _maxTextureSize);
+    float factor = 1;
+    float fisheyeHeight = glWidget->viewportToScreen(_configWidget->getFisheyeHeight());
+    float fisheyeRadius = glWidget->viewportToScreen(_configWidget->getFisheyeRadius());
+    if (fisheyeHeight > 0.1) {
+        factor = fisheyeHeight * 10;
+    }
+    int fboSize = factor * 2 * fisheyeRadius;
+    fboSize = min(fboSize, _maxTextureSize);
 
-  if (!_fbo || _fbo->width() != fboSize) {
-    delete _fbo;
-    delete _fbo2;
+    if (!_fbo || _fbo->width() != fboSize) {
+        delete _fbo;
+        delete _fbo2;
 
-    QOpenGLFramebufferObjectFormat fboFormat;
-    fboFormat.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
-    fboFormat.setSamples(OpenGlConfigManager::maxNumberOfSamples());
+        QOpenGLFramebufferObjectFormat fboFormat;
+        fboFormat.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
+        fboFormat.setSamples(OpenGlConfigManager::maxNumberOfSamples());
 
-    _fbo = new QOpenGLFramebufferObject(fboSize, fboSize, fboFormat);
-    _fbo2 = new QOpenGLFramebufferObject(fboSize, fboSize);
-    GlTextureManager::registerExternalTexture(_fboTextureId, _fbo2->texture());
-  }
+        _fbo = new QOpenGLFramebufferObject(fboSize, fboSize, fboFormat);
+        _fbo2 = new QOpenGLFramebufferObject(fboSize, fboSize);
+        GlTextureManager::registerExternalTexture(_fboTextureId, _fbo2->texture());
+    }
 
-  Camera *camera = &glWidget->scene()->graphCamera();
-  Camera camBackup = *camera;
+    Camera *camera = &glWidget->scene()->graphCamera();
+    Camera camBackup = *camera;
 
-  Coord bbMin = camera->viewportTo3DWorld(glWidget->screenToViewport(
-      Coord(glWidget->width() - (_x - fisheyeRadius), _y - fisheyeRadius)));
-  Coord bbMax = camera->viewportTo3DWorld(glWidget->screenToViewport(
-      Coord(glWidget->width() - (_x + fisheyeRadius), _y + fisheyeRadius)));
+    Coord bbMin = camera->viewportTo3DWorld(glWidget->screenToViewport(
+        Coord(glWidget->width() - (_x - fisheyeRadius), _y - fisheyeRadius)));
+    Coord bbMax = camera->viewportTo3DWorld(glWidget->screenToViewport(
+        Coord(glWidget->width() - (_x + fisheyeRadius), _y + fisheyeRadius)));
 
-  BoundingBox bb = {bbMin, bbMax};
+    BoundingBox bb = {bbMin, bbMax};
 
-  GlGraph *glGraph = glScene->glGraph();
-  int labelMinSizeBackup = 0;
-  if (glGraph) {
-    labelMinSizeBackup = glGraph->renderingParameters().getMinSizeOfLabel();
-    glGraph->renderingParameters().setMinSizeOfLabel(labelMinSizeBackup + factor * 3);
-  }
+    GlGraph *glGraph = glScene->glGraph();
+    int labelMinSizeBackup = 0;
+    if (glGraph) {
+        labelMinSizeBackup = glGraph->renderingParameters().getMinSizeOfLabel();
+        glGraph->renderingParameters().setMinSizeOfLabel(labelMinSizeBackup + factor * 3);
+    }
 
-  _fbo->bind();
-  glScene->setViewport(0, 0, fboSize, fboSize);
-  GlSceneZoomAndPan znp(glScene, bb);
-  znp.zoomAndPanAnimationStep(znp.getNbAnimationsStep());
-  glScene->draw();
-  _fbo->release();
+    _fbo->bind();
+    glScene->setViewport(0, 0, fboSize, fboSize);
+    GlSceneZoomAndPan znp(glScene, bb);
+    znp.zoomAndPanAnimationStep(znp.getNbAnimationsStep());
+    glScene->draw();
+    _fbo->release();
 
-  QOpenGLFramebufferObject::blitFramebuffer(_fbo2, _fbo, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+    QOpenGLFramebufferObject::blitFramebuffer(_fbo2, _fbo, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
-  if (glGraph) {
-    glGraph->renderingParameters().setMinSizeOfLabel(labelMinSizeBackup);
-  }
+    if (glGraph) {
+        glGraph->renderingParameters().setMinSizeOfLabel(labelMinSizeBackup);
+    }
 
-  glScene->setViewport(viewport);
-  *camera = camBackup;
+    glScene->setViewport(viewport);
+    *camera = camBackup;
 }
 
 bool FisheyeInteractorComponent::draw(GlWidget *glWidget) {
 
-  if (!fisheyeShader.get()) {
-    fisheyeShader.reset(new GlShaderProgram("fisheye"));
-    fisheyeShader->addShaderFromSourceCode(Vertex, fisheyeVertexShaderSrc);
-    fisheyeShader->addShaderFromSourceCode(Fragment, fisheyeFragmentShaderSrc);
-    fisheyeShader->link();
-  }
+    if (!fisheyeShader.get()) {
+        fisheyeShader.reset(new GlShaderProgram("fisheye"));
+        fisheyeShader->addShaderFromSourceCode(Vertex, fisheyeVertexShaderSrc);
+        fisheyeShader->addShaderFromSourceCode(Fragment, fisheyeFragmentShaderSrc);
+        fisheyeShader->link();
+    }
 
-  if (_activateFisheye) {
+    if (_activateFisheye) {
 
-    GlScene *glScene = glWidget->scene();
-    Vec4i viewport = glScene->getViewport();
-    float fisheyeHeight = _configWidget->getFisheyeHeight();
-    float fisheyeRadius = _configWidget->getFisheyeRadius();
+        GlScene *glScene = glWidget->scene();
+        Vec4i viewport = glScene->getViewport();
+        float fisheyeHeight = _configWidget->getFisheyeHeight();
+        float fisheyeRadius = _configWidget->getFisheyeRadius();
 
-    Camera camera2D(glScene, false);
-    camera2D.setScene(glScene);
-    camera2D.initGl();
+        Camera camera2D(glScene, false);
+        camera2D.setScene(glScene);
+        camera2D.initGl();
 
-    glDisable(GL_BLEND);
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_STENCIL_TEST);
+        glDisable(GL_BLEND);
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_STENCIL_TEST);
 
-    // clang-format off
+        // clang-format off
 
     float vpw = viewport[2], vph = viewport[3];
     vector<float> quadData = {
@@ -290,47 +290,47 @@ bool FisheyeInteractorComponent::draw(GlWidget *glWidget) {
     };
     vector<unsigned short> indices = {0, 1, 2, 0, 2, 3};
 
-    // clang-format on
+        // clang-format on
 
-    QOpenGLBuffer vb(QOpenGLBuffer::VertexBuffer);
-    vb.create();
-    vb.bind();
-    vb.allocate(quadData.data(), quadData.size() * sizeof(float));
+        QOpenGLBuffer vb(QOpenGLBuffer::VertexBuffer);
+        vb.create();
+        vb.bind();
+        vb.allocate(quadData.data(), quadData.size() * sizeof(float));
 
-    QOpenGLBuffer ib(QOpenGLBuffer::IndexBuffer);
-    ib.create();
-    ib.bind();
-    ib.allocate(indices.data(), indices.size() * sizeof(unsigned short));
+        QOpenGLBuffer ib(QOpenGLBuffer::IndexBuffer);
+        ib.create();
+        ib.bind();
+        ib.allocate(indices.data(), indices.size() * sizeof(unsigned short));
 
-    GlTextureManager::activateTexture(glWidget->getSceneTextureId());
-    GlTextureManager::activateTexture(_fboTextureId, 1);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    fisheyeShader->activate();
-    fisheyeShader->setUniformMat4Float("u_modelviewMatrix", camera2D.getModelViewMatrix());
-    fisheyeShader->setUniformMat4Float("u_projectionMatrix", camera2D.getProjectionMatrix());
-    fisheyeShader->setVertexAttribPointer("a_position", 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
-                                          BUFFER_OFFSET(0));
-    fisheyeShader->setVertexAttribPointer("a_texCoord", 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
-                                          BUFFER_OFFSET(3 * sizeof(float)));
-    fisheyeShader->setUniformTextureSampler("u_texture", 0);
-    fisheyeShader->setUniformTextureSampler("u_fisheyeTexture", 1);
-    fisheyeShader->setUniformVec2Float("u_mouse", glWidget->screenToViewport(_x),
-                                       viewport[3] - glWidget->screenToViewport(_y));
-    fisheyeShader->setUniformVec2Float("u_resolution", viewport[2], viewport[3]);
-    fisheyeShader->setUniformFloat("u_fisheyeRadius", fisheyeRadius);
-    fisheyeShader->setUniformFloat("u_fisheyeHeight", -fisheyeHeight);
+        GlTextureManager::activateTexture(glWidget->getSceneTextureId());
+        GlTextureManager::activateTexture(_fboTextureId, 1);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        fisheyeShader->activate();
+        fisheyeShader->setUniformMat4Float("u_modelviewMatrix", camera2D.getModelViewMatrix());
+        fisheyeShader->setUniformMat4Float("u_projectionMatrix", camera2D.getProjectionMatrix());
+        fisheyeShader->setVertexAttribPointer("a_position", 3, GL_FLOAT, GL_FALSE,
+                                              5 * sizeof(float), BUFFER_OFFSET(0));
+        fisheyeShader->setVertexAttribPointer("a_texCoord", 2, GL_FLOAT, GL_FALSE,
+                                              5 * sizeof(float), BUFFER_OFFSET(3 * sizeof(float)));
+        fisheyeShader->setUniformTextureSampler("u_texture", 0);
+        fisheyeShader->setUniformTextureSampler("u_fisheyeTexture", 1);
+        fisheyeShader->setUniformVec2Float("u_mouse", glWidget->screenToViewport(_x),
+                                           viewport[3] - glWidget->screenToViewport(_y));
+        fisheyeShader->setUniformVec2Float("u_resolution", viewport[2], viewport[3]);
+        fisheyeShader->setUniformFloat("u_fisheyeRadius", fisheyeRadius);
+        fisheyeShader->setUniformFloat("u_fisheyeHeight", -fisheyeHeight);
 
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
-    fisheyeShader->disableAttributesArrays();
-    fisheyeShader->deactivate();
-    GlTextureManager::deactivateTexture();
-    GlTextureManager::deactivateTexture(1);
-    ib.release();
-    vb.release();
+        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
+        fisheyeShader->disableAttributesArrays();
+        fisheyeShader->deactivate();
+        GlTextureManager::deactivateTexture();
+        GlTextureManager::deactivateTexture(1);
+        ib.release();
+        vb.release();
 
-    return true;
-  }
+        return true;
+    }
 
-  return false;
+    return false;
 }

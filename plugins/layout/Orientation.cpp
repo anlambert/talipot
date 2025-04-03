@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,15 +15,15 @@
 
 //====================================================================
 orientationType maskFromPanel(bool reverseOrientation, bool reverseDirection) {
-  if (reverseOrientation) {
-    if (reverseDirection) {
-      return orientationType(ORI_ROTATION_XY | ORI_INVERSION_HORIZONTAL);
+    if (reverseOrientation) {
+        if (reverseDirection) {
+            return orientationType(ORI_ROTATION_XY | ORI_INVERSION_HORIZONTAL);
+        } else {
+            return ORI_ROTATION_XY;
+        }
+    } else if (reverseDirection) {
+        return ORI_INVERSION_VERTICAL;
     } else {
-      return ORI_ROTATION_XY;
+        return ORI_DEFAULT;
     }
-  } else if (reverseDirection) {
-    return ORI_INVERSION_VERTICAL;
-  } else {
-    return ORI_DEFAULT;
-  }
 }

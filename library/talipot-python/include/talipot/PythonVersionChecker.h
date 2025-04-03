@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,16 +21,16 @@
 
 namespace tlp {
 class TLP_PYTHON_SCOPE PythonVersionChecker {
-public:
-  static QStringList installedVersions();
-  static QString compiledVersion();
-  static bool isPythonVersionMatching();
+  public:
+    static QStringList installedVersions();
+    static QString compiledVersion();
+    static bool isPythonVersionMatching();
 #ifdef WIN32
-  static QString getPythonHome();
+    static QString getPythonHome();
 #endif
-private:
-  static QStringList _installedVersions;
-  static bool _installedVersionsChecked;
+  private:
+    static QStringList _installedVersions;
+    static bool _installedVersionsChecked;
 };
 }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,47 +31,47 @@ class PluginsCenter;
 class PluginInformationListItem;
 
 class PluginsCenter : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::PluginsCenter *_ui;
+    Ui::PluginsCenter *_ui;
 
-  QStringList _categoryFilters;
-  QString _nameFilter;
+    QStringList _categoryFilters;
+    QString _nameFilter;
 
-  PluginInformationListItem *_currentItem;
+    PluginInformationListItem *_currentItem;
 
-public:
-  explicit PluginsCenter(QWidget *parent = nullptr);
-  ~PluginsCenter() override;
+  public:
+    explicit PluginsCenter(QWidget *parent = nullptr);
+    ~PluginsCenter() override;
 
-protected:
-  void showEvent(QShowEvent *showEvent) override;
+  protected:
+    void showEvent(QShowEvent *showEvent) override;
 
-public slots:
-  void reportPluginErrors(const QMap<QString, QString> &errors);
+  public slots:
+    void reportPluginErrors(const QMap<QString, QString> &errors);
 
-  void showErrorsPage();
-  void showWelcomePage();
+    void showErrorsPage();
+    void showWelcomePage();
 
-  void searchAll();
-  void searchAlgorithms();
-  void searchImportExport();
-  void searchGlyphs();
-  void searchViews();
-  void searchInteractors();
+    void searchAll();
+    void searchAlgorithms();
+    void searchImportExport();
+    void searchGlyphs();
+    void searchViews();
+    void searchInteractors();
 
-  void setNameFilter(const QString &filter);
-  void setCategoryFilter(const QString &filter);
-  void setCategoryFilters(const QStringList &filters);
+    void setNameFilter(const QString &filter);
+    void setCategoryFilter(const QString &filter);
+    void setCategoryFilters(const QStringList &filters);
 
-  void refreshFilter();
-protected slots:
-  void sideListRowChanged(int i);
-  void itemFocused();
+    void refreshFilter();
+  protected slots:
+    void sideListRowChanged(int i);
+    void itemFocused();
 
-private:
-  typedef std::reference_wrapper<const tlp::Plugin> PluginRef;
-  std::vector<PluginRef> listPlugins(const QString &nameFilter, const QString &categoryFilter);
+  private:
+    typedef std::reference_wrapper<const tlp::Plugin> PluginRef;
+    std::vector<PluginRef> listPlugins(const QString &nameFilter, const QString &categoryFilter);
 };
 
 #endif // PLUGINS_CENTER_H

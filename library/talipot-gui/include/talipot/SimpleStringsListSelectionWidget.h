@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,45 +29,45 @@ namespace tlp {
 class TLP_QT_SCOPE SimpleStringsListSelectionWidget : public QWidget,
                                                       public StringsListSelectionWidgetInterface {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::SimpleStringsListSelectionWidget *_ui;
+    Ui::SimpleStringsListSelectionWidget *_ui;
 
-public:
-  SimpleStringsListSelectionWidget(QWidget *parent = nullptr,
-                                   const uint maxSelectedStringsListSize = 0);
-  ~SimpleStringsListSelectionWidget() override;
+  public:
+    SimpleStringsListSelectionWidget(QWidget *parent = nullptr,
+                                     const uint maxSelectedStringsListSize = 0);
+    ~SimpleStringsListSelectionWidget() override;
 
-  void setUnselectedStringsList(const std::vector<std::string> &unselectedStringsList) override;
+    void setUnselectedStringsList(const std::vector<std::string> &unselectedStringsList) override;
 
-  void setSelectedStringsList(const std::vector<std::string> &selectedStringsList) override;
+    void setSelectedStringsList(const std::vector<std::string> &selectedStringsList) override;
 
-  void clearUnselectedStringsList() override;
+    void clearUnselectedStringsList() override;
 
-  void clearSelectedStringsList() override;
+    void clearSelectedStringsList() override;
 
-  void setMaxSelectedStringsListSize(const uint maxSelectedStringsListSize) override;
+    void setMaxSelectedStringsListSize(const uint maxSelectedStringsListSize) override;
 
-  std::vector<std::string> getSelectedStringsList() const override;
+    std::vector<std::string> getSelectedStringsList() const override;
 
-  std::vector<std::string> getUnselectedStringsList() const override;
+    std::vector<std::string> getUnselectedStringsList() const override;
 
-  void selectAllStrings() override;
+    void selectAllStrings() override;
 
-  void unselectAllStrings() override;
+    void unselectAllStrings() override;
 
-private slots:
+  private slots:
 
-  void pressButtonSelectAll();
-  void pressButtonUnselectAll();
-  void listItemClicked(QListWidgetItem *item) const;
-  void pressButtonUp();
-  void pressButtonDown();
+    void pressButtonSelectAll();
+    void pressButtonUnselectAll();
+    void listItemClicked(QListWidgetItem *item) const;
+    void pressButtonUp();
+    void pressButtonDown();
 
-private:
-  void qtWidgetsConnection();
+  private:
+    void qtWidgetsConnection();
 
-  uint maxSelectedStringsListSize;
+    uint maxSelectedStringsListSize;
 };
 }
 

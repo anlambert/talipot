@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,45 +30,46 @@ namespace tlp {
  */
 class TLP_QT_SCOPE ColorScalesManager {
 
-public:
-  /**
-   * @brief Returns a list of the registered color scales names.
-   *
-   */
-  static std::list<std::string> getColorScalesList();
+  public:
+    /**
+     * @brief Returns a list of the registered color scales names.
+     *
+     */
+    static std::list<std::string> getColorScalesList();
 
-  /**
-   * @brief Returns the color scale registered with the provided name.
-   *
-   * @warning If there is no such colorscale, the returned one will be empty.
-   *
-   */
-  static tlp::ColorScale getColorScale(const std::string &colorScaleName);
+    /**
+     * @brief Returns the color scale registered with the provided name.
+     *
+     * @warning If there is no such colorscale, the returned one will be empty.
+     *
+     */
+    static tlp::ColorScale getColorScale(const std::string &colorScaleName);
 
-  /**
-   * @brief Registers a color scale in the persistent database for further reuse.
-   *
-   * @warning If there is already a color scale registered with such a name, it will not be
-   * overwritten.
-   *
-   */
-  static void registerColorScale(const std::string &colorScaleName,
-                                 const tlp::ColorScale &colorScale);
+    /**
+     * @brief Registers a color scale in the persistent database for further reuse.
+     *
+     * @warning If there is already a color scale registered with such a name, it will not be
+     * overwritten.
+     *
+     */
+    static void registerColorScale(const std::string &colorScaleName,
+                                   const tlp::ColorScale &colorScale);
 
-  /**
-   * @brief Removes the color scale registered with the provided name from the persistent database.
-   *
-   */
-  static void removeColorScale(const std::string &colorScaleName);
+    /**
+     * @brief Removes the color scale registered with the provided name from the persistent
+     * database.
+     *
+     */
+    static void removeColorScale(const std::string &colorScaleName);
 
-  static ColorScale getLatestColorScale();
-  static void setLatestColorScale(ColorScale &cs);
+    static ColorScale getLatestColorScale();
+    static void setLatestColorScale(ColorScale &cs);
 
-private:
-  static void getColorScalesFromDir(const std::string &colorScalesDir,
-                                    std::list<std::string> &colorScalesList);
-  static std::string findColorScaleFile(const std::string &rootDir,
-                                        const std::string &colorScaleName);
+  private:
+    static void getColorScalesFromDir(const std::string &colorScalesDir,
+                                      std::list<std::string> &colorScalesList);
+    static std::string findColorScaleFile(const std::string &rootDir,
+                                          const std::string &colorScaleName);
 };
 }
 

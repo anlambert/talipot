@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -56,69 +56,69 @@ namespace tlp {
  */
 template <typename TYPE>
 class MemoryPool {
-public:
-  MemoryPool() = default;
+  public:
+    MemoryPool() = default;
 
 #ifndef NDEBUG
-  void *operator new(size_t sizeofObj) {
+    void *operator new(size_t sizeofObj) {
 #else
-  void *operator new(size_t) {
+    void *operator new(size_t) {
 #endif
-    assert(sizeof(TYPE) == sizeofObj); // to prevent inheritance with different size of object
-    TYPE *t;
-    t = _memoryChunkManager.getObject();
-    return t;
-  }
-
-  void operator delete(void *p) {
-    _memoryChunkManager.releaseObject(p);
-  }
-
-private:
-  class MemoryChunkManager {
-  public:
-    ~MemoryChunkManager() {
-      for (const auto &chunks : _allocatedChunks) {
-        for (auto *chunk : chunks) {
-          free(chunk);
-        }
-      }
+        assert(sizeof(TYPE) == sizeofObj); // to prevent inheritance with different size of object
+        TYPE *t;
+        t = _memoryChunkManager.getObject();
+        return t;
     }
 
-    TYPE *getObject() {
-      uint threadId = tlp::ThreadManager::getThreadNumber();
-      TYPE *result = nullptr;
-
-      if (_freeObject[threadId].empty()) {
-        void *chunk = malloc(BUFFOBJ * sizeof(TYPE));
-        TYPE *p = static_cast<TYPE *>(chunk);
-        _allocatedChunks[threadId].push_back(chunk);
-
-        for (size_t j = 0; j < BUFFOBJ - 1; ++j) {
-          _freeObject[threadId].push_back(static_cast<void *>(p));
-          p += 1;
-        }
-
-        result = p;
-      } else {
-        result = static_cast<TYPE *>(_freeObject[threadId].back());
-        _freeObject[threadId].pop_back();
-      }
-
-      return result;
-    }
-
-    void releaseObject(void *p) {
-      uint threadId = tlp::ThreadManager::getThreadNumber();
-      _freeObject[threadId].push_back(p);
+    void operator delete(void *p) {
+        _memoryChunkManager.releaseObject(p);
     }
 
   private:
-    std::vector<void *> _allocatedChunks[TLP_MAX_NB_THREADS];
-    std::vector<void *> _freeObject[TLP_MAX_NB_THREADS];
-  };
+    class MemoryChunkManager {
+      public:
+        ~MemoryChunkManager() {
+            for (const auto &chunks : _allocatedChunks) {
+                for (auto *chunk : chunks) {
+                    free(chunk);
+                }
+            }
+        }
 
-  static MemoryChunkManager _memoryChunkManager;
+        TYPE *getObject() {
+            uint threadId = tlp::ThreadManager::getThreadNumber();
+            TYPE *result = nullptr;
+
+            if (_freeObject[threadId].empty()) {
+                void *chunk = malloc(BUFFOBJ * sizeof(TYPE));
+                TYPE *p = static_cast<TYPE *>(chunk);
+                _allocatedChunks[threadId].push_back(chunk);
+
+                for (size_t j = 0; j < BUFFOBJ - 1; ++j) {
+                    _freeObject[threadId].push_back(static_cast<void *>(p));
+                    p += 1;
+                }
+
+                result = p;
+            } else {
+                result = static_cast<TYPE *>(_freeObject[threadId].back());
+                _freeObject[threadId].pop_back();
+            }
+
+            return result;
+        }
+
+        void releaseObject(void *p) {
+            uint threadId = tlp::ThreadManager::getThreadNumber();
+            _freeObject[threadId].push_back(p);
+        }
+
+      private:
+        std::vector<void *> _allocatedChunks[TLP_MAX_NB_THREADS];
+        std::vector<void *> _freeObject[TLP_MAX_NB_THREADS];
+    };
+
+    static MemoryChunkManager _memoryChunkManager;
 };
 
 template <typename TYPE>

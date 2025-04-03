@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,32 +16,32 @@
 #include <QVBoxLayout>
 
 PlaceHolderWidget::PlaceHolderWidget(QWidget *parent) : QWidget(parent), _widget(nullptr) {
-  setLayout(new QVBoxLayout);
-  layout()->setContentsMargins(0, 0, 0, 0);
-  layout()->setSpacing(0);
+    setLayout(new QVBoxLayout);
+    layout()->setContentsMargins(0, 0, 0, 0);
+    layout()->setSpacing(0);
 }
 
 void PlaceHolderWidget::setWidget(QWidget *widget) {
-  if (_widget != nullptr) {
-    _widget->hide();
-    layout()->removeWidget(_widget);
-    _widget->setParent(nullptr);
-    _widget = nullptr;
-  }
+    if (_widget != nullptr) {
+        _widget->hide();
+        layout()->removeWidget(_widget);
+        _widget->setParent(nullptr);
+        _widget = nullptr;
+    }
 
-  _widget = widget;
+    _widget = widget;
 
-  if (_widget != nullptr) {
-    _widget->installEventFilter(this);
-    layout()->addWidget(_widget);
-    _widget->show();
-  }
+    if (_widget != nullptr) {
+        _widget->installEventFilter(this);
+        layout()->addWidget(_widget);
+        _widget->show();
+    }
 }
 
 QWidget *PlaceHolderWidget::widget() const {
-  return _widget;
+    return _widget;
 }
 
 void PlaceHolderWidget::resetWidget() {
-  _widget = nullptr;
+    _widget = nullptr;
 }

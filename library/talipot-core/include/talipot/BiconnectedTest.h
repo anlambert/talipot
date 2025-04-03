@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,27 +32,27 @@ struct edge;
  **/
 class TLP_SCOPE BiconnectedTest {
 
-public:
-  /**
-   * @brief Checks whether the graph is biconnected (i.e. removing one edge does not disconnect the
-   *graph, at least two must be removed).
-   *
-   * @param graph The graph to check for biconnectivity.
-   * @return bool True if the graph is biconnected, false otherwise.
-   **/
-  static bool isBiconnected(const Graph *graph);
+  public:
+    /**
+     * @brief Checks whether the graph is biconnected (i.e. removing one edge does not disconnect
+     *the graph, at least two must be removed).
+     *
+     * @param graph The graph to check for biconnectivity.
+     * @return bool True if the graph is biconnected, false otherwise.
+     **/
+    static bool isBiconnected(const Graph *graph);
 
-  /**
-   * If the graph is not biconnected, adds edges in order to make the graph
-   * biconnected. The new edges are returned.
-   */
-  /**
-   * @brief Adds edges to make the graph biconnected.
-   *
-   * @param graph The graph to make biconnected.
-   * @return The edges that were added in the process.
-   **/
-  static std::vector<edge> makeBiconnected(Graph *graph);
+    /**
+     * If the graph is not biconnected, adds edges in order to make the graph
+     * biconnected. The new edges are returned.
+     */
+    /**
+     * @brief Adds edges to make the graph biconnected.
+     *
+     * @param graph The graph to make biconnected.
+     * @return The edges that were added in the process.
+     **/
+    static std::vector<edge> makeBiconnected(Graph *graph);
 };
 }
 

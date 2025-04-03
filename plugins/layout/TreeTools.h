@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,26 +24,26 @@ class Graph;
 
 //====================================================================
 inline bool isLeaf(const tlp::Graph *tree, tlp::node n) {
-  return tree->isElement(n) && tree->outdeg(n) == 0;
+    return tree->isElement(n) && tree->outdeg(n) == 0;
 }
 
 //====================================================================
 inline float getNodeX(tlp::LayoutProperty *pLayout, tlp::node current) {
-  return pLayout->getNodeValue(current).getX();
+    return pLayout->getNodeValue(current).getX();
 }
 
 //====================================================================
 inline float getNodeY(tlp::LayoutProperty *pLayout, tlp::node current) {
-  return pLayout->getNodeValue(current).getY();
+    return pLayout->getNodeValue(current).getY();
 }
 
 //====================================================================
 inline float getNodeHeight(tlp::SizeProperty *size, tlp::node current) {
-  return size->getNodeValue(current).getH();
+    return size->getNodeValue(current).getH();
 }
 
 //====================================================================
 inline float getNodeWidth(tlp::SizeProperty *size, tlp::node current) {
-  return size->getNodeValue(current).getW();
+    return size->getNodeValue(current).getW();
 }
 #endif // TREE_TOOLS_H

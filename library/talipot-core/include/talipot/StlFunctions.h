@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,13 +24,13 @@ struct edge;
    instances of this class are useful for using stl sort function.
  */
 class LessByMetric {
-public:
-  LessByMetric(DoubleProperty *metric) : metric(metric) {}
-  bool operator()(node n1, node n2);
-  bool operator()(edge e1, edge e2);
+  public:
+    LessByMetric(DoubleProperty *metric) : metric(metric) {}
+    bool operator()(node n1, node n2);
+    bool operator()(edge e1, edge e2);
 
-private:
-  DoubleProperty *metric;
+  private:
+    DoubleProperty *metric;
 };
 }
 #endif // TALIPOT_STL_FUNCTIONS_H

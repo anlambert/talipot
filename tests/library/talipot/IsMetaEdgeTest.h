@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,16 +18,16 @@
 #include "CppUnitIncludes.h"
 
 class IsMetaEdgeTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(IsMetaEdgeTest);
-  CPPUNIT_TEST(testIsMetaEdge);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(IsMetaEdgeTest);
+    CPPUNIT_TEST(testIsMetaEdge);
+    CPPUNIT_TEST_SUITE_END();
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testIsMetaEdge();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testIsMetaEdge();
 
-private:
-  tlp::Graph *graph;
-  tlp::Graph *quotientGraph;
+  private:
+    tlp::Graph *graph;
+    tlp::Graph *quotientGraph;
 };

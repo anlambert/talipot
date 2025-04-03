@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -41,43 +41,43 @@ class GlComplexPolygon;
  * reported to the user in debug mode, raising an assertion.
  */
 class TLP_GL_SCOPE GlConvexGraphHull {
-public:
-  /**
-   * @brief ...
-   *
-   * @param parent ...
-   * @param name ...
-   * @param fcolor The color used to fill the hull.
-   * @param graph The graph whose elements should be inside the hull.
-   * @param layout The property used to layout the elements in the graph.
-   * @param size The property defining the graph's elements' sizes.
-   * @param rotation The property defining the graph's elements' rotation.
-   **/
-  GlConvexGraphHull(GlComposite *parent, const std::string &name, const tlp::Color &fcolor,
-                    Graph *graph, LayoutProperty *layout, SizeProperty *size,
-                    DoubleProperty *rotation);
+  public:
+    /**
+     * @brief ...
+     *
+     * @param parent ...
+     * @param name ...
+     * @param fcolor The color used to fill the hull.
+     * @param graph The graph whose elements should be inside the hull.
+     * @param layout The property used to layout the elements in the graph.
+     * @param size The property defining the graph's elements' sizes.
+     * @param rotation The property defining the graph's elements' rotation.
+     **/
+    GlConvexGraphHull(GlComposite *parent, const std::string &name, const tlp::Color &fcolor,
+                      Graph *graph, LayoutProperty *layout, SizeProperty *size,
+                      DoubleProperty *rotation);
 
-  ~GlConvexGraphHull();
+    ~GlConvexGraphHull();
 
-  /**
-   * Recomputes the whole Hull
-   */
-  void updateHull(LayoutProperty *layout = nullptr, SizeProperty *size = nullptr,
-                  DoubleProperty *rotation = nullptr);
+    /**
+     * Recomputes the whole Hull
+     */
+    void updateHull(LayoutProperty *layout = nullptr, SizeProperty *size = nullptr,
+                    DoubleProperty *rotation = nullptr);
 
-  void setVisible(bool visible);
-  bool isVisible();
+    void setVisible(bool visible);
+    bool isVisible();
 
-private:
-  GlComposite *_parent;
-  std::string _name;
-  Color _fcolor;
-  GlComplexPolygon *_polygon;
-  Graph *graph;
-  LayoutProperty *_layout;
-  SizeProperty *_size;
-  DoubleProperty *_rotation;
-  static int bezierValue;
+  private:
+    GlComposite *_parent;
+    std::string _name;
+    Color _fcolor;
+    GlComplexPolygon *_polygon;
+    Graph *graph;
+    LayoutProperty *_layout;
+    SizeProperty *_size;
+    DoubleProperty *_rotation;
+    static int bezierValue;
 };
 }
 

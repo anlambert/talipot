@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2022 The Talipot developers
+ * Copyright (C) 2022-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,17 +20,17 @@ extern bool applyGraphvizLayout(tlp::Graph *graph, tlp::LayoutProperty *result,
                                 const std::string &layoutName, tlp::PluginProgress *pluginProgress);
 
 class GraphvizLayoutBase : public tlp::LayoutAlgorithm {
-public:
-  GraphvizLayoutBase(const tlp::PluginContext *context, const std::string &layoutName)
-      : tlp::LayoutAlgorithm(context), _layoutName(layoutName) {}
-  ~GraphvizLayoutBase() = default;
+  public:
+    GraphvizLayoutBase(const tlp::PluginContext *context, const std::string &layoutName)
+        : tlp::LayoutAlgorithm(context), _layoutName(layoutName) {}
+    ~GraphvizLayoutBase() = default;
 
-  bool run() override {
-    return applyGraphvizLayout(graph, result, _layoutName, pluginProgress);
-  }
+    bool run() override {
+        return applyGraphvizLayout(graph, result, _layoutName, pluginProgress);
+    }
 
-protected:
-  std::string _layoutName;
+  protected:
+    std::string _layoutName;
 };
 
 #endif // GRAPHVIZ_LAYOUT_BASE_H

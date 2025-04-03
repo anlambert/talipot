@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,70 +24,70 @@ using namespace tlp;
 
 class NominatimResultsParser : public YajlParseFacade {
 
-public:
-  void parseString(const string &value) override {
-    if (_currentKey == "display_name") {
-      addresses.push_back(value);
-    } else if (_currentKey == "lat") {
-      _lat = stod(value);
-    } else if (_currentKey == "lon") {
-      _lng = stod(value);
-      latLngs.push_back(make_pair(_lat, _lng));
+  public:
+    void parseString(const string &value) override {
+        if (_currentKey == "display_name") {
+            addresses.push_back(value);
+        } else if (_currentKey == "lat") {
+            _lat = stod(value);
+        } else if (_currentKey == "lon") {
+            _lng = stod(value);
+            latLngs.push_back(make_pair(_lat, _lng));
+        }
     }
-  }
 
-  void parseMapKey(const string &value) override {
-    _currentKey = value;
-  }
+    void parseMapKey(const string &value) override {
+        _currentKey = value;
+    }
 
-  vector<string> addresses;
-  vector<pair<double, double>> latLngs;
+    vector<string> addresses;
+    vector<pair<double, double>> latLngs;
 
-private:
-  string _currentKey;
-  double _lat;
-  double _lng;
+  private:
+    string _currentKey;
+    double _lat;
+    double _lng;
 };
 
 NominatimGeocoder::NominatimGeocoder() {
-  _networkAccessManager = new QNetworkAccessManager();
+    _networkAccessManager = new QNetworkAccessManager();
 }
 
 NominatimGeocoder::~NominatimGeocoder() {
-  delete _networkAccessManager;
+    delete _networkAccessManager;
 }
 
 vector<NominatimGeocoderResult> NominatimGeocoder::getLatLngForAddress(const string &address) {
 
-  QUrl nominatimSearchUrl;
-  nominatimSearchUrl.setScheme("https");
-  nominatimSearchUrl.setHost("nominatim.openstreetmap.org");
-  nominatimSearchUrl.setPath("/search");
-  nominatimSearchUrl.setQuery("q=" + tlpStringToQString(address) +
-                              "&format=json&dedupe=1&limit=20");
+    QUrl nominatimSearchUrl;
+    nominatimSearchUrl.setScheme("https");
+    nominatimSearchUrl.setHost("nominatim.openstreetmap.org");
+    nominatimSearchUrl.setPath("/search");
+    nominatimSearchUrl.setQuery("q=" + tlpStringToQString(address) +
+                                "&format=json&dedupe=1&limit=20");
 
-  QNetworkRequest request;
-  request.setUrl(nominatimSearchUrl);
+    QNetworkRequest request;
+    request.setUrl(nominatimSearchUrl);
 
-  QNetworkReply *reply = _networkAccessManager->get(request);
-  QEventLoop loop;
-  QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-  loop.exec();
-  QByteArray jsonData = reply->readAll();
+    QNetworkReply *reply = _networkAccessManager->get(request);
+    QEventLoop loop;
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    QByteArray jsonData = reply->readAll();
 
-  NominatimResultsParser nominatimParser;
-  nominatimParser.parse(jsonData.constData(), jsonData.size());
+    NominatimResultsParser nominatimParser;
+    nominatimParser.parse(jsonData.constData(), jsonData.size());
 
-  uint nbResults = nominatimParser.addresses.size();
+    uint nbResults = nominatimParser.addresses.size();
 
-  vector<NominatimGeocoderResult> ret;
+    vector<NominatimGeocoderResult> ret;
 
-  for (uint i = 0; i < nbResults; ++i) {
-    NominatimGeocoderResult result;
-    result.address = nominatimParser.addresses[i];
-    result.latLng = nominatimParser.latLngs[i];
-    ret.push_back(result);
-  }
+    for (uint i = 0; i < nbResults; ++i) {
+        NominatimGeocoderResult result;
+        result.address = nominatimParser.addresses[i];
+        result.latLng = nominatimParser.latLngs[i];
+        ret.push_back(result);
+    }
 
-  return ret;
+    return ret;
 }

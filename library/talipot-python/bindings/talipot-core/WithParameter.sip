@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,13 +21,13 @@ void addParameter(tlp::WithParameter *withParam, const std::string &str,
                   const std::string &inHelp = "", const std::string &inDefValue = "",
                   bool isMandatory = true, bool inParam = true, bool outParam = false,
                   const std::string &valuesDescription = "") {
-  if (inParam && !outParam) {
-    withParam->addInParameter<T>(str, inHelp, inDefValue, isMandatory, valuesDescription);
-  } else if (!inParam && outParam) {
-    withParam->addOutParameter<T>(str, inHelp, inDefValue, isMandatory, valuesDescription);
-  } else if (inParam && outParam) {
-    withParam->addInOutParameter<T>(str, inHelp, inDefValue, isMandatory, valuesDescription);
-  }
+    if (inParam && !outParam) {
+        withParam->addInParameter<T>(str, inHelp, inDefValue, isMandatory, valuesDescription);
+    } else if (!inParam && outParam) {
+        withParam->addOutParameter<T>(str, inHelp, inDefValue, isMandatory, valuesDescription);
+    } else if (inParam && outParam) {
+        withParam->addInOutParameter<T>(str, inHelp, inDefValue, isMandatory, valuesDescription);
+    }
 }
 %End
 
@@ -1669,9 +1669,9 @@ the file.
 
 %MethodCode
 if (a1) {
-  addParameter<std::string>(sipCpp, std::string("file::") + *a0, *a2, *a3, a4, true, false);
+    addParameter<std::string>(sipCpp, std::string("file::") + *a0, *a2, *a3, a4, true, false);
 } else {
-  addParameter<std::string>(sipCpp, std::string("anyfile::") + *a0, *a2, *a3, a4, true, false);
+    addParameter<std::string>(sipCpp, std::string("anyfile::") + *a0, *a2, *a3, a4, true, false);
 }
 %End
 

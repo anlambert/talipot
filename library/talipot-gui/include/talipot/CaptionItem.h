@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,59 +33,59 @@ class SizeProperty;
 
 class CaptionItem : public QObject, public Observable {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  enum CaptionType {
-    NodesColorCaption = 1,
-    NodesSizeCaption = 2,
-    EdgesColorCaption = 3,
-    EdgesSizeCaption = 4
-  };
+  public:
+    enum CaptionType {
+        NodesColorCaption = 1,
+        NodesSizeCaption = 2,
+        EdgesColorCaption = 3,
+        EdgesSizeCaption = 4
+    };
 
-  CaptionItem(View *view);
-  ~CaptionItem() override;
+    CaptionItem(View *view);
+    ~CaptionItem() override;
 
-  void create(CaptionType captionType);
+    void create(CaptionType captionType);
 
-  void initCaption();
+    void initCaption();
 
-  void generateColorCaption(CaptionType captionType);
+    void generateColorCaption(CaptionType captionType);
 
-  void generateSizeCaption(CaptionType captionType);
+    void generateSizeCaption(CaptionType captionType);
 
-  CaptionGraphicsBackgroundItem *captionGraphicsItem();
+    CaptionGraphicsBackgroundItem *captionGraphicsItem();
 
-  void treatEvents(const std::vector<Event> &ev) override;
+    void treatEvents(const std::vector<Event> &ev) override;
 
-signals:
+  signals:
 
-  void filtering(bool);
+    void filtering(bool);
 
-public slots:
+  public slots:
 
-  void removeObservation(bool);
+    void removeObservation(bool);
 
-  void applyNewFilter(float begin, float end);
-  void selectedPropertyChanged(std::string propertyName);
+    void applyNewFilter(float begin, float end);
+    void selectedPropertyChanged(std::string propertyName);
 
-private:
-  void clearObservers();
+  private:
+    void clearObservers();
 
-  void generateGradients(const std::vector<std::pair<double, Color>> &metricToColorFiltered,
-                         QGradient &activeGradient, QGradient &hideGradient);
+    void generateGradients(const std::vector<std::pair<double, Color>> &metricToColorFiltered,
+                           QGradient &activeGradient, QGradient &hideGradient);
 
-  View *view;
+    View *view;
 
-  CaptionType _captionType;
-  CaptionGraphicsItem *_captionGraphicsItem;
+    CaptionType _captionType;
+    CaptionGraphicsItem *_captionGraphicsItem;
 
-  Graph *_graph;
-  DoubleProperty *_metricProperty;
-  ColorProperty *_colorProperty;
-  SizeProperty *_sizeProperty;
-  ColorProperty *_backupColorProperty;
-  ColorProperty *_backupBorderColorProperty;
+    Graph *_graph;
+    DoubleProperty *_metricProperty;
+    ColorProperty *_colorProperty;
+    SizeProperty *_sizeProperty;
+    ColorProperty *_backupColorProperty;
+    ColorProperty *_backupBorderColorProperty;
 };
 }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,92 +27,93 @@
 using namespace tlp;
 
 static PyObject *talipotutils_updateVisualization(PyObject *, PyObject *args) {
-  Workspace *workspace = NULL;
-  QMainWindow *mainWindow = getMainWindow();
-  int i;
+    Workspace *workspace = NULL;
+    QMainWindow *mainWindow = getMainWindow();
+    int i;
 
-  if (mainWindow) {
-    workspace = mainWindow->findChild<Workspace *>();
-  }
+    if (mainWindow) {
+        workspace = mainWindow->findChild<Workspace *>();
+    }
 
-  if (!PyArg_ParseTuple(args, "|i", &i)) {
+    if (!PyArg_ParseTuple(args, "|i", &i)) {
+        Py_RETURN_NONE;
+    }
+
+    bool centerViews = i > 0;
+
+    if (workspace) {
+        workspace->redrawPanels(centerViews);
+    }
+
     Py_RETURN_NONE;
-  }
-
-  bool centerViews = i > 0;
-
-  if (workspace) {
-    workspace->redrawPanels(centerViews);
-  }
-
-  Py_RETURN_NONE;
 }
 
 static PyObject *talipotutils_pauseRunningScript(PyObject *, PyObject *) {
-  PythonInterpreter::instance().pauseCurrentScript();
-  Py_RETURN_NONE;
+    PythonInterpreter::instance().pauseCurrentScript();
+    Py_RETURN_NONE;
 }
 
 static PyObject *talipotutils_runGraphScript(PyObject *, PyObject *args) {
-  char *s = NULL;
-  PyObject *o = NULL;
+    char *s = NULL;
+    PyObject *o = NULL;
 
-  if (PyArg_ParseTuple(args, "sO", &s, &o)) {
-    QString scriptName(s);
-    scriptName.replace(".py", "");
+    if (PyArg_ParseTuple(args, "sO", &s, &o)) {
+        QString scriptName(s);
+        scriptName.replace(".py", "");
 
-    if (PythonInterpreter::instance().runString(QString("import ") + scriptName)) {
+        if (PythonInterpreter::instance().runString(QString("import ") + scriptName)) {
 
-      // Getting proper sipWrapperType
-      const sipTypeDef *kpTypeDef = sipFindType("tlp::Graph");
+            // Getting proper sipWrapperType
+            const sipTypeDef *kpTypeDef = sipFindType("tlp::Graph");
 
-      // Checking if the Python object wraps a tlp::Graph instance
-      if (sipCanConvertToType(o, kpTypeDef, SIP_NOT_NONE)) {
-        int state = 0;
-        int err = 0;
+            // Checking if the Python object wraps a tlp::Graph instance
+            if (sipCanConvertToType(o, kpTypeDef, SIP_NOT_NONE)) {
+                int state = 0;
+                int err = 0;
 
-        // Unwrapping C++ instance
-        auto *graph = static_cast<tlp::Graph *>(
-            sipConvertToType(o, kpTypeDef, NULL, SIP_NOT_NONE, &state, &err));
+                // Unwrapping C++ instance
+                auto *graph = static_cast<tlp::Graph *>(
+                    sipConvertToType(o, kpTypeDef, NULL, SIP_NOT_NONE, &state, &err));
 
-        if (!PythonInterpreter::instance().runGraphScript(scriptName, "main", graph)) {
-          PyErr_SetString(PyExc_RuntimeError,
-                          (std::string("An exception occurred when executing the ") +
-                           std::string(s) + " script")
-                              .c_str());
-          return NULL;
+                if (!PythonInterpreter::instance().runGraphScript(scriptName, "main", graph)) {
+                    PyErr_SetString(PyExc_RuntimeError,
+                                    (std::string("An exception occurred when executing the ") +
+                                     std::string(s) + " script")
+                                        .c_str());
+                    return NULL;
+                }
+
+            } else {
+                PyErr_SetString(
+                    PyExc_TypeError,
+                    "Second parameter of the runGraphScript function must be of type tlp.Graph");
+                return NULL;
+            }
+        } else {
+            PyErr_SetString(
+                PyExc_ValueError,
+                (std::string("The script ") + std::string(s) + " does not exist").c_str());
+            return NULL;
         }
-
-      } else {
-        PyErr_SetString(
-            PyExc_TypeError,
-            "Second parameter of the runGraphScript function must be of type tlp.Graph");
-        return NULL;
-      }
     } else {
-      PyErr_SetString(PyExc_ValueError,
-                      (std::string("The script ") + std::string(s) + " does not exist").c_str());
-      return NULL;
+        PyErr_SetString(PyExc_TypeError,
+                        "Parameters provided to the runGraphScript function have invalid types");
+        return NULL;
     }
-  } else {
-    PyErr_SetString(PyExc_TypeError,
-                    "Parameters provided to the runGraphScript function have invalid types");
-    return NULL;
-  }
 
-  Py_RETURN_NONE;
+    Py_RETURN_NONE;
 }
 
 static PyObject *talipotutils_setProcessQtEvents(PyObject *, PyObject *o) {
-  int i;
+    int i;
 
-  if (!PyArg_ParseTuple(o, "i", &i)) {
-    return NULL;
-  }
+    if (!PyArg_ParseTuple(o, "i", &i)) {
+        return NULL;
+    }
 
-  PythonInterpreter::instance().setProcessQtEventsDuringScriptExecution(i > 0);
+    PythonInterpreter::instance().setProcessQtEventsDuringScriptExecution(i > 0);
 
-  Py_RETURN_NONE;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef talipotUtilsMethods[] = {
@@ -142,7 +143,7 @@ static struct PyModuleDef TalipotUtilsModuleDef = {
 // during interpreter initialization, to make the built-in talipotutils
 // module known to Python
 PyMODINIT_FUNC inittalipotutils(void) {
-  return PyModule_Create(&TalipotUtilsModuleDef);
+    return PyModule_Create(&TalipotUtilsModuleDef);
 }
 
 #ifdef __GNUC__

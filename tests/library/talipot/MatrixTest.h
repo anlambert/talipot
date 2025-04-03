@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,16 +21,16 @@
 #include "CppUnitIncludes.h"
 
 class MatrixTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(MatrixTest);
-  CPPUNIT_TEST(testExternalOperation);
-  CPPUNIT_TEST(testInternalOperation);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(MatrixTest);
+    CPPUNIT_TEST(testExternalOperation);
+    CPPUNIT_TEST(testInternalOperation);
+    CPPUNIT_TEST_SUITE_END();
 
-public:
-  void setUp() override {}
-  void tearDown() override {}
-  void testExternalOperation();
-  void testInternalOperation();
+  public:
+    void setUp() override {}
+    void tearDown() override {}
+    void testExternalOperation();
+    void testInternalOperation();
 };
 
 #endif // MATRIX_TEST_H

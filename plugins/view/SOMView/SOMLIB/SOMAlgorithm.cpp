@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,39 +26,39 @@ SOMAlgorithm::SOMAlgorithm(TimeDecreasingFunction *learningRateFunction,
 
       learningRateFunction(learningRateFunction), diffusionRateFunction(diffusionRateFunction) {
 
-  // Init default degenerescence functions if user don't do it
-  if (this->learningRateFunction == nullptr) {
-    this->learningRateFunction = new TimeDecreasingFunctionSimple(0.7);
-  }
+    // Init default degenerescence functions if user don't do it
+    if (this->learningRateFunction == nullptr) {
+        this->learningRateFunction = new TimeDecreasingFunctionSimple(0.7);
+    }
 
-  if (this->diffusionRateFunction == nullptr) {
-    this->diffusionRateFunction =
-        new DiffusionRateFunctionSimple(new TimeDecreasingFunctionSimple(0.7), 3);
-  }
+    if (this->diffusionRateFunction == nullptr) {
+        this->diffusionRateFunction =
+            new DiffusionRateFunctionSimple(new TimeDecreasingFunctionSimple(0.7), 3);
+    }
 }
 
 SOMAlgorithm::~SOMAlgorithm() {
-  delete learningRateFunction;
-  delete diffusionRateFunction;
+    delete learningRateFunction;
+    delete diffusionRateFunction;
 }
 
 void SOMAlgorithm::run(SOMMap *map, InputSample &inputSample, unsigned int nTimes,
                        tlp::PluginProgress *pluginProgress) {
-  // Map initialisation
-  if (pluginProgress) {
-    pluginProgress->setComment("Initialization");
-  }
+    // Map initialisation
+    if (pluginProgress) {
+        pluginProgress->setComment("Initialization");
+    }
 
-  initMap(map, inputSample, pluginProgress);
+    initMap(map, inputSample, pluginProgress);
 
-  if (pluginProgress) {
-    pluginProgress->setComment("Training");
-  }
+    if (pluginProgress) {
+        pluginProgress->setComment("Training");
+    }
 
-  trainNInputSample(map, inputSample, nTimes, pluginProgress);
+    trainNInputSample(map, inputSample, nTimes, pluginProgress);
 
-  // registering modification
-  map->registerModification(inputSample.getListenedProperties());
+    // registering modification
+    map->registerModification(inputSample.getListenedProperties());
 }
 
 /**
@@ -66,185 +66,186 @@ void SOMAlgorithm::run(SOMMap *map, InputSample &inputSample, unsigned int nTime
  */
 void SOMAlgorithm::initMap(SOMMap *map, InputSample &inputSample,
                            tlp::PluginProgress *pluginProgress) {
-  // initialize a random sequence according the given seed
-  tlp::initRandomSequence();
+    // initialize a random sequence according the given seed
+    tlp::initRandomSequence();
 
-  int numberOfNode = map->numberOfNodes();
-  int currentNumberOfNode = 0;
-  Iterator<node> *nodeIterator = inputSample.getRandomNodeOrder();
-  for (auto n : map->nodes()) {
-    if (!nodeIterator->hasNext()) {
-      delete nodeIterator;
-      nodeIterator = inputSample.getRandomNodeOrder();
+    int numberOfNode = map->numberOfNodes();
+    int currentNumberOfNode = 0;
+    Iterator<node> *nodeIterator = inputSample.getRandomNodeOrder();
+    for (auto n : map->nodes()) {
+        if (!nodeIterator->hasNext()) {
+            delete nodeIterator;
+            nodeIterator = inputSample.getRandomNodeOrder();
+        }
+
+        // Random choice
+        map->setWeight(n, inputSample.getWeight(nodeIterator->next()));
+
+        if (pluginProgress) {
+            // Increase the number of iterators why?
+            pluginProgress->progress(currentNumberOfNode, numberOfNode);
+        }
+
+        ++currentNumberOfNode;
     }
-
-    // Random choice
-    map->setWeight(n, inputSample.getWeight(nodeIterator->next()));
-
-    if (pluginProgress) {
-      // Increase the number of iterators why?
-      pluginProgress->progress(currentNumberOfNode, numberOfNode);
-    }
-
-    ++currentNumberOfNode;
-  }
-  delete nodeIterator;
+    delete nodeIterator;
 }
 
 void SOMAlgorithm::trainNInputSample(SOMMap *map, InputSample &inputSample, unsigned int nTimes,
                                      tlp::PluginProgress *pluginProgress) {
-  train(map, inputSample, nTimes * inputSample.getSampleSize(), pluginProgress);
+    train(map, inputSample, nTimes * inputSample.getSampleSize(), pluginProgress);
 }
 
 void SOMAlgorithm::train(SOMMap *map, InputSample &inputSample, unsigned int maxIteration,
                          tlp::PluginProgress *pluginProgress) {
-  assert(learningRateFunction);
-  assert(diffusionRateFunction);
-  unsigned int currentIteration = 0;
-  Iterator<node> *nodeIterator = inputSample.getRandomNodeOrder();
+    assert(learningRateFunction);
+    assert(diffusionRateFunction);
+    unsigned int currentIteration = 0;
+    Iterator<node> *nodeIterator = inputSample.getRandomNodeOrder();
 
-  while (currentIteration < maxIteration) {
-    // Find BMU
-    double dist;
+    while (currentIteration < maxIteration) {
+        // Find BMU
+        double dist;
 
-    if (!nodeIterator->hasNext()) {
-      delete nodeIterator;
-      nodeIterator = inputSample.getRandomNodeOrder();
+        if (!nodeIterator->hasNext()) {
+            delete nodeIterator;
+            nodeIterator = inputSample.getRandomNodeOrder();
+        }
+
+        const DynamicVector<double> &currentInputVector =
+            inputSample.getWeight(nodeIterator->next());
+
+        node bmu = findBMU(map, currentInputVector, dist);
+
+        // Environment modification
+        assert(map->isElement(bmu));
+
+        propagateModification(map, currentInputVector, bmu, currentIteration, maxIteration,
+                              inputSample.getSampleSize());
+
+        // Next Iteration
+        ++currentIteration;
+
+        if (pluginProgress) {
+            pluginProgress->progress(currentIteration, maxIteration);
+        }
     }
 
-    const DynamicVector<double> &currentInputVector = inputSample.getWeight(nodeIterator->next());
-
-    node bmu = findBMU(map, currentInputVector, dist);
-
-    // Environment modification
-    assert(map->isElement(bmu));
-
-    propagateModification(map, currentInputVector, bmu, currentIteration, maxIteration,
-                          inputSample.getSampleSize());
-
-    // Next Iteration
-    ++currentIteration;
-
-    if (pluginProgress) {
-      pluginProgress->progress(currentIteration, maxIteration);
-    }
-  }
-
-  delete nodeIterator;
+    delete nodeIterator;
 }
 
 node SOMAlgorithm::findBMU(SOMMap *map, const DynamicVector<double> &input, double &dist) {
-  vector<node> matchList;
-  node n;
-  double bestDist = 0;
+    vector<node> matchList;
+    node n;
+    double bestDist = 0;
 
-  for (auto n : map->nodes()) {
+    for (auto n : map->nodes()) {
 
-    // take the first to init the comparison
-    if (matchList.empty()) {
-      matchList.push_back(n);
-      bestDist = input.dist(map->getWeight(n));
-      continue;
+        // take the first to init the comparison
+        if (matchList.empty()) {
+            matchList.push_back(n);
+            bestDist = input.dist(map->getWeight(n));
+            continue;
+        }
+
+        double newDist = input.dist(map->getWeight(n));
+
+        if (newDist < bestDist) {
+            bestDist = newDist;
+            matchList.clear();
+            matchList.push_back(n);
+        } else if (newDist == bestDist) {
+            matchList.push_back(n);
+        }
     }
 
-    double newDist = input.dist(map->getWeight(n));
+    dist = bestDist;
+    assert(!matchList.empty());
 
-    if (newDist < bestDist) {
-      bestDist = newDist;
-      matchList.clear();
-      matchList.push_back(n);
-    } else if (newDist == bestDist) {
-      matchList.push_back(n);
+    if (matchList.size() == 1) {
+        n = matchList.front();
+    } else {
+        // Take randomly a vector in the matchlist.
+        unsigned int num = randomNumber(matchList.size() - 1);
+        assert(num < matchList.size());
+        n = matchList[num];
     }
-  }
 
-  dist = bestDist;
-  assert(!matchList.empty());
-
-  if (matchList.size() == 1) {
-    n = matchList.front();
-  } else {
-    // Take randomly a vector in the matchlist.
-    unsigned int num = randomNumber(matchList.size() - 1);
-    assert(num < matchList.size());
-    n = matchList[num];
-  }
-
-  assert(n.isValid());
-  assert(map->isElement(n));
-  return n;
+    assert(n.isValid());
+    assert(map->isElement(n));
+    return n;
 }
 
 void SOMAlgorithm::propagateModification(SOMMap *map, const DynamicVector<double> &input, node bmu,
                                          unsigned int currentIteration, unsigned int maxIteration,
                                          unsigned int sampleSize) {
 
-  // Parcours en largeur
-  MutableContainer<bool> seen;
-  seen.setAll(false);
-  MutableContainer<int> distance;
-  distance.setAll(0);
-  deque<node> toVisit;
+    // Parcours en largeur
+    MutableContainer<bool> seen;
+    seen.setAll(false);
+    MutableContainer<int> distance;
+    distance.setAll(0);
+    deque<node> toVisit;
 
-  toVisit.push_back(bmu);
-  seen.set(bmu.id, true);
+    toVisit.push_back(bmu);
+    seen.set(bmu.id, true);
 
-  // Computing learning rate for this propagation
-  double learningRate =
-      learningRateFunction->computeCurrentTimeRate(currentIteration, maxIteration, sampleSize);
+    // Computing learning rate for this propagation
+    double learningRate =
+        learningRateFunction->computeCurrentTimeRate(currentIteration, maxIteration, sampleSize);
 
-  if (learningRate == 0) {
-    return;
-  }
-
-  // Treatment of the deque
-  while (!toVisit.empty()) {
-    node current = toVisit.front();
-    toVisit.pop_front();
-
-    assert(current.isValid());
-    assert(map->isElement(current));
-    // Treat its value
-    DynamicVector<double> weight = map->getWeight(current);
-    assert(weight.getSize() != 0);
-    double diffusionRate = diffusionRateFunction->computeSpaceRate(
-        distance.get(current.id), currentIteration, maxIteration, sampleSize);
-
-    // Diffusion function
-    weight = weight + ((input - weight) * learningRate * diffusionRate);
-    map->setWeight(current, weight);
-
-    // Mark neighborhood
-    // If the diffusion rate is equal to 0 no need to propagate modification
-    if (diffusionRate > 0) {
-      for (auto neighbor : map->getInOutNodes(current)) {
-        // not already treated
-        if (!seen.get(neighbor.id)) {
-          seen.set(neighbor.id, true);
-          distance.set(neighbor.id, distance.get(current.id) + 1);
-          toVisit.push_back(neighbor);
-        }
-      }
+    if (learningRate == 0) {
+        return;
     }
-  }
+
+    // Treatment of the deque
+    while (!toVisit.empty()) {
+        node current = toVisit.front();
+        toVisit.pop_front();
+
+        assert(current.isValid());
+        assert(map->isElement(current));
+        // Treat its value
+        DynamicVector<double> weight = map->getWeight(current);
+        assert(weight.getSize() != 0);
+        double diffusionRate = diffusionRateFunction->computeSpaceRate(
+            distance.get(current.id), currentIteration, maxIteration, sampleSize);
+
+        // Diffusion function
+        weight = weight + ((input - weight) * learningRate * diffusionRate);
+        map->setWeight(current, weight);
+
+        // Mark neighborhood
+        // If the diffusion rate is equal to 0 no need to propagate modification
+        if (diffusionRate > 0) {
+            for (auto neighbor : map->getInOutNodes(current)) {
+                // not already treated
+                if (!seen.get(neighbor.id)) {
+                    seen.set(neighbor.id, true);
+                    distance.set(neighbor.id, distance.get(current.id) + 1);
+                    toVisit.push_back(neighbor);
+                }
+            }
+        }
+    }
 }
 
 void SOMAlgorithm::computeMapping(SOMMap *map, InputSample &inputSample,
                                   flat_hash_map<tlp::node, std::set<tlp::node>> &mappingTab,
                                   double &medDist, unsigned int &maxElement) {
 
-  double cumDist = 0;
-  double dist;
-  maxElement = 0;
+    double cumDist = 0;
+    double dist;
+    maxElement = 0;
 
-  for (auto n : inputSample.getNodes()) {
-    node somNode = findBMU(map, inputSample.getWeight(n), dist);
-    cumDist += dist;
-    mappingTab[somNode].insert(n);
+    for (auto n : inputSample.getNodes()) {
+        node somNode = findBMU(map, inputSample.getWeight(n), dist);
+        cumDist += dist;
+        mappingTab[somNode].insert(n);
 
-    if (mappingTab[somNode].size() > maxElement) {
-      maxElement = mappingTab[somNode].size();
+        if (mappingTab[somNode].size() > maxElement) {
+            maxElement = mappingTab[somNode].size();
+        }
     }
-  }
-  medDist = cumDist / inputSample.getSampleSize();
+    medDist = cumDist / inputSample.getSampleSize();
 }

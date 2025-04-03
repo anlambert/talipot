@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,16 +23,16 @@ class GlWidget;
 
 class TLP_QT_SCOPE MouseNodeBuilder : public InteractorComponent {
 
-public:
-  MouseNodeBuilder(QEvent::Type eventType = QEvent::MouseButtonPress)
-      : _eventType(eventType), glWidget(nullptr) {}
-  ~MouseNodeBuilder() override = default;
-  bool eventFilter(QObject *, QEvent *) override;
-  void clear() override;
+  public:
+    MouseNodeBuilder(QEvent::Type eventType = QEvent::MouseButtonPress)
+        : _eventType(eventType), glWidget(nullptr) {}
+    ~MouseNodeBuilder() override = default;
+    bool eventFilter(QObject *, QEvent *) override;
+    void clear() override;
 
-private:
-  QEvent::Type _eventType;
-  GlWidget *glWidget;
+  private:
+    QEvent::Type _eventType;
+    GlWidget *glWidget;
 };
 }
 #endif // TALIPOT_MOUSE_NODE_BUILDER_H

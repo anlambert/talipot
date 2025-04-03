@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,28 +29,28 @@ class GlComplexPolygonItemEditor;
  * We define a specific interactor to show element graph info in eltProperties
  */
 class GeographicViewShowElementInfo : public InteractorComponent {
-  Q_OBJECT
-public:
-  GeographicViewShowElementInfo();
-  ~GeographicViewShowElementInfo() override;
-  bool eventFilter(QObject *widget, QEvent *e) override;
+    Q_OBJECT
+  public:
+    GeographicViewShowElementInfo();
+    ~GeographicViewShowElementInfo() override;
+    bool eventFilter(QObject *widget, QEvent *e) override;
 
-  void viewChanged(View *) override;
+    void viewChanged(View *) override;
 
-  void clear() override;
+    void clear() override;
 
-  virtual bool pick(int x, int y, SelectedEntity &selectedEntity);
+    virtual bool pick(int x, int y, SelectedEntity &selectedEntity);
 
-protected:
-  GeographicView *_view;
-  QWidget *_informationWidget;
-  QGraphicsProxyWidget *_informationWidgetItem;
-  GlComplexPolygonItemEditor *_editor;
+  protected:
+    GeographicView *_view;
+    QWidget *_informationWidget;
+    QGraphicsProxyWidget *_informationWidgetItem;
+    GlComplexPolygonItemEditor *_editor;
 
-  QTableView *tableView() const;
+    QTableView *tableView() const;
 
-private slots:
-  void hideInfos();
+  private slots:
+    void hideInfos();
 };
 }
 

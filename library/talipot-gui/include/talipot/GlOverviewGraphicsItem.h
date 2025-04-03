@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,57 +30,57 @@ class GlScene;
 
 class TLP_QT_SCOPE GlOverviewGraphicsItem : public QObject, public QGraphicsRectItem {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  GlOverviewGraphicsItem(GlView *view, GlScene &scene);
-  ~GlOverviewGraphicsItem() override;
+  public:
+    GlOverviewGraphicsItem(GlView *view, GlScene &scene);
+    ~GlOverviewGraphicsItem() override;
 
-  void setSize(uint width, uint height);
-  uint getWidth() const {
-    return width;
-  }
-  uint getHeight() const {
-    return height;
-  }
+    void setSize(uint width, uint height);
+    uint getWidth() const {
+        return width;
+    }
+    uint getHeight() const {
+        return height;
+    }
 
-  void setFrameColor(const Color &color) {
-    _frameColor = color;
-  }
+    void setFrameColor(const Color &color) {
+        _frameColor = color;
+    }
 
-  void setFrameWidth(int width) {
-    _frameWidth = width;
-  }
+    void setFrameWidth(int width) {
+        _frameWidth = width;
+    }
 
-  void setLayerVisible(const std::string &name, bool visible);
+    void setLayerVisible(const std::string &name, bool visible);
 
-public slots:
+  public slots:
 
-  void draw(bool generatePixmap);
+    void draw(bool generatePixmap);
 
-private:
-  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-  void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-  void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-  void setScenePosition(QPointF pos);
+  private:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    void setScenePosition(QPointF pos);
 
-  GlView *view;
-  GlScene &baseScene;
-  uint width, height;
+    GlView *view;
+    GlScene &baseScene;
+    uint width, height;
 
-  QGraphicsPixmapItem overview;
-  QGraphicsPathItem overviewBorder;
-  QGraphicsLineItem line[8];
-  QGraphicsPolygonItem poly[4];
+    QGraphicsPixmapItem overview;
+    QGraphicsPathItem overviewBorder;
+    QGraphicsLineItem line[8];
+    QGraphicsPolygonItem poly[4];
 
-  bool mouseClicked;
+    bool mouseClicked;
 
-  std::set<std::string> _hiddenLayers;
+    std::set<std::string> _hiddenLayers;
 
-  std::vector<Camera> _oldCameras;
+    std::vector<Camera> _oldCameras;
 
-  Color _frameColor;
-  int _frameWidth;
+    Color _frameColor;
+    int _frameWidth;
 };
 }
 

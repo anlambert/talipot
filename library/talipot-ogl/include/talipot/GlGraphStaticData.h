@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,16 +22,16 @@ namespace tlp {
 
 class TLP_GL_SCOPE GlGraphStaticData {
 
-public:
-  static const int edgeShapesCount;
-  static int edgeShapeIds[];
-  static std::string labelPositionNames[];
+  public:
+    static const int edgeShapesCount;
+    static int edgeShapeIds[];
+    static std::string labelPositionNames[];
 
-  static std::string edgeShapeName(int id);
-  static int edgeShapeId(const std::string &name);
+    static std::string edgeShapeName(int id);
+    static int edgeShapeId(const std::string &name);
 
-  static std::string labelPositionName(int id);
-  static int labelPositionId(const std::string &name);
+    static std::string labelPositionName(int id);
+    static int labelPositionId(const std::string &name);
 };
 }
 

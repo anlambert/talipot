@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,13 +25,13 @@ namespace tlp {
  * @brief Exception is a basic class to build exceptions from string
  **/
 class TLP_SCOPE Exception : public std::exception {
-public:
-  Exception(const std::string &desc);
-  ~Exception() throw() override;
-  const char *what() const throw() override;
+  public:
+    Exception(const std::string &desc);
+    ~Exception() throw() override;
+    const char *what() const throw() override;
 
-private:
-  std::string desc;
+  private:
+    std::string desc;
 };
 }
 #endif // TALIPOT_EXCEPTION_H

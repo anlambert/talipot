@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,12 +31,12 @@
  *  \author David Auber University Bordeaux I France, Email : auber@talipot-software.com
  */
 class Random : public tlp::LayoutAlgorithm {
-public:
-  PLUGININFORMATION("Random layout", "David Auber", "01/12/1999",
-                    "The positions of the graph nodes are randomly selected.", "1.1", "Basic")
-  Random(const tlp::PluginContext *context);
+  public:
+    PLUGININFORMATION("Random layout", "David Auber", "01/12/1999",
+                      "The positions of the graph nodes are randomly selected.", "1.1", "Basic")
+    Random(const tlp::PluginContext *context);
 
-  bool run() override;
+    bool run() override;
 };
 
 #endif // RANDOM_H

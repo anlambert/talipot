@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,14 +25,14 @@ using namespace tlp;
 
 int main() {
 
-  CrashHandler::install();
+    CrashHandler::install();
 
-  initTalipotLib();
+    initTalipotLib();
 
-  TextUi::TestRunner runner;
+    TextUi::TestRunner runner;
 
-  runner.addTest(TestFactoryRegistry::getRegistry().makeTest());
-  runner.run();
+    runner.addTest(TestFactoryRegistry::getRegistry().makeTest());
+    runner.run();
 
-  return runner.result().wasSuccessful() ? EXIT_SUCCESS : EXIT_FAILURE;
+    return runner.result().wasSuccessful() ? EXIT_SUCCESS : EXIT_FAILURE;
 }

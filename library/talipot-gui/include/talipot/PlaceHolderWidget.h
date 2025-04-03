@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,15 +17,15 @@
 #include <QWidget>
 
 class PlaceHolderWidget : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
-  QWidget *_widget;
+    QWidget *_widget;
 
-public:
-  explicit PlaceHolderWidget(QWidget *parent = nullptr);
-  QWidget *widget() const;
-  void setWidget(QWidget *widget);
-  void resetWidget();
+  public:
+    explicit PlaceHolderWidget(QWidget *parent = nullptr);
+    QWidget *widget() const;
+    void setWidget(QWidget *widget);
+    void resetWidget();
 };
 
 #endif // TALIPOT_PLACE_HOLDER_WIDGET_H

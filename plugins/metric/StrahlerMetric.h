@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,11 +17,11 @@
 #include <talipot/hash.h>
 #include <talipot/PluginHeaders.h>
 struct Strahler {
-  Strahler(int stra = 1, int sta = 0, int used = 0)
-      : strahler(stra), stacks(sta), usedStack(used) {}
-  int strahler;
-  int stacks;
-  int usedStack;
+    Strahler(int stra = 1, int sta = 0, int used = 0)
+        : strahler(stra), stacks(sta), usedStack(used) {}
+    int strahler;
+    int stacks;
+    int usedStack;
 };
 
 /** This plugin is an implementation of the Strahler numbers computation,
@@ -49,27 +49,28 @@ struct Strahler {
  *
  */
 class StrahlerMetric : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION(
-      "Strahler", "David Auber", "06/04/2000",
-      "Computes the Strahler numbers."
-      "This is an implementation of the Strahler numbers computation, first published as:<br/>"
-      "<b>Hypsomic analysis of erosional topography</b>, A.N. Strahler, Bulletin Geological "
-      "Society of America 63,pages 1117-1142 (1952).<br/>"
-      "Extended to graphs in :<br/><b>Using Strahler numbers for real time visual exploration of "
-      "huge graphs</b>, D. Auber, ICCVG, International Conference on Computer Vision and Graphics, "
-      "pages 56-69 (2002)",
-      "1.0", "Graph")
-  StrahlerMetric(const tlp::PluginContext *context);
-  bool run() override;
+  public:
+    PLUGININFORMATION(
+        "Strahler", "David Auber", "06/04/2000",
+        "Computes the Strahler numbers."
+        "This is an implementation of the Strahler numbers computation, first published as:<br/>"
+        "<b>Hypsomic analysis of erosional topography</b>, A.N. Strahler, Bulletin Geological "
+        "Society of America 63,pages 1117-1142 (1952).<br/>"
+        "Extended to graphs in :<br/><b>Using Strahler numbers for real time visual exploration of "
+        "huge graphs</b>, D. Auber, ICCVG, International Conference on Computer Vision and "
+        "Graphics, "
+        "pages 56-69 (2002)",
+        "1.0", "Graph")
+    StrahlerMetric(const tlp::PluginContext *context);
+    bool run() override;
 
-private:
-  Strahler topSortStrahler(tlp::node n, int &curPref, flat_hash_map<tlp::node, int> &tofree,
-                           flat_hash_map<tlp::node, int> &prefix,
-                           flat_hash_map<tlp::node, bool> &visited,
-                           flat_hash_map<tlp::node, bool> &finished,
-                           flat_hash_map<tlp::node, Strahler> &cachedValues);
-  bool allNodes;
+  private:
+    Strahler topSortStrahler(tlp::node n, int &curPref, flat_hash_map<tlp::node, int> &tofree,
+                             flat_hash_map<tlp::node, int> &prefix,
+                             flat_hash_map<tlp::node, bool> &visited,
+                             flat_hash_map<tlp::node, bool> &finished,
+                             flat_hash_map<tlp::node, Strahler> &cachedValues);
+    bool allNodes;
 };
 
 #endif // STRAHLER_METRIC_H

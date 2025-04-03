@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,25 +21,25 @@ class PreferencesDialog;
 }
 
 class PreferencesDialog : public QDialog {
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::PreferencesDialog *_ui;
+    Ui::PreferencesDialog *_ui;
 
-public:
-  explicit PreferencesDialog(QWidget *parent = nullptr);
-  ~PreferencesDialog() override;
+  public:
+    explicit PreferencesDialog(QWidget *parent = nullptr);
+    ~PreferencesDialog() override;
 
-public slots:
-  void writeSettings();
-  void readSettings();
-  void cellChanged(int row, int column);
-  void randomSeedCheckChanged(int);
-  void showGraphDefaultsContextMenu(const QPoint &);
-  void guiThemeChanged(const QString &guiTheme);
-  void reject() override;
+  public slots:
+    void writeSettings();
+    void readSettings();
+    void cellChanged(int row, int column);
+    void randomSeedCheckChanged(int);
+    void showGraphDefaultsContextMenu(const QPoint &);
+    void guiThemeChanged(const QString &guiTheme);
+    void reject() override;
 
-private slots:
-  void resetToTalipotDefaults(int row = -1, int updateMode = 0);
+  private slots:
+    void resetToTalipotDefaults(int row = -1, int updateMode = 0);
 };
 
 #endif // PREFERENCES_DIALOG_H

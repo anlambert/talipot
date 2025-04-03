@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -54,50 +54,51 @@ static constexpr std::string_view paramHelp[] = {
 
 class SvgExport : public tlp::ExportModule {
 
-public:
-  PLUGININFORMATION("SVG Export", "Sami Gasri, Charles-Antoine Lami, Bruno Pinaud", "16/07/2013",
-                    "<p>Supported extensions: svg, svgz (compressed svg).</p><p>Exports a graph "
-                    "visualization in a SVG formatted file.</p>",
-                    "1.9", "File")
+  public:
+    PLUGININFORMATION("SVG Export", "Sami Gasri, Charles-Antoine Lami, Bruno Pinaud", "16/07/2013",
+                      "<p>Supported extensions: svg, svgz (compressed svg).</p><p>Exports a graph "
+                      "visualization in a SVG formatted file.</p>",
+                      "1.9", "File")
 
-  std::string icon() const override {
-    return ":/talipot/app/icons/32/export_svg.png";
-  }
-
-  string fileExtension() const override {
-    return "svg";
-  }
-
-  SvgExport(tlp::PluginContext *context) : tlp::ExportModule(context) {
-    addInParameter<bool>("Edge color interpolation", paramHelp[0].data(), "false");
-    addInParameter<bool>("Edge size interpolation", paramHelp[1].data(), "true");
-    addInParameter<bool>("Edge extremities", paramHelp[2].data(), "false");
-    addInParameter<Color>("Background color", paramHelp[3].data(), "(255,255,255,255)");
-    addInParameter<bool>("No background", paramHelp[4].data(), "false");
-    addInParameter<bool>("Makes SVG output human readable", paramHelp[5].data(), "true");
-    addInParameter<bool>("Export node labels", paramHelp[6].data(), "true");
-    addInParameter<bool>("Export edge labels", paramHelp[7].data(), "false");
-    addInParameter<bool>("Export metanode labels", paramHelp[8].data(), "false");
-  }
-
-  bool exportGraph(ostream &os) override {
-    pluginProgress->showPreview(false);
-    bool autoformatting = true;
-
-    if (dataSet != nullptr) {
-      dataSet->get("Makes SVG output human readable", autoformatting);
+    std::string icon() const override {
+        return ":/talipot/app/icons/32/export_svg.png";
     }
 
-    ExportSvg svg(pluginProgress, os, autoformatting);
-    bool ret = ReadGraph::readGraph(graph, dataSet, pluginProgress, svg);
-
-    if (!ret && autoformatting) {
-      pluginProgress->setError(pluginProgress->getError() +
-                               "<br/><br/>Human readable output is on. This adds a large amount of "
-                               "data to the output file. Try to disable it and try again.");
+    string fileExtension() const override {
+        return "svg";
     }
 
-    return ret;
-  }
+    SvgExport(tlp::PluginContext *context) : tlp::ExportModule(context) {
+        addInParameter<bool>("Edge color interpolation", paramHelp[0].data(), "false");
+        addInParameter<bool>("Edge size interpolation", paramHelp[1].data(), "true");
+        addInParameter<bool>("Edge extremities", paramHelp[2].data(), "false");
+        addInParameter<Color>("Background color", paramHelp[3].data(), "(255,255,255,255)");
+        addInParameter<bool>("No background", paramHelp[4].data(), "false");
+        addInParameter<bool>("Makes SVG output human readable", paramHelp[5].data(), "true");
+        addInParameter<bool>("Export node labels", paramHelp[6].data(), "true");
+        addInParameter<bool>("Export edge labels", paramHelp[7].data(), "false");
+        addInParameter<bool>("Export metanode labels", paramHelp[8].data(), "false");
+    }
+
+    bool exportGraph(ostream &os) override {
+        pluginProgress->showPreview(false);
+        bool autoformatting = true;
+
+        if (dataSet != nullptr) {
+            dataSet->get("Makes SVG output human readable", autoformatting);
+        }
+
+        ExportSvg svg(pluginProgress, os, autoformatting);
+        bool ret = ReadGraph::readGraph(graph, dataSet, pluginProgress, svg);
+
+        if (!ret && autoformatting) {
+            pluginProgress->setError(
+                pluginProgress->getError() +
+                "<br/><br/>Human readable output is on. This adds a large amount of "
+                "data to the output file. Try to disable it and try again.");
+        }
+
+        return ret;
+    }
 };
 PLUGIN(SvgExport)

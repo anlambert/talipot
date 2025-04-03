@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,42 +26,42 @@ class Graph;
 
 class GeolocationConfigWidget : public QWidget {
 
-  Q_OBJECT
-  Ui::GeolocationConfigWidget *_ui;
+    Q_OBJECT
+    Ui::GeolocationConfigWidget *_ui;
 
-public:
-  GeolocationConfigWidget(QWidget *parent = nullptr);
-  ~GeolocationConfigWidget() override;
+  public:
+    GeolocationConfigWidget(QWidget *parent = nullptr);
+    ~GeolocationConfigWidget() override;
 
-  void setGraph(Graph *graph);
+    void setGraph(Graph *graph);
 
-  void setLatLngGeoLocMethod(const std::string &latitudePropertyName,
-                             const std::string &longitudePropertyName);
+    void setLatLngGeoLocMethod(const std::string &latitudePropertyName,
+                               const std::string &longitudePropertyName);
 
-  void setEdgesPathsPropertyName(const std::string &edgesPathsPropertyName);
+    void setEdgesPathsPropertyName(const std::string &edgesPathsPropertyName);
 
-  bool geolocateByAddress() const;
+    bool geolocateByAddress() const;
 
-  bool createLatAndLngProperties() const;
+    bool createLatAndLngProperties() const;
 
-  bool resetLatAndLngValues() const;
+    bool resetLatAndLngValues() const;
 
-  std::string getAddressGraphPropertyName() const;
+    std::string getAddressGraphPropertyName() const;
 
-  std::string getLatitudeGraphPropertyName() const;
+    std::string getLatitudeGraphPropertyName() const;
 
-  std::string getLongitudeGraphPropertyName() const;
+    std::string getLongitudeGraphPropertyName() const;
 
-  bool useEdgesPaths() const;
+    bool useEdgesPaths() const;
 
-  std::string getEdgesPathsPropertyName() const;
+    std::string getEdgesPathsPropertyName() const;
 
-public slots:
+  public slots:
 
-  void enableDisableComboBoxes();
+    void enableDisableComboBoxes();
 
-signals:
-  void computeGeoLayout();
+  signals:
+    void computeGeoLayout();
 };
 }
 

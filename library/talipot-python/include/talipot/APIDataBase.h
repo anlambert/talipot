@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,30 +30,30 @@ DECLARE_DLL_TEMPLATE_INSTANCE(Singleton<APIDataBase>, TLP_PYTHON_TEMPLATE_DECLAR
 
 class TLP_PYTHON_SCOPE APIDataBase : public Singleton<APIDataBase> {
 
-  friend class Singleton<APIDataBase>;
+    friend class Singleton<APIDataBase>;
 
-  APIDataBase();
+    APIDataBase();
 
-  QHash<QString, QSet<QString>> _dictContent;
-  QHash<QString, QString> _returnType;
-  QHash<QString, QVector<QVector<QString>>> _paramTypes;
+    QHash<QString, QSet<QString>> _dictContent;
+    QHash<QString, QString> _returnType;
+    QHash<QString, QVector<QVector<QString>>> _paramTypes;
 
-public:
-  void loadApiFile(const QString &apiFilePath);
+  public:
+    void loadApiFile(const QString &apiFilePath);
 
-  void addApiEntry(const QString &apiEntry);
+    void addApiEntry(const QString &apiEntry);
 
-  QSet<QString> getTypesList() const;
-  QSet<QString> getDictContentForType(const QString &type, const QString &prefix = "") const;
-  QString getReturnTypeForMethodOrFunction(const QString &funcName) const;
-  QVector<QVector<QString>> getParamTypesForMethodOrFunction(const QString &funcName) const;
-  bool functionExists(const QString &funcName) const;
-  QVector<QString> findTypesContainingDictEntry(const QString &dictEntry) const;
-  QSet<QString> getAllDictEntriesStartingWithPrefix(const QString &prefix) const;
+    QSet<QString> getTypesList() const;
+    QSet<QString> getDictContentForType(const QString &type, const QString &prefix = "") const;
+    QString getReturnTypeForMethodOrFunction(const QString &funcName) const;
+    QVector<QVector<QString>> getParamTypesForMethodOrFunction(const QString &funcName) const;
+    bool functionExists(const QString &funcName) const;
+    QVector<QString> findTypesContainingDictEntry(const QString &dictEntry) const;
+    QSet<QString> getAllDictEntriesStartingWithPrefix(const QString &prefix) const;
 
-  bool typeExists(const QString &type) const;
-  QString getFullTypeName(const QString &type) const;
-  bool dictEntryExists(const QString &type, const QString &dictEntry) const;
+    bool typeExists(const QString &type) const;
+    QString getFullTypeName(const QString &type) const;
+    bool dictEntryExists(const QString &type, const QString &dictEntry) const;
 };
 }
 

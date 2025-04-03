@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,27 +26,27 @@ namespace tlp {
 
 class DoubleStringsListRelationDialog : public QDialog {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::DoubleStringsListRelationDialog *_ui;
+    Ui::DoubleStringsListRelationDialog *_ui;
 
-public:
-  DoubleStringsListRelationDialog(const std::vector<std::string> &firstValues,
-                                  const std::vector<Color> &secondValues,
-                                  QWidget *parent = nullptr);
-  ~DoubleStringsListRelationDialog() override;
-  void getResult(std::vector<std::pair<std::string, Color>> &result);
+  public:
+    DoubleStringsListRelationDialog(const std::vector<std::string> &firstValues,
+                                    const std::vector<Color> &secondValues,
+                                    QWidget *parent = nullptr);
+    ~DoubleStringsListRelationDialog() override;
+    void getResult(std::vector<std::pair<std::string, Color>> &result);
 
-private slots:
-  void upButtonClicked();
-  void downButtonClicked();
-  void upButtonColorClicked();
-  void downButtonColorClicked();
-  void scrollBarValueChanged(int value);
-  void interpolateCheckBoxChange(int state);
+  private slots:
+    void upButtonClicked();
+    void downButtonClicked();
+    void upButtonColorClicked();
+    void downButtonColorClicked();
+    void scrollBarValueChanged(int value);
+    void interpolateCheckBoxChange(int state);
 
-private:
-  std::vector<Color> lastNonInterpolateValues;
+  private:
+    std::vector<Color> lastNonInterpolateValues;
 };
 }
 

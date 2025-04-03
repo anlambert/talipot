@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,45 +23,45 @@ namespace tlp {
  */
 class TLP_SCOPE IconicFont {
 
-public:
-  /**
-   * Returns the location of the TrueType font file bundled with Talipot
-   * defining the icon with the given name
-   * @param iconName the name of the icon
-   */
-  static std::string getTTFLocation(const std::string &iconName);
+  public:
+    /**
+     * Returns the location of the TrueType font file bundled with Talipot
+     * defining the icon with the given name
+     * @param iconName the name of the icon
+     */
+    static std::string getTTFLocation(const std::string &iconName);
 
-  /**
-   * Returns the location of the .woff2 font file bundled with Talipot
-   * defining the icon with the given name
-   * @param iconName the name of the icon
-   */
-  static std::string getWOFF2Location(const std::string &iconName);
+    /**
+     * Returns the location of the .woff2 font file bundled with Talipot
+     * defining the icon with the given name
+     * @param iconName the name of the icon
+     */
+    static std::string getWOFF2Location(const std::string &iconName);
 
-  /**
-   * Checks if the provided icon name is supported
-   * @param iconName the name of the icon to check support
-   */
-  static bool isIconSupported(const std::string &iconName);
+    /**
+     * Checks if the provided icon name is supported
+     * @param iconName the name of the icon to check support
+     */
+    static bool isIconSupported(const std::string &iconName);
 
-  /**
-   * Returns the Unicode code point associated to an icon name
-   * @param iconName the name of the icon to get the codepoint
-   */
-  static uint getIconCodePoint(const std::string &iconName);
+    /**
+     * Returns the Unicode code point associated to an icon name
+     * @param iconName the name of the icon to get the codepoint
+     */
+    static uint getIconCodePoint(const std::string &iconName);
 
-  /**
-   * Returns the font family name associated to an icon name
-   * @param iconName the icon name
-   */
-  static std::string getIconFamily(const std::string &iconName);
+    /**
+     * Returns the font family name associated to an icon name
+     * @param iconName the icon name
+     */
+    static std::string getIconFamily(const std::string &iconName);
 
-  /**
-   * Returns an UTF-8 encoded string of a Font Awesome icon
-   * @param iconName the icon name
-   * @return
-   */
-  static std::string getIconUtf8String(const std::string &iconName);
+    /**
+     * Returns an UTF-8 encoded string of a Font Awesome icon
+     * @param iconName the icon name
+     * @return
+     */
+    static std::string getIconUtf8String(const std::string &iconName);
 };
 }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,9 +29,9 @@ namespace tlp {
  */
 template <typename T>
 struct CheckAllFunctor {
-  bool operator()(const T &) {
-    return true;
-  }
+    bool operator()(const T &) {
+        return true;
+    }
 };
 
 /**
@@ -58,59 +58,59 @@ struct CheckAllFunctor {
  **/
 template <typename T, typename CheckFunc = CheckAllFunctor<T>>
 class UniqueIterator : public Iterator<T> {
-public:
-  UniqueIterator(Iterator<T> *it, CheckFunc checkFunctor = CheckFunc())
-      : _it(it), _checkFunctor(checkFunctor) {
-    update();
-  }
-  //================================================
-  ~UniqueIterator() {
-    delete _it;
-  }
-  //================================================
-  T next() {
-    T tmp = curVal;
-    update();
-    return tmp;
-  }
-  //================================================
-  bool hasNext() {
-    return _hasNext;
-  }
-  //================================================
-  void update() {
-    _hasNext = false;
-
-    while (_it->hasNext()) {
-      curVal = _it->next();
-
-      if (_checkFunctor(curVal)) {
-        if (!_flag.contains(curVal)) {
-          _hasNext = true;
-          _flag.insert(curVal);
-          return;
-        }
-      } else {
-        _hasNext = true;
-        return;
-      }
+  public:
+    UniqueIterator(Iterator<T> *it, CheckFunc checkFunctor = CheckFunc())
+        : _it(it), _checkFunctor(checkFunctor) {
+        update();
     }
-  }
+    //================================================
+    ~UniqueIterator() {
+        delete _it;
+    }
+    //================================================
+    T next() {
+        T tmp = curVal;
+        update();
+        return tmp;
+    }
+    //================================================
+    bool hasNext() {
+        return _hasNext;
+    }
+    //================================================
+    void update() {
+        _hasNext = false;
 
-private:
-  std::set<T> _flag;
-  bool _hasNext;
-  Iterator<T> *_it;
-  T curVal;
-  CheckFunc _checkFunctor;
+        while (_it->hasNext()) {
+            curVal = _it->next();
+
+            if (_checkFunctor(curVal)) {
+                if (!_flag.contains(curVal)) {
+                    _hasNext = true;
+                    _flag.insert(curVal);
+                    return;
+                }
+            } else {
+                _hasNext = true;
+                return;
+            }
+        }
+    }
+
+  private:
+    std::set<T> _flag;
+    bool _hasNext;
+    Iterator<T> *_it;
+    T curVal;
+    CheckFunc _checkFunctor;
 };
 
 template <typename T, typename CheckFunc = CheckAllFunctor<T>>
 class MPUniqueIterator : public UniqueIterator<T, CheckFunc>,
                          public MemoryPool<MPUniqueIterator<T, CheckFunc>> {
-public:
-  MPUniqueIterator(Iterator<T> *it, CheckFunc checkFunctor = CheckFunc())
-      : UniqueIterator<T, CheckFunc>(it, checkFunctor) {}
+  public:
+    MPUniqueIterator(Iterator<T> *it, CheckFunc checkFunctor = CheckFunc())
+        : UniqueIterator<T, CheckFunc>(it, checkFunctor) {}
 };
 
 /**
@@ -129,7 +129,7 @@ public:
  **/
 template <typename T, typename CheckFunc = CheckAllFunctor<T>>
 inline Iterator<T> *uniqueIterator(Iterator<T> *it, CheckFunc checkFunctor = CheckFunc()) {
-  return new MPUniqueIterator<T, CheckFunc>(it, checkFunctor);
+    return new MPUniqueIterator<T, CheckFunc>(it, checkFunctor);
 }
 
 /**
@@ -148,8 +148,8 @@ inline Iterator<T> *uniqueIterator(Iterator<T> *it, CheckFunc checkFunctor = Che
 template <typename Container, typename CheckFunc = CheckAllFunctor<typename Container::value_type>>
 inline Iterator<typename Container::value_type> *
 uniqueIterator(const Container &stlContainer, CheckFunc checkFunctor = CheckFunc()) {
-  return new MPUniqueIterator<typename Container::value_type, CheckFunc>(stlIterator(stlContainer),
-                                                                         checkFunctor);
+    return new MPUniqueIterator<typename Container::value_type, CheckFunc>(
+        stlIterator(stlContainer), checkFunctor);
 }
 }
 #endif // TALIPOT_UNIQUE_ITERATOR_H

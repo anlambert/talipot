@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,12 +25,12 @@
   @list
   */
 class PluginErrorReport : public QLabel {
-public:
-  explicit PluginErrorReport(const QString &fileName, const QString &errorMsg,
-                             QWidget *parent = nullptr);
+  public:
+    explicit PluginErrorReport(const QString &fileName, const QString &errorMsg,
+                               QWidget *parent = nullptr);
 
-protected:
-  void focusInEvent(QFocusEvent *) override;
-  void focusOutEvent(QFocusEvent *) override;
+  protected:
+    void focusInEvent(QFocusEvent *) override;
+    void focusOutEvent(QFocusEvent *) override;
 };
 #endif // PLUGIN_ERROR_REPORT_H

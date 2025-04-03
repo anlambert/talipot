@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,50 +29,50 @@ namespace tlp {
 class CSVParser;
 
 class TLP_QT_SCOPE CSVParserConfigurationWidget : public QWidget {
-  Q_OBJECT
-public:
-  CSVParserConfigurationWidget(QWidget *parent = nullptr);
-  ~CSVParserConfigurationWidget() override;
-  /**
-   * @brief Generate a csv parser in function of the parameters in the widget. User define the
-   *range of line to import.
-   * The user takes the ownership of the widget.
-   **/
-  CSVParser *buildParser(uint firstLine = 0, uint lastLine = UINT_MAX) const;
+    Q_OBJECT
+  public:
+    CSVParserConfigurationWidget(QWidget *parent = nullptr);
+    ~CSVParserConfigurationWidget() override;
+    /**
+     * @brief Generate a csv parser in function of the parameters in the widget. User define the
+     *range of line to import.
+     * The user takes the ownership of the widget.
+     **/
+    CSVParser *buildParser(uint firstLine = 0, uint lastLine = UINT_MAX) const;
 
-  std::string getFile() const;
-  bool isValid() const;
-  QString getSeparator() const;
-  char getTextSeparator() const;
-  char getDecimalMark() const;
-  std::string getEncoding() const;
-  bool invertMatrix() const;
-  bool getMergeSeparator() const;
-  void initWithLastOpenedFile();
-  int getFirstLineIndex() const;
-  void setNbIgnoredLines(int);
-  void clearFile();
+    std::string getFile() const;
+    bool isValid() const;
+    QString getSeparator() const;
+    char getTextSeparator() const;
+    char getDecimalMark() const;
+    std::string getEncoding() const;
+    bool invertMatrix() const;
+    bool getMergeSeparator() const;
+    void initWithLastOpenedFile();
+    int getFirstLineIndex() const;
+    void setNbIgnoredLines(int);
+    void clearFile();
 
-public slots:
-  void setFileToOpen(const QString &fileToOpen);
+  public slots:
+    void setFileToOpen(const QString &fileToOpen);
 
-protected:
-  void fillEncodingComboBox();
+  protected:
+    void fillEncodingComboBox();
 
-protected slots:
-  void changeFileNameButtonPressed();
-  void encodingChanged();
-  void changeSeparator(int index);
-  void ignoreFirstLines(int checkState);
+  protected slots:
+    void changeFileNameButtonPressed();
+    void encodingChanged();
+    void changeSeparator(int index);
+    void ignoreFirstLines(int checkState);
 
-private:
-  QString getSeparator(int index) const;
+  private:
+    QString getSeparator(int index) const;
 
-  Ui::CSVParserConfigurationWidget *ui;
-  static QString lastOpenedFile;
+    Ui::CSVParserConfigurationWidget *ui;
+    static QString lastOpenedFile;
 
-signals:
-  void parserChanged();
+  signals:
+    void parserChanged();
 };
 }
 #endif // TALIPOT_CSV_PARSER_CONFIGURATION_WIDGET_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,34 +21,34 @@
 
 class TLP_QT_SCOPE TreeViewComboBox : public QComboBox {
 
-  Q_OBJECT
-  QTreeView *_treeView;
-  bool _popupVisible;
-  QModelIndex _lastIndex;
+    Q_OBJECT
+    QTreeView *_treeView;
+    bool _popupVisible;
+    QModelIndex _lastIndex;
 
-public:
-  explicit TreeViewComboBox(QWidget *parent = nullptr);
+  public:
+    explicit TreeViewComboBox(QWidget *parent = nullptr);
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-  void setModel(QAbstractItemModel *model);
+    void setModel(QAbstractItemModel *model);
 #else
-  void setModel(QAbstractItemModel *model) override;
+    void setModel(QAbstractItemModel *model) override;
 #endif
 
-  void showPopup() override;
-  void hidePopup() override;
+    void showPopup() override;
+    void hidePopup() override;
 
-  QModelIndex selectedIndex() const;
+    QModelIndex selectedIndex() const;
 
-public slots:
+  public slots:
 
-  void selectIndex(const QModelIndex &);
-  void rowsRemoved(const QModelIndex &, int, int);
-  void currentIndexChanged();
+    void selectIndex(const QModelIndex &);
+    void rowsRemoved(const QModelIndex &, int, int);
+    void currentIndexChanged();
 
-signals:
+  signals:
 
-  void currentItemChanged();
+    void currentItemChanged();
 };
 
 #endif // TALIPOT_TREE_VIEW_COMBO_BOX_H

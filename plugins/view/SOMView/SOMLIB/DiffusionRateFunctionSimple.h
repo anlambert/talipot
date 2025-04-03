@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,14 +17,14 @@
 #include "DiffusionRateFunction.h"
 
 class DiffusionRateFunctionSimple : public DiffusionRateFunction {
-public:
-  DiffusionRateFunctionSimple(TimeDecreasingFunction *timeFunction, unsigned int neighborhood);
-  ~DiffusionRateFunctionSimple() override;
-  double computeSpaceRate(unsigned int distance, unsigned int currentIteration,
-                          unsigned int maxIteration, unsigned int inputSampleSize) override;
+  public:
+    DiffusionRateFunctionSimple(TimeDecreasingFunction *timeFunction, unsigned int neighborhood);
+    ~DiffusionRateFunctionSimple() override;
+    double computeSpaceRate(unsigned int distance, unsigned int currentIteration,
+                            unsigned int maxIteration, unsigned int inputSampleSize) override;
 
-protected:
-  unsigned int neighborhoodMax;
+  protected:
+    unsigned int neighborhoodMax;
 };
 
 #endif // DIFFUSION_RATE_FUNCTION_SIMPLE_H

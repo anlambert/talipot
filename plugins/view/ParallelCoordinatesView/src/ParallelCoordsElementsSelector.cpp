@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,17 +20,17 @@ namespace tlp {
 
 void ParallelCoordsElementsSelector::unselectAllEntitiesHandler(
     ParallelCoordinatesView *parallelView) {
-  parallelView->resetSelection();
+    parallelView->resetSelection();
 }
 
 void ParallelCoordsElementsSelector::selectedEntitiesHandler(ParallelCoordinatesView *parallelView,
                                                              int x, int y, bool addToSelection) {
-  parallelView->setDataUnderPointerSelectFlag(x, y, addToSelection);
+    parallelView->setDataUnderPointerSelectFlag(x, y, addToSelection);
 }
 
 void ParallelCoordsElementsSelector::selectedEntitiesHandler(ParallelCoordinatesView *parallelView,
                                                              int x, int y, int w, int h,
                                                              bool addToSelection) {
-  parallelView->setDataInRegionSelectFlag(x, y, w, h, addToSelection);
+    parallelView->setDataInRegionSelectFlag(x, y, w, h, addToSelection);
 }
 }

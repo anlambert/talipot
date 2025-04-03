@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,24 +21,24 @@
 #include "CppUnitIncludes.h"
 
 class FaceIteratorTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(FaceIteratorTest);
-  CPPUNIT_TEST(testNodeFaceIterator);
-  CPPUNIT_TEST(testFaceAdjIterator);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(FaceIteratorTest);
+    CPPUNIT_TEST(testNodeFaceIterator);
+    CPPUNIT_TEST(testFaceAdjIterator);
+    CPPUNIT_TEST_SUITE_END();
 
-private:
-  tlp::Graph *graph;
-  tlp::PlanarConMap *map;
+  private:
+    tlp::Graph *graph;
+    tlp::PlanarConMap *map;
 
-  std::vector<tlp::edge> edges;
-  std::vector<tlp::node> nodes;
+    std::vector<tlp::edge> edges;
+    std::vector<tlp::node> nodes;
 
-public:
-  void setUp();
-  void tearDown();
+  public:
+    void setUp();
+    void tearDown();
 
-  void testNodeFaceIterator();
-  void testFaceAdjIterator();
+    void testNodeFaceIterator();
+    void testFaceAdjIterator();
 };
 
 #endif // FACE_ITERATOR_TEST_H

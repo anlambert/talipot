@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2024  The Talipot developers
+ * Copyright (C) 2024-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,23 +17,23 @@
 #include <QGeoView/QGVLayerTilesOnline.h>
 
 enum class EsriMapType {
-  Satellite,
-  Terrain,
-  GrayCanvas,
+    Satellite,
+    Terrain,
+    GrayCanvas,
 };
 
 class QGVLayerEsri : public QGVLayerTilesOnline {
 
-public:
-  explicit QGVLayerEsri(EsriMapType type = EsriMapType::Satellite);
+  public:
+    explicit QGVLayerEsri(EsriMapType type = EsriMapType::Satellite);
 
-private:
-  int minZoomlevel() const override;
-  int maxZoomlevel() const override;
-  QString tilePosToUrl(const QGV::GeoTilePos &tilePos) const override;
+  private:
+    int minZoomlevel() const override;
+    int maxZoomlevel() const override;
+    QString tilePosToUrl(const QGV::GeoTilePos &tilePos) const override;
 
-private:
-  EsriMapType type;
+  private:
+    EsriMapType type;
 };
 
 #endif // QGVLAYERESRI_H

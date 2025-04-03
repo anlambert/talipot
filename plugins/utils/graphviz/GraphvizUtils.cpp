@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,58 +21,58 @@ using namespace tlp;
 
 static Color HSBtoRGB(unsigned char H, unsigned char S, unsigned char B) {
 
-  float inH = float(H) / 255.f;
-  float inS = float(S) / 255.f;
-  float inB = float(B) / 255.f;
+    float inH = float(H) / 255.f;
+    float inS = float(S) / 255.f;
+    float inB = float(B) / 255.f;
 
-  float outR, outG, outB;
+    float outR, outG, outB;
 
-  if (inS == 0.0f) {
-    outR = outG = outB = inB * 255.0f;
-  } else {
-    float _h = inH * 6.0f, _i = int(_h), _1 = inB * (1.0f - inS),
-          _2 = inB * (1.0f - inS * (_h - _i)), _3 = inB * (1.0f - inS * (1.0f - (_h - _i)));
+    if (inS == 0.0f) {
+        outR = outG = outB = inB * 255.0f;
+    } else {
+        float _h = inH * 6.0f, _i = int(_h), _1 = inB * (1.0f - inS),
+              _2 = inB * (1.0f - inS * (_h - _i)), _3 = inB * (1.0f - inS * (1.0f - (_h - _i)));
 
-    switch (int(_i)) {
-    case 0:
-      outR = inB * 255.0f;
-      outG = _3 * 255.0f;
-      outB = _1 * 255.0f;
-      break;
+        switch (int(_i)) {
+        case 0:
+            outR = inB * 255.0f;
+            outG = _3 * 255.0f;
+            outB = _1 * 255.0f;
+            break;
 
-    case 1:
-      outR = _2 * 255.0f;
-      outG = inB * 255.0f;
-      outB = _1 * 255.0f;
-      break;
+        case 1:
+            outR = _2 * 255.0f;
+            outG = inB * 255.0f;
+            outB = _1 * 255.0f;
+            break;
 
-    case 2:
-      outR = _1 * 255.0f;
-      outG = inB * 255.0f;
-      outB = _3 * 255.0f;
-      break;
+        case 2:
+            outR = _1 * 255.0f;
+            outG = inB * 255.0f;
+            outB = _3 * 255.0f;
+            break;
 
-    case 3:
-      outR = _1 * 255.0f;
-      outG = _2 * 255.0f;
-      outB = inB * 255.0f;
-      break;
+        case 3:
+            outR = _1 * 255.0f;
+            outG = _2 * 255.0f;
+            outB = inB * 255.0f;
+            break;
 
-    case 4:
-      outR = _3 * 255.0f;
-      outG = _1 * 255.0f;
-      outB = inB * 255.0f;
-      break;
+        case 4:
+            outR = _3 * 255.0f;
+            outG = _1 * 255.0f;
+            outB = inB * 255.0f;
+            break;
 
-    default:
-      outR = inB * 255.0f;
-      outG = _1 * 255.0f;
-      outB = _2 * 255.0f;
-      break;
+        default:
+            outR = inB * 255.0f;
+            outG = _1 * 255.0f;
+            outB = _2 * 255.0f;
+            break;
+        }
     }
-  }
 
-  return Color(outR, outG, outB);
+    return Color(outR, outG, outB);
 }
 
 static flat_hash_map<string, Color> X11Colors = {
@@ -731,73 +731,75 @@ static flat_hash_map<string, Color> X11Colors = {
 };
 
 bool decodeGraphvizColor(Color &outColor, const string &inValue) {
-  // #RRGGBBAA ?
-  {
-    if (inValue.size() >= 7 && inValue[0] == '#') {
-      uint r, g, b, a = 255;
-      int n = sscanf(inValue.c_str(), "#%02x%02x%02x%02x", &r, &g, &b, &a);
+    // #RRGGBBAA ?
+    {
+        if (inValue.size() >= 7 && inValue[0] == '#') {
+            uint r, g, b, a = 255;
+            int n = sscanf(inValue.c_str(), "#%02x%02x%02x%02x", &r, &g, &b, &a);
 
-      if (n == 3 || n == 4) {
-        outColor = Color(r, g, b, a);
-        return true;
-      } else {
-        return false;
-      }
+            if (n == 3 || n == 4) {
+                outColor = Color(r, g, b, a);
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
-  }
 
-  // %f,%f,%f,%f ?
-  {
-    float r, g, b, a = 1;
-    int n = sscanf(inValue.c_str(), "%f,%f,%f,%f", &r, &g, &b, &a);
+    // %f,%f,%f,%f ?
+    {
+        float r, g, b, a = 1;
+        int n = sscanf(inValue.c_str(), "%f,%f,%f,%f", &r, &g, &b, &a);
 
-    if (n == 3 || n == 4) {
-      outColor = Color(uchar(r * 255.0f), uchar(g * 255.0f), uchar(b * 255.0f), uchar(a * 255.0f));
-      return true;
+        if (n == 3 || n == 4) {
+            outColor =
+                Color(uchar(r * 255.0f), uchar(g * 255.0f), uchar(b * 255.0f), uchar(a * 255.0f));
+            return true;
+        }
     }
-  }
 
-  // %f %f %f %f ?
-  {
-    float r, g, b, a = 1;
-    int n = sscanf(inValue.c_str(), "%f %f %f %f", &r, &g, &b, &a);
+    // %f %f %f %f ?
+    {
+        float r, g, b, a = 1;
+        int n = sscanf(inValue.c_str(), "%f %f %f %f", &r, &g, &b, &a);
 
-    if (n == 3 || n == 4) {
-      outColor = Color(uchar(r * 255.0f), uchar(g * 255.0f), uchar(b * 255.0f), uchar(a * 255.0f));
-      return true;
+        if (n == 3 || n == 4) {
+            outColor =
+                Color(uchar(r * 255.0f), uchar(g * 255.0f), uchar(b * 255.0f), uchar(a * 255.0f));
+            return true;
+        }
     }
-  }
 
-  // x11 name ?
-  {
-    if (X11Colors.contains(inValue)) {
-      outColor = X11Colors[inValue];
-      return true;
+    // x11 name ?
+    {
+        if (X11Colors.contains(inValue)) {
+            outColor = X11Colors[inValue];
+            return true;
+        }
     }
-  }
 
-  return false;
+    return false;
 }
 
 bool getCoordFromGraphvizPos(Coord &outCoord, const string &inValue) {
-  int n = sscanf(inValue.c_str(), "%f,%f,%f", &outCoord[0], &outCoord[1], &outCoord[2]);
-  return n >= 2;
+    int n = sscanf(inValue.c_str(), "%f,%f,%f", &outCoord[0], &outCoord[1], &outCoord[2]);
+    return n >= 2;
 }
 
 bool getCoordsFromGraphvizPos(vector<Coord> &outCoords, const string &inValue) {
-  outCoords.clear();
-  vector<string> points = tokenize(inValue);
-  for (const auto &point : points) {
-    // skip anchor points
-    if (point[0] == 'e' || point[1] == 's') {
-      continue;
+    outCoords.clear();
+    vector<string> points = tokenize(inValue);
+    for (const auto &point : points) {
+        // skip anchor points
+        if (point[0] == 'e' || point[1] == 's') {
+            continue;
+        }
+        Coord coord;
+        if (getCoordFromGraphvizPos(coord, point)) {
+            outCoords.push_back(coord);
+        } else {
+            return false;
+        }
     }
-    Coord coord;
-    if (getCoordFromGraphvizPos(coord, point)) {
-      outCoords.push_back(coord);
-    } else {
-      return false;
-    }
-  }
-  return true;
+    return true;
 }

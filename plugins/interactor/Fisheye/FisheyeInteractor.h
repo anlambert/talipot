@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,33 +30,33 @@ class GlShaderProgram;
 
 class FisheyeInteractorComponent : public GLInteractorComponent {
 
-public:
-  FisheyeInteractorComponent(FisheyeConfigWidget *configWidget);
-  FisheyeInteractorComponent(const FisheyeInteractorComponent &fisheyeInteractorComponent);
-  ~FisheyeInteractorComponent();
+  public:
+    FisheyeInteractorComponent(FisheyeConfigWidget *configWidget);
+    FisheyeInteractorComponent(const FisheyeInteractorComponent &fisheyeInteractorComponent);
+    ~FisheyeInteractorComponent();
 
-  bool eventFilter(QObject *widget, QEvent *e) override;
+    bool eventFilter(QObject *widget, QEvent *e) override;
 
-  bool compute(GlWidget *) override {
-    return false;
-  }
+    bool compute(GlWidget *) override {
+        return false;
+    }
 
-  void viewChanged(View *view) override;
+    void viewChanged(View *view) override;
 
-  bool draw(GlWidget *glWidget) override;
+    bool draw(GlWidget *glWidget) override;
 
-private:
-  void generateFisheyeTexture(GlWidget *glWidget);
+  private:
+    void generateFisheyeTexture(GlWidget *glWidget);
 
-  FisheyeConfigWidget *_configWidget;
-  bool _activateFisheye;
-  int _x;
-  int _y;
-  QOpenGLFramebufferObject *_fbo = nullptr;
-  QOpenGLFramebufferObject *_fbo2 = nullptr;
-  std::string _fboTextureId;
-  static std::unique_ptr<GlShaderProgram> fisheyeShader;
-  inline static int _maxTextureSize = 0;
+    FisheyeConfigWidget *_configWidget;
+    bool _activateFisheye;
+    int _x;
+    int _y;
+    QOpenGLFramebufferObject *_fbo = nullptr;
+    QOpenGLFramebufferObject *_fbo2 = nullptr;
+    std::string _fboTextureId;
+    static std::unique_ptr<GlShaderProgram> fisheyeShader;
+    inline static int _maxTextureSize = 0;
 };
 
 /** \file
@@ -72,27 +72,27 @@ private:
  */
 class FisheyeInteractor : public GLInteractorComposite {
 
-public:
-  PLUGININFORMATION("FisheyeInteractor", "Antoine Lambert", "29/05/2009", "Fisheye Interactor",
-                    "1.0", "Visualization")
+  public:
+    PLUGININFORMATION("FisheyeInteractor", "Antoine Lambert", "29/05/2009", "Fisheye Interactor",
+                      "1.0", "Visualization")
 
-  FisheyeInteractor(const PluginContext *);
-  ~FisheyeInteractor() override;
+    FisheyeInteractor(const PluginContext *);
+    ~FisheyeInteractor() override;
 
-  void construct() override;
+    void construct() override;
 
-  void uninstall() override;
+    void uninstall() override;
 
-  QWidget *configurationWidget() const override;
+    QWidget *configurationWidget() const override;
 
-  uint priority() const override {
-    return StandardInteractorPriority::Fisheye;
-  }
+    uint priority() const override {
+        return StandardInteractorPriority::Fisheye;
+    }
 
-  bool isCompatible(const std::string &viewName) const override;
+    bool isCompatible(const std::string &viewName) const override;
 
-private:
-  FisheyeConfigWidget *fisheyeConfigWidget;
+  private:
+    FisheyeConfigWidget *fisheyeConfigWidget;
 };
 }
 

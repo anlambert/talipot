@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,70 +33,72 @@ class GlBox;
 
 struct TLP_GL_SCOPE NodeGlyphData {
 
-  NodeGlyphData() = default;
+    NodeGlyphData() = default;
 
-  NodeGlyphData(Glyph *glyph, node n, float lod, const Coord &nodePos, const Size &nodeSize,
-                float nodeRot, bool selected)
-      : glyph(glyph), n(n), lod(lod), nodePos(nodePos), nodeSize(nodeSize), nodeRot(nodeRot),
-        selected(selected) {}
+    NodeGlyphData(Glyph *glyph, node n, float lod, const Coord &nodePos, const Size &nodeSize,
+                  float nodeRot, bool selected)
+        : glyph(glyph), n(n), lod(lod), nodePos(nodePos), nodeSize(nodeSize), nodeRot(nodeRot),
+          selected(selected) {}
 
-  Glyph *glyph;
-  node n;
-  float lod;
-  Coord nodePos;
-  Size nodeSize;
-  float nodeRot;
-  bool selected;
+    Glyph *glyph;
+    node n;
+    float lod;
+    Coord nodePos;
+    Size nodeSize;
+    float nodeRot;
+    bool selected;
 };
 
 struct TLP_GL_SCOPE EdgeExtremityGlyphData {
 
-  EdgeExtremityGlyphData() = default;
+    EdgeExtremityGlyphData() = default;
 
-  EdgeExtremityGlyphData(EdgeExtremityGlyph *glyph, edge e, node source, Color glyphColor,
-                         Color glyphBorderColor, float lod, Coord beginAnchor, Coord srcAnchor,
-                         Size size, bool selected)
-      : glyph(glyph), e(e), source(source), glyphColor(glyphColor),
-        glyphBorderColor(glyphBorderColor), lod(lod), beginAnchor(beginAnchor),
-        srcAnchor(srcAnchor), size(size), selected(selected) {}
+    EdgeExtremityGlyphData(EdgeExtremityGlyph *glyph, edge e, node source, Color glyphColor,
+                           Color glyphBorderColor, float lod, Coord beginAnchor, Coord srcAnchor,
+                           Size size, bool selected)
+        : glyph(glyph), e(e), source(source), glyphColor(glyphColor),
+          glyphBorderColor(glyphBorderColor), lod(lod), beginAnchor(beginAnchor),
+          srcAnchor(srcAnchor), size(size), selected(selected) {}
 
-  EdgeExtremityGlyph *glyph;
-  edge e;
-  node source;
-  Color glyphColor;
-  Color glyphBorderColor;
-  float lod;
-  Coord beginAnchor;
-  Coord srcAnchor;
-  Size size;
-  bool selected;
+    EdgeExtremityGlyph *glyph;
+    edge e;
+    node source;
+    Color glyphColor;
+    Color glyphBorderColor;
+    float lod;
+    Coord beginAnchor;
+    Coord srcAnchor;
+    Size size;
+    bool selected;
 };
 
 class TLP_GL_SCOPE GlGlyphRenderer {
 
-public:
-  GlGlyphRenderer(GlGraphInputData *inputData) : _inputData(inputData), _renderingStarted(false) {}
+  public:
+    GlGlyphRenderer(GlGraphInputData *inputData)
+        : _inputData(inputData), _renderingStarted(false) {}
 
-  void startRendering();
+    void startRendering();
 
-  bool renderingHasStarted() const;
+    bool renderingHasStarted() const;
 
-  void addNodeGlyphRendering(Glyph *glyph, node n, float lod, const Coord &nodePos,
-                             const Size &nodeSize, float nodeRot, bool selected);
+    void addNodeGlyphRendering(Glyph *glyph, node n, float lod, const Coord &nodePos,
+                               const Size &nodeSize, float nodeRot, bool selected);
 
-  void addEdgeExtremityGlyphRendering(EdgeExtremityGlyph *glyph, edge e, node source,
-                                      Color glyphColor, Color glyphBorderColor, float lod,
-                                      Coord beginAnchor, Coord srcAnchor, Size size, bool selected);
+    void addEdgeExtremityGlyphRendering(EdgeExtremityGlyph *glyph, edge e, node source,
+                                        Color glyphColor, Color glyphBorderColor, float lod,
+                                        Coord beginAnchor, Coord srcAnchor, Size size,
+                                        bool selected);
 
-  void endRendering();
+    void endRendering();
 
-private:
-  GlGraphInputData *_inputData;
-  bool _renderingStarted;
-  std::vector<NodeGlyphData> _nodeGlyphsToRender;
-  std::vector<EdgeExtremityGlyphData> _edgeExtremityGlyphsToRender;
-  static std::unique_ptr<GlShaderProgram> _glyphShader;
-  static std::unique_ptr<GlBox> _selectionBox;
+  private:
+    GlGraphInputData *_inputData;
+    bool _renderingStarted;
+    std::vector<NodeGlyphData> _nodeGlyphsToRender;
+    std::vector<EdgeExtremityGlyphData> _edgeExtremityGlyphsToRender;
+    static std::unique_ptr<GlShaderProgram> _glyphShader;
+    static std::unique_ptr<GlBox> _selectionBox;
 };
 }
 

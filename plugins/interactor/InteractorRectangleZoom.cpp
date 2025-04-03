@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,40 +27,42 @@ using namespace tlp;
  */
 class InteractorRectangleZoom : public NodeLinkDiagramViewInteractor {
 
-public:
-  PLUGININFORMATION("InteractorRectangleZoom", "Tulip Team", "01/04/2009",
-                    "Rectangle Zoom Interactor", "1.0", "Navigation")
-  /**
-   * Default constructor
-   */
-  InteractorRectangleZoom(const tlp::PluginContext *)
-      : NodeLinkDiagramViewInteractor(interactorIcon(InteractorType::RectangleZoom),
-                                      "Zoom on rectangle",
-                                      StandardInteractorPriority::ZoomOnRectangle) {}
+  public:
+    PLUGININFORMATION("InteractorRectangleZoom", "Tulip Team", "01/04/2009",
+                      "Rectangle Zoom Interactor", "1.0", "Navigation")
+    /**
+     * Default constructor
+     */
+    InteractorRectangleZoom(const tlp::PluginContext *)
+        : NodeLinkDiagramViewInteractor(interactorIcon(InteractorType::RectangleZoom),
+                                        "Zoom on rectangle",
+                                        StandardInteractorPriority::ZoomOnRectangle) {}
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override {
-    setConfigurationWidgetText(QString("<h3>Zoom on rectangle</h3>") +
-                               "Zoom on selected rectangle.<br><b>Mouse left</b> down indicates "
-                               "the first corner.<br> <b>Mouse left</b> up indicates the opposite "
-                               "corner.<br> <b>Mouse left Doucle click</b> to center the view.");
-    push_back(new MousePanNZoomNavigator);
-    push_back(new MouseBoxZoomer);
-  }
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override {
+        setConfigurationWidgetText(
+            QString("<h3>Zoom on rectangle</h3>") +
+            "Zoom on selected rectangle.<br><b>Mouse left</b> down indicates "
+            "the first corner.<br> <b>Mouse left</b> up indicates the opposite "
+            "corner.<br> <b>Mouse left Doucle click</b> to center the view.");
+        push_back(new MousePanNZoomNavigator);
+        push_back(new MouseBoxZoomer);
+    }
 
-  QCursor cursor() const override {
-    return QCursor(Qt::CrossCursor);
-  }
+    QCursor cursor() const override {
+        return QCursor(Qt::CrossCursor);
+    }
 
-  bool isCompatible(const std::string &viewName) const override {
-    return ((viewName == NodeLinkDiagramView::viewName) ||
-            (viewName == ViewName::HistogramViewName) || (viewName == ViewName::MatrixViewName) ||
-            (viewName == ViewName::ParallelCoordinatesViewName) ||
-            (viewName == ViewName::PixelOrientedViewName) ||
-            (viewName == ViewName::ScatterPlot2DViewName));
-  }
+    bool isCompatible(const std::string &viewName) const override {
+        return ((viewName == NodeLinkDiagramView::viewName) ||
+                (viewName == ViewName::HistogramViewName) ||
+                (viewName == ViewName::MatrixViewName) ||
+                (viewName == ViewName::ParallelCoordinatesViewName) ||
+                (viewName == ViewName::PixelOrientedViewName) ||
+                (viewName == ViewName::ScatterPlot2DViewName));
+    }
 };
 
 PLUGIN(InteractorRectangleZoom)

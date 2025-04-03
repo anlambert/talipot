@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,94 +20,94 @@ namespace tlp {
 
 bool ParallelCoordsGlEntitiesSelector::eventFilter(QObject *widget, QEvent *e) {
 
-  auto *parallelView = static_cast<ParallelCoordinatesView *>(view());
-  auto *glWidget = static_cast<GlWidget *>(widget);
+    auto *parallelView = static_cast<ParallelCoordinatesView *>(view());
+    auto *glWidget = static_cast<GlWidget *>(widget);
 
-  if (e->type() == QEvent::MouseButtonPress) {
+    if (e->type() == QEvent::MouseButtonPress) {
 
-    auto *qMouseEv = static_cast<QMouseEvent *>(e);
+        auto *qMouseEv = static_cast<QMouseEvent *>(e);
 
-    if (qMouseEv->buttons() == Qt::LeftButton) {
+        if (qMouseEv->buttons() == Qt::LeftButton) {
 
-      if (!started) {
-        x = qMouseEv->pos().x();
-        y = qMouseEv->pos().y();
-        w = 0;
-        h = 0;
-        started = true;
-        graph = glWidget->inputData()->graph();
-      }
+            if (!started) {
+                x = qMouseEv->pos().x();
+                y = qMouseEv->pos().y();
+                w = 0;
+                h = 0;
+                started = true;
+                graph = glWidget->inputData()->graph();
+            }
 
-      return true;
+            return true;
+        }
     }
-  }
 
-  if (e->type() == QEvent::MouseMove) {
+    if (e->type() == QEvent::MouseMove) {
 
-    auto *qMouseEv = static_cast<QMouseEvent *>(e);
+        auto *qMouseEv = static_cast<QMouseEvent *>(e);
 
-    if (qMouseEv->buttons() & Qt::LeftButton && started) {
-      if ((qMouseEv->pos().x() > 0) && (qMouseEv->pos().x() < glWidget->width())) {
-        w = qMouseEv->pos().x() - x;
-      }
+        if (qMouseEv->buttons() & Qt::LeftButton && started) {
+            if ((qMouseEv->pos().x() > 0) && (qMouseEv->pos().x() < glWidget->width())) {
+                w = qMouseEv->pos().x() - x;
+            }
 
-      if ((qMouseEv->pos().y() > 0) && (qMouseEv->pos().y() < glWidget->height())) {
-        h = qMouseEv->pos().y() - y;
-      }
+            if ((qMouseEv->pos().y() > 0) && (qMouseEv->pos().y() < glWidget->height())) {
+                h = qMouseEv->pos().y() - y;
+            }
 
-      parallelView->refresh();
-      return true;
+            parallelView->refresh();
+            return true;
+        }
     }
-  }
 
-  if (e->type() == QEvent::MouseButtonRelease) {
+    if (e->type() == QEvent::MouseButtonRelease) {
 
-    auto *qMouseEv = static_cast<QMouseEvent *>(e);
+        auto *qMouseEv = static_cast<QMouseEvent *>(e);
 
-    if (started) {
-      Observable::holdObservers();
-      bool boolVal = true; // add to selection
+        if (started) {
+            Observable::holdObservers();
+            bool boolVal = true; // add to selection
 
-      if (qMouseEv->modifiers() != Qt::ControlModifier) {
-        if (qMouseEv->modifiers() !=
+            if (qMouseEv->modifiers() != Qt::ControlModifier) {
+                if (qMouseEv->modifiers() !=
 #if defined(__APPLE__)
-            Qt::AltModifier
+                    Qt::AltModifier
 #else
-            Qt::ShiftModifier
+                    Qt::ShiftModifier
 #endif
-        ) {
+                ) {
 
-          unselectAllEntitiesHandler(parallelView);
+                    unselectAllEntitiesHandler(parallelView);
 
-        } else
-          boolVal = false; // remove from selection
-      }
+                } else
+                    boolVal = false; // remove from selection
+            }
 
-      if ((w == 0) && (h == 0)) {
+            if ((w == 0) && (h == 0)) {
 
-        selectedEntitiesHandler(parallelView, x, y, boolVal);
+                selectedEntitiesHandler(parallelView, x, y, boolVal);
 
-      } else {
+            } else {
 
-        if (w < 0) {
-          w *= -1;
-          x -= w;
+                if (w < 0) {
+                    w *= -1;
+                    x -= w;
+                }
+
+                if (h < 0) {
+                    h *= -1;
+                    y -= h;
+                }
+
+                selectedEntitiesHandler(parallelView, x, y, w, h, boolVal);
+            }
+
+            started = false;
+            Observable::unholdObservers();
+            return true;
         }
-
-        if (h < 0) {
-          h *= -1;
-          y -= h;
-        }
-
-        selectedEntitiesHandler(parallelView, x, y, w, h, boolVal);
-      }
-
-      started = false;
-      Observable::unholdObservers();
-      return true;
     }
-  }
 
-  return false;
+    return false;
 }
 }

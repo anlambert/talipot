@@ -4,11 +4,11 @@ using namespace tlp;
 using namespace std;
 
 class CliqueImport : public tlp::ImportModule {
-public:
-  PLUGININFORMATION("Clique", "Tulip Team", "05/10/2012", "Clique Import Plugin", "1.0", "Graph")
-  CliqueImport(tlp::PluginContext *context);
-  ~CliqueImport();
-  bool importGraph();
+  public:
+    PLUGININFORMATION("Clique", "Tulip Team", "05/10/2012", "Clique Import Plugin", "1.0", "Graph")
+    CliqueImport(tlp::PluginContext *context);
+    ~CliqueImport();
+    bool importGraph();
 };
 
 PLUGIN(CliqueImport)
@@ -18,44 +18,45 @@ PLUGIN(CliqueImport)
 const char *nodeCountDescription = "How many nodes the clique will contain";
 
 CliqueImport::CliqueImport(tlp::PluginContext *context) : ImportModule(context) {
-  // how many nodes we want in our clique
-  addInParameter<uint>("nodeCount", nodeCountDescription, "5");
+    // how many nodes we want in our clique
+    addInParameter<uint>("nodeCount", nodeCountDescription, "5");
 
-  // depend on the circular layout, as it is the most obvious choice to draw a clique
-  addDependency("Circular", "1.1");
+    // depend on the circular layout, as it is the most obvious choice to draw a clique
+    addDependency("Circular", "1.1");
 }
 
 CliqueImport::~CliqueImport() = default;
 
 bool CliqueImport::importGraph() {
-  // retrieve the number of nodes we need to create
-  uint nodeCount = 5;
-  dataSet->get("nodeCount", nodeCount);
+    // retrieve the number of nodes we need to create
+    uint nodeCount = 5;
+    dataSet->get("nodeCount", nodeCount);
 
-  // create the nodes
-  for (uint i = 0; i < nodeCount; ++i) {
-    graph->addNode();
-  }
-
-  /*
-   * This could be done more efficiently by using a vector of nodes and iterating over the indices,
-   * but we don't really care about performances in this case, do we ?
-   */
-
-  // double iteration over the graph's nodes.
-  for (auto current : graph->nodes()) {
-    for (auto other : graph->nodes()) {
-      if (current != other) {
-        graph->addEdge(current, other);
-      }
+    // create the nodes
+    for (uint i = 0; i < nodeCount; ++i) {
+        graph->addNode();
     }
-  }
 
-  // apply the circular algorithm on the clique to make it look good (at least better than 'Random')
-  LayoutProperty *layout = graph->getLayoutProperty("viewLayout");
-  string message;
-  graph->applyPropertyAlgorithm("Circular", layout, message);
+    /*
+     * This could be done more efficiently by using a vector of nodes and iterating over the
+     * indices, but we don't really care about performances in this case, do we ?
+     */
 
-  // no way in hell this can fail.
-  return true;
+    // double iteration over the graph's nodes.
+    for (auto current : graph->nodes()) {
+        for (auto other : graph->nodes()) {
+            if (current != other) {
+                graph->addEdge(current, other);
+            }
+        }
+    }
+
+    // apply the circular algorithm on the clique to make it look good (at least better than
+    // 'Random')
+    LayoutProperty *layout = graph->getLayoutProperty("viewLayout");
+    string message;
+    graph->applyPropertyAlgorithm("Circular", layout, message);
+
+    // no way in hell this can fail.
+    return true;
 }

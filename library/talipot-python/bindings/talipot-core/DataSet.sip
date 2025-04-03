@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,108 +22,109 @@ extern bool setDataSetEntryFromPyObject(tlp::DataSet *dataSet, const std::string
 
 %ModuleCode
 PyObject *convertTlpDataSetToPyDict(const tlp::DataSet &dataSet, PyObject *dict) {
-  if (!dict)
-    dict = PyDict_New();
-  for (const std::pair<std::string, tlp::DataType *> &entry : dataSet.getValues()) {
-    PyObject *key =
-        sipConvertFromNewType(new std::string(entry.first), sipFindType("std::string"), NULL);
-    PyObject *val = NULL;
-    if (entry.second->getTypeName() == std::string(typeid(tlp::StringCollection).name())) {
-      tlp::StringCollection *sc = static_cast<tlp::StringCollection *>(entry.second->value);
-      val = sipConvertFromNewType(new std::string(sc->getCurrentString()),
-                                  sipFindType("std::string"), NULL);
-    } else {
-      val = getPyObjectFromDataType(entry.second);
+    if (!dict)
+        dict = PyDict_New();
+    for (const std::pair<std::string, tlp::DataType *> &entry : dataSet.getValues()) {
+        PyObject *key =
+            sipConvertFromNewType(new std::string(entry.first), sipFindType("std::string"), NULL);
+        PyObject *val = NULL;
+        if (entry.second->getTypeName() == std::string(typeid(tlp::StringCollection).name())) {
+            tlp::StringCollection *sc = static_cast<tlp::StringCollection *>(entry.second->value);
+            val = sipConvertFromNewType(new std::string(sc->getCurrentString()),
+                                        sipFindType("std::string"), NULL);
+        } else {
+            val = getPyObjectFromDataType(entry.second);
+        }
+        PyDict_SetItem(dict, key, val);
+        Py_XDECREF(val);
     }
-    PyDict_SetItem(dict, key, val);
-    Py_XDECREF(val);
-  }
-  return dict;
+    return dict;
 }
 
 extern tlp::DataSet *convertPyDictToTlpDataSet(PyObject *dict, tlp::DataSet *refDataSet,
                                                const std::string &algoName) {
-  PyObject *key = NULL;
-  PyObject *val = NULL;
-  Py_ssize_t pos = 0;
-  int state = 0, err = 0;
-  tlp::DataSet *ret = new tlp::DataSet();
-  if (refDataSet) {
-    *ret = *refDataSet;
-  }
-  enableErrorMessages(false);
-  while (PyDict_Next(dict, &pos, &key, &val)) {
-    const sipTypeDef *sipType = sipFindType("std::string");
-    std::string *keyStr = static_cast<std::string *>(
-        sipConvertToType(key, sipType, NULL, SIP_NOT_NONE, &state, &err));
-    tlp::DataType *dataType = NULL;
+    PyObject *key = NULL;
+    PyObject *val = NULL;
+    Py_ssize_t pos = 0;
+    int state = 0, err = 0;
+    tlp::DataSet *ret = new tlp::DataSet();
     if (refDataSet) {
-      dataType = refDataSet->getData(*keyStr);
+        *ret = *refDataSet;
     }
-    if (!setDataSetEntryFromPyObject(ret, *keyStr, val, dataType, algoName)) {
-      sipReleaseType(keyStr, sipType, state);
-      delete ret;
-      ret = NULL;
-      break;
+    enableErrorMessages(false);
+    while (PyDict_Next(dict, &pos, &key, &val)) {
+        const sipTypeDef *sipType = sipFindType("std::string");
+        std::string *keyStr = static_cast<std::string *>(
+            sipConvertToType(key, sipType, NULL, SIP_NOT_NONE, &state, &err));
+        tlp::DataType *dataType = NULL;
+        if (refDataSet) {
+            dataType = refDataSet->getData(*keyStr);
+        }
+        if (!setDataSetEntryFromPyObject(ret, *keyStr, val, dataType, algoName)) {
+            sipReleaseType(keyStr, sipType, state);
+            delete ret;
+            ret = NULL;
+            break;
+        }
+        sipReleaseType(keyStr, sipType, state);
     }
-    sipReleaseType(keyStr, sipType, state);
-  }
-  enableErrorMessages(true);
-  return ret;
+    enableErrorMessages(true);
+    return ret;
 }
 
 bool setDataSetEntryFromPyObject(tlp::DataSet *dataSet, const std::string &key, PyObject *value,
                                  tlp::DataType *refDataType, const std::string &algoName) {
-  bool ret = true;
-  tlp::DataType *dataType = NULL;
-  if (refDataType) {
-    dataType = refDataType;
-  }
-  if (dataType && dataType->getTypeName() == std::string(typeid(tlp::StringCollection).name()) &&
-      PyUnicode_Check(value)) {
+    bool ret = true;
+    tlp::DataType *dataType = NULL;
+    if (refDataType) {
+        dataType = refDataType;
+    }
+    if (dataType && dataType->getTypeName() == std::string(typeid(tlp::StringCollection).name()) &&
+        PyUnicode_Check(value)) {
 
-    tlp::StringCollection *sc = static_cast<tlp::StringCollection *>(dataType->value);
-    std::string entry(convertPythonUnicodeObjectToStdString(value));
+        tlp::StringCollection *sc = static_cast<tlp::StringCollection *>(dataType->value);
+        std::string entry(convertPythonUnicodeObjectToStdString(value));
 
-    std::vector<std::string> values = sc->getValues();
-    if (std::find(values.begin(), values.end(), entry) != values.end()) {
-      sc->setCurrent(entry);
-      dataSet->set(key, *sc);
-    } else {
-      std::string msg = "Invalid value provided (\"" + entry + "\") to string parameter '" + key +
-                        "' of algorithm '" + algoName + "'.\n";
+        std::vector<std::string> values = sc->getValues();
+        if (std::find(values.begin(), values.end(), entry) != values.end()) {
+            sc->setCurrent(entry);
+            dataSet->set(key, *sc);
+        } else {
+            std::string msg = "Invalid value provided (\"" + entry + "\") to string parameter '" +
+                              key + "' of algorithm '" + algoName + "'.\n";
 
-      msg += "Possible values are : ";
-      for (size_t i = 0; i < values.size(); ++i) {
-        replaceAll(values[i], "\n", "\\n");
-        msg += values[i];
-        if (i != values.size() - 1) {
-          msg += ", ";
+            msg += "Possible values are : ";
+            for (size_t i = 0; i < values.size(); ++i) {
+                replaceAll(values[i], "\n", "\\n");
+                msg += values[i];
+                if (i != values.size() - 1) {
+                    msg += ", ";
+                }
+            }
+            PyErr_SetString(PyExc_ValueError, msg.c_str());
+            ret = false;
         }
-      }
-      PyErr_SetString(PyExc_ValueError, msg.c_str());
-      ret = false;
+    } else {
+        ValueSetter valSetter(dataSet, key);
+        if (!setCppValueFromPyObject(value, valSetter, dataType)) {
+            std::string msg;
+            if (!dataType) {
+                msg = "Object of type ";
+                msg += std::string(value->ob_type->tp_name);
+                msg += " can not be stored in a Talipot dataset.";
+            } else {
+                msg = "Invalid type for the value provided to parameter '" + key + "' ";
+                msg += "for algorithm '" + algoName + "'\n";
+                msg += "Provided Python type is '" + std::string(value->ob_type->tp_name) + "'\n";
+                msg += "Expected C++ type is '" + tlp::demangleClassName(dataType->getTypeName()) +
+                       "'";
+            }
+            PyErr_SetString(PyExc_TypeError, msg.c_str());
+            ret = false;
+        }
     }
-  } else {
-    ValueSetter valSetter(dataSet, key);
-    if (!setCppValueFromPyObject(value, valSetter, dataType)) {
-      std::string msg;
-      if (!dataType) {
-        msg = "Object of type ";
-        msg += std::string(value->ob_type->tp_name);
-        msg += " can not be stored in a Talipot dataset.";
-      } else {
-        msg = "Invalid type for the value provided to parameter '" + key + "' ";
-        msg += "for algorithm '" + algoName + "'\n";
-        msg += "Provided Python type is '" + std::string(value->ob_type->tp_name) + "'\n";
-        msg += "Expected C++ type is '" + tlp::demangleClassName(dataType->getTypeName()) + "'";
-      }
-      PyErr_SetString(PyExc_TypeError, msg.c_str());
-      ret = false;
-    }
-  }
-  delete dataType;
-  return ret;
+    delete dataType;
+    return ret;
 }
 %End
 
@@ -191,33 +192,33 @@ PyObject *val = NULL;
 Py_ssize_t pos = 0;
 
 if (sipIsErr == NULL) {
-  if (sipCanConvertToType(sipPy, sipFindType("tlp::DataSet"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
-    return 1;
-  } else if (PyDict_Check(sipPy)) {
-    while (PyDict_Next(sipPy, &pos, &key, &val)) {
-      if (!sipCanConvertToType(key, sipFindType("std::string"), SIP_NOT_NONE)) {
-        return 0;
-      }
+    if (sipCanConvertToType(sipPy, sipFindType("tlp::DataSet"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
+        return 1;
+    } else if (PyDict_Check(sipPy)) {
+        while (PyDict_Next(sipPy, &pos, &key, &val)) {
+            if (!sipCanConvertToType(key, sipFindType("std::string"), SIP_NOT_NONE)) {
+                return 0;
+            }
+        }
+        return 1;
     }
-    return 1;
-  }
-  return 0;
+    return 0;
 }
 
 int state = 0, err = 0;
 
 if (PyDict_Check(sipPy)) {
-  *sipCppPtr = convertPyDictToTlpDataSet(sipPy);
+    *sipCppPtr = convertPyDictToTlpDataSet(sipPy);
 } else {
-  const sipTypeDef *sipType = sipFindType("tlp::DataSet");
-  tlp::DataSet *ds = static_cast<tlp::DataSet *>(
-      sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
-  *sipCppPtr = new tlp::DataSet(*ds);
-  sipReleaseType(ds, sipType, state);
+    const sipTypeDef *sipType = sipFindType("tlp::DataSet");
+    tlp::DataSet *ds = static_cast<tlp::DataSet *>(
+        sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
+    *sipCppPtr = new tlp::DataSet(*ds);
+    sipReleaseType(ds, sipType, state);
 }
 
 if (!*sipCppPtr) {
-  *sipIsErr = 1;
+    *sipIsErr = 1;
 }
 
 return sipGetState(sipTransferObj);
@@ -279,7 +280,7 @@ Returns the list of keys associated to the values stored in the data set.
 %MethodCode
 std::vector<std::string> ret;
 for (const std::pair<std::string, tlp::DataType *> &p : sipCpp->getValues()) {
-  ret.push_back(p.first);
+    ret.push_back(p.first);
 }
 sipRes = new std::vector<std::string>(ret);
 %End
@@ -294,18 +295,18 @@ sipIsErr = setDataSetEntryFromPyObject(sipCpp, *a0, a1) ? 0 : 1;
 sipRes = NULL;
 tlp::DataType *dataType = NULL;
 for (const std::pair<std::string, tlp::DataType *> &p : sipCpp->getValues()) {
-  if (p.first == *a0) {
-    dataType = p.second;
-  }
+    if (p.first == *a0) {
+        dataType = p.second;
+    }
 }
 
 sipRes = getPyObjectFromDataType(dataType, true);
 
 if (!sipRes) {
-  std::ostringstream oss;
-  oss << "Dataset entry \"" << *a0 << "\" does not exist.";
-  sipIsErr = 1;
-  PyErr_SetString(PyExc_AttributeError, oss.str().c_str());
+    std::ostringstream oss;
+    oss << "Dataset entry \"" << *a0 << "\" does not exist.";
+    sipIsErr = 1;
+    PyErr_SetString(PyExc_AttributeError, oss.str().c_str());
 }
 %End
 

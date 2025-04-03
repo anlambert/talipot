@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,33 +31,33 @@ class GlGraphInputData;
  */
 class TLP_GL_SCOPE GlBoundingBoxSceneVisitor : public GlSceneVisitor {
 
-public:
-  /**
-   * Constructor
-   */
-  GlBoundingBoxSceneVisitor(GlGraphInputData *inputData);
+  public:
+    /**
+     * Constructor
+     */
+    GlBoundingBoxSceneVisitor(GlGraphInputData *inputData);
 
-  /**
-   * Method used for GlEntity
-   */
-  void visit(GlEntity *entity) override;
-  /**
-   * Method used for GlNodes (and GlMetaNodes)
-   */
-  void visit(GlNode *glNode) override;
-  /**
-   * Method used for GlEdges
-   */
-  void visit(GlEdge *glEdge) override;
+    /**
+     * Method used for GlEntity
+     */
+    void visit(GlEntity *entity) override;
+    /**
+     * Method used for GlNodes (and GlMetaNodes)
+     */
+    void visit(GlNode *glNode) override;
+    /**
+     * Method used for GlEdges
+     */
+    void visit(GlEdge *glEdge) override;
 
-  /**
-   * Return the scene boundingBox
-   */
-  BoundingBox getBoundingBox();
+    /**
+     * Return the scene boundingBox
+     */
+    BoundingBox getBoundingBox();
 
-private:
-  std::vector<BoundingBox> bbs;
-  GlGraphInputData *inputData;
+  private:
+    std::vector<BoundingBox> bbs;
+    GlGraphInputData *inputData;
 };
 }
 

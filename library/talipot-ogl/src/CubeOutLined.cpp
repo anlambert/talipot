@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,13 +28,13 @@ namespace tlp {
  * node property value is used to draw its edges.
  */
 class CubeOutLined : public NoShaderGlyph {
-public:
-  GLYPHINFORMATION("3D - Cube OutLined", "David Auber", "09/07/2002", "Textured cubeOutLined",
-                   "1.0", NodeShape::CubeOutlined)
-  CubeOutLined(tlp::PluginContext *context);
-  ~CubeOutLined() override;
-  void draw(node n, float lod) override;
-  Coord getAnchor(const Coord &vector) const override;
+  public:
+    GLYPHINFORMATION("3D - Cube OutLined", "David Auber", "09/07/2002", "Textured cubeOutLined",
+                     "1.0", NodeShape::CubeOutlined)
+    CubeOutLined(tlp::PluginContext *context);
+    ~CubeOutLined() override;
+    void draw(node n, float lod) override;
+    Coord getAnchor(const Coord &vector) const override;
 };
 
 PLUGIN(CubeOutLined)
@@ -45,19 +45,19 @@ CubeOutLined::CubeOutLined(tlp::PluginContext *context) : NoShaderGlyph(context)
 CubeOutLined::~CubeOutLined() = default;
 
 void CubeOutLined::draw(node n, float lod) {
-  string textureName = glGraphInputData->textures()->getNodeValue(n);
+    string textureName = glGraphInputData->textures()->getNodeValue(n);
 
-  if (!textureName.empty()) {
-    textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
-  }
+    if (!textureName.empty()) {
+        textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
+    }
 
-  GlBox::draw(glGraphInputData->colors()->getNodeValue(n),
-              glGraphInputData->borderColors()->getNodeValue(n),
-              glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod);
+    GlBox::draw(glGraphInputData->colors()->getNodeValue(n),
+                glGraphInputData->borderColors()->getNodeValue(n),
+                glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod);
 }
 
 Coord CubeOutLined::getAnchor(const Coord &vector) const {
-  return GlBox::getAnchor(vector);
+    return GlBox::getAnchor(vector);
 }
 
 }

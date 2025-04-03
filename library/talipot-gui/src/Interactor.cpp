@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,48 +21,48 @@ QMap<std::string, QList<std::string>> InteractorLister::_compatibilityMap =
     QMap<std::string, QList<std::string>>();
 
 bool interactorLessThan(Interactor *a, Interactor *b) {
-  return a->priority() > b->priority();
+    return a->priority() > b->priority();
 }
 
 void InteractorLister::initInteractorsDependencies() {
-  _compatibilityMap.clear();
+    _compatibilityMap.clear();
 
-  QMap<Interactor *, string> interactorToName;
+    QMap<Interactor *, string> interactorToName;
 
-  std::list<std::string> interactors(PluginsManager::availablePlugins<Interactor>());
+    std::list<std::string> interactors(PluginsManager::availablePlugins<Interactor>());
 
-  for (const std::string &interactorName : interactors) {
-    interactorToName[PluginsManager::getPluginObject<Interactor>(interactorName, nullptr)] =
-        interactorName;
-  }
+    for (const std::string &interactorName : interactors) {
+        interactorToName[PluginsManager::getPluginObject<Interactor>(interactorName, nullptr)] =
+            interactorName;
+    }
 
-  std::list<std::string> views(PluginsManager::availablePlugins<View>());
+    std::list<std::string> views(PluginsManager::availablePlugins<View>());
 
-  for (const std::string &viewName : views) {
-    QList<Interactor *> compatibleInteractors;
+    for (const std::string &viewName : views) {
+        QList<Interactor *> compatibleInteractors;
+
+        for (auto *i : interactorToName.keys()) {
+            if (i->isCompatible(viewName)) {
+                compatibleInteractors << i;
+            }
+        }
+
+        std::sort(compatibleInteractors.begin(), compatibleInteractors.end(), interactorLessThan);
+
+        QList<string> compatibleNames;
+
+        for (auto *i : compatibleInteractors) {
+            compatibleNames << interactorToName[i];
+        }
+
+        _compatibilityMap[viewName] = compatibleNames;
+    }
 
     for (auto *i : interactorToName.keys()) {
-      if (i->isCompatible(viewName)) {
-        compatibleInteractors << i;
-      }
+        delete i;
     }
-
-    std::sort(compatibleInteractors.begin(), compatibleInteractors.end(), interactorLessThan);
-
-    QList<string> compatibleNames;
-
-    for (auto *i : compatibleInteractors) {
-      compatibleNames << interactorToName[i];
-    }
-
-    _compatibilityMap[viewName] = compatibleNames;
-  }
-
-  for (auto *i : interactorToName.keys()) {
-    delete i;
-  }
 }
 
 QList<string> InteractorLister::compatibleInteractors(const std::string &viewName) {
-  return _compatibilityMap[viewName];
+    return _compatibilityMap[viewName];
 }

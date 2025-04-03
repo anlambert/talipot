@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -55,9 +55,9 @@ exhaustive list of those types :
 
 %ConvertToSubClassCode
 if (dynamic_cast<tlp::PropertyEvent *>(sipCpp)) {
-  sipType = sipFindType("tlp::PropertyEvent");
+    sipType = sipFindType("tlp::PropertyEvent");
 } else {
-  sipType = NULL;
+    sipType = NULL;
 }
 %End
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,53 +29,53 @@
 namespace tlp {
 
 class Dijkstra {
-public:
-  //============================================================
-  Dijkstra(const Graph *const graph, node src, const EdgeVectorProperty<double> &weights,
-           NodeVectorProperty<double> &nodeDistance, EdgeType direction,
-           std::stack<node> *qN = nullptr, MutableContainer<int> *nP = nullptr);
-  //========================================================
-  bool searchPaths(node n, BooleanProperty *result);
-  //=========================================================
-  bool searchPath(node n, BooleanProperty *result);
-  //=============================================================
-  bool ancestors(flat_hash_map<node, std::list<node>> &result);
+  public:
+    //============================================================
+    Dijkstra(const Graph *const graph, node src, const EdgeVectorProperty<double> &weights,
+             NodeVectorProperty<double> &nodeDistance, EdgeType direction,
+             std::stack<node> *qN = nullptr, MutableContainer<int> *nP = nullptr);
+    //========================================================
+    bool searchPaths(node n, BooleanProperty *result);
+    //=========================================================
+    bool searchPath(node n, BooleanProperty *result);
+    //=============================================================
+    bool ancestors(flat_hash_map<node, std::list<node>> &result);
 
-private:
-  void internalSearchPaths(node n, BooleanProperty *result);
-  //=========================================================
-  struct DijkstraElement {
-    DijkstraElement(const double dist = DBL_MAX, const node previous = node(),
-                    const node n = node())
-        : dist(dist), previous(previous), n(n) {}
-    bool operator==(const DijkstraElement &b) const {
-      return n == b.n;
-    }
-    bool operator!=(const DijkstraElement &b) const {
-      return n != b.n;
-    }
-    double dist;
-    node previous;
-    node n;
-    std::vector<edge> usedEdge;
-  };
+  private:
+    void internalSearchPaths(node n, BooleanProperty *result);
+    //=========================================================
+    struct DijkstraElement {
+        DijkstraElement(const double dist = DBL_MAX, const node previous = node(),
+                        const node n = node())
+            : dist(dist), previous(previous), n(n) {}
+        bool operator==(const DijkstraElement &b) const {
+            return n == b.n;
+        }
+        bool operator!=(const DijkstraElement &b) const {
+            return n != b.n;
+        }
+        double dist;
+        node previous;
+        node n;
+        std::vector<edge> usedEdge;
+    };
 
-  struct LessDijkstraElement {
-    bool operator()(const DijkstraElement *const a, const DijkstraElement *const b) const {
-      if (fabs(a->dist - b->dist) > 1.E-9) {
-        return (a->dist < b->dist);
-      } else {
-        return (a->n.id < b->n.id);
-      }
-    }
-  };
+    struct LessDijkstraElement {
+        bool operator()(const DijkstraElement *const a, const DijkstraElement *const b) const {
+            if (fabs(a->dist - b->dist) > 1.E-9) {
+                return (a->dist < b->dist);
+            } else {
+                return (a->n.id < b->n.id);
+            }
+        }
+    };
 
-  Graph const *graph;
-  node src;
-  MutableContainer<bool> usedEdges;
-  NodeVectorProperty<double> &nodeDistance;
-  std::stack<node> *queueNodes;
-  MutableContainer<int> *numberOfPaths;
+    Graph const *graph;
+    node src;
+    MutableContainer<bool> usedEdges;
+    NodeVectorProperty<double> &nodeDistance;
+    std::stack<node> *queueNodes;
+    MutableContainer<int> *numberOfPaths;
 };
 }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -42,29 +42,29 @@
  *  \author David Auber University Bordeaux I France: Email:auber@labri.fr
  */
 class ConeTreeExtended : public tlp::LayoutAlgorithm {
-public:
-  PLUGININFORMATION(
-      "Cone Tree", "David Auber", "01/04/2001",
-      "Implements an extension of the Cone tree layout algorithm first published as:<br/>"
-      "<b>Interacting with Huge Hierarchies: Beyond Cone Trees </b>, A. FJ. Carriere and R. "
-      "Kazman, InfoViz'95, IEEE Symposium on Information Visualization pages 74--78 (1995).",
-      "1.0", "Tree")
-  ConeTreeExtended(const tlp::PluginContext *context);
-  ~ConeTreeExtended() override;
-  bool run() override;
+  public:
+    PLUGININFORMATION(
+        "Cone Tree", "David Auber", "01/04/2001",
+        "Implements an extension of the Cone tree layout algorithm first published as:<br/>"
+        "<b>Interacting with Huge Hierarchies: Beyond Cone Trees </b>, A. FJ. Carriere and R. "
+        "Kazman, InfoViz'95, IEEE Symposium on Information Visualization pages 74--78 (1995).",
+        "1.0", "Tree")
+    ConeTreeExtended(const tlp::PluginContext *context);
+    ~ConeTreeExtended() override;
+    bool run() override;
 
-private:
-  double treePlace3D(tlp::node n, flat_hash_map<tlp::node, double> *posRelX,
-                     flat_hash_map<tlp::node, double> *posRelY);
-  void calcLayout(tlp::node n, flat_hash_map<tlp::node, double> *px,
-                  flat_hash_map<tlp::node, double> *py, double x, double y, int level);
-  void computeLayerSize(tlp::node n, uint level);
-  void computeYCoodinates(tlp::node root);
-  tlp::Graph *tree;
-  tlp::SizeProperty *nodeSize;
-  std::vector<float> yCoordinates;
-  std::vector<float> levelSize;
-  float spaceBetweenLevels;
+  private:
+    double treePlace3D(tlp::node n, flat_hash_map<tlp::node, double> *posRelX,
+                       flat_hash_map<tlp::node, double> *posRelY);
+    void calcLayout(tlp::node n, flat_hash_map<tlp::node, double> *px,
+                    flat_hash_map<tlp::node, double> *py, double x, double y, int level);
+    void computeLayerSize(tlp::node n, uint level);
+    void computeYCoodinates(tlp::node root);
+    tlp::Graph *tree;
+    tlp::SizeProperty *nodeSize;
+    std::vector<float> yCoordinates;
+    std::vector<float> levelSize;
+    float spaceBetweenLevels;
 };
 
 #endif // CONE_TREE_EXTENDED_H

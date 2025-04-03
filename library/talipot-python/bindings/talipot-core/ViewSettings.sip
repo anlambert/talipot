@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,71 +18,71 @@ namespace tlp {
 
 class NodeShapeConstants {
 
-public:
-  static const int Billboard = 7;
-  static const int Circle = 14;
-  static const int Cone = 3;
-  static const int Cross = 8;
-  static const int Cube = 0;
-  static const int CubeOutlined = 1;
-  static const int CubeOutlinedTransparent = 9;
-  static const int Cylinder = 6;
-  static const int Diamond = 5;
-  static const int GlowSphere = 16;
-  static const int HalfCylinder = 10;
-  static const int Hexagon = 13;
-  static const int Pentagon = 12;
-  static const int Ring = 15;
-  static const int RoundedBox = 18;
-  static const int Sphere = 2;
-  static const int Square = 4;
-  static const int Triangle = 11;
-  static const int Window = 17;
-  static const int Star = 19;
-  static const int FontAwesomeIcon = 20;
-  static const int Icon = 20;
+  public:
+    static const int Billboard = 7;
+    static const int Circle = 14;
+    static const int Cone = 3;
+    static const int Cross = 8;
+    static const int Cube = 0;
+    static const int CubeOutlined = 1;
+    static const int CubeOutlinedTransparent = 9;
+    static const int Cylinder = 6;
+    static const int Diamond = 5;
+    static const int GlowSphere = 16;
+    static const int HalfCylinder = 10;
+    static const int Hexagon = 13;
+    static const int Pentagon = 12;
+    static const int Ring = 15;
+    static const int RoundedBox = 18;
+    static const int Sphere = 2;
+    static const int Square = 4;
+    static const int Triangle = 11;
+    static const int Window = 17;
+    static const int Star = 19;
+    static const int FontAwesomeIcon = 20;
+    static const int Icon = 20;
 };
 
 class EdgeShapeConstants {
 
-public:
-  static const int Polyline = 0;
-  static const int BezierCurve = 4;
-  static const int CatmullRomCurve = 8;
-  static const int CubicBSplineCurve = 16;
+  public:
+    static const int Polyline = 0;
+    static const int BezierCurve = 4;
+    static const int CatmullRomCurve = 8;
+    static const int CubicBSplineCurve = 16;
 };
 
 class EdgeExtremityShapeConstants {
 
-public:
-  static const int None = -1;
-  static const int Arrow = 50;
-  static const int Circle = 14;
-  static const int Cone = 3;
-  static const int Cross = 8;
-  static const int Cube = 0;
-  static const int CubeOutlinedTransparent = 9;
-  static const int Cylinder = 6;
-  static const int Diamond = 5;
-  static const int GlowSphere = 16;
-  static const int Hexagon = 13;
-  static const int Pentagon = 12;
-  static const int Ring = 15;
-  static const int Sphere = 2;
-  static const int Square = 4;
-  static const int Star = 19;
-  static const int FontAwesomeIcon = 20;
-  static const int Icon = 20;
+  public:
+    static const int None = -1;
+    static const int Arrow = 50;
+    static const int Circle = 14;
+    static const int Cone = 3;
+    static const int Cross = 8;
+    static const int Cube = 0;
+    static const int CubeOutlinedTransparent = 9;
+    static const int Cylinder = 6;
+    static const int Diamond = 5;
+    static const int GlowSphere = 16;
+    static const int Hexagon = 13;
+    static const int Pentagon = 12;
+    static const int Ring = 15;
+    static const int Sphere = 2;
+    static const int Square = 4;
+    static const int Star = 19;
+    static const int FontAwesomeIcon = 20;
+    static const int Icon = 20;
 };
 
 class LabelPositionConstants {
 
-public:
-  static const int Center = 0;
-  static const int Top = 1;
-  static const int Bottom = 2;
-  static const int Left = 3;
-  static const int Right = 4;
+  public:
+    static const int Center = 0;
+    static const int Top = 1;
+    static const int Bottom = 2;
+    static const int Left = 3;
+    static const int Right = 4;
 };
 
 }
@@ -280,9 +280,9 @@ class ViewSettingsEvent : public tlp::Event /NoDefaultCtors/ {
 
 %ConvertToSubClassCode
 if (dynamic_cast<tlp::ViewSettingsEvent *>(sipCpp)) {
-  sipType = sipFindType("tlp::ViewSettingsEvent");
+    sipType = sipFindType("tlp::ViewSettingsEvent");
 } else {
-  sipType = NULL;
+    sipType = NULL;
 }
 %End
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -60,34 +60,34 @@ GlBezierCurve::~GlBezierCurve() = default;
 
 void GlBezierCurve::computeCurvePointsOnCPU(const std::vector<Coord> &controlPoints,
                                             std::vector<Coord> &curvePoints, uint nbCurvePoints) {
-  computeBezierPoints(controlPoints, curvePoints, nbCurvePoints);
+    computeBezierPoints(controlPoints, curvePoints, nbCurvePoints);
 }
 
 Coord GlBezierCurve::computeCurvePointOnCPU(const std::vector<Coord> &controlPoints, float t) {
-  return computeBezierPoint(controlPoints, t);
+    return computeBezierPoint(controlPoints, t);
 }
 
 void GlBezierCurve::drawCurve(std::vector<Coord> &controlPoints, const Color &startColor,
                               const Color &endColor, const float startSize, const float endSize,
                               const uint nbCurvePoints) {
 
-  if (controlPoints.size() <= CONTROL_POINTS_LIMIT) {
-    AbstractGlCurve::drawCurve(controlPoints, startColor, endColor, startSize, endSize,
-                               nbCurvePoints);
-  } else {
+    if (controlPoints.size() <= CONTROL_POINTS_LIMIT) {
+        AbstractGlCurve::drawCurve(controlPoints, startColor, endColor, startSize, endSize,
+                                   nbCurvePoints);
+    } else {
 
-    static GlCatmullRomCurve curve;
+        static GlCatmullRomCurve curve;
 
-    const uint nbApproximationPoints = 40;
-    vector<Coord> curvePoints;
-    computeBezierPoints(controlPoints, curvePoints, nbApproximationPoints);
-    curve.setClosedCurve(false);
-    curve.setOutlined(outlined);
-    curve.setOutlineColor(outlineColor);
-    curve.setTexture(texture);
-    curve.setBillboardCurve(billboardCurve);
-    curve.setLookDir(lookDir);
-    curve.drawCurve(curvePoints, startColor, endColor, startSize, endSize, nbCurvePoints);
-  }
+        const uint nbApproximationPoints = 40;
+        vector<Coord> curvePoints;
+        computeBezierPoints(controlPoints, curvePoints, nbApproximationPoints);
+        curve.setClosedCurve(false);
+        curve.setOutlined(outlined);
+        curve.setOutlineColor(outlineColor);
+        curve.setTexture(texture);
+        curve.setBillboardCurve(billboardCurve);
+        curve.setLookDir(lookDir);
+        curve.drawCurve(curvePoints, startColor, endColor, startSize, endSize, nbCurvePoints);
+    }
 }
 }

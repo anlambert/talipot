@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,29 +18,29 @@
 #include <QMap>
 
 class ExpandableGroupBox : public QGroupBox {
-  Q_OBJECT
+    Q_OBJECT
 
-  Q_PROPERTY(bool expanded READ expanded WRITE setExpanded)
-  bool _expanded;
+    Q_PROPERTY(bool expanded READ expanded WRITE setExpanded)
+    bool _expanded;
 
-  Q_PROPERTY(QWidget *widget READ widget WRITE setWidget)
-  QWidget *_widget;
+    Q_PROPERTY(QWidget *widget READ widget WRITE setWidget)
+    QWidget *_widget;
 
-public:
-  explicit ExpandableGroupBox(QWidget *parent = nullptr, const QString &title = QString());
-  ~ExpandableGroupBox() override;
-  bool expanded() const {
-    return _expanded;
-  }
+  public:
+    explicit ExpandableGroupBox(QWidget *parent = nullptr, const QString &title = QString());
+    ~ExpandableGroupBox() override;
+    bool expanded() const {
+        return _expanded;
+    }
 
-  QWidget *widget() const {
-    return _widget;
-  }
-  QWidget *takeWidget();
+    QWidget *widget() const {
+        return _widget;
+    }
+    QWidget *takeWidget();
 
-public slots:
-  void setExpanded(bool e);
-  void setWidget(QWidget *);
+  public slots:
+    void setExpanded(bool e);
+    void setWidget(QWidget *);
 };
 
 #endif // EXPANDABLE_GROUP_BOX_H

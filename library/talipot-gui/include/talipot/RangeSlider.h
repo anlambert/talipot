@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,89 +30,89 @@ namespace tlp {
    see https://bitbucket.org/libqxt/libqxt/wiki/Home for more details
 */
 class TLP_QT_SCOPE RangeSlider : public QSlider {
-  Q_OBJECT
-  Q_PROPERTY(int lowerValue READ lowerValue WRITE setLowerValue)
-  Q_PROPERTY(int upperValue READ upperValue WRITE setUpperValue)
-  Q_PROPERTY(
-      HandleMovementMode handleMovementMode READ handleMovementMode WRITE setHandleMovementMode)
-  Q_ENUMS(HandleMovementMode)
+    Q_OBJECT
+    Q_PROPERTY(int lowerValue READ lowerValue WRITE setLowerValue)
+    Q_PROPERTY(int upperValue READ upperValue WRITE setUpperValue)
+    Q_PROPERTY(
+        HandleMovementMode handleMovementMode READ handleMovementMode WRITE setHandleMovementMode)
+    Q_ENUMS(HandleMovementMode)
 
-public:
-  explicit RangeSlider(QWidget *parent = nullptr);
-  explicit RangeSlider(Qt::Orientation orientation, QWidget *parent = nullptr);
-  ~RangeSlider() override = default;
+  public:
+    explicit RangeSlider(QWidget *parent = nullptr);
+    explicit RangeSlider(Qt::Orientation orientation, QWidget *parent = nullptr);
+    ~RangeSlider() override = default;
 
-  enum HandleMovementMode { FreeMovement, NoCrossing, NoOverlapping };
+    enum HandleMovementMode { FreeMovement, NoCrossing, NoOverlapping };
 
-  HandleMovementMode handleMovementMode() const;
-  void setHandleMovementMode(HandleMovementMode mode);
+    HandleMovementMode handleMovementMode() const;
+    void setHandleMovementMode(HandleMovementMode mode);
 
-  int lowerValue() const;
-  int upperValue() const;
+    int lowerValue() const;
+    int upperValue() const;
 
-  int lowerPosition() const;
-  int upperPosition() const;
+    int lowerPosition() const;
+    int upperPosition() const;
 
-public slots:
-  void setLowerValue(int lower);
-  void setUpperValue(int upper);
-  void setRange(int lower, int upper);
+  public slots:
+    void setLowerValue(int lower);
+    void setUpperValue(int upper);
+    void setRange(int lower, int upper);
 
-  void setLowerPosition(int lower);
-  void setUpperPosition(int upper);
+    void setLowerPosition(int lower);
+    void setUpperPosition(int upper);
 
-signals:
-  void rangeChanged(int lower, int upper);
-  void lowerValueChanged(int lower);
-  void upperValueChanged(int upper);
+  signals:
+    void rangeChanged(int lower, int upper);
+    void lowerValueChanged(int lower);
+    void upperValueChanged(int upper);
 
-  void lowerPositionChanged(int lower);
-  void upperPositionChanged(int upper);
+    void lowerPositionChanged(int lower);
+    void upperPositionChanged(int upper);
 
-protected:
-  void keyPressEvent(QKeyEvent *event) override;
-  void mousePressEvent(QMouseEvent *event) override;
-  void mouseMoveEvent(QMouseEvent *event) override;
-  void mouseReleaseEvent(QMouseEvent *event) override;
-  void paintEvent(QPaintEvent *event) override;
+  protected:
+    void keyPressEvent(QKeyEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
-private:
-  enum RangeHandle { NoHandle, LowerHandle, UpperHandle };
+  private:
+    enum RangeHandle { NoHandle, LowerHandle, UpperHandle };
 
-  Q_PROPERTY(int lowerPosition READ lowerPosition WRITE setLowerPosition)
-  Q_PROPERTY(int upperPosition READ upperPosition WRITE setUpperPosition)
+    Q_PROPERTY(int lowerPosition READ lowerPosition WRITE setLowerPosition)
+    Q_PROPERTY(int upperPosition READ upperPosition WRITE setUpperPosition)
 
-  void initStyle(QStyleOptionSlider *option, RangeHandle handle = UpperHandle) const;
-  int pick(const QPoint &pt) const {
-    return orientation() == Qt::Horizontal ? pt.x() : pt.y();
-  }
-  int pixelPosToRangeValue(int pos) const;
-  void handleMousePress(const QPoint &pos, QStyle::SubControl &control, int value,
-                        RangeHandle handle);
-  void drawHandle(QStylePainter *painter, RangeHandle handle) const;
-  void setupPainter(QPainter *painter, Qt::Orientation orientation, qreal x1, qreal y1, qreal x2,
-                    qreal y2) const;
-  void drawRange(QStylePainter *painter, const QRect &rect) const;
-  void triggerAction(QAbstractSlider::SliderAction action, bool main);
-  void swapControls();
+    void initStyle(QStyleOptionSlider *option, RangeHandle handle = UpperHandle) const;
+    int pick(const QPoint &pt) const {
+        return orientation() == Qt::Horizontal ? pt.x() : pt.y();
+    }
+    int pixelPosToRangeValue(int pos) const;
+    void handleMousePress(const QPoint &pos, QStyle::SubControl &control, int value,
+                          RangeHandle handle);
+    void drawHandle(QStylePainter *painter, RangeHandle handle) const;
+    void setupPainter(QPainter *painter, Qt::Orientation orientation, qreal x1, qreal y1, qreal x2,
+                      qreal y2) const;
+    void drawRange(QStylePainter *painter, const QRect &rect) const;
+    void triggerAction(QAbstractSlider::SliderAction action, bool main);
+    void swapControls();
 
-  int lower;
-  int upper;
-  int lowerPos;
-  int upperPos;
-  int offset;
-  int position;
-  RangeHandle lastPressed;
-  RangeHandle mainControl;
-  QStyle::SubControl lowerPressed;
-  QStyle::SubControl upperPressed;
-  HandleMovementMode movement;
-  bool firstMovement;
-  bool blockTracking;
+    int lower;
+    int upper;
+    int lowerPos;
+    int upperPos;
+    int offset;
+    int position;
+    RangeHandle lastPressed;
+    RangeHandle mainControl;
+    QStyle::SubControl lowerPressed;
+    QStyle::SubControl upperPressed;
+    HandleMovementMode movement;
+    bool firstMovement;
+    bool blockTracking;
 
-public slots:
-  void updateRange(int min, int max);
-  void movePressedHandle();
+  public slots:
+    void updateRange(int min, int max);
+    void movePressedHandle();
 };
 }
 

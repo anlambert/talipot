@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,44 +33,44 @@ namespace tlp {
  */
 class TLP_GL_SCOPE GlOpenUniformCubicBSpline : public AbstractGlCurve {
 
-public:
-  /**
-   * @brief Constructor
-   * @warning Don't use it, see other construstor
-   */
-  GlOpenUniformCubicBSpline();
+  public:
+    /**
+     * @brief Constructor
+     * @warning Don't use it, see other construstor
+     */
+    GlOpenUniformCubicBSpline();
 
-  /**
-   * @brief GlOpenUniformCubicBSpline constructor
-   *
-   * @param controlPoints a vector of control points (size must be greater or equal to 4)
-   * @param startColor the color at the start of the curve
-   * @param endColor the color at the end of the curve
-   * @param startSize the width at the start of the curve
-   * @param endSize the width at the end of the curve
-   * @param nbCurvePoints the number of curve points to generate
-   */
-  GlOpenUniformCubicBSpline(const std::vector<Coord> &controlPoints, const Color &startColor,
-                            const Color &endColor, const float startSize, const float endSize,
-                            const uint nbCurvePoints = 200);
+    /**
+     * @brief GlOpenUniformCubicBSpline constructor
+     *
+     * @param controlPoints a vector of control points (size must be greater or equal to 4)
+     * @param startColor the color at the start of the curve
+     * @param endColor the color at the end of the curve
+     * @param startSize the width at the start of the curve
+     * @param endSize the width at the end of the curve
+     * @param nbCurvePoints the number of curve points to generate
+     */
+    GlOpenUniformCubicBSpline(const std::vector<Coord> &controlPoints, const Color &startColor,
+                              const Color &endColor, const float startSize, const float endSize,
+                              const uint nbCurvePoints = 200);
 
-  ~GlOpenUniformCubicBSpline() override;
+    ~GlOpenUniformCubicBSpline() override;
 
-  void drawCurve(std::vector<Coord> &controlPoints, const Color &startColor, const Color &endColor,
-                 const float startSize, const float endSize,
-                 const uint nbCurvePoints = 200) override;
+    void drawCurve(std::vector<Coord> &controlPoints, const Color &startColor,
+                   const Color &endColor, const float startSize, const float endSize,
+                   const uint nbCurvePoints = 200) override;
 
-protected:
-  void setCurveVertexShaderRenderingSpecificParameters() override;
+  protected:
+    void setCurveVertexShaderRenderingSpecificParameters() override;
 
-  Coord computeCurvePointOnCPU(const std::vector<Coord> &controlPoints, float t) override;
+    Coord computeCurvePointOnCPU(const std::vector<Coord> &controlPoints, float t) override;
 
-  void computeCurvePointsOnCPU(const std::vector<Coord> &controlPoints,
-                               std::vector<Coord> &curvePoints, uint nbCurvePoints) override;
+    void computeCurvePointsOnCPU(const std::vector<Coord> &controlPoints,
+                                 std::vector<Coord> &curvePoints, uint nbCurvePoints) override;
 
-private:
-  unsigned nbKnots;
-  float stepKnots;
+  private:
+    unsigned nbKnots;
+    float stepKnots;
 };
 }
 

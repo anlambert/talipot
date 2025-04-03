@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,40 +33,40 @@ class SOMMap;
 class ColorProperty;
 
 class SOMMapElement : public tlp::GlComposite {
-public:
-  SOMMapElement(Coord position, Size size, SOMMap *map, ColorProperty *colorProperty);
-  ~SOMMapElement() override;
+  public:
+    SOMMapElement(Coord position, Size size, SOMMap *map, ColorProperty *colorProperty);
+    ~SOMMapElement() override;
 
-  tlp::Coord getTopLeftPositionForElement(uint x, uint y);
-  tlp::Size getNodeAreaSize();
+    tlp::Coord getTopLeftPositionForElement(uint x, uint y);
+    tlp::Size getNodeAreaSize();
 
-  /**
-   * Change the SOM and its color property.
-   * @param map the new SOM
-   * @param cp the new color property
-   */
-  void setData(SOMMap *map, ColorProperty *cp);
+    /**
+     * Change the SOM and its color property.
+     * @param map the new SOM
+     * @param cp the new color property
+     */
+    void setData(SOMMap *map, ColorProperty *cp);
 
-  /**
-   * Change the colors of the som representation with those in the given property;
-   * @param newColor The new colors.
-   */
-  void updateColors(ColorProperty *newColor);
+    /**
+     * Change the colors of the som representation with those in the given property;
+     * @param newColor The new colors.
+     */
+    void updateColors(ColorProperty *newColor);
 
-protected:
-  void computeNodeAreaSize();
+  protected:
+    void computeNodeAreaSize();
 
-  float computeMaximizedRadiusForHexagone(uint width, uint height, Size &size);
+    float computeMaximizedRadiusForHexagone(uint width, uint height, Size &size);
 
-  void buildMainComposite(Coord topLeft, Size elementSize, SOMMap *map);
+    void buildMainComposite(Coord topLeft, Size elementSize, SOMMap *map);
 
-  SOMMap *som;
+    SOMMap *som;
 
-  flat_hash_map<node, GlEntity *> nodesMap;
+    flat_hash_map<node, GlEntity *> nodesMap;
 
-  Coord position;
-  Size size;
-  Size nodeAreaSize;
+    Coord position;
+    Size size;
+    Size nodeAreaSize;
 };
 }
 #endif // SOM_MAP_ELEMENT_H

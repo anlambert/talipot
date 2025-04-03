@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,21 +23,21 @@ class ParallelAxis;
 
 class ParallelCoordsAxisSpacer : public GLInteractorComponent {
 
-public:
-  ParallelCoordsAxisSpacer();
-  bool eventFilter(QObject *, QEvent *) override;
-  bool draw(GlWidget *glWidget) override;
-  void viewChanged(View *view) override;
+  public:
+    ParallelCoordsAxisSpacer();
+    bool eventFilter(QObject *, QEvent *) override;
+    bool draw(GlWidget *glWidget) override;
+    void viewChanged(View *view) override;
 
-private:
-  void determineAxisRegionAtPos(const Coord &pos);
-  void drawCurrentEditedRegionMarker();
+  private:
+    void determineAxisRegionAtPos(const Coord &pos);
+    void drawCurrentEditedRegionMarker();
 
-  ParallelCoordinatesView *parallelView;
-  ParallelAxis *selectedAxis;
-  std::pair<ParallelAxis *, ParallelAxis *> neighborsAxis;
-  int x, y;
-  bool dragStarted;
+    ParallelCoordinatesView *parallelView;
+    ParallelAxis *selectedAxis;
+    std::pair<ParallelAxis *, ParallelAxis *> neighborsAxis;
+    int x, y;
+    bool dragStarted;
 };
 }
 

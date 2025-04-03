@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -71,173 +71,173 @@ static constexpr std::string_view paramHelp[] = {
  *
  */
 class BetweennessCentrality : public DoubleAlgorithm {
-public:
-  PLUGININFORMATION("Betweenness Centrality", "David Auber", "03/01/2005",
-                    "Computes the betweenness centrality.", "1.3", "Graph")
-  BetweennessCentrality(const PluginContext *context) : DoubleAlgorithm(context) {
-    addInParameter<bool>("directed", paramHelp[0].data(), "false");
-    addInParameter<bool>("norm", paramHelp[1].data(), "false", false);
-    addInParameter<NumericProperty *>("weight", paramHelp[2].data(), "", false);
-    addOutParameter<double>("average path length", paramHelp[3].data(), "-1");
-  }
-  bool run() override {
-    result->setAllNodeValue(0.0);
-    result->setAllEdgeValue(0.0);
-    bool directed = false;
-    bool norm = false;
-    NumericProperty *weight = nullptr;
-
-    if (dataSet != nullptr) {
-      dataSet->get("directed", directed);
-      dataSet->get("norm", norm);
-      dataSet->get("weight", weight);
+  public:
+    PLUGININFORMATION("Betweenness Centrality", "David Auber", "03/01/2005",
+                      "Computes the betweenness centrality.", "1.3", "Graph")
+    BetweennessCentrality(const PluginContext *context) : DoubleAlgorithm(context) {
+        addInParameter<bool>("directed", paramHelp[0].data(), "false");
+        addInParameter<bool>("norm", paramHelp[1].data(), "false", false);
+        addInParameter<NumericProperty *>("weight", paramHelp[2].data(), "", false);
+        addOutParameter<double>("average path length", paramHelp[3].data(), "-1");
     }
+    bool run() override {
+        result->setAllNodeValue(0.0);
+        result->setAllEdgeValue(0.0);
+        bool directed = false;
+        bool norm = false;
+        NumericProperty *weight = nullptr;
 
-    // Metric is 0 in this case
-    if (graph->numberOfNodes() <= 2) {
-      return true;
-    }
+        if (dataSet != nullptr) {
+            dataSet->get("directed", directed);
+            dataSet->get("norm", norm);
+            dataSet->get("weight", weight);
+        }
 
-    // Edges weights should be positive
-    if (weight && weight->getEdgeDoubleMin(graph) <= 0) {
-      pluginProgress->setError("Edges weights must be positive.");
-      return false;
-    }
+        // Metric is 0 in this case
+        if (graph->numberOfNodes() <= 2) {
+            return true;
+        }
 
-    double avg_path_length = 0.;
-    uint nbNodes = graph->numberOfNodes();
-    uint count = 0;
+        // Edges weights should be positive
+        if (weight && weight->getEdgeDoubleMin(graph) <= 0) {
+            pluginProgress->setError("Edges weights must be positive.");
+            return false;
+        }
 
-    pluginProgress->showPreview(false);
+        double avg_path_length = 0.;
+        uint nbNodes = graph->numberOfNodes();
+        uint count = 0;
 
-    for (auto s : graph->nodes()) {
+        pluginProgress->showPreview(false);
 
-      if (((++count % 50) == 0) &&
-          (pluginProgress->progress(count, nbNodes) != ProgressState::TLP_CONTINUE)) {
-        break;
-      }
+        for (auto s : graph->nodes()) {
 
-      stack<node> S;
-      flat_hash_map<node, list<node>> P;
-      MutableContainer<int> sigma;
-
-      if (weight) {
-        computeDijkstra(s, directed, weight, S, P, sigma);
-      } else {
-        computeBFS(s, directed, S, P, sigma);
-      }
-
-      MutableContainer<double> delta;
-      delta.setAll(0.0);
-
-      while (!S.empty()) {
-        node w = S.top();
-        double wD = delta.get(w.id);
-        S.pop();
-
-        for (auto v : P[w]) {
-          double vd = double(sigma.get(v.id)) / double(sigma.get(w.id)) * (1.0 + wD);
-          delta.add(v.id, vd);
-          edge e = graph->existEdge(v, w, directed);
-
-          if (e.isValid()) {
-            result->setEdgeValue(e, result->getEdgeValue(e) + vd);
-            if (weight) {
-              avg_path_length += vd * weight->getEdgeDoubleValue(e);
-            } else {
-              avg_path_length += vd;
+            if (((++count % 50) == 0) &&
+                (pluginProgress->progress(count, nbNodes) != ProgressState::TLP_CONTINUE)) {
+                break;
             }
-          }
+
+            stack<node> S;
+            flat_hash_map<node, list<node>> P;
+            MutableContainer<int> sigma;
+
+            if (weight) {
+                computeDijkstra(s, directed, weight, S, P, sigma);
+            } else {
+                computeBFS(s, directed, S, P, sigma);
+            }
+
+            MutableContainer<double> delta;
+            delta.setAll(0.0);
+
+            while (!S.empty()) {
+                node w = S.top();
+                double wD = delta.get(w.id);
+                S.pop();
+
+                for (auto v : P[w]) {
+                    double vd = double(sigma.get(v.id)) / double(sigma.get(w.id)) * (1.0 + wD);
+                    delta.add(v.id, vd);
+                    edge e = graph->existEdge(v, w, directed);
+
+                    if (e.isValid()) {
+                        result->setEdgeValue(e, result->getEdgeValue(e) + vd);
+                        if (weight) {
+                            avg_path_length += vd * weight->getEdgeDoubleValue(e);
+                        } else {
+                            avg_path_length += vd;
+                        }
+                    }
+                }
+
+                if (w != s) {
+                    result->setNodeValue(w, result->getNodeValue(w) + wD);
+                }
+            }
         }
 
-        if (w != s) {
-          result->setNodeValue(w, result->getNodeValue(w) + wD);
+        if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+            return pluginProgress->state() != ProgressState::TLP_CANCEL;
         }
-      }
+
+        // Normalization
+        if (norm || !directed) {
+            double n = graph->numberOfNodes();
+            const double nNormFactor = 1.0 / ((n - 1) * (n - 2));
+
+            for (auto s : graph->nodes()) {
+
+                // In the undirected case, the metric must be divided by two, then
+                if (norm) {
+                    result->setNodeValue(s, result->getNodeValue(s) * nNormFactor);
+                }
+
+                if (!directed) {
+                    result->setNodeValue(s, result->getNodeValue(s) * 0.5);
+                }
+            }
+
+            const double eNormFactor = 4.0 / (n * n);
+
+            for (auto e : graph->edges()) {
+
+                if (norm) {
+                    result->setEdgeValue(e, result->getEdgeValue(e) * eNormFactor);
+                }
+
+                if (!directed) {
+                    result->setEdgeValue(e, result->getEdgeValue(e) * 0.5);
+                }
+            }
+        }
+        avg_path_length /= (nbNodes * (nbNodes - 1.));
+        dataSet->set("average path length", avg_path_length);
+
+        return pluginProgress->state() != ProgressState::TLP_CANCEL;
     }
 
-    if (pluginProgress->state() != ProgressState::TLP_CONTINUE) {
-      return pluginProgress->state() != ProgressState::TLP_CANCEL;
+  private:
+    void computeBFS(node s, bool directed, stack<node> &S, flat_hash_map<node, list<node>> &P,
+                    MutableContainer<int> &sigma) {
+        sigma.setAll(0);
+        sigma.set(s.id, 1);
+        MutableContainer<int> d;
+        d.setAll(-1);
+        d.set(s.id, 0);
+        queue<node> Q;
+        Q.push(s);
+
+        while (!Q.empty()) {
+            node v = Q.front();
+            int vd = d.get(v.id);
+            int vs = sigma.get(v.id);
+            Q.pop();
+            S.push(v);
+
+            for (auto w : (directed ? graph->getOutNodes(v) : graph->getInOutNodes(v))) {
+                int wd = d.get(w.id);
+
+                if (wd < 0) {
+                    Q.push(w);
+                    d.set(w.id, wd = vd + 1);
+                }
+
+                if (wd == vd + 1) {
+                    sigma.add(w.id, vs);
+                    P[w].push_back(v);
+                }
+            }
+        }
     }
 
-    // Normalization
-    if (norm || !directed) {
-      double n = graph->numberOfNodes();
-      const double nNormFactor = 1.0 / ((n - 1) * (n - 2));
-
-      for (auto s : graph->nodes()) {
-
-        // In the undirected case, the metric must be divided by two, then
-        if (norm) {
-          result->setNodeValue(s, result->getNodeValue(s) * nNormFactor);
-        }
-
-        if (!directed) {
-          result->setNodeValue(s, result->getNodeValue(s) * 0.5);
-        }
-      }
-
-      const double eNormFactor = 4.0 / (n * n);
-
-      for (auto e : graph->edges()) {
-
-        if (norm) {
-          result->setEdgeValue(e, result->getEdgeValue(e) * eNormFactor);
-        }
-
-        if (!directed) {
-          result->setEdgeValue(e, result->getEdgeValue(e) * 0.5);
-        }
-      }
+    void computeDijkstra(node s, bool directed, NumericProperty *weight, stack<node> &S,
+                         flat_hash_map<node, list<node>> &P, MutableContainer<int> &sigma) {
+        EdgeVectorProperty<double> eWeights(graph);
+        eWeights.copyFromNumericProperty(weight);
+        NodeVectorProperty<double> nodeDistance(graph);
+        tlp::computeDijkstra(graph, s, eWeights, nodeDistance,
+                             directed ? EdgeType::DIRECTED : EdgeType::UNDIRECTED, P, &S, &sigma);
     }
-    avg_path_length /= (nbNodes * (nbNodes - 1.));
-    dataSet->set("average path length", avg_path_length);
-
-    return pluginProgress->state() != ProgressState::TLP_CANCEL;
-  }
-
-private:
-  void computeBFS(node s, bool directed, stack<node> &S, flat_hash_map<node, list<node>> &P,
-                  MutableContainer<int> &sigma) {
-    sigma.setAll(0);
-    sigma.set(s.id, 1);
-    MutableContainer<int> d;
-    d.setAll(-1);
-    d.set(s.id, 0);
-    queue<node> Q;
-    Q.push(s);
-
-    while (!Q.empty()) {
-      node v = Q.front();
-      int vd = d.get(v.id);
-      int vs = sigma.get(v.id);
-      Q.pop();
-      S.push(v);
-
-      for (auto w : (directed ? graph->getOutNodes(v) : graph->getInOutNodes(v))) {
-        int wd = d.get(w.id);
-
-        if (wd < 0) {
-          Q.push(w);
-          d.set(w.id, wd = vd + 1);
-        }
-
-        if (wd == vd + 1) {
-          sigma.add(w.id, vs);
-          P[w].push_back(v);
-        }
-      }
-    }
-  }
-
-  void computeDijkstra(node s, bool directed, NumericProperty *weight, stack<node> &S,
-                       flat_hash_map<node, list<node>> &P, MutableContainer<int> &sigma) {
-    EdgeVectorProperty<double> eWeights(graph);
-    eWeights.copyFromNumericProperty(weight);
-    NodeVectorProperty<double> nodeDistance(graph);
-    tlp::computeDijkstra(graph, s, eWeights, nodeDistance,
-                         directed ? EdgeType::DIRECTED : EdgeType::UNDIRECTED, P, &S, &sigma);
-  }
 };
 
 PLUGIN(BetweennessCentrality)

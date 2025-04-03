@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -89,9 +89,9 @@ the order they have been visited.
 
 %MethodCode
 if (a0->isElement(*a1)) {
-  sipRes = new std::vector<tlp::node>(tlp::bfs(a0, *a1, a2));
+    sipRes = new std::vector<tlp::node>(tlp::bfs(a0, *a1, a2));
 } else {
-  sipIsErr = throwInvalidNodeException(a0, *a1);
+    sipIsErr = throwInvalidNodeException(a0, *a1);
 }
 %End
 
@@ -131,9 +131,9 @@ the order they have been followed.
 
 %MethodCode
 if (a0->isElement(*a1)) {
-  sipRes = new std::vector<tlp::edge>(tlp::bfsEdges(a0, *a1, a2));
+    sipRes = new std::vector<tlp::edge>(tlp::bfsEdges(a0, *a1, a2));
 } else {
-  sipIsErr = throwInvalidNodeException(a0, *a1);
+    sipIsErr = throwInvalidNodeException(a0, *a1);
 }
 %End
 
@@ -211,9 +211,9 @@ order they have been visited.
 
 %MethodCode
 if (a0->isElement(*a1)) {
-  sipRes = new std::vector<tlp::node>(tlp::dfs(a0, *a1, a2));
+    sipRes = new std::vector<tlp::node>(tlp::dfs(a0, *a1, a2));
 } else {
-  sipIsErr = throwInvalidNodeException(a0, *a1);
+    sipIsErr = throwInvalidNodeException(a0, *a1);
 }
 %End
 
@@ -253,9 +253,9 @@ order they have been followed.
 
 %MethodCode
 if (a0->isElement(*a1)) {
-  sipRes = new std::vector<tlp::edge>(tlp::dfsEdges(a0, *a1, a2));
+    sipRes = new std::vector<tlp::edge>(tlp::dfsEdges(a0, *a1, a2));
 } else {
-  sipIsErr = throwInvalidNodeException(a0, *a1);
+    sipIsErr = throwInvalidNodeException(a0, *a1);
 }
 %End
 
@@ -332,13 +332,13 @@ which ``graph['viewSelection']`` value is equal to :const:`True`.
 
 %MethodCode
 if (a0->isElement(*a1)) {
-  if (a0->isElement(*a2)) {
-    sipRes = tlp::selectShortestPaths(a0, *a1, *a2, a3, a4, a5);
-  } else {
-    sipIsErr = throwInvalidNodeException(a0, *a2);
-  }
+    if (a0->isElement(*a2)) {
+        sipRes = tlp::selectShortestPaths(a0, *a1, *a2, a3, a4, a5);
+    } else {
+        sipIsErr = throwInvalidNodeException(a0, *a2);
+    }
 } else {
-  sipIsErr = throwInvalidNodeException(a0, *a1);
+    sipIsErr = throwInvalidNodeException(a0, *a1);
 }
 %End
 };

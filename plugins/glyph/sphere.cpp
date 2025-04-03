@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,12 +24,12 @@ using namespace tlp;
 namespace tlp {
 
 static void drawGlyph(const Color &glyphColor, const string &texture, const string &texturePath) {
-  static GlSphere sphere(Coord(0, 0, 0), 0.5);
+    static GlSphere sphere(Coord(0, 0, 0), 0.5);
 
-  sphere.setColor(glyphColor);
-  sphere.setTexture(texturePath + texture);
+    sphere.setColor(glyphColor);
+    sphere.setTexture(texturePath + texture);
 
-  sphere.draw(0, nullptr);
+    sphere.draw(0, nullptr);
 }
 
 /// A 3D glyph.
@@ -39,13 +39,13 @@ static void drawGlyph(const Color &glyphColor, const string &texture, const stri
  * is then colored using the "viewColor" node property value.
  */
 class Sphere : public NoShaderGlyph {
-public:
-  GLYPHINFORMATION("3D - Sphere", "Bertrand Mathieu", "09/07/2002", "Textured sphere", "1.0",
-                   NodeShape::Sphere)
-  Sphere(const tlp::PluginContext *context = nullptr);
-  ~Sphere() override;
-  BoundingBox getIncludeBoundingBox(node) override;
-  void draw(node n, float lod) override;
+  public:
+    GLYPHINFORMATION("3D - Sphere", "Bertrand Mathieu", "09/07/2002", "Textured sphere", "1.0",
+                     NodeShape::Sphere)
+    Sphere(const tlp::PluginContext *context = nullptr);
+    ~Sphere() override;
+    BoundingBox getIncludeBoundingBox(node) override;
+    void draw(node n, float lod) override;
 };
 
 PLUGIN(Sphere)
@@ -56,26 +56,26 @@ Sphere::Sphere(const tlp::PluginContext *context) : NoShaderGlyph(context) {}
 Sphere::~Sphere() = default;
 
 BoundingBox Sphere::getIncludeBoundingBox(node) {
-  return {{-0.35f, -0.35f, -0.35f}, {0.35f, 0.35f, 0.35f}};
+    return {{-0.35f, -0.35f, -0.35f}, {0.35f, 0.35f, 0.35f}};
 }
 
 void Sphere::draw(node n, float) {
-  drawGlyph(glGraphInputData->colors()->getNodeValue(n),
-            glGraphInputData->textures()->getNodeValue(n),
-            glGraphInputData->renderingParameters()->getTexturePath());
+    drawGlyph(glGraphInputData->colors()->getNodeValue(n),
+              glGraphInputData->textures()->getNodeValue(n),
+              glGraphInputData->renderingParameters()->getTexturePath());
 }
 
 class EESphere : public EdgeExtremityGlyph {
-  GLYPHINFORMATION("3D - Sphere extremity", "Bertrand Mathieu", "09/07/2002",
-                   "Textured sphere for edge extremities", "1.0", EdgeExtremityShape::Sphere)
-public:
-  EESphere(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
-  ~EESphere() override = default;
-  void draw(edge e, node, const Color &glyphColor, const Color &, float) override {
-    glEnable(GL_LIGHTING);
-    drawGlyph(glyphColor, edgeExtGlGraphInputData->textures()->getEdgeValue(e),
-              edgeExtGlGraphInputData->renderingParameters()->getTexturePath());
-  }
+    GLYPHINFORMATION("3D - Sphere extremity", "Bertrand Mathieu", "09/07/2002",
+                     "Textured sphere for edge extremities", "1.0", EdgeExtremityShape::Sphere)
+  public:
+    EESphere(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
+    ~EESphere() override = default;
+    void draw(edge e, node, const Color &glyphColor, const Color &, float) override {
+        glEnable(GL_LIGHTING);
+        drawGlyph(glyphColor, edgeExtGlGraphInputData->textures()->getEdgeValue(e),
+                  edgeExtGlGraphInputData->renderingParameters()->getTexturePath());
+    }
 };
 
 PLUGIN(EESphere)

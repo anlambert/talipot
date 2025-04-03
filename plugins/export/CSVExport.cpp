@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -78,236 +78,238 @@ static constexpr std::string_view paramHelp[] = {
 
 //================================================================================
 CsvExport::CsvExport(const PluginContext *context) : ExportModule(context) {
-  addInParameter<StringCollection>(ELT_TYPE, paramHelp[0].data(), ELT_TYPES);
-  addInParameter<bool>(EXPORT_SELECTION, paramHelp[1].data(), "false");
-  addInParameter<BooleanProperty>("Export selection property", paramHelp[2].data(),
-                                  "viewSelection");
-  addInParameter<bool>(EXPORT_ID, paramHelp[3].data(), "false");
-  addInParameter<bool>(EXPORT_VISUAL_PROPERTIES, paramHelp[4].data(), "false");
-  addInParameter<StringCollection>(FIELD_SEPARATOR, paramHelp[5].data(), FIELD_SEPARATORS);
-  addInParameter<string>(FIELD_SEPARATOR_CUSTOM, paramHelp[6].data(), CUSTOM_MARK);
-  addInParameter<StringCollection>(STRING_DELIMITER, paramHelp[7].data(), STRING_DELIMITERS);
-  addInParameter<StringCollection>(DECIMAL_MARK, paramHelp[8].data(), DECIMAL_MARKS);
+    addInParameter<StringCollection>(ELT_TYPE, paramHelp[0].data(), ELT_TYPES);
+    addInParameter<bool>(EXPORT_SELECTION, paramHelp[1].data(), "false");
+    addInParameter<BooleanProperty>("Export selection property", paramHelp[2].data(),
+                                    "viewSelection");
+    addInParameter<bool>(EXPORT_ID, paramHelp[3].data(), "false");
+    addInParameter<bool>(EXPORT_VISUAL_PROPERTIES, paramHelp[4].data(), "false");
+    addInParameter<StringCollection>(FIELD_SEPARATOR, paramHelp[5].data(), FIELD_SEPARATORS);
+    addInParameter<string>(FIELD_SEPARATOR_CUSTOM, paramHelp[6].data(), CUSTOM_MARK);
+    addInParameter<StringCollection>(STRING_DELIMITER, paramHelp[7].data(), STRING_DELIMITERS);
+    addInParameter<StringCollection>(DECIMAL_MARK, paramHelp[8].data(), DECIMAL_MARKS);
 }
 
 //================================================================================
 // define a special facet to force the output
 // of a comma as decimal mark
 struct decimal_comma : std::numpunct<char> {
-  char do_decimal_point() const override {
-    return ',';
-  }
+    char do_decimal_point() const override {
+        return ',';
+    }
 };
 
 bool CsvExport::exportGraph(std::ostream &os) {
-  // initialize parameters with default values
-  // only nodes are exported
-  StringCollection eltTypes(ELT_TYPES);
-  int eltType = 0;
-  bool first = true;
-  eltTypes.setCurrent(0);
-  // export all
-  bool exportSelection = false;
-  // ids are not exported
-  bool exportId = false;
-  // export visual properties
-  bool exportVisualProperties = false;
-  // field separator is Custom
-  StringCollection fieldSeparators(FIELD_SEPARATORS);
-  fieldSeparators.setCurrent(0);
-  // custom field separator is ;
-  string fieldSeparatorCustom(CUSTOM_MARK);
-  // string delimiter is "
-  StringCollection stringDelimiters(STRING_DELIMITERS);
-  stringDelimiters.setCurrent(0);
-  // decimal mark is .
-  StringCollection decimalMarks(DECIMAL_MARKS);
-  decimalMarks.setCurrent(0);
+    // initialize parameters with default values
+    // only nodes are exported
+    StringCollection eltTypes(ELT_TYPES);
+    int eltType = 0;
+    bool first = true;
+    eltTypes.setCurrent(0);
+    // export all
+    bool exportSelection = false;
+    // ids are not exported
+    bool exportId = false;
+    // export visual properties
+    bool exportVisualProperties = false;
+    // field separator is Custom
+    StringCollection fieldSeparators(FIELD_SEPARATORS);
+    fieldSeparators.setCurrent(0);
+    // custom field separator is ;
+    string fieldSeparatorCustom(CUSTOM_MARK);
+    // string delimiter is "
+    StringCollection stringDelimiters(STRING_DELIMITERS);
+    stringDelimiters.setCurrent(0);
+    // decimal mark is .
+    StringCollection decimalMarks(DECIMAL_MARKS);
+    decimalMarks.setCurrent(0);
 
-  // get chosen values of plugin parameters
-  if (dataSet != nullptr) {
-    if (dataSet->get(ELT_TYPE, eltTypes)) {
-      eltType = eltTypes.getCurrent();
+    // get chosen values of plugin parameters
+    if (dataSet != nullptr) {
+        if (dataSet->get(ELT_TYPE, eltTypes)) {
+            eltType = eltTypes.getCurrent();
+        }
+
+        dataSet->get(EXPORT_SELECTION, exportSelection);
+        dataSet->get(EXPORT_ID, exportId);
+        dataSet->get(EXPORT_VISUAL_PROPERTIES, exportVisualProperties);
+        dataSet->get(FIELD_SEPARATOR_CUSTOM, fieldSeparatorCustom);
+
+        if (dataSet->get(FIELD_SEPARATOR, fieldSeparators)) {
+            switch (fieldSeparators.getCurrent()) {
+            case COMMA_SEPARATOR:
+                fieldSeparator = ',';
+                break;
+
+            case TAB_SEPARATOR:
+                fieldSeparator = '\t';
+                break;
+
+            case SPACE_SEPARATOR:
+                fieldSeparator = ' ';
+                break;
+
+            case SEMICOLON_SEPARATOR:
+                fieldSeparator = ';';
+                break;
+
+            default:
+                fieldSeparator = fieldSeparatorCustom;
+            }
+        }
+
+        if (dataSet->get(STRING_DELIMITER, stringDelimiters)) {
+            stringDelimiter = stringDelimiters.getCurrent() == DBL_QUOTE_DELIMITER ? '"' : '\'';
+        }
+
+        if (dataSet->get(DECIMAL_MARK, decimalMarks)) {
+            decimalMark = decimalMarks.getCurrent() ? ',' : '.';
+        }
     }
 
-    dataSet->get(EXPORT_SELECTION, exportSelection);
-    dataSet->get(EXPORT_ID, exportId);
-    dataSet->get(EXPORT_VISUAL_PROPERTIES, exportVisualProperties);
-    dataSet->get(FIELD_SEPARATOR_CUSTOM, fieldSeparatorCustom);
+    // export names of fields
+    // export ids if needed
+    if (exportId) {
+        if (eltType != EdgeType) {
+            exportString(os, string("node id"));
+        }
 
-    if (dataSet->get(FIELD_SEPARATOR, fieldSeparators)) {
-      switch (fieldSeparators.getCurrent()) {
-      case COMMA_SEPARATOR:
-        fieldSeparator = ',';
-        break;
+        if (eltType == BOTH_TYPES) {
+            os << fieldSeparator;
+        }
 
-      case TAB_SEPARATOR:
-        fieldSeparator = '\t';
-        break;
+        if (eltType != NODE_TYPE) {
+            exportString(os, string("src id"));
+            os << fieldSeparator;
+            exportString(os, string("tgt id"));
+        }
 
-      case SPACE_SEPARATOR:
-        fieldSeparator = ' ';
-        break;
-
-      case SEMICOLON_SEPARATOR:
-        fieldSeparator = ';';
-        break;
-
-      default:
-        fieldSeparator = fieldSeparatorCustom;
-      }
-    }
-
-    if (dataSet->get(STRING_DELIMITER, stringDelimiters)) {
-      stringDelimiter = stringDelimiters.getCurrent() == DBL_QUOTE_DELIMITER ? '"' : '\'';
-    }
-
-    if (dataSet->get(DECIMAL_MARK, decimalMarks)) {
-      decimalMark = decimalMarks.getCurrent() ? ',' : '.';
-    }
-  }
-
-  // export names of fields
-  // export ids if needed
-  if (exportId) {
-    if (eltType != EdgeType) {
-      exportString(os, string("node id"));
-    }
-
-    if (eltType == BOTH_TYPES) {
-      os << fieldSeparator;
-    }
-
-    if (eltType != NODE_TYPE) {
-      exportString(os, string("src id"));
-      os << fieldSeparator;
-      exportString(os, string("tgt id"));
-    }
-
-    first = false;
-  }
-
-  // export non talipot defined properties
-  // use vectors for further access to exported properties
-  vector<PropertyInterface *> props;
-  vector<bool> propIsString;
-  uint nbProps = 0;
-
-  for (PropertyInterface *prop : graph->getObjectProperties()) {
-    const string &propName = prop->getName();
-
-    if (propName.substr(0, 4) != "view" || exportVisualProperties) {
-      ++nbProps;
-      props.push_back(prop);
-      propIsString.push_back(dynamic_cast<tlp::StringProperty *>(prop));
-
-      if (!first) {
-        os << fieldSeparator;
-      } else {
         first = false;
-      }
-
-      exportString(os, propName);
     }
-  }
 
-  os << endl;
+    // export non talipot defined properties
+    // use vectors for further access to exported properties
+    vector<PropertyInterface *> props;
+    vector<bool> propIsString;
+    uint nbProps = 0;
 
-  // export nodes
-  BooleanProperty *prop = graph->getBooleanProperty("viewSelection");
+    for (PropertyInterface *prop : graph->getObjectProperties()) {
+        const string &propName = prop->getName();
 
-  if (exportSelection && dataSet != nullptr) {
-    dataSet->get("Export selection property", prop);
-  }
+        if (propName.substr(0, 4) != "view" || exportVisualProperties) {
+            ++nbProps;
+            props.push_back(prop);
+            propIsString.push_back(dynamic_cast<tlp::StringProperty *>(prop));
 
-  // get global locale
-  std::locale prevLocale;
+            if (!first) {
+                os << fieldSeparator;
+            } else {
+                first = false;
+            }
 
-  // change decimal point of global locale if needed
-  if (decimalMark == ',') {
-    std::locale::global(std::locale(prevLocale, new decimal_comma));
-  }
-
-  if (eltType != EdgeType) {
-    Iterator<node> *it = exportSelection ? prop->getNodesEqualTo(true, graph) : graph->getNodes();
-
-    for (auto n : it) {
-
-      if (exportId) {
-        os << n;
-
-        if (eltType == BOTH_TYPES) {
-          os << fieldSeparator << fieldSeparator;
+            exportString(os, propName);
         }
-
-        if (nbProps > 0) {
-          os << fieldSeparator;
-        }
-      }
-
-      for (uint i = 0; i < nbProps; ++i) {
-        PropertyInterface *prop = props[i];
-        string value = prop->getNodeStringValue(n);
-
-        if (!value.empty()) {
-          if (propIsString[i]) {
-            exportString(os, value);
-          } else {
-            os << value;
-          }
-        }
-
-        if (i != nbProps - 1) {
-          os << fieldSeparator;
-        }
-      }
-
-      os << endl;
     }
-  }
 
-  // export edges
-  if (eltType != NODE_TYPE) {
-    Iterator<edge> *it = exportSelection ? prop->getEdgesEqualTo(true, graph) : graph->getEdges();
+    os << endl;
 
-    for (auto e : it) {
+    // export nodes
+    BooleanProperty *prop = graph->getBooleanProperty("viewSelection");
 
-      if (exportId) {
-        if (eltType == BOTH_TYPES) {
-          os << fieldSeparator;
-        }
-
-        const auto &[src, tgt] = graph->ends(e);
-        os << src.id << fieldSeparator << tgt.id;
-
-        if (nbProps > 0) {
-          os << fieldSeparator;
-        }
-      }
-
-      for (uint i = 0; i < nbProps; ++i) {
-        PropertyInterface *prop = props[i];
-        string value = prop->getEdgeStringValue(e);
-
-        if (!value.empty()) {
-          if (propIsString[i]) {
-            exportString(os, value);
-          } else {
-            os << value;
-          }
-        }
-
-        if (i != nbProps - 1) {
-          os << fieldSeparator;
-        }
-      }
-
-      os << endl;
+    if (exportSelection && dataSet != nullptr) {
+        dataSet->get("Export selection property", prop);
     }
-  }
 
-  // restore global locale
-  std::locale::global(prevLocale);
+    // get global locale
+    std::locale prevLocale;
 
-  return true;
+    // change decimal point of global locale if needed
+    if (decimalMark == ',') {
+        std::locale::global(std::locale(prevLocale, new decimal_comma));
+    }
+
+    if (eltType != EdgeType) {
+        Iterator<node> *it =
+            exportSelection ? prop->getNodesEqualTo(true, graph) : graph->getNodes();
+
+        for (auto n : it) {
+
+            if (exportId) {
+                os << n;
+
+                if (eltType == BOTH_TYPES) {
+                    os << fieldSeparator << fieldSeparator;
+                }
+
+                if (nbProps > 0) {
+                    os << fieldSeparator;
+                }
+            }
+
+            for (uint i = 0; i < nbProps; ++i) {
+                PropertyInterface *prop = props[i];
+                string value = prop->getNodeStringValue(n);
+
+                if (!value.empty()) {
+                    if (propIsString[i]) {
+                        exportString(os, value);
+                    } else {
+                        os << value;
+                    }
+                }
+
+                if (i != nbProps - 1) {
+                    os << fieldSeparator;
+                }
+            }
+
+            os << endl;
+        }
+    }
+
+    // export edges
+    if (eltType != NODE_TYPE) {
+        Iterator<edge> *it =
+            exportSelection ? prop->getEdgesEqualTo(true, graph) : graph->getEdges();
+
+        for (auto e : it) {
+
+            if (exportId) {
+                if (eltType == BOTH_TYPES) {
+                    os << fieldSeparator;
+                }
+
+                const auto &[src, tgt] = graph->ends(e);
+                os << src.id << fieldSeparator << tgt.id;
+
+                if (nbProps > 0) {
+                    os << fieldSeparator;
+                }
+            }
+
+            for (uint i = 0; i < nbProps; ++i) {
+                PropertyInterface *prop = props[i];
+                string value = prop->getEdgeStringValue(e);
+
+                if (!value.empty()) {
+                    if (propIsString[i]) {
+                        exportString(os, value);
+                    } else {
+                        os << value;
+                    }
+                }
+
+                if (i != nbProps - 1) {
+                    os << fieldSeparator;
+                }
+            }
+
+            os << endl;
+        }
+    }
+
+    // restore global locale
+    std::locale::global(prevLocale);
+
+    return true;
 }

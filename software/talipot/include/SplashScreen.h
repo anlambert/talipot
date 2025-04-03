@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,35 +23,35 @@
   @brief a splash screen used when loading plugins.
   */
 class SplashScreen : public tlp::PluginLoader, public QSplashScreen {
-public:
-  SplashScreen(bool debugOuput);
+  public:
+    SplashScreen(bool debugOuput);
 
-  void start(const std::string &path) override;
-  void loading(const std::string &filename) override;
-  void loaded(const tlp::Plugin *plugin, const std::list<tlp::Dependency> &deps) override;
-  void numberOfFiles(int n) override {
-    _numberOfFiles = n;
-    _fileCounter = 0;
-  }
-  void aborted(const std::string &filename, const std::string &errMsg) override;
-  void finished(bool state, const std::string &msg) override;
+    void start(const std::string &path) override;
+    void loading(const std::string &filename) override;
+    void loaded(const tlp::Plugin *plugin, const std::list<tlp::Dependency> &deps) override;
+    void numberOfFiles(int n) override {
+        _numberOfFiles = n;
+        _fileCounter = 0;
+    }
+    void aborted(const std::string &filename, const std::string &errMsg) override;
+    void finished(bool state, const std::string &msg) override;
 
-  const QMap<QString, QString> &errors() {
-    return _errors;
-  }
+    const QMap<QString, QString> &errors() {
+        return _errors;
+    }
 
-protected:
-  void drawContents(QPainter *painter) override;
+  protected:
+    void drawContents(QPainter *painter) override;
 
-private:
-  QString _title;
-  QString _message;
+  private:
+    QString _title;
+    QString _message;
 
-  int _fileCounter;
-  int _numberOfFiles;
+    int _fileCounter;
+    int _numberOfFiles;
 
-  QMap<QString, QString> _errors;
-  bool _debugOutput;
+    QMap<QString, QString> _errors;
+    bool _debugOutput;
 };
 
 #endif // SPLASH_SCREEN_H

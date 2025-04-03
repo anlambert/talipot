@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,517 +24,518 @@ class PluginProgress;
 struct TLPParser;
 
 struct ParserError {
-  ParserError(int err = 0, int lin = 0, int cha = 0)
-      : errorNumber(err), lineInFile(lin), charInLine(cha) {}
-  int errorNumber;
-  int lineInFile;
-  int charInLine;
+    ParserError(int err = 0, int lin = 0, int cha = 0)
+        : errorNumber(err), lineInFile(lin), charInLine(cha) {}
+    int errorNumber;
+    int lineInFile;
+    int charInLine;
 };
 
 struct TLPValue {
-  std::string str;
-  long integer;
-  double real;
-  bool boolean;
-  std::pair<long, long> range;
+    std::string str;
+    long integer;
+    double real;
+    bool boolean;
+    std::pair<long, long> range;
 };
 
 enum TLPToken {
-  BOOLTOKEN,
-  ENDOFSTREAM,
-  STRINGTOKEN,
-  INTTOKEN,
-  DOUBLETOKEN,
-  IDTOKEN,
-  ERRORINFILE,
-  OPENTOKEN,
-  CLOSETOKEN,
-  COMMENTTOKEN,
-  RANGETOKEN
+    BOOLTOKEN,
+    ENDOFSTREAM,
+    STRINGTOKEN,
+    INTTOKEN,
+    DOUBLETOKEN,
+    IDTOKEN,
+    ERRORINFILE,
+    OPENTOKEN,
+    CLOSETOKEN,
+    COMMENTTOKEN,
+    RANGETOKEN
 };
 //=====================================================================================
 struct TLPTokenParser {
-  int curLine;
-  std::istream &is;
-  TLPTokenParser(std::istream &i) : curLine(0), is(i) {}
+    int curLine;
+    std::istream &is;
+    TLPTokenParser(std::istream &i) : curLine(0), is(i) {}
 
-  bool newLine(char ch, int &curPos) {
-    if (ch != '\n') {
-      is.get(ch);
+    bool newLine(char ch, int &curPos) {
+        if (ch != '\n') {
+            is.get(ch);
 
-      if (ch != '\n') {
-        is.unget();
-        return false;
-      }
+            if (ch != '\n') {
+                is.unget();
+                return false;
+            }
 
-      ++curPos;
-    }
-
-    ++curLine;
-    return true;
-  }
-
-  TLPToken nextToken(TLPValue &val, int &curPos) {
-    val.str.erase();
-    bool endOfStream = false, strGet = false, slashMode = false, started = false, stop = false,
-         strComment = false;
-    char ch;
-
-    while ((!stop) && (endOfStream = !(is.get(ch).fail()))) {
-      ++curPos;
-
-      if (strGet) {
-        switch (ch) {
-        case 13:
-        case '\n':
-          if (!newLine(ch, curPos)) {
-            break;
-          }
-
-          val.str += ch;
-          break;
-
-        case '\t':
-          val.str += "    ";
-          break;
-
-        case '\\':
-
-          if (!slashMode) {
-            slashMode = true;
-          } else {
-            val.str += ch;
-            slashMode = false;
-          }
-
-          break;
-
-        case '"':
-
-          if (!slashMode) {
-            return STRINGTOKEN;
-          } else {
-            val.str += ch;
-            slashMode = false;
-          }
-
-          break;
-
-        case 'n':
-          if (slashMode) {
-            val.str += '\n';
-            slashMode = false;
-            break;
-          }
-          [[fallthrough]];
-
-        default:
-          if (!slashMode) {
-            val.str += ch;
-          }
-
-          slashMode = false;
-          break;
+            ++curPos;
         }
-      } else if (strComment) {
-        switch (ch) {
-        case 13:
-        case '\n':
-          if (!newLine(ch, curPos)) {
-            break;
-          }
 
-          stop = true;
-          return COMMENTTOKEN;
-          break;
+        ++curLine;
+        return true;
+    }
 
-        default:
-          val.str += ch;
-          break;
+    TLPToken nextToken(TLPValue &val, int &curPos) {
+        val.str.erase();
+        bool endOfStream = false, strGet = false, slashMode = false, started = false, stop = false,
+             strComment = false;
+        char ch;
+
+        while ((!stop) && (endOfStream = !(is.get(ch).fail()))) {
+            ++curPos;
+
+            if (strGet) {
+                switch (ch) {
+                case 13:
+                case '\n':
+                    if (!newLine(ch, curPos)) {
+                        break;
+                    }
+
+                    val.str += ch;
+                    break;
+
+                case '\t':
+                    val.str += "    ";
+                    break;
+
+                case '\\':
+
+                    if (!slashMode) {
+                        slashMode = true;
+                    } else {
+                        val.str += ch;
+                        slashMode = false;
+                    }
+
+                    break;
+
+                case '"':
+
+                    if (!slashMode) {
+                        return STRINGTOKEN;
+                    } else {
+                        val.str += ch;
+                        slashMode = false;
+                    }
+
+                    break;
+
+                case 'n':
+                    if (slashMode) {
+                        val.str += '\n';
+                        slashMode = false;
+                        break;
+                    }
+                    [[fallthrough]];
+
+                default:
+                    if (!slashMode) {
+                        val.str += ch;
+                    }
+
+                    slashMode = false;
+                    break;
+                }
+            } else if (strComment) {
+                switch (ch) {
+                case 13:
+                case '\n':
+                    if (!newLine(ch, curPos)) {
+                        break;
+                    }
+
+                    stop = true;
+                    return COMMENTTOKEN;
+                    break;
+
+                default:
+                    val.str += ch;
+                    break;
+                }
+            } else {
+                switch (ch) {
+                case ' ':
+                case '\t':
+                    if (started) {
+                        stop = true;
+                    }
+
+                    break;
+
+                case 13:
+                case '\n':
+                    if (!newLine(ch, curPos)) {
+                        break;
+                    }
+
+                    if (started) {
+                        stop = true;
+                    }
+
+                    break;
+
+                case '(':
+                    if (!started) {
+                        return OPENTOKEN;
+                    } else {
+                        --curPos;
+                        is.unget();
+                        stop = true;
+                    }
+
+                    break;
+
+                case ')':
+                    if (!started) {
+                        return CLOSETOKEN;
+                    } else {
+                        --curPos;
+                        is.unget();
+                        stop = true;
+                    }
+
+                    break;
+
+                case '"':
+                    strGet = true;
+
+                    if (started) {
+                        --curPos;
+                        is.unget();
+                        stop = true;
+                    } else {
+                        started = true;
+                    }
+
+                    break;
+
+                case ';':
+                    strComment = true;
+
+                    if (started) {
+                        --curPos;
+                        is.unget();
+                        stop = true;
+                    } else {
+                        started = true;
+                    }
+
+                    break;
+
+                default:
+                    val.str += ch;
+                    started = true;
+                    break;
+                }
+            }
         }
-      } else {
-        switch (ch) {
-        case ' ':
-        case '\t':
-          if (started) {
-            stop = true;
-          }
 
-          break;
-
-        case 13:
-        case '\n':
-          if (!newLine(ch, curPos)) {
-            break;
-          }
-
-          if (started) {
-            stop = true;
-          }
-
-          break;
-
-        case '(':
-          if (!started) {
-            return OPENTOKEN;
-          } else {
-            --curPos;
-            is.unget();
-            stop = true;
-          }
-
-          break;
-
-        case ')':
-          if (!started) {
-            return CLOSETOKEN;
-          } else {
-            --curPos;
-            is.unget();
-            stop = true;
-          }
-
-          break;
-
-        case '"':
-          strGet = true;
-
-          if (started) {
-            --curPos;
-            is.unget();
-            stop = true;
-          } else {
-            started = true;
-          }
-
-          break;
-
-        case ';':
-          strComment = true;
-
-          if (started) {
-            --curPos;
-            is.unget();
-            stop = true;
-          } else {
-            started = true;
-          }
-
-          break;
-
-        default:
-          val.str += ch;
-          started = true;
-          break;
+        if (!started && !endOfStream) {
+            return ENDOFSTREAM;
         }
-      }
-    }
 
-    if (!started && !endOfStream) {
-      return ENDOFSTREAM;
-    }
-
-    char *endPtr = nullptr;
-    const char *cstr = val.str.c_str();
-    errno = 0;
-    long resultl = strtol(cstr, &endPtr, 10);
-
-    if (errno == ERANGE) {
-      return ERRORINFILE;
-    }
-
-    ulong strlength = val.str.length();
-
-    if (endPtr == (cstr + strlength)) {
-      val.integer = resultl;
-      return INTTOKEN;
-    }
-
-    // check for a range
-    if (endPtr > cstr && (cstr + strlength) > (endPtr + 2)) {
-      val.range.first = resultl;
-
-      if ((endPtr[0] == '.') && (endPtr[1] == '.')) {
-        char *beginPtr = endPtr + 2;
+        char *endPtr = nullptr;
+        const char *cstr = val.str.c_str();
         errno = 0;
-        resultl = strtol(beginPtr, &endPtr, 10);
+        long resultl = strtol(cstr, &endPtr, 10);
 
         if (errno == ERANGE) {
-          return ERRORINFILE;
+            return ERRORINFILE;
+        }
+
+        ulong strlength = val.str.length();
+
+        if (endPtr == (cstr + strlength)) {
+            val.integer = resultl;
+            return INTTOKEN;
+        }
+
+        // check for a range
+        if (endPtr > cstr && (cstr + strlength) > (endPtr + 2)) {
+            val.range.first = resultl;
+
+            if ((endPtr[0] == '.') && (endPtr[1] == '.')) {
+                char *beginPtr = endPtr + 2;
+                errno = 0;
+                resultl = strtol(beginPtr, &endPtr, 10);
+
+                if (errno == ERANGE) {
+                    return ERRORINFILE;
+                }
+
+                if (endPtr == (cstr + strlength)) {
+                    if (resultl < val.range.first) {
+                        return ERRORINFILE;
+                    }
+
+                    val.range.second = resultl;
+                    return RANGETOKEN;
+                }
+            }
+        }
+
+        endPtr = nullptr;
+
+        double resultd = strtod(cstr, &endPtr);
+
+        if (errno == ERANGE) {
+            return ERRORINFILE;
         }
 
         if (endPtr == (cstr + strlength)) {
-          if (resultl < val.range.first) {
-            return ERRORINFILE;
-          }
-
-          val.range.second = resultl;
-          return RANGETOKEN;
+            val.real = resultd;
+            return DOUBLETOKEN;
         }
-      }
+
+        if (strcasecmp(cstr, "true") == 0) {
+            val.boolean = true;
+            return BOOLTOKEN;
+        }
+
+        if (strcasecmp(cstr, "false") == 0) {
+            val.boolean = false;
+            return BOOLTOKEN;
+        }
+
+        if (started) {
+            return STRINGTOKEN;
+        }
+
+        return ERRORINFILE;
     }
-
-    endPtr = nullptr;
-
-    double resultd = strtod(cstr, &endPtr);
-
-    if (errno == ERANGE) {
-      return ERRORINFILE;
-    }
-
-    if (endPtr == (cstr + strlength)) {
-      val.real = resultd;
-      return DOUBLETOKEN;
-    }
-
-    if (strcasecmp(cstr, "true") == 0) {
-      val.boolean = true;
-      return BOOLTOKEN;
-    }
-
-    if (strcasecmp(cstr, "false") == 0) {
-      val.boolean = false;
-      return BOOLTOKEN;
-    }
-
-    if (started) {
-      return STRINGTOKEN;
-    }
-
-    return ERRORINFILE;
-  }
 };
 //=====================================================================================
 struct TLPBuilder {
-  virtual ~TLPBuilder() = default;
-  virtual bool addBool(const bool) = 0;
-  virtual bool addInt(const int) = 0;
-  virtual bool addRange(int, int) = 0;
-  virtual bool addDouble(const double) = 0;
-  virtual bool addString(const std::string &) = 0;
-  virtual bool addStruct(const std::string &, TLPBuilder *&) = 0;
-  virtual bool close() = 0;
-  virtual bool canRead() {
-    return false;
-  }
-  virtual bool read(std::istream &) {
-    return false;
-  }
+    virtual ~TLPBuilder() = default;
+    virtual bool addBool(const bool) = 0;
+    virtual bool addInt(const int) = 0;
+    virtual bool addRange(int, int) = 0;
+    virtual bool addDouble(const double) = 0;
+    virtual bool addString(const std::string &) = 0;
+    virtual bool addStruct(const std::string &, TLPBuilder *&) = 0;
+    virtual bool close() = 0;
+    virtual bool canRead() {
+        return false;
+    }
+    virtual bool read(std::istream &) {
+        return false;
+    }
 
-  TLPParser *parser = nullptr;
+    TLPParser *parser = nullptr;
 };
 
 struct TLPTrue : public TLPBuilder {
-  bool addBool(const bool) override {
-    return true;
-  }
-  bool addInt(const int) override {
-    return true;
-  }
-  bool addRange(int, int) override {
-    return true;
-  }
-  bool addDouble(const double) override {
-    return true;
-  }
-  bool addString(const std::string &) override {
-    return true;
-  }
-  bool addStruct(const std::string & /*structName*/, TLPBuilder *&newBuilder) override {
-    newBuilder = new TLPTrue();
-    return true;
-  }
-  bool close() override {
-    return true;
-  }
+    bool addBool(const bool) override {
+        return true;
+    }
+    bool addInt(const int) override {
+        return true;
+    }
+    bool addRange(int, int) override {
+        return true;
+    }
+    bool addDouble(const double) override {
+        return true;
+    }
+    bool addString(const std::string &) override {
+        return true;
+    }
+    bool addStruct(const std::string & /*structName*/, TLPBuilder *&newBuilder) override {
+        newBuilder = new TLPTrue();
+        return true;
+    }
+    bool close() override {
+        return true;
+    }
 };
 
 struct TLPFalse : public TLPBuilder {
-  bool addBool(const bool) override {
-    return false;
-  }
-  bool addInt(const int) override {
-    return false;
-  }
-  bool addRange(int, int) override {
-    return false;
-  }
-  bool addDouble(const double) override {
-    return false;
-  }
-  bool addString(const std::string &) override {
-    return false;
-  }
-  bool addStruct(const std::string & /*structName*/, TLPBuilder *&newBuilder) override {
-    newBuilder = new TLPFalse();
-    return false;
-  }
-  bool close() override {
-    return true;
-  }
+    bool addBool(const bool) override {
+        return false;
+    }
+    bool addInt(const int) override {
+        return false;
+    }
+    bool addRange(int, int) override {
+        return false;
+    }
+    bool addDouble(const double) override {
+        return false;
+    }
+    bool addString(const std::string &) override {
+        return false;
+    }
+    bool addStruct(const std::string & /*structName*/, TLPBuilder *&newBuilder) override {
+        newBuilder = new TLPFalse();
+        return false;
+    }
+    bool close() override {
+        return true;
+    }
 };
 //=====================================================================================
 struct TLPParser {
-  std::list<TLPBuilder *> builderStack;
-  std::istream &inputStream;
-  TLPTokenParser *tokenParser;
-  PluginProgress *pluginProgress;
-  std::string errorMsg;
-  int fileSize, curPos;
-  bool displayComment;
+    std::list<TLPBuilder *> builderStack;
+    std::istream &inputStream;
+    TLPTokenParser *tokenParser;
+    PluginProgress *pluginProgress;
+    std::string errorMsg;
+    int fileSize, curPos;
+    bool displayComment;
 
-  TLPParser(std::istream &inputStream, TLPBuilder *builder, PluginProgress *pluginProgress,
-            int size, bool dispComment = false)
-      : inputStream(inputStream), pluginProgress(pluginProgress), fileSize(size), curPos(0),
-        displayComment(dispComment) {
-    builderStack.push_front(builder);
-  }
-
-  ~TLPParser() {
-    while (!builderStack.empty()) {
-      TLPBuilder *builder = builderStack.front();
-      builderStack.pop_front();
-
-      if (builderStack.empty() || builder != builderStack.front()) {
-        delete builder;
-      }
-    }
-  }
-
-  bool formatError(const std::string &value) const {
-    std::stringstream ess;
-    ess << "Error when parsing '" << value.c_str() << "' at line " << tokenParser->curLine + 1;
-
-    if (errno) {
-      ess << std::endl << strerror(errno);
-    } else if (!errorMsg.empty()) {
-      ess << std::endl << errorMsg;
+    TLPParser(std::istream &inputStream, TLPBuilder *builder, PluginProgress *pluginProgress,
+              int size, bool dispComment = false)
+        : inputStream(inputStream), pluginProgress(pluginProgress), fileSize(size), curPos(0),
+          displayComment(dispComment) {
+        builderStack.push_front(builder);
     }
 
-    pluginProgress->setError(ess.str());
-    return false;
-  }
+    ~TLPParser() {
+        while (!builderStack.empty()) {
+            TLPBuilder *builder = builderStack.front();
+            builderStack.pop_front();
 
-  bool parse() {
-    TLPTokenParser tParser(inputStream);
-    tokenParser = &tParser;
-    TLPToken currentToken;
-    TLPValue currentValue;
-
-    while ((currentToken = tokenParser->nextToken(currentValue, curPos)) != ENDOFSTREAM) {
-      if (curPos % 2000 == 1) {
-        if (pluginProgress->progress(curPos, fileSize) != ProgressState::TLP_CONTINUE) {
-          return pluginProgress->state() != ProgressState::TLP_CANCEL;
+            if (builderStack.empty() || builder != builderStack.front()) {
+                delete builder;
+            }
         }
-      }
+    }
 
-      builderStack.front()->parser = this;
+    bool formatError(const std::string &value) const {
+        std::stringstream ess;
+        ess << "Error when parsing '" << value.c_str() << "' at line " << tokenParser->curLine + 1;
 
-      switch (currentToken) {
-      case OPENTOKEN:
-        currentToken = tokenParser->nextToken(currentValue, curPos);
-
-        if (currentToken != STRINGTOKEN) {
-          return formatError(currentValue.str); // we can throw an exception
+        if (errno) {
+            ess << std::endl << strerror(errno);
+        } else if (!errorMsg.empty()) {
+            ess << std::endl << errorMsg;
         }
 
-        TLPBuilder *newBuilder;
+        pluginProgress->setError(ess.str());
+        return false;
+    }
 
-        if (builderStack.front()->addStruct(currentValue.str, newBuilder)) {
-          newBuilder->parser = this;
-          builderStack.push_front(newBuilder);
+    bool parse() {
+        TLPTokenParser tParser(inputStream);
+        tokenParser = &tParser;
+        TLPToken currentToken;
+        TLPValue currentValue;
 
-          if (newBuilder->canRead() && !newBuilder->read(inputStream)) {
-            return formatError(currentValue.str);
-          }
+        while ((currentToken = tokenParser->nextToken(currentValue, curPos)) != ENDOFSTREAM) {
+            if (curPos % 2000 == 1) {
+                if (pluginProgress->progress(curPos, fileSize) != ProgressState::TLP_CONTINUE) {
+                    return pluginProgress->state() != ProgressState::TLP_CANCEL;
+                }
+            }
 
-        } else {
-          return formatError(currentValue.str);
+            builderStack.front()->parser = this;
+
+            switch (currentToken) {
+            case OPENTOKEN:
+                currentToken = tokenParser->nextToken(currentValue, curPos);
+
+                if (currentToken != STRINGTOKEN) {
+                    return formatError(currentValue.str); // we can throw an exception
+                }
+
+                TLPBuilder *newBuilder;
+
+                if (builderStack.front()->addStruct(currentValue.str, newBuilder)) {
+                    newBuilder->parser = this;
+                    builderStack.push_front(newBuilder);
+
+                    if (newBuilder->canRead() && !newBuilder->read(inputStream)) {
+                        return formatError(currentValue.str);
+                    }
+
+                } else {
+                    return formatError(currentValue.str);
+                }
+
+                break;
+
+            case BOOLTOKEN:
+
+                if (!builderStack.front()->addBool(currentValue.boolean)) {
+                    return formatError(currentValue.str);
+                }
+
+                break;
+
+            case INTTOKEN:
+
+                if (!builderStack.front()->addInt(currentValue.integer)) {
+                    return formatError(currentValue.str);
+                }
+
+                break;
+
+            case RANGETOKEN:
+
+                if (!builderStack.front()->addRange(currentValue.range.first,
+                                                    currentValue.range.second)) {
+                    return formatError(currentValue.str);
+                }
+
+                break;
+
+            case DOUBLETOKEN:
+
+                if (!builderStack.front()->addDouble(currentValue.real)) {
+                    return formatError(currentValue.str);
+                }
+
+                break;
+
+            case STRINGTOKEN:
+
+                if (!builderStack.front()->addString(currentValue.str)) {
+                    return formatError(currentValue.str);
+                }
+
+                break;
+
+            case CLOSETOKEN:
+
+                if (builderStack.front()->close()) {
+                    TLPBuilder *builder = builderStack.front();
+                    builderStack.pop_front();
+
+                    if (builder != builderStack.front()) {
+                        delete builder;
+                    }
+                } else {
+                    return formatError(currentValue.str);
+                }
+
+                break;
+
+            case ERRORINFILE:
+                return formatError(currentValue.str);
+
+            case ENDOFSTREAM:
+                return true;
+
+            case COMMENTTOKEN:
+
+                if (displayComment) {
+                    tlp::info() << "Comment line:" << tokenParser->curLine << "->"
+                                << currentValue.str << std::endl;
+                }
+
+                break;
+
+            default:
+                break;
+            }
         }
 
-        break;
-
-      case BOOLTOKEN:
-
-        if (!builderStack.front()->addBool(currentValue.boolean)) {
-          return formatError(currentValue.str);
+        if (pluginProgress) {
+            pluginProgress->progress(fileSize, fileSize);
         }
 
-        break;
-
-      case INTTOKEN:
-
-        if (!builderStack.front()->addInt(currentValue.integer)) {
-          return formatError(currentValue.str);
-        }
-
-        break;
-
-      case RANGETOKEN:
-
-        if (!builderStack.front()->addRange(currentValue.range.first, currentValue.range.second)) {
-          return formatError(currentValue.str);
-        }
-
-        break;
-
-      case DOUBLETOKEN:
-
-        if (!builderStack.front()->addDouble(currentValue.real)) {
-          return formatError(currentValue.str);
-        }
-
-        break;
-
-      case STRINGTOKEN:
-
-        if (!builderStack.front()->addString(currentValue.str)) {
-          return formatError(currentValue.str);
-        }
-
-        break;
-
-      case CLOSETOKEN:
-
-        if (builderStack.front()->close()) {
-          TLPBuilder *builder = builderStack.front();
-          builderStack.pop_front();
-
-          if (builder != builderStack.front()) {
-            delete builder;
-          }
-        } else {
-          return formatError(currentValue.str);
-        }
-
-        break;
-
-      case ERRORINFILE:
-        return formatError(currentValue.str);
-
-      case ENDOFSTREAM:
         return true;
-
-      case COMMENTTOKEN:
-
-        if (displayComment) {
-          tlp::info() << "Comment line:" << tokenParser->curLine << "->" << currentValue.str
-                      << std::endl;
-        }
-
-        break;
-
-      default:
-        break;
-      }
     }
-
-    if (pluginProgress) {
-      pluginProgress->progress(fileSize, fileSize);
-    }
-
-    return true;
-  }
 };
 }
 //=====================================================================================

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,25 +21,25 @@
 #include <talipot/Graph.h>
 
 class PluginsTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(PluginsTest);
-  CPPUNIT_TEST(testloadPlugin);
-  CPPUNIT_TEST(testCircularPlugin);
-  CPPUNIT_TEST(testAncestorGraph);
-  CPPUNIT_TEST(availablePlugins);
-  CPPUNIT_TEST(pluginInformation);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(PluginsTest);
+    CPPUNIT_TEST(testloadPlugin);
+    CPPUNIT_TEST(testCircularPlugin);
+    CPPUNIT_TEST(testAncestorGraph);
+    CPPUNIT_TEST(availablePlugins);
+    CPPUNIT_TEST(pluginInformation);
+    CPPUNIT_TEST_SUITE_END();
 
-private:
-  tlp::Graph *graph;
+  private:
+    tlp::Graph *graph;
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testloadPlugin();
-  void testCircularPlugin();
-  void testAncestorGraph();
-  void availablePlugins();
-  void pluginInformation();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testloadPlugin();
+    void testCircularPlugin();
+    void testAncestorGraph();
+    void availablePlugins();
+    void pluginInformation();
 };
 
 #endif // PLUGINS_TEST_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,57 +35,57 @@ namespace tlp {
  */
 class TLP_GL_SCOPE GlCatmullRomCurve : public AbstractGlCurve {
 
-  enum ParameterizationType { UNIFORM, CHORD_LENGTH, CENTRIPETAL };
+    enum ParameterizationType { UNIFORM, CHORD_LENGTH, CENTRIPETAL };
 
-public:
-  GlCatmullRomCurve();
+  public:
+    GlCatmullRomCurve();
 
-  /**
-   * @brief GlCatmullRomCurve constructor
-   *
-   * @param controlPoints a vector of control points (size must be greater or equal to 4)
-   * @param startColor the color at the start of the curve
-   * @param endColor the color at the end of the curve
-   * @param startSize the width at the start of the curve
-   * @param endSize the width at the end of the curve
-   * @param closedCurve if true, the curve will be closed and a bezier segment will be drawn between
-   * the last and first control point
-   * @param paramType curve parameterization type (GlCatmullRomCurve::UNIFORM |
-   * GlCatmullRomCurve::CENTRIPETAL | GlCatmullRomCurve::CHORD_LENGTH (default))
-   * @param nbCurvePoints the number of curve points to generate
-   */
-  GlCatmullRomCurve(const std::vector<Coord> &controlPoints, const Color &startColor,
-                    const Color &endColor, const float startSize, const float endSize,
-                    const bool closedCurve = false, const uint nbCurvePoints = 200,
-                    const ParameterizationType paramType = CENTRIPETAL);
+    /**
+     * @brief GlCatmullRomCurve constructor
+     *
+     * @param controlPoints a vector of control points (size must be greater or equal to 4)
+     * @param startColor the color at the start of the curve
+     * @param endColor the color at the end of the curve
+     * @param startSize the width at the start of the curve
+     * @param endSize the width at the end of the curve
+     * @param closedCurve if true, the curve will be closed and a bezier segment will be drawn
+     * between the last and first control point
+     * @param paramType curve parameterization type (GlCatmullRomCurve::UNIFORM |
+     * GlCatmullRomCurve::CENTRIPETAL | GlCatmullRomCurve::CHORD_LENGTH (default))
+     * @param nbCurvePoints the number of curve points to generate
+     */
+    GlCatmullRomCurve(const std::vector<Coord> &controlPoints, const Color &startColor,
+                      const Color &endColor, const float startSize, const float endSize,
+                      const bool closedCurve = false, const uint nbCurvePoints = 200,
+                      const ParameterizationType paramType = CENTRIPETAL);
 
-  ~GlCatmullRomCurve() override;
+    ~GlCatmullRomCurve() override;
 
-  void setParameterizationType(const ParameterizationType paramType) {
-    this->paramType = paramType;
-  }
+    void setParameterizationType(const ParameterizationType paramType) {
+        this->paramType = paramType;
+    }
 
-  void drawCurve(std::vector<Coord> &controlPoints, const Color &startColor, const Color &endColor,
-                 const float startSize, const float endSize,
-                 const uint nbCurvePoints = 200) override;
+    void drawCurve(std::vector<Coord> &controlPoints, const Color &startColor,
+                   const Color &endColor, const float startSize, const float endSize,
+                   const uint nbCurvePoints = 200) override;
 
-  void setClosedCurve(const bool closedCurve) {
-    this->closedCurve = closedCurve;
-  }
+    void setClosedCurve(const bool closedCurve) {
+        this->closedCurve = closedCurve;
+    }
 
-protected:
-  void setCurveVertexShaderRenderingSpecificParameters() override;
+  protected:
+    void setCurveVertexShaderRenderingSpecificParameters() override;
 
-  Coord computeCurvePointOnCPU(const std::vector<Coord> &controlPoints, float t) override;
+    Coord computeCurvePointOnCPU(const std::vector<Coord> &controlPoints, float t) override;
 
-  void computeCurvePointsOnCPU(const std::vector<Coord> &controlPoints,
-                               std::vector<Coord> &curvePoints, uint nbCurvePoints) override;
+    void computeCurvePointsOnCPU(const std::vector<Coord> &controlPoints,
+                                 std::vector<Coord> &curvePoints, uint nbCurvePoints) override;
 
-private:
-  bool closedCurve;
-  float totalLength;
-  float alpha;
-  ParameterizationType paramType;
+  private:
+    bool closedCurve;
+    float totalLength;
+    float alpha;
+    ParameterizationType paramType;
 };
 }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,34 +25,34 @@ namespace tlp {
 
 class MouseMagnifyingGlassInteractorComponent : public GLInteractorComponent {
 
-public:
-  MouseMagnifyingGlassInteractorComponent();
-  MouseMagnifyingGlassInteractorComponent(
-      const MouseMagnifyingGlassInteractorComponent &mouseMagnifyingGlassInteractorComponent);
-  ~MouseMagnifyingGlassInteractorComponent() override;
+  public:
+    MouseMagnifyingGlassInteractorComponent();
+    MouseMagnifyingGlassInteractorComponent(
+        const MouseMagnifyingGlassInteractorComponent &mouseMagnifyingGlassInteractorComponent);
+    ~MouseMagnifyingGlassInteractorComponent() override;
 
-  bool eventFilter(QObject *widget, QEvent *e) override;
+    bool eventFilter(QObject *widget, QEvent *e) override;
 
-  bool compute(GlWidget *) override {
-    return false;
-  }
+    bool compute(GlWidget *) override {
+        return false;
+    }
 
-  bool draw(GlWidget *glWidget) override;
+    bool draw(GlWidget *glWidget) override;
 
-  void viewChanged(View *view) override;
+    void viewChanged(View *view) override;
 
-private:
-  void generateMagnifyingGlassTexture(const Coord &magnifyingGlassCenterScr);
+  private:
+    void generateMagnifyingGlassTexture(const Coord &magnifyingGlassCenterScr);
 
-  QOpenGLFramebufferObject *fbo;
-  QOpenGLFramebufferObject *fbo2;
-  GlWidget *glWidget;
-  Camera *camera;
-  Coord boxCenter;
-  bool drawInteractor;
-  std::string textureName;
-  float radius;
-  float magnifyPower;
+    QOpenGLFramebufferObject *fbo;
+    QOpenGLFramebufferObject *fbo2;
+    GlWidget *glWidget;
+    Camera *camera;
+    Coord boxCenter;
+    bool drawInteractor;
+    std::string textureName;
+    float radius;
+    float magnifyPower;
 };
 
 /** \file
@@ -66,22 +66,22 @@ private:
  */
 class MouseMagnifyingGlassInteractor : public GLInteractorComposite {
 
-public:
-  PLUGININFORMATION("MouseMagnifyingGlassInteractor", "Antoine Lambert", "19/06/2009",
-                    "Mouse Magnifying Glass Interactor Interactor", "1.0", "Visualization")
+  public:
+    PLUGININFORMATION("MouseMagnifyingGlassInteractor", "Antoine Lambert", "19/06/2009",
+                      "Mouse Magnifying Glass Interactor Interactor", "1.0", "Visualization")
 
-  MouseMagnifyingGlassInteractor(const tlp::PluginContext *);
+    MouseMagnifyingGlassInteractor(const tlp::PluginContext *);
 
-  void construct() override;
+    void construct() override;
 
-  uint priority() const override {
-    return StandardInteractorPriority::MagnifyingGlass;
-  }
-  QWidget *configurationWidget() const override {
-    return nullptr;
-  }
+    uint priority() const override {
+        return StandardInteractorPriority::MagnifyingGlass;
+    }
+    QWidget *configurationWidget() const override {
+        return nullptr;
+    }
 
-  bool isCompatible(const std::string &viewName) const override;
+    bool isCompatible(const std::string &viewName) const override;
 };
 }
 #endif // MOUSE_MAGNIFYING_GLASS_H

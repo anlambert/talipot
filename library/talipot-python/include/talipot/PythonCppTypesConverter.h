@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -51,26 +51,26 @@ TLP_PYTHON_SCOPE PyObject *convertUnsignedLongToPyObject(ulong cppObject);
 
 class TLP_PYTHON_SCOPE ValueSetter {
 
-public:
-  ValueSetter(tlp::DataSet *dataSet, const std::string &key)
-      : dataSet(dataSet), graph(nullptr), key(key) {}
+  public:
+    ValueSetter(tlp::DataSet *dataSet, const std::string &key)
+        : dataSet(dataSet), graph(nullptr), key(key) {}
 
-  ValueSetter(tlp::Graph *graph, const std::string &key)
-      : dataSet(nullptr), graph(graph), key(key) {}
+    ValueSetter(tlp::Graph *graph, const std::string &key)
+        : dataSet(nullptr), graph(graph), key(key) {}
 
-  template <typename T>
-  void setValue(const T &value) {
-    if (dataSet) {
-      dataSet->set(key, value);
-    } else if (graph) {
-      graph->setAttribute(key, value);
+    template <typename T>
+    void setValue(const T &value) {
+        if (dataSet) {
+            dataSet->set(key, value);
+        } else if (graph) {
+            graph->setAttribute(key, value);
+        }
     }
-  }
 
-private:
-  tlp::DataSet *dataSet;
-  tlp::Graph *graph;
-  std::string key;
+  private:
+    tlp::DataSet *dataSet;
+    tlp::Graph *graph;
+    std::string key;
 };
 
 TLP_PYTHON_SCOPE PyObject *getPyObjectFromDataType(const tlp::DataType *dataType,
@@ -82,228 +82,228 @@ TLP_PYTHON_SCOPE bool setCppValueFromPyObject(PyObject *pyObj, ValueSetter &valS
 template <typename T>
 class PyObjectToCppObjectConverter {
 
-public:
-  bool convert(PyObject *pyObject, T &cppObject) {
-    std::string className = tlp::demangleClassName<T>();
+  public:
+    bool convert(PyObject *pyObject, T &cppObject) {
+        std::string className = tlp::demangleClassName<T>();
 
-    void *pointer = convertSipWrapperToCppType(pyObject, className);
+        void *pointer = convertSipWrapperToCppType(pyObject, className);
 
-    if (pointer) {
-      T *cppObjectPointer = static_cast<T *>(pointer);
-      cppObject = *cppObjectPointer;
-      delete cppObjectPointer;
-      return true;
+        if (pointer) {
+            T *cppObjectPointer = static_cast<T *>(pointer);
+            cppObject = *cppObjectPointer;
+            delete cppObjectPointer;
+            return true;
+        }
+
+        return false;
     }
-
-    return false;
-  }
 };
 
 template <typename T>
 class PyObjectToCppObjectConverter<T *> {
 
-public:
-  bool convert(PyObject *pyObject, T *&cppObject) {
-    std::string className = tlp::demangleClassName<T>();
+  public:
+    bool convert(PyObject *pyObject, T *&cppObject) {
+        std::string className = tlp::demangleClassName<T>();
 
-    void *cppObjPointer = convertSipWrapperToCppType(pyObject, className, true);
+        void *cppObjPointer = convertSipWrapperToCppType(pyObject, className, true);
 
-    if (cppObjPointer) {
-      cppObject = static_cast<T *>(cppObjPointer);
-      return true;
+        if (cppObjPointer) {
+            cppObject = static_cast<T *>(cppObjPointer);
+            return true;
+        }
+
+        return false;
     }
-
-    return false;
-  }
 };
 
 template <>
 class PyObjectToCppObjectConverter<PyObject *> {
-public:
-  bool convert(PyObject *pyObject, PyObject *&cppObject) {
-    cppObject = pyObject;
-    return true;
-  }
+  public:
+    bool convert(PyObject *pyObject, PyObject *&cppObject) {
+        cppObject = pyObject;
+        return true;
+    }
 };
 
 template <>
 class PyObjectToCppObjectConverter<bool> {
-public:
-  bool convert(PyObject *pyObject, bool &cppObject) {
-    return convertPyObjectToBool(pyObject, cppObject);
-  }
+  public:
+    bool convert(PyObject *pyObject, bool &cppObject) {
+        return convertPyObjectToBool(pyObject, cppObject);
+    }
 };
 
 template <>
 class PyObjectToCppObjectConverter<double> {
-public:
-  bool convert(PyObject *pyObject, double &cppObject) {
-    return convertPyObjectToDouble(pyObject, cppObject);
-  }
+  public:
+    bool convert(PyObject *pyObject, double &cppObject) {
+        return convertPyObjectToDouble(pyObject, cppObject);
+    }
 };
 
 template <>
 class PyObjectToCppObjectConverter<float> {
-public:
-  bool convert(PyObject *pyObject, float &cppObject) {
-    double val = 0;
-    PyObjectToCppObjectConverter<double> converter;
-    bool ok = converter.convert(pyObject, val);
-    cppObject = val;
-    return ok;
-  }
+  public:
+    bool convert(PyObject *pyObject, float &cppObject) {
+        double val = 0;
+        PyObjectToCppObjectConverter<double> converter;
+        bool ok = converter.convert(pyObject, val);
+        cppObject = val;
+        return ok;
+    }
 };
 
 template <>
 class PyObjectToCppObjectConverter<long> {
 
-public:
-  bool convert(PyObject *pyObject, long &cppObject) {
-    return convertPyObjectToLong(pyObject, cppObject);
-  }
+  public:
+    bool convert(PyObject *pyObject, long &cppObject) {
+        return convertPyObjectToLong(pyObject, cppObject);
+    }
 };
 
 template <>
 class PyObjectToCppObjectConverter<int> {
-public:
-  bool convert(PyObject *pyObject, int &cppObject) {
-    long val = 0;
-    PyObjectToCppObjectConverter<long> converter;
-    bool ok = converter.convert(pyObject, val);
-    cppObject = val;
-    return ok;
-  }
+  public:
+    bool convert(PyObject *pyObject, int &cppObject) {
+        long val = 0;
+        PyObjectToCppObjectConverter<long> converter;
+        bool ok = converter.convert(pyObject, val);
+        cppObject = val;
+        return ok;
+    }
 };
 
 template <>
 class PyObjectToCppObjectConverter<ulong> {
-public:
-  bool convert(PyObject *pyObject, ulong &cppObject) {
-    return convertPyObjectToUnsignedLong(pyObject, cppObject);
-  }
+  public:
+    bool convert(PyObject *pyObject, ulong &cppObject) {
+        return convertPyObjectToUnsignedLong(pyObject, cppObject);
+    }
 };
 
 template <>
 class PyObjectToCppObjectConverter<uint> {
-public:
-  bool convert(PyObject *pyObject, uint &cppObject) {
-    ulong val = 0;
-    PyObjectToCppObjectConverter<ulong> converter;
-    bool ok = converter.convert(pyObject, val);
-    cppObject = val;
-    return ok;
-  }
+  public:
+    bool convert(PyObject *pyObject, uint &cppObject) {
+        ulong val = 0;
+        PyObjectToCppObjectConverter<ulong> converter;
+        bool ok = converter.convert(pyObject, val);
+        cppObject = val;
+        return ok;
+    }
 };
 
 template <typename T>
 class CppObjectToPyObjectConverter {
 
-public:
-  bool convert(const T &cppObject, PyObject *&pyObject) {
-    std::string className = tlp::demangleClassName<T>();
+  public:
+    bool convert(const T &cppObject, PyObject *&pyObject) {
+        std::string className = tlp::demangleClassName<T>();
 
-    T *objCopy = new T(cppObject);
-    PyObject *pyObj = convertCppTypeToSipWrapper(objCopy, className, true);
+        T *objCopy = new T(cppObject);
+        PyObject *pyObj = convertCppTypeToSipWrapper(objCopy, className, true);
 
-    if (pyObj) {
-      pyObject = pyObj;
-      return true;
-    } else {
-      delete objCopy;
+        if (pyObj) {
+            pyObject = pyObj;
+            return true;
+        } else {
+            delete objCopy;
+        }
+
+        return false;
     }
-
-    return false;
-  }
 };
 
 template <typename T>
 class CppObjectToPyObjectConverter<T *> {
 
-public:
-  bool convert(T *cppObject, PyObject *&pyObject) {
-    std::string className = tlp::demangleClassName<T>();
+  public:
+    bool convert(T *cppObject, PyObject *&pyObject) {
+        std::string className = tlp::demangleClassName<T>();
 
-    PyObject *pyObj = convertCppTypeToSipWrapper(cppObject, className);
+        PyObject *pyObj = convertCppTypeToSipWrapper(cppObject, className);
 
-    if (pyObj) {
-      pyObject = pyObj;
-      return true;
+        if (pyObj) {
+            pyObject = pyObj;
+            return true;
+        }
+
+        return false;
     }
-
-    return false;
-  }
 };
 
 template <>
 class CppObjectToPyObjectConverter<PyObject *> {
-public:
-  bool convert(const PyObject *&cppObject, PyObject *&pyObject) {
-    pyObject = const_cast<PyObject *>(cppObject);
-    return true;
-  }
+  public:
+    bool convert(const PyObject *&cppObject, PyObject *&pyObject) {
+        pyObject = const_cast<PyObject *>(cppObject);
+        return true;
+    }
 };
 
 template <>
 class CppObjectToPyObjectConverter<bool> {
-public:
-  bool convert(const bool &cppObject, PyObject *&pyObject) {
-    pyObject = convertBoolToPyObject(cppObject);
-    return true;
-  }
+  public:
+    bool convert(const bool &cppObject, PyObject *&pyObject) {
+        pyObject = convertBoolToPyObject(cppObject);
+        return true;
+    }
 };
 
 template <>
 class CppObjectToPyObjectConverter<long> {
-public:
-  bool convert(const long &cppObject, PyObject *&pyObject) {
-    pyObject = convertLongToPyObject(cppObject);
-    return true;
-  }
+  public:
+    bool convert(const long &cppObject, PyObject *&pyObject) {
+        pyObject = convertLongToPyObject(cppObject);
+        return true;
+    }
 };
 
 template <>
 class CppObjectToPyObjectConverter<int> {
-public:
-  bool convert(const int &cppObject, PyObject *&pyObject) {
-    pyObject = convertLongToPyObject(cppObject);
-    return true;
-  }
+  public:
+    bool convert(const int &cppObject, PyObject *&pyObject) {
+        pyObject = convertLongToPyObject(cppObject);
+        return true;
+    }
 };
 
 template <>
 class CppObjectToPyObjectConverter<uint> {
-public:
-  bool convert(const uint &cppObject, PyObject *&pyObject) {
-    pyObject = convertUnsignedLongToPyObject(cppObject);
-    return true;
-  }
+  public:
+    bool convert(const uint &cppObject, PyObject *&pyObject) {
+        pyObject = convertUnsignedLongToPyObject(cppObject);
+        return true;
+    }
 };
 
 template <>
 class CppObjectToPyObjectConverter<ulong> {
-public:
-  bool convert(const ulong &cppObject, PyObject *&pyObject) {
-    pyObject = convertUnsignedLongToPyObject(cppObject);
-    return true;
-  }
+  public:
+    bool convert(const ulong &cppObject, PyObject *&pyObject) {
+        pyObject = convertUnsignedLongToPyObject(cppObject);
+        return true;
+    }
 };
 
 template <>
 class CppObjectToPyObjectConverter<double> {
-public:
-  bool convert(const double &cppObject, PyObject *&pyObject) {
-    pyObject = convertDoubleToPyObject(cppObject);
-    return true;
-  }
+  public:
+    bool convert(const double &cppObject, PyObject *&pyObject) {
+        pyObject = convertDoubleToPyObject(cppObject);
+        return true;
+    }
 };
 
 template <>
 class CppObjectToPyObjectConverter<float> {
-public:
-  bool convert(const float &cppObject, PyObject *&pyObject) {
-    pyObject = convertDoubleToPyObject(cppObject);
-    return true;
-  }
+  public:
+    bool convert(const float &cppObject, PyObject *&pyObject) {
+        pyObject = convertDoubleToPyObject(cppObject);
+        return true;
+    }
 };
 
 #endif // TALIPOT_PYTHON_CPP_TYPES_CONVERTER_H

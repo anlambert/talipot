@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -34,19 +34,19 @@ class PluginProgress;
  * Send the found tokens to the CSVContentHandler interface.
  */
 class TLP_QT_SCOPE CSVParser {
-public:
-  virtual ~CSVParser() = default;
+  public:
+    virtual ~CSVParser() = default;
 
-  virtual char decimalMark() const {
-    return '.';
-  }
-  /**
-   * @brief Parse the data and send the tokens found to the CSVContentHandler.
-   *
-   * Notify the progression of the parsing with the progress object.
-   **/
-  virtual bool parse(CSVContentHandler *handler, tlp::PluginProgress *progress = nullptr,
-                     bool firstLineOnly = false) = 0;
+    virtual char decimalMark() const {
+        return '.';
+    }
+    /**
+     * @brief Parse the data and send the tokens found to the CSVContentHandler.
+     *
+     * Notify the progression of the parsing with the progress object.
+     **/
+    virtual bool parse(CSVContentHandler *handler, tlp::PluginProgress *progress = nullptr,
+                       bool firstLineOnly = false) = 0;
 };
 
 /**
@@ -63,102 +63,103 @@ public:
  * \endcode
  **/
 class TLP_QT_SCOPE CSVSimpleParser : public CSVParser {
-public:
-  /**
-   * @brief Construct a csv simple file parser.
-   * @param filename The path to the file to import.
-   * @param separator The separator to use.
-   * @param textDelimiter If a token is surrounded by this character we ignore all the separators
-   *found in this token. Useful if a token contains the separator.
-   * @param firstLine The number of the first line to read. The first line is 0.
-   * @param lastLine The number of the last line to read.
-   **/
-  CSVSimpleParser(const std::string &fileName, const QString &separator = ";",
-                  const bool mergesep = false, char textDelimiter = '"', char delimiterMark = '.',
-                  const std::string &fileEncoding = std::string("UTF-8"), uint firstLine = 0,
-                  uint lastLine = UINT_MAX);
+  public:
+    /**
+     * @brief Construct a csv simple file parser.
+     * @param filename The path to the file to import.
+     * @param separator The separator to use.
+     * @param textDelimiter If a token is surrounded by this character we ignore all the separators
+     *found in this token. Useful if a token contains the separator.
+     * @param firstLine The number of the first line to read. The first line is 0.
+     * @param lastLine The number of the last line to read.
+     **/
+    CSVSimpleParser(const std::string &fileName, const QString &separator = ";",
+                    const bool mergesep = false, char textDelimiter = '"', char delimiterMark = '.',
+                    const std::string &fileEncoding = std::string("UTF-8"), uint firstLine = 0,
+                    uint lastLine = UINT_MAX);
 
-  ~CSVSimpleParser() override;
+    ~CSVSimpleParser() override;
 
-  std::string fileName() const {
-    return _fileName;
-  }
-  void setFileName(const std::string &fileName) {
-    _fileName = fileName;
-  }
+    std::string fileName() const {
+        return _fileName;
+    }
+    void setFileName(const std::string &fileName) {
+        _fileName = fileName;
+    }
 
-  char textDelimiter() const {
-    return _textDelimiter;
-  }
+    char textDelimiter() const {
+        return _textDelimiter;
+    }
 
-  char decimalMark() const override {
-    return _decimalMark;
-  }
+    char decimalMark() const override {
+        return _decimalMark;
+    }
 
-  void setTextDelimiter(char delimiter) {
-    _textDelimiter = delimiter;
-  }
+    void setTextDelimiter(char delimiter) {
+        _textDelimiter = delimiter;
+    }
 
-  std::string fileEncoding() const {
-    return _fileEncoding;
-  }
+    std::string fileEncoding() const {
+        return _fileEncoding;
+    }
 
-  void setFileEncoding(const std::string &fileEncoding) {
-    _fileEncoding = fileEncoding;
-  }
+    void setFileEncoding(const std::string &fileEncoding) {
+        _fileEncoding = fileEncoding;
+    }
 
-  bool parse(CSVContentHandler *handler, tlp::PluginProgress *progress = nullptr,
-             bool firstLineOnly = false) override;
+    bool parse(CSVContentHandler *handler, tlp::PluginProgress *progress = nullptr,
+               bool firstLineOnly = false) override;
 
-protected:
-  virtual std::string treatToken(const std::string &token, int row, int column);
+  protected:
+    virtual std::string treatToken(const std::string &token, int row, int column);
 
-private:
-  void tokenize(const std::string &str, std::vector<std::string> &tokens, const QString &delimiters,
-                const bool mergedelim, char _textDelimiter, uint numberOfCol);
-  std::string convertStringEncoding(const std::string &toConvert, QTextCodec *encoder);
+  private:
+    void tokenize(const std::string &str, std::vector<std::string> &tokens,
+                  const QString &delimiters, const bool mergedelim, char _textDelimiter,
+                  uint numberOfCol);
+    std::string convertStringEncoding(const std::string &toConvert, QTextCodec *encoder);
 
-  /**
-   * @brief Function to extract a line from a istream. Can handle Linux,Mac and Windows end of line
-   *pattern.
-   **/
-  bool multiplatformgetline(std::istream &is, std::string &str) const;
+    /**
+     * @brief Function to extract a line from a istream. Can handle Linux,Mac and Windows end of
+     *line pattern.
+     **/
+    bool multiplatformgetline(std::istream &is, std::string &str) const;
 
-  std::string removeQuotesIfAny(std::string &s) const;
-  std::string _fileName;
-  QString _separator;
-  char _textDelimiter;
-  char _decimalMark;
-  std::string _fileEncoding;
-  uint _firstLine;
-  uint _lastLine;
-  bool _mergesep;
+    std::string removeQuotesIfAny(std::string &s) const;
+    std::string _fileName;
+    QString _separator;
+    char _textDelimiter;
+    char _decimalMark;
+    std::string _fileEncoding;
+    uint _firstLine;
+    uint _lastLine;
+    bool _mergesep;
 };
 
 /**
  *@brief CSV parser used to invert the token matrix in order to treat rows as columns.
  **/
 class TLP_QT_SCOPE CSVInvertMatrixParser : public tlp::CSVParser, public tlp::CSVContentHandler {
-public:
-  CSVInvertMatrixParser(CSVParser *parser);
-  ~CSVInvertMatrixParser() override;
+  public:
+    CSVInvertMatrixParser(CSVParser *parser);
+    ~CSVInvertMatrixParser() override;
 
-  char decimalMark() const override {
-    return parser->decimalMark();
-  }
+    char decimalMark() const override {
+        return parser->decimalMark();
+    }
 
-  bool parse(CSVContentHandler *handler, tlp::PluginProgress *progress = nullptr,
-             bool firstLineOnly = false) override;
+    bool parse(CSVContentHandler *handler, tlp::PluginProgress *progress = nullptr,
+               bool firstLineOnly = false) override;
 
-  bool begin() override;
-  bool line(uint row, const std::vector<std::string> &lineTokens) override;
-  bool end(uint rowNumber, uint columnNumber) override;
+    bool begin() override;
+    bool line(uint row, const std::vector<std::string> &lineTokens) override;
+    bool end(uint rowNumber, uint columnNumber) override;
 
-private:
-  CSVParser *parser;
-  CSVContentHandler *handler;
-  std::vector<std::vector<std::string>> columns;
-  uint maxLineSize;
+  private:
+    CSVParser *parser;
+    CSVContentHandler *handler;
+    std::vector<std::vector<std::string>> columns;
+    uint maxLineSize;
 };
 }
 #endif // TALIPOT_CSV_PARSER_H

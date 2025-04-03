@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -75,325 +75,326 @@ static constexpr std::string_view paramHelp[] = {
 #define EDGES_TARGET 1
 
 class ColorMapping : public ColorAlgorithm {
-private:
-  NumericProperty *entryMetric;
-  StringCollection eltTypes;
-  StringCollection targetType;
-  ColorScale colorScale;
-  Vec4f deltaRGBA;
-  std::vector<std::pair<std::string, Color>> enumeratedMappingResultVector;
-  std::map<std::string, std::vector<uint>> mapMetricElements;
-  double maxInput;
-  double minInput;
-  bool overrideMaxInput;
-  bool overrideMinInput;
+  private:
+    NumericProperty *entryMetric;
+    StringCollection eltTypes;
+    StringCollection targetType;
+    ColorScale colorScale;
+    Vec4f deltaRGBA;
+    std::vector<std::pair<std::string, Color>> enumeratedMappingResultVector;
+    std::map<std::string, std::vector<uint>> mapMetricElements;
+    double maxInput;
+    double minInput;
+    bool overrideMaxInput;
+    bool overrideMinInput;
 
-public:
-  PLUGININFORMATION(
-      "Color Mapping", "Mathiaut", "16/09/2010",
-      "Colorizes the nodes or edges of a graph according to the values of a given property.", "2.2",
-      "")
-  ColorMapping(const tlp::PluginContext *context)
-      : ColorAlgorithm(context), entryMetric(nullptr), eltTypes(ELT_TYPES),
-        maxInput(std::numeric_limits<double>::quiet_NaN()),
-        minInput(std::numeric_limits<double>::quiet_NaN()), overrideMaxInput(false),
-        overrideMinInput(false) {
-    addInParameter<StringCollection>(
-        ELT_TYPE, paramHelp[0].data(), ELT_TYPES, true,
-        "<b>linear</b> <br> <b>uniform</b> <br> <b>enumerated</b> <br> <b>logarithmic</b>");
-    addInParameter<PropertyInterface *>("input property", paramHelp[1].data(), "viewMetric");
-    addInParameter<StringCollection>(TARGET_TYPE, paramHelp[2].data(), TARGET_TYPES, true,
-                                     "<b>nodes</b> <br> <b>edges</b>");
-    addInParameter<ColorScale>("color scale", paramHelp[3].data(), "");
-    addInParameter<bool>("override minimum value", paramHelp[4].data(), "false", false);
-    addInParameter<double>("minimum value", paramHelp[5].data(), "", false);
-    addInParameter<bool>("override maximum value", paramHelp[6].data(), "false", false);
-    addInParameter<double>("maximum value", paramHelp[7].data(), "", false);
+  public:
+    PLUGININFORMATION(
+        "Color Mapping", "Mathiaut", "16/09/2010",
+        "Colorizes the nodes or edges of a graph according to the values of a given property.",
+        "2.2", "")
+    ColorMapping(const tlp::PluginContext *context)
+        : ColorAlgorithm(context), entryMetric(nullptr), eltTypes(ELT_TYPES),
+          maxInput(std::numeric_limits<double>::quiet_NaN()),
+          minInput(std::numeric_limits<double>::quiet_NaN()), overrideMaxInput(false),
+          overrideMinInput(false) {
+        addInParameter<StringCollection>(
+            ELT_TYPE, paramHelp[0].data(), ELT_TYPES, true,
+            "<b>linear</b> <br> <b>uniform</b> <br> <b>enumerated</b> <br> <b>logarithmic</b>");
+        addInParameter<PropertyInterface *>("input property", paramHelp[1].data(), "viewMetric");
+        addInParameter<StringCollection>(TARGET_TYPE, paramHelp[2].data(), TARGET_TYPES, true,
+                                         "<b>nodes</b> <br> <b>edges</b>");
+        addInParameter<ColorScale>("color scale", paramHelp[3].data(), "");
+        addInParameter<bool>("override minimum value", paramHelp[4].data(), "false", false);
+        addInParameter<double>("minimum value", paramHelp[5].data(), "", false);
+        addInParameter<bool>("override maximum value", paramHelp[6].data(), "false", false);
+        addInParameter<double>("maximum value", paramHelp[7].data(), "", false);
 
-    // result needs to be an inout parameter
-    // in order to preserve the original values of non targeted elements
-    // i.e if "target" = "nodes", the values of edges must be preserved
-    // and if "target" = "edges", the values of nodes must be preserved
-    parameters.setDirection("result", INOUT_PARAM);
-  }
-
-  //=========================================================
-  ~ColorMapping() override = default;
-  //=========================================================
-  Color getColor(double value, double range) {
-    if (range == 0) {
-      range = 1;
+        // result needs to be an inout parameter
+        // in order to preserve the original values of non targeted elements
+        // i.e if "target" = "nodes", the values of edges must be preserved
+        // and if "target" = "edges", the values of nodes must be preserved
+        parameters.setDirection("result", INOUT_PARAM);
     }
 
-    if (value < 0) {
-      value = 0;
+    //=========================================================
+    ~ColorMapping() override = default;
+    //=========================================================
+    Color getColor(double value, double range) {
+        if (range == 0) {
+            range = 1;
+        }
+
+        if (value < 0) {
+            value = 0;
+        }
+
+        if (value > range) {
+            value = range;
+        }
+
+        return colorScale.getColorAtPos(value / range);
     }
+    //=========================================================
+    bool run() override {
 
-    if (value > range) {
-      value = range;
-    }
+        eltTypes.setCurrent(LINEAR_ELT);
+        targetType.setCurrent(NODES_TARGET);
+        NumericProperty *metricS = nullptr;
+        PropertyInterface *metric = nullptr;
 
-    return colorScale.getColorAtPos(value / range);
-  }
-  //=========================================================
-  bool run() override {
+        if (dataSet != nullptr) {
+            dataSet->get("input property", metric);
+            dataSet->get(ELT_TYPE, eltTypes);
+            dataSet->get(TARGET_TYPE, targetType);
+            dataSet->get("override minimum value", overrideMinInput);
+            dataSet->get("minimum value", minInput);
+            dataSet->get("override maximum value", overrideMaxInput);
+            dataSet->get("maximum value", maxInput);
 
-    eltTypes.setCurrent(LINEAR_ELT);
-    targetType.setCurrent(NODES_TARGET);
-    NumericProperty *metricS = nullptr;
-    PropertyInterface *metric = nullptr;
-
-    if (dataSet != nullptr) {
-      dataSet->get("input property", metric);
-      dataSet->get(ELT_TYPE, eltTypes);
-      dataSet->get(TARGET_TYPE, targetType);
-      dataSet->get("override minimum value", overrideMinInput);
-      dataSet->get("minimum value", minInput);
-      dataSet->get("override maximum value", overrideMaxInput);
-      dataSet->get("maximum value", maxInput);
-
-      /// Don't allow NaN input
-      if (overrideMaxInput &&
+            /// Don't allow NaN input
+            if (overrideMaxInput &&
 #if defined(_MSC_VER) && (_MSC_VER < 1800)
-          isnan(minInput)
+                isnan(minInput)
 #else
-          std::isnan(minInput)
+                std::isnan(minInput)
 #endif
-      )
-        minInput = 0;
+            )
+                minInput = 0;
 
-      if (overrideMinInput &&
+            if (overrideMinInput &&
 #if defined(_MSC_VER) && (_MSC_VER < 1800)
-          isnan(maxInput)
+                isnan(maxInput)
 #else
-          std::isnan(maxInput)
+                std::isnan(maxInput)
 #endif
-      )
-        maxInput = 0;
+            )
+                maxInput = 0;
 
-      if (overrideMinInput && overrideMaxInput) {
-        /// check for impossible values
-        if (minInput > maxInput) {
-          minInput = maxInput;
+            if (overrideMinInput && overrideMaxInput) {
+                /// check for impossible values
+                if (minInput > maxInput) {
+                    minInput = maxInput;
+                }
+
+                if (maxInput < minInput) {
+                    maxInput = minInput;
+                }
+            }
         }
 
-        if (maxInput < minInput) {
-          maxInput = minInput;
-        }
-      }
-    }
-
-    if (metric == nullptr) {
-      metricS = graph->getDoubleProperty("viewMetric");
-    } else {
-      metricS = dynamic_cast<NumericProperty *>(metric);
-    }
-
-    if (eltTypes.getCurrent() != ENUMERATED_ELT) {
-      if (eltTypes.getCurrent() == LINEAR_ELT || eltTypes.getCurrent() == LOGARITHMIC_ELT) {
-        entryMetric = metricS;
-      } else {
-        NumericProperty *tmp = metricS->copyProperty(graph);
-        tmp->uniformQuantification(300);
-        entryMetric = tmp;
-      }
-
-      // loop on nodes
-      if (targetType.getCurrent() == NODES_TARGET && graph->numberOfNodes() != 0) {
-        uint maxIter = graph->numberOfNodes();
-        uint iter = 0;
-        double minN = overrideMinInput ? minInput : entryMetric->getNodeDoubleMin(graph);
-        double maxN = overrideMaxInput ? maxInput : entryMetric->getNodeDoubleMax(graph);
-
-        if (eltTypes.getCurrent() == LOGARITHMIC_ELT) {
-          maxN = log(1 + maxN - minN);
+        if (metric == nullptr) {
+            metricS = graph->getDoubleProperty("viewMetric");
+        } else {
+            metricS = dynamic_cast<NumericProperty *>(metric);
         }
 
-        for (auto n : graph->nodes()) {
-          double dd = entryMetric->getNodeDoubleValue(n);
-
-          if (eltTypes.getCurrent() == LOGARITHMIC_ELT) {
-            result->setNodeValue(n, getColor(log(dd + (1 - minN)), maxN));
-          } else {
-            result->setNodeValue(n, getColor(dd - minN, maxN - minN));
-          }
-
-          if ((iter % 100 == 0) &&
-              (pluginProgress->progress(iter, maxIter) != ProgressState::TLP_CONTINUE)) {
-            if (eltTypes.getCurrent() == UNIFORM_ELT) {
-              delete entryMetric;
+        if (eltTypes.getCurrent() != ENUMERATED_ELT) {
+            if (eltTypes.getCurrent() == LINEAR_ELT || eltTypes.getCurrent() == LOGARITHMIC_ELT) {
+                entryMetric = metricS;
+            } else {
+                NumericProperty *tmp = metricS->copyProperty(graph);
+                tmp->uniformQuantification(300);
+                entryMetric = tmp;
             }
 
-            return pluginProgress->state() != ProgressState::TLP_CANCEL;
-          }
+            // loop on nodes
+            if (targetType.getCurrent() == NODES_TARGET && graph->numberOfNodes() != 0) {
+                uint maxIter = graph->numberOfNodes();
+                uint iter = 0;
+                double minN = overrideMinInput ? minInput : entryMetric->getNodeDoubleMin(graph);
+                double maxN = overrideMaxInput ? maxInput : entryMetric->getNodeDoubleMax(graph);
 
-          ++iter;
-        }
-      }
+                if (eltTypes.getCurrent() == LOGARITHMIC_ELT) {
+                    maxN = log(1 + maxN - minN);
+                }
 
-      // loop on edges
-      if (targetType.getCurrent() == EDGES_TARGET && graph->numberOfEdges() != 0) {
-        uint maxIter = graph->numberOfEdges();
-        uint iter = 0;
+                for (auto n : graph->nodes()) {
+                    double dd = entryMetric->getNodeDoubleValue(n);
 
-        double minE = overrideMinInput ? minInput : entryMetric->getEdgeDoubleMin(graph);
-        double maxE = overrideMaxInput ? maxInput : entryMetric->getEdgeDoubleMax(graph);
+                    if (eltTypes.getCurrent() == LOGARITHMIC_ELT) {
+                        result->setNodeValue(n, getColor(log(dd + (1 - minN)), maxN));
+                    } else {
+                        result->setNodeValue(n, getColor(dd - minN, maxN - minN));
+                    }
 
-        if (eltTypes.getCurrent() == LOGARITHMIC_ELT) {
-          maxE = log(1 + maxE - minE);
-        }
+                    if ((iter % 100 == 0) &&
+                        (pluginProgress->progress(iter, maxIter) != ProgressState::TLP_CONTINUE)) {
+                        if (eltTypes.getCurrent() == UNIFORM_ELT) {
+                            delete entryMetric;
+                        }
 
-        for (auto e : graph->edges()) {
-          double dd = entryMetric->getEdgeDoubleValue(e);
+                        return pluginProgress->state() != ProgressState::TLP_CANCEL;
+                    }
 
-          if (eltTypes.getCurrent() == LOGARITHMIC_ELT) {
-            result->setEdgeValue(e, getColor(log(dd + (1 - minE)), maxE));
-          } else {
-            result->setEdgeValue(e, getColor(dd - minE, maxE - minE));
-          }
-
-          if ((iter % 100 == 0) &&
-              (pluginProgress->progress(iter, maxIter) != ProgressState::TLP_CONTINUE)) {
-            if (eltTypes.getCurrent() == UNIFORM_ELT) {
-              delete entryMetric;
+                    ++iter;
+                }
             }
 
-            return pluginProgress->state() != ProgressState::TLP_CANCEL;
-          }
+            // loop on edges
+            if (targetType.getCurrent() == EDGES_TARGET && graph->numberOfEdges() != 0) {
+                uint maxIter = graph->numberOfEdges();
+                uint iter = 0;
 
-          ++iter;
+                double minE = overrideMinInput ? minInput : entryMetric->getEdgeDoubleMin(graph);
+                double maxE = overrideMaxInput ? maxInput : entryMetric->getEdgeDoubleMax(graph);
+
+                if (eltTypes.getCurrent() == LOGARITHMIC_ELT) {
+                    maxE = log(1 + maxE - minE);
+                }
+
+                for (auto e : graph->edges()) {
+                    double dd = entryMetric->getEdgeDoubleValue(e);
+
+                    if (eltTypes.getCurrent() == LOGARITHMIC_ELT) {
+                        result->setEdgeValue(e, getColor(log(dd + (1 - minE)), maxE));
+                    } else {
+                        result->setEdgeValue(e, getColor(dd - minE, maxE - minE));
+                    }
+
+                    if ((iter % 100 == 0) &&
+                        (pluginProgress->progress(iter, maxIter) != ProgressState::TLP_CONTINUE)) {
+                        if (eltTypes.getCurrent() == UNIFORM_ELT) {
+                            delete entryMetric;
+                        }
+
+                        return pluginProgress->state() != ProgressState::TLP_CANCEL;
+                    }
+
+                    ++iter;
+                }
+            }
+
+            if (eltTypes.getCurrent() == UNIFORM_ELT) {
+                delete entryMetric;
+            }
+        } else {
+            uint maxIter = (targetType.getCurrent() == NODES_TARGET) ? graph->numberOfNodes()
+                                                                     : graph->numberOfEdges();
+            uint iter = 0;
+
+            for (const auto &it : enumeratedMappingResultVector) {
+                const std::vector<uint> &elements = mapMetricElements[it.first];
+
+                for (auto id : elements) {
+                    if (targetType.getCurrent() == NODES_TARGET) {
+                        result->setNodeValue(node(id), it.second);
+                    } else {
+                        result->setEdgeValue(edge(id), it.second);
+                    }
+
+                    if ((iter % 100 == 0) &&
+                        (pluginProgress->progress(iter, maxIter) != ProgressState::TLP_CONTINUE)) {
+                        return pluginProgress->state() != ProgressState::TLP_CANCEL;
+                    }
+
+                    ++iter;
+                }
+            }
         }
-      }
 
-      if (eltTypes.getCurrent() == UNIFORM_ELT) {
-        delete entryMetric;
-      }
-    } else {
-      uint maxIter = (targetType.getCurrent() == NODES_TARGET) ? graph->numberOfNodes()
-                                                               : graph->numberOfEdges();
-      uint iter = 0;
+        return true;
+    }
+    //=========================================================
+    bool check(std::string &errorMsg) override {
 
-      for (const auto &it : enumeratedMappingResultVector) {
-        const std::vector<uint> &elements = mapMetricElements[it.first];
+        PropertyInterface *metric = nullptr;
 
-        for (auto id : elements) {
-          if (targetType.getCurrent() == NODES_TARGET) {
-            result->setNodeValue(node(id), it.second);
-          } else {
-            result->setEdgeValue(edge(id), it.second);
-          }
+        if (dataSet != nullptr) {
+            dataSet->get("input property", metric);
+            dataSet->get(ELT_TYPE, eltTypes);
+            dataSet->get(TARGET_TYPE, targetType);
 
-          if ((iter % 100 == 0) &&
-              (pluginProgress->progress(iter, maxIter) != ProgressState::TLP_CONTINUE)) {
-            return pluginProgress->state() != ProgressState::TLP_CANCEL;
-          }
+            if (!dataSet->get("color scale", colorScale)) {
+                dataSet->get("colorScale", colorScale);
+            }
 
-          ++iter;
+            dataSet->get("maximum value", maxInput);
+            dataSet->get("minimum value", minInput);
         }
-      }
-    }
 
-    return true;
-  }
-  //=========================================================
-  bool check(std::string &errorMsg) override {
+        if (metric == nullptr) {
+            metric = graph->getDoubleProperty("viewMetric");
+        }
 
-    PropertyInterface *metric = nullptr;
-
-    if (dataSet != nullptr) {
-      dataSet->get("input property", metric);
-      dataSet->get(ELT_TYPE, eltTypes);
-      dataSet->get(TARGET_TYPE, targetType);
-
-      if (!dataSet->get("color scale", colorScale)) {
-        dataSet->get("colorScale", colorScale);
-      }
-
-      dataSet->get("maximum value", maxInput);
-      dataSet->get("minimum value", minInput);
-    }
-
-    if (metric == nullptr) {
-      metric = graph->getDoubleProperty("viewMetric");
-    }
-
-    if (eltTypes.getCurrent() == ENUMERATED_ELT) {
+        if (eltTypes.getCurrent() == ENUMERATED_ELT) {
 #ifndef TALIPOT_BUILD_CORE_ONLY
 
-      if (targetType.getCurrent() == NODES_TARGET) {
+            if (targetType.getCurrent() == NODES_TARGET) {
 
-        for (auto n : graph->nodes()) {
-          std::string tmp = metric->getNodeStringValue(n);
+                for (auto n : graph->nodes()) {
+                    std::string tmp = metric->getNodeStringValue(n);
 
-          if (mapMetricElements.count(tmp) == 0) {
-            mapMetricElements[tmp] = std::vector<uint>();
-          }
+                    if (mapMetricElements.count(tmp) == 0) {
+                        mapMetricElements[tmp] = std::vector<uint>();
+                    }
 
-          mapMetricElements[tmp].push_back(n.id);
-        }
-      } else {
+                    mapMetricElements[tmp].push_back(n.id);
+                }
+            } else {
 
-        for (auto e : graph->edges()) {
-          std::string tmp = metric->getEdgeStringValue(e);
+                for (auto e : graph->edges()) {
+                    std::string tmp = metric->getEdgeStringValue(e);
 
-          if (mapMetricElements.count(tmp) == 0) {
-            mapMetricElements[tmp] = std::vector<uint>();
-          }
+                    if (mapMetricElements.count(tmp) == 0) {
+                        mapMetricElements[tmp] = std::vector<uint>();
+                    }
 
-          mapMetricElements[tmp].push_back(e.id);
-        }
-      }
+                    mapMetricElements[tmp].push_back(e.id);
+                }
+            }
 
-      std::vector<std::string> enumeratedValues;
+            std::vector<std::string> enumeratedValues;
 
-      for (const auto &it : mapMetricElements) {
-        enumeratedValues.push_back(it.first);
-      }
+            for (const auto &it : mapMetricElements) {
+                enumeratedValues.push_back(it.first);
+            }
 
-      std::vector<Color> enumeratedColors;
+            std::vector<Color> enumeratedColors;
 
-      for (const auto &it : colorScale.getColorMap()) {
-        if (enumeratedColors.empty() || it.second != enumeratedColors.back()) {
-          enumeratedColors.push_back(it.second);
-        }
-      }
+            for (const auto &it : colorScale.getColorMap()) {
+                if (enumeratedColors.empty() || it.second != enumeratedColors.back()) {
+                    enumeratedColors.push_back(it.second);
+                }
+            }
 
-      // if metric is a NumericProperty, sort enumeratedValues
-      // according the numerical order
-      if (dynamic_cast<NumericProperty *>(metric) != nullptr) {
-        std::sort(enumeratedValues.begin(), enumeratedValues.end(),
-                  [](const std::string &a, const std::string &b) {
-                    double va, vb;
-                    std::istringstream isa(a), isb(b);
-                    DoubleType::read(isa, va);
-                    DoubleType::read(isb, vb);
-                    return va < vb;
-                  });
-      }
+            // if metric is a NumericProperty, sort enumeratedValues
+            // according the numerical order
+            if (dynamic_cast<NumericProperty *>(metric) != nullptr) {
+                std::sort(enumeratedValues.begin(), enumeratedValues.end(),
+                          [](const std::string &a, const std::string &b) {
+                              double va, vb;
+                              std::istringstream isa(a), isb(b);
+                              DoubleType::read(isa, va);
+                              DoubleType::read(isb, vb);
+                              return va < vb;
+                          });
+            }
 
-      DoubleStringsListRelationDialog dialog(enumeratedValues, enumeratedColors);
+            DoubleStringsListRelationDialog dialog(enumeratedValues, enumeratedColors);
 
-      if (!dialog.exec()) {
-        errorMsg += "Cancelled by user";
-        return false;
-      }
+            if (!dialog.exec()) {
+                errorMsg += "Cancelled by user";
+                return false;
+            }
 
-      dialog.getResult(enumeratedMappingResultVector);
+            dialog.getResult(enumeratedMappingResultVector);
 #else
-      errorMsg += "enumerated color mapping is not available";
-      return false;
+            errorMsg += "enumerated color mapping is not available";
+            return false;
 #endif
-    } else {
-      // check if input property is a NumericProperty
-      if (!dynamic_cast<NumericProperty *>(metric)) {
-        errorMsg += "For a linear, logarithmic or uniform color mapping,\nthe input property must "
+        } else {
+            // check if input property is a NumericProperty
+            if (!dynamic_cast<NumericProperty *>(metric)) {
+                errorMsg +=
+                    "For a linear, logarithmic or uniform color mapping,\nthe input property must "
                     "be a Double or Integer property";
-        return false;
-      }
-    }
+                return false;
+            }
+        }
 
-    return true;
-  }
+        return true;
+    }
 };
 
 PLUGIN(ColorMapping)

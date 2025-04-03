@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -41,88 +41,88 @@ namespace tlp {
   want to implement setupUi, you must call the ViewWidget::setupUi() method first.
   */
 class TLP_QT_SCOPE ViewWidget : public tlp::View {
-  Q_OBJECT
+    Q_OBJECT
 
-  QSet<QGraphicsItem *> _items;
-  QGraphicsView *_graphicsView;
-  QWidget *_centralWidget;
-  QGraphicsItem *_centralWidgetItem;
+    QSet<QGraphicsItem *> _items;
+    QGraphicsView *_graphicsView;
+    QWidget *_centralWidget;
+    QGraphicsItem *_centralWidgetItem;
 
-  void refreshItemsParenthood();
+    void refreshItemsParenthood();
 
-public:
-  ViewWidget();
-  ~ViewWidget() override;
+  public:
+    ViewWidget();
+    ~ViewWidget() override;
 
-  /**
-    @see View::graphicsView()
-    @note This method should not be reimplemented as a subclass of ViewWidget
-    */
-  QGraphicsView *graphicsView() const override;
-  void resetGraphicsScene() override {}
+    /**
+      @see View::graphicsView()
+      @note This method should not be reimplemented as a subclass of ViewWidget
+      */
+    QGraphicsView *graphicsView() const override;
+    void resetGraphicsScene() override {}
 
-public slots:
-  /**
-    @see View::setupUi
-    @note This method should not be reimplemented as a subclass of ViewWidget
-    */
-  void setupUi() override;
+  public slots:
+    /**
+      @see View::setupUi
+      @note This method should not be reimplemented as a subclass of ViewWidget
+      */
+    void setupUi() override;
 
-  /**
-    @brief Reimplemented from View::draw()
-    By default, this method does nothing. We assume the widget is automatically repainted by Qt's
-    windowing manager
-    */
-  void draw() override {}
+    /**
+      @brief Reimplemented from View::draw()
+      By default, this method does nothing. We assume the widget is automatically repainted by Qt's
+      windowing manager
+      */
+    void draw() override {}
 
-protected slots:
-  /**
-    By default, the current interactor gets installed over the central widget.
+  protected slots:
+    /**
+      By default, the current interactor gets installed over the central widget.
 
-    @see View::currentInteractorChanged()
-    */
-  void currentInteractorChanged(tlp::Interactor *) override;
+      @see View::currentInteractorChanged()
+      */
+    void currentInteractorChanged(tlp::Interactor *) override;
 
-  void graphDeleted(Graph *parentGraph) override;
+    void graphDeleted(Graph *parentGraph) override;
 
-protected:
-  /**
-    @brief Sets up the central widget.
-    This is similar to View::setupUi in the sense that the purpose of setupWidget is to construct
-    the GUI element.
-    @warning This method MUST call the setCentralWidget to provide the ViewWidget with a valid
-    widget.
-    */
-  virtual void setupWidget() = 0;
+  protected:
+    /**
+      @brief Sets up the central widget.
+      This is similar to View::setupUi in the sense that the purpose of setupWidget is to construct
+      the GUI element.
+      @warning This method MUST call the setCentralWidget to provide the ViewWidget with a valid
+      widget.
+      */
+    virtual void setupWidget() = 0;
 
-  /**
-    @brief Adds an item to the graphicsView that will be drawn on top of the widget
-    This is a convenience function for the user to avoid taking care of item parenthood.
-    */
-  void addToScene(QGraphicsItem *item);
+    /**
+      @brief Adds an item to the graphicsView that will be drawn on top of the widget
+      This is a convenience function for the user to avoid taking care of item parenthood.
+      */
+    void addToScene(QGraphicsItem *item);
 
-  /**
-    @brief Removes a graphics item from the view.
-    This is a convenience function for the user to avoid taking care of item parenthood.
-    */
-  void removeFromScene(QGraphicsItem *item);
+    /**
+      @brief Removes a graphics item from the view.
+      This is a convenience function for the user to avoid taking care of item parenthood.
+      */
+    void removeFromScene(QGraphicsItem *item);
 
-  /**
-    @brief Sets the widget to be drawn as the view's background.
-    This method may be called several times. Parenthood between the widget and items added using
-    addToScene will be automatically updated.
-    @note The ViewWidget takes ownership of the central widget. The previous central widget gets
-    deleted in the process.
-    */
-  void setCentralWidget(QWidget *, bool deleteOldCentralWidget = true);
+    /**
+      @brief Sets the widget to be drawn as the view's background.
+      This method may be called several times. Parenthood between the widget and items added using
+      addToScene will be automatically updated.
+      @note The ViewWidget takes ownership of the central widget. The previous central widget gets
+      deleted in the process.
+      */
+    void setCentralWidget(QWidget *, bool deleteOldCentralWidget = true);
 
-  /**
-    @return The graphics item associated to the central widget
-    @see setCentralWidget
-    */
-  QGraphicsItem *centralItem() const override;
+    /**
+      @return The graphics item associated to the central widget
+      @see setCentralWidget
+      */
+    QGraphicsItem *centralItem() const override;
 
-  QPixmap snapshot(const QSize &outputSize = QSize()) const override;
+    QPixmap snapshot(const QSize &outputSize = QSize()) const override;
 };
 }
 

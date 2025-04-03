@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021  The Talipot developers
+ * Copyright (C) 2021-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,26 +19,26 @@ using namespace std;
 using namespace tlp;
 
 class BridgesSelection : public BooleanAlgorithm {
-public:
-  PLUGININFORMATION("Bridges Selection", "Antoine Lambert", "09/2021",
-                    "Selects bridges in a graph.<br/>A bridge is defined as an edge which, "
-                    "when removed, makes the graph disconnected (or more precisely, "
-                    "increases the number of connected components in the graph).",
-                    " 1.0 ", "Selection")
-  BridgesSelection(const PluginContext *context) : BooleanAlgorithm(context) {
-    addOutParameter<uint>("#bridges", "The number of bridges selected");
-  }
+  public:
+    PLUGININFORMATION("Bridges Selection", "Antoine Lambert", "09/2021",
+                      "Selects bridges in a graph.<br/>A bridge is defined as an edge which, "
+                      "when removed, makes the graph disconnected (or more precisely, "
+                      "increases the number of connected components in the graph).",
+                      " 1.0 ", "Selection")
+    BridgesSelection(const PluginContext *context) : BooleanAlgorithm(context) {
+        addOutParameter<uint>("#bridges", "The number of bridges selected");
+    }
 
-  bool run() override {
-    vector<edge> bridges = ConnectedTest::computeBridges(graph);
-    for (auto e : bridges) {
-      result->setEdgeValue(e, true);
+    bool run() override {
+        vector<edge> bridges = ConnectedTest::computeBridges(graph);
+        for (auto e : bridges) {
+            result->setEdgeValue(e, true);
+        }
+        if (dataSet) {
+            dataSet->set<uint>("#bridges", bridges.size());
+        }
+        return true;
     }
-    if (dataSet) {
-      dataSet->set<uint>("#bridges", bridges.size());
-    }
-    return true;
-  }
 };
 
 PLUGIN(BridgesSelection)

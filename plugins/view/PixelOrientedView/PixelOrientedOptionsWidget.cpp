@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,51 +21,51 @@ using namespace tlp;
 
 PixelOrientedOptionsWidget::PixelOrientedOptionsWidget(QWidget *parent)
     : QWidget(parent), _ui(new Ui::PixelOrientedOptionsWidget), oldValuesInitialized(false) {
-  _ui->setupUi(this);
-  _ui->backColorButton->setDialogTitle("Choose the background color");
-  setBackgroundColor(Color(255, 255, 255));
+    _ui->setupUi(this);
+    _ui->backColorButton->setDialogTitle("Choose the background color");
+    setBackgroundColor(Color(255, 255, 255));
 }
 
 PixelOrientedOptionsWidget::~PixelOrientedOptionsWidget() {
-  delete _ui;
+    delete _ui;
 }
 
 Color PixelOrientedOptionsWidget::getBackgroundColor() const {
-  return _ui->backColorButton->talipotColor();
+    return _ui->backColorButton->talipotColor();
 }
 
 void PixelOrientedOptionsWidget::setBackgroundColor(const Color &color) {
-  _ui->backColorButton->setColor(color);
+    _ui->backColorButton->setColor(color);
 }
 
 string PixelOrientedOptionsWidget::getLayoutType() const {
-  return QStringToTlpString(_ui->layoutTypeCB->currentText());
+    return QStringToTlpString(_ui->layoutTypeCB->currentText());
 }
 
 void PixelOrientedOptionsWidget::setLayoutType(const string &layoutType) {
-  int idx = _ui->layoutTypeCB->findText(QString(layoutType.c_str()));
+    int idx = _ui->layoutTypeCB->findText(QString(layoutType.c_str()));
 
-  if (idx != -1) {
-    _ui->layoutTypeCB->setCurrentIndex(idx);
-  }
+    if (idx != -1) {
+        _ui->layoutTypeCB->setCurrentIndex(idx);
+    }
 }
 
 bool PixelOrientedOptionsWidget::configurationChanged() {
-  bool confChanged = false;
+    bool confChanged = false;
 
-  if (oldValuesInitialized) {
-    if (oldBackgroundColor != getBackgroundColor() || oldLayoutType != getLayoutType()) {
-      confChanged = true;
+    if (oldValuesInitialized) {
+        if (oldBackgroundColor != getBackgroundColor() || oldLayoutType != getLayoutType()) {
+            confChanged = true;
+        }
+    } else {
+        confChanged = true;
+        oldValuesInitialized = true;
     }
-  } else {
-    confChanged = true;
-    oldValuesInitialized = true;
-  }
 
-  if (confChanged) {
-    oldBackgroundColor = getBackgroundColor();
-    oldLayoutType = getLayoutType();
-  }
+    if (confChanged) {
+        oldBackgroundColor = getBackgroundColor();
+        oldLayoutType = getLayoutType();
+    }
 
-  return confChanged;
+    return confChanged;
 }

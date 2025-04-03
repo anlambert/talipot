@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,18 +30,18 @@ class Graph;
  * @brief Class configuring properties selected and number of iteration for computing SOM.
  */
 class ComputeSOMWidget : public QWidget {
-  Q_OBJECT
-  Ui::SOMComputeWidget *_ui;
+    Q_OBJECT
+    Ui::SOMComputeWidget *_ui;
 
-public:
-  ComputeSOMWidget(QWidget *parent = nullptr);
-  ~ComputeSOMWidget() override;
-  unsigned number() const;
-  void setNumber(unsigned uintValue);
-  void clearLists();
-  std::vector<std::string> getSelectedProperties();
-  void setWidgetParameters(tlp::Graph *g, std::vector<std::string> &propertyFilterType);
-  void setOutputPropertiesList(std::vector<std::string> &properties);
+  public:
+    ComputeSOMWidget(QWidget *parent = nullptr);
+    ~ComputeSOMWidget() override;
+    unsigned number() const;
+    void setNumber(unsigned uintValue);
+    void clearLists();
+    std::vector<std::string> getSelectedProperties();
+    void setWidgetParameters(tlp::Graph *g, std::vector<std::string> &propertyFilterType);
+    void setOutputPropertiesList(std::vector<std::string> &properties);
 };
 }
 #endif // COMPUTE_SOM_WIDGET_H

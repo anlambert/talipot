@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021  The Talipot developers
+ * Copyright (C) 2021-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,37 +26,37 @@ using namespace std;
 using namespace tlp;
 
 DataSet getDefaultPluginParameters(const std::string &pluginName, Graph *graph = nullptr) {
-  DataSet result;
-  const ParameterDescriptionList &parameters = PluginsManager::getPluginParameters(pluginName);
-  parameters.buildDefaultDataSet(result, graph);
-  return result;
+    DataSet result;
+    const ParameterDescriptionList &parameters = PluginsManager::getPluginParameters(pluginName);
+    parameters.buildDefaultDataSet(result, graph);
+    return result;
 }
 
 int main() {
 
-  CrashHandler::install();
+    CrashHandler::install();
 
-  string talipotBuildDir = TALIPOT_BUILD_DIR;
+    string talipotBuildDir = TALIPOT_BUILD_DIR;
 
-  initTalipotLib();
+    initTalipotLib();
 
-  vector<string> pluginDirs = {"clustering", "colors",    "general", "import", "layout",
-                               "metric",     "selection", "sizes",   "string", "test"};
+    vector<string> pluginDirs = {"clustering", "colors",    "general", "import", "layout",
+                                 "metric",     "selection", "sizes",   "string", "test"};
 
-  for (const auto &pluginDir : pluginDirs) {
-    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/" + pluginDir);
-  }
+    for (const auto &pluginDir : pluginDirs) {
+        PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/" + pluginDir);
+    }
 
-  const string importPlugin = "Planar Graph";
-  DataSet importParams = getDefaultPluginParameters(importPlugin);
+    const string importPlugin = "Planar Graph";
+    DataSet importParams = getDefaultPluginParameters(importPlugin);
 
-  for (const auto &plugin : PluginsManager::availablePlugins<Algorithm>()) {
-    Graph *graph = tlp::importGraph(importPlugin, importParams);
-    DataSet params = getDefaultPluginParameters(plugin, graph);
-    string errMsg;
-    graph->applyAlgorithm(plugin, errMsg, &params);
-    delete graph;
-  }
+    for (const auto &plugin : PluginsManager::availablePlugins<Algorithm>()) {
+        Graph *graph = tlp::importGraph(importPlugin, importParams);
+        DataSet params = getDefaultPluginParameters(plugin, graph);
+        string errMsg;
+        graph->applyAlgorithm(plugin, errMsg, &params);
+        delete graph;
+    }
 
-  return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }

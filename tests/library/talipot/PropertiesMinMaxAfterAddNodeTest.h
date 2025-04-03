@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,19 +17,19 @@
 #include "CppUnitIncludes.h"
 
 class PropertiesMinMaxAfterAddNodeTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(PropertiesMinMaxAfterAddNodeTest);
-  CPPUNIT_TEST(testDoublePropertyMinMaxAfterAddNode);
-  CPPUNIT_TEST(testIntegerPropertyMinMaxAfterAddNode);
-  CPPUNIT_TEST(testLayoutPropertyMinMaxAfterAddNode);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(PropertiesMinMaxAfterAddNodeTest);
+    CPPUNIT_TEST(testDoublePropertyMinMaxAfterAddNode);
+    CPPUNIT_TEST(testIntegerPropertyMinMaxAfterAddNode);
+    CPPUNIT_TEST(testLayoutPropertyMinMaxAfterAddNode);
+    CPPUNIT_TEST_SUITE_END();
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testDoublePropertyMinMaxAfterAddNode();
-  void testIntegerPropertyMinMaxAfterAddNode();
-  void testLayoutPropertyMinMaxAfterAddNode();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testDoublePropertyMinMaxAfterAddNode();
+    void testIntegerPropertyMinMaxAfterAddNode();
+    void testLayoutPropertyMinMaxAfterAddNode();
 
-private:
-  tlp::Graph *graph;
+  private:
+    tlp::Graph *graph;
 };

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,13 +22,13 @@
  *
  */
 class DagLevelMetric : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION("Dag Level", "David Auber", "10/03/2000",
-                    "Implements a DAG layer decomposition.", "1.0", "Hierarchical")
-  DagLevelMetric(const tlp::PluginContext *context);
-  ~DagLevelMetric() override;
-  bool run() override;
-  bool check(std::string &erreurMsg) override;
+  public:
+    PLUGININFORMATION("Dag Level", "David Auber", "10/03/2000",
+                      "Implements a DAG layer decomposition.", "1.0", "Hierarchical")
+    DagLevelMetric(const tlp::PluginContext *context);
+    ~DagLevelMetric() override;
+    bool run() override;
+    bool check(std::string &erreurMsg) override;
 };
 
 #endif // DAG_LEVEL_METRIC_H

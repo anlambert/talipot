@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,24 +22,24 @@
 
 class HSI {
 
-public:
-  HSI(double hue, double saturation, double intensity);
-  HSI(const tlp::Color &c);
-  double value(double hue_phase) const;
-  tlp::Color getColor() const;
+  public:
+    HSI(double hue, double saturation, double intensity);
+    HSI(const tlp::Color &c);
+    double value(double hue_phase) const;
+    tlp::Color getColor() const;
 
-  double hue, saturation, intensity;
+    double hue, saturation, intensity;
 };
 
 class HSIColorScale {
 
-public:
-  HSIColorScale(const HSI &from, const HSI &to);
-  HSI operator[](double f) const;
+  public:
+    HSIColorScale(const HSI &from, const HSI &to);
+    HSI operator[](double f) const;
 
-private:
-  HSI foot;
-  double hue_range, sat_range, int_range;
+  private:
+    HSI foot;
+    double hue_range, sat_range, int_range;
 };
 
 #endif // HSI_COLOR_SPACE_H

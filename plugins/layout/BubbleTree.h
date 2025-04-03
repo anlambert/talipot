@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -38,26 +38,27 @@
  *   auber@labri.fr, grivet@labri.fr
  */
 class BubbleTree : public tlp::LayoutAlgorithm {
-public:
-  PLUGININFORMATION("Bubble Tree", "D.Auber/S.Grivet", "16/05/2003",
-                    "Implement the bubble tree drawing algorithm first published as:<br/>"
-                    "<b>Bubble Tree Drawing Algorithm</b>, D. Auber and S. Grivet and J-P Domenger "
-                    "and Guy Melancon, ICCVG, pages 633-641 (2004).",
-                    "1.1", "Tree")
-  BubbleTree(const tlp::PluginContext *context);
-  ~BubbleTree() override;
-  bool run() override;
+  public:
+    PLUGININFORMATION(
+        "Bubble Tree", "D.Auber/S.Grivet", "16/05/2003",
+        "Implement the bubble tree drawing algorithm first published as:<br/>"
+        "<b>Bubble Tree Drawing Algorithm</b>, D. Auber and S. Grivet and J-P Domenger "
+        "and Guy Melancon, ICCVG, pages 633-641 (2004).",
+        "1.1", "Tree")
+    BubbleTree(const tlp::PluginContext *context);
+    ~BubbleTree() override;
+    bool run() override;
 
-private:
-  double computeRelativePosition(tlp::node n,
-                                 tlp::NodeVectorProperty<tlp::Vec5d> &relativePosition);
-  void calcLayout(tlp::node n, tlp::NodeVectorProperty<tlp::Vec5d> &relativePosition);
-  void calcLayout2(tlp::node n, tlp::Vec5d &nrPos,
-                   tlp::NodeVectorProperty<tlp::Vec5d> &relativePosition, const tlp::Vec3d &,
-                   const tlp::Vec3d &);
-  tlp::Graph *tree;
-  tlp::SizeProperty *nodeSize;
-  bool nAlgo;
+  private:
+    double computeRelativePosition(tlp::node n,
+                                   tlp::NodeVectorProperty<tlp::Vec5d> &relativePosition);
+    void calcLayout(tlp::node n, tlp::NodeVectorProperty<tlp::Vec5d> &relativePosition);
+    void calcLayout2(tlp::node n, tlp::Vec5d &nrPos,
+                     tlp::NodeVectorProperty<tlp::Vec5d> &relativePosition, const tlp::Vec3d &,
+                     const tlp::Vec3d &);
+    tlp::Graph *tree;
+    tlp::SizeProperty *nodeSize;
+    bool nAlgo;
 };
 
 #endif // BUBBLE_TREE_H

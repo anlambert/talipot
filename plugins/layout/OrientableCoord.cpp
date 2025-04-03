@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,71 +17,71 @@
 OrientableCoord::OrientableCoord(OrientableLayout *fatherParam, const float x, const float y,
                                  const float z)
     : father(fatherParam) {
-  set(x, y, z);
+    set(x, y, z);
 }
 //====================================================================
 OrientableCoord::OrientableCoord(OrientableLayout *fatherParam, const tlp::Coord &v)
     : father(fatherParam) {
-  set(v);
+    set(v);
 }
 //====================================================================
 void OrientableCoord::set(const float x, const float y, const float z) {
-  setX(x);
-  setY(y);
-  setZ(z);
+    setX(x);
+    setY(y);
+    setZ(z);
 }
 //====================================================================
 void OrientableCoord::set(const tlp::Coord &coord) {
-  tlp::Coord::setX(coord.getX());
-  tlp::Coord::setY(coord.getY());
-  tlp::Coord::setZ(coord.getZ());
+    tlp::Coord::setX(coord.getX());
+    tlp::Coord::setY(coord.getY());
+    tlp::Coord::setZ(coord.getZ());
 }
 //====================================================================
 void OrientableCoord::setX(float x) {
-  (this->*(father->writeX))(x);
+    (this->*(father->writeX))(x);
 }
 //====================================================================
 void OrientableCoord::setY(float y) {
-  (this->*(father->writeY))(y);
+    (this->*(father->writeY))(y);
 }
 //====================================================================
 void OrientableCoord::setZ(float z) {
-  (this->*(father->writeZ))(z);
+    (this->*(father->writeZ))(z);
 }
 //====================================================================
 float OrientableCoord::getX() const {
-  return (this->*(father->readX))();
+    return (this->*(father->readX))();
 }
 //====================================================================
 float OrientableCoord::getY() const {
-  return (this->*(father->readY))();
+    return (this->*(father->readY))();
 }
 //====================================================================
 float OrientableCoord::getZ() const {
-  return (this->*(father->readZ))();
+    return (this->*(father->readZ))();
 }
 //====================================================================
 void OrientableCoord::setInvertedX(float x) {
-  tlp::Coord::setX(-x);
+    tlp::Coord::setX(-x);
 }
 //====================================================================
 void OrientableCoord::setInvertedY(float y) {
-  tlp::Coord::setY(-y);
+    tlp::Coord::setY(-y);
 }
 //====================================================================
 void OrientableCoord::setInvertedZ(float z) {
-  tlp::Coord::setZ(-z);
+    tlp::Coord::setZ(-z);
 }
 //====================================================================
 float OrientableCoord::getInvertedX() const {
-  return -tlp::Coord::getX();
+    return -tlp::Coord::getX();
 }
 //====================================================================
 float OrientableCoord::getInvertedY() const {
-  return -tlp::Coord::getY();
+    return -tlp::Coord::getY();
 }
 //====================================================================
 float OrientableCoord::getInvertedZ() const {
-  return -tlp::Coord::getZ();
+    return -tlp::Coord::getZ();
 }
 //====================================================================

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,44 +23,44 @@
 namespace tlp {
 
 class TLP_QT_SCOPE ChooseColorButton : public QPushButton {
-  Q_OBJECT
-  Q_PROPERTY(QColor color READ color WRITE setColor)
-  Q_PROPERTY(Color talipotColor READ talipotColor WRITE setColor)
+    Q_OBJECT
+    Q_PROPERTY(QColor color READ color WRITE setColor)
+    Q_PROPERTY(Color talipotColor READ talipotColor WRITE setColor)
 
-public:
-  explicit ChooseColorButton(QWidget *parent = nullptr);
+  public:
+    explicit ChooseColorButton(QWidget *parent = nullptr);
 
-  QColor color() const;
-  QString text() const;
-  Color talipotColor() const;
+    QColor color() const;
+    QString text() const;
+    Color talipotColor() const;
 
-protected:
-  QColor _color;
-  QString _text;
-  QString _dialogTitle;
+  protected:
+    QColor _color;
+    QString _text;
+    QString _dialogTitle;
 
-signals:
-  void colorChanged(QColor);
-  void talipotColorChanged(Color);
+  signals:
+    void colorChanged(QColor);
+    void talipotColorChanged(Color);
 
-public slots:
-  void setColor(const QColor &);
-  void setText(const QString &text);
-  void setColor(const Color &);
-  void setDialogTitle(const QString &);
+  public slots:
+    void setColor(const QColor &);
+    void setText(const QString &text);
+    void setColor(const Color &);
+    void setDialogTitle(const QString &);
 
-protected slots:
-  void chooseColor();
+  protected slots:
+    void chooseColor();
 };
 
 class TLP_QT_SCOPE ColorButton : public ChooseColorButton {
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  explicit ColorButton(QWidget *parent = nullptr) : ChooseColorButton(parent) {}
+  public:
+    explicit ColorButton(QWidget *parent = nullptr) : ChooseColorButton(parent) {}
 
-protected:
-  void paintEvent(QPaintEvent *) override;
+  protected:
+    void paintEvent(QPaintEvent *) override;
 };
 }
 

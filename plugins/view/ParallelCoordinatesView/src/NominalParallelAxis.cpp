@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,99 +33,99 @@ NominalParallelAxis::NominalParallelAxis(const Coord &base_coord, const float he
           new GlNominativeAxis(propertyName, base_coord, height, GlAxis::VERTICAL_AXIS, axisColor),
           axisAreaWidth, rotationAngle, captionPosition),
       graphProxy(graph) {
-  glNominativeAxis = static_cast<GlNominativeAxis *>(glAxis);
-  setLabels();
-  ParallelAxis::redraw();
+    glNominativeAxis = static_cast<GlNominativeAxis *>(glAxis);
+    setLabels();
+    ParallelAxis::redraw();
 }
 
 void NominalParallelAxis::setLabels() {
 
-  vector<string> labels;
+    vector<string> labels;
 
-  for (uint dataId : graphProxy->getDataIterator()) {
-    string labelName =
-        graphProxy->getPropertyValueForData<StringProperty, StringType>(getAxisName(), dataId);
+    for (uint dataId : graphProxy->getDataIterator()) {
+        string labelName =
+            graphProxy->getPropertyValueForData<StringProperty, StringType>(getAxisName(), dataId);
 
-    if (std::find(labels.begin(), labels.end(), labelName) == labels.end()) {
-      labels.push_back(labelName);
+        if (std::find(labels.begin(), labels.end(), labelName) == labels.end()) {
+            labels.push_back(labelName);
+        }
     }
-  }
 
-  if (labelsOrder.empty() || (labelsOrder.size() != labels.size())) {
-    labelsOrder = labels;
-  }
+    if (labelsOrder.empty() || (labelsOrder.size() != labels.size())) {
+        labelsOrder = labels;
+    }
 
-  glNominativeAxis->setAxisGraduationsLabels(labelsOrder, GlAxis::RIGHT_OR_ABOVE);
+    glNominativeAxis->setAxisGraduationsLabels(labelsOrder, GlAxis::RIGHT_OR_ABOVE);
 }
 
 Coord NominalParallelAxis::getPointCoordOnAxisForData(const uint dataIdx) {
-  string propertyValue =
-      graphProxy->getPropertyValueForData<StringProperty, StringType>(getAxisName(), dataIdx);
-  Coord axisPointCoord = glNominativeAxis->getAxisPointCoordForValue(propertyValue);
+    string propertyValue =
+        graphProxy->getPropertyValueForData<StringProperty, StringType>(getAxisName(), dataIdx);
+    Coord axisPointCoord = glNominativeAxis->getAxisPointCoordForValue(propertyValue);
 
-  if (rotationAngle != 0.0f) {
-    rotateVector(axisPointCoord, rotationAngle, Z_ROT);
-  }
+    if (rotationAngle != 0.0f) {
+        rotateVector(axisPointCoord, rotationAngle, Z_ROT);
+    }
 
-  return axisPointCoord;
+    return axisPointCoord;
 }
 
 void NominalParallelAxis::showConfigDialog() {
-  NominalAxisConfigDialog dialog(this);
-  dialog.exec();
+    NominalAxisConfigDialog dialog(this);
+    dialog.exec();
 }
 
 const set<uint> &NominalParallelAxis::getDataInSlidersRange() {
 
-  dataSubset.clear();
-  map<string, uint> labelsInRange;
+    dataSubset.clear();
+    map<string, uint> labelsInRange;
 
-  for (const auto &l : labelsOrder) {
-    Coord labelCoord = glNominativeAxis->getAxisPointCoordForValue(l);
+    for (const auto &l : labelsOrder) {
+        Coord labelCoord = glNominativeAxis->getAxisPointCoordForValue(l);
 
-    if (labelCoord.getY() >= bottomSliderCoord.getY() &&
-        labelCoord.getY() <= topSliderCoord.getY()) {
-      labelsInRange[l] = 1;
+        if (labelCoord.getY() >= bottomSliderCoord.getY() &&
+            labelCoord.getY() <= topSliderCoord.getY()) {
+            labelsInRange[l] = 1;
+        }
     }
-  }
 
-  for (uint dataId : graphProxy->getDataIterator()) {
-    string labelName =
-        graphProxy->getPropertyValueForData<StringProperty, StringType>(getAxisName(), dataId);
+    for (uint dataId : graphProxy->getDataIterator()) {
+        string labelName =
+            graphProxy->getPropertyValueForData<StringProperty, StringType>(getAxisName(), dataId);
 
-    if (labelsInRange.contains(labelName)) {
-      dataSubset.insert(dataId);
+        if (labelsInRange.contains(labelName)) {
+            dataSubset.insert(dataId);
+        }
     }
-  }
 
-  return dataSubset;
+    return dataSubset;
 }
 
 void NominalParallelAxis::updateSlidersWithDataSubset(const set<uint> &dataSubset) {
-  float rotAngleBak = rotationAngle;
-  rotationAngle = 0.0f;
-  Coord max = getBaseCoord();
-  Coord min = getBaseCoord() + Coord(0.0f, getAxisHeight());
+    float rotAngleBak = rotationAngle;
+    rotationAngle = 0.0f;
+    Coord max = getBaseCoord();
+    Coord min = getBaseCoord() + Coord(0.0f, getAxisHeight());
 
-  for (auto d : dataSubset) {
-    Coord labelCoord = getPointCoordOnAxisForData(d);
+    for (auto d : dataSubset) {
+        Coord labelCoord = getPointCoordOnAxisForData(d);
 
-    if (labelCoord.getY() < min.getY()) {
-      min = labelCoord;
+        if (labelCoord.getY() < min.getY()) {
+            min = labelCoord;
+        }
+
+        if (labelCoord.getY() > max.getY()) {
+            max = labelCoord;
+        }
     }
 
-    if (labelCoord.getY() > max.getY()) {
-      max = labelCoord;
-    }
-  }
-
-  bottomSliderCoord = min;
-  topSliderCoord = max;
-  rotationAngle = rotAngleBak;
+    bottomSliderCoord = min;
+    topSliderCoord = max;
+    rotationAngle = rotAngleBak;
 }
 
 void NominalParallelAxis::redraw() {
-  setLabels();
-  ParallelAxis::redraw();
+    setLabels();
+    ParallelAxis::redraw();
 }
 }

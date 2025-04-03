@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,46 +18,46 @@
 using namespace tlp;
 
 StringEditor::StringEditor(QWidget *parent) : QDialog(parent) {
-  auto *layout = new QVBoxLayout;
-  setLayout(layout);
-  edit = new QTextEdit(this);
-  layout->addWidget(edit);
-  auto *buttonBox =
-      new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal);
-  layout->addWidget(buttonBox);
-  QWidget::setTabOrder(edit, buttonBox);
-  QObject::connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
-  QObject::connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-  setString(QString());
-  setModal(true);
-  setWindowTitle("Set string value");
+    auto *layout = new QVBoxLayout;
+    setLayout(layout);
+    edit = new QTextEdit(this);
+    layout->addWidget(edit);
+    auto *buttonBox =
+        new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal);
+    layout->addWidget(buttonBox);
+    QWidget::setTabOrder(edit, buttonBox);
+    QObject::connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    QObject::connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    setString(QString());
+    setModal(true);
+    setWindowTitle("Set string value");
 }
 
 QString StringEditor::getString() const {
-  return currentString;
+    return currentString;
 }
 
 void StringEditor::setString(const QString &qstr) {
-  currentString = qstr;
-  blockSignals(true);
-  edit->setPlainText(qstr);
-  blockSignals(false);
+    currentString = qstr;
+    blockSignals(true);
+    edit->setPlainText(qstr);
+    blockSignals(false);
 }
 
 void StringEditor::done(int r) {
-  if (r == QDialog::Accepted) {
-    currentString = edit->toPlainText();
-  }
+    if (r == QDialog::Accepted) {
+        currentString = edit->toPlainText();
+    }
 
-  QDialog::done(r);
+    QDialog::done(r);
 }
 
 // to ensure it is shown in the center of its parent
 void StringEditor::showEvent(QShowEvent *ev) {
-  QDialog::showEvent(ev);
+    QDialog::showEvent(ev);
 
-  if (parentWidget()) {
-    move(parentWidget()->window()->frameGeometry().topLeft() +
-         parentWidget()->window()->rect().center() - rect().center());
-  }
+    if (parentWidget()) {
+        move(parentWidget()->window()->frameGeometry().topLeft() +
+             parentWidget()->window()->rect().center() - rect().center());
+    }
 }

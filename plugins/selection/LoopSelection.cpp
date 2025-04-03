@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,26 +19,26 @@ using namespace std;
 using namespace tlp;
 
 LoopSelection::LoopSelection(const tlp::PluginContext *context) : BooleanAlgorithm(context) {
-  addOutParameter<uint>("#edges selected", "The number of loops selected");
+    addOutParameter<uint>("#edges selected", "The number of loops selected");
 }
 //============================================
 bool LoopSelection::run() {
-  result->setAllNodeValue(false);
-  unsigned cpt = 0;
-  for (auto e : graph->edges()) {
-    const auto &[src, tgt] = graph->ends(e);
+    result->setAllNodeValue(false);
+    unsigned cpt = 0;
+    for (auto e : graph->edges()) {
+        const auto &[src, tgt] = graph->ends(e);
 
-    if (src == tgt) {
-      result->setEdgeValue(e, true);
-      ++cpt;
+        if (src == tgt) {
+            result->setEdgeValue(e, true);
+            ++cpt;
+        }
     }
-  }
 
-  // output some useful information
-  if (dataSet != nullptr) {
-    dataSet->set("#edges selected", cpt);
-  }
+    // output some useful information
+    if (dataSet != nullptr) {
+        dataSet->set("#edges selected", cpt);
+    }
 
-  return true;
+    return true;
 }
 //============================================

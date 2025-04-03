@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -15,13 +15,13 @@
 #include <talipot/GraphTest.h>
 
 class TriconnectedTest : public tlp::GraphTest {
-public:
-  PLUGININFORMATION("Triconnected", "Tulip team", "18/04/2012",
-                    "Tests whether a graph is triconnected or not.", "1.0", "Topological Test")
-  TriconnectedTest(const tlp::PluginContext *context) : tlp::GraphTest(context) {}
+  public:
+    PLUGININFORMATION("Triconnected", "Tulip team", "18/04/2012",
+                      "Tests whether a graph is triconnected or not.", "1.0", "Topological Test")
+    TriconnectedTest(const tlp::PluginContext *context) : tlp::GraphTest(context) {}
 
-  bool test() override {
-    return tlp::TriconnectedTest::isTriconnected(graph);
-  }
+    bool test() override {
+        return tlp::TriconnectedTest::isTriconnected(graph);
+    }
 };
 PLUGIN(TriconnectedTest)

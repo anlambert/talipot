@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2024  The Talipot developers
+ * Copyright (C) 2024-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,22 +17,22 @@
 #include <QGeoView/QGVLayerTilesOnline.h>
 
 enum class GeoPortailMapType {
-  Plan,
-  Satellite,
+    Plan,
+    Satellite,
 };
 
 class QGVLayerGeoPortail : public QGVLayerTilesOnline {
 
-public:
-  explicit QGVLayerGeoPortail(GeoPortailMapType type = GeoPortailMapType::Plan);
+  public:
+    explicit QGVLayerGeoPortail(GeoPortailMapType type = GeoPortailMapType::Plan);
 
-private:
-  int minZoomlevel() const override;
-  int maxZoomlevel() const override;
-  QString tilePosToUrl(const QGV::GeoTilePos &tilePos) const override;
+  private:
+    int minZoomlevel() const override;
+    int maxZoomlevel() const override;
+    QString tilePosToUrl(const QGV::GeoTilePos &tilePos) const override;
 
-private:
-  GeoPortailMapType type;
+  private:
+    GeoPortailMapType type;
 };
 
 #endif // QGVLAYERGEOPORTAIL_H

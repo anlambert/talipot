@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -82,20 +82,20 @@ public:
   tlp::Vec4f& operator[](const uint i)  /NoCopy/;
 %MethodCode
 if (a0 < 4) {
-  sipRes = &(*sipCpp)[a0];
+    sipRes = &(*sipCpp)[a0];
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 
   void __setitem__(int i, const tlp::Vec4f &value);
 %MethodCode
 if (a0 < 4) {
-  (*sipCpp)[a0] = *a1;
+    (*sipCpp)[a0] = *a1;
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 
@@ -103,12 +103,12 @@ if (a0 < 4) {
 %MethodCode
 std::string repr = "";
 for (int i = 0; i < 4; ++i) {
-  std::ostringstream oss;
-  oss << (*sipCpp)[i];
-  std::string s = oss.str();
-  s[0] = '[';
-  s[s.size() - 1] = ']';
-  repr += (s + "\n");
+    std::ostringstream oss;
+    oss << (*sipCpp)[i];
+    std::string s = oss.str();
+    s[0] = '[';
+    s[s.size() - 1] = ']';
+    repr += (s + "\n");
 }
 sipRes = new std::string(repr);
 %End

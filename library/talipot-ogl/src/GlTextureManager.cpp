@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,192 +39,193 @@ using namespace std;
 namespace tlp {
 
 struct TextureInfo {
-  uint width;
-  uint height;
-  unsigned char *data;
+    uint width;
+    uint height;
+    unsigned char *data;
 };
 
 static bool generateTexture(const TextureInfo &texti, GlTexture &glTexture) {
 
-  uint width = texti.width;
-  uint height = texti.height;
+    uint width = texti.width;
+    uint height = texti.height;
 
-  bool canUseMipmaps = OpenGlConfigManager::isExtensionSupported("GL_ARB_framebuffer_object") ||
-                       OpenGlConfigManager::isExtensionSupported("GL_EXT_framebuffer_object");
+    bool canUseMipmaps = OpenGlConfigManager::isExtensionSupported("GL_ARB_framebuffer_object") ||
+                         OpenGlConfigManager::isExtensionSupported("GL_EXT_framebuffer_object");
 
-  glTexture.width = width;
-  glTexture.height = height;
+    glTexture.width = width;
+    glTexture.height = height;
 
-  glGenTextures(1, &glTexture.id);
+    glGenTextures(1, &glTexture.id);
 
-  glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
 
-  glBindTexture(GL_TEXTURE_2D, glTexture.id);
+    glBindTexture(GL_TEXTURE_2D, glTexture.id);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texti.data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+                 texti.data);
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-  if (canUseMipmaps) {
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glGenerateMipmap(GL_TEXTURE_2D);
-  } else {
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  }
+    if (canUseMipmaps) {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    } else {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    }
 
-  glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
 
-  return true;
+    return true;
 }
 //====================================================================
 static unsigned char *invertImage(int pitch, int height, unsigned char *imagePixels) {
-  auto *tempRow = new unsigned char[pitch];
-  auto heightDiv2 = static_cast<uint>(height * .5);
-  for (uint index = 0; index < heightDiv2; ++index) {
-    memcpy(tempRow, imagePixels + pitch * index, pitch);
-    memcpy(imagePixels + pitch * index, imagePixels + pitch * (height - index - 1), pitch);
-    memcpy(imagePixels + pitch * (height - index - 1), tempRow, pitch);
-  }
-  delete[] tempRow;
-  return imagePixels;
+    auto *tempRow = new unsigned char[pitch];
+    auto heightDiv2 = static_cast<uint>(height * .5);
+    for (uint index = 0; index < heightDiv2; ++index) {
+        memcpy(tempRow, imagePixels + pitch * index, pitch);
+        memcpy(imagePixels + pitch * index, imagePixels + pitch * (height - index - 1), pitch);
+        memcpy(imagePixels + pitch * (height - index - 1), tempRow, pitch);
+    }
+    delete[] tempRow;
+    return imagePixels;
 }
 //====================================================================
 static uint nearestPOT(uint x) {
-  return pow(2, ceil(log(x) / log(2)));
+    return pow(2, ceil(log(x) / log(2)));
 }
 //====================================================================
 bool GlTextureLoader::loadTexture(const string &filename, GlTexture &texture) {
 
-  TextureInfo texti;
+    TextureInfo texti;
 
-  if (!tlp::pathExists(filename)) {
-    tlp::error() << "Image file " << filename << " does not exist." << std::endl;
-    return false;
-  }
-  int w, h, n;
-  static const uint nbBytesPerPixel = 4;
-  unsigned char *pixels = stbi_load(filename.c_str(), &w, &h, &n, nbBytesPerPixel);
-  if (pixels) {
-    int nearestpotW = nearestPOT(w);
-    int nearestpotH = nearestPOT(h);
-    if (nearestpotW != w || nearestpotH != h) {
-      auto *newPixels = new unsigned char[nearestpotW * nearestpotH * nbBytesPerPixel];
-      stbir_resize_uint8_linear(pixels, w, h, 0, newPixels, nearestpotW, nearestpotH, 0,
-                                static_cast<stbir_pixel_layout>(nbBytesPerPixel));
-      delete[] pixels;
-      pixels = newPixels;
-      w = nearestpotW;
-      h = nearestpotH;
+    if (!tlp::pathExists(filename)) {
+        tlp::error() << "Image file " << filename << " does not exist." << std::endl;
+        return false;
     }
-    texti.width = w;
-    texti.height = h;
-    texti.data = invertImage(w * nbBytesPerPixel, h, pixels);
-  } else {
-    tlp::error() << "Unable to load image file " << filename << std::endl;
-    return false;
-  }
+    int w, h, n;
+    static const uint nbBytesPerPixel = 4;
+    unsigned char *pixels = stbi_load(filename.c_str(), &w, &h, &n, nbBytesPerPixel);
+    if (pixels) {
+        int nearestpotW = nearestPOT(w);
+        int nearestpotH = nearestPOT(h);
+        if (nearestpotW != w || nearestpotH != h) {
+            auto *newPixels = new unsigned char[nearestpotW * nearestpotH * nbBytesPerPixel];
+            stbir_resize_uint8_linear(pixels, w, h, 0, newPixels, nearestpotW, nearestpotH, 0,
+                                      static_cast<stbir_pixel_layout>(nbBytesPerPixel));
+            delete[] pixels;
+            pixels = newPixels;
+            w = nearestpotW;
+            h = nearestpotH;
+        }
+        texti.width = w;
+        texti.height = h;
+        texti.data = invertImage(w * nbBytesPerPixel, h, pixels);
+    } else {
+        tlp::error() << "Unable to load image file " << filename << std::endl;
+        return false;
+    }
 
-  bool result = generateTexture(texti, texture);
+    bool result = generateTexture(texti, texture);
 
-  delete[] texti.data;
+    delete[] texti.data;
 
-  return result;
+    return result;
 }
 //====================================================================
 GlTexture GlTextureManager::getTextureInfo(const string &filename) {
-  if (texturesMap.contains(filename)) {
-    return (texturesMap)[filename];
-  } else {
-    return GlTexture();
-  }
+    if (texturesMap.contains(filename)) {
+        return (texturesMap)[filename];
+    } else {
+        return GlTexture();
+    }
 }
 //====================================================================
 bool GlTextureManager::existsTexture(const string &filename) {
-  return (texturesMap.contains(filename));
+    return (texturesMap.contains(filename));
 }
 //====================================================================
 bool GlTextureManager::loadTexture(const string &filename) {
-  glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
 
-  if (texturesMap.contains(filename)) {
+    if (texturesMap.contains(filename)) {
+        return true;
+    }
+
+    GlTexture texture;
+
+    if (!getTextureLoader()->loadTexture(filename, texture)) {
+        return false;
+    }
+
+    (texturesMap)[filename] = texture;
     return true;
-  }
-
-  GlTexture texture;
-
-  if (!getTextureLoader()->loadTexture(filename, texture)) {
-    return false;
-  }
-
-  (texturesMap)[filename] = texture;
-  return true;
 }
 
 void GlTextureManager::registerExternalTexture(const std::string &textureName,
                                                const GLuint textureId) {
-  GlTexture texture;
-  texture.id = textureId;
-  (texturesMap)[textureName] = texture;
+    GlTexture texture;
+    texture.id = textureId;
+    (texturesMap)[textureName] = texture;
 }
 
 //====================================================================
 static void deleteGlTexture(const GlTexture &texture) {
-  glDeleteTextures(1, &texture.id);
+    glDeleteTextures(1, &texture.id);
 }
 
 void GlTextureManager::deleteTexture(const string &name) {
-  auto it = texturesMap.find(name);
-  if (it != texturesMap.end()) {
-    deleteGlTexture(it->second);
-    texturesMap.erase(it);
-  }
+    auto it = texturesMap.find(name);
+    if (it != texturesMap.end()) {
+        deleteGlTexture(it->second);
+        texturesMap.erase(it);
+    }
 }
 //====================================================================
 void GlTextureManager::beginNewTexture(const string &) {
-  GLuint textureNum;
-  glGenTextures(1, &textureNum);
-  glBindTexture(GL_TEXTURE_2D, textureNum);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    GLuint textureNum;
+    glGenTextures(1, &textureNum);
+    glBindTexture(GL_TEXTURE_2D, textureNum);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 }
 //====================================================================
 bool GlTextureManager::activateTexture(const string &filename, int textureUnit) {
-  if (texturesWithError.count(filename) != 0) {
-    return false;
-  }
+    if (texturesWithError.count(filename) != 0) {
+        return false;
+    }
 
-  bool loadOk = true;
+    bool loadOk = true;
 
-  glActiveTexture(GL_TEXTURE0 + textureUnit);
+    glActiveTexture(GL_TEXTURE0 + textureUnit);
 
-  if (!texturesMap.contains(filename)) {
-    loadOk = loadTexture(filename);
-  } else {
-    glEnable(GL_TEXTURE_2D);
-  }
+    if (!texturesMap.contains(filename)) {
+        loadOk = loadTexture(filename);
+    } else {
+        glEnable(GL_TEXTURE_2D);
+    }
 
-  if (!loadOk) {
-    texturesWithError.insert(filename);
-    glDisable(GL_TEXTURE_2D);
-    return false;
-  }
+    if (!loadOk) {
+        texturesWithError.insert(filename);
+        glDisable(GL_TEXTURE_2D);
+        return false;
+    }
 
-  glBindTexture(GL_TEXTURE_2D, (texturesMap)[filename].id);
-  return true;
+    glBindTexture(GL_TEXTURE_2D, (texturesMap)[filename].id);
+    return true;
 }
 //====================================================================
 void GlTextureManager::deactivateTexture(int textureUnit) {
-  glActiveTexture(GL_TEXTURE0 + textureUnit);
-  glBindTexture(GL_TEXTURE_2D, 0);
-  glDisable(GL_TEXTURE_2D);
+    glActiveTexture(GL_TEXTURE0 + textureUnit);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_TEXTURE_2D);
 }
 //====================================================================
 void GlTextureManager::deleteAllTextures() {
-  for (const auto &[name, texture] : texturesMap) {
-    deleteGlTexture(texture);
-  }
+    for (const auto &[name, texture] : texturesMap) {
+        deleteGlTexture(texture);
+    }
 }
 
 }

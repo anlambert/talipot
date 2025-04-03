@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,29 +21,29 @@ class Graph;
 }
 
 class TestAlgorithmTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(TestAlgorithmTest);
-  CPPUNIT_TEST(testSimple);
-  CPPUNIT_TEST(testFreeTree);
-  CPPUNIT_TEST(testTree);
-  CPPUNIT_TEST(testAcyclic);
-  CPPUNIT_TEST(testConnected);
-  CPPUNIT_TEST(testBiconnected);
-  CPPUNIT_TEST(testBridges);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(TestAlgorithmTest);
+    CPPUNIT_TEST(testSimple);
+    CPPUNIT_TEST(testFreeTree);
+    CPPUNIT_TEST(testTree);
+    CPPUNIT_TEST(testAcyclic);
+    CPPUNIT_TEST(testConnected);
+    CPPUNIT_TEST(testBiconnected);
+    CPPUNIT_TEST(testBridges);
+    CPPUNIT_TEST_SUITE_END();
 
-private:
-  tlp::Graph *graph;
+  private:
+    tlp::Graph *graph;
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testSimple();
-  void testFreeTree();
-  void testTree();
-  void testAcyclic();
-  void testConnected();
-  void testBiconnected();
-  void testBridges();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testSimple();
+    void testFreeTree();
+    void testTree();
+    void testAcyclic();
+    void testConnected();
+    void testBiconnected();
+    void testBridges();
 };
 
 #endif // TEST_ALGORITHM_TEST_H

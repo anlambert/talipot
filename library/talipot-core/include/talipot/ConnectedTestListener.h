@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,14 +22,14 @@
 namespace tlp {
 
 class ConnectedTestListener : public Observable {
-public:
-  // override of Observable::treatEvent to remove the cached result for a graph if it is modified.
-  void treatEvent(const Event &) override;
+  public:
+    // override of Observable::treatEvent to remove the cached result for a graph if it is modified.
+    void treatEvent(const Event &) override;
 
-  /**
-   * @brief Stored results for graphs. When a graph is updated, its entry is removed from the map.
-   **/
-  flat_hash_map<const Graph *, bool> resultsBuffer;
+    /**
+     * @brief Stored results for graphs. When a graph is updated, its entry is removed from the map.
+     **/
+    flat_hash_map<const Graph *, bool> resultsBuffer;
 };
 
 }

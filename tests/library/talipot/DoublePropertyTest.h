@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,38 +20,38 @@
 #include "CppUnitIncludes.h"
 
 class DoublePropertyTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(DoublePropertyTest);
-  CPPUNIT_TEST(testAnonymousDoublePropertyMaxUpdate);
-  CPPUNIT_TEST(testDoublePropertyMinUpdate);
-  CPPUNIT_TEST(testDoublePropertyMaxUpdate);
-  CPPUNIT_TEST(testDoublePropertyMinUpdateFromString);
-  CPPUNIT_TEST(testDoublePropertyMaxUpdateFromString);
-  CPPUNIT_TEST(testDoublePropertySubGraphMin);
-  CPPUNIT_TEST(testDoublePropertyInfValue);
-  CPPUNIT_TEST(testDoublePropertySetAllValue);
-  CPPUNIT_TEST(testDoublePropertySetDefaultValue);
-  CPPUNIT_TEST(testVectorDoublePropertyCopyFrom);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(DoublePropertyTest);
+    CPPUNIT_TEST(testAnonymousDoublePropertyMaxUpdate);
+    CPPUNIT_TEST(testDoublePropertyMinUpdate);
+    CPPUNIT_TEST(testDoublePropertyMaxUpdate);
+    CPPUNIT_TEST(testDoublePropertyMinUpdateFromString);
+    CPPUNIT_TEST(testDoublePropertyMaxUpdateFromString);
+    CPPUNIT_TEST(testDoublePropertySubGraphMin);
+    CPPUNIT_TEST(testDoublePropertyInfValue);
+    CPPUNIT_TEST(testDoublePropertySetAllValue);
+    CPPUNIT_TEST(testDoublePropertySetDefaultValue);
+    CPPUNIT_TEST(testVectorDoublePropertyCopyFrom);
+    CPPUNIT_TEST_SUITE_END();
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testAnonymousDoublePropertyMaxUpdate();
-  void testDoublePropertyMinUpdate();
-  void testDoublePropertyMaxUpdate();
-  void testDoublePropertyMinUpdateFromString();
-  void testDoublePropertyMaxUpdateFromString();
-  void testDoublePropertySubGraphMin();
-  void testDoublePropertySubGraphMax();
-  void testDoublePropertyInfValue();
-  void testDoublePropertySetAllValue();
-  void testDoublePropertySetDefaultValue();
-  void testVectorDoublePropertyCopyFrom();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testAnonymousDoublePropertyMaxUpdate();
+    void testDoublePropertyMinUpdate();
+    void testDoublePropertyMaxUpdate();
+    void testDoublePropertyMinUpdateFromString();
+    void testDoublePropertyMaxUpdateFromString();
+    void testDoublePropertySubGraphMin();
+    void testDoublePropertySubGraphMax();
+    void testDoublePropertyInfValue();
+    void testDoublePropertySetAllValue();
+    void testDoublePropertySetDefaultValue();
+    void testVectorDoublePropertyCopyFrom();
 
-private:
-  tlp::Graph *graph;
-  tlp::node n1, n2, n3, n4;
-  tlp::edge e1, e2;
+  private:
+    tlp::Graph *graph;
+    tlp::node n1, n2, n3, n4;
+    tlp::edge e1, e2;
 };
 
 #endif // DOUBLE_PROPERTY_TEST_H

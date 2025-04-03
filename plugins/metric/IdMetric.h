@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,11 +21,11 @@
  *
  */
 class IdMetric : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION("Id", "David Auber", "06/04/2000", "Assigns their id to nodes and edges.",
-                    "1.1", "Misc")
-  IdMetric(const tlp::PluginContext *context);
-  bool run() override;
+  public:
+    PLUGININFORMATION("Id", "David Auber", "06/04/2000", "Assigns their id to nodes and edges.",
+                      "1.1", "Misc")
+    IdMetric(const tlp::PluginContext *context);
+    bool run() override;
 };
 
 #endif // ID_METRIC_H

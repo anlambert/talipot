@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,24 +31,24 @@ DECLARE_DLL_TEMPLATE_INSTANCE(SINGLE_ARG(AbstractProperty<StringType, StringType
  * @brief A graph property that maps a std::string value to graph elements.
  */
 class TLP_SCOPE StringProperty : public AbstractStringProperty {
-public:
-  StringProperty(Graph *g, const std::string &n = "");
+  public:
+    StringProperty(Graph *g, const std::string &n = "");
 
-  // redefinition of some PropertyInterface methods
-  PropertyInterface *clonePrototype(Graph *, const std::string &) const override;
-  static const std::string propertyTypename;
-  const std::string &getTypename() const override {
-    return propertyTypename;
-  }
-  // the value size of a StringVectorProperty is not fixed
-  uint nodeValueSize() const override {
-    return 0;
-  }
-  uint edgeValueSize() const override {
-    return 0;
-  }
-  int compare(const node n1, const node n2) const override;
-  int compare(const edge e1, const edge e2) const override;
+    // redefinition of some PropertyInterface methods
+    PropertyInterface *clonePrototype(Graph *, const std::string &) const override;
+    static const std::string propertyTypename;
+    const std::string &getTypename() const override {
+        return propertyTypename;
+    }
+    // the value size of a StringVectorProperty is not fixed
+    uint nodeValueSize() const override {
+        return 0;
+    }
+    uint edgeValueSize() const override {
+        return 0;
+    }
+    int compare(const node n1, const node n2) const override;
+    int compare(const edge e1, const edge e2) const override;
 };
 
 DECLARE_DLL_TEMPLATE_INSTANCE(
@@ -62,23 +62,23 @@ DECLARE_DLL_TEMPLATE_INSTANCE(SINGLE_ARG(AbstractVectorProperty<StringVectorType
  * @brief A graph property that maps a std::vector<std::string> value to graph elements.
  */
 class TLP_SCOPE StringVectorProperty : public AbstractVectorProperty<StringVectorType, StringType> {
-public:
-  StringVectorProperty(Graph *g, const std::string &n = "")
-      : AbstractVectorProperty<StringVectorType, StringType>(g, n) {}
+  public:
+    StringVectorProperty(Graph *g, const std::string &n = "")
+        : AbstractVectorProperty<StringVectorType, StringType>(g, n) {}
 
-  // redefinition of some PropertyInterface methods
-  PropertyInterface *clonePrototype(Graph *, const std::string &) const override;
-  static const std::string propertyTypename;
-  const std::string &getTypename() const override {
-    return propertyTypename;
-  }
-  // the value size of a StringVectorProperty is not fixed
-  uint nodeValueSize() const override {
-    return 0;
-  }
-  uint edgeValueSize() const override {
-    return 0;
-  }
+    // redefinition of some PropertyInterface methods
+    PropertyInterface *clonePrototype(Graph *, const std::string &) const override;
+    static const std::string propertyTypename;
+    const std::string &getTypename() const override {
+        return propertyTypename;
+    }
+    // the value size of a StringVectorProperty is not fixed
+    uint nodeValueSize() const override {
+        return 0;
+    }
+    uint edgeValueSize() const override {
+        return 0;
+    }
 };
 }
 #endif // TALIPOT_STRING_PROPERTY_H

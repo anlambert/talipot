@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,33 +28,33 @@ using namespace tlp;
 
 int main() {
 
-  CrashHandler::install();
+    CrashHandler::install();
 
-  string talipotBuildDir = TALIPOT_BUILD_DIR;
+    string talipotBuildDir = TALIPOT_BUILD_DIR;
 
-  initTalipotLib();
-  PluginLoader *pLoader = nullptr;
+    initTalipotLib();
+    PluginLoader *pLoader = nullptr;
 #ifndef NDEBUG
-  PluginLoaderTxt loader;
-  pLoader = &loader;
+    PluginLoaderTxt loader;
+    pLoader = &loader;
 #endif
 
-  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/clustering", pLoader);
-  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/colors", pLoader);
-  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/export", pLoader);
-  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/import", pLoader);
-  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/import/BibTeX", pLoader);
-  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/import/Graphviz", pLoader);
-  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/layout", pLoader);
-  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/layout/FastOverlapRemoval",
-                                          pLoader);
-  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/metric", pLoader);
-  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/selection", pLoader);
-  PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/sizes", pLoader);
+    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/clustering", pLoader);
+    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/colors", pLoader);
+    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/export", pLoader);
+    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/import", pLoader);
+    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/import/BibTeX", pLoader);
+    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/import/Graphviz", pLoader);
+    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/layout", pLoader);
+    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/layout/FastOverlapRemoval",
+                                            pLoader);
+    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/metric", pLoader);
+    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/selection", pLoader);
+    PluginLibraryLoader::loadPluginsFromDir(talipotBuildDir + "/plugins/sizes", pLoader);
 
-  TextUi::TestRunner runner;
-  runner.addTest(CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest());
-  runner.run();
+    TextUi::TestRunner runner;
+    runner.addTest(CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest());
+    runner.run();
 
-  return runner.result().wasSuccessful() ? EXIT_SUCCESS : EXIT_FAILURE;
+    return runner.result().wasSuccessful() ? EXIT_SUCCESS : EXIT_FAILURE;
 }

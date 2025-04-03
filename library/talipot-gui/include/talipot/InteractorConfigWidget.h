@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,14 +27,14 @@ class Interactor;
 
 class InteractorConfigWidget : public QWidget {
 
-  Ui::InteractorConfigWidget *_ui;
-  Interactor *_interactor;
+    Ui::InteractorConfigWidget *_ui;
+    Interactor *_interactor;
 
-public:
-  explicit InteractorConfigWidget(QWidget *parent = nullptr);
-  ~InteractorConfigWidget();
-  bool setWidgets(Interactor *interactor);
-  void clearWidgets();
+  public:
+    explicit InteractorConfigWidget(QWidget *parent = nullptr);
+    ~InteractorConfigWidget();
+    bool setWidgets(Interactor *interactor);
+    void clearWidgets();
 };
 
 }

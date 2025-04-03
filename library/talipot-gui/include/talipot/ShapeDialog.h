@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,26 +28,26 @@ namespace tlp {
 
 class TLP_QT_SCOPE ShapeDialog : public QDialog {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::ShapeDialog *_ui;
-  QString _selectedShapeName;
-  std::list<std::pair<QString, QPixmap>> shapes;
+    Ui::ShapeDialog *_ui;
+    QString _selectedShapeName;
+    std::list<std::pair<QString, QPixmap>> shapes;
 
-public:
-  ShapeDialog(std::list<std::pair<QString, QPixmap>> &nodeShapes, QWidget *parent = nullptr);
-  ~ShapeDialog() override;
+  public:
+    ShapeDialog(std::list<std::pair<QString, QPixmap>> &nodeShapes, QWidget *parent = nullptr);
+    ~ShapeDialog() override;
 
-  QString getSelectedShapeName() const;
+    QString getSelectedShapeName() const;
 
-  void setSelectedShapeName(const QString &shapeName);
+    void setSelectedShapeName(const QString &shapeName);
 
-  void accept() override;
+    void accept() override;
 
-  void showEvent(QShowEvent *) override;
+    void showEvent(QShowEvent *) override;
 
-protected slots:
-  void updateShapeList();
+  protected slots:
+    void updateShapeList();
 };
 }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,64 +17,64 @@ LinLogLayout::LinLogLayout(tlp::Graph *_graph, tlp::PluginProgress *_pluginProgr
     : edgeWeight(nullptr), layoutResult(nullptr), linLogWeight(_graph), skipNodes(nullptr),
       graph(_graph), pluginProgress(_pluginProgress), _dim(2), _nbNodes(0) {
 
-  if (_graph == nullptr) {
-    std::cerr << "graph is Null\n";
-  }
+    if (_graph == nullptr) {
+        std::cerr << "graph is Null\n";
+    }
 
-  useOctTree = true;
+    useOctTree = true;
 
-  /** Exponent of the Euclidean distance in the repulsion energy. */
-  repuExponent = 0.0;
-  /** Exponent of the Euclidean distance in the attraction energy. */
-  attrExponent = 1.0;
-  /** Factor for the gravitation energy = attraction to the barycenter.
-      Set to 0.0 for no gravitation. */
-  gravFactor = 0.9;
-  /** Factor for repulsion energy. */
-  repuFactor = 0.0;
-  max_iter = 100;
+    /** Exponent of the Euclidean distance in the repulsion energy. */
+    repuExponent = 0.0;
+    /** Exponent of the Euclidean distance in the attraction energy. */
+    attrExponent = 1.0;
+    /** Factor for the gravitation energy = attraction to the barycenter.
+        Set to 0.0 for no gravitation. */
+    gravFactor = 0.9;
+    /** Factor for repulsion energy. */
+    repuFactor = 0.0;
+    max_iter = 100;
 }
 
 bool LinLogLayout::initAlgo(tlp::LayoutProperty *_layout, tlp::NumericProperty *_weight,
                             double _attrExponent, double _repuExponent, double _gravFactor,
                             uint _max_iter, bool _is3D, bool _useOctTree,
                             tlp::BooleanProperty *_skipNodes) {
-  // initializes with the current layout,
-  // we might want to initialize it with a random layout too, not in this class
-  layoutResult = _layout;
-  skipNodes = _skipNodes;
+    // initializes with the current layout,
+    // we might want to initialize it with a random layout too, not in this class
+    layoutResult = _layout;
+    skipNodes = _skipNodes;
 
-  // initializes the weight
-  edgeWeight = _weight;
-  initWeights();
+    // initializes the weight
+    edgeWeight = _weight;
+    initWeights();
 
-  // initializes the algorithm properties
-  attrExponent = _attrExponent;
-  repuExponent = _repuExponent;
-  gravFactor = _gravFactor;
-  useOctTree = _useOctTree;
+    // initializes the algorithm properties
+    attrExponent = _attrExponent;
+    repuExponent = _repuExponent;
+    gravFactor = _gravFactor;
+    useOctTree = _useOctTree;
 
-  /* Handle parameters */
-  _dim = (_is3D) ? 3 : 2;
+    /* Handle parameters */
+    _dim = (_is3D) ? 3 : 2;
 
-  _nbNodes = graph->numberOfNodes();
+    _nbNodes = graph->numberOfNodes();
 
-  if (layoutResult == nullptr) {
-    std::cerr << "layout result is null\n";
-    return false;
-  }
+    if (layoutResult == nullptr) {
+        std::cerr << "layout result is null\n";
+        return false;
+    }
 
-  max_iter = _max_iter;
+    max_iter = _max_iter;
 
-  if (max_iter == 0) {
-    max_iter = 100;
-  }
+    if (max_iter == 0) {
+        max_iter = 100;
+    }
 
-  return true;
+    return true;
 }
 
 bool LinLogLayout::startAlgo() {
-  return useOctTree ? minimizeEnergy(max_iter) : minimizeEnergyNoTree(max_iter);
+    return useOctTree ? minimizeEnergy(max_iter) : minimizeEnergyNoTree(max_iter);
 }
 
 /**
@@ -86,25 +86,25 @@ bool LinLogLayout::startAlgo() {
  * is visualized as a geometric object whose area is the node's repuWeight.
  */
 void LinLogLayout::initEnergyFactors() {
-  double repuSum = 0.0;
-  double attrSum = 0.0;
+    double repuSum = 0.0;
+    double attrSum = 0.0;
 
-  for (auto u : graph->nodes()) {
-    double u_weight = linLogWeight.getNodeValue(u);
-    repuSum += u_weight;
-    for (auto e : graph->incidence(u)) {
-      double edgeweight = linLogWeight.getEdgeValue(e);
-      attrSum += edgeweight;
+    for (auto u : graph->nodes()) {
+        double u_weight = linLogWeight.getNodeValue(u);
+        repuSum += u_weight;
+        for (auto e : graph->incidence(u)) {
+            double edgeweight = linLogWeight.getEdgeValue(e);
+            attrSum += edgeweight;
+        }
     }
-  }
 
-  if (repuSum > 0.0 && attrSum > 0.0) {
-    double density = attrSum / repuSum / repuSum;
-    repuFactor = density * pow(repuSum, 0.5 * (attrExponent - repuExponent));
-    gravFactor = density * repuSum * pow(gravFactor, attrExponent - repuExponent);
-  } else {
-    repuFactor = 1.0;
-  }
+    if (repuSum > 0.0 && attrSum > 0.0) {
+        double density = attrSum / repuSum / repuSum;
+        repuFactor = density * pow(repuSum, 0.5 * (attrExponent - repuExponent));
+        gravFactor = density * repuSum * pow(gravFactor, attrExponent - repuExponent);
+    } else {
+        repuFactor = 1.0;
+    }
 }
 
 /**
@@ -113,11 +113,11 @@ void LinLogLayout::initEnergyFactors() {
  * @return total energy of the specified node
  */
 double LinLogLayout::getEnergy(node u) {
-  return getRepulsionEnergy(u) + getAttractionEnergy(u) + getGravitationEnergy(u);
+    return getRepulsionEnergy(u) + getAttractionEnergy(u) + getGravitationEnergy(u);
 }
 
 double LinLogLayout::getEnergy(node u, OctTree *tree) {
-  return getRepulsionEnergy(u, tree) + getAttractionEnergy(u) + getGravitationEnergy(u);
+    return getRepulsionEnergy(u, tree) + getAttractionEnergy(u) + getGravitationEnergy(u);
 }
 
 /**
@@ -126,72 +126,72 @@ double LinLogLayout::getEnergy(node u, OctTree *tree) {
  * @return repulsion energy of the specified node
  */
 double LinLogLayout::getRepulsionEnergy(node u) {
-  double u_weight = linLogWeight.getNodeValue(u);
+    double u_weight = linLogWeight.getNodeValue(u);
 
-  if (u_weight == 0.0) {
-    return 0.0;
-  }
-
-  const Coord &u_layout = layoutResult->getNodeValue(u);
-  double energy = 0.0;
-
-  for (auto v : graph->nodes()) {
-    double v_weight = linLogWeight.getNodeValue(v);
-
-    if (v == u || v_weight == 0.0) {
-      continue;
+    if (u_weight == 0.0) {
+        return 0.0;
     }
 
-    double dist = getDist(u_layout, layoutResult->getNodeValue(v));
-
-    if (repuExponent == 0.0) {
-      energy -= repuFactor * u_weight * v_weight * log(dist);
-    } else {
-      energy -= repuFactor * u_weight * v_weight * pow(dist, repuExponent) / repuExponent;
-    }
-  }
-
-  return energy;
-}
-
-double LinLogLayout::getRepulsionEnergy(node u, OctTree *tree) {
-  if (tree == nullptr) {
-    return 0.0;
-  }
-
-  node treeNode = tree->getNode();
-
-  if (treeNode == u) {
-    return 0.0;
-  }
-
-  double u_weight = linLogWeight.getNodeValue(u);
-
-  if (u_weight == 0.0) {
-    return 0.0;
-  }
-
-  double dist = getDist(layoutResult->getNodeValue(u), tree->position);
-
-  if (tree->childCount > 0 && dist < 2.0 * tree->width()) {
+    const Coord &u_layout = layoutResult->getNodeValue(u);
     double energy = 0.0;
 
-    for (uint i = 0; i < tree->childCount; ++i) {
-      energy += getRepulsionEnergy(u, (tree->_children)[i]);
+    for (auto v : graph->nodes()) {
+        double v_weight = linLogWeight.getNodeValue(v);
+
+        if (v == u || v_weight == 0.0) {
+            continue;
+        }
+
+        double dist = getDist(u_layout, layoutResult->getNodeValue(v));
+
+        if (repuExponent == 0.0) {
+            energy -= repuFactor * u_weight * v_weight * log(dist);
+        } else {
+            energy -= repuFactor * u_weight * v_weight * pow(dist, repuExponent) / repuExponent;
+        }
     }
 
     return energy;
-  }
+}
 
-  if (dist == 0.0) {
-    return 0.0;
-  }
+double LinLogLayout::getRepulsionEnergy(node u, OctTree *tree) {
+    if (tree == nullptr) {
+        return 0.0;
+    }
 
-  if (repuExponent == 0.0) {
-    return -repuFactor * u_weight * tree->weight * log(dist);
-  } else {
-    return -repuFactor * u_weight * tree->weight * pow(dist, repuExponent) / repuExponent;
-  }
+    node treeNode = tree->getNode();
+
+    if (treeNode == u) {
+        return 0.0;
+    }
+
+    double u_weight = linLogWeight.getNodeValue(u);
+
+    if (u_weight == 0.0) {
+        return 0.0;
+    }
+
+    double dist = getDist(layoutResult->getNodeValue(u), tree->position);
+
+    if (tree->childCount > 0 && dist < 2.0 * tree->width()) {
+        double energy = 0.0;
+
+        for (uint i = 0; i < tree->childCount; ++i) {
+            energy += getRepulsionEnergy(u, (tree->_children)[i]);
+        }
+
+        return energy;
+    }
+
+    if (dist == 0.0) {
+        return 0.0;
+    }
+
+    if (repuExponent == 0.0) {
+        return -repuFactor * u_weight * tree->weight * log(dist);
+    } else {
+        return -repuFactor * u_weight * tree->weight * pow(dist, repuExponent) / repuExponent;
+    }
 }
 
 /**
@@ -200,21 +200,21 @@ double LinLogLayout::getRepulsionEnergy(node u, OctTree *tree) {
  * @return attraction energy of the specified node
  */
 double LinLogLayout::getAttractionEnergy(node u) {
-  double energy = 0.0;
-  const Coord &u_layout = layoutResult->getNodeValue(u);
-  for (auto e : graph->incidence(u)) {
-    node v = graph->opposite(e, u);
-    double dist = getDist(u_layout, layoutResult->getNodeValue(v));
-    double edgeweight = linLogWeight.getEdgeValue(e);
+    double energy = 0.0;
+    const Coord &u_layout = layoutResult->getNodeValue(u);
+    for (auto e : graph->incidence(u)) {
+        node v = graph->opposite(e, u);
+        double dist = getDist(u_layout, layoutResult->getNodeValue(v));
+        double edgeweight = linLogWeight.getEdgeValue(e);
 
-    if (attrExponent == 0.0) {
-      energy += edgeweight * log(dist);
-    } else {
-      energy += edgeweight * pow(dist, attrExponent) / attrExponent;
+        if (attrExponent == 0.0) {
+            energy += edgeweight * log(dist);
+        } else {
+            energy += edgeweight * pow(dist, attrExponent) / attrExponent;
+        }
     }
-  }
 
-  return energy;
+    return energy;
 }
 
 /**
@@ -223,15 +223,15 @@ double LinLogLayout::getAttractionEnergy(node u) {
  * @return gravitation energy of the specified node
  */
 double LinLogLayout::getGravitationEnergy(node u) {
-  double u_weight = linLogWeight.getNodeValue(u);
+    double u_weight = linLogWeight.getNodeValue(u);
 
-  double dist = getDist(layoutResult->getNodeValue(u), baryCenter);
+    double dist = getDist(layoutResult->getNodeValue(u), baryCenter);
 
-  if (attrExponent == 0.0) {
-    return gravFactor * u_weight * log(dist);
-  } else {
-    return gravFactor * u_weight * pow(dist, attrExponent) / attrExponent;
-  }
+    if (attrExponent == 0.0) {
+        return gravFactor * u_weight * log(dist);
+    } else {
+        return gravFactor * u_weight * pow(dist, attrExponent) / attrExponent;
+    }
 }
 
 /**
@@ -239,25 +239,25 @@ double LinLogLayout::getGravitationEnergy(node u) {
  * @return Euclidean distance between the positions pos1 and pos2
  */
 double LinLogLayout::getDist(const Coord &pos1, const Coord &pos2) const {
-  double dist = 0.0;
+    double dist = 0.0;
 
-  for (uint d = 0; d < _dim; ++d) {
-    double diff = pos1[d] - pos2[d];
-    dist += diff * diff;
-  }
+    for (uint d = 0; d < _dim; ++d) {
+        double diff = pos1[d] - pos2[d];
+        dist += diff * diff;
+    }
 
-  return sqrt(dist);
+    return sqrt(dist);
 }
 
 double LinLogLayout::getDistForComparison(const Coord &pos1, const Coord &pos2) const {
-  double dist = 0.0;
+    double dist = 0.0;
 
-  for (uint d = 0; d < _dim; ++d) {
-    double diff = pos1[d] - pos2[d];
-    dist += diff * diff;
-  }
+    for (uint d = 0; d < _dim; ++d) {
+        double diff = pos1[d] - pos2[d];
+        dist += diff * diff;
+    }
 
-  return dist;
+    return dist;
 }
 
 /**
@@ -268,78 +268,78 @@ double LinLogLayout::getDistForComparison(const Coord &pos1, const Coord &pos2) 
  * @return approximate second derivation of the repulsion energy
  */
 double LinLogLayout::addRepulsionDir(node u, double *dir) {
-  double u_weight = linLogWeight.getNodeValue(u);
+    double u_weight = linLogWeight.getNodeValue(u);
 
-  if (u_weight == 0.0) {
-    return 0.0;
-  }
-
-  const Coord &position = layoutResult->getNodeValue(u);
-
-  double dir2 = 0.0;
-
-  for (auto v : graph->nodes()) {
-    double v_weight = linLogWeight.getNodeValue(v);
-
-    if (v == u || v_weight == 0.0) {
-      continue;
+    if (u_weight == 0.0) {
+        return 0.0;
     }
 
-    const Coord &position2 = layoutResult->getNodeValue(v);
+    const Coord &position = layoutResult->getNodeValue(u);
 
-    double dist = getDist(position, position2);
+    double dir2 = 0.0;
 
-    if (dist == 0.0) {
-      continue;
+    for (auto v : graph->nodes()) {
+        double v_weight = linLogWeight.getNodeValue(v);
+
+        if (v == u || v_weight == 0.0) {
+            continue;
+        }
+
+        const Coord &position2 = layoutResult->getNodeValue(v);
+
+        double dist = getDist(position, position2);
+
+        if (dist == 0.0) {
+            continue;
+        }
+
+        double tmp = repuFactor * u_weight * v_weight * pow(dist, repuExponent - 2);
+
+        dir2 += tmp * fabs(repuExponent - 1);
+
+        for (uint d = 0; d < _dim; ++d) {
+            dir[d] -= (position2[d] - position[d]) * tmp;
+        }
     }
-
-    double tmp = repuFactor * u_weight * v_weight * pow(dist, repuExponent - 2);
-
-    dir2 += tmp * fabs(repuExponent - 1);
-
-    for (uint d = 0; d < _dim; ++d) {
-      dir[d] -= (position2[d] - position[d]) * tmp;
-    }
-  }
-  return dir2;
+    return dir2;
 }
 
 double LinLogLayout::addRepulsionDir(node u, double *dir, OctTree *tree) {
-  if (tree == nullptr || u == (tree->node)) {
-    return 0.0;
-  }
-
-  double u_weight = linLogWeight.getNodeValue(u);
-
-  if (u_weight == 0.0) {
-    return 0.0;
-  }
-
-  const Coord &position = layoutResult->getNodeValue(u);
-
-  double dist = getDist(position, tree->position);
-
-  if (dist == 0.0) {
-    return 0.0;
-  }
-
-  if (tree->childCount > 0 && dist < 2.0 * tree->width()) {
-    double dir2 = 0.0;
-
-    for (uint i = 0; i < tree->childCount; ++i) {
-      dir2 += addRepulsionDir(u, dir, (tree->_children)[i]);
+    if (tree == nullptr || u == (tree->node)) {
+        return 0.0;
     }
 
-    return dir2;
-  }
+    double u_weight = linLogWeight.getNodeValue(u);
 
-  double tmp = repuFactor * u_weight * tree->weight * pow(dist, repuExponent - 2);
+    if (u_weight == 0.0) {
+        return 0.0;
+    }
 
-  for (uint d = 0; d < _dim; ++d) {
-    dir[d] -= (tree->position[d] - position[d]) * tmp;
-  }
+    const Coord &position = layoutResult->getNodeValue(u);
 
-  return tmp * fabs(repuExponent - 1);
+    double dist = getDist(position, tree->position);
+
+    if (dist == 0.0) {
+        return 0.0;
+    }
+
+    if (tree->childCount > 0 && dist < 2.0 * tree->width()) {
+        double dir2 = 0.0;
+
+        for (uint i = 0; i < tree->childCount; ++i) {
+            dir2 += addRepulsionDir(u, dir, (tree->_children)[i]);
+        }
+
+        return dir2;
+    }
+
+    double tmp = repuFactor * u_weight * tree->weight * pow(dist, repuExponent - 2);
+
+    for (uint d = 0; d < _dim; ++d) {
+        dir[d] -= (tree->position[d] - position[d]) * tmp;
+    }
+
+    return tmp * fabs(repuExponent - 1);
 }
 
 /**
@@ -350,30 +350,30 @@ double LinLogLayout::addRepulsionDir(node u, double *dir, OctTree *tree) {
  * @return approximate second derivation of the attraction energy
  */
 double LinLogLayout::addAttractionDir(node u, double *dir) {
-  double dir2 = 0.0;
+    double dir2 = 0.0;
 
-  const Coord &position = layoutResult->getNodeValue(u);
+    const Coord &position = layoutResult->getNodeValue(u);
 
-  for (auto e : graph->incidence(u)) {
-    node v = graph->opposite(e, u);
-    const Coord &position2 = layoutResult->getNodeValue(v);
-    double dist = getDist(position, position2);
+    for (auto e : graph->incidence(u)) {
+        node v = graph->opposite(e, u);
+        const Coord &position2 = layoutResult->getNodeValue(v);
+        double dist = getDist(position, position2);
 
-    if (dist == 0.0) {
-      continue;
+        if (dist == 0.0) {
+            continue;
+        }
+
+        double edgeweight = linLogWeight.getEdgeValue(e);
+        double tmp = edgeweight * pow(dist, attrExponent - 2);
+
+        dir2 += tmp * fabs(attrExponent - 1);
+
+        for (uint d = 0; d < _dim; ++d) {
+            dir[d] += (position2[d] - position[d]) * tmp;
+        }
     }
 
-    double edgeweight = linLogWeight.getEdgeValue(e);
-    double tmp = edgeweight * pow(dist, attrExponent - 2);
-
-    dir2 += tmp * fabs(attrExponent - 1);
-
-    for (uint d = 0; d < _dim; ++d) {
-      dir[d] += (position2[d] - position[d]) * tmp;
-    }
-  }
-
-  return dir2;
+    return dir2;
 }
 
 /**
@@ -384,19 +384,19 @@ double LinLogLayout::addAttractionDir(node u, double *dir) {
  * @return approximate second derivation of the gravitation energy
  */
 double LinLogLayout::addGravitationDir(node u, double *dir) {
-  const Coord &position = layoutResult->getNodeValue(u);
+    const Coord &position = layoutResult->getNodeValue(u);
 
-  double dist = getDist(position, baryCenter);
+    double dist = getDist(position, baryCenter);
 
-  double u_weight = linLogWeight.getNodeValue(u);
+    double u_weight = linLogWeight.getNodeValue(u);
 
-  double tmp = gravFactor * repuFactor * u_weight * pow(dist, attrExponent - 2);
+    double tmp = gravFactor * repuFactor * u_weight * pow(dist, attrExponent - 2);
 
-  for (uint d = 0; d < _dim; ++d) {
-    dir[d] += (baryCenter[d] - position[d]) * tmp;
-  }
+    for (uint d = 0; d < _dim; ++d) {
+        dir[d] += (baryCenter[d] - position[d]) * tmp;
+    }
 
-  return tmp * fabs(attrExponent - 1.0);
+    return tmp * fabs(attrExponent - 1.0);
 }
 
 /**
@@ -407,86 +407,86 @@ double LinLogLayout::addGravitationDir(node u, double *dir) {
  */
 void LinLogLayout::getDirection(node u, double *dir) {
 
-  for (uint d = 0; d < _dim; ++d) {
-    dir[d] = 0.0;
-  }
-
-  double dir2 = addRepulsionDir(u, dir);
-  dir2 += addAttractionDir(u, dir);
-  dir2 += addGravitationDir(u, dir);
-
-  const Coord &position = layoutResult->getNodeValue(u);
-
-  // compute average Euclidean distance to other nodes
-  double avgDist = 0.0;
-  for (auto v : graph->nodes()) {
-    const Coord &position2 = layoutResult->getNodeValue(v);
-
-    avgDist += getDist(position, position2);
-  }
-  avgDist /= graph->numberOfNodes() - 1;
-
-  if (dir2 != 0.0) {
-    // normalize force vector with second derivation of energy
     for (uint d = 0; d < _dim; ++d) {
-      dir[d] /= dir2;
+        dir[d] = 0.0;
     }
 
-    // ensure that the length of dir is not greater
-    // than average Euclidean distance to other nodes
+    double dir2 = addRepulsionDir(u, dir);
+    dir2 += addAttractionDir(u, dir);
+    dir2 += addGravitationDir(u, dir);
 
-    double length = 0; // calculate length of Dir //getDist(dir, new double[_dim]);
+    const Coord &position = layoutResult->getNodeValue(u);
 
-    if (avgDist > 0.0 && length > avgDist) {
-      length /= avgDist;
+    // compute average Euclidean distance to other nodes
+    double avgDist = 0.0;
+    for (auto v : graph->nodes()) {
+        const Coord &position2 = layoutResult->getNodeValue(v);
 
-      for (uint d = 0; d < _dim; ++d) {
-        dir[d] /= length;
-      }
+        avgDist += getDist(position, position2);
     }
-  } else {
-    for (uint d = 0; d < _dim; ++d) {
-      dir[d] = 0.0;
+    avgDist /= graph->numberOfNodes() - 1;
+
+    if (dir2 != 0.0) {
+        // normalize force vector with second derivation of energy
+        for (uint d = 0; d < _dim; ++d) {
+            dir[d] /= dir2;
+        }
+
+        // ensure that the length of dir is not greater
+        // than average Euclidean distance to other nodes
+
+        double length = 0; // calculate length of Dir //getDist(dir, new double[_dim]);
+
+        if (avgDist > 0.0 && length > avgDist) {
+            length /= avgDist;
+
+            for (uint d = 0; d < _dim; ++d) {
+                dir[d] /= length;
+            }
+        }
+    } else {
+        for (uint d = 0; d < _dim; ++d) {
+            dir[d] = 0.0;
+        }
     }
-  }
 }
 
 void LinLogLayout::getDirection(node u, double *dir, OctTree *tree) {
-  for (uint d = 0; d < _dim; ++d) {
-    dir[d] = 0.0;
-  }
-
-  double dir2 = addRepulsionDir(u, dir, tree);
-  dir2 += addAttractionDir(u, dir);
-  dir2 += addGravitationDir(u, dir);
-
-  if (dir2 != 0.0) {
-    // normalize force vector with second derivation of energy
     for (uint d = 0; d < _dim; ++d) {
-      dir[d] /= dir2;
+        dir[d] = 0.0;
     }
 
-    // ensure that the length of dir is not greater
-    // than 1/16 of the octtree width,
-    // to prevent the node from leaving the octtree region
-    double scale = 1.0;
+    double dir2 = addRepulsionDir(u, dir, tree);
+    dir2 += addAttractionDir(u, dir);
+    dir2 += addGravitationDir(u, dir);
 
-    for (uint d = 0; d < _dim; ++d) {
-      double width = tree->maxPos[d] - tree->minPos[d];
+    if (dir2 != 0.0) {
+        // normalize force vector with second derivation of energy
+        for (uint d = 0; d < _dim; ++d) {
+            dir[d] /= dir2;
+        }
 
-      if (width > 0.0) {
-        scale = std::min(scale, fabs(width / 16 / dir[d]));
-      }
-    }
+        // ensure that the length of dir is not greater
+        // than 1/16 of the octtree width,
+        // to prevent the node from leaving the octtree region
+        double scale = 1.0;
 
-    for (uint d = 0; d < _dim; ++d) {
-      dir[d] *= scale;
+        for (uint d = 0; d < _dim; ++d) {
+            double width = tree->maxPos[d] - tree->minPos[d];
+
+            if (width > 0.0) {
+                scale = std::min(scale, fabs(width / 16 / dir[d]));
+            }
+        }
+
+        for (uint d = 0; d < _dim; ++d) {
+            dir[d] *= scale;
+        }
+    } else {
+        for (uint d = 0; d < _dim; ++d) {
+            dir[d] = 0.0;
+        }
     }
-  } else {
-    for (uint d = 0; d < _dim; ++d) {
-      dir[d] = 0.0;
-    }
-  }
 }
 
 /**
@@ -504,238 +504,242 @@ void LinLogLayout::getDirection(node u, double *dir, OctTree *tree) {
  *   by observing the convergence of energy.  A typical value is 100.
  */
 bool LinLogLayout::minimizeEnergyNoTree(int nrIterations) {
-  if (graph->numberOfNodes() <= 1) {
-    return true;
-  }
+    if (graph->numberOfNodes() <= 1) {
+        return true;
+    }
 
-  initEnergyFactors();
+    initEnergyFactors();
 
-  double finalAttrExponent = attrExponent;
-  double finalRepuExponent = repuExponent;
+    double finalAttrExponent = attrExponent;
+    double finalRepuExponent = repuExponent;
 
-  // compute initial energy
-  computeBaryCenter();
-
-  // minimize energy
-  double oldPos[3] = {0, 0, 0};
-  double bestDir[3] = {0, 0, 0};
-
-  for (int step = 1; step <= nrIterations; ++step) {
+    // compute initial energy
     computeBaryCenter();
 
-    if (nrIterations >= 50 && finalRepuExponent < 1.0) {
-      attrExponent = finalAttrExponent;
-      repuExponent = finalRepuExponent;
+    // minimize energy
+    double oldPos[3] = {0, 0, 0};
+    double bestDir[3] = {0, 0, 0};
 
-      if (step <= 0.6 * nrIterations) {
-        // use energy model with few local minima
-        attrExponent += 1.1 * (1.0 - finalRepuExponent);
-        repuExponent += 0.9 * (1.0 - finalRepuExponent);
-      } else if (step <= 0.9 * nrIterations) {
-        // gradually move to final energy model
-        attrExponent +=
-            1.1 * (1.0 - finalRepuExponent) * (0.9 - (step / double(nrIterations))) / 0.3;
-        repuExponent +=
-            0.9 * (1.0 - finalRepuExponent) * (0.9 - (step / double(nrIterations))) / 0.3;
-      }
+    for (int step = 1; step <= nrIterations; ++step) {
+        computeBaryCenter();
+
+        if (nrIterations >= 50 && finalRepuExponent < 1.0) {
+            attrExponent = finalAttrExponent;
+            repuExponent = finalRepuExponent;
+
+            if (step <= 0.6 * nrIterations) {
+                // use energy model with few local minima
+                attrExponent += 1.1 * (1.0 - finalRepuExponent);
+                repuExponent += 0.9 * (1.0 - finalRepuExponent);
+            } else if (step <= 0.9 * nrIterations) {
+                // gradually move to final energy model
+                attrExponent +=
+                    1.1 * (1.0 - finalRepuExponent) * (0.9 - (step / double(nrIterations))) / 0.3;
+                repuExponent +=
+                    0.9 * (1.0 - finalRepuExponent) * (0.9 - (step / double(nrIterations))) / 0.3;
+            }
+        }
+
+        // move each node
+        for (auto u : graph->nodes()) {
+
+            double oldEnergy = getEnergy(u);
+            // compute direction of the move of the node
+            getDirection(u, bestDir);
+
+            // line search: compute length of the move
+            Coord pos = layoutResult->getNodeValue(u);
+
+            for (uint d = 0; d < _dim; ++d) {
+                oldPos[d] = pos[d];
+            }
+
+            double bestEnergy = oldEnergy;
+            int bestMultiple = 0;
+
+            for (uint d = 0; d < _dim; ++d) {
+                bestDir[d] /= 32;
+            }
+
+            for (int multiple = 32;
+                 multiple >= 1 && (bestMultiple == 0 || bestMultiple / 2 == multiple);
+                 multiple /= 2) {
+                for (uint d = 0; d < _dim; ++d) {
+                    pos[d] = oldPos[d] + bestDir[d] * multiple;
+                }
+
+                if (!skipNodes || !skipNodes->getNodeValue(u)) {
+                    // if(!noackPillar->getNodeValue(u))
+                    layoutResult->setNodeValue(u, pos);
+                }
+
+                double curEnergy = getEnergy(u);
+
+                if (curEnergy < bestEnergy) {
+                    bestEnergy = curEnergy;
+                    bestMultiple = multiple;
+                }
+            }
+
+            for (int multiple = 64; multiple <= 128 && bestMultiple == multiple / 2;
+                 multiple *= 2) {
+                for (uint d = 0; d < _dim; ++d) {
+                    pos[d] = oldPos[d] + bestDir[d] * multiple;
+                }
+
+                if (!skipNodes || !skipNodes->getNodeValue(u)) {
+                    // if(!noackPillar->getNodeValue(u))
+                    layoutResult->setNodeValue(u, pos);
+                }
+
+                double curEnergy = getEnergy(u);
+
+                if (curEnergy < bestEnergy) {
+                    bestEnergy = curEnergy;
+                    bestMultiple = multiple;
+                }
+            }
+
+            for (uint d = 0; d < _dim; ++d) {
+                pos[d] = oldPos[d] + bestDir[d] * bestMultiple;
+            }
+
+            if (!skipNodes || !skipNodes->getNodeValue(u)) {
+                // if(!noackPillar->getNodeValue(u))
+                layoutResult->setNodeValue(u, pos);
+            }
+        }
+
+        if ((step * 100 / nrIterations) % 10 == 0 &&
+            pluginProgress->progress(step, nrIterations) != ProgressState::TLP_CONTINUE) {
+            return pluginProgress->state() != ProgressState::TLP_CANCEL;
+        }
     }
 
-    // move each node
-    for (auto u : graph->nodes()) {
-
-      double oldEnergy = getEnergy(u);
-      // compute direction of the move of the node
-      getDirection(u, bestDir);
-
-      // line search: compute length of the move
-      Coord pos = layoutResult->getNodeValue(u);
-
-      for (uint d = 0; d < _dim; ++d) {
-        oldPos[d] = pos[d];
-      }
-
-      double bestEnergy = oldEnergy;
-      int bestMultiple = 0;
-
-      for (uint d = 0; d < _dim; ++d) {
-        bestDir[d] /= 32;
-      }
-
-      for (int multiple = 32; multiple >= 1 && (bestMultiple == 0 || bestMultiple / 2 == multiple);
-           multiple /= 2) {
-        for (uint d = 0; d < _dim; ++d) {
-          pos[d] = oldPos[d] + bestDir[d] * multiple;
-        }
-
-        if (!skipNodes || !skipNodes->getNodeValue(u)) {
-          // if(!noackPillar->getNodeValue(u))
-          layoutResult->setNodeValue(u, pos);
-        }
-
-        double curEnergy = getEnergy(u);
-
-        if (curEnergy < bestEnergy) {
-          bestEnergy = curEnergy;
-          bestMultiple = multiple;
-        }
-      }
-
-      for (int multiple = 64; multiple <= 128 && bestMultiple == multiple / 2; multiple *= 2) {
-        for (uint d = 0; d < _dim; ++d) {
-          pos[d] = oldPos[d] + bestDir[d] * multiple;
-        }
-
-        if (!skipNodes || !skipNodes->getNodeValue(u)) {
-          // if(!noackPillar->getNodeValue(u))
-          layoutResult->setNodeValue(u, pos);
-        }
-
-        double curEnergy = getEnergy(u);
-
-        if (curEnergy < bestEnergy) {
-          bestEnergy = curEnergy;
-          bestMultiple = multiple;
-        }
-      }
-
-      for (uint d = 0; d < _dim; ++d) {
-        pos[d] = oldPos[d] + bestDir[d] * bestMultiple;
-      }
-
-      if (!skipNodes || !skipNodes->getNodeValue(u)) {
-        // if(!noackPillar->getNodeValue(u))
-        layoutResult->setNodeValue(u, pos);
-      }
-    }
-
-    if ((step * 100 / nrIterations) % 10 == 0 &&
-        pluginProgress->progress(step, nrIterations) != ProgressState::TLP_CONTINUE) {
-      return pluginProgress->state() != ProgressState::TLP_CANCEL;
-    }
-  }
-
-  return true;
+    return true;
 }
 
 bool LinLogLayout::minimizeEnergy(int nrIterations) {
-  if (graph->numberOfNodes() <= 1) {
-    return true;
-  }
+    if (graph->numberOfNodes() <= 1) {
+        return true;
+    }
 
-  initEnergyFactors();
+    initEnergyFactors();
 
-  double finalAttrExponent = attrExponent;
-  double finalRepuExponent = repuExponent;
+    double finalAttrExponent = attrExponent;
+    double finalRepuExponent = repuExponent;
 
-  // compute initial energy
-  computeBaryCenter();
-  OctTree *octTree = buildOctTree();
-
-  // minimize energy
-  double oldPos[3] = {0, 0, 0};
-  double bestDir[3] = {0, 0, 0};
-
-  for (int step = 1; step <= nrIterations; ++step) {
+    // compute initial energy
     computeBaryCenter();
-    octTree = buildOctTree();
+    OctTree *octTree = buildOctTree();
 
-    if (nrIterations >= 50 && finalRepuExponent < 1.0) {
-      attrExponent = finalAttrExponent;
-      repuExponent = finalRepuExponent;
+    // minimize energy
+    double oldPos[3] = {0, 0, 0};
+    double bestDir[3] = {0, 0, 0};
 
-      if (step <= 0.6 * nrIterations) {
-        // use energy model with few local minima
-        attrExponent += 1.1 * (1.0 - finalRepuExponent);
-        repuExponent += 0.9 * (1.0 - finalRepuExponent);
-      } else if (step <= 0.9 * nrIterations) {
-        // gradually move to final energy model
-        attrExponent +=
-            1.1 * (1.0 - finalRepuExponent) * (0.9 - (step / double(nrIterations))) / 0.3;
-        repuExponent +=
-            0.9 * (1.0 - finalRepuExponent) * (0.9 - (step / double(nrIterations))) / 0.3;
-      }
+    for (int step = 1; step <= nrIterations; ++step) {
+        computeBaryCenter();
+        octTree = buildOctTree();
+
+        if (nrIterations >= 50 && finalRepuExponent < 1.0) {
+            attrExponent = finalAttrExponent;
+            repuExponent = finalRepuExponent;
+
+            if (step <= 0.6 * nrIterations) {
+                // use energy model with few local minima
+                attrExponent += 1.1 * (1.0 - finalRepuExponent);
+                repuExponent += 0.9 * (1.0 - finalRepuExponent);
+            } else if (step <= 0.9 * nrIterations) {
+                // gradually move to final energy model
+                attrExponent +=
+                    1.1 * (1.0 - finalRepuExponent) * (0.9 - (step / double(nrIterations))) / 0.3;
+                repuExponent +=
+                    0.9 * (1.0 - finalRepuExponent) * (0.9 - (step / double(nrIterations))) / 0.3;
+            }
+        }
+
+        // move each node
+        for (auto u : graph->nodes()) {
+            double oldEnergy = getEnergy(u, octTree);
+
+            // compute direction of the move of the node
+            getDirection(u, bestDir, octTree);
+
+            // line search: compute length of the move
+            Coord pos = layoutResult->getNodeValue(u);
+
+            for (uint d = 0; d < _dim; ++d) {
+                oldPos[d] = pos[d];
+            }
+
+            double bestEnergy = oldEnergy;
+            int bestMultiple = 0;
+
+            for (uint d = 0; d < _dim; ++d) {
+                bestDir[d] /= 32;
+            }
+
+            for (int multiple = 32;
+                 multiple >= 1 && (bestMultiple == 0 || bestMultiple / 2 == multiple);
+                 multiple /= 2) {
+                octTree->removeNode(u, pos, 0);
+
+                for (uint d = 0; d < _dim; ++d) {
+                    pos[d] = oldPos[d] + bestDir[d] * multiple;
+                }
+
+                octTree->addNode(u, pos, 0);
+
+                if (!skipNodes || !skipNodes->getNodeValue(u)) {
+                    layoutResult->setNodeValue(u, pos);
+                }
+
+                double curEnergy = getEnergy(u);
+
+                if (curEnergy < bestEnergy) {
+                    bestEnergy = curEnergy;
+                    bestMultiple = multiple;
+                }
+            }
+
+            for (int multiple = 64; multiple <= 128 && bestMultiple == multiple / 2;
+                 multiple *= 2) {
+                octTree->removeNode(u, pos, 0);
+
+                for (uint d = 0; d < _dim; ++d) {
+                    pos[d] = oldPos[d] + bestDir[d] * multiple;
+                }
+
+                octTree->addNode(u, pos, 0);
+
+                if (!skipNodes || !skipNodes->getNodeValue(u)) {
+                    layoutResult->setNodeValue(u, pos);
+                }
+
+                double curEnergy = getEnergy(u);
+
+                if (curEnergy < bestEnergy) {
+                    bestEnergy = curEnergy;
+                    bestMultiple = multiple;
+                }
+            }
+
+            for (uint d = 0; d < _dim; ++d) {
+                pos[d] = oldPos[d] + bestDir[d] * bestMultiple;
+            }
+
+            if (!skipNodes || !skipNodes->getNodeValue(u)) {
+                layoutResult->setNodeValue(u, pos);
+            }
+        }
+
+        if ((step * 100 / nrIterations) % 10 == 0 &&
+            pluginProgress->progress(step, nrIterations) != ProgressState::TLP_CONTINUE) {
+            return pluginProgress->state() != ProgressState::TLP_CANCEL;
+        }
     }
 
-    // move each node
-    for (auto u : graph->nodes()) {
-      double oldEnergy = getEnergy(u, octTree);
-
-      // compute direction of the move of the node
-      getDirection(u, bestDir, octTree);
-
-      // line search: compute length of the move
-      Coord pos = layoutResult->getNodeValue(u);
-
-      for (uint d = 0; d < _dim; ++d) {
-        oldPos[d] = pos[d];
-      }
-
-      double bestEnergy = oldEnergy;
-      int bestMultiple = 0;
-
-      for (uint d = 0; d < _dim; ++d) {
-        bestDir[d] /= 32;
-      }
-
-      for (int multiple = 32; multiple >= 1 && (bestMultiple == 0 || bestMultiple / 2 == multiple);
-           multiple /= 2) {
-        octTree->removeNode(u, pos, 0);
-
-        for (uint d = 0; d < _dim; ++d) {
-          pos[d] = oldPos[d] + bestDir[d] * multiple;
-        }
-
-        octTree->addNode(u, pos, 0);
-
-        if (!skipNodes || !skipNodes->getNodeValue(u)) {
-          layoutResult->setNodeValue(u, pos);
-        }
-
-        double curEnergy = getEnergy(u);
-
-        if (curEnergy < bestEnergy) {
-          bestEnergy = curEnergy;
-          bestMultiple = multiple;
-        }
-      }
-
-      for (int multiple = 64; multiple <= 128 && bestMultiple == multiple / 2; multiple *= 2) {
-        octTree->removeNode(u, pos, 0);
-
-        for (uint d = 0; d < _dim; ++d) {
-          pos[d] = oldPos[d] + bestDir[d] * multiple;
-        }
-
-        octTree->addNode(u, pos, 0);
-
-        if (!skipNodes || !skipNodes->getNodeValue(u)) {
-          layoutResult->setNodeValue(u, pos);
-        }
-
-        double curEnergy = getEnergy(u);
-
-        if (curEnergy < bestEnergy) {
-          bestEnergy = curEnergy;
-          bestMultiple = multiple;
-        }
-      }
-
-      for (uint d = 0; d < _dim; ++d) {
-        pos[d] = oldPos[d] + bestDir[d] * bestMultiple;
-      }
-
-      if (!skipNodes || !skipNodes->getNodeValue(u)) {
-        layoutResult->setNodeValue(u, pos);
-      }
-    }
-
-    if ((step * 100 / nrIterations) % 10 == 0 &&
-        pluginProgress->progress(step, nrIterations) != ProgressState::TLP_CONTINUE) {
-      return pluginProgress->state() != ProgressState::TLP_CANCEL;
-    }
-  }
-
-  return true;
+    return true;
 }
 
 /**
@@ -743,90 +747,90 @@ bool LinLogLayout::minimizeEnergy(int nrIterations) {
  * and stores it in the attribute <code>baryCenter</code>.
  */
 void LinLogLayout::computeBaryCenter() {
-  for (uint d = 0; d < _dim; ++d) {
-    baryCenter[d] = 0.0;
-  }
-
-  double weightSum = 0.0;
-  for (auto u : graph->nodes()) {
-    double u_weight = linLogWeight.getNodeValue(u);
-    weightSum += u_weight;
-    const Coord &position = layoutResult->getNodeValue(u);
-
     for (uint d = 0; d < _dim; ++d) {
-      baryCenter[d] += u_weight * position[d];
+        baryCenter[d] = 0.0;
     }
-  }
 
-  if (weightSum > 0.0) {
-    for (uint d = 0; d < _dim; ++d) {
-      baryCenter[d] /= weightSum;
+    double weightSum = 0.0;
+    for (auto u : graph->nodes()) {
+        double u_weight = linLogWeight.getNodeValue(u);
+        weightSum += u_weight;
+        const Coord &position = layoutResult->getNodeValue(u);
+
+        for (uint d = 0; d < _dim; ++d) {
+            baryCenter[d] += u_weight * position[d];
+        }
     }
-  }
+
+    if (weightSum > 0.0) {
+        for (uint d = 0; d < _dim; ++d) {
+            baryCenter[d] /= weightSum;
+        }
+    }
 }
 
 void LinLogLayout::initWeights() {
-  linLogWeight.setAllNodeValue(0.0);
+    linLogWeight.setAllNodeValue(0.0);
 
-  node u;
+    node u;
 
-  if (edgeWeight == nullptr) {
-    linLogWeight.setAllEdgeValue(1.0);
-    for (auto e : graph->edges()) {
-      const auto &[u, v] = graph->ends(e);
+    if (edgeWeight == nullptr) {
+        linLogWeight.setAllEdgeValue(1.0);
+        for (auto e : graph->edges()) {
+            const auto &[u, v] = graph->ends(e);
 
-      double wu = linLogWeight.getNodeValue(u);
-      double wv = linLogWeight.getNodeValue(v);
+            double wu = linLogWeight.getNodeValue(u);
+            double wv = linLogWeight.getNodeValue(v);
 
-      linLogWeight.setNodeValue(u, wu + 1.0);
-      linLogWeight.setNodeValue(v, wv + 1.0);
+            linLogWeight.setNodeValue(u, wu + 1.0);
+            linLogWeight.setNodeValue(v, wv + 1.0);
+        }
+    } else {
+        for (auto e : graph->edges()) {
+            double tmpweight = edgeWeight->getEdgeDoubleValue(e) * 100.0 + 1.0;
+            linLogWeight.setEdgeValue(e, tmpweight);
+        }
+
+        for (auto u : graph->nodes()) {
+            double weight = 0.0;
+            for (auto e : graph->incidence(u)) {
+                weight += linLogWeight.getEdgeValue(e);
+            }
+
+            linLogWeight.setNodeValue(u, weight);
+        }
     }
-  } else {
-    for (auto e : graph->edges()) {
-      double tmpweight = edgeWeight->getEdgeDoubleValue(e) * 100.0 + 1.0;
-      linLogWeight.setEdgeValue(e, tmpweight);
-    }
-
-    for (auto u : graph->nodes()) {
-      double weight = 0.0;
-      for (auto e : graph->incidence(u)) {
-        weight += linLogWeight.getEdgeValue(e);
-      }
-
-      linLogWeight.setNodeValue(u, weight);
-    }
-  }
 }
 
 OctTree *LinLogLayout::buildOctTree() {
-  // compute minima and maxima of positions in each dimension
-  Coord minPos = {100000.f, 100000.f, 100000.f};
-  Coord maxPos = {-100000.f, -100000.f, -100000.f};
-  Coord zero;
+    // compute minima and maxima of positions in each dimension
+    Coord minPos = {100000.f, 100000.f, 100000.f};
+    Coord maxPos = {-100000.f, -100000.f, -100000.f};
+    Coord zero;
 
-  node n;
-  for (auto u : linLogWeight.getNonDefaultValuatedNodes()) {
-    const Coord &position = layoutResult->getNodeValue(u);
+    node n;
+    for (auto u : linLogWeight.getNonDefaultValuatedNodes()) {
+        const Coord &position = layoutResult->getNodeValue(u);
 
-    for (uint d = 0; d < _dim; ++d) {
-      minPos[d] = std::min(position[d], minPos[d]);
-      maxPos[d] = std::max(position[d], maxPos[d]);
+        for (uint d = 0; d < _dim; ++d) {
+            minPos[d] = std::min(position[d], minPos[d]);
+            maxPos[d] = std::max(position[d], maxPos[d]);
+        }
+        n = u;
     }
-    n = u;
-  }
 
-  // provide additional space for moving nodes
-  for (uint d = 0; d < _dim; ++d) {
-    double posDiff = maxPos[d] - minPos[d];
-    maxPos[d] += posDiff / 2;
-    minPos[d] -= posDiff / 2;
-  }
+    // provide additional space for moving nodes
+    for (uint d = 0; d < _dim; ++d) {
+        double posDiff = maxPos[d] - minPos[d];
+        maxPos[d] += posDiff / 2;
+        minPos[d] -= posDiff / 2;
+    }
 
-  // add nodes with non-zero weight to the octtree
-  auto *result = new OctTree(n, zero, minPos, maxPos, &linLogWeight, true);
+    // add nodes with non-zero weight to the octtree
+    auto *result = new OctTree(n, zero, minPos, maxPos, &linLogWeight, true);
 
-  for (auto u : linLogWeight.getNonDefaultValuatedNodes()) {
-    result->addNode(u, layoutResult->getNodeValue(u), 0);
-  }
-  return result;
+    for (auto u : linLogWeight.getNonDefaultValuatedNodes()) {
+        result->addNode(u, layoutResult->getNodeValue(u), 0);
+    }
+    return result;
 }

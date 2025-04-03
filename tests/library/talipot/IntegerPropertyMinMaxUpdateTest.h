@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,24 +20,24 @@
 #include "CppUnitIncludes.h"
 
 class IntegerPropertyMinMaxUpdateTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(IntegerPropertyMinMaxUpdateTest);
-  CPPUNIT_TEST(testIntegerPropertyMinUpdate);
-  CPPUNIT_TEST(testIntegerPropertyMaxUpdate);
-  CPPUNIT_TEST(testIntegerPropertyMinUpdateFromString);
-  CPPUNIT_TEST(testIntegerPropertyMaxUpdateFromString);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(IntegerPropertyMinMaxUpdateTest);
+    CPPUNIT_TEST(testIntegerPropertyMinUpdate);
+    CPPUNIT_TEST(testIntegerPropertyMaxUpdate);
+    CPPUNIT_TEST(testIntegerPropertyMinUpdateFromString);
+    CPPUNIT_TEST(testIntegerPropertyMaxUpdateFromString);
+    CPPUNIT_TEST_SUITE_END();
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testIntegerPropertyMinUpdate();
-  void testIntegerPropertyMaxUpdate();
-  void testIntegerPropertyMinUpdateFromString();
-  void testIntegerPropertyMaxUpdateFromString();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testIntegerPropertyMinUpdate();
+    void testIntegerPropertyMaxUpdate();
+    void testIntegerPropertyMinUpdateFromString();
+    void testIntegerPropertyMaxUpdateFromString();
 
-private:
-  tlp::Graph *graph;
-  tlp::node n1, n4;
+  private:
+    tlp::Graph *graph;
+    tlp::node n1, n4;
 };
 
 #endif // INTEGER_PROPERTY_MIN_MAX_UPTODATE_TEST_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,25 +27,25 @@ class AddressSelectionDialog;
 namespace tlp {
 class AddressSelectionDialog : public QDialog {
 
-  Ui::AddressSelectionDialog *_ui;
+    Ui::AddressSelectionDialog *_ui;
 
-public:
-  AddressSelectionDialog(QWidget *parent = nullptr);
-  ~AddressSelectionDialog() override;
+  public:
+    AddressSelectionDialog(QWidget *parent = nullptr);
+    ~AddressSelectionDialog() override;
 
-  void setBaseAddress(const QString &address);
+    void setBaseAddress(const QString &address);
 
-  void addResultToList(const QString &result);
+    void addResultToList(const QString &result);
 
-  void clearList();
+    void clearList();
 
-  int getPickedResultIdx();
+    int getPickedResultIdx();
 
-  bool pickFirstResult() const;
+    bool pickFirstResult() const;
 
-  void setPickFirstResult(bool pickFirstResult);
+    void setPickFirstResult(bool pickFirstResult);
 
-  void showEvent(QShowEvent *showEvt) override;
+    void showEvent(QShowEvent *showEvt) override;
 };
 }
 

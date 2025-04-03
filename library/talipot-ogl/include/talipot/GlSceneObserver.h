@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,33 +29,33 @@ class GlScene;
  * An observer to the scene who observe layers
  */
 class TLP_GL_SCOPE GlSceneEvent : public Event {
-public:
-  enum GlSceneEventType {
-    TLP_ADDLAYER = 0,
-    TLP_DELLAYER,
-    TLP_MODIFYLAYER,
-    TLP_MODIFYENTITY,
-    TLP_DELENTITY
-  };
+  public:
+    enum GlSceneEventType {
+        TLP_ADDLAYER = 0,
+        TLP_DELLAYER,
+        TLP_MODIFYLAYER,
+        TLP_MODIFYENTITY,
+        TLP_DELENTITY
+    };
 
-  GlSceneEvent(const GlScene &scene, GlSceneEventType sceneEventType, const std::string &layerName,
-               GlLayer *layer);
+    GlSceneEvent(const GlScene &scene, GlSceneEventType sceneEventType,
+                 const std::string &layerName, GlLayer *layer);
 
-  GlSceneEvent(const GlScene &scene, GlSceneEventType sceneEventType, GlEntity *entity);
+    GlSceneEvent(const GlScene &scene, GlSceneEventType sceneEventType, GlEntity *entity);
 
-  GlEntity *getGlEntity() const;
+    GlEntity *getGlEntity() const;
 
-  std::string getLayerName() const;
+    std::string getLayerName() const;
 
-  GlLayer *getLayer() const;
+    GlLayer *getLayer() const;
 
-  GlSceneEventType getSceneEventType() const;
+    GlSceneEventType getSceneEventType() const;
 
-protected:
-  GlSceneEventType sceneEventType;
-  std::string layerName;
-  GlLayer *layer;
-  GlEntity *entity;
+  protected:
+    GlSceneEventType sceneEventType;
+    std::string layerName;
+    GlLayer *layer;
+    GlEntity *entity;
 };
 }
 

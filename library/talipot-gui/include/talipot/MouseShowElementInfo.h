@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,51 +40,51 @@ struct SelectedEntity;
  */
 class TLP_QT_SCOPE MouseShowElementInfo : public InteractorComponent {
 
-  Ui::ElementInformationWidget *_ui;
-  Q_OBJECT
+    Ui::ElementInformationWidget *_ui;
+    Q_OBJECT
 
-public:
-  MouseShowElementInfo(const bool showVisualPropButton = true);
-  ~MouseShowElementInfo() override;
-  bool eventFilter(QObject *widget, QEvent *e) override;
+  public:
+    MouseShowElementInfo(const bool showVisualPropButton = true);
+    ~MouseShowElementInfo() override;
+    bool eventFilter(QObject *widget, QEvent *e) override;
 
-  void viewChanged(View *) override;
+    void viewChanged(View *) override;
 
-  void clear() override;
+    void clear() override;
 
-  virtual bool pick(int x, int y, SelectedEntity &selectedEntity);
+    virtual bool pick(int x, int y, SelectedEntity &selectedEntity);
 
-protected:
-  ViewWidget *_view;
-  QWidget *_informationWidget;
-  QGraphicsProxyWidget *_informationWidgetItem;
-  GlWidget *glWidget;
-  bool _show;
-  QSortFilterProxyModel *_model;
+  protected:
+    ViewWidget *_view;
+    QWidget *_informationWidget;
+    QGraphicsProxyWidget *_informationWidgetItem;
+    GlWidget *glWidget;
+    bool _show;
+    QSortFilterProxyModel *_model;
 
-  QTableView *tableView() const;
+    QTableView *tableView() const;
 
-  /**
-   * @brief buildModel creates and returns the model to visualize edit element parameters.
-   * @param elementType the type of the element can be ElementType::NODE or ElementType::EDGE
-   * @param elementId elementId the id of the element
-   * @param parent the parent for the model creation.
-   * @return
-   */
-  virtual QAbstractItemModel *buildModel(ElementType elementType, uint elementId,
-                                         QObject *parent) const;
-  /**
-   * @brief elementName returns the title of the element.
-   * @param elementType the type of the element can be ElementType::NODE or ElementType::EDGE
-   * @param elementId the id of the element
-   * @return
-   */
-  virtual QString elementName(ElementType elementType, uint elementId) const;
+    /**
+     * @brief buildModel creates and returns the model to visualize edit element parameters.
+     * @param elementType the type of the element can be ElementType::NODE or ElementType::EDGE
+     * @param elementId elementId the id of the element
+     * @param parent the parent for the model creation.
+     * @return
+     */
+    virtual QAbstractItemModel *buildModel(ElementType elementType, uint elementId,
+                                           QObject *parent) const;
+    /**
+     * @brief elementName returns the title of the element.
+     * @param elementType the type of the element can be ElementType::NODE or ElementType::EDGE
+     * @param elementId the id of the element
+     * @return
+     */
+    virtual QString elementName(ElementType elementType, uint elementId) const;
 
-private slots:
+  private slots:
 
-  void showVisualProp(bool show);
-  void hideInfos();
+    void showVisualProp(bool show);
+    void hideInfos();
 };
 }
 

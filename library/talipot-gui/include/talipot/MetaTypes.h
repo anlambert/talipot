@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,37 +40,37 @@
 
 // Helper class for filesystem types handling
 struct FileDescriptor {
-  enum FileType { File, Directory };
+    enum FileType { File, Directory };
 
-  FileDescriptor() = default;
-  FileDescriptor(const QString &absolutePath, FileType fileType, bool existing = true)
-      : absolutePath(absolutePath), type(fileType), mustExist(existing) {}
-  FileDescriptor(const FileDescriptor &d) {
-    absolutePath = d.absolutePath;
-    type = d.type;
-    mustExist = d.mustExist;
-  }
-  FileDescriptor &operator=(const FileDescriptor &) = default;
-  QString absolutePath;
-  FileType type;
-  // indicate if the file or dir must exist
-  bool mustExist;
-  QString fileFilterPattern;
+    FileDescriptor() = default;
+    FileDescriptor(const QString &absolutePath, FileType fileType, bool existing = true)
+        : absolutePath(absolutePath), type(fileType), mustExist(existing) {}
+    FileDescriptor(const FileDescriptor &d) {
+        absolutePath = d.absolutePath;
+        type = d.type;
+        mustExist = d.mustExist;
+    }
+    FileDescriptor &operator=(const FileDescriptor &) = default;
+    QString absolutePath;
+    FileType type;
+    // indicate if the file or dir must exist
+    bool mustExist;
+    QString fileFilterPattern;
 };
 
 struct TextureFile {
-  QString texturePath;
-  TextureFile() = default;
-  TextureFile(const QString &texturePath) : texturePath(texturePath) {}
+    QString texturePath;
+    TextureFile() = default;
+    TextureFile(const QString &texturePath) : texturePath(texturePath) {}
 };
 
 struct FontIconName {
 
-  FontIconName() = default;
+    FontIconName() = default;
 
-  FontIconName(const QString &iconName) : iconName(iconName) {}
+    FontIconName(const QString &iconName) : iconName(iconName) {}
 
-  QString iconName;
+    QString iconName;
 };
 
 // Declare talipot type compatible with QVariant
@@ -140,37 +140,37 @@ Q_DECLARE_METATYPE(QStringList)
 
 namespace tlp {
 class TLP_QT_SCOPE MetaTypes {
-  MetaTypes() = default;
+    MetaTypes() = default;
 
-  template <typename T>
-  static QVariant typedVariant(tlp::DataType *dm) {
-    T result;
+    template <typename T>
+    static QVariant typedVariant(tlp::DataType *dm) {
+        T result;
 
-    if (dm) {
-      result = *(static_cast<T *>(dm->value));
+        if (dm) {
+            result = *(static_cast<T *>(dm->value));
+        }
+
+        return QVariant::fromValue<T>(result);
     }
 
-    return QVariant::fromValue<T>(result);
-  }
-
-public:
-  static tlp::DataType *qVariantToDataType(const QVariant &);
-  static QVariant dataTypeToQvariant(tlp::DataType *, const std::string &paramName);
+  public:
+    static tlp::DataType *qVariantToDataType(const QVariant &);
+    static QVariant dataTypeToQvariant(tlp::DataType *, const std::string &paramName);
 };
 
 class TLP_QT_SCOPE QStringListType : public TypeInterface<QStringList> {
-public:
-  static void write(std::ostream &, const RealType &);
-  static bool read(std::istream &, RealType &);
-  FORWARD_STRING_METHODS(QStringListType)
+  public:
+    static void write(std::ostream &, const RealType &);
+    static bool read(std::istream &, RealType &);
+    FORWARD_STRING_METHODS(QStringListType)
 };
 
 class TLP_QT_SCOPE QStringType : public TypeInterface<QString> {
-public:
-  static void write(std::ostream &, const RealType &);
-  static bool read(std::istream &, RealType &);
-  static std::string toString(const RealType &);
-  static bool fromString(RealType &, const std::string &);
+  public:
+    static void write(std::ostream &, const RealType &);
+    static bool read(std::istream &, RealType &);
+    static std::string toString(const RealType &);
+    static bool fromString(RealType &, const std::string &);
 };
 
 extern void initQTypeSerializers();

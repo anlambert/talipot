@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,9 +24,9 @@
 using namespace std;
 
 #define ELT_EMBEDDER "Embedder"
-#define ELT_EMBEDDER_LIST                                                  \
-  "SimpleEmbedder;EmbedderMaxFace;EmbedderMaxFaceLayers;EmbedderMinDepth;" \
-  "EmbedderMinDepthMaxFace;EmbedderMinDepthMaxFaceLayers;EmbedderMinDepthPiTa"
+#define ELT_EMBEDDER_LIST                                                    \
+    "SimpleEmbedder;EmbedderMaxFace;EmbedderMaxFaceLayers;EmbedderMinDepth;" \
+    "EmbedderMinDepthMaxFace;EmbedderMinDepthMaxFaceLayers;EmbedderMinDepthPiTa"
 static const vector<function<ogdf::EmbedderModule *()>> embedder = {
     []() { return new ogdf::SimpleEmbedder; },
     []() { return new ogdf::EmbedderMaxFace; },
@@ -61,33 +61,33 @@ static constexpr std::string_view paramHelp[] = {
 
 class OGDFPlanarizationLayout : public tlp::OGDFLayoutPluginBase {
 
-public:
-  PLUGININFORMATION("Planarization Layout (OGDF)", "Carsten Gutwenger", "12/11/2007",
-                    "The planarization approach for drawing graphs.", "1.0", "Planar")
-  OGDFPlanarizationLayout(const tlp::PluginContext *context)
-      : OGDFLayoutPluginBase(context,
-                             tlp::getOGDFLayoutModule<ogdf::PlanarizationLayout>(context)) {
-    addInParameter<double>("page ratio", paramHelp[0].data(), "1.1");
-    addInParameter<tlp::StringCollection>(ELT_EMBEDDER, paramHelp[1].data(), ELT_EMBEDDER_LIST,
-                                          true, embedderValuesDescription);
-  }
-
-  void beforeCall() override {
-    auto *pl = static_cast<ogdf::PlanarizationLayout *>(ogdfLayoutAlgo);
-
-    if (dataSet != nullptr) {
-      double dval = 0;
-      tlp::StringCollection sc;
-
-      if (dataSet->get("page ratio", dval)) {
-        pl->pageRatio(dval);
-      }
-
-      if (dataSet->get(ELT_EMBEDDER, sc)) {
-        pl->setEmbedder(embedder[sc.getCurrent()]());
-      }
+  public:
+    PLUGININFORMATION("Planarization Layout (OGDF)", "Carsten Gutwenger", "12/11/2007",
+                      "The planarization approach for drawing graphs.", "1.0", "Planar")
+    OGDFPlanarizationLayout(const tlp::PluginContext *context)
+        : OGDFLayoutPluginBase(context,
+                               tlp::getOGDFLayoutModule<ogdf::PlanarizationLayout>(context)) {
+        addInParameter<double>("page ratio", paramHelp[0].data(), "1.1");
+        addInParameter<tlp::StringCollection>(ELT_EMBEDDER, paramHelp[1].data(), ELT_EMBEDDER_LIST,
+                                              true, embedderValuesDescription);
     }
-  }
+
+    void beforeCall() override {
+        auto *pl = static_cast<ogdf::PlanarizationLayout *>(ogdfLayoutAlgo);
+
+        if (dataSet != nullptr) {
+            double dval = 0;
+            tlp::StringCollection sc;
+
+            if (dataSet->get("page ratio", dval)) {
+                pl->pageRatio(dval);
+            }
+
+            if (dataSet->get(ELT_EMBEDDER, sc)) {
+                pl->setEmbedder(embedder[sc.getCurrent()]());
+            }
+        }
+    }
 };
 
 PLUGIN(OGDFPlanarizationLayout)

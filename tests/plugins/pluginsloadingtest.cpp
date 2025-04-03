@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,22 +27,22 @@ using namespace tlp;
 // Custom loader to catch if there was some issues
 // when loading plugins
 class PluginLoaderTest : public PluginLoaderTxt {
-public:
-  PluginLoaderTest() : allPluginsLoaded(true) {}
+  public:
+    PluginLoaderTest() : allPluginsLoaded(true) {}
 
-  void aborted(const string &filename, const string &errormsg) override {
-    const string &libName = PluginLibraryLoader::getCurrentPluginFileName();
-    // plugins may be loaded twice because it may exist an other version
-    // of the plugins in a CMakeFiles sub dir (/CMakeRelink.dir)
-    // So set the failure flag only if the plugin was not found
-    // under the CMakeFiles dir
-    if (libName.find("CMakeFiles") == string::npos) {
-      allPluginsLoaded = false;
+    void aborted(const string &filename, const string &errormsg) override {
+        const string &libName = PluginLibraryLoader::getCurrentPluginFileName();
+        // plugins may be loaded twice because it may exist an other version
+        // of the plugins in a CMakeFiles sub dir (/CMakeRelink.dir)
+        // So set the failure flag only if the plugin was not found
+        // under the CMakeFiles dir
+        if (libName.find("CMakeFiles") == string::npos) {
+            allPluginsLoaded = false;
+        }
+        PluginLoaderTxt::aborted(filename, errormsg);
     }
-    PluginLoaderTxt::aborted(filename, errormsg);
-  }
 
-  bool allPluginsLoaded;
+    bool allPluginsLoaded;
 };
 
 // Simple test that will try to load all compiled plugins from the Talipot trunk
@@ -51,37 +51,37 @@ public:
 // This can be helpful to catch possible segfaults or memory leaks.
 int main(int argc, char **argv) {
 
-  CrashHandler::install();
+    CrashHandler::install();
 
 #ifndef TALIPOT_BUILD_CORE_ONLY
-  // we need to create a QApplication as some plugins (view, interactor)
-  // need one to load correctly
-  QApplication app(argc, argv);
+    // we need to create a QApplication as some plugins (view, interactor)
+    // need one to load correctly
+    QApplication app(argc, argv);
 #endif
 
-  string talipotPluginsDir = TALIPOT_PLUGINS_DIR;
+    string talipotPluginsDir = TALIPOT_PLUGINS_DIR;
 
-  if (talipotPluginsDir.empty() && argc > 1) {
-    talipotPluginsDir = argv[1];
-  }
+    if (talipotPluginsDir.empty() && argc > 1) {
+        talipotPluginsDir = argv[1];
+    }
 
-  initTalipotLib();
+    initTalipotLib();
 
-  // load all plugins from the Talipot build folder
-  PluginLoaderTest pLoader;
-  PluginLibraryLoader::loadPluginsFromDir(talipotPluginsDir, &pLoader);
+    // load all plugins from the Talipot build folder
+    PluginLoaderTest pLoader;
+    PluginLibraryLoader::loadPluginsFromDir(talipotPluginsDir, &pLoader);
 
-  // create an instance of each of them, then destroy it
-  auto pluginNames = PluginsManager::availablePlugins();
-  for (const auto &pluginName : pluginNames) {
-    Plugin *plugin = PluginsManager::getPluginObject(pluginName);
-    delete plugin;
-  }
+    // create an instance of each of them, then destroy it
+    auto pluginNames = PluginsManager::availablePlugins();
+    for (const auto &pluginName : pluginNames) {
+        Plugin *plugin = PluginsManager::getPluginObject(pluginName);
+        delete plugin;
+    }
 
-  // test is successful if there was no plugin loading issue
-  if (pLoader.allPluginsLoaded) {
-    return EXIT_SUCCESS;
-  } else {
-    return EXIT_FAILURE;
-  }
+    // test is successful if there was no plugin loading issue
+    if (pLoader.allPluginsLoaded) {
+        return EXIT_SUCCESS;
+    } else {
+        return EXIT_FAILURE;
+    }
 }

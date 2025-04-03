@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,22 +31,22 @@ namespace tlp {
 class ColorScale;
 
 class ColorScalePreview : public QLabel {
-  Q_OBJECT
-public:
-  ColorScalePreview(ColorScale *colorScale);
-  ~ColorScalePreview() override;
-  void setColorScale(ColorScale *colorScale);
-  ColorScale *getColorScale() {
-    return currentColorScale;
-  }
+    Q_OBJECT
+  public:
+    ColorScalePreview(ColorScale *colorScale);
+    ~ColorScalePreview() override;
+    void setColorScale(ColorScale *colorScale);
+    ColorScale *getColorScale() {
+        return currentColorScale;
+    }
 
-  void resizeEvent(QResizeEvent *event) override;
-  void mousePressEvent(QMouseEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
-protected:
-  void fillLabel();
+  protected:
+    void fillLabel();
 
-  ColorScale *currentColorScale;
+    ColorScale *currentColorScale;
 };
 }
 #endif // COLOR_SCALE_PREVIEW_H

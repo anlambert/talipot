@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -37,22 +37,22 @@ namespace tlp {
  **/
 template <typename TYPEIN, typename TYPEOUT, typename ConversionFunc>
 class ConversionIterator : public Iterator<TYPEOUT> {
-public:
-  ConversionIterator(Iterator<TYPEIN> *it, ConversionFunc convFunctor)
-      : _it(it), _convFunctor(convFunctor) {}
-  ~ConversionIterator() override {
-    delete _it;
-  }
-  bool hasNext() override {
-    return _it->hasNext();
-  }
-  TYPEOUT next() override {
-    return _convFunctor(_it->next());
-  }
+  public:
+    ConversionIterator(Iterator<TYPEIN> *it, ConversionFunc convFunctor)
+        : _it(it), _convFunctor(convFunctor) {}
+    ~ConversionIterator() override {
+        delete _it;
+    }
+    bool hasNext() override {
+        return _it->hasNext();
+    }
+    TYPEOUT next() override {
+        return _convFunctor(_it->next());
+    }
 
-private:
-  tlp::Iterator<TYPEIN> *_it;
-  ConversionFunc _convFunctor;
+  private:
+    tlp::Iterator<TYPEIN> *_it;
+    ConversionFunc _convFunctor;
 };
 /**
  * @class MPConversionIterator
@@ -64,9 +64,9 @@ private:
 template <typename TIN, typename TOUT, typename ConversionFunc>
 class MPConversionIterator : public ConversionIterator<TIN, TOUT, ConversionFunc>,
                              public MemoryPool<MPConversionIterator<TIN, TOUT, ConversionFunc>> {
-public:
-  MPConversionIterator(Iterator<TIN> *it, ConversionFunc convFunctor)
-      : ConversionIterator<TIN, TOUT, ConversionFunc>(it, convFunctor) {}
+  public:
+    MPConversionIterator(Iterator<TIN> *it, ConversionFunc convFunctor)
+        : ConversionIterator<TIN, TOUT, ConversionFunc>(it, convFunctor) {}
 };
 
 /**
@@ -84,7 +84,7 @@ public:
  **/
 template <typename TOUT, typename ConversionFunc, typename TIN>
 inline Iterator<TOUT> *conversionIterator(tlp::Iterator<TIN> *it, ConversionFunc convFunc) {
-  return new MPConversionIterator<TIN, TOUT, ConversionFunc>(it, convFunc);
+    return new MPConversionIterator<TIN, TOUT, ConversionFunc>(it, convFunc);
 }
 
 /**
@@ -103,8 +103,8 @@ inline Iterator<TOUT> *conversionIterator(tlp::Iterator<TIN> *it, ConversionFunc
  **/
 template <typename TOUT, typename ConversionFunc, typename Container>
 inline Iterator<TOUT> *conversionIterator(const Container &stlContainer, ConversionFunc convFunc) {
-  return new MPConversionIterator<typename Container::value_type, TOUT, ConversionFunc>(
-      stlIterator(stlContainer), convFunc);
+    return new MPConversionIterator<typename Container::value_type, TOUT, ConversionFunc>(
+        stlIterator(stlContainer), convFunc);
 }
 }
 #endif // TALIPOT_CONVERSION_ITERATOR_H

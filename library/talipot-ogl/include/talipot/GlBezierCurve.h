@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,36 +35,36 @@ namespace tlp {
  */
 class TLP_GL_SCOPE GlBezierCurve : public AbstractGlCurve {
 
-public:
-  GlBezierCurve();
+  public:
+    GlBezierCurve();
 
-  /**
-   * @brief GlBezierCurve constructor
-   *
-   * @param controlPoints a vector of control points (size must be greater or equal to 2)
-   * @param startColor the color at the start of the curve
-   * @param endColor the color at the end of the curve
-   * @param startSize the width at the start of the curve
-   * @param endSize the width at the end of the curve
-   * @param nbCurvePoints the number of curve points to generate
-   */
-  GlBezierCurve(const std::vector<Coord> &controlPoints, const Color &startColor,
-                const Color &endColor, const float &startSize, const float &endSize,
-                const uint nbCurvePoints = 200);
+    /**
+     * @brief GlBezierCurve constructor
+     *
+     * @param controlPoints a vector of control points (size must be greater or equal to 2)
+     * @param startColor the color at the start of the curve
+     * @param endColor the color at the end of the curve
+     * @param startSize the width at the start of the curve
+     * @param endSize the width at the end of the curve
+     * @param nbCurvePoints the number of curve points to generate
+     */
+    GlBezierCurve(const std::vector<Coord> &controlPoints, const Color &startColor,
+                  const Color &endColor, const float &startSize, const float &endSize,
+                  const uint nbCurvePoints = 200);
 
-  ~GlBezierCurve() override;
+    ~GlBezierCurve() override;
 
-  void drawCurve(std::vector<Coord> &controlPoints, const Color &startColor, const Color &endColor,
-                 const float startSize, const float endSize,
-                 const uint nbCurvePoints = 200) override;
+    void drawCurve(std::vector<Coord> &controlPoints, const Color &startColor,
+                   const Color &endColor, const float startSize, const float endSize,
+                   const uint nbCurvePoints = 200) override;
 
-protected:
-  Coord computeCurvePointOnCPU(const std::vector<Coord> &controlPoints, float t) override;
+  protected:
+    Coord computeCurvePointOnCPU(const std::vector<Coord> &controlPoints, float t) override;
 
-  void computeCurvePointsOnCPU(const std::vector<Coord> &controlPoints,
-                               std::vector<Coord> &curvePoints, uint nbCurvePoints) override;
+    void computeCurvePointsOnCPU(const std::vector<Coord> &controlPoints,
+                                 std::vector<Coord> &curvePoints, uint nbCurvePoints) override;
 
-  std::string genCurveVertexShaderSpecificCode();
+    std::string genCurveVertexShaderSpecificCode();
 };
 }
 #endif // TALIPOT_GL_BEZIER_CURVE_H

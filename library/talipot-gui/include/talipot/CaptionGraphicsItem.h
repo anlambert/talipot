@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,51 +32,51 @@ class CaptionGraphicsBackgroundItem;
 
 class CaptionGraphicsItem : public QObject {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  CaptionGraphicsItem(View *view);
-  ~CaptionGraphicsItem() override;
+  public:
+    CaptionGraphicsItem(View *view);
+    ~CaptionGraphicsItem() override;
 
-  void setType(uint type);
+    void setType(uint type);
 
-  void loadConfiguration();
+    void loadConfiguration();
 
-  void generateColorCaption(const QGradient &activeGradient, const QGradient &hideGradient,
-                            const std::string &propertyName, double minValue, double maxValue);
+    void generateColorCaption(const QGradient &activeGradient, const QGradient &hideGradient,
+                              const std::string &propertyName, double minValue, double maxValue);
 
-  void generateSizeCaption(const std::vector<std::pair<double, float>> &metricToSizeFilteredList,
-                           const std::string &propertyName, double minValue, double maxValue);
+    void generateSizeCaption(const std::vector<std::pair<double, float>> &metricToSizeFilteredList,
+                             const std::string &propertyName, double minValue, double maxValue);
 
-  CaptionGraphicsBackgroundItem *getCaptionItem() const {
-    return _rondedRectItem;
-  }
+    CaptionGraphicsBackgroundItem *getCaptionItem() const {
+        return _rondedRectItem;
+    }
 
-  std::string usedProperty();
+    std::string usedProperty();
 
-signals:
+  signals:
 
-  void filterChanged(float begin, float end);
-  void selectedPropertyChanged(std::string propertyName);
+    void filterChanged(float begin, float end);
+    void selectedPropertyChanged(std::string propertyName);
 
-protected slots:
+  protected slots:
 
-  void filterChangedSlot(float begin, float end);
-  void selectPropertyButtonClicked();
-  void propertySelectedSlot();
+    void filterChangedSlot(float begin, float end);
+    void selectPropertyButtonClicked();
+    void propertySelectedSlot();
 
-private:
-  QString wrappedPropName(const QString &originalName) const;
+  private:
+    QString wrappedPropName(const QString &originalName) const;
 
-  void constructConfigWidget();
+    void constructConfigWidget();
 
-  View *_view;
+    View *_view;
 
-  CaptionGraphicsBackgroundItem *_rondedRectItem;
+    CaptionGraphicsBackgroundItem *_rondedRectItem;
 
-  QGraphicsProxyWidget *_confPropertySelectionItem;
-  QGraphicsSimpleTextItem *_nodesEdgesTextItem;
-  QPushButton *_confPropertySelectionWidget;
+    QGraphicsProxyWidget *_confPropertySelectionItem;
+    QGraphicsSimpleTextItem *_nodesEdgesTextItem;
+    QPushButton *_confPropertySelectionWidget;
 };
 }
 

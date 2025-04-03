@@ -62,100 +62,100 @@ static std::string _defaultFont = ViewSettings::ApplicationDefault::Font;
 static int _defaultFontSize = ViewSettings::ApplicationDefault::FontSize;
 
 Color ViewSettings::defaultSelectionColor() {
-  return _defaultSelectionColor;
+    return _defaultSelectionColor;
 }
 
 void ViewSettings::setDefaultSelectionColor(const Color &color) {
-  if (color == defaultSelectionColor()) {
-    return;
-  }
-  _defaultSelectionColor = color;
-  instance().sendEvent(
-      ViewSettingsEvent(color, ViewSettingsEventType::TLP_DEFAULT_SELECTION_COLOR_MODIFIED));
+    if (color == defaultSelectionColor()) {
+        return;
+    }
+    _defaultSelectionColor = color;
+    instance().sendEvent(
+        ViewSettingsEvent(color, ViewSettingsEventType::TLP_DEFAULT_SELECTION_COLOR_MODIFIED));
 }
 
 Color ViewSettings::defaultColor(ElementType elem) {
-  if (elem == ElementType::NODE) {
-    return _defaultNodeColor;
-  } else {
-    return _defaultEdgeColor;
-  }
+    if (elem == ElementType::NODE) {
+        return _defaultNodeColor;
+    } else {
+        return _defaultEdgeColor;
+    }
 }
 
 void ViewSettings::setDefaultColor(ElementType elem, const Color &color) {
-  if (color == defaultColor(elem)) {
-    return;
-  }
+    if (color == defaultColor(elem)) {
+        return;
+    }
 
-  if (elem == ElementType::NODE) {
-    _defaultNodeColor = color;
-  } else {
-    _defaultEdgeColor = color;
-  }
+    if (elem == ElementType::NODE) {
+        _defaultNodeColor = color;
+    } else {
+        _defaultEdgeColor = color;
+    }
 
-  instance().sendEvent(ViewSettingsEvent(elem, color));
+    instance().sendEvent(ViewSettingsEvent(elem, color));
 }
 
 Color ViewSettings::defaultBorderColor(ElementType elem) {
-  if (elem == ElementType::NODE) {
-    return _defaultNodeBorderColor;
-  } else {
-    return _defaultEdgeBorderColor;
-  }
+    if (elem == ElementType::NODE) {
+        return _defaultNodeBorderColor;
+    } else {
+        return _defaultEdgeBorderColor;
+    }
 }
 
 void ViewSettings::setDefaultBorderColor(ElementType elem, const Color &color) {
-  if (elem == ElementType::NODE) {
-    _defaultNodeBorderColor = color;
-  } else {
-    _defaultEdgeBorderColor = color;
-  }
+    if (elem == ElementType::NODE) {
+        _defaultNodeBorderColor = color;
+    } else {
+        _defaultEdgeBorderColor = color;
+    }
 }
 
 float ViewSettings::defaultBorderWidth(ElementType elem) {
-  if (elem == ElementType::NODE) {
-    return _defaultNodeBorderWidth;
-  } else {
-    return _defaultEdgeBorderWidth;
-  }
+    if (elem == ElementType::NODE) {
+        return _defaultNodeBorderWidth;
+    } else {
+        return _defaultEdgeBorderWidth;
+    }
 }
 
 void ViewSettings::setdefaultBorderWidth(ElementType elem, float borderWidth) {
-  if (elem == ElementType::NODE) {
-    _defaultNodeBorderWidth = borderWidth;
-  } else {
-    _defaultEdgeBorderWidth = borderWidth;
-  }
+    if (elem == ElementType::NODE) {
+        _defaultNodeBorderWidth = borderWidth;
+    } else {
+        _defaultEdgeBorderWidth = borderWidth;
+    }
 }
 
 Color ViewSettings::defaultLabelColor() {
-  return _defaultLabelColor;
+    return _defaultLabelColor;
 }
 
 void ViewSettings::setDefaultLabelColor(const Color &color) {
-  if (color == _defaultLabelColor) {
-    return;
-  }
+    if (color == _defaultLabelColor) {
+        return;
+    }
 
-  _defaultLabelColor = color;
-  instance().sendEvent(
-      ViewSettingsEvent(color, ViewSettingsEventType::TLP_DEFAULT_LABEL_COLOR_MODIFIED));
+    _defaultLabelColor = color;
+    instance().sendEvent(
+        ViewSettingsEvent(color, ViewSettingsEventType::TLP_DEFAULT_LABEL_COLOR_MODIFIED));
 }
 
 Color ViewSettings::defaultLabelBorderColor() {
-  return _defaultLabelBorderColor;
+    return _defaultLabelBorderColor;
 }
 
 void ViewSettings::setDefaultLabelBorderColor(const Color &color) {
-  _defaultLabelBorderColor = color;
+    _defaultLabelBorderColor = color;
 }
 
 float ViewSettings::defaultLabelBorderWidth() {
-  return _defaultLabelBorderWidth;
+    return _defaultLabelBorderWidth;
 }
 
 void ViewSettings::setDefaultLabelBorderWidth(float borderWidth) {
-  _defaultLabelBorderWidth = borderWidth;
+    _defaultLabelBorderWidth = borderWidth;
 }
 
 ViewSettings::labelmap ViewSettings::POSITION_LABEL_MAP = {{LabelPosition::Center, "Center"},
@@ -165,102 +165,102 @@ ViewSettings::labelmap ViewSettings::POSITION_LABEL_MAP = {{LabelPosition::Cente
                                                            {LabelPosition::Right, "Right"}};
 
 int ViewSettings::defaultLabelPosition() {
-  return _defaultLabelPosition;
+    return _defaultLabelPosition;
 }
 
 void ViewSettings::setDefaultLabelPosition(int position) {
-  _defaultLabelPosition = position;
+    _defaultLabelPosition = position;
 }
 
 Size ViewSettings::defaultSize(ElementType elem) {
-  if (elem == ElementType::NODE) {
-    return _defaultNodeSize;
-  } else {
-    return _defaultEdgeSize;
-  }
+    if (elem == ElementType::NODE) {
+        return _defaultNodeSize;
+    } else {
+        return _defaultEdgeSize;
+    }
 }
 
 void ViewSettings::setDefaultSize(ElementType elem, const Size &size) {
-  if (size == defaultSize(elem)) {
-    return;
-  }
+    if (size == defaultSize(elem)) {
+        return;
+    }
 
-  if (elem == ElementType::NODE) {
-    _defaultNodeSize = size;
-  } else {
-    _defaultEdgeSize = size;
-  }
+    if (elem == ElementType::NODE) {
+        _defaultNodeSize = size;
+    } else {
+        _defaultEdgeSize = size;
+    }
 
-  instance().sendEvent(ViewSettingsEvent(elem, size));
+    instance().sendEvent(ViewSettingsEvent(elem, size));
 }
 
 int ViewSettings::defaultShape(ElementType elem) {
-  if (elem == ElementType::NODE) {
-    return _defaultNodeShape;
-  } else {
-    return _defaultEdgeShape;
-  }
+    if (elem == ElementType::NODE) {
+        return _defaultNodeShape;
+    } else {
+        return _defaultEdgeShape;
+    }
 }
 
 void ViewSettings::setDefaultShape(ElementType elem, int shape) {
-  if (shape == defaultShape(elem)) {
-    return;
-  }
+    if (shape == defaultShape(elem)) {
+        return;
+    }
 
-  if (elem == ElementType::NODE) {
-    _defaultNodeShape = shape;
-  } else {
-    _defaultEdgeShape = shape;
-  }
+    if (elem == ElementType::NODE) {
+        _defaultNodeShape = shape;
+    } else {
+        _defaultEdgeShape = shape;
+    }
 
-  instance().sendEvent(ViewSettingsEvent(elem, shape));
+    instance().sendEvent(ViewSettingsEvent(elem, shape));
 }
 
 int ViewSettings::defaultEdgeExtremitySrcShape() {
-  return _defaultEdgeExtremitySrcShape;
+    return _defaultEdgeExtremitySrcShape;
 }
 
 void ViewSettings::setDefaultEdgeExtremitySrcShape(int shape) {
-  _defaultEdgeExtremitySrcShape = shape;
+    _defaultEdgeExtremitySrcShape = shape;
 }
 
 int ViewSettings::defaultEdgeExtremityTgtShape() {
-  return _defaultEdgeExtremityTgtShape;
+    return _defaultEdgeExtremityTgtShape;
 }
 
 void ViewSettings::setDefaultEdgeExtremityTgtShape(int shape) {
-  _defaultEdgeExtremityTgtShape = shape;
+    _defaultEdgeExtremityTgtShape = shape;
 }
 
 Size ViewSettings::defaultEdgeExtremitySrcSize() {
-  return _defaultEdgeExtremitySrcSize;
+    return _defaultEdgeExtremitySrcSize;
 }
 
 void ViewSettings::setDefaultEdgeExtremitySrcSize(const Size &size) {
-  _defaultEdgeExtremitySrcSize = size;
+    _defaultEdgeExtremitySrcSize = size;
 }
 
 Size ViewSettings::defaultEdgeExtremityTgtSize() {
-  return _defaultEdgeExtremityTgtSize;
+    return _defaultEdgeExtremityTgtSize;
 }
 
 void ViewSettings::setDefaultEdgeExtremityTgtSize(const Size &size) {
-  _defaultEdgeExtremityTgtSize = size;
+    _defaultEdgeExtremityTgtSize = size;
 }
 
 std::string ViewSettings::defaultFont() {
-  return _defaultFont;
+    return _defaultFont;
 }
 
 void ViewSettings::setDefaultFont(const std::string &fontFile) {
-  _defaultFont = fontFile;
+    _defaultFont = fontFile;
 }
 
 int ViewSettings::defaultFontSize() {
-  return _defaultFontSize;
+    return _defaultFontSize;
 }
 
 void ViewSettings::setDefaultFontSize(int fontSize) {
-  _defaultFontSize = fontSize;
+    _defaultFontSize = fontSize;
 }
 }

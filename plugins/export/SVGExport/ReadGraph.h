@@ -4,7 +4,7 @@
 
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,8 +25,8 @@ class PluginProgress;
 
 // Director
 struct ReadGraph {
-  static bool readGraph(tlp::Graph *graph, tlp::DataSet *ds, tlp::PluginProgress *pp,
-                        ExportInterface &exportint);
+    static bool readGraph(tlp::Graph *graph, tlp::DataSet *ds, tlp::PluginProgress *pp,
+                          ExportInterface &exportint);
 };
 
 #endif // READ_GRAPH_H

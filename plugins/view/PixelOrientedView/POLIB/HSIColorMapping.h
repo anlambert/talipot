@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,14 +20,14 @@
 
 class HSIColorMapping : public ColorFunction {
 
-public:
-  HSIColorMapping(const HSI &from = HSI(1.5, 1.0, 0.4), const HSI &to = HSI(1.0, 1.0, 1.0));
+  public:
+    HSIColorMapping(const HSI &from = HSI(1.5, 1.0, 0.4), const HSI &to = HSI(1.0, 1.0, 1.0));
 
-  // value must be normalized
-  tlp::Color getColor(double value, uint) const override;
+    // value must be normalized
+    tlp::Color getColor(double value, uint) const override;
 
-private:
-  HSIColorScale hsiColorScale;
+  private:
+    HSIColorScale hsiColorScale;
 };
 
 #endif // HSI_COLOR_MAPPING_H

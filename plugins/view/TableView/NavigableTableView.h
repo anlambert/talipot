@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,19 +19,19 @@
 class QKeyEvent;
 
 class NavigableTableView : public QTableView {
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  explicit NavigableTableView(QWidget *parent = nullptr);
-  void keyPressEvent(QKeyEvent *event) override;
+  public:
+    explicit NavigableTableView(QWidget *parent = nullptr);
+    void keyPressEvent(QKeyEvent *event) override;
 
-protected:
-  int sizeHintForRow(int row) const override;
-  int sizeHintForColumn(int col) const override;
-  void paintEvent(QPaintEvent *event) override;
+  protected:
+    int sizeHintForRow(int row) const override;
+    int sizeHintForColumn(int col) const override;
+    void paintEvent(QPaintEvent *event) override;
 
-private:
-  void resizeTableRows();
+  private:
+    void resizeTableRows();
 };
 
 #endif // NAVIGABLE_TABLE_VIEW_H

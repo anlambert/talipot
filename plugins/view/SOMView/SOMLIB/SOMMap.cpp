@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,168 +28,169 @@ SOMMap::SOMMap(Graph *root, unsigned int width, unsigned int height,
                SOMMapConnectivity connectivity, bool oppositeConnected)
     : tlp::GraphDecorator(root), width(width), height(height), connectivity(connectivity),
       oppositeConnected(oppositeConnected), graphCreated(false) {
-  initMap();
+    initMap();
 }
 SOMMap::SOMMap(unsigned int width, unsigned int height, SOMMapConnectivity connectivity,
                bool oppositeConnected)
     : tlp::GraphDecorator(newGraph()), width(width), height(height), connectivity(connectivity),
       oppositeConnected(oppositeConnected), graphCreated(true) {
-  initMap();
+    initMap();
 }
 
 void SOMMap::initMap() {
-  // Map creation
-  // If width and height are valid create a new grid
-  if (width != 0 && height != 0) {
-    DataSet gridDataSet;
-    gridDataSet.set("width", width);
-    gridDataSet.set("height", height);
-    // Node Connectivity
-    StringCollection connectivityCollection;
+    // Map creation
+    // If width and height are valid create a new grid
+    if (width != 0 && height != 0) {
+        DataSet gridDataSet;
+        gridDataSet.set("width", width);
+        gridDataSet.set("height", height);
+        // Node Connectivity
+        StringCollection connectivityCollection;
+
+        switch (connectivity) {
+        case four:
+            connectivityCollection.push_back("4");
+            connectivityCollection.setCurrent("4");
+            break;
+
+        case six:
+            connectivityCollection.push_back("6");
+            connectivityCollection.setCurrent("6");
+            break;
+
+        case eight:
+            connectivityCollection.push_back("8");
+            connectivityCollection.setCurrent("8");
+            break;
+
+        default:
+            std::cerr << __PRETTY_FUNCTION__ << ":" << __LINE__ << " " << "connectivity unknown"
+                      << std::endl;
+            assert(false);
+        }
+
+        gridDataSet.set("connectivity", connectivityCollection);
+        gridDataSet.set("oppositeNodesConnected", oppositeConnected);
+        // Suppress spacing
+        gridDataSet.set("spacing", 0.0);
+        graph_component = importGraph("Grid", gridDataSet, nullptr, graph_component);
+    }
+
+    assert(graph_component != nullptr);
+    IntegerProperty *nodeShape = graph_component->getIntegerProperty("viewShape");
 
     switch (connectivity) {
     case four:
-      connectivityCollection.push_back("4");
-      connectivityCollection.setCurrent("4");
-      break;
+    case eight:
+        nodeShape->setAllNodeValue(NodeShape::Square);
+        break;
 
     case six:
-      connectivityCollection.push_back("6");
-      connectivityCollection.setCurrent("6");
-      break;
-
-    case eight:
-      connectivityCollection.push_back("8");
-      connectivityCollection.setCurrent("8");
-      break;
-
-    default:
-      std::cerr << __PRETTY_FUNCTION__ << ":" << __LINE__ << " "
-                << "connectivity unknown" << std::endl;
-      assert(false);
+        nodeShape->setAllNodeValue(NodeShape::Hexagon);
+        break;
     }
-
-    gridDataSet.set("connectivity", connectivityCollection);
-    gridDataSet.set("oppositeNodesConnected", oppositeConnected);
-    // Suppress spacing
-    gridDataSet.set("spacing", 0.0);
-    graph_component = importGraph("Grid", gridDataSet, nullptr, graph_component);
-  }
-
-  assert(graph_component != nullptr);
-  IntegerProperty *nodeShape = graph_component->getIntegerProperty("viewShape");
-
-  switch (connectivity) {
-  case four:
-  case eight:
-    nodeShape->setAllNodeValue(NodeShape::Square);
-    break;
-
-  case six:
-    nodeShape->setAllNodeValue(NodeShape::Hexagon);
-    break;
-  }
 }
 
 SOMMap::~SOMMap() {
-  graph_component->clear();
+    graph_component->clear();
 
-  if (graphCreated) {
-    delete graph_component;
-  }
+    if (graphCreated) {
+        delete graph_component;
+    }
 }
 
 DynamicVector<double> &SOMMap::getWeight(tlp::node n) {
-  return nodeToNodeVec[n];
+    return nodeToNodeVec[n];
 }
 const DynamicVector<double> SOMMap::getWeight(const tlp::node &n) const {
 
-  auto it = nodeToNodeVec.find(n);
+    auto it = nodeToNodeVec.find(n);
 
-  if (it != nodeToNodeVec.end()) {
-    return (*it).second;
-  } else {
-    return DynamicVector<double>();
-  }
+    if (it != nodeToNodeVec.end()) {
+        return (*it).second;
+    } else {
+        return DynamicVector<double>();
+    }
 }
 
 void SOMMap::setWeight(tlp::node n, const DynamicVector<double> &weight) {
-  nodeToNodeVec[n] = weight;
+    nodeToNodeVec[n] = weight;
 }
 
 void SOMMap::registerModification(const vector<string> &propertiesToListen) {
 
-  // Get all properties
-  vector<PropertyInterface *> properties;
+    // Get all properties
+    vector<PropertyInterface *> properties;
 
-  for (const std::string &strProp : propertiesToListen) {
-    // If the properties don't exist create it
-    if (!existProperty(strProp)) {
+    for (const std::string &strProp : propertiesToListen) {
+        // If the properties don't exist create it
+        if (!existProperty(strProp)) {
 #ifndef NDEBUG
-      std::cerr << __PRETTY_FUNCTION__ << ":" << __LINE__ << " "
-                << "Property doesn't exist creating new" << std::endl;
+            std::cerr << __PRETTY_FUNCTION__ << ":" << __LINE__ << " "
+                      << "Property doesn't exist creating new" << std::endl;
 #endif
-      auto *property = new DoubleProperty(this);
-      addLocalProperty(strProp, property);
-      properties.push_back(property);
-    } else {
-      properties.push_back(getProperty(strProp));
+            auto *property = new DoubleProperty(this);
+            addLocalProperty(strProp, property);
+            properties.push_back(property);
+        } else {
+            properties.push_back(getProperty(strProp));
+        }
     }
-  }
 
-  // Store all the value from the DynamicVectors in the properties
-  for (auto n : nodes()) {
-    assert(propertiesToListen.size() == nodeToNodeVec[n].getSize());
+    // Store all the value from the DynamicVectors in the properties
+    for (auto n : nodes()) {
+        assert(propertiesToListen.size() == nodeToNodeVec[n].getSize());
 
-    for (unsigned int propertyNumber = 0; propertyNumber < properties.size(); ++propertyNumber) {
+        for (unsigned int propertyNumber = 0; propertyNumber < properties.size();
+             ++propertyNumber) {
 
-      // If the property is double no need to convert
-      if (properties[propertyNumber]->getTypename() == "double") {
-        static_cast<DoubleProperty *>(properties[propertyNumber])
-            ->setNodeValue(n, nodeToNodeVec[n][propertyNumber]);
-      } else {
-        std::cerr << __PRETTY_FUNCTION__ << ":" << __LINE__ << " unmanaged type "
-                  << properties[propertyNumber]->getTypename() << std::endl;
-        assert(false);
-      }
+            // If the property is double no need to convert
+            if (properties[propertyNumber]->getTypename() == "double") {
+                static_cast<DoubleProperty *>(properties[propertyNumber])
+                    ->setNodeValue(n, nodeToNodeVec[n][propertyNumber]);
+            } else {
+                std::cerr << __PRETTY_FUNCTION__ << ":" << __LINE__ << " unmanaged type "
+                          << properties[propertyNumber]->getTypename() << std::endl;
+                assert(false);
+            }
+        }
     }
-  }
 }
 tlp::node SOMMap::getNodeAt(unsigned int pos) {
-  return getNodeAt(pos % height, uint(floor(pos / height)));
+    return getNodeAt(pos % height, uint(floor(pos / height)));
 }
 tlp::node SOMMap::getNodeAt(unsigned int x, unsigned int y) {
-  // assert(x<width && y < height);
-  if (x >= width || y >= height) {
-    return node();
-  }
+    // assert(x<width && y < height);
+    if (x >= width || y >= height) {
+        return node();
+    }
 
-  unsigned int currently = 0;
-  unsigned int currentx = 0;
-  // Get first node
-  node n = graph_component->getOneNode();
+    unsigned int currently = 0;
+    unsigned int currentx = 0;
+    // Get first node
+    node n = graph_component->getOneNode();
 
-  // Move on the line
-  while (currently != y) {
-    n = graph_component->getOutNode(n, 2);
-    ++currently;
-  }
+    // Move on the line
+    while (currently != y) {
+        n = graph_component->getOutNode(n, 2);
+        ++currently;
+    }
 
-  while (currentx != x) {
-    n = graph_component->getOutNode(n, 1);
-    ++currentx;
-  }
+    while (currentx != x) {
+        n = graph_component->getOutNode(n, 1);
+        ++currentx;
+    }
 
-  return n;
+    return n;
 }
 
 bool SOMMap::getPosForNode(tlp::node n, unsigned int &x, unsigned int &y) {
-  // assert(n.isValid() && graph_component->isElement(n));
-  if (!n.isValid() || !graph_component->isElement(n)) {
-    return false;
-  }
+    // assert(n.isValid() && graph_component->isElement(n));
+    if (!n.isValid() || !graph_component->isElement(n)) {
+        return false;
+    }
 
-  x = n.id % width;
-  y = n.id / width;
-  return true;
+    x = n.id % width;
+    y = n.id / width;
+    return true;
 }

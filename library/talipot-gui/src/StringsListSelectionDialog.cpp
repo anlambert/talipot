@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,7 +19,7 @@ using namespace std;
 namespace tlp {
 StringsListSelectionDialog::StringsListSelectionDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::StringsListSelectionDialog) {
-  ui->setupUi(this);
+    ui->setupUi(this);
 }
 
 /**
@@ -27,14 +27,14 @@ StringsListSelectionDialog::StringsListSelectionDialog(QWidget *parent)
  * \param listType this parameter defines the widget's look (see class description)
  */
 void StringsListSelectionDialog::setListType(const StringsListSelectionWidget::ListType listType) {
-  ui->stringsListSelectionWidget->setListType(listType);
+    ui->stringsListSelectionWidget->setListType(listType);
 }
 
 /**
  * sets the maximum size of the selected strings list
  */
 void StringsListSelectionDialog::setMaxSelectedStringsListSize(const uint maxSize) {
-  ui->stringsListSelectionWidget->setMaxSelectedStringsListSize(maxSize);
+    ui->stringsListSelectionWidget->setMaxSelectedStringsListSize(maxSize);
 }
 
 /**
@@ -42,8 +42,8 @@ void StringsListSelectionDialog::setMaxSelectedStringsListSize(const uint maxSiz
  */
 void StringsListSelectionDialog::setStringsList(const std::vector<std::string> &strList,
                                                 std::vector<std::string> &selList) {
-  ui->stringsListSelectionWidget->setUnselectedStringsList(strList);
-  ui->stringsListSelectionWidget->setSelectedStringsList(selList);
+    ui->stringsListSelectionWidget->setUnselectedStringsList(strList);
+    ui->stringsListSelectionWidget->setSelectedStringsList(selList);
 }
 
 /**
@@ -57,16 +57,16 @@ StringsListSelectionDialog::StringsListSelectionDialog(
     QString title, QWidget *parent, const StringsListSelectionWidget::ListType listType,
     const uint maxSize)
     : QDialog(parent), ui(new Ui::StringsListSelectionDialog) {
-  ui->setupUi(this);
-  setWindowTitle(title);
-  setListType(listType);
-  setMaxSelectedStringsListSize(maxSize);
+    ui->setupUi(this);
+    setWindowTitle(title);
+    setListType(listType);
+    setMaxSelectedStringsListSize(maxSize);
 }
 
 StringsListSelectionDialog::~StringsListSelectionDialog() {
-  if (ui) {
-    delete ui;
-  }
+    if (ui) {
+        delete ui;
+    }
 }
 
 /**
@@ -85,15 +85,15 @@ bool StringsListSelectionDialog::choose(QString title, const std::vector<std::st
                                         std::vector<std::string> &selList, QWidget *parent,
                                         const StringsListSelectionWidget::ListType listType,
                                         const uint maxSize) {
-  StringsListSelectionDialog dialog(title, parent, listType, maxSize);
-  dialog.setStringsList(strList, selList);
-  int result = dialog.exec();
+    StringsListSelectionDialog dialog(title, parent, listType, maxSize);
+    dialog.setStringsList(strList, selList);
+    int result = dialog.exec();
 
-  if (result == QDialog::Accepted) {
-    selList = dialog.ui->stringsListSelectionWidget->getSelectedStringsList();
-    return true;
-  }
+    if (result == QDialog::Accepted) {
+        selList = dialog.ui->stringsListSelectionWidget->getSelectedStringsList();
+        return true;
+    }
 
-  return false;
+    return false;
 }
 }

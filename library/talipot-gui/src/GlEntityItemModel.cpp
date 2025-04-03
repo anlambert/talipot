@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,11 +18,11 @@
 namespace tlp {
 
 QStringList GlEntityItemEditor::propertiesNames() const {
-  return QStringList();
+    return QStringList();
 }
 
 QVariantList GlEntityItemEditor::propertiesQVariant() const {
-  return QVariantList();
+    return QVariantList();
 }
 
 void GlEntityItemEditor::setProperty(const QString &, const QVariant &) {}
@@ -33,68 +33,68 @@ GlEntityItemModel::GlEntityItemModel(GlEntityItemEditor *itemEditor, QObject *pa
 GlEntityItemModel::~GlEntityItemModel() = default;
 
 int GlEntityItemModel::rowCount(const QModelIndex &parent) const {
-  if (parent.isValid()) {
-    return 0;
-  }
+    if (parent.isValid()) {
+        return 0;
+    }
 
-  return editor->propertiesNames().size();
+    return editor->propertiesNames().size();
 }
 
 int GlEntityItemModel::columnCount(const QModelIndex &parent) const {
-  if (parent.isValid()) {
-    return 0;
-  }
+    if (parent.isValid()) {
+        return 0;
+    }
 
-  return 1;
+    return 1;
 }
 
 QModelIndex GlEntityItemModel::parent(const QModelIndex &) const {
-  return QModelIndex();
+    return QModelIndex();
 }
 
 QVariant GlEntityItemModel::headerData(int section, Qt::Orientation orientation, int role) const {
-  if (orientation == Qt::Horizontal) {
-    if (role == Qt::DisplayRole || role == Qt::ToolTipRole) {
-      return headerText();
-    } else if (role == Qt::TextAlignmentRole) {
-      return Qt::AlignCenter;
+    if (orientation == Qt::Horizontal) {
+        if (role == Qt::DisplayRole || role == Qt::ToolTipRole) {
+            return headerText();
+        } else if (role == Qt::TextAlignmentRole) {
+            return Qt::AlignCenter;
+        }
+    } else if (role == Qt::DisplayRole) {
+        return editor->propertiesNames()[section];
     }
-  } else if (role == Qt::DisplayRole) {
-    return editor->propertiesNames()[section];
-  }
 
-  if (orientation == Qt::Horizontal && role == Qt::FontRole) {
-    QFont f;
-    f.setBold(true);
-    f.setPointSize(f.pointSize() - 1);
-    return f;
-  }
+    if (orientation == Qt::Horizontal && role == Qt::FontRole) {
+        QFont f;
+        f.setBold(true);
+        f.setPointSize(f.pointSize() - 1);
+        return f;
+    }
 
-  return QVariant();
+    return QVariant();
 }
 
 QModelIndex GlEntityItemModel::index(int row, int column, const QModelIndex &parent) const {
-  if (!hasIndex(row, column, parent)) {
-    return QModelIndex();
-  }
+    if (!hasIndex(row, column, parent)) {
+        return QModelIndex();
+    }
 
-  return QAbstractItemModel::createIndex(row, column, static_cast<void *>(nullptr));
+    return QAbstractItemModel::createIndex(row, column, static_cast<void *>(nullptr));
 }
 
 QVariant GlEntityItemModel::data(const QModelIndex &index, int role) const {
-  if (role == Qt::DisplayRole) {
-    return editor->propertiesQVariant()[index.row()];
-  }
+    if (role == Qt::DisplayRole) {
+        return editor->propertiesQVariant()[index.row()];
+    }
 
-  return QVariant();
+    return QVariant();
 }
 
 bool GlEntityItemModel::setData(const QModelIndex &index, const QVariant &value, int role) {
-  if (role == Qt::EditRole) {
-    editor->setProperty(editor->propertiesNames()[index.row()], value);
-    return true;
-  }
+    if (role == Qt::EditRole) {
+        editor->setProperty(editor->propertiesNames()[index.row()], value);
+        return true;
+    }
 
-  return false;
+    return false;
 }
 }

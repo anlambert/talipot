@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,16 +21,16 @@ namespace tlp {
 class PixelOrientedOptionsWidget;
 
 class PixelOrientedViewQuickAccessBar : public tlp::QuickAccessBarImpl {
-  Q_OBJECT
+    Q_OBJECT
 
-  PixelOrientedOptionsWidget *_optionsWidget;
+    PixelOrientedOptionsWidget *_optionsWidget;
 
-public:
-  PixelOrientedViewQuickAccessBar(PixelOrientedOptionsWidget *opt, QWidget *parent = nullptr);
+  public:
+    PixelOrientedViewQuickAccessBar(PixelOrientedOptionsWidget *opt, QWidget *parent = nullptr);
 
-public slots:
-  void reset() override;
-  void setBackgroundColor(const QColor &) override;
+  public slots:
+    void reset() override;
+    void setBackgroundColor(const QColor &) override;
 };
 }
 #endif // PIXEL_ORIENTED_VIEW_QUICK_ACCESS_BAR_H

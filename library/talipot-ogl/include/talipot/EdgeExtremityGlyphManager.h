@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,27 +24,27 @@ class Graph;
 
 class TLP_GL_SCOPE EdgeExtremityGlyphManager {
 
-public:
-  EdgeExtremityGlyphManager(GlGraphInputData *inputData);
-  ~EdgeExtremityGlyphManager();
+  public:
+    EdgeExtremityGlyphManager(GlGraphInputData *inputData);
+    ~EdgeExtremityGlyphManager();
 
-  EdgeExtremityGlyph *getGlyph(int id) const;
+    EdgeExtremityGlyph *getGlyph(int id) const;
 
-  /**
-   * Return the name of glyph with given id
-   */
-  static std::string glyphName(int id);
-  /**
-   * Return the id if glyph with given name
-   */
-  static int glyphId(const std::string &name);
-  /**
-   * Load glyphs plugins
-   */
-  static void loadGlyphPlugins();
+    /**
+     * Return the name of glyph with given id
+     */
+    static std::string glyphName(int id);
+    /**
+     * Return the id if glyph with given name
+     */
+    static int glyphId(const std::string &name);
+    /**
+     * Load glyphs plugins
+     */
+    static void loadGlyphPlugins();
 
-private:
-  flat_hash_map<int, EdgeExtremityGlyph *> _glyphs;
+  private:
+    flat_hash_map<int, EdgeExtremityGlyph *> _glyphs;
 };
 }
 #endif // TALIPOT_EDGE_EXTREMITY_GLYPH_MANAGER_H

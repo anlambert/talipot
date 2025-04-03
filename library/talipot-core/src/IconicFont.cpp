@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,35 +20,35 @@
 using namespace tlp;
 
 std::string IconicFont::getTTFLocation(const std::string &iconName) {
-  return (iconName.find("fa") == 0) ? FontAwesome::getTTFLocation(iconName)
-                                    : MaterialDesignIcons::getTTFLocation();
+    return (iconName.find("fa") == 0) ? FontAwesome::getTTFLocation(iconName)
+                                      : MaterialDesignIcons::getTTFLocation();
 }
 
 std::string IconicFont::getWOFF2Location(const std::string &iconName) {
-  assert(isIconSupported(iconName));
-  return (iconName.find("fa") == 0) ? FontAwesome::getWOFF2Location(iconName)
-                                    : MaterialDesignIcons::getWOFF2Location();
+    assert(isIconSupported(iconName));
+    return (iconName.find("fa") == 0) ? FontAwesome::getWOFF2Location(iconName)
+                                      : MaterialDesignIcons::getWOFF2Location();
 }
 
 bool IconicFont::isIconSupported(const std::string &iconName) {
-  return (iconName.find("fa") == 0) ? FontAwesome::isIconSupported(iconName)
-                                    : MaterialDesignIcons::isIconSupported(iconName);
+    return (iconName.find("fa") == 0) ? FontAwesome::isIconSupported(iconName)
+                                      : MaterialDesignIcons::isIconSupported(iconName);
 }
 
 uint IconicFont::getIconCodePoint(const std::string &iconName) {
-  assert(isIconSupported(iconName));
-  return (iconName.find("fa") == 0) ? FontAwesome::getIconCodePoint(iconName)
-                                    : MaterialDesignIcons::getIconCodePoint(iconName);
+    assert(isIconSupported(iconName));
+    return (iconName.find("fa") == 0) ? FontAwesome::getIconCodePoint(iconName)
+                                      : MaterialDesignIcons::getIconCodePoint(iconName);
 }
 
 std::string IconicFont::getIconFamily(const std::string &iconName) {
-  assert(isIconSupported(iconName));
-  return (iconName.find("fa") == 0) ? FontAwesome::getIconFamily(iconName)
-                                    : MaterialDesignIcons::getIconFamily(iconName);
+    assert(isIconSupported(iconName));
+    return (iconName.find("fa") == 0) ? FontAwesome::getIconFamily(iconName)
+                                      : MaterialDesignIcons::getIconFamily(iconName);
 }
 
 std::string IconicFont::getIconUtf8String(const std::string &iconName) {
-  assert(isIconSupported(iconName));
-  return (iconName.find("fa") == 0) ? FontAwesome::getIconUtf8String(iconName)
-                                    : MaterialDesignIcons::getIconUtf8String(iconName);
+    assert(isIconSupported(iconName));
+    return (iconName.find("fa") == 0) ? FontAwesome::getIconUtf8String(iconName)
+                                      : MaterialDesignIcons::getIconUtf8String(iconName);
 }

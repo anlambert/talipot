@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,7 +17,7 @@ DiffusionRateFunctionSimple::DiffusionRateFunctionSimple(TimeDecreasingFunction 
     : DiffusionRateFunction(timeFunction), neighborhoodMax(neighborhood) {}
 
 DiffusionRateFunctionSimple::~DiffusionRateFunctionSimple() {
-  // TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
 
 double DiffusionRateFunctionSimple::computeSpaceRate(unsigned int distance,
@@ -25,10 +25,10 @@ double DiffusionRateFunctionSimple::computeSpaceRate(unsigned int distance,
                                                      unsigned int maxIteration,
                                                      unsigned int inputSampleSize) {
 
-  if (distance <= neighborhoodMax) {
-    return 1 *
-           timeFunction->computeCurrentTimeRate(currentIteration, maxIteration, inputSampleSize);
-  } else {
-    return 0;
-  }
+    if (distance <= neighborhoodMax) {
+        return 1 * timeFunction->computeCurrentTimeRate(currentIteration, maxIteration,
+                                                        inputSampleSize);
+    } else {
+        return 0;
+    }
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,44 +28,44 @@ OctTree::OctTree(tlp::node _node, Coord _position, Coord _minPos, Coord _maxPos,
     : position(_position[0], _position[1], _position[2]),
       minPos(_minPos[0], _minPos[1], _minPos[2]), maxPos(_maxPos[0], _maxPos[1], _maxPos[2]) {
 
-  firstNode = _firstNode;
-  linLogWeight = _linLogWeight;
-  MAX_DEPTH = 8;
-  MAX_CHILDREN = 8;
+    firstNode = _firstNode;
+    linLogWeight = _linLogWeight;
+    MAX_DEPTH = 8;
+    MAX_CHILDREN = 8;
 
-  node = _node;
-  isLeaf = true;
+    node = _node;
+    isLeaf = true;
 
-  if (firstNode) {
-    isLeaf = false;
-  }
+    if (firstNode) {
+        isLeaf = false;
+    }
 
-  childCount = 0;
-  _children = nullptr;
-  this->weight = 0.0;
+    childCount = 0;
+    _children = nullptr;
+    this->weight = 0.0;
 
-  if (!firstNode) {
-    this->weight = linLogWeight->getNodeValue(_node);
-  }
+    if (!firstNode) {
+        this->weight = linLogWeight->getNodeValue(_node);
+    }
 }
 
 /**
  * Deletes the an OctTree.
  */
 OctTree::~OctTree() {
-  if (_children != nullptr) {
+    if (_children != nullptr) {
 
-    for (uint i = 0; i < MAX_CHILDREN; ++i) {
-      if (_children[i] != nullptr) {
-        delete _children[i];
-      }
+        for (uint i = 0; i < MAX_CHILDREN; ++i) {
+            if (_children[i] != nullptr) {
+                delete _children[i];
+            }
 
-      _children[i] = nullptr;
+            _children[i] = nullptr;
+        }
+
+        delete[] _children;
+        _children = nullptr;
     }
-
-    delete[] _children;
-    _children = nullptr;
-  }
 }
 
 /**
@@ -75,7 +75,7 @@ OctTree::~OctTree() {
  */
 
 void OctTree::setMaxChildren(uint max) {
-  MAX_CHILDREN = max;
+    MAX_CHILDREN = max;
 }
 
 /**
@@ -86,29 +86,29 @@ void OctTree::setMaxChildren(uint max) {
  * @param depth    depth of this tree node in the octtree
  */
 void OctTree::addNode(tlp::node newNode, Coord newPos, uint depth) {
-  if (depth > MAX_DEPTH - 1) {
-    std::cerr << "assert: adding a node at a depth deeper than the max depth (add1)\n";
-    return;
-  }
+    if (depth > MAX_DEPTH - 1) {
+        std::cerr << "assert: adding a node at a depth deeper than the max depth (add1)\n";
+        return;
+    }
 
-  double nnWeight = linLogWeight->getNodeValue(newNode);
+    double nnWeight = linLogWeight->getNodeValue(newNode);
 
-  if (nnWeight == 0.0) {
-    return;
-  }
+    if (nnWeight == 0.0) {
+        return;
+    }
 
-  if (isLeaf) {
-    addNode2(node, position, depth);
-    isLeaf = false;
-  }
+    if (isLeaf) {
+        addNode2(node, position, depth);
+        isLeaf = false;
+    }
 
-  for (int d = 0; d < 3; ++d) {
-    position[d] = (weight * position[d] + nnWeight * newPos[d]) / (weight + nnWeight);
-  }
+    for (int d = 0; d < 3; ++d) {
+        position[d] = (weight * position[d] + nnWeight * newPos[d]) / (weight + nnWeight);
+    }
 
-  weight += nnWeight;
+    weight += nnWeight;
 
-  addNode2(newNode, newPos, depth);
+    addNode2(newNode, newPos, depth);
 }
 
 /**
@@ -116,7 +116,7 @@ void OctTree::addNode(tlp::node newNode, Coord newPos, uint depth) {
  */
 
 tlp::node OctTree::getNode() {
-  return node;
+    return node;
 }
 
 /**
@@ -128,78 +128,79 @@ tlp::node OctTree::getNode() {
  * @param depth    depth of this tree node in the octtree
  */
 void OctTree::addNode2(tlp::node newNode, Coord newPos, uint depth) {
-  if (depth > MAX_DEPTH - 1) {
-    std::cerr << "assert: adding a node at a depth deeper than the max depth! (add2)\n";
-    return;
-  }
+    if (depth > MAX_DEPTH - 1) {
+        std::cerr << "assert: adding a node at a depth deeper than the max depth! (add2)\n";
+        return;
+    }
 
-  if (depth == MAX_DEPTH - 1) {
-    if (childCount == MAX_CHILDREN) {
-      OctTree **_oldChildren = _children;
-      _children = new OctTree *[2 * MAX_CHILDREN];
+    if (depth == MAX_DEPTH - 1) {
+        if (childCount == MAX_CHILDREN) {
+            OctTree **_oldChildren = _children;
+            _children = new OctTree *[2 * MAX_CHILDREN];
 
-      for (uint i = 0; i < MAX_CHILDREN; ++i) {
-        _children[i] = _oldChildren[i];
-      }
+            for (uint i = 0; i < MAX_CHILDREN; ++i) {
+                _children[i] = _oldChildren[i];
+            }
 
-      for (uint i = MAX_CHILDREN; i < MAX_CHILDREN * 2; ++i) {
-        _children[i] = nullptr;
-      }
+            for (uint i = MAX_CHILDREN; i < MAX_CHILDREN * 2; ++i) {
+                _children[i] = nullptr;
+            }
 
-      MAX_CHILDREN *= 2;
+            MAX_CHILDREN *= 2;
+        }
+
+        if (childCount == 0 || _children == nullptr) {
+            _children = new OctTree *[MAX_CHILDREN];
+
+            for (uint i = 0; i < MAX_CHILDREN; ++i) {
+                _children[i] = nullptr;
+            }
+        }
+
+        _children[childCount++] = new OctTree(newNode, newPos, newPos, newPos, linLogWeight, false);
+
+        return;
+    }
+
+    // on localise le noeud
+    int childIndex = 0;
+
+    for (int d = 0; d < 3; ++d) {
+        if (newPos[d] > (minPos[d] + maxPos[d]) / 2) {
+            childIndex += 1 << d;
+        }
     }
 
     if (childCount == 0 || _children == nullptr) {
-      _children = new OctTree *[MAX_CHILDREN];
+        _children = new OctTree *[MAX_CHILDREN];
 
-      for (uint i = 0; i < MAX_CHILDREN; ++i) {
-        _children[i] = nullptr;
-      }
+        for (uint i = 0; i < MAX_CHILDREN; ++i) {
+            _children[i] = nullptr;
+        }
     }
 
-    _children[childCount++] = new OctTree(newNode, newPos, newPos, newPos, linLogWeight, false);
+    // si la place est vide
+    if (_children[childIndex] == nullptr) {
 
-    return;
-  }
+        Coord newMinPos;
+        Coord newMaxPos;
 
-  // on localise le noeud
-  int childIndex = 0;
+        for (int d = 0; d < 3; ++d) {
+            if ((childIndex & 1 << d) == 0) {
+                newMinPos[d] = minPos[d];
+                newMaxPos[d] = (minPos[d] + maxPos[d]) / 2;
+            } else {
+                newMinPos[d] = (minPos[d] + maxPos[d]) / 2;
+                newMaxPos[d] = maxPos[d];
+            }
+        }
 
-  for (int d = 0; d < 3; ++d) {
-    if (newPos[d] > (minPos[d] + maxPos[d]) / 2) {
-      childIndex += 1 << d;
+        childCount++;
+        _children[childIndex] =
+            new OctTree(newNode, newPos, newMinPos, newMaxPos, linLogWeight, false);
+    } else {
+        _children[childIndex]->addNode(newNode, newPos, depth + 1);
     }
-  }
-
-  if (childCount == 0 || _children == nullptr) {
-    _children = new OctTree *[MAX_CHILDREN];
-
-    for (uint i = 0; i < MAX_CHILDREN; ++i) {
-      _children[i] = nullptr;
-    }
-  }
-
-  // si la place est vide
-  if (_children[childIndex] == nullptr) {
-
-    Coord newMinPos;
-    Coord newMaxPos;
-
-    for (int d = 0; d < 3; ++d) {
-      if ((childIndex & 1 << d) == 0) {
-        newMinPos[d] = minPos[d];
-        newMaxPos[d] = (minPos[d] + maxPos[d]) / 2;
-      } else {
-        newMinPos[d] = (minPos[d] + maxPos[d]) / 2;
-        newMaxPos[d] = maxPos[d];
-      }
-    }
-
-    childCount++;
-    _children[childIndex] = new OctTree(newNode, newPos, newMinPos, newMaxPos, linLogWeight, false);
-  } else {
-    _children[childIndex]->addNode(newNode, newPos, depth + 1);
-  }
 }
 
 /**
@@ -209,34 +210,34 @@ void OctTree::addNode2(tlp::node newNode, Coord newPos, uint depth) {
  */
 
 void OctTree::printTree(uint depth) {
-  std::cerr << "\n";
+    std::cerr << "\n";
 
-  for (uint i = 0; i < depth; ++i) {
-    std::cerr << "\t";
-  }
+    for (uint i = 0; i < depth; ++i) {
+        std::cerr << "\t";
+    }
 
-  std::cerr << "[d(" << depth << "),w(" << weight << "),n(" << node.id << "),l(" << isLeaf << "),p("
-            << position[0] << "," << position[1] << "," << position[2] << "),";
+    std::cerr << "[d(" << depth << "),w(" << weight << "),n(" << node.id << "),l(" << isLeaf
+              << "),p(" << position[0] << "," << position[1] << "," << position[2] << "),";
 
-  if (_children != nullptr) {
+    if (_children != nullptr) {
+        for (uint i = 0; i < MAX_CHILDREN; ++i) {
+            if (_children[i] == nullptr) {
+                std::cerr << "X,";
+            } else {
+                std::cerr << "O,";
+            }
+        }
+    }
+
     for (uint i = 0; i < MAX_CHILDREN; ++i) {
-      if (_children[i] == nullptr) {
-        std::cerr << "X,";
-      } else {
-        std::cerr << "O,";
-      }
-    }
-  }
+        if (_children[i] != nullptr) {
+            if (depth < MAX_DEPTH) {
+                _children[i]->printTree(depth + 1);
+            }
+        }
 
-  for (uint i = 0; i < MAX_CHILDREN; ++i) {
-    if (_children[i] != nullptr) {
-      if (depth < MAX_DEPTH) {
-        _children[i]->printTree(depth + 1);
-      }
+        std::cerr << "]\n";
     }
-
-    std::cerr << "]\n";
-  }
 }
 
 /**
@@ -247,105 +248,105 @@ void OctTree::printTree(uint depth) {
  * @param depth    current depth
  */
 void OctTree::removeNode(tlp::node oldNode, Coord oldPos, uint depth) {
-  if (depth > MAX_DEPTH - 1) {
-    std::cerr << "assert: remove a node at a depth deeper than the max depth: " << depth << " / "
-              << MAX_DEPTH - 1 << "\n";
-    return;
-  }
-
-  double onWeight = linLogWeight->getNodeValue(oldNode);
-
-  if (onWeight == 0.0) {
-    return;
-  }
-
-  if (weight <= onWeight) {
-    weight = 0.0;
-    for (uint i = 0; i < childCount; ++i) {
-      delete _children[i];
-      _children[i] = nullptr;
+    if (depth > MAX_DEPTH - 1) {
+        std::cerr << "assert: remove a node at a depth deeper than the max depth: " << depth
+                  << " / " << MAX_DEPTH - 1 << "\n";
+        return;
     }
 
-    delete[] _children;
-    _children = nullptr;
+    double onWeight = linLogWeight->getNodeValue(oldNode);
 
-    childCount = 0;
-    return;
-  }
+    if (onWeight == 0.0) {
+        return;
+    }
 
-  for (int d = 0; d < 3; ++d) {
-    position[d] = (weight * position[d] - onWeight * oldPos[d]) / (weight - onWeight);
-  }
+    if (weight <= onWeight) {
+        weight = 0.0;
+        for (uint i = 0; i < childCount; ++i) {
+            delete _children[i];
+            _children[i] = nullptr;
+        }
 
-  weight -= onWeight;
+        delete[] _children;
+        _children = nullptr;
 
-  if (depth == MAX_DEPTH - 1) {
-    if (childCount > 0) {
-      uint childIndex = 0;
+        childCount = 0;
+        return;
+    }
 
-      bool endwhile = false;
+    for (int d = 0; d < 3; ++d) {
+        position[d] = (weight * position[d] - onWeight * oldPos[d]) / (weight - onWeight);
+    }
 
-      while (!endwhile) {
-        if (childIndex < MAX_CHILDREN) {
-          if (_children[childIndex] == nullptr) {
-            std::cerr << "this part of the tree is null\n";
-            childIndex++;
-          } else if ((_children[childIndex])->node.id != oldNode.id) {
-            childIndex++;
-          } else {
-            endwhile = true;
-          }
+    weight -= onWeight;
+
+    if (depth == MAX_DEPTH - 1) {
+        if (childCount > 0) {
+            uint childIndex = 0;
+
+            bool endwhile = false;
+
+            while (!endwhile) {
+                if (childIndex < MAX_CHILDREN) {
+                    if (_children[childIndex] == nullptr) {
+                        std::cerr << "this part of the tree is null\n";
+                        childIndex++;
+                    } else if ((_children[childIndex])->node.id != oldNode.id) {
+                        childIndex++;
+                    } else {
+                        endwhile = true;
+                    }
+
+                } else {
+                    std::cerr << "we're stopping at the end of the table: " << childIndex << "\n";
+                    endwhile = true;
+                }
+            }
+
+            if (childIndex == MAX_CHILDREN) {
+                std::cerr << "assert: removing a non existent node in the tree\n";
+                return;
+            }
+
+            delete _children[childIndex];
+            _children[childIndex] = nullptr;
+
+            for (uint i = childIndex; i < childCount - 1; ++i) {
+                _children[i] = _children[i + 1];
+            }
+
+            _children[childCount - 1] = nullptr; // delete
+
+            --childCount;
 
         } else {
-          std::cerr << "we're stopping at the end of the table: " << childIndex << "\n";
-          endwhile = true;
+            std::cerr << "assert ChildCount <= 0: " << childCount << "\n";
         }
-      }
-
-      if (childIndex == MAX_CHILDREN) {
-        std::cerr << "assert: removing a non existent node in the tree\n";
-        return;
-      }
-
-      delete _children[childIndex];
-      _children[childIndex] = nullptr;
-
-      for (uint i = childIndex; i < childCount - 1; ++i) {
-        _children[i] = _children[i + 1];
-      }
-
-      _children[childCount - 1] = nullptr; // delete
-
-      --childCount;
 
     } else {
-      std::cerr << "assert ChildCount <= 0: " << childCount << "\n";
+        int childIndex = 0;
+
+        // on localise le noeud
+        for (int d = 0; d < 3; ++d) {
+            if (oldPos[d] > (minPos[d] + maxPos[d]) / 2) {
+                childIndex += 1 << d;
+            }
+        }
+
+        if (_children[childIndex] != nullptr) {
+
+            _children[childIndex]->removeNode(oldNode, oldPos, depth + 1);
+
+            if (_children[childIndex]->weight == 0.0) {
+                delete _children[childIndex];
+                _children[childIndex] = nullptr;
+                --childCount;
+            }
+        } else {
+            std::cerr << "assert: the selected child it is not supposed to be nullptr!\n";
+            return;
+        }
     }
-
-  } else {
-    int childIndex = 0;
-
-    // on localise le noeud
-    for (int d = 0; d < 3; ++d) {
-      if (oldPos[d] > (minPos[d] + maxPos[d]) / 2) {
-        childIndex += 1 << d;
-      }
-    }
-
-    if (_children[childIndex] != nullptr) {
-
-      _children[childIndex]->removeNode(oldNode, oldPos, depth + 1);
-
-      if (_children[childIndex]->weight == 0.0) {
-        delete _children[childIndex];
-        _children[childIndex] = nullptr;
-        --childCount;
-      }
-    } else {
-      std::cerr << "assert: the selected child it is not supposed to be nullptr!\n";
-      return;
-    }
-  }
 }
 
 /**
@@ -354,15 +355,15 @@ void OctTree::removeNode(tlp::node oldNode, Coord oldPos, uint depth) {
  * @return maximum over all dimensions of the extension of the octtree
  */
 double OctTree::width() {
-  double width = 0.0;
+    double width = 0.0;
 
-  for (int d = 0; d < 3; ++d) {
-    if (maxPos[d] - minPos[d] > width) {
-      width = maxPos[d] - minPos[d];
+    for (int d = 0; d < 3; ++d) {
+        if (maxPos[d] - minPos[d] > width) {
+            width = maxPos[d] - minPos[d];
+        }
     }
-  }
 
-  return width;
+    return width;
 }
 
 /**
@@ -371,15 +372,15 @@ double OctTree::width() {
  * @return height of the octtree
  */
 int OctTree::getHeight() {
-  int height = -1;
+    int height = -1;
 
-  for (uint i = 0; i < childCount; ++i) {
-    OctTree *aChild = _children[i];
+    for (uint i = 0; i < childCount; ++i) {
+        OctTree *aChild = _children[i];
 
-    if (aChild != nullptr) {
-      height = std::max(height, aChild->getHeight());
+        if (aChild != nullptr) {
+            height = std::max(height, aChild->getHeight());
+        }
     }
-  }
 
-  return height + 1;
+    return height + 1;
 }

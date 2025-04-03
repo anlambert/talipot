@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,54 +26,54 @@ class PythonCodeEditor;
 
 class TLP_PYTHON_SCOPE PythonEditorsTabWidget : public QTabWidget {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  int _fontZoom;
-  bool _dontTreatFocusIn;
-  bool reloadCodeInEditorIfNeeded(int index);
+    int _fontZoom;
+    bool _dontTreatFocusIn;
+    bool reloadCodeInEditorIfNeeded(int index);
 
-public:
-  explicit PythonEditorsTabWidget(QWidget *parent = nullptr);
+  public:
+    explicit PythonEditorsTabWidget(QWidget *parent = nullptr);
 
-  int addEditor(const QString &fileName = "");
+    int addEditor(const QString &fileName = "");
 
-  PythonCodeEditor *getCurrentEditor() const;
+    PythonCodeEditor *getCurrentEditor() const;
 
-  PythonCodeEditor *getEditor(int) const;
+    PythonCodeEditor *getEditor(int) const;
 
-  void indicateErrors(const QMap<QString, QVector<int>> &errorLines);
+    void indicateErrors(const QMap<QString, QVector<int>> &errorLines);
 
-  void clearErrorIndicators();
+    void clearErrorIndicators();
 
-  bool eventFilter(QObject *, QEvent *) override;
+    bool eventFilter(QObject *, QEvent *) override;
 
-  void saveCurrentEditorContentToFile();
+    void saveCurrentEditorContentToFile();
 
-  void saveEditorContentToFile(int);
+    void saveEditorContentToFile(int);
 
-  void increaseFontSize();
+    void increaseFontSize();
 
-  void decreaseFontSize();
+    void decreaseFontSize();
 
-  QTabBar *tabBar() const;
+    QTabBar *tabBar() const;
 
-  void closeTab(int tab);
+    void closeTab(int tab);
 
-signals:
+  signals:
 
-  void tabAboutToBeDeleted(int);
+    void tabAboutToBeDeleted(int);
 
-  void fileSaved(int);
+    void fileSaved(int);
 
-  void filesReloaded();
+    void filesReloaded();
 
-public slots:
+  public slots:
 
-  void scriptTextChanged();
+    void scriptTextChanged();
 
-  void reloadCodeInEditorsIfNeeded();
+    void reloadCodeInEditorsIfNeeded();
 
-  void closeTabRequested(int tab);
+    void closeTabRequested(int tab);
 };
 }
 

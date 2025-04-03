@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,43 +27,43 @@ using namespace tlp;
  */
 class InteractorEditEdgeBends : public NodeLinkDiagramViewInteractor {
 
-public:
-  PLUGININFORMATION("InteractorEditEdgeBends", "Tulip Team", "01/04/2009",
-                    "Edit Edge Bends Interactor", "1.0", "Modification")
-  /**
-   * Default constructor
-   */
-  InteractorEditEdgeBends(const tlp::PluginContext *)
-      : NodeLinkDiagramViewInteractor(interactorIcon(InteractorType::EditEdgeBends),
-                                      "Edit edge bends",
-                                      StandardInteractorPriority::EditEdgeBends) {}
+  public:
+    PLUGININFORMATION("InteractorEditEdgeBends", "Tulip Team", "01/04/2009",
+                      "Edit Edge Bends Interactor", "1.0", "Modification")
+    /**
+     * Default constructor
+     */
+    InteractorEditEdgeBends(const tlp::PluginContext *)
+        : NodeLinkDiagramViewInteractor(interactorIcon(InteractorType::EditEdgeBends),
+                                        "Edit edge bends",
+                                        StandardInteractorPriority::EditEdgeBends) {}
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override {
-    setConfigurationWidgetText(
-        QString("<h3>Edit edge bends</h3>") + "Modify edge bends<br/><br/>" +
-        "Select edge: <ul><li>use rectangle selection</li></ul>" +
-        "Translate bend: <ul><li><b>Mouse left</b> down on a selected bend + moves</li></ul>" +
-        "Change source node: <ul><li><b>Drag and drop circle on source node</li></ul>" +
-        "Change target node: <ul><li><b>Drag and drop triangle on target node</li></ul>" +
-        "Add bend: <ul><li><b>Double click with mouse left</b> click on the selected "
-        "edge</li></ul>" +
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override {
+        setConfigurationWidgetText(
+            QString("<h3>Edit edge bends</h3>") + "Modify edge bends<br/><br/>" +
+            "Select edge: <ul><li>use rectangle selection</li></ul>" +
+            "Translate bend: <ul><li><b>Mouse left</b> down on a selected bend + moves</li></ul>" +
+            "Change source node: <ul><li><b>Drag and drop circle on source node</li></ul>" +
+            "Change target node: <ul><li><b>Drag and drop triangle on target node</li></ul>" +
+            "Add bend: <ul><li><b>Double click with mouse left</b> click on the selected "
+            "edge</li></ul>" +
 #if !defined(__APPLE__)
-        "Delete bend: <ul><li><b>Ctrl + Mouse left</b> click on a selected bend</li></ul>"
+            "Delete bend: <ul><li><b>Ctrl + Mouse left</b> click on a selected bend</li></ul>"
 #else
-        "Delete bend: <ul><li><b>Alt + Mouse left</b> click on a selected bend</li></ul>"
+            "Delete bend: <ul><li><b>Alt + Mouse left</b> click on a selected bend</li></ul>"
 #endif
-    );
-    push_back(new MousePanNZoomNavigator);
-    push_back(new MouseSelector(Qt::LeftButton, Qt::NoModifier, MouseSelector::EdgesOnly));
-    push_back(new MouseEdgeBendEditor);
-  }
+        );
+        push_back(new MousePanNZoomNavigator);
+        push_back(new MouseSelector(Qt::LeftButton, Qt::NoModifier, MouseSelector::EdgesOnly));
+        push_back(new MouseEdgeBendEditor);
+    }
 
-  bool isCompatible(const std::string &viewName) const override {
-    return (viewName == NodeLinkDiagramView::viewName);
-  }
+    bool isCompatible(const std::string &viewName) const override {
+        return (viewName == NodeLinkDiagramView::viewName);
+    }
 };
 
 PLUGIN(InteractorEditEdgeBends)

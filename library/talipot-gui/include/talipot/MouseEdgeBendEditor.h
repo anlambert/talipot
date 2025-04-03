@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,98 +31,98 @@ class IntegerProperty;
 
 class EdgeEntity : public GlEntity {
 
-  Coord start;
-  Coord end;
-  std::vector<Coord> bends;
+    Coord start;
+    Coord end;
+    std::vector<Coord> bends;
 
-public:
-  void setCoordinates(const Coord &startPos, const Coord &endPos,
-                      const std::vector<Coord> &bendsPos) {
-    boundingBox = BoundingBox();
-    start = startPos;
-    end = endPos;
-    bends = bendsPos;
-    boundingBox.expand(start);
-    boundingBox.expand(end);
+  public:
+    void setCoordinates(const Coord &startPos, const Coord &endPos,
+                        const std::vector<Coord> &bendsPos) {
+        boundingBox = BoundingBox();
+        start = startPos;
+        end = endPos;
+        bends = bendsPos;
+        boundingBox.expand(start);
+        boundingBox.expand(end);
 
-    for (const auto &c : bends) {
-      boundingBox.expand(c);
+        for (const auto &c : bends) {
+            boundingBox.expand(c);
+        }
     }
-  }
 
-  void draw(float, Camera *) override {
-    GlLines::glDrawCurve(start, bends, end, 10, 0, Color(127, 127, 127, 255),
-                         Color(127, 127, 127, 255));
-  }
+    void draw(float, Camera *) override {
+        GlLines::glDrawCurve(start, bends, end, 10, 0, Color(127, 127, 127, 255),
+                             Color(127, 127, 127, 255));
+    }
 
-  void getXML(std::string &) override {}
-  void setWithXML(const std::string &, uint &) override {}
+    void getXML(std::string &) override {}
+    void setWithXML(const std::string &, uint &) override {}
 };
 
 /// This interactor allows to move/add/delete EdgeBends
 class TLP_QT_SCOPE MouseEdgeBendEditor : public GLInteractorComponent {
 
-public:
-  MouseEdgeBendEditor();
-  ~MouseEdgeBendEditor() override;
-  bool compute(GlWidget *glWidget) override;
-  bool draw(GlWidget *) override;
-  void clear() override;
-  bool eventFilter(QObject *, QEvent *) override;
+  public:
+    MouseEdgeBendEditor();
+    ~MouseEdgeBendEditor() override;
+    bool compute(GlWidget *glWidget) override;
+    bool draw(GlWidget *) override;
+    void clear() override;
+    bool eventFilter(QObject *, QEvent *) override;
 
-protected:
-  enum EditOperation { NONE_OP = 0, TRANSLATE_OP, NEW_OP, DELETE_OP };
+  protected:
+    enum EditOperation { NONE_OP = 0, TRANSLATE_OP, NEW_OP, DELETE_OP };
 
-  EditOperation operation() const {
-    return _operation;
-  }
+    EditOperation operation() const {
+        return _operation;
+    }
 
-  tlp::edge getEdge() const {
-    return mEdge;
-  }
+    tlp::edge getEdge() const {
+        return mEdge;
+    }
 
-  void stopEdition();
+    void stopEdition();
 
-private:
-  enum OperationTarget { COORD = 0, SIZE, COORD_AND_SIZE };
+  private:
+    enum OperationTarget { COORD = 0, SIZE, COORD_AND_SIZE };
 
-  Graph *_graph;
-  GlWidget *glWidget;
-  LayoutProperty *_layout;
-  BooleanProperty *_selection;
-  DoubleProperty *_rotation;
-  SizeProperty *_sizes;
-  IntegerProperty *_shape;
-  CoordVectorProperty *_coordsVectorProperty;
+    Graph *_graph;
+    GlWidget *glWidget;
+    LayoutProperty *_layout;
+    BooleanProperty *_selection;
+    DoubleProperty *_rotation;
+    SizeProperty *_sizes;
+    IntegerProperty *_shape;
+    CoordVectorProperty *_coordsVectorProperty;
 
-  void initProxies(GlWidget *glWidget);
+    void initProxies(GlWidget *glWidget);
 
-  EditOperation _operation;
-  OperationTarget mode;
+    EditOperation _operation;
+    OperationTarget mode;
 
-  Coord editPosition;
+    Coord editPosition;
 
-  GlLayer *layer;
-  std::vector<tlp::GlCircle> circles;
-  EdgeEntity *edgeEntity;
-  std::vector<Coord> coordinates;
-  GlCircle basicCircle;
-  GlTriangle targetTriangle;
-  GlCircle sourceCircle;
-  GlComposite *circlesComposite;
-  bool edgeSelected;
-  tlp::edge mEdge;
-  node mNode;
-  Coord start, end;
-  std::string selectedEntity;
-  bool mouseButtonPressOnEdge;
-  bool belong(const Coord &, const Coord &, const Coord &, GlWidget *);
-  bool haveSelection(GlWidget *);
-  void computeSrcTgtEntities(GlWidget *);
-  bool computeBendsCircles(GlWidget *);
-  void mMouseTranslate(int, int, GlWidget *);
-  void mMouseDelete();
-  void mMouseCreate(int, int, GlWidget *);
+    GlLayer *layer;
+    std::vector<tlp::GlCircle> circles;
+    EdgeEntity *edgeEntity;
+    std::vector<Coord> coordinates;
+    GlCircle basicCircle;
+    GlTriangle targetTriangle;
+    GlCircle sourceCircle;
+    GlComposite *circlesComposite;
+    bool edgeSelected;
+    tlp::edge mEdge;
+    node mNode;
+    Coord start, end;
+    std::string selectedEntity;
+    bool mouseButtonPressOnEdge;
+    bool belong(const Coord &, const Coord &, const Coord &, GlWidget *);
+    bool haveSelection(GlWidget *);
+    void computeSrcTgtEntities(GlWidget *);
+    bool computeBendsCircles(GlWidget *);
+    void mMouseTranslate(int, int, GlWidget *);
+    void mMouseDelete();
+    void mMouseCreate(int, int, GlWidget *);
 };
 }
 

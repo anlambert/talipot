@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,77 +31,77 @@ namespace tlp {
  */
 class TLP_GL_SCOPE Gl2DRect : public GlRect {
 
-public:
-  /**
-   * @brief Don't use this constructor
-   */
-  Gl2DRect();
+  public:
+    /**
+     * @brief Don't use this constructor
+     */
+    Gl2DRect();
 
-  /**
-   * @brief Constructor
-   *
-   * @param top coordinate
-   * @param bottom coordinate
-   * @param left coordinate
-   * @param right coordinate
-   * @param textureName path to a texture
-   * @param inPercent if true : top/bottom/left/right is used as in percent parameters
-   */
-  Gl2DRect(float top, float bottom, float left, float right, const std::string &textureName,
-           bool inPercent = false);
+    /**
+     * @brief Constructor
+     *
+     * @param top coordinate
+     * @param bottom coordinate
+     * @param left coordinate
+     * @param right coordinate
+     * @param textureName path to a texture
+     * @param inPercent if true : top/bottom/left/right is used as in percent parameters
+     */
+    Gl2DRect(float top, float bottom, float left, float right, const std::string &textureName,
+             bool inPercent = false);
 
-  /**
-   * @brief Constructor
-   *
-   * @param top coordinate
-   * @param bottom coordinate
-   * @param left coordinate
-   * @param right coordinate
-   * @param textureName path to a texture
-   * @param xInv if true : use viewportX - left and viewportX - right
-   * @param yInv if true : use viewportY - top and viewportY - bottom
-   */
-  Gl2DRect(float bottom, float left, float height, float width, const std::string &textureName,
-           bool xInv, bool yInv);
+    /**
+     * @brief Constructor
+     *
+     * @param top coordinate
+     * @param bottom coordinate
+     * @param left coordinate
+     * @param right coordinate
+     * @param textureName path to a texture
+     * @param xInv if true : use viewportX - left and viewportX - right
+     * @param yInv if true : use viewportY - top and viewportY - bottom
+     */
+    Gl2DRect(float bottom, float left, float height, float width, const std::string &textureName,
+             bool xInv, bool yInv);
 
-  /**
-   * @brief Destructor
-   */
-  ~Gl2DRect() override = default;
+    /**
+     * @brief Destructor
+     */
+    ~Gl2DRect() override = default;
 
-  BoundingBox getBoundingBox() override;
+    BoundingBox getBoundingBox() override;
 
-  void draw(float lod, Camera *camera) override;
+    void draw(float lod, Camera *camera) override;
 
-  void translate(const Coord &move) override;
+    void translate(const Coord &move) override;
 
-  /**
-   * @brief Set texture
-   */
-  virtual void setTexture(const std::string &name);
+    /**
+     * @brief Set texture
+     */
+    virtual void setTexture(const std::string &name);
 
-  /**
-   * @brief Get texture
-   */
-  virtual std::string getTexture();
+    /**
+     * @brief Get texture
+     */
+    virtual std::string getTexture();
 
-  /**
-   * @brief Set coordinates of rectangle
-   */
-  virtual void setCoordinates(float bottom, float left, float width, float height);
+    /**
+     * @brief Set coordinates of rectangle
+     */
+    virtual void setCoordinates(float bottom, float left, float width, float height);
 
-  void getXML(std::string &outString) override;
+    void getXML(std::string &outString) override;
 
-  void setWithXML(const std::string &inString, uint &currentPosition) override;
+    void setWithXML(const std::string &inString, uint &currentPosition) override;
 
-protected:
-  float top;
-  float bottom;
-  float left;
-  float right;
-  bool inPercent;
-  bool xInv;
-  bool yInv;
+  protected:
+    float top;
+    float bottom;
+    float left;
+    float right;
+    bool inPercent;
+    bool xInv;
+    bool yInv;
 };
 }
 #endif // TALIPOT_GL_2D_RECT_H

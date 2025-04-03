@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -53,80 +53,80 @@ namespace tlp {
 template <typename T>
 struct Iterator {
 
-  virtual ~Iterator() = default;
-  /**
-   * @brief Moves the Iterator on the next element.
-   *
-   * @return The current element pointed by the Iterator.
-   **/
-  virtual T next() = 0;
+    virtual ~Iterator() = default;
+    /**
+     * @brief Moves the Iterator on the next element.
+     *
+     * @return The current element pointed by the Iterator.
+     **/
+    virtual T next() = 0;
 
-  /**
-   * @brief Tells if the sequence is at its end.
-   *
-   * @return bool Whether there are more elements to iterate.
-   **/
-  virtual bool hasNext() = 0;
+    /**
+     * @brief Tells if the sequence is at its end.
+     *
+     * @return bool Whether there are more elements to iterate.
+     **/
+    virtual bool hasNext() = 0;
 
-private:
-  // glue code in order to use Talipot iterators with C++11 for range based loops
-  struct iterator_t {
+  private:
+    // glue code in order to use Talipot iterators with C++11 for range based loops
+    struct iterator_t {
 
-    enum IteratorStatus { Begin = 0, Finished = 1, End = 3 };
+        enum IteratorStatus { Begin = 0, Finished = 1, End = 3 };
 
-    IteratorStatus _iteratorStatus;
-    Iterator<T> *_it;
+        IteratorStatus _iteratorStatus;
+        Iterator<T> *_it;
 
-    iterator_t(Iterator<T> *it, IteratorStatus iteratorStatus = End)
-        : _iteratorStatus(iteratorStatus), _it(it) {
-      if (_iteratorStatus == Begin && !_it->hasNext()) {
-        _iteratorStatus = Finished;
-      }
+        iterator_t(Iterator<T> *it, IteratorStatus iteratorStatus = End)
+            : _iteratorStatus(iteratorStatus), _it(it) {
+            if (_iteratorStatus == Begin && !_it->hasNext()) {
+                _iteratorStatus = Finished;
+            }
+        }
+
+        ~iterator_t() {
+            if (_iteratorStatus != End) {
+                delete _it;
+            }
+        }
+
+        bool operator!=(const iterator_t &it) const {
+            return ((_iteratorStatus & it._iteratorStatus) == 0) || (_it != it._it);
+        }
+
+        const iterator_t &operator++() {
+            if (!_it->hasNext()) {
+                _iteratorStatus = Finished;
+            }
+            return *this;
+        }
+
+        T operator*() const {
+            assert(_iteratorStatus != Finished);
+            return _it->next();
+        }
+    };
+
+  public:
+    iterator_t begin() {
+        return iterator_t(this, iterator_t::Begin);
     }
 
-    ~iterator_t() {
-      if (_iteratorStatus != End) {
-        delete _it;
-      }
+    iterator_t end() {
+        return iterator_t(this);
     }
-
-    bool operator!=(const iterator_t &it) const {
-      return ((_iteratorStatus & it._iteratorStatus) == 0) || (_it != it._it);
-    }
-
-    const iterator_t &operator++() {
-      if (!_it->hasNext()) {
-        _iteratorStatus = Finished;
-      }
-      return *this;
-    }
-
-    T operator*() const {
-      assert(_iteratorStatus != Finished);
-      return _it->next();
-    }
-  };
-
-public:
-  iterator_t begin() {
-    return iterator_t(this, iterator_t::Begin);
-  }
-
-  iterator_t end() {
-    return iterator_t(this);
-  }
 };
 
 // as Iterator is only accessible through pointer
 // we must have a specific definition of begin and end
 template <typename T>
 auto begin(Iterator<T> *it) -> decltype(it->begin()) {
-  return it->begin();
+    return it->begin();
 }
 
 template <typename T>
 auto end(Iterator<T> *it) -> decltype(it->end()) {
-  return it->end();
+    return it->end();
 }
 
 /**
@@ -142,13 +142,13 @@ auto end(Iterator<T> *it) -> decltype(it->end()) {
  **/
 template <typename T>
 uint iteratorCount(Iterator<T> *it) {
-  uint count = 0;
-  while (it->hasNext()) {
-    ++count;
-    it->next();
-  }
-  delete it;
-  return count;
+    uint count = 0;
+    while (it->hasNext()) {
+        ++count;
+        it->next();
+    }
+    delete it;
+    return count;
 }
 
 /**
@@ -164,17 +164,17 @@ uint iteratorCount(Iterator<T> *it) {
  **/
 template <typename T>
 bool iteratorCountCheck(Iterator<T> *it, uint minNbElements) {
-  uint count = 0;
-  while (it->hasNext()) {
-    ++count;
-    if (count == minNbElements) {
-      delete it;
-      return true;
+    uint count = 0;
+    while (it->hasNext()) {
+        ++count;
+        if (count == minNbElements) {
+            delete it;
+            return true;
+        }
+        it->next();
     }
-    it->next();
-  }
-  delete it;
-  return false;
+    delete it;
+    return false;
 }
 
 /**
@@ -190,7 +190,7 @@ bool iteratorCountCheck(Iterator<T> *it, uint minNbElements) {
  **/
 template <typename T>
 bool iteratorEmpty(Iterator<T> *it) {
-  return !iteratorCountCheck(it, 1);
+    return !iteratorCountCheck(it, 1);
 }
 
 /**
@@ -208,9 +208,9 @@ bool iteratorEmpty(Iterator<T> *it) {
  **/
 template <typename T, class MapFunction>
 void iteratorMap(Iterator<T> *it, MapFunction &&mapFunction) {
-  for (auto v : it) {
-    mapFunction(v);
-  }
+    for (auto v : it) {
+        mapFunction(v);
+    }
 }
 
 /**
@@ -232,12 +232,12 @@ void iteratorMap(Iterator<T> *it, MapFunction &&mapFunction) {
 template <typename T, typename reduceType, class ReduceFunction>
 reduceType iteratorReduce(Iterator<T> *it, const reduceType &initVal,
                           ReduceFunction reduceFunction) {
-  reduceType val = initVal;
-  for (auto v : it) {
-    val = reduceFunction(val, v);
-  }
+    reduceType val = initVal;
+    for (auto v : it) {
+        val = reduceFunction(val, v);
+    }
 
-  return val;
+    return val;
 }
 
 /**
@@ -253,12 +253,12 @@ reduceType iteratorReduce(Iterator<T> *it, const reduceType &initVal,
  **/
 template <typename T>
 std::list<T> iteratorList(Iterator<T> *it) {
-  std::list<T> ret;
-  while (it->hasNext()) {
-    ret.push_back(it->next());
-  }
-  delete it;
-  return ret;
+    std::list<T> ret;
+    while (it->hasNext()) {
+        ret.push_back(it->next());
+    }
+    delete it;
+    return ret;
 }
 
 /**
@@ -274,12 +274,12 @@ std::list<T> iteratorList(Iterator<T> *it) {
  **/
 template <typename T>
 std::vector<T> iteratorVector(Iterator<T> *it) {
-  std::vector<T> ret;
-  while (it->hasNext()) {
-    ret.push_back(it->next());
-  }
-  delete it;
-  return ret;
+    std::vector<T> ret;
+    while (it->hasNext()) {
+        ret.push_back(it->next());
+    }
+    delete it;
+    return ret;
 }
 
 /**
@@ -295,12 +295,12 @@ std::vector<T> iteratorVector(Iterator<T> *it) {
  **/
 template <typename T>
 std::set<T> iteratorSet(Iterator<T> *it) {
-  std::set<T> ret;
-  while (it->hasNext()) {
-    ret.insert(it->next());
-  }
-  delete it;
-  return ret;
+    std::set<T> ret;
+    while (it->hasNext()) {
+        ret.insert(it->next());
+    }
+    delete it;
+    return ret;
 }
 }
 

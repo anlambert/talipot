@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,33 +27,34 @@ using namespace tlp;
  */
 class InteractorGetInformation : public NodeLinkDiagramViewInteractor {
 
-public:
-  PLUGININFORMATION("InteractorGetInformation", "Tulip Team", "01/04/2009",
-                    "Get Information Interactor", "1.0", "Information")
-  /**
-   * Default constructor
-   */
-  InteractorGetInformation(const tlp::PluginContext *)
-      : NodeLinkDiagramViewInteractor(interactorIcon(InteractorType::GetInformation),
-                                      "Display node or edge properties",
-                                      StandardInteractorPriority::GetInformation) {}
+  public:
+    PLUGININFORMATION("InteractorGetInformation", "Tulip Team", "01/04/2009",
+                      "Get Information Interactor", "1.0", "Information")
+    /**
+     * Default constructor
+     */
+    InteractorGetInformation(const tlp::PluginContext *)
+        : NodeLinkDiagramViewInteractor(interactorIcon(InteractorType::GetInformation),
+                                        "Display node or edge properties",
+                                        StandardInteractorPriority::GetInformation) {}
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override {
-    setConfigurationWidgetText(QString("<h3>Display node or edge properties</h3>") +
-                               "<b>Mouse left click</b> on an element to display its "
-                               "properties.<br/>then <b>Mouse left click</b> on a row to edit the "
-                               "corresponding value.");
-    push_back(new MousePanNZoomNavigator);
-    push_back(new MouseShowElementInfo);
-  }
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override {
+        setConfigurationWidgetText(
+            QString("<h3>Display node or edge properties</h3>") +
+            "<b>Mouse left click</b> on an element to display its "
+            "properties.<br/>then <b>Mouse left click</b> on a row to edit the "
+            "corresponding value.");
+        push_back(new MousePanNZoomNavigator);
+        push_back(new MouseShowElementInfo);
+    }
 
-  bool isCompatible(const std::string &viewName) const override {
-    return ((viewName == NodeLinkDiagramView::viewName) ||
-            (viewName == ViewName::PixelOrientedViewName));
-  }
+    bool isCompatible(const std::string &viewName) const override {
+        return ((viewName == NodeLinkDiagramView::viewName) ||
+                (viewName == ViewName::PixelOrientedViewName));
+    }
 };
 
 PLUGIN(InteractorGetInformation)

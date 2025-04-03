@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,17 +19,17 @@
 #include "CppUnitIncludes.h"
 
 class WithParameterTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(WithParameterTest);
-  CPPUNIT_TEST(testBuildDefaultDataSet);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(WithParameterTest);
+    CPPUNIT_TEST(testBuildDefaultDataSet);
+    CPPUNIT_TEST_SUITE_END();
 
-public:
-  void testBuildDefaultDataSet();
+  public:
+    void testBuildDefaultDataSet();
 };
 
 class ParameteredClass : public tlp::WithParameter {
-public:
-  ParameteredClass();
+  public:
+    ParameteredClass();
 };
 
 #endif // WITH_PARAMETER_TEST_H

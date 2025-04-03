@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,63 +25,63 @@ static flat_hash_map<std::string, int> nameToEeGlyphId;
 
 //====================================================
 string EdgeExtremityGlyphManager::glyphName(int id) {
-  if (id == EdgeExtremityShape::None) {
-    return string("NONE");
-  }
+    if (id == EdgeExtremityShape::None) {
+        return string("NONE");
+    }
 
-  auto it = eeglyphIdToName.find(id);
-  if (it != eeglyphIdToName.end()) {
-    return it->second;
-  } else {
-    tlp::warning() << __PRETTY_FUNCTION__ << endl;
-    tlp::warning() << "Invalid glyph id" << endl;
-    return string("invalid");
-  }
+    auto it = eeglyphIdToName.find(id);
+    if (it != eeglyphIdToName.end()) {
+        return it->second;
+    } else {
+        tlp::warning() << __PRETTY_FUNCTION__ << endl;
+        tlp::warning() << "Invalid glyph id" << endl;
+        return string("invalid");
+    }
 }
 //====================================================
 int EdgeExtremityGlyphManager::glyphId(const string &name) {
-  if (name == "NONE") {
-    return EdgeExtremityShape::None;
-  }
+    if (name == "NONE") {
+        return EdgeExtremityShape::None;
+    }
 
-  auto it = nameToEeGlyphId.find(name);
-  if (it != nameToEeGlyphId.end()) {
-    return it->second;
-  } else {
-    tlp::warning() << __PRETTY_FUNCTION__ << endl;
-    tlp::warning() << "Invalid glyph name" << endl;
-    return 0;
-  }
+    auto it = nameToEeGlyphId.find(name);
+    if (it != nameToEeGlyphId.end()) {
+        return it->second;
+    } else {
+        tlp::warning() << __PRETTY_FUNCTION__ << endl;
+        tlp::warning() << "Invalid glyph name" << endl;
+        return 0;
+    }
 }
 //====================================================
 void EdgeExtremityGlyphManager::loadGlyphPlugins() {
-  plugins = PluginsManager::availablePlugins<EdgeExtremityGlyph>();
+    plugins = PluginsManager::availablePlugins<EdgeExtremityGlyph>();
 
-  for (const auto &pluginName : plugins) {
-    int pluginId = PluginsManager::pluginInformation(pluginName).id();
-    eeglyphIdToName[pluginId] = pluginName;
-    nameToEeGlyphId[pluginName] = pluginId;
-  }
+    for (const auto &pluginName : plugins) {
+        int pluginId = PluginsManager::pluginInformation(pluginName).id();
+        eeglyphIdToName[pluginId] = pluginName;
+        nameToEeGlyphId[pluginName] = pluginId;
+    }
 }
 //====================================================
 EdgeExtremityGlyphManager::EdgeExtremityGlyphManager(GlGraphInputData *inputData) {
-  GlyphContext gc = GlyphContext(inputData);
-  for (const auto &glyphName : plugins) {
-    auto *newGlyph = PluginsManager::getPluginObject<EdgeExtremityGlyph>(glyphName, &gc);
-    _glyphs[PluginsManager::pluginInformation(glyphName).id()] = newGlyph;
-  }
+    GlyphContext gc = GlyphContext(inputData);
+    for (const auto &glyphName : plugins) {
+        auto *newGlyph = PluginsManager::getPluginObject<EdgeExtremityGlyph>(glyphName, &gc);
+        _glyphs[PluginsManager::pluginInformation(glyphName).id()] = newGlyph;
+    }
 }
 
 EdgeExtremityGlyphManager::~EdgeExtremityGlyphManager() {
-  for (const auto &[id, glyph] : _glyphs) {
-    delete glyph;
-  }
+    for (const auto &[id, glyph] : _glyphs) {
+        delete glyph;
+    }
 }
 
 EdgeExtremityGlyph *EdgeExtremityGlyphManager::getGlyph(int id) const {
-  if (const auto &it = _glyphs.find(id); it != _glyphs.end()) {
-    return it->second;
-  }
-  return nullptr;
+    if (const auto &it = _glyphs.find(id); it != _glyphs.end()) {
+        return it->second;
+    }
+    return nullptr;
 }
 }

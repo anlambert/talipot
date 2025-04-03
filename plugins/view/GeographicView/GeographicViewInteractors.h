@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,103 +24,103 @@ using namespace tlp;
 
 class GeographicViewInteractor : public NodeLinkDiagramViewInteractor {
 
-public:
-  GeographicViewInteractor(const QIcon &icon, const QString &text, uint priority = 0);
+  public:
+    GeographicViewInteractor(const QIcon &icon, const QString &text, uint priority = 0);
 
-  bool isCompatible(const std::string &viewName) const override;
+    bool isCompatible(const std::string &viewName) const override;
 };
 
 class GeographicViewNavigator : public MouseNKeysNavigator {
 
-public:
-  GeographicViewNavigator();
-  ~GeographicViewNavigator() override;
+  public:
+    GeographicViewNavigator();
+    ~GeographicViewNavigator() override;
 
-  bool eventFilter(QObject *, QEvent *) override;
+    bool eventFilter(QObject *, QEvent *) override;
 
-  void viewChanged(View *) override;
+    void viewChanged(View *) override;
 
-protected:
-  int x, y;
-  bool inRotation;
+  protected:
+    int x, y;
+    bool inRotation;
 };
 
 class GeographicViewInteractorNavigation : public GeographicViewInteractor {
 
-public:
-  PLUGININFORMATION("InteractorNavigationGeographicView", "Tulip Team", "01/04/2009",
-                    "Geographic View Navigation Interactor", "1.0", "Navigation")
+  public:
+    PLUGININFORMATION("InteractorNavigationGeographicView", "Tulip Team", "01/04/2009",
+                      "Geographic View Navigation Interactor", "1.0", "Navigation")
 
-  GeographicViewInteractorNavigation(const PluginContext *);
+    GeographicViewInteractorNavigation(const PluginContext *);
 
-  void construct() override;
+    void construct() override;
 
-  QWidget *configurationWidget() const override;
+    QWidget *configurationWidget() const override;
 };
 
 class GeographicViewInteractorSelection : public GeographicViewInteractor {
 
-public:
-  PLUGININFORMATION("InteractorSelectionGeographicView", "Tulip Team", "01/12/2018",
-                    "Geographic View Selection Interactor", "1.0", "Selection")
+  public:
+    PLUGININFORMATION("InteractorSelectionGeographicView", "Tulip Team", "01/12/2018",
+                      "Geographic View Selection Interactor", "1.0", "Selection")
 
-  GeographicViewInteractorSelection(const PluginContext *);
+    GeographicViewInteractorSelection(const PluginContext *);
 
-  void construct() override;
+    void construct() override;
 
-  QWidget *configurationWidget() const override;
+    QWidget *configurationWidget() const override;
 
-  QCursor cursor() const override;
+    QCursor cursor() const override;
 };
 
 class GeographicViewInteractorSelectionEditor : public GeographicViewInteractor {
 
-public:
-  PLUGININFORMATION("InteractorSelectionEditorGeographicView", "Tulip Team", "01/12/2018",
-                    "Geographic View Selection Editor Interactor", "1.0", "Selection")
+  public:
+    PLUGININFORMATION("InteractorSelectionEditorGeographicView", "Tulip Team", "01/12/2018",
+                      "Geographic View Selection Editor Interactor", "1.0", "Selection")
 
-  GeographicViewInteractorSelectionEditor(const PluginContext *);
+    GeographicViewInteractorSelectionEditor(const PluginContext *);
 
-  void construct() override;
+    void construct() override;
 
-  QWidget *configurationWidget() const override;
+    QWidget *configurationWidget() const override;
 
-  QCursor cursor() const override;
+    QCursor cursor() const override;
 };
 
 class GeographicViewInteractorAddEdges : public GeographicViewInteractor {
 
-public:
-  PLUGININFORMATION("InteractorAddEdgesGeographicView", "Tulip Team", "02/06/2017",
-                    "Geographic View Add Edges Interactor", "1.0", "Modification")
+  public:
+    PLUGININFORMATION("InteractorAddEdgesGeographicView", "Tulip Team", "02/06/2017",
+                      "Geographic View Add Edges Interactor", "1.0", "Modification")
 
-  GeographicViewInteractorAddEdges(const PluginContext *);
+    GeographicViewInteractorAddEdges(const PluginContext *);
 
-  void construct() override;
+    void construct() override;
 
-  QCursor cursor() const override;
+    QCursor cursor() const override;
 };
 
 class GeographicViewInteractorEditEdgeBends : public GeographicViewInteractor {
 
-public:
-  PLUGININFORMATION("InteractorEditEdgeBendsGeographicView", "Tulip Team", "02/06/2017",
-                    "Geographic View Edit Edge Bends Interactor", "1.0", "Modification")
+  public:
+    PLUGININFORMATION("InteractorEditEdgeBendsGeographicView", "Tulip Team", "02/06/2017",
+                      "Geographic View Edit Edge Bends Interactor", "1.0", "Modification")
 
-  GeographicViewInteractorEditEdgeBends(const PluginContext *);
+    GeographicViewInteractorEditEdgeBends(const PluginContext *);
 
-  void construct() override;
+    void construct() override;
 };
 
 class GeographicViewInteractorRectangleZoom : public GeographicViewInteractor {
 
-public:
-  PLUGININFORMATION("InteractorRectangleZoomGeographicView", "Tulip Team", "14/11/2022",
-                    "Geographic View Rectangle Zoom Interactor", "1.0", "Navigation")
+  public:
+    PLUGININFORMATION("InteractorRectangleZoomGeographicView", "Tulip Team", "14/11/2022",
+                      "Geographic View Rectangle Zoom Interactor", "1.0", "Navigation")
 
-  GeographicViewInteractorRectangleZoom(const PluginContext *);
+    GeographicViewInteractorRectangleZoom(const PluginContext *);
 
-  void construct() override;
+    void construct() override;
 };
 
 #endif // GEOGRAPHIC_VIEW_INTERACTORS_H

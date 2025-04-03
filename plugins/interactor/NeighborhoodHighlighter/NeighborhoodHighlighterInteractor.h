@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -38,110 +38,110 @@ class AdditionalGlSceneAnimation;
  */
 class NeighborhoodHighlighterInteractor : public GLInteractorComposite {
 
-public:
-  PLUGININFORMATION("NeighborhoodHighlighterInteractor", "Antoine Lambert", "19/05/2009",
-                    "Node neighborhood highlighter", "1.0", "Navigation")
+  public:
+    PLUGININFORMATION("NeighborhoodHighlighterInteractor", "Antoine Lambert", "19/05/2009",
+                      "Node neighborhood highlighter", "1.0", "Navigation")
 
-  NeighborhoodHighlighterInteractor(const PluginContext *);
+    NeighborhoodHighlighterInteractor(const PluginContext *);
 
-  ~NeighborhoodHighlighterInteractor() override;
+    ~NeighborhoodHighlighterInteractor() override;
 
-  void construct() override;
+    void construct() override;
 
-  QWidget *configurationWidget() const override {
-    return configWidget;
-  }
+    QWidget *configurationWidget() const override {
+        return configWidget;
+    }
 
-  uint priority() const override {
-    return StandardInteractorPriority::NeighborhoodHighlighter;
-  }
+    uint priority() const override {
+        return StandardInteractorPriority::NeighborhoodHighlighter;
+    }
 
-  bool isCompatible(const std::string &viewName) const override;
+    bool isCompatible(const std::string &viewName) const override;
 
-private:
-  NeighborhoodHighlighterConfigWidget *configWidget;
+  private:
+    NeighborhoodHighlighterConfigWidget *configWidget;
 };
 
 class NeighborhoodHighlighter : public GLInteractorComponent {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  NeighborhoodHighlighter();
+  public:
+    NeighborhoodHighlighter();
 
-  NeighborhoodHighlighter(const NeighborhoodHighlighter &neighborhoodHighlighter);
+    NeighborhoodHighlighter(const NeighborhoodHighlighter &neighborhoodHighlighter);
 
-  ~NeighborhoodHighlighter() override;
+    ~NeighborhoodHighlighter() override;
 
-  bool eventFilter(QObject *widget, QEvent *e) override;
+    bool eventFilter(QObject *widget, QEvent *e) override;
 
-  bool draw(GlWidget *glWidget) override;
+    bool draw(GlWidget *glWidget) override;
 
-  void viewChanged(View *view) override;
+    void viewChanged(View *view) override;
 
-  void setConfigWidget(NeighborhoodHighlighterConfigWidget *configWidget) {
-    this->configWidget = configWidget;
-  }
+    void setConfigWidget(NeighborhoodHighlighterConfigWidget *configWidget) {
+        this->configWidget = configWidget;
+    }
 
-public slots:
+  public slots:
 
-  void updateNeighborhoodGraph();
+    void updateNeighborhoodGraph();
 
-  void morphCircleAlphaAnimStep(int animStep);
+    void morphCircleAlphaAnimStep(int animStep);
 
-private:
-  node selectNodeInOriginalGraph(GlWidget *glWidget, int x, int y);
+  private:
+    node selectNodeInOriginalGraph(GlWidget *glWidget, int x, int y);
 
-  void buildNeighborhoodGraph(node n, Graph *g);
+    void buildNeighborhoodGraph(node n, Graph *g);
 
-  void computeNeighborhoodGraphCircleLayout();
+    void computeNeighborhoodGraphCircleLayout();
 
-  float computeNeighborhoodGraphRadius(LayoutProperty *neighborhoodGraphLayoutProp);
+    float computeNeighborhoodGraphRadius(LayoutProperty *neighborhoodGraphLayoutProp);
 
-  void cleanupNeighborhoodGraph();
+    void cleanupNeighborhoodGraph();
 
-  bool selectInAugmentedDisplayGraph(const int x, const int y, SelectedEntity &);
+    bool selectInAugmentedDisplayGraph(const int x, const int y, SelectedEntity &);
 
-  void updateNeighborhoodGraphLayoutAndColors();
+    void updateNeighborhoodGraphLayoutAndColors();
 
-  void updateGlNeighborhoodGraph();
+    void updateGlNeighborhoodGraph();
 
-  void computeNeighborhoodGraphBoundingBoxes();
+    void computeNeighborhoodGraphBoundingBoxes();
 
-  void performZoomAndPan(const BoundingBox &destBB,
-                         AdditionalGlSceneAnimation *additionalAnimation = nullptr);
+    void performZoomAndPan(const BoundingBox &destBB,
+                           AdditionalGlSceneAnimation *additionalAnimation = nullptr);
 
-  void morphCircleAlpha(unsigned char startAlpha, unsigned endAlpha, int nbAnimationSteps = 40);
+    void morphCircleAlpha(unsigned char startAlpha, unsigned endAlpha, int nbAnimationSteps = 40);
 
-  void checkIfGraphHasChanged();
+    void checkIfGraphHasChanged();
 
-  Graph *originalGraph;
-  GlGraph *originalGlGraph;
-  node selectedNode;
-  NodeNeighborhoodView *neighborhoodGraph;
-  GlGraph *glNeighborhoodGraph;
-  Coord circleCenter;
+    Graph *originalGraph;
+    GlGraph *originalGlGraph;
+    node selectedNode;
+    NodeNeighborhoodView *neighborhoodGraph;
+    GlGraph *glNeighborhoodGraph;
+    Coord circleCenter;
 
-  node neighborhoodGraphCentralNode;
-  LayoutProperty *neighborhoodGraphLayout;
-  LayoutProperty *neighborhoodGraphCircleLayout;
-  LayoutProperty *neighborhoodGraphOriginalLayout;
-  ColorProperty *neighborhoodGraphColors;
-  ColorProperty *neighborhoodGraphBackupColors;
+    node neighborhoodGraphCentralNode;
+    LayoutProperty *neighborhoodGraphLayout;
+    LayoutProperty *neighborhoodGraphCircleLayout;
+    LayoutProperty *neighborhoodGraphOriginalLayout;
+    ColorProperty *neighborhoodGraphColors;
+    ColorProperty *neighborhoodGraphBackupColors;
 
-  bool centralNodeLocked;
-  bool circleLayoutSet;
-  GlWidget *glWidget;
-  node selectedNeighborNode;
-  uint neighborhoodDist;
+    bool centralNodeLocked;
+    bool circleLayoutSet;
+    GlWidget *glWidget;
+    node selectedNeighborNode;
+    uint neighborhoodDist;
 
-  NeighborhoodHighlighterConfigWidget *configWidget;
+    NeighborhoodHighlighterConfigWidget *configWidget;
 
-  BoundingBox neighborhoodGraphCircleLayoutBB, neighborhoodGraphOriginalLayoutBB;
+    BoundingBox neighborhoodGraphCircleLayoutBB, neighborhoodGraphOriginalLayoutBB;
 
-  unsigned char circleAlphaValue;
-  unsigned char startAlpha, endAlpha;
-  int nbAnimSteps;
+    unsigned char circleAlphaValue;
+    unsigned char startAlpha, endAlpha;
+    int nbAnimSteps;
 };
 }
 

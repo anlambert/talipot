@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,23 +28,23 @@ namespace tlp {
 
 class GlyphScaleConfigDialog : public QDialog {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  GlyphScaleConfigDialog(QWidget *parent = nullptr);
-  ~GlyphScaleConfigDialog() override;
+  public:
+    GlyphScaleConfigDialog(QWidget *parent = nullptr);
+    ~GlyphScaleConfigDialog() override;
 
-  std::vector<int> getSelectedGlyphsId() const;
+    std::vector<int> getSelectedGlyphsId() const;
 
-  void showEvent(QShowEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 
-private slots:
+  private slots:
 
-  void nbGlyphsSpinBoxValueChanged(int value);
+    void nbGlyphsSpinBoxValueChanged(int value);
 
-private:
-  QStringList glyphsNameList;
-  Ui::GlyphScaleConfigDialog *_ui;
+  private:
+    QStringList glyphsNameList;
+    Ui::GlyphScaleConfigDialog *_ui;
 };
 }
 #endif // GLYPH_SCALE_CONFIG_DIALOG_H

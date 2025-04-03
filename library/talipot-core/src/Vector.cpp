@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2020-2021  The Talipot developers
+ * Copyright (C) 2020-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -13,18 +13,18 @@
 
 #include <talipot/Vector.h>
 
-#define INSTANTIATE_OPERATORS(VECTOR, TYPE)                                                 \
-  template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator*(const VECTOR &, const VECTOR &); \
-  template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator*(const TYPE, const VECTOR &);     \
-  template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator*(const VECTOR &, const TYPE);     \
-  template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator+(const VECTOR &, const VECTOR &); \
-  template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator+(const VECTOR &, const TYPE);     \
-  template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator-(const VECTOR &, const VECTOR &); \
-  template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator-(const VECTOR &, const TYPE);     \
-  template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator/(const VECTOR &, const VECTOR &); \
-  template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator/(const VECTOR &, const TYPE);     \
-  template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator^(const VECTOR &, const VECTOR &); \
-  template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator-(const VECTOR &);
+#define INSTANTIATE_OPERATORS(VECTOR, TYPE)                                                   \
+    template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator*(const VECTOR &, const VECTOR &); \
+    template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator*(const TYPE, const VECTOR &);     \
+    template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator*(const VECTOR &, const TYPE);     \
+    template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator+(const VECTOR &, const VECTOR &); \
+    template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator+(const VECTOR &, const TYPE);     \
+    template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator-(const VECTOR &, const VECTOR &); \
+    template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator-(const VECTOR &, const TYPE);     \
+    template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator/(const VECTOR &, const VECTOR &); \
+    template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator/(const VECTOR &, const TYPE);     \
+    template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator^(const VECTOR &, const VECTOR &); \
+    template TLP_TEMPLATE_DEFINE_SCOPE VECTOR tlp::operator-(const VECTOR &);
 
 INSTANTIATE_DLL_TEMPLATE(SINGLE_ARG(tlp::Vector<unsigned char, 4>), TLP_TEMPLATE_DEFINE_SCOPE)
 INSTANTIATE_OPERATORS(SINGLE_ARG(tlp::Vector<unsigned char, 4>), unsigned char)

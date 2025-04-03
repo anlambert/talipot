@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,9 +35,9 @@ class PluginProgress;
  * will copy its members into protected members of the plugin interface.
  */
 class PluginContext {
-public:
-  // Required for dynamic casting
-  virtual ~PluginContext() = default;
+  public:
+    // Required for dynamic casting
+    virtual ~PluginContext() = default;
 };
 
 /**
@@ -48,30 +48,30 @@ public:
  * a protected member at the object construction.
  */
 class AlgorithmContext : public tlp::PluginContext {
-public:
-  /**
-   * @brief The pointer to the tlp::Graph on which the algorithm will be run.
-   */
-  Graph *graph;
+  public:
+    /**
+     * @brief The pointer to the tlp::Graph on which the algorithm will be run.
+     */
+    Graph *graph;
 
-  /**
-   * @brief Input parameters set by the user when running the plugin.
-   * @see tlp::DataSet
-   * @see tlp::WithDependency
-   */
-  DataSet *dataSet;
+    /**
+     * @brief Input parameters set by the user when running the plugin.
+     * @see tlp::DataSet
+     * @see tlp::WithDependency
+     */
+    DataSet *dataSet;
 
-  /**
-   * @brief A progress handler to notify the user about the progress state of the algorithm when
-   * run.
-   * @see tlp::PluginProgress
-   */
-  PluginProgress *pluginProgress;
+    /**
+     * @brief A progress handler to notify the user about the progress state of the algorithm when
+     * run.
+     * @see tlp::PluginProgress
+     */
+    PluginProgress *pluginProgress;
 
-  AlgorithmContext(tlp::Graph *graph = nullptr, tlp::DataSet *dataSet = nullptr,
-                   tlp::PluginProgress *progress = nullptr)
-      : graph(graph), dataSet(dataSet), pluginProgress(progress) {}
-  ~AlgorithmContext() override = default;
+    AlgorithmContext(tlp::Graph *graph = nullptr, tlp::DataSet *dataSet = nullptr,
+                     tlp::PluginProgress *progress = nullptr)
+        : graph(graph), dataSet(dataSet), pluginProgress(progress) {}
+    ~AlgorithmContext() override = default;
 };
 }
 #endif // TALIPOT_PLUGIN_CONTEXT_H

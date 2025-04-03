@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,10 +39,10 @@ static const vector<function<ogdf::RankingModule *()>> ranking = {
 };
 
 #define ELT_TWOLAYERCROSS "Two-layer crossing minimization"
-#define ELT_TWOLAYERCROSSLIST                                            \
-  "BarycenterHeuristic;MedianHeuristic;SplitHeuristic;SiftingHeuristic;" \
-  "GreedyInsertHeuristic;GreedySwitchHeuristic;GlobalSiftingHeuristic;"  \
-  "GridSiftingHeuristic"
+#define ELT_TWOLAYERCROSSLIST                                              \
+    "BarycenterHeuristic;MedianHeuristic;SplitHeuristic;SiftingHeuristic;" \
+    "GreedyInsertHeuristic;GreedySwitchHeuristic;GlobalSiftingHeuristic;"  \
+    "GridSiftingHeuristic"
 static const vector<function<ogdf::LayeredCrossMinModule *()>> crossingMinimization = {
     []() { return new ogdf::BarycenterHeuristic; },   []() { return new ogdf::MedianHeuristic; },
     []() { return new ogdf::SplitHeuristic; },        []() { return new ogdf::SiftingHeuristic; },
@@ -52,20 +52,20 @@ static const vector<function<ogdf::LayeredCrossMinModule *()>> crossingMinimizat
 
 template <class T>
 function<ogdf::HierarchyLayoutModule *(double, double, bool)> hierarchyLayoutFunc() {
-  return [](double nodeDistance, double layerDistance, bool fixedLayerDistance) {
-    T *layout = new T;
-    layout->nodeDistance(nodeDistance);
-    layout->layerDistance(layerDistance);
-    if constexpr (tlp::type_name<T>() != tlp::type_name<ogdf::FastSimpleHierarchyLayout>()) {
-      layout->fixedLayerDistance(nodeDistance);
-    }
-    return layout;
-  };
+    return [](double nodeDistance, double layerDistance, bool fixedLayerDistance) {
+        T *layout = new T;
+        layout->nodeDistance(nodeDistance);
+        layout->layerDistance(layerDistance);
+        if constexpr (tlp::type_name<T>() != tlp::type_name<ogdf::FastSimpleHierarchyLayout>()) {
+            layout->fixedLayerDistance(nodeDistance);
+        }
+        return layout;
+    };
 };
 
 #define ELT_HIERARCHYLAYOUT "Layout"
 #define ELT_HIERARCHYLAYOUTLIST \
-  "FastHierarchyLayout;FastSimpleHierarchyLayout;OptimalHierarchyLayout"
+    "FastHierarchyLayout;FastSimpleHierarchyLayout;OptimalHierarchyLayout"
 static const vector<function<ogdf::HierarchyLayoutModule *(double, double, bool)>> hLayout = {
     hierarchyLayoutFunc<ogdf::FastHierarchyLayout>(),
     hierarchyLayoutFunc<ogdf::FastSimpleHierarchyLayout>(),
@@ -155,121 +155,121 @@ static const char *hierarchyLayoutValuesDescription =
 
 class OGDFSugiyama : public tlp::OGDFLayoutPluginBase {
 
-public:
-  PLUGININFORMATION("Sugiyama (OGDF)", "Carsten Gutwenger", "12/11/2007",
-                    "Implements the classical layout algorithm by Sugiyama, Tagawa, and Toda. It "
-                    "is a layer-based approach for producing upward drawings.",
-                    "1.7", "Hierarchical")
+  public:
+    PLUGININFORMATION("Sugiyama (OGDF)", "Carsten Gutwenger", "12/11/2007",
+                      "Implements the classical layout algorithm by Sugiyama, Tagawa, and Toda. It "
+                      "is a layer-based approach for producing upward drawings.",
+                      "1.7", "Hierarchical")
 
-  OGDFSugiyama(const tlp::PluginContext *context)
-      : OGDFLayoutPluginBase(context, tlp::getOGDFLayoutModule<ogdf::SugiyamaLayout>(context)) {
-    addInParameter<int>("fails", paramHelp[0].data(), "4");
-    addInParameter<int>("runs", paramHelp[1].data(), "15");
-    addInParameter<double>("node distance", paramHelp[2].data(), "3");
-    addInParameter<double>("layer distance", paramHelp[3].data(), "3");
-    addInParameter<bool>("fixed layer distance", paramHelp[4].data(), "false");
-    addInParameter<bool>("transpose", paramHelp[5].data(), "true");
-    addInParameter<bool>("arrangeCCs", paramHelp[6].data(), "true");
-    addInParameter<double>("minDistCC", paramHelp[7].data(), "20");
-    addInParameter<double>("pageRatio", paramHelp[8].data(), "1.0");
-    addInParameter<bool>("alignBaseClasses", paramHelp[9].data(), "false");
-    addInParameter<bool>("alignSiblings", paramHelp[10].data(), "false");
-    addInParameter<tlp::StringCollection>(ELT_RANKING, paramHelp[11].data(), ELT_RANKINGLIST, true,
-                                          eltRankingValuesDescription);
-    addInParameter<tlp::StringCollection>(ELT_TWOLAYERCROSS, paramHelp[12].data(),
-                                          ELT_TWOLAYERCROSSLIST, true,
-                                          twoLayerCrossValuesDescription);
-    addInParameter<tlp::StringCollection>(ELT_HIERARCHYLAYOUT, paramHelp[13].data(),
-                                          ELT_HIERARCHYLAYOUTLIST, true,
-                                          hierarchyLayoutValuesDescription);
-    addInParameter<bool>("transpose vertically", paramHelp[14].data(), "true");
-  }
-
-  void beforeCall() override {
-
-    auto *sugiyama = static_cast<ogdf::SugiyamaLayout *>(ogdfLayoutAlgo);
-
-    if (dataSet != nullptr) {
-      int ival = 0;
-      double dval = 0;
-      bool bval = false;
-      tlp::StringCollection sc;
-
-      if (dataSet->get("fails", ival)) {
-        sugiyama->fails(ival);
-      }
-
-      if (dataSet->get("runs", ival)) {
-        sugiyama->runs(ival);
-      }
-
-      if (dataSet->get("arrangeCCS", bval)) {
-        sugiyama->arrangeCCs(bval);
-      }
-
-      if (dataSet->get("minDistCC", dval)) {
-        sugiyama->minDistCC(dval);
-      }
-
-      if (dataSet->get("pageRatio", dval)) {
-        sugiyama->pageRatio(dval);
-      }
-
-      if (dataSet->get("alignBaseClasses", bval)) {
-        sugiyama->alignBaseClasses(bval);
-      }
-
-      if (dataSet->get("alignSiblings", bval)) {
-        sugiyama->alignSiblings(bval);
-      }
-
-      if (dataSet->get("transpose", bval)) {
-        sugiyama->transpose(bval);
-      }
-
-      if (dataSet->get(ELT_RANKING, sc)) {
-        sugiyama->setRanking(ranking[sc.getCurrent()]());
-      }
-
-      if (dataSet->get(ELT_TWOLAYERCROSS, sc)) {
-        sugiyama->setCrossMin(crossingMinimization[sc.getCurrent()]());
-      }
-
-      if (dataSet->get(ELT_HIERARCHYLAYOUT, sc)) {
-        double nodeDistance = 3;
-        double layerDistance = 3;
-        bool fixedLayerDistance = true;
-        dataSet->get("node distance", nodeDistance);
-        dataSet->get("layer distance", layerDistance);
-        dataSet->get("fixed layer distance", fixedLayerDistance);
-
-        sugiyama->setLayout(
-            hLayout[sc.getCurrent()](nodeDistance, layerDistance, fixedLayerDistance));
-      }
+    OGDFSugiyama(const tlp::PluginContext *context)
+        : OGDFLayoutPluginBase(context, tlp::getOGDFLayoutModule<ogdf::SugiyamaLayout>(context)) {
+        addInParameter<int>("fails", paramHelp[0].data(), "4");
+        addInParameter<int>("runs", paramHelp[1].data(), "15");
+        addInParameter<double>("node distance", paramHelp[2].data(), "3");
+        addInParameter<double>("layer distance", paramHelp[3].data(), "3");
+        addInParameter<bool>("fixed layer distance", paramHelp[4].data(), "false");
+        addInParameter<bool>("transpose", paramHelp[5].data(), "true");
+        addInParameter<bool>("arrangeCCs", paramHelp[6].data(), "true");
+        addInParameter<double>("minDistCC", paramHelp[7].data(), "20");
+        addInParameter<double>("pageRatio", paramHelp[8].data(), "1.0");
+        addInParameter<bool>("alignBaseClasses", paramHelp[9].data(), "false");
+        addInParameter<bool>("alignSiblings", paramHelp[10].data(), "false");
+        addInParameter<tlp::StringCollection>(ELT_RANKING, paramHelp[11].data(), ELT_RANKINGLIST,
+                                              true, eltRankingValuesDescription);
+        addInParameter<tlp::StringCollection>(ELT_TWOLAYERCROSS, paramHelp[12].data(),
+                                              ELT_TWOLAYERCROSSLIST, true,
+                                              twoLayerCrossValuesDescription);
+        addInParameter<tlp::StringCollection>(ELT_HIERARCHYLAYOUT, paramHelp[13].data(),
+                                              ELT_HIERARCHYLAYOUTLIST, true,
+                                              hierarchyLayoutValuesDescription);
+        addInParameter<bool>("transpose vertically", paramHelp[14].data(), "true");
     }
-  }
 
-  void callOGDFLayoutAlgorithm(ogdf::GraphAttributes &gAttributes) override {
-    auto *sugiyama = static_cast<ogdf::SugiyamaLayout *>(ogdfLayoutAlgo);
+    void beforeCall() override {
 
-    if (sugiyama->alignBaseClasses() || sugiyama->alignSiblings()) {
-      sugiyama->callUML(gAttributes);
-    } else {
-      ogdfLayoutAlgo->call(gAttributes);
-    }
-  }
+        auto *sugiyama = static_cast<ogdf::SugiyamaLayout *>(ogdfLayoutAlgo);
 
-  void afterCall() override {
-    if (dataSet != nullptr) {
-      bool bval = false;
+        if (dataSet != nullptr) {
+            int ival = 0;
+            double dval = 0;
+            bool bval = false;
+            tlp::StringCollection sc;
 
-      if (dataSet->get("transpose vertically", bval)) {
-        if (bval) {
-          transposeLayoutVertically();
+            if (dataSet->get("fails", ival)) {
+                sugiyama->fails(ival);
+            }
+
+            if (dataSet->get("runs", ival)) {
+                sugiyama->runs(ival);
+            }
+
+            if (dataSet->get("arrangeCCS", bval)) {
+                sugiyama->arrangeCCs(bval);
+            }
+
+            if (dataSet->get("minDistCC", dval)) {
+                sugiyama->minDistCC(dval);
+            }
+
+            if (dataSet->get("pageRatio", dval)) {
+                sugiyama->pageRatio(dval);
+            }
+
+            if (dataSet->get("alignBaseClasses", bval)) {
+                sugiyama->alignBaseClasses(bval);
+            }
+
+            if (dataSet->get("alignSiblings", bval)) {
+                sugiyama->alignSiblings(bval);
+            }
+
+            if (dataSet->get("transpose", bval)) {
+                sugiyama->transpose(bval);
+            }
+
+            if (dataSet->get(ELT_RANKING, sc)) {
+                sugiyama->setRanking(ranking[sc.getCurrent()]());
+            }
+
+            if (dataSet->get(ELT_TWOLAYERCROSS, sc)) {
+                sugiyama->setCrossMin(crossingMinimization[sc.getCurrent()]());
+            }
+
+            if (dataSet->get(ELT_HIERARCHYLAYOUT, sc)) {
+                double nodeDistance = 3;
+                double layerDistance = 3;
+                bool fixedLayerDistance = true;
+                dataSet->get("node distance", nodeDistance);
+                dataSet->get("layer distance", layerDistance);
+                dataSet->get("fixed layer distance", fixedLayerDistance);
+
+                sugiyama->setLayout(
+                    hLayout[sc.getCurrent()](nodeDistance, layerDistance, fixedLayerDistance));
+            }
         }
-      }
     }
-  }
+
+    void callOGDFLayoutAlgorithm(ogdf::GraphAttributes &gAttributes) override {
+        auto *sugiyama = static_cast<ogdf::SugiyamaLayout *>(ogdfLayoutAlgo);
+
+        if (sugiyama->alignBaseClasses() || sugiyama->alignSiblings()) {
+            sugiyama->callUML(gAttributes);
+        } else {
+            ogdfLayoutAlgo->call(gAttributes);
+        }
+    }
+
+    void afterCall() override {
+        if (dataSet != nullptr) {
+            bool bval = false;
+
+            if (dataSet->get("transpose vertically", bval)) {
+                if (bval) {
+                    transposeLayoutVertically();
+                }
+            }
+        }
+    }
 };
 
 PLUGIN(OGDFSugiyama)

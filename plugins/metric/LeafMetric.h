@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,17 +22,17 @@
  *
  */
 class LeafMetric : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION("Leaf", "David Auber", "20/12/1999",
-                    "Computes the number of leaves in the subtree induced by each node.<br/>"
-                    "<b>The graph must be acyclic</b>.",
-                    "1.0", "Hierarchical")
-  LeafMetric(const tlp::PluginContext *context);
-  bool check(std::string &) override;
-  bool run() override;
+  public:
+    PLUGININFORMATION("Leaf", "David Auber", "20/12/1999",
+                      "Computes the number of leaves in the subtree induced by each node.<br/>"
+                      "<b>The graph must be acyclic</b>.",
+                      "1.0", "Hierarchical")
+    LeafMetric(const tlp::PluginContext *context);
+    bool check(std::string &) override;
+    bool run() override;
 
-private:
-  double getNodeValue(const tlp::node n);
+  private:
+    double getNodeValue(const tlp::node n);
 };
 
 #endif // LEAF_METRIC_H

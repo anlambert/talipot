@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -64,7 +64,7 @@ TLP_SCOPE std::string demangleClassName(const std::string &className, bool hideT
 
 template <typename T>
 std::string demangleClassName(bool hideTlp = false) {
-  return demangleClassName(typeid(T).name(), hideTlp);
+    return demangleClassName(typeid(T).name(), hideTlp);
 }
 
 /**
@@ -76,12 +76,12 @@ std::string demangleClassName(bool hideTlp = false) {
  * without the tlp:: prefix
  */
 inline std::string demangleTlpClassName(const std::string &className) {
-  return demangleClassName(className, true);
+    return demangleClassName(className, true);
 }
 
 template <typename T>
 std::string demangleTlpClassName() {
-  return demangleTlpClassName(typeid(T).name());
+    return demangleTlpClassName(typeid(T).name());
 }
 
 /**
@@ -245,7 +245,7 @@ constexpr std::string_view type_name();
 
 template <>
 constexpr std::string_view type_name<void>() {
-  return "void";
+    return "void";
 }
 
 using type_name_prober = void;
@@ -253,48 +253,48 @@ using type_name_prober = void;
 template <typename T>
 constexpr std::string_view wrapped_type_name() {
 #if defined(__clang__) || defined(__GNUC__)
-  return __PRETTY_FUNCTION__;
+    return __PRETTY_FUNCTION__;
 #elif defined(_MSC_VER)
-  return __FUNCSIG__;
+    return __FUNCSIG__;
 #else
 #error "wrapped_type_name: Unsupported compiler"
 #endif
 }
 
 constexpr std::size_t wrapped_type_name_prefix_length() {
-  return wrapped_type_name<type_name_prober>().find(type_name<type_name_prober>());
+    return wrapped_type_name<type_name_prober>().find(type_name<type_name_prober>());
 }
 
 constexpr std::size_t wrapped_type_name_suffix_length() {
-  return wrapped_type_name<type_name_prober>().length() - wrapped_type_name_prefix_length() -
-         type_name<type_name_prober>().length();
+    return wrapped_type_name<type_name_prober>().length() - wrapped_type_name_prefix_length() -
+           type_name<type_name_prober>().length();
 }
 
 template <typename T>
 constexpr std::string_view type_name() {
-  constexpr auto wrapped_name = wrapped_type_name<T>();
-  constexpr auto prefix_length = wrapped_type_name_prefix_length();
-  constexpr auto suffix_length = wrapped_type_name_suffix_length();
-  constexpr auto type_name_length = wrapped_name.length() - prefix_length - suffix_length;
-  return wrapped_name.substr(prefix_length, type_name_length);
+    constexpr auto wrapped_name = wrapped_type_name<T>();
+    constexpr auto prefix_length = wrapped_type_name_prefix_length();
+    constexpr auto suffix_length = wrapped_type_name_suffix_length();
+    constexpr auto type_name_length = wrapped_name.length() - prefix_length - suffix_length;
+    return wrapped_name.substr(prefix_length, type_name_length);
 }
 
 struct LesserString {
-  bool operator()(const char *lhs, const char *rhs) const {
-    return std::strcmp(lhs, rhs) < 0;
-  }
+    bool operator()(const char *lhs, const char *rhs) const {
+        return std::strcmp(lhs, rhs) < 0;
+    }
 };
 
 struct HashString {
-  std::size_t operator()(const char *arg) const {
-    return std::hash<std::string>()(arg);
-  }
+    std::size_t operator()(const char *arg) const {
+        return std::hash<std::string>()(arg);
+    }
 };
 
 struct EqualString {
-  bool operator()(const char *lhs, const char *rhs) const {
-    return !std::strcmp(lhs, rhs);
-  }
+    bool operator()(const char *lhs, const char *rhs) const {
+        return !std::strcmp(lhs, rhs);
+    }
 };
 
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,63 +28,63 @@ namespace tlp {
 class PlanarConMap;
 
 class TLP_SCOPE FaceIterator : public Iterator<Face> {
-public:
-  FaceIterator(PlanarConMap *m);
-  ~FaceIterator() override = default;
+  public:
+    FaceIterator(PlanarConMap *m);
+    ~FaceIterator() override = default;
 
-  Face next() override;
-  bool hasNext() override;
+    Face next() override;
+    bool hasNext() override;
 
-private:
-  uint i;
-  PlanarConMap *mgraph;
+  private:
+    uint i;
+    PlanarConMap *mgraph;
 };
 
 //============================================================
 /// Adjacente Face iterator for PlanarConMap
 class TLP_SCOPE FaceAdjIterator : public Iterator<Face> {
-public:
-  FaceAdjIterator(PlanarConMap *m, const node n);
-  ~FaceAdjIterator() override = default;
+  public:
+    FaceAdjIterator(PlanarConMap *m, const node n);
+    ~FaceAdjIterator() override = default;
 
-  Face next() override;
-  bool hasNext() override;
+    Face next() override;
+    bool hasNext() override;
 
-private:
-  std::vector<Face> facesAdj;
-  uint i;
+  private:
+    std::vector<Face> facesAdj;
+    uint i;
 };
 
 //============================================================
 /// Node of face iterator for PlanarConMap
 class TLP_SCOPE NodeFaceIterator : public Iterator<node> {
-public:
-  NodeFaceIterator(PlanarConMap *m, const Face);
-  ~NodeFaceIterator() override = default;
+  public:
+    NodeFaceIterator(PlanarConMap *m, const Face);
+    ~NodeFaceIterator() override = default;
 
-  node next() override;
-  bool hasNext() override;
+    node next() override;
+    bool hasNext() override;
 
-private:
-  /** contains the set of computed nodes */
-  std::vector<node> nodes;
-  uint i;
+  private:
+    /** contains the set of computed nodes */
+    std::vector<node> nodes;
+    uint i;
 };
 
 //============================================================
 /// Edge of face iterator for PlanarConMap
 class TLP_SCOPE EdgeFaceIterator : public Iterator<edge> {
-public:
-  EdgeFaceIterator(PlanarConMap *m, const Face);
-  ~EdgeFaceIterator() override = default;
+  public:
+    EdgeFaceIterator(PlanarConMap *m, const Face);
+    ~EdgeFaceIterator() override = default;
 
-  edge next() override;
-  bool hasNext() override;
+    edge next() override;
+    bool hasNext() override;
 
-private:
-  /** reference on the current face */
-  std::vector<edge> ve;
-  uint i;
+  private:
+    /** reference on the current face */
+    std::vector<edge> ve;
+    uint i;
 };
 }
 #endif // TALIPOT_FACE_ITERATOR_H

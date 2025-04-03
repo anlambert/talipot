@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,109 +39,109 @@ class GraphHierarchiesModel;
 class Project;
 
 class TLP_QT_SCOPE Workspace : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::Workspace *_ui;
-  QList<WorkspacePanel *> _panels;
-  int _currentPanelIndex;
-  QWidget *_oldWorkspaceMode;
-  WorkspacePanel *_focusedPanel;
-  bool _focusedPanelHighlighting;
+    Ui::Workspace *_ui;
+    QList<WorkspacePanel *> _panels;
+    int _currentPanelIndex;
+    QWidget *_oldWorkspaceMode;
+    WorkspacePanel *_focusedPanel;
+    bool _focusedPanelHighlighting;
 
-  QMap<QWidget *, QVector<PlaceHolderWidget *>> _modeToSlots;
-  QMap<QWidget *, QWidget *> _modeSwitches;
-  GraphHierarchiesModel *_model;
+    QMap<QWidget *, QVector<PlaceHolderWidget *>> _modeToSlots;
+    QMap<QWidget *, QWidget *> _modeSwitches;
+    GraphHierarchiesModel *_model;
 
-  QString panelTitle(WorkspacePanel *) const;
+    QString panelTitle(WorkspacePanel *) const;
 
-  bool _autoCenterViews;
+    bool _autoCenterViews;
 
-public:
-  explicit Workspace(QWidget *parent = nullptr);
-  ~Workspace() override;
+  public:
+    explicit Workspace(QWidget *parent = nullptr);
+    ~Workspace() override;
 
-  int addPanel(tlp::View *);
-  QList<tlp::View *> panels() const;
+    int addPanel(tlp::View *);
+    QList<tlp::View *> panels() const;
 
-public slots:
-  void delView(tlp::View *view);
-  void switchToStartupMode();
-  void switchToSingleMode();
-  void setSingleModeSwitch(QWidget *);
-  void switchToSplitMode();
-  void setSplitModeSwitch(QWidget *);
-  void switchToSplitHorizontalMode();
-  void setSplitHorizontalModeSwitch(QWidget *);
-  void switchToSplit3Mode();
-  void setSplit3ModeSwitch(QWidget *);
-  void switchToSplit32Mode();
-  void setSplit32ModeSwitch(QWidget *);
-  void switchToSplit33Mode();
-  void setSplit33ModeSwitch(QWidget *);
-  void switchToGridMode();
-  void setGridModeSwitch(QWidget *);
-  void switchToSixMode();
-  void setSixModeSwitch(QWidget *);
+  public slots:
+    void delView(tlp::View *view);
+    void switchToStartupMode();
+    void switchToSingleMode();
+    void setSingleModeSwitch(QWidget *);
+    void switchToSplitMode();
+    void setSplitModeSwitch(QWidget *);
+    void switchToSplitHorizontalMode();
+    void setSplitHorizontalModeSwitch(QWidget *);
+    void switchToSplit3Mode();
+    void setSplit3ModeSwitch(QWidget *);
+    void switchToSplit32Mode();
+    void setSplit32ModeSwitch(QWidget *);
+    void switchToSplit33Mode();
+    void setSplit33ModeSwitch(QWidget *);
+    void switchToGridMode();
+    void setGridModeSwitch(QWidget *);
+    void switchToSixMode();
+    void setSixModeSwitch(QWidget *);
 
-  void nextPage();
-  void previousPage();
-  void setExposeModeSwitch(QPushButton *);
-  void expose(bool);
-  void showExposeMode();
-  void hideExposeMode();
-  void closeAll();
-  void setActivePanel(tlp::View *);
-  void setModel(tlp::GraphHierarchiesModel *);
-  tlp::GraphHierarchiesModel *graphModel() const;
+    void nextPage();
+    void previousPage();
+    void setExposeModeSwitch(QPushButton *);
+    void expose(bool);
+    void showExposeMode();
+    void hideExposeMode();
+    void closeAll();
+    void setActivePanel(tlp::View *);
+    void setModel(tlp::GraphHierarchiesModel *);
+    tlp::GraphHierarchiesModel *graphModel() const;
 
-  void writeProject(tlp::Project *, QMap<tlp::Graph *, QString>, tlp::PluginProgress *);
-  void readProject(tlp::Project *, QMap<QString, tlp::Graph *>, tlp::PluginProgress *);
+    void writeProject(tlp::Project *, QMap<tlp::Graph *, QString>, tlp::PluginProgress *);
+    void readProject(tlp::Project *, QMap<QString, tlp::Graph *>, tlp::PluginProgress *);
 
-  void setBottomFrameEnabled(bool);
-  void setPageCountLabel(QLabel *l);
+    void setBottomFrameEnabled(bool);
+    void setPageCountLabel(QLabel *l);
 
-  void redrawPanels(bool center = false);
+    void redrawPanels(bool center = false);
 
-  void setAutoCenterPanelsOnDraw(bool);
+    void setAutoCenterPanelsOnDraw(bool);
 
-  void setFocusedPanelHighlighting(bool);
+    void setFocusedPanelHighlighting(bool);
 
-  void setGraphForFocusedPanel(tlp::Graph *);
+    void setGraphForFocusedPanel(tlp::Graph *);
 
-signals:
-  void panelFocused(tlp::View *);
-  void focusedPanelSynchronized();
-  void addPanelRequest(tlp::Graph *g = nullptr);
-  void importGraphRequest();
+  signals:
+    void panelFocused(tlp::View *);
+    void focusedPanelSynchronized();
+    void addPanelRequest(tlp::Graph *g = nullptr);
+    void importGraphRequest();
 
-protected slots:
-  void viewNeedsDraw();
-  void switchWorkspaceMode(QWidget *page);
-  void panelDestroyed(QObject *);
-  void updatePageCountLabel();
-  void updateAvailableModes();
-  void updatePanels();
-  void uncheckExposeButton();
-  QWidget *suitableMode(QWidget *oldMode);
-  WorkspacePanel *panelForScene(QObject *obj);
-  void swapPanelsRequested(WorkspacePanel *panel);
-  void updateStartupMode();
-  void changeFocusedPanelSynchronization(bool);
+  protected slots:
+    void viewNeedsDraw();
+    void switchWorkspaceMode(QWidget *page);
+    void panelDestroyed(QObject *);
+    void updatePageCountLabel();
+    void updateAvailableModes();
+    void updatePanels();
+    void uncheckExposeButton();
+    QWidget *suitableMode(QWidget *oldMode);
+    WorkspacePanel *panelForScene(QObject *obj);
+    void swapPanelsRequested(WorkspacePanel *panel);
+    void updateStartupMode();
+    void changeFocusedPanelSynchronization(bool);
 
-protected:
-  void dragEnterEvent(QDragEnterEvent *event) override;
-  void dropEvent(QDropEvent *event) override;
+  protected:
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
-  bool handleDragEnterEvent(QEvent *e, const QMimeData *mimedata);
-  bool handleDropEvent(const QMimeData *mimedata);
+    bool handleDragEnterEvent(QEvent *e, const QMimeData *mimedata);
+    bool handleDropEvent(const QMimeData *mimedata);
 
-  bool eventFilter(QObject *, QEvent *) override;
+    bool eventFilter(QObject *, QEvent *) override;
 
-  QWidget *currentModeWidget() const;
-  QVector<PlaceHolderWidget *> currentModeSlots() const;
-  uint currentSlotsCount() const;
+    QWidget *currentModeWidget() const;
+    QVector<PlaceHolderWidget *> currentModeSlots() const;
+    uint currentSlotsCount() const;
 
-  void setFocusedPanel(WorkspacePanel *panel);
+    void setFocusedPanel(WorkspacePanel *panel);
 };
 }
 

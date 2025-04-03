@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,28 +29,28 @@ class Graph;
  */
 class TLP_GL_SCOPE GlyphManager {
 
-public:
-  GlyphManager(GlGraphInputData *inputData);
-  ~GlyphManager();
+  public:
+    GlyphManager(GlGraphInputData *inputData);
+    ~GlyphManager();
 
-  Glyph *getGlyph(int id) const;
+    Glyph *getGlyph(int id) const;
 
-  /**
-   * Return the name of glyph with given id
-   */
-  static std::string glyphName(int id);
-  /**
-   * Return the id if glyph with given name
-   */
-  static int glyphId(const std::string &name, bool warnIfNotFound = true);
-  /**
-   * Load glyphs plugins
-   */
-  static void loadGlyphPlugins();
+    /**
+     * Return the name of glyph with given id
+     */
+    static std::string glyphName(int id);
+    /**
+     * Return the id if glyph with given name
+     */
+    static int glyphId(const std::string &name, bool warnIfNotFound = true);
+    /**
+     * Load glyphs plugins
+     */
+    static void loadGlyphPlugins();
 
-private:
-  flat_hash_map<int, Glyph *> _glyphs;
-  std::unique_ptr<Glyph> _defaultGlyph;
+  private:
+    flat_hash_map<int, Glyph *> _glyphs;
+    std::unique_ptr<Glyph> _defaultGlyph;
 };
 }
 

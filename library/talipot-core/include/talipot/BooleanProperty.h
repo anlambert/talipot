@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,29 +30,29 @@ DECLARE_DLL_TEMPLATE_INSTANCE(SINGLE_ARG(AbstractProperty<BooleanType, BooleanTy
  * @brief A graph property that maps a boolean value to graph elements.
  */
 class TLP_SCOPE BooleanProperty : public AbstractProperty<BooleanType, BooleanType> {
-public:
-  BooleanProperty(Graph *g, const std::string &n = "")
-      : AbstractProperty<BooleanType, BooleanType>(g, n) {}
-  // PropertyInterface inherited methods
-  PropertyInterface *clonePrototype(Graph *, const std::string &) const override;
-  static const std::string propertyTypename;
-  const std::string &getTypename() const override {
-    return propertyTypename;
-  }
+  public:
+    BooleanProperty(Graph *g, const std::string &n = "")
+        : AbstractProperty<BooleanType, BooleanType>(g, n) {}
+    // PropertyInterface inherited methods
+    PropertyInterface *clonePrototype(Graph *, const std::string &) const override;
+    static const std::string propertyTypename;
+    const std::string &getTypename() const override {
+        return propertyTypename;
+    }
 
-  /**
-   * Reverses all values associated to graph elements,
-   * i.e true => false, false => true.
-   * If sg is nullptr, the graph given when creating the property is considered.
-   */
-  void reverse(const Graph *sg = nullptr);
+    /**
+     * Reverses all values associated to graph elements,
+     * i.e true => false, false => true.
+     * If sg is nullptr, the graph given when creating the property is considered.
+     */
+    void reverse(const Graph *sg = nullptr);
 
-  /**
-   * Reverses all the direction of edges of the visible graph
-   * which are true in this BooleanProperty.
-   * * If sg is nullptr, the graph given when creating the property is considered.
-   */
-  void reverseEdgeDirection(Graph *sg = nullptr);
+    /**
+     * Reverses all the direction of edges of the visible graph
+     * which are true in this BooleanProperty.
+     * * If sg is nullptr, the graph given when creating the property is considered.
+     */
+    void reverseEdgeDirection(Graph *sg = nullptr);
 };
 
 DECLARE_DLL_TEMPLATE_INSTANCE(
@@ -67,15 +67,15 @@ DECLARE_DLL_TEMPLATE_INSTANCE(SINGLE_ARG(AbstractVectorProperty<BooleanVectorTyp
  */
 class TLP_SCOPE BooleanVectorProperty
     : public AbstractVectorProperty<BooleanVectorType, BooleanType> {
-public:
-  BooleanVectorProperty(Graph *g, const std::string &n = "")
-      : AbstractVectorProperty<BooleanVectorType, BooleanType>(g, n) {}
-  // PropertyInterface inherited methods
-  PropertyInterface *clonePrototype(Graph *, const std::string &) const override;
-  static const std::string propertyTypename;
-  const std::string &getTypename() const override {
-    return propertyTypename;
-  }
+  public:
+    BooleanVectorProperty(Graph *g, const std::string &n = "")
+        : AbstractVectorProperty<BooleanVectorType, BooleanType>(g, n) {}
+    // PropertyInterface inherited methods
+    PropertyInterface *clonePrototype(Graph *, const std::string &) const override;
+    static const std::string propertyTypename;
+    const std::string &getTypename() const override {
+        return propertyTypename;
+    }
 };
 }
 

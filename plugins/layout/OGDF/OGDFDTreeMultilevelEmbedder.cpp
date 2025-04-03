@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2022  The Talipot developers
+ * Copyright (C) 2022-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,25 +24,25 @@ static constexpr std::string_view paramHelp[] = {
 
 class OGDFDTreeMultilevelEmbedder : public tlp::OGDFLayoutPluginBase {
 
-public:
-  PLUGININFORMATION("DTreeMultilevelEmbedder (OGDF)", "OGDF developers", "15/03/2022", "", "1.0",
-                    "Force Directed")
-  OGDFDTreeMultilevelEmbedder(const tlp::PluginContext *context)
-      : OGDFLayoutPluginBase(context,
-                             tlp::getOGDFLayoutModule<ogdf::DTreeMultilevelEmbedder2D>(context)) {
-    addInParameter<bool>("3D layout", paramHelp[0].data(), "false");
-  }
-
-  void beforeCall() override {
-    if (dataSet != nullptr) {
-      bool val = false;
-
-      if (dataSet->get("3D layout", val) && val) {
-        delete ogdfLayoutAlgo;
-        ogdfLayoutAlgo = new ogdf::DTreeMultilevelEmbedder3D();
-      }
+  public:
+    PLUGININFORMATION("DTreeMultilevelEmbedder (OGDF)", "OGDF developers", "15/03/2022", "", "1.0",
+                      "Force Directed")
+    OGDFDTreeMultilevelEmbedder(const tlp::PluginContext *context)
+        : OGDFLayoutPluginBase(context,
+                               tlp::getOGDFLayoutModule<ogdf::DTreeMultilevelEmbedder2D>(context)) {
+        addInParameter<bool>("3D layout", paramHelp[0].data(), "false");
     }
-  }
+
+    void beforeCall() override {
+        if (dataSet != nullptr) {
+            bool val = false;
+
+            if (dataSet->get("3D layout", val) && val) {
+                delete ogdfLayoutAlgo;
+                ogdfLayoutAlgo = new ogdf::DTreeMultilevelEmbedder3D();
+            }
+        }
+    }
 };
 
 PLUGIN(OGDFDTreeMultilevelEmbedder)

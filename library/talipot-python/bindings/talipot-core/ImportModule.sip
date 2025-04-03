@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -110,15 +110,15 @@ filesPrefixes.push_back("anyfile::");
 filesPrefixes.push_back("dir::");
 for (const std::pair<std::string, tlp::DataType *> &entry :
      tlp::stableIterator(sipCpp->dataSet->getValues())) {
-  for (size_t i = 0; i < filesPrefixes.size(); ++i) {
-    if (entry.first.length() > filesPrefixes[i].length() &&
-        entry.first.substr(0, filesPrefixes[i].length()) == filesPrefixes[i]) {
-      std::string paramName = entry.first.substr(filesPrefixes[i].length());
-      if (!sipCpp->dataSet->exists(paramName)) {
-        sipCpp->dataSet->set(paramName, *(static_cast<std::string *>(entry.second->value)));
-      }
+    for (size_t i = 0; i < filesPrefixes.size(); ++i) {
+        if (entry.first.length() > filesPrefixes[i].length() &&
+            entry.first.substr(0, filesPrefixes[i].length()) == filesPrefixes[i]) {
+            std::string paramName = entry.first.substr(filesPrefixes[i].length());
+            if (!sipCpp->dataSet->exists(paramName)) {
+                sipCpp->dataSet->set(paramName, *(static_cast<std::string *>(entry.second->value)));
+            }
+        }
     }
-  }
 }
 sipPy = sipConvertFromType(sipCpp->dataSet, sipFindType("tlp::DataSet"), NULL);
 %End

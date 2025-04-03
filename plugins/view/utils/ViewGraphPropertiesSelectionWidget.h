@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,31 +29,31 @@ namespace tlp {
 
 class ViewGraphPropertiesSelectionWidget : public QWidget, public Observable {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  ViewGraphPropertiesSelectionWidget(QWidget *parent = nullptr);
-  ~ViewGraphPropertiesSelectionWidget() override;
+  public:
+    ViewGraphPropertiesSelectionWidget(QWidget *parent = nullptr);
+    ~ViewGraphPropertiesSelectionWidget() override;
 
-  void setWidgetParameters(Graph *graph, std::vector<std::string> graphPropertiesTypesFilter);
-  std::vector<std::string> getSelectedGraphProperties();
+    void setWidgetParameters(Graph *graph, std::vector<std::string> graphPropertiesTypesFilter);
+    std::vector<std::string> getSelectedGraphProperties();
 
-  void setWidgetEnabled(const bool enabled);
-  void setSelectedProperties(std::vector<std::string> selectedProperties);
+    void setWidgetEnabled(const bool enabled);
+    void setSelectedProperties(std::vector<std::string> selectedProperties);
 
-  ElementType getDataLocation() const;
-  void setDataLocation(const ElementType location);
-  void enableEdgesButton(const bool enable);
-  void treatEvent(const Event &) override;
+    ElementType getDataLocation() const;
+    void setDataLocation(const ElementType location);
+    void enableEdgesButton(const bool enable);
+    void treatEvent(const Event &) override;
 
-  bool configurationChanged();
+    bool configurationChanged();
 
-private:
-  Ui::ViewGraphPropertiesSelectionWidget *_ui;
-  Graph *graph;
-  std::vector<std::string> graphPropertiesTypesFilter;
-  std::vector<std::string> lastSelectedProperties;
-  ElementType lastDataLocation;
+  private:
+    Ui::ViewGraphPropertiesSelectionWidget *_ui;
+    Graph *graph;
+    std::vector<std::string> graphPropertiesTypesFilter;
+    std::vector<std::string> lastSelectedProperties;
+    ElementType lastDataLocation;
 };
 }
 

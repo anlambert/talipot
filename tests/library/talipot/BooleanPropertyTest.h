@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,31 +25,31 @@ class BooleanProperty;
 }
 
 class BooleanPropertyTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(BooleanPropertyTest);
-  CPPUNIT_TEST(testSetAll);
-  CPPUNIT_TEST(testSetGet);
-  CPPUNIT_TEST(testCopy);
-  CPPUNIT_TEST(testIterators);
-  CPPUNIT_TEST(testDelete);
-  CPPUNIT_TEST(testReverse);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(BooleanPropertyTest);
+    CPPUNIT_TEST(testSetAll);
+    CPPUNIT_TEST(testSetGet);
+    CPPUNIT_TEST(testCopy);
+    CPPUNIT_TEST(testIterators);
+    CPPUNIT_TEST(testDelete);
+    CPPUNIT_TEST(testReverse);
+    CPPUNIT_TEST_SUITE_END();
 
-private:
-  tlp::Graph *graph;
-  tlp::BooleanProperty *selection;
+  private:
+    tlp::Graph *graph;
+    tlp::BooleanProperty *selection;
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testSetAll();
-  void testSetAll(bool);
-  void testSetGet();
-  void testSetGet(bool);
-  void testCopy();
-  void testIterators();
-  void testDelete(bool value);
-  void testDelete();
-  void testReverse();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testSetAll();
+    void testSetAll(bool);
+    void testSetGet();
+    void testSetGet(bool);
+    void testCopy();
+    void testIterators();
+    void testDelete(bool value);
+    void testDelete();
+    void testReverse();
 };
 
 #endif // BOOLEAN_PROPERTY_TEST_H

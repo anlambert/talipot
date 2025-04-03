@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2023-2024  The Talipot developers
+ * Copyright (C) 2023-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,9 +22,9 @@ TLP_OGDF_SCOPE tlp::Graph *convertOGDFGraphToTalipotGraph(ogdf::Graph &graph,
 
 template <typename T>
 ogdf::Array<T> vectorToOGDFArray(const std::vector<T> &v) {
-  auto a = ogdf::Array<T>(v.size());
-  std::copy(v.begin(), v.end(), a.begin());
-  return a;
+    auto a = ogdf::Array<T>(v.size());
+    std::copy(v.begin(), v.end(), a.begin());
+    return a;
 }
 
 #endif // TALIPOT_OGDF_UTILS_H

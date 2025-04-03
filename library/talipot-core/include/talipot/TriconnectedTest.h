@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,18 +25,18 @@ class Graph;
  * @brief Provides functions to test if a graph is triconnected.
  **/
 class TLP_SCOPE TriconnectedTest {
-public:
-  /**
-   * @brief Checks if the graph is triconnected.
-   * Creates a clone sugraph in which to operate, then iterates over the nodes, and deletes them.
-   * Once the node is deleted, checks if the graph is biconnected.
-   * If it is not, then the graph is not triconnected.
-   * If it is, adds back the node and its edges.
-   *
-   * @param graph The graph to check is triconnected.
-   * @return bool True if the graph is triconnected, false otherwise.
-   **/
-  static bool isTriconnected(Graph *graph);
+  public:
+    /**
+     * @brief Checks if the graph is triconnected.
+     * Creates a clone sugraph in which to operate, then iterates over the nodes, and deletes them.
+     * Once the node is deleted, checks if the graph is biconnected.
+     * If it is not, then the graph is not triconnected.
+     * If it is, adds back the node and its edges.
+     *
+     * @param graph The graph to check is triconnected.
+     * @return bool True if the graph is triconnected, false otherwise.
+     **/
+    static bool isTriconnected(Graph *graph);
 };
 }
 #endif // TALIPOT_TRICONNECTED_TEST_H

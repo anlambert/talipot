@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,20 +24,20 @@ namespace tlp {
 
 class FisheyeConfigWidget : public QWidget {
 
-  Ui::FisheyeConfigWidget *_ui;
+    Ui::FisheyeConfigWidget *_ui;
 
-public:
-  FisheyeConfigWidget(QWidget *parent = nullptr);
-  ~FisheyeConfigWidget() override;
+  public:
+    FisheyeConfigWidget(QWidget *parent = nullptr);
+    ~FisheyeConfigWidget() override;
 
-  float getFisheyeRadius() const;
-  void setFisheyeRadius(const float radius);
+    float getFisheyeRadius() const;
+    void setFisheyeRadius(const float radius);
 
-  float getFisheyeHeight() const;
-  void setFisheyeHeight(const float height);
+    float getFisheyeHeight() const;
+    void setFisheyeHeight(const float height);
 
-  float getFisheyeRadiusIncrementStep() const;
-  float getFisheyeHeightIncrementStep() const;
+    float getFisheyeRadiusIncrementStep() const;
+    float getFisheyeHeightIncrementStep() const;
 };
 }
 #endif // FISH_EYE_CONFIG_WIDGET_H

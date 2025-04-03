@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,15 +32,16 @@
  */
 class Kruskal : public tlp::BooleanAlgorithm {
 
-public:
-  PLUGININFORMATION("Kruskal", "Anthony DON", "14/04/03",
-                    "Implements the classical Kruskal algorithm to select a minimum spanning tree "
-                    "in a connected graph."
-                    "Only works on undirected graphs, (ie. the orientation of edges is omitted).",
-                    "1.0", "Selection")
-  Kruskal(const tlp::PluginContext *context);
-  bool run() override;
-  bool check(std::string &) override;
+  public:
+    PLUGININFORMATION(
+        "Kruskal", "Anthony DON", "14/04/03",
+        "Implements the classical Kruskal algorithm to select a minimum spanning tree "
+        "in a connected graph."
+        "Only works on undirected graphs, (ie. the orientation of edges is omitted).",
+        "1.0", "Selection")
+    Kruskal(const tlp::PluginContext *context);
+    bool run() override;
+    bool check(std::string &) override;
 };
 
 #endif // KRUSKAL_H

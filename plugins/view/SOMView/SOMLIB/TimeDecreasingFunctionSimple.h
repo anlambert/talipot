@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,22 +17,22 @@
 #include "TimeDecreasingFunction.h"
 
 class TimeDecreasingFunctionSimple : public TimeDecreasingFunction {
-public:
-  TimeDecreasingFunctionSimple(double initialCoef);
-  ~TimeDecreasingFunctionSimple() override;
-  double computeCurrentTimeRate(unsigned int currentIteration, unsigned int maxIteration,
-                                unsigned int inputSampleSize) override;
+  public:
+    TimeDecreasingFunctionSimple(double initialCoef);
+    ~TimeDecreasingFunctionSimple() override;
+    double computeCurrentTimeRate(unsigned int currentIteration, unsigned int maxIteration,
+                                  unsigned int inputSampleSize) override;
 
-  double getInitialCoefficient() const {
-    return initialCoef;
-  }
+    double getInitialCoefficient() const {
+        return initialCoef;
+    }
 
-  void setInitialCoefficient(double coef) {
-    initialCoef = coef;
-  }
+    void setInitialCoefficient(double coef) {
+        initialCoef = coef;
+    }
 
-protected:
-  double initialCoef;
+  protected:
+    double initialCoef;
 };
 
 #endif // TIME_DECREASING_FUNCTION_SIMPLE_H

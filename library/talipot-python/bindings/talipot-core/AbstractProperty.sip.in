@@ -171,9 +171,9 @@ Returns the value associated to a particular node.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = copyValue(sipCpp->getNodeValue(*a0));
+    sipRes = copyValue(sipCpp->getNodeValue(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -200,9 +200,9 @@ Returns the value associated to a particular edge.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = copyValue(sipCpp->getEdgeValue(*a0));
+    sipRes = copyValue(sipCpp->getEdgeValue(*a0));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -232,9 +232,9 @@ Sets the value of a particular node.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setNodeValue(*a0, getValue(a1));
+    sipCpp->setNodeValue(*a0, getValue(a1));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -264,9 +264,9 @@ Sets the value of a particular edge.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setEdgeValue(*a0, getValue(a1));
+    sipCpp->setEdgeValue(*a0, getValue(a1));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -275,9 +275,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   @PROPERTY_NODE_TYPE@ __getitem__(const tlp::node node) const /TypeHint="@PYTHON_NODE_TYPEHINT@"/;
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = copyValue(sipCpp->getNodeValue(*a0));
+    sipRes = copyValue(sipCpp->getNodeValue(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -286,9 +286,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   void __setitem__(const tlp::node node, const @PROPERTY_NODE_TYPE@ &val /TypeHint="@PYTHON_NODE_TYPEHINT@"/) const;
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setNodeValue(*a0, getValue(a1));
+    sipCpp->setNodeValue(*a0, getValue(a1));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -297,9 +297,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   @PROPERTY_EDGE_TYPE@ __getitem__(const tlp::edge edge) const /TypeHint="@PYTHON_EDGE_TYPEHINT@"/;
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = copyValue(sipCpp->getEdgeValue(*a0));
+    sipRes = copyValue(sipCpp->getEdgeValue(*a0));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -308,9 +308,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   void __setitem__(const tlp::edge edge, const @PROPERTY_EDGE_TYPE@ &val /TypeHint="@PYTHON_EDGE_TYPEHINT@"/) const;
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setEdgeValue(*a0, getValue(a1));
+    sipCpp->setEdgeValue(*a0, getValue(a1));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -623,9 +623,9 @@ Returns the list of values associated to a particular node.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getNodeValue(*a0));
+    sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getNodeValue(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -652,9 +652,9 @@ Returns the list of values associated to a particular edge.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getEdgeValue(*a0));
+    sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getEdgeValue(*a0));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -684,9 +684,9 @@ Sets the list of values of a particular node.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setNodeValue(*a0, *a1);
+    sipCpp->setNodeValue(*a0, *a1);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -716,9 +716,9 @@ Sets the list of values of a particular edge.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setEdgeValue(*a0, *a1);
+    sipCpp->setEdgeValue(*a0, *a1);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 //==========================================================================================
@@ -847,18 +847,19 @@ Sets the value in the list attached to a particular node at the given index.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  const std::vector<@CPP_TYPE@> &v = sipCpp->getNodeValue(*a0);
-  if (a1 < v.size()) {
-    sipCpp->setNodeEltValue(*a0, a1, getValue(a2));
-  } else {
-    std::ostringstream oss;
-    oss << "vector associated to node " << a0->id << " for vector property \"" << sipCpp->getName()
-        << "\" has a size of " << v.size() << " and the requested index is " << a1;
-    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-    sipIsErr = -1;
-  }
+    const std::vector<@CPP_TYPE@> &v = sipCpp->getNodeValue(*a0);
+    if (a1 < v.size()) {
+        sipCpp->setNodeEltValue(*a0, a1, getValue(a2));
+    } else {
+        std::ostringstream oss;
+        oss << "vector associated to node " << a0->id << " for vector property \""
+            << sipCpp->getName() << "\" has a size of " << v.size()
+            << " and the requested index is " << a1;
+        PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+        sipIsErr = -1;
+    }
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -892,18 +893,19 @@ Returns the value in the list attached to a particular node at the given index.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  const std::vector<@CPP_TYPE@> &v = sipCpp->getNodeValue(*a0);
-  if (a1 < v.size()) {
-    sipRes = copyValue(sipCpp->getNodeEltValue(*a0, a1));
-  } else {
-    std::ostringstream oss;
-    oss << "vector associated to node " << a0->id << " for vector property \"" << sipCpp->getName()
-        << "\" has a size of " << v.size() << " and the requested index is " << a1;
-    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-    sipIsErr = -1;
-  }
+    const std::vector<@CPP_TYPE@> &v = sipCpp->getNodeValue(*a0);
+    if (a1 < v.size()) {
+        sipRes = copyValue(sipCpp->getNodeEltValue(*a0, a1));
+    } else {
+        std::ostringstream oss;
+        oss << "vector associated to node " << a0->id << " for vector property \""
+            << sipCpp->getName() << "\" has a size of " << v.size()
+            << " and the requested index is " << a1;
+        PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+        sipIsErr = -1;
+    }
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -934,9 +936,9 @@ incremented by one.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->pushBackNodeEltValue(*a0, getValue(a1));
+    sipCpp->pushBackNodeEltValue(*a0, getValue(a1));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -961,9 +963,9 @@ the list is decremented by one.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->popBackNodeEltValue(*a0);
+    sipCpp->popBackNodeEltValue(*a0);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -994,9 +996,9 @@ any).
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->resizeNodeValue(*a0, a1);
+    sipCpp->resizeNodeValue(*a0, a1);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -1033,9 +1035,9 @@ elements (if any).
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->resizeNodeValue(*a0, a1, getValue(a2));
+    sipCpp->resizeNodeValue(*a0, a1, getValue(a2));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -1072,18 +1074,19 @@ Sets the value in the list attached to a particular edge at the given index.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  const std::vector<@CPP_TYPE@> &v = sipCpp->getEdgeValue(*a0);
-  if (a1 < v.size()) {
-    sipCpp->setEdgeEltValue(*a0, a1, getValue(a2));
-  } else {
-    std::ostringstream oss;
-    oss << "vector associated to edge " << a0->id << " for vector property \"" << sipCpp->getName()
-        << "\" has a size of " << v.size() << " and the requested index is " << a1;
-    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-    sipIsErr = -1;
-  }
+    const std::vector<@CPP_TYPE@> &v = sipCpp->getEdgeValue(*a0);
+    if (a1 < v.size()) {
+        sipCpp->setEdgeEltValue(*a0, a1, getValue(a2));
+    } else {
+        std::ostringstream oss;
+        oss << "vector associated to edge " << a0->id << " for vector property \""
+            << sipCpp->getName() << "\" has a size of " << v.size()
+            << " and the requested index is " << a1;
+        PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+        sipIsErr = -1;
+    }
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -1117,18 +1120,19 @@ Returns the value in the list attached to a particular edge at the given index.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  const std::vector<@CPP_TYPE@> &v = sipCpp->getEdgeValue(*a0);
-  if (a1 < v.size()) {
-    sipRes = copyValue(sipCpp->getEdgeEltValue(*a0, a1));
-  } else {
-    std::ostringstream oss;
-    oss << "vector associated to edge " << a0->id << " for vector property \"" << sipCpp->getName()
-        << "\" has a size of " << v.size() << " and the requested index is " << a1;
-    PyErr_SetString(PyExc_IndexError, oss.str().c_str());
-    sipIsErr = -1;
-  }
+    const std::vector<@CPP_TYPE@> &v = sipCpp->getEdgeValue(*a0);
+    if (a1 < v.size()) {
+        sipRes = copyValue(sipCpp->getEdgeEltValue(*a0, a1));
+    } else {
+        std::ostringstream oss;
+        oss << "vector associated to edge " << a0->id << " for vector property \""
+            << sipCpp->getName() << "\" has a size of " << v.size()
+            << " and the requested index is " << a1;
+        PyErr_SetString(PyExc_IndexError, oss.str().c_str());
+        sipIsErr = -1;
+    }
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -1159,9 +1163,9 @@ incremented by one.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->pushBackEdgeEltValue(*a0, getValue(a1));
+    sipCpp->pushBackEdgeEltValue(*a0, getValue(a1));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -1186,9 +1190,9 @@ the list is decremented by one.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->popBackEdgeEltValue(*a0);
+    sipCpp->popBackEdgeEltValue(*a0);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -1219,9 +1223,9 @@ any).
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->resizeEdgeValue(*a0, a1);
+    sipCpp->resizeEdgeValue(*a0, a1);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -1258,9 +1262,9 @@ elements (if any).
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->resizeEdgeValue(*a0, a1, getValue(a2));
+    sipCpp->resizeEdgeValue(*a0, a1, getValue(a2));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -1269,9 +1273,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   std::vector<@CPP_TYPE@> __getitem__(const tlp::node node) const /TypeHint="List[@PYTHON_NODE_TYPEHINT@]"/;
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getNodeValue(*a0));
+    sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getNodeValue(*a0));
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -1280,9 +1284,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   void __setitem__(const tlp::node node, const std::vector<@CPP_TYPE@> &val /TypeHint="List[@PYTHON_NODE_TYPEHINT@]"/) const;
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setNodeValue(*a0, *a1);
+    sipCpp->setNodeValue(*a0, *a1);
 } else {
-  sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -1291,9 +1295,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   std::vector<@CPP_TYPE@> __getitem__(const tlp::edge edge) const /TypeHint="List[@PYTHON_NODE_TYPEHINT@]"/;
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getEdgeValue(*a0));
+    sipRes = new std::vector<@CPP_TYPE@>(sipCpp->getEdgeValue(*a0));
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -1302,9 +1306,9 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   void __setitem__(const tlp::edge edge, const std::vector<@CPP_TYPE@> &val /TypeHint="List[@PYTHON_NODE_TYPEHINT@]"/) const;
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setEdgeValue(*a0, *a1);
+    sipCpp->setEdgeValue(*a0, *a1);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,77 +25,77 @@ PixelOrientedViewNavigator::PixelOrientedViewNavigator()
 PixelOrientedViewNavigator::~PixelOrientedViewNavigator() = default;
 
 void PixelOrientedViewNavigator::viewChanged(View *view) {
-  pixelView = static_cast<PixelOrientedView *>(view);
+    pixelView = static_cast<PixelOrientedView *>(view);
 }
 
 bool PixelOrientedViewNavigator::eventFilter(QObject *widget, QEvent *e) {
 
-  if (e->type() != QEvent::MouseButtonDblClick && e->type() != QEvent::MouseMove) {
-    return false;
-  }
-
-  auto *glWidget = static_cast<GlWidget *>(widget);
-
-  if (!glWidget->hasMouseTracking()) {
-    glWidget->setMouseTracking(true);
-  }
-
-  if (!pixelView->smallMultiplesViewSet() && !pixelView->interactorsEnabled()) {
-    pixelView->toggleInteractors(true);
-  }
-
-  if (pixelView->getOverviews().empty()) {
-    return false;
-  }
-
-  if (e->type() == QEvent::MouseMove && pixelView->smallMultiplesViewSet()) {
-    auto *me = static_cast<QMouseEvent *>(e);
-    float x = glWidget->width() - me->pos().x();
-    float y = me->pos().y();
-    Coord screenCoords = {x, y};
-    Coord sceneCoords = glWidget->scene()->graphCamera().viewportTo3DWorld(
-        glWidget->screenToViewport(screenCoords));
-    PixelOrientedOverview *overviewUnderPointer = getOverviewUnderPointer(sceneCoords);
-
-    if (overviewUnderPointer != nullptr && overviewUnderPointer != selectedOverview) {
-      selectedOverview = overviewUnderPointer;
+    if (e->type() != QEvent::MouseButtonDblClick && e->type() != QEvent::MouseMove) {
+        return false;
     }
 
-    return true;
-  } else if (e->type() == QEvent::MouseButtonDblClick) {
-    if (selectedOverview != nullptr && !selectedOverview->overviewGenerated()) {
-      pixelView->generatePixelOverview(selectedOverview, glWidget);
-      glWidget->draw();
-    } else if (selectedOverview != nullptr && pixelView->smallMultiplesViewSet()) {
-      glWidget->zoomAndPanAnimation(selectedOverview->getBoundingBox());
-      pixelView->switchFromSmallMultiplesToDetailView(selectedOverview);
-      selectedOverview = nullptr;
-    } else if (!pixelView->smallMultiplesViewSet() && pixelView->getOverviews().size() > 1) {
-      pixelView->switchFromDetailViewToSmallMultiples();
-      glWidget->zoomAndPanAnimation(pixelView->getSmallMultiplesViewBoundingBox());
-      pixelView->centerView();
+    auto *glWidget = static_cast<GlWidget *>(widget);
+
+    if (!glWidget->hasMouseTracking()) {
+        glWidget->setMouseTracking(true);
     }
 
-    return true;
-  }
+    if (!pixelView->smallMultiplesViewSet() && !pixelView->interactorsEnabled()) {
+        pixelView->toggleInteractors(true);
+    }
 
-  return false;
+    if (pixelView->getOverviews().empty()) {
+        return false;
+    }
+
+    if (e->type() == QEvent::MouseMove && pixelView->smallMultiplesViewSet()) {
+        auto *me = static_cast<QMouseEvent *>(e);
+        float x = glWidget->width() - me->pos().x();
+        float y = me->pos().y();
+        Coord screenCoords = {x, y};
+        Coord sceneCoords = glWidget->scene()->graphCamera().viewportTo3DWorld(
+            glWidget->screenToViewport(screenCoords));
+        PixelOrientedOverview *overviewUnderPointer = getOverviewUnderPointer(sceneCoords);
+
+        if (overviewUnderPointer != nullptr && overviewUnderPointer != selectedOverview) {
+            selectedOverview = overviewUnderPointer;
+        }
+
+        return true;
+    } else if (e->type() == QEvent::MouseButtonDblClick) {
+        if (selectedOverview != nullptr && !selectedOverview->overviewGenerated()) {
+            pixelView->generatePixelOverview(selectedOverview, glWidget);
+            glWidget->draw();
+        } else if (selectedOverview != nullptr && pixelView->smallMultiplesViewSet()) {
+            glWidget->zoomAndPanAnimation(selectedOverview->getBoundingBox());
+            pixelView->switchFromSmallMultiplesToDetailView(selectedOverview);
+            selectedOverview = nullptr;
+        } else if (!pixelView->smallMultiplesViewSet() && pixelView->getOverviews().size() > 1) {
+            pixelView->switchFromDetailViewToSmallMultiples();
+            glWidget->zoomAndPanAnimation(pixelView->getSmallMultiplesViewBoundingBox());
+            pixelView->centerView();
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 PixelOrientedOverview *PixelOrientedViewNavigator::getOverviewUnderPointer(Coord &sceneCoords) {
-  PixelOrientedOverview *ret = nullptr;
-  vector<PixelOrientedOverview *> overviews = pixelView->getOverviews();
+    PixelOrientedOverview *ret = nullptr;
+    vector<PixelOrientedOverview *> overviews = pixelView->getOverviews();
 
-  for (auto *poo : overviews) {
-    BoundingBox overviewBB = poo->getBoundingBox();
+    for (auto *poo : overviews) {
+        BoundingBox overviewBB = poo->getBoundingBox();
 
-    if (sceneCoords.getX() >= overviewBB[0][0] && sceneCoords.getX() <= overviewBB[1][0] &&
-        sceneCoords.getY() >= overviewBB[0][1] && sceneCoords.getY() <= overviewBB[1][1]) {
-      ret = poo;
-      break;
+        if (sceneCoords.getX() >= overviewBB[0][0] && sceneCoords.getX() <= overviewBB[1][0] &&
+            sceneCoords.getY() >= overviewBB[0][1] && sceneCoords.getY() <= overviewBB[1][1]) {
+            ret = poo;
+            break;
+        }
     }
-  }
 
-  return ret;
+    return ret;
 }
 }

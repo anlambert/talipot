@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,39 +26,39 @@ namespace tlp {
 template <class T>
 struct ConcatIterator : public Iterator<T> {
 
-  /**
-   * @brief Creates an Iterator that iterates over the concatenation of the two sequences it is
-   *given.
-   *
-   * @param itOne The first sequence to iterate upon.
-   * @param itTwo The second sequence, which will be iterated upon after the first sequence has been
-   *completely iterated upon.
-   **/
-  ConcatIterator(Iterator<T> *itOne, Iterator<T> *itTwo) : itOne(itOne), itTwo(itTwo) {}
+    /**
+     * @brief Creates an Iterator that iterates over the concatenation of the two sequences it is
+     *given.
+     *
+     * @param itOne The first sequence to iterate upon.
+     * @param itTwo The second sequence, which will be iterated upon after the first sequence has
+     *been completely iterated upon.
+     **/
+    ConcatIterator(Iterator<T> *itOne, Iterator<T> *itTwo) : itOne(itOne), itTwo(itTwo) {}
 
-  /**
-   * @brief Deletes the two iterators it was given at construction.
-   **/
-  ~ConcatIterator() override {
-    delete itOne;
-    delete itTwo;
-  }
-
-  T next() override {
-    if (itOne->hasNext()) {
-      return itOne->next();
-    } else {
-      return itTwo->next();
+    /**
+     * @brief Deletes the two iterators it was given at construction.
+     **/
+    ~ConcatIterator() override {
+        delete itOne;
+        delete itTwo;
     }
-  }
 
-  bool hasNext() override {
-    return (itOne->hasNext() || itTwo->hasNext());
-  }
+    T next() override {
+        if (itOne->hasNext()) {
+            return itOne->next();
+        } else {
+            return itTwo->next();
+        }
+    }
 
-private:
-  Iterator<T> *itOne;
-  Iterator<T> *itTwo;
+    bool hasNext() override {
+        return (itOne->hasNext() || itTwo->hasNext());
+    }
+
+  private:
+    Iterator<T> *itOne;
+    Iterator<T> *itTwo;
 };
 
 /**
@@ -74,7 +74,7 @@ private:
  **/
 template <class T>
 Iterator<T> *concatIterator(Iterator<T> *itOne, Iterator<T> *itTwo) {
-  return new ConcatIterator<T>(itOne, itTwo);
+    return new ConcatIterator<T>(itOne, itTwo);
 }
 }
 #endif // TALIPOT_CONCAT_ITERATOR_H

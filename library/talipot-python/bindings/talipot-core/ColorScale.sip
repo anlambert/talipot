@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -69,78 +69,82 @@ PyObject *val = NULL;
 Py_ssize_t pos = 0;
 
 if (sipIsErr == NULL) {
-  if (sipCanConvertToType(sipPy, sipFindType("tlp::ColorScale"),
-                          SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
-    return 1;
-  } else if (PyDict_Check(sipPy)) {
-    while (PyDict_Next(sipPy, &pos, &key, &val)) {
-      if (!PyNumber_Check(key)) {
-        printErrorMessage("Error : when defining a Talipot color scale through a dictionary, its "
-                          "keys must have a number type.");
-        return 0;
-      }
-      double step = PyFloat_AsDouble(key);
-      if (step < 0 || step > 1) {
-        printErrorMessage("Error : color scale step must be must greater or equal than 0.0 and "
-                          "lesser or equal than 1.0.");
-        return 0;
-      }
-      if (!sipCanConvertToType(val, sipFindType("tlp::Color"), SIP_NOT_NONE)) {
-        printErrorMessage("Error : when defining a Talipot color scale through a dictionary, its "
-                          "values must have the tlp.Color type.");
-        return 0;
-      }
+    if (sipCanConvertToType(sipPy, sipFindType("tlp::ColorScale"),
+                            SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
+        return 1;
+    } else if (PyDict_Check(sipPy)) {
+        while (PyDict_Next(sipPy, &pos, &key, &val)) {
+            if (!PyNumber_Check(key)) {
+                printErrorMessage(
+                    "Error : when defining a Talipot color scale through a dictionary, its "
+                    "keys must have a number type.");
+                return 0;
+            }
+            double step = PyFloat_AsDouble(key);
+            if (step < 0 || step > 1) {
+                printErrorMessage(
+                    "Error : color scale step must be must greater or equal than 0.0 and "
+                    "lesser or equal than 1.0.");
+                return 0;
+            }
+            if (!sipCanConvertToType(val, sipFindType("tlp::Color"), SIP_NOT_NONE)) {
+                printErrorMessage(
+                    "Error : when defining a Talipot color scale through a dictionary, its "
+                    "values must have the tlp.Color type.");
+                return 0;
+            }
+        }
+        return 1;
+    } else if (PyList_Check(sipPy)) {
+        for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+            PyObject *item = PyList_GET_ITEM(sipPy, i);
+            if (!sipCanConvertToType(item, sipFindType("tlp::Color"), SIP_NOT_NONE)) {
+                printErrorMessage(
+                    "Error : when defining a Talipot color scale through a list, it must "
+                    "only contain instances of the tlp.Color type.");
+                return 0;
+            }
+        }
+        return 1;
     }
-    return 1;
-  } else if (PyList_Check(sipPy)) {
-    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-      PyObject *item = PyList_GET_ITEM(sipPy, i);
-      if (!sipCanConvertToType(item, sipFindType("tlp::Color"), SIP_NOT_NONE)) {
-        printErrorMessage("Error : when defining a Talipot color scale through a list, it must "
-                          "only contain instances of the tlp.Color type.");
-        return 0;
-      }
-    }
-    return 1;
-  }
-  return 0;
+    return 0;
 }
 
 int state = 0, err = 0;
 
 if (PyDict_Check(sipPy)) {
-  std::map<float, tlp::Color> colorMap;
-  while (PyDict_Next(sipPy, &pos, &key, &val)) {
-    double step = PyFloat_AsDouble(key);
-    const sipTypeDef *sipType = sipFindType("tlp::Color");
-    tlp::Color *color =
-        static_cast<tlp::Color *>(sipConvertToType(val, sipType, NULL, SIP_NOT_NONE, &state, &err));
-    colorMap[step] = *color;
-    sipReleaseType(color, sipType, state);
-  }
-  *sipCppPtr = new tlp::ColorScale();
-  (*sipCppPtr)->setColorMap(colorMap);
+    std::map<float, tlp::Color> colorMap;
+    while (PyDict_Next(sipPy, &pos, &key, &val)) {
+        double step = PyFloat_AsDouble(key);
+        const sipTypeDef *sipType = sipFindType("tlp::Color");
+        tlp::Color *color = static_cast<tlp::Color *>(
+            sipConvertToType(val, sipType, NULL, SIP_NOT_NONE, &state, &err));
+        colorMap[step] = *color;
+        sipReleaseType(color, sipType, state);
+    }
+    *sipCppPtr = new tlp::ColorScale();
+    (*sipCppPtr)->setColorMap(colorMap);
 } else if (PyList_Check(sipPy)) {
-  std::vector<tlp::Color> colors;
-  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-    const sipTypeDef *sipType = sipFindType("tlp::Color");
-    PyObject *item = PyList_GET_ITEM(sipPy, i);
-    tlp::Color *color = static_cast<tlp::Color *>(
-        sipConvertToType(item, sipType, NULL, SIP_NOT_NONE, &state, &err));
-    colors.push_back(*color);
-    sipReleaseType(color, sipType, state);
-  }
-  *sipCppPtr = new tlp::ColorScale(colors);
+    std::vector<tlp::Color> colors;
+    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+        const sipTypeDef *sipType = sipFindType("tlp::Color");
+        PyObject *item = PyList_GET_ITEM(sipPy, i);
+        tlp::Color *color = static_cast<tlp::Color *>(
+            sipConvertToType(item, sipType, NULL, SIP_NOT_NONE, &state, &err));
+        colors.push_back(*color);
+        sipReleaseType(color, sipType, state);
+    }
+    *sipCppPtr = new tlp::ColorScale(colors);
 } else {
-  const sipTypeDef *sipType = sipFindType("tlp::ColorScale");
-  tlp::ColorScale *cs = static_cast<tlp::ColorScale *>(
-      sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
-  *sipCppPtr = new tlp::ColorScale(*cs);
-  sipReleaseType(cs, sipType, state);
+    const sipTypeDef *sipType = sipFindType("tlp::ColorScale");
+    tlp::ColorScale *cs = static_cast<tlp::ColorScale *>(
+        sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
+    *sipCppPtr = new tlp::ColorScale(*cs);
+    sipReleaseType(cs, sipType, state);
 }
 
 if (!*sipCppPtr) {
-  *sipIsErr = 1;
+    *sipIsErr = 1;
 }
 
 return sipGetState(sipTransferObj);
@@ -341,16 +345,16 @@ std::vector<float> v;
 auto colorMap = sipCpp->getColorMap();
 
 for (const auto &it : colorMap) {
-  v.push_back(it.first);
+    v.push_back(it.first);
 }
 
 std::sort(v.begin(), v.end());
 oss << "{";
 for (size_t i = 0; i < v.size(); ++i) {
-  oss << v[i] << ": " << colorMap[v[i]];
-  if (i != v.size() - 1) {
-    oss << ", ";
-  }
+    oss << v[i] << ": " << colorMap[v[i]];
+    if (i != v.size() - 1) {
+        oss << ", ";
+    }
 }
 oss << "}";
 sipRes = new std::string(oss.str());

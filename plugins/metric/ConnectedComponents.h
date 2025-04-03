@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,14 +26,14 @@
  *
  */
 class ConnectedComponents : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION("Connected Components", "David Auber", "01/07/2002",
-                    "Implements a decomposition in connected components. \
+  public:
+    PLUGININFORMATION("Connected Components", "David Auber", "01/07/2002",
+                      "Implements a decomposition in connected components. \
                     This algorithm assigns to each node a value defined as following: if two nodes are in the same \
                     connected component they have the same value else they have a different value. Edges get the value of their source node.",
-                    "1.0", "Component")
-  ConnectedComponents(const tlp::PluginContext *context);
-  bool run() override;
+                      "1.0", "Component")
+    ConnectedComponents(const tlp::PluginContext *context);
+    bool run() override;
 };
 
 #endif // CONNECTED_COMPONENTS_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,25 +29,25 @@ namespace tlp {
 class ColorButton;
 class ScatterPlotCorrelCoeffSelectorOptionsWidget : public QWidget {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  ScatterPlotCorrelCoeffSelectorOptionsWidget(QWidget *parent = nullptr);
-  ~ScatterPlotCorrelCoeffSelectorOptionsWidget() override;
+  public:
+    ScatterPlotCorrelCoeffSelectorOptionsWidget(QWidget *parent = nullptr);
+    ~ScatterPlotCorrelCoeffSelectorOptionsWidget() override;
 
-  Color getMinusOneColor() const;
-  Color getZeroColor() const;
-  Color getOneColor() const;
+    Color getMinusOneColor() const;
+    Color getZeroColor() const;
+    Color getOneColor() const;
 
-protected:
-  void showEvent(QShowEvent *event) override;
+  protected:
+    void showEvent(QShowEvent *event) override;
 
-private slots:
-  void updateColorScale();
+  private slots:
+    void updateColorScale();
 
-private:
-  void setButtonColor(tlp::ColorButton *button, const Color &color);
-  Ui::ScatterPlotCorrelCoeffSelectorOptionsWidget *_ui;
+  private:
+    void setButtonColor(tlp::ColorButton *button, const Color &color);
+    Ui::ScatterPlotCorrelCoeffSelectorOptionsWidget *_ui;
 };
 }
 

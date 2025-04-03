@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,45 +17,45 @@ using namespace std;
 
 namespace tlp {
 void zoomOnScreenRegion(GlWidget *glWidget, const BoundingBox &boundingBox) {
-  glWidget->zoomAndPanAnimation(boundingBox);
+    glWidget->zoomAndPanAnimation(boundingBox);
 }
 
 void zoomOnScreenRegionWithoutAnimation(GlWidget *glWidget, const BoundingBox &boundingBox) {
-  Camera &camera = glWidget->scene()->graphCamera();
-  Coord bbScreenFirst = camera.worldTo2DViewport(Coord(boundingBox[0]));
-  Coord bbScreenSecond = camera.worldTo2DViewport(Coord(boundingBox[1]));
-  float bbWidthScreen = bbScreenSecond.getX() - bbScreenFirst.getX();
-  float bbHeightScreen = bbScreenSecond.getY() - bbScreenFirst.getY();
+    Camera &camera = glWidget->scene()->graphCamera();
+    Coord bbScreenFirst = camera.worldTo2DViewport(Coord(boundingBox[0]));
+    Coord bbScreenSecond = camera.worldTo2DViewport(Coord(boundingBox[1]));
+    float bbWidthScreen = bbScreenSecond.getX() - bbScreenFirst.getX();
+    float bbHeightScreen = bbScreenSecond.getY() - bbScreenFirst.getY();
 
-  bbWidthScreen += bbWidthScreen * .1;
-  bbHeightScreen += bbHeightScreen * .1;
+    bbWidthScreen += bbWidthScreen * .1;
+    bbHeightScreen += bbHeightScreen * .1;
 
-  float startSize, endSize;
+    float startSize, endSize;
 
-  if (bbHeightScreen < bbWidthScreen) {
-    startSize = glWidget->width();
-    endSize = bbWidthScreen;
-  } else {
-    startSize = glWidget->height();
-    endSize = bbHeightScreen;
-  }
+    if (bbHeightScreen < bbWidthScreen) {
+        startSize = glWidget->width();
+        endSize = bbWidthScreen;
+    } else {
+        startSize = glWidget->height();
+        endSize = bbHeightScreen;
+    }
 
-  float zoomFactor = startSize / endSize;
+    float zoomFactor = startSize / endSize;
 
-  double zoomStart = camera.getZoomFactor();
-  double zoomEnd = zoomStart * zoomFactor;
-  bool withZoom = zoomFactor < 0.99 || zoomFactor > 1.01;
+    double zoomStart = camera.getZoomFactor();
+    double zoomEnd = zoomStart * zoomFactor;
+    bool withZoom = zoomFactor < 0.99 || zoomFactor > 1.01;
 
-  Coord newCamCenter = Coord(boundingBox[0]) + Coord(boundingBox[1]) / 2.0f;
-  newCamCenter.setZ(boundingBox[0][2]);
+    Coord newCamCenter = Coord(boundingBox[0]) + Coord(boundingBox[1]) / 2.0f;
+    newCamCenter.setZ(boundingBox[0][2]);
 
-  camera.setCenter(newCamCenter);
-  camera.setEyes(Coord(0, 0, camera.getSceneRadius()));
-  camera.setEyes(camera.getEyes() + camera.getCenter());
-  camera.setUp(Coord(0, 1., 0));
+    camera.setCenter(newCamCenter);
+    camera.setEyes(Coord(0, 0, camera.getSceneRadius()));
+    camera.setEyes(camera.getEyes() + camera.getCenter());
+    camera.setUp(Coord(0, 1., 0));
 
-  if (withZoom) {
-    camera.setZoomFactor(zoomEnd);
-  }
+    if (withZoom) {
+        camera.setZoomFactor(zoomEnd);
+    }
 }
 }

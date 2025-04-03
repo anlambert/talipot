@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,58 +30,58 @@ extern tlp::DataSet getDefaultPluginParameters(const std::string &pluginName, tl
 std::map<std::string, std::string *> talipotGlobalVars;
 
 void initGlobalVars() {
-  if (talipotGlobalVars.empty()) {
-    talipotGlobalVars["TalipotLibDir"] = &tlp::TalipotLibDir;
-    talipotGlobalVars["TalipotPluginsPath"] = &tlp::TalipotPluginsPath;
-    talipotGlobalVars["TalipotBitmapDir"] = &tlp::TalipotBitmapDir;
-    talipotGlobalVars["TalipotShareDir"] = &tlp::TalipotShareDir;
-  }
+    if (talipotGlobalVars.empty()) {
+        talipotGlobalVars["TalipotLibDir"] = &tlp::TalipotLibDir;
+        talipotGlobalVars["TalipotPluginsPath"] = &tlp::TalipotPluginsPath;
+        talipotGlobalVars["TalipotBitmapDir"] = &tlp::TalipotBitmapDir;
+        talipotGlobalVars["TalipotShareDir"] = &tlp::TalipotShareDir;
+    }
 }
 
 namespace tlp {
 
 void setGlobalVar(const std::string &varName, const std::string &value) {
-  initGlobalVars();
-  if (talipotGlobalVars.contains(varName)) {
-    *talipotGlobalVars[varName] = value;
-  }
+    initGlobalVars();
+    if (talipotGlobalVars.contains(varName)) {
+        *talipotGlobalVars[varName] = value;
+    }
 }
 
 std::string getGlobalVar(const std::string &varName) {
-  initGlobalVars();
-  if (talipotGlobalVars.contains(varName)) {
-    return *talipotGlobalVars[varName];
-  } else {
-    return "";
-  }
+    initGlobalVars();
+    if (talipotGlobalVars.contains(varName)) {
+        return *talipotGlobalVars[varName];
+    } else {
+        return "";
+    }
 }
 
 }
 
 tlp::DataSet getDefaultPluginParameters(const std::string &pluginName, tlp::Graph *graph,
                                         bool transformFilesParameters) {
-  tlp::DataSet result;
-  const tlp::ParameterDescriptionList &parameters =
-      tlp::PluginsManager::getPluginParameters(pluginName);
-  parameters.buildDefaultDataSet(result, graph);
-  if (transformFilesParameters) {
-    std::vector<std::string> filesPrefixes;
-    filesPrefixes.push_back("file::");
-    filesPrefixes.push_back("anyfile::");
-    filesPrefixes.push_back("dir::");
-    for (const std::pair<std::string, tlp::DataType *> &entry :
-         tlp::stableIterator(result.getValues())) {
-      for (size_t i = 0; i < filesPrefixes.size(); ++i) {
-        if (entry.first.length() > filesPrefixes[i].length() &&
-            entry.first.substr(0, filesPrefixes[i].length()) == filesPrefixes[i]) {
-          std::string paramName = entry.first.substr(filesPrefixes[i].length());
-          result.set(paramName, *(static_cast<std::string *>(entry.second->value)));
-          result.remove(entry.first);
+    tlp::DataSet result;
+    const tlp::ParameterDescriptionList &parameters =
+        tlp::PluginsManager::getPluginParameters(pluginName);
+    parameters.buildDefaultDataSet(result, graph);
+    if (transformFilesParameters) {
+        std::vector<std::string> filesPrefixes;
+        filesPrefixes.push_back("file::");
+        filesPrefixes.push_back("anyfile::");
+        filesPrefixes.push_back("dir::");
+        for (const std::pair<std::string, tlp::DataType *> &entry :
+             tlp::stableIterator(result.getValues())) {
+            for (size_t i = 0; i < filesPrefixes.size(); ++i) {
+                if (entry.first.length() > filesPrefixes[i].length() &&
+                    entry.first.substr(0, filesPrefixes[i].length()) == filesPrefixes[i]) {
+                    std::string paramName = entry.first.substr(filesPrefixes[i].length());
+                    result.set(paramName, *(static_cast<std::string *>(entry.second->value)));
+                    result.remove(entry.first);
+                }
+            }
         }
-      }
     }
-  }
-  return result;
+    return result;
 }
 %End
 
@@ -137,7 +137,7 @@ ways, given by order of prevalence:
 %MethodCode
 const char *appDirPathStr = NULL;
 if ((*a0) != "") {
-  appDirPathStr = (*a0).c_str();
+    appDirPathStr = (*a0).c_str();
 }
 tlp::initTalipotLib(appDirPathStr);
 %End
@@ -180,11 +180,11 @@ to load.
 %MethodCode
 tlp::PluginLibraryLoader::loadPluginsFromDir(*a0, a1);
 if (a2) {
-  // TODO : wrap the plugin loader C++ instance and pass it over to Python
-  std::string importPythonPlugins = "talipot.tlp.loadTalipotPluginsFromDir(\"";
-  importPythonPlugins += (*a0 + "\", False)");
-  PyObject *pyRet = evalPythonStatement(importPythonPlugins);
-  Py_XDECREF(pyRet);
+    // TODO : wrap the plugin loader C++ instance and pass it over to Python
+    std::string importPythonPlugins = "talipot.tlp.loadTalipotPluginsFromDir(\"";
+    importPythonPlugins += (*a0 + "\", False)");
+    PyObject *pyRet = evalPythonStatement(importPythonPlugins);
+    Py_XDECREF(pyRet);
 }
 %End
 
@@ -211,14 +211,14 @@ Returns :const:`True` if the plugin was correctly loaded.
 %MethodCode
 std::string ext = a0->substr(a0->length() - 3);
 if (ext != ".py") {
-  sipRes = tlp::PluginLibraryLoader::loadPluginLibrary(*a0, a1);
+    sipRes = tlp::PluginLibraryLoader::loadPluginLibrary(*a0, a1);
 } else {
-  // TODO : wrap the plugin loader C++ instance and pass it over to Python
-  std::string importPythonPlugin = "talipot.tlp.loadTalipotPythonPlugin(\"";
-  importPythonPlugin += (*a0 + "\")");
-  PyObject *pyRet = evalPythonStatement(importPythonPlugin);
-  sipRes = (pyRet == Py_True);
-  Py_XDECREF(pyRet);
+    // TODO : wrap the plugin loader C++ instance and pass it over to Python
+    std::string importPythonPlugin = "talipot.tlp.loadTalipotPythonPlugin(\"";
+    importPythonPlugin += (*a0 + "\")");
+    PyObject *pyRet = evalPythonStatement(importPythonPlugin);
+    sipRes = (pyRet == Py_True);
+    Py_XDECREF(pyRet);
 }
 %End
 
@@ -263,14 +263,14 @@ plugin (algorithm, import, property algorithm, ...).
 
 %MethodCode
 if (tlp::PluginsManager::pluginExists(*a0)) {
-  tlp::DataSet params = ::getDefaultPluginParameters(*a0, a1, true);
-  sipRes = convertTlpDataSetToPyDict(params);
+    tlp::DataSet params = ::getDefaultPluginParameters(*a0, a1, true);
+    sipRes = convertTlpDataSetToPyDict(params);
 } else {
-  sipIsErr = 1;
-  std::string msg = "No plugin named  ";
-  msg += *a0;
-  msg += ".";
-  PyErr_SetString(PyExc_ValueError, msg.c_str());
+    sipIsErr = 1;
+    std::string msg = "No plugin named  ";
+    msg += *a0;
+    msg += ".";
+    PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
 %End
 
@@ -294,9 +294,9 @@ std::list<std::string> propAlgoList =
     tlp::PluginsManager::availablePlugins<tlp::PropertyAlgorithm>();
 std::list<std::string> ret;
 for (const auto &algo : algoList) {
-  if (std::find(propAlgoList.begin(), propAlgoList.end(), algo) == propAlgoList.end()) {
-    ret.push_back(algo);
-  }
+    if (std::find(propAlgoList.begin(), propAlgoList.end(), algo) == propAlgoList.end()) {
+        ret.push_back(algo);
+    }
 }
 sipRes = new std::list<std::string>(ret);
 %End

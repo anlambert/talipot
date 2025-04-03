@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -37,99 +37,100 @@ static constexpr std::string_view paramHelp[] = {
 
 //====================================================================
 void addOrientationParameters(LayoutAlgorithm *pLayout) {
-  pLayout->addInParameter<StringCollection>(ORIENTATION_ID, paramHelp[0].data(), ORIENTATION, true,
-                                            "<b>up to down</b> <br> <b>down to up</b> <br> "
-                                            "<b>right to left</b> <br> <b>left to right</b>");
+    pLayout->addInParameter<StringCollection>(ORIENTATION_ID, paramHelp[0].data(), ORIENTATION,
+                                              true,
+                                              "<b>up to down</b> <br> <b>down to up</b> <br> "
+                                              "<b>right to left</b> <br> <b>left to right</b>");
 }
 
 //====================================================================
 void addOrthogonalParameters(LayoutAlgorithm *pLayout) {
-  pLayout->addInParameter<bool>(ORTHOGONAL, paramHelp[1].data(), "false");
+    pLayout->addInParameter<bool>(ORTHOGONAL, paramHelp[1].data(), "false");
 }
 
 //====================================================================
 void addSpacingParameters(LayoutAlgorithm *pLayout) {
-  pLayout->addInParameter<float>("layer spacing", paramHelp[2].data(), "64.");
-  pLayout->addInParameter<float>("node spacing", paramHelp[3].data(), "18.");
+    pLayout->addInParameter<float>("layer spacing", paramHelp[2].data(), "64.");
+    pLayout->addInParameter<float>("node spacing", paramHelp[3].data(), "18.");
 }
 void getSpacingParameters(DataSet *dataSet, float &nodeSpacing, float &layerSpacing) {
-  layerSpacing = 64.;
-  nodeSpacing = 18.;
+    layerSpacing = 64.;
+    nodeSpacing = 18.;
 
-  if (dataSet) {
-    dataSet->get("node spacing", nodeSpacing);
-    dataSet->get("layer spacing", layerSpacing);
-  }
+    if (dataSet) {
+        dataSet->get("node spacing", nodeSpacing);
+        dataSet->get("layer spacing", layerSpacing);
+    }
 }
 //====================================================================
 void addNodeSizePropertyParameter(LayoutAlgorithm *pLayout, bool inout) {
-  if (inout) {
-    pLayout->addInOutParameter<SizeProperty>("node size", paramHelp[4].data(), "viewSize");
-  } else {
-    pLayout->addInParameter<SizeProperty>("node size", paramHelp[4].data(), "viewSize");
-  }
+    if (inout) {
+        pLayout->addInOutParameter<SizeProperty>("node size", paramHelp[4].data(), "viewSize");
+    } else {
+        pLayout->addInParameter<SizeProperty>("node size", paramHelp[4].data(), "viewSize");
+    }
 }
 
 bool getNodeSizePropertyParameter(DataSet *dataSet, SizeProperty *&sizes) {
-  return (dataSet != nullptr) && dataSet->get("node size", sizes) && sizes;
+    return (dataSet != nullptr) && dataSet->get("node size", sizes) && sizes;
 }
 
 //====================================================================
 DataSet setOrientationParameters(int pOrientation) {
-  DataSet dataSet;
-  StringCollection stringOrientation(ORIENTATION);
-  stringOrientation.setCurrent(pOrientation);
-  dataSet.set(ORIENTATION_ID, stringOrientation);
-  return dataSet;
+    DataSet dataSet;
+    StringCollection stringOrientation(ORIENTATION);
+    stringOrientation.setCurrent(pOrientation);
+    dataSet.set(ORIENTATION_ID, stringOrientation);
+    return dataSet;
 }
 
 //====================================================================
 orientationType getMask(DataSet *dataSet) {
-  StringCollection orientation(ORIENTATION);
-  orientation.setCurrent(0);
-  int current = 0;
+    StringCollection orientation(ORIENTATION);
+    orientation.setCurrent(0);
+    int current = 0;
 
-  if (dataSet != nullptr) {
-    StringCollection dataSetOrientation;
+    if (dataSet != nullptr) {
+        StringCollection dataSetOrientation;
 
-    if (dataSet->get(ORIENTATION_ID, dataSetOrientation)) {
-      // the order of ORIENTATION items may have change
-      // because the default value may have change (see DataSetDialog.cpp)
-      std::string currentString = dataSetOrientation.getCurrentString();
+        if (dataSet->get(ORIENTATION_ID, dataSetOrientation)) {
+            // the order of ORIENTATION items may have change
+            // because the default value may have change (see DataSetDialog.cpp)
+            std::string currentString = dataSetOrientation.getCurrentString();
 
-      for (current = 0; current < 4; ++current) {
-        if (currentString == orientation.at(current)) {
-          break;
+            for (current = 0; current < 4; ++current) {
+                if (currentString == orientation.at(current)) {
+                    break;
+                }
+            }
         }
-      }
     }
-  }
 
-  switch (current) {
-  case 0:
-    return ORI_DEFAULT;
+    switch (current) {
+    case 0:
+        return ORI_DEFAULT;
 
-  case 1:
-    return ORI_INVERSION_VERTICAL;
+    case 1:
+        return ORI_INVERSION_VERTICAL;
 
-  case 2:
-    return ORI_ROTATION_XY;
+    case 2:
+        return ORI_ROTATION_XY;
 
-  case 3:
-    return orientationType(ORI_ROTATION_XY | ORI_INVERSION_HORIZONTAL);
+    case 3:
+        return orientationType(ORI_ROTATION_XY | ORI_INVERSION_HORIZONTAL);
 
-  default:
-    return ORI_DEFAULT;
-  }
+    default:
+        return ORI_DEFAULT;
+    }
 }
 
 //====================================================================
 bool hasOrthogonalEdge(DataSet *dataSet) {
-  bool orthogonalEdge = false;
+    bool orthogonalEdge = false;
 
-  if (dataSet != nullptr) {
-    dataSet->get(ORTHOGONAL, orthogonalEdge);
-  }
+    if (dataSet != nullptr) {
+        dataSet->get(ORTHOGONAL, orthogonalEdge);
+    }
 
-  return orthogonalEdge;
+    return orthogonalEdge;
 }

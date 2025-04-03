@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -34,17 +34,17 @@ drawing bounding box.
 
 %MethodCode
 if (a0) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  sipRes = new tlp::Coord(sipCpp->getMax(a0));
+    sipRes = new tlp::Coord(sipCpp->getMax(a0));
 }
 %End
 
@@ -73,17 +73,17 @@ drawing bounding box.
 
 %MethodCode
 if (a0) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  sipRes = new tlp::Coord(sipCpp->getMin(a0));
+    sipRes = new tlp::Coord(sipCpp->getMin(a0));
 }
 %End
 
@@ -114,17 +114,17 @@ Translates the current layout according to a movement vector.
 
 %MethodCode
 if (a1) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->translate(*a0, a1);
+    sipCpp->translate(*a0, a1);
 }
 %End
 
@@ -183,17 +183,17 @@ Scales the layout according to a vector of scale factors (sx, sy, sz).
 
 %MethodCode
 if (a1) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->scale(*a0, a1);
+    sipCpp->scale(*a0, a1);
 }
 %End
 
@@ -252,17 +252,17 @@ Rotates the layout around the X-axis according to an angle in degrees.
 
 %MethodCode
 if (a1) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->rotateX(a0, a1);
+    sipCpp->rotateX(a0, a1);
 }
 %End
 
@@ -293,17 +293,17 @@ Rotates the layout around the Y-axis according to an angle in degrees.
 
 %MethodCode
 if (a1) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->rotateY(a0, a1);
+    sipCpp->rotateY(a0, a1);
 }
 %End
 
@@ -334,17 +334,17 @@ Rotates the layout around the Z-axis according to an angle in degrees.
 
 %MethodCode
 if (a1) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->rotateZ(a0, a1);
+    sipCpp->rotateZ(a0, a1);
 }
 %End
 
@@ -452,17 +452,17 @@ Centers the layout, meaning translating it in order that the center of its bound
 
 %MethodCode
 if (a0) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->center(a0);
+    sipCpp->center(a0);
 }
 %End
 
@@ -493,17 +493,17 @@ is equal to newCenter.
 
 %MethodCode
 if (a1) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->center(*a0, a1);
+    sipCpp->center(*a0, a1);
 }
 %End
 
@@ -528,17 +528,17 @@ the whole coordinates set
 
 %MethodCode
 if (a0) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  sipCpp->normalize(a0);
+    sipCpp->normalize(a0);
 }
 %End
 
@@ -583,9 +583,9 @@ polyline.
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipRes = sipCpp->edgeLength(*a0);
+    sipRes = sipCpp->edgeLength(*a0);
 } else {
-  sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
+    sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
 %End
 
@@ -613,18 +613,18 @@ Returns the average edge length of the layout, the bends are taken into account.
 
 %MethodCode
 if (a0) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 
 if (sipIsErr == 0) {
-  sipRes = sipCpp->averageEdgeLength(a0);
+    sipRes = sipCpp->averageEdgeLength(a0);
 }
 %End
 
@@ -653,18 +653,18 @@ third coordinate is omitted
 
 %MethodCode
 if (a0) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 
 if (sipIsErr == 0) {
-  sipRes = sipCpp->averageAngularResolution(a0);
+    sipRes = sipCpp->averageAngularResolution(a0);
 }
 %End
 
@@ -701,29 +701,29 @@ third coordinate is omitted
 
 %MethodCode
 if (a1) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    if (a1 && a1->isElement(*a0)) {
-      sipRes = sipCpp->averageAngularResolution(*a0, a1);
+    if (sipCpp->getGraph()->isElement(*a0)) {
+        if (a1 && a1->isElement(*a0)) {
+            sipRes = sipCpp->averageAngularResolution(*a0, a1);
+        } else {
+            if (!a1) {
+                sipRes = sipCpp->averageAngularResolution(*a0);
+            } else {
+                sipIsErr = throwInvalidNodeException(const_cast<tlp::Graph *>(a1), *a0);
+            }
+        }
     } else {
-      if (!a1) {
-        sipRes = sipCpp->averageAngularResolution(*a0);
-      } else {
-        sipIsErr = throwInvalidNodeException(const_cast<tlp::Graph *>(a1), *a0);
-      }
+        sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
     }
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
 }
 %End
 
@@ -759,29 +759,29 @@ third coordinates is omitted
 
 %MethodCode
 if (a1) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    if (a1 && a1->isElement(*a0)) {
-      sipRes = new std::vector<double>(sipCpp->angularResolutions(*a0, a1));
+    if (sipCpp->getGraph()->isElement(*a0)) {
+        if (a1 && a1->isElement(*a0)) {
+            sipRes = new std::vector<double>(sipCpp->angularResolutions(*a0, a1));
+        } else {
+            if (!a1) {
+                sipRes = new std::vector<double>(sipCpp->angularResolutions(*a0));
+            } else {
+                sipIsErr = throwInvalidNodeException(const_cast<tlp::Graph *>(a1), *a0);
+            }
+        }
     } else {
-      if (!a1) {
-        sipRes = new std::vector<double>(sipCpp->angularResolutions(*a0));
-      } else {
-        sipIsErr = throwInvalidNodeException(const_cast<tlp::Graph *>(a1), *a0);
-      }
+        sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
     }
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
 }
 %End
 
@@ -807,18 +807,18 @@ account.
 
 %MethodCode
 if (a0) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a0) && a0 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a0->getName() << " (id " << a0->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 
 if (sipIsErr == 0) {
-  sipCpp->computeEmbedding(a0);
+    sipCpp->computeEmbedding(a0);
 }
 %End
 
@@ -847,29 +847,29 @@ into account.
 %MethodCode
 
 if (a1) {
-  if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
-    sipIsErr = 1;
-    std::ostringstream oss;
-    oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
-    oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
-        << sipCpp->getGraph()->getId() << ")>";
-    PyErr_SetString(PyExc_ValueError, oss.str().c_str());
-  }
+    if (!sipCpp->getGraph()->isDescendantGraph(a1) && a1 != sipCpp->getGraph()) {
+        sipIsErr = 1;
+        std::ostringstream oss;
+        oss << "Error : <graph " << a1->getName() << " (id " << a1->getId() << ")>";
+        oss << "is not a descendant of <graph " << sipCpp->getGraph()->getName() << " (id "
+            << sipCpp->getGraph()->getId() << ")>";
+        PyErr_SetString(PyExc_ValueError, oss.str().c_str());
+    }
 }
 if (sipIsErr == 0) {
-  if (sipCpp->getGraph()->isElement(*a0)) {
-    if (a1 && a1->isElement(*a0)) {
-      sipCpp->computeEmbedding(*a0, a1);
+    if (sipCpp->getGraph()->isElement(*a0)) {
+        if (a1 && a1->isElement(*a0)) {
+            sipCpp->computeEmbedding(*a0, a1);
+        } else {
+            if (!a1) {
+                sipCpp->computeEmbedding(*a0);
+            } else {
+                sipIsErr = throwInvalidNodeException(const_cast<tlp::Graph *>(a1), *a0);
+            }
+        }
     } else {
-      if (!a1) {
-        sipCpp->computeEmbedding(*a0);
-      } else {
-        sipIsErr = throwInvalidNodeException(const_cast<tlp::Graph *>(a1), *a0);
-      }
+        sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
     }
-  } else {
-    sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
-  }
 }
 %End
 

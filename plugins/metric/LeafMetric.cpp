@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,25 +27,25 @@ using namespace tlp;
 LeafMetric::LeafMetric(const PluginContext *context) : DoubleAlgorithm(context) {}
 //=======================================================================
 bool LeafMetric::run() {
-  result->setAllNodeValue(0);
-  for (auto n : reversed(dfs(graph, true))) {
-    double val = 1.0;
-    if (graph->outdeg(n) > 0) {
-      val = iteratorReduce(graph->getOutNodes(n), 0.0, [this](double curVal, const node m) {
-        return curVal + result->getNodeValue(m);
-      });
+    result->setAllNodeValue(0);
+    for (auto n : reversed(dfs(graph, true))) {
+        double val = 1.0;
+        if (graph->outdeg(n) > 0) {
+            val = iteratorReduce(graph->getOutNodes(n), 0.0, [this](double curVal, const node m) {
+                return curVal + result->getNodeValue(m);
+            });
+        }
+        result->setNodeValue(n, val);
     }
-    result->setNodeValue(n, val);
-  }
-  return true;
+    return true;
 }
 //=======================================================================
 bool LeafMetric::check(string &erreurMsg) {
-  if (!AcyclicTest::isAcyclic(graph)) {
-    erreurMsg = "The graph must be a acyclic.";
-    return false;
-  }
+    if (!AcyclicTest::isAcyclic(graph)) {
+        erreurMsg = "The graph must be a acyclic.";
+        return false;
+    }
 
-  return true;
+    return true;
 }
 //=======================================================================

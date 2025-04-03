@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,8 +19,8 @@
 namespace tlp {
 
 class ParallelCoordsElementShowInfo : public MouseShowElementInfo {
-public:
-  bool pick(int x, int y, SelectedEntity &selectedEntity) override;
+  public:
+    bool pick(int x, int y, SelectedEntity &selectedEntity) override;
 };
 }
 #endif // PARALLEL_COORDS_ELEMENT_SHOW_INFO_H

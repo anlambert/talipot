@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,19 +24,19 @@
  *
  */
 class DepthMetric : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION("Depth", "David Auber", "15/02/2001",
-                    "For each node n on an acyclic graph,"
-                    "it computes the maximum path length between n and the other node."
-                    "<br><b>The graph must be acyclic</b>.",
-                    "1.1", "Hierarchical")
-  DepthMetric(const tlp::PluginContext *context);
-  bool run() override;
-  bool check(std::string &) override;
+  public:
+    PLUGININFORMATION("Depth", "David Auber", "15/02/2001",
+                      "For each node n on an acyclic graph,"
+                      "it computes the maximum path length between n and the other node."
+                      "<br><b>The graph must be acyclic</b>.",
+                      "1.1", "Hierarchical")
+    DepthMetric(const tlp::PluginContext *context);
+    bool run() override;
+    bool check(std::string &) override;
 
-private:
-  double getNodeValue(const tlp::node n);
-  tlp::NumericProperty *edgeWeight;
+  private:
+    double getNodeValue(const tlp::node n);
+    tlp::NumericProperty *edgeWeight;
 };
 
 #endif // DEPTH_METRIC_H

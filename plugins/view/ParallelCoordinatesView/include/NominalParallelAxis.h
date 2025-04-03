@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,44 +24,44 @@ class GlNominativeAxis;
 // Class which allow to render a nominal axis (labels are string)
 class NominalParallelAxis : public ParallelAxis {
 
-public:
-  NominalParallelAxis(const Coord &base_coord, const float height, const float axisAreaWidth,
-                      ParallelCoordinatesGraphProxy *graphProxy,
-                      const std::string &graphPropertyName, const Color &axisColor,
-                      const float rotationAngle = 0,
-                      const GlAxis::CaptionLabelPosition captionPosition = GlAxis::BELOW);
+  public:
+    NominalParallelAxis(const Coord &base_coord, const float height, const float axisAreaWidth,
+                        ParallelCoordinatesGraphProxy *graphProxy,
+                        const std::string &graphPropertyName, const Color &axisColor,
+                        const float rotationAngle = 0,
+                        const GlAxis::CaptionLabelPosition captionPosition = GlAxis::BELOW);
 
-  Coord getLabelCoord(const std::string &label);
+    Coord getLabelCoord(const std::string &label);
 
-  Coord getPointCoordOnAxisForData(const uint dataIdx) override;
+    Coord getPointCoordOnAxisForData(const uint dataIdx) override;
 
-  void showConfigDialog() override;
+    void showConfigDialog() override;
 
-  void redraw() override;
+    void redraw() override;
 
-  void setLabels();
+    void setLabels();
 
-  const std::vector<std::string> &getLabelsOrder() const {
-    return labelsOrder;
-  }
-  void setLabelsOrder(const std::vector<std::string> &labelsOrder) {
-    this->labelsOrder = labelsOrder;
-  }
+    const std::vector<std::string> &getLabelsOrder() const {
+        return labelsOrder;
+    }
+    void setLabelsOrder(const std::vector<std::string> &labelsOrder) {
+        this->labelsOrder = labelsOrder;
+    }
 
-  std::string getTopSliderTextValue() override {
-    return " ";
-  }
-  std::string getBottomSliderTextValue() override {
-    return " ";
-  }
+    std::string getTopSliderTextValue() override {
+        return " ";
+    }
+    std::string getBottomSliderTextValue() override {
+        return " ";
+    }
 
-  const std::set<uint> &getDataInSlidersRange() override;
-  void updateSlidersWithDataSubset(const std::set<uint> &dataSubset) override;
+    const std::set<uint> &getDataInSlidersRange() override;
+    void updateSlidersWithDataSubset(const std::set<uint> &dataSubset) override;
 
-private:
-  GlNominativeAxis *glNominativeAxis;
-  ParallelCoordinatesGraphProxy *graphProxy;
-  std::vector<std::string> labelsOrder;
+  private:
+    GlNominativeAxis *glNominativeAxis;
+    ParallelCoordinatesGraphProxy *graphProxy;
+    std::vector<std::string> labelsOrder;
 };
 }
 

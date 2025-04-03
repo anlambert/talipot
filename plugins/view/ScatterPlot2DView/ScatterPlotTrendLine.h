@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,18 +22,18 @@ class ScatterPlot2DView;
 
 class ScatterPlotTrendLine : public GLInteractorComponent {
 
-public:
-  ScatterPlotTrendLine();
-  ~ScatterPlotTrendLine() override;
+  public:
+    ScatterPlotTrendLine();
+    ~ScatterPlotTrendLine() override;
 
-  bool eventFilter(QObject *, QEvent *) override;
-  bool draw(GlWidget *glWidget) override;
-  bool compute(GlWidget *glWidget) override;
-  void viewChanged(View *view) override;
+    bool eventFilter(QObject *, QEvent *) override;
+    bool draw(GlWidget *glWidget) override;
+    bool compute(GlWidget *glWidget) override;
+    void viewChanged(View *view) override;
 
-private:
-  ScatterPlot2DView *scatterView;
-  float a, b;
+  private:
+    ScatterPlot2DView *scatterView;
+    float a, b;
 };
 }
 

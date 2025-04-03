@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,71 +33,71 @@ class LayoutProperty;
 
 class PixelOrientedOverview : public GlComposite {
 
-public:
-  PixelOrientedOverview(GraphDimension *data, PixelOrientedMediator *pixelOrientedMediator,
-                        Coord blCornerPos, const std::string &dimName, const Color &backgroundColor,
-                        const Color &textColor);
+  public:
+    PixelOrientedOverview(GraphDimension *data, PixelOrientedMediator *pixelOrientedMediator,
+                          Coord blCornerPos, const std::string &dimName,
+                          const Color &backgroundColor, const Color &textColor);
 
-  ~PixelOrientedOverview() override;
+    ~PixelOrientedOverview() override;
 
-  GraphDimension *getData() const {
-    return data;
-  }
-  std::string getDimensionName() const {
-    return dimName;
-  }
-  LayoutProperty *getPixelViewLayout() const {
-    return pixelLayout;
-  }
-  SizeProperty *getPixelViewSize() const {
-    return pixelSize;
-  }
+    GraphDimension *getData() const {
+        return data;
+    }
+    std::string getDimensionName() const {
+        return dimName;
+    }
+    LayoutProperty *getPixelViewLayout() const {
+        return pixelLayout;
+    }
+    SizeProperty *getPixelViewSize() const {
+        return pixelSize;
+    }
 
-  void setBLCorner(const Coord &blCorner);
+    void setBLCorner(const Coord &blCorner);
 
-  void computePixelView(GlWidget *glWidget = nullptr);
+    void computePixelView(GlWidget *glWidget = nullptr);
 
-  bool overviewGenerated() const {
-    return overviewGen;
-  }
+    bool overviewGenerated() const {
+        return overviewGen;
+    }
 
-  void setBackgroundColor(const Color &color) {
-    backgroundColor = color;
-  }
-  void setTextColor(const Color &color) {
-    textColor = color;
-  }
+    void setBackgroundColor(const Color &color) {
+        backgroundColor = color;
+    }
+    void setTextColor(const Color &color) {
+        textColor = color;
+    }
 
-private:
-  void computeBoundingBox() {
-    GlBoundingBoxSceneVisitor glBBSV(nullptr);
-    acceptVisitor(&glBBSV);
-    boundingBox = glBBSV.getBoundingBox();
-  }
+  private:
+    void computeBoundingBox() {
+        GlBoundingBoxSceneVisitor glBBSV(nullptr);
+        acceptVisitor(&glBBSV);
+        boundingBox = glBBSV.getBoundingBox();
+    }
 
-  GraphDimension *data;
-  PixelOrientedMediator *pixelOrientedMediator;
+    GraphDimension *data;
+    PixelOrientedMediator *pixelOrientedMediator;
 
-  GlGraph *glGraph;
-  LayoutProperty *pixelLayout;
-  SizeProperty *pixelSize;
+    GlGraph *glGraph;
+    LayoutProperty *pixelLayout;
+    SizeProperty *pixelSize;
 
-  Coord blCornerPos;
-  std::string textureName;
-  std::string dimName;
+    Coord blCornerPos;
+    std::string textureName;
+    std::string dimName;
 
-  GlLabel *clickLabel;
-  GlRect *backgroundRect;
-  GlLabel *overviewLabel;
-  GlRect *frame;
-  GlRect *frame2;
+    GlLabel *clickLabel;
+    GlRect *backgroundRect;
+    GlLabel *overviewLabel;
+    GlRect *frame;
+    GlRect *frame2;
 
-  int overviewId;
-  static int overviewCpt;
+    int overviewId;
+    static int overviewCpt;
 
-  bool overviewGen;
+    bool overviewGen;
 
-  Color backgroundColor, textColor;
+    Color backgroundColor, textColor;
 };
 }
 #endif // PIXEL_ORIENTED_OVERVIEW_H

@@ -17,18 +17,18 @@
 
 class OGDFImportBase : public tlp::ImportModule {
 
-public:
-  OGDFImportBase(tlp::PluginContext *context) : tlp::ImportModule(context) {}
-  virtual bool importOGDFGraph() = 0;
+  public:
+    OGDFImportBase(tlp::PluginContext *context) : tlp::ImportModule(context) {}
+    virtual bool importOGDFGraph() = 0;
 
-  bool importGraph() override {
-    if (importOGDFGraph()) {
-      convertOGDFGraphToTalipotGraph(G, graph);
-      return true;
+    bool importGraph() override {
+        if (importOGDFGraph()) {
+            convertOGDFGraphToTalipotGraph(G, graph);
+            return true;
+        }
+        return false;
     }
-    return false;
-  }
 
-protected:
-  ogdf::Graph G;
+  protected:
+    ogdf::Graph G;
 };

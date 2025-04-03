@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,290 +21,293 @@ PLUGIN(ImprovedWalker)
 
 //====================================================================
 class ImprovedWalkerIterator : public Iterator<node> {
-private:
-  Graph *graph;
-  node n;
-  int currentChild;
-  int endChild;
-  bool isReversed;
+  private:
+    Graph *graph;
+    node n;
+    int currentChild;
+    int endChild;
+    bool isReversed;
 
-public:
-  ImprovedWalkerIterator(Graph *graphParam, node nParam, int currentChildParam, int endChildParam)
-      : graph(graphParam), n(nParam), currentChild(currentChildParam), endChild(endChildParam) {
-    isReversed = currentChild > endChild;
-  }
-
-  bool hasNext() override {
-    return currentChild != endChild;
-  }
-
-  node next() override {
-    node tmp = graph->getOutNode(n, currentChild);
-
-    if (isReversed) {
-      currentChild--;
-    } else {
-      currentChild++;
+  public:
+    ImprovedWalkerIterator(Graph *graphParam, node nParam, int currentChildParam, int endChildParam)
+        : graph(graphParam), n(nParam), currentChild(currentChildParam), endChild(endChildParam) {
+        isReversed = currentChild > endChild;
     }
 
-    return tmp;
-  }
+    bool hasNext() override {
+        return currentChild != endChild;
+    }
+
+    node next() override {
+        node tmp = graph->getOutNode(n, currentChild);
+
+        if (isReversed) {
+            currentChild--;
+        } else {
+            currentChild++;
+        }
+
+        return tmp;
+    }
 };
 //====================================================================
 ImprovedWalker::ImprovedWalker(const tlp::PluginContext *context) : LayoutAlgorithm(context) {
-  addNodeSizePropertyParameter(this);
-  addOrientationParameters(this);
-  addOrthogonalParameters(this);
-  addSpacingParameters(this);
+    addNodeSizePropertyParameter(this);
+    addOrientationParameters(this);
+    addOrthogonalParameters(this);
+    addSpacingParameters(this);
 }
 //====================================================================
 ImprovedWalker::~ImprovedWalker() = default;
 //====================================================================
 bool ImprovedWalker::run() {
-  if (pluginProgress) {
-    pluginProgress->showPreview(false);
-  }
-
-  result->setAllEdgeValue(vector<Coord>());
-
-  tree = TreeTest::computeTree(graph, pluginProgress);
-
-  if (pluginProgress && pluginProgress->state() != ProgressState::TLP_CONTINUE) {
-    TreeTest::cleanComputedTree(graph, tree);
-    return pluginProgress->state() != ProgressState::TLP_CANCEL;
-  }
-
-  node root = tree->getSource();
-  orientationType mask = getMask(dataSet);
-  oriLayout = new OrientableLayout(result, mask);
-  SizeProperty *size;
-
-  if (!getNodeSizePropertyParameter(dataSet, size)) {
-    size = graph->getSizeProperty("viewSize");
-  }
-
-  getSpacingParameters(dataSet, nodeSpacing, spacing);
-
-  oriSize = new OrientableSizeProxy(size, mask);
-  depthMax = initializeAllNodes(root);
-  order[root] = 1;
-
-  firstWalk(root);
-
-  // check if the specified layer spacing is greater
-  // than the max of the minimum layer spacing of the tree
-  for (uint i = 0; i < maxYbyLevel.size() - 1; ++i) {
-    float minLayerSpacing = (maxYbyLevel[i] + maxYbyLevel[i + 1]) / 2.f;
-
-    if (minLayerSpacing + nodeSpacing > spacing) {
-      spacing = minLayerSpacing + nodeSpacing;
+    if (pluginProgress) {
+        pluginProgress->showPreview(false);
     }
-  }
 
-  secondWalk(root, 0, 0);
+    result->setAllEdgeValue(vector<Coord>());
 
-  if (hasOrthogonalEdge(dataSet)) {
-    oriLayout->setOrthogonalEdge(tree, spacing);
-  }
+    tree = TreeTest::computeTree(graph, pluginProgress);
 
-  TreeTest::cleanComputedTree(graph, tree);
+    if (pluginProgress && pluginProgress->state() != ProgressState::TLP_CONTINUE) {
+        TreeTest::cleanComputedTree(graph, tree);
+        return pluginProgress->state() != ProgressState::TLP_CANCEL;
+    }
 
-  delete oriLayout;
-  delete oriSize;
-  return true;
+    node root = tree->getSource();
+    orientationType mask = getMask(dataSet);
+    oriLayout = new OrientableLayout(result, mask);
+    SizeProperty *size;
+
+    if (!getNodeSizePropertyParameter(dataSet, size)) {
+        size = graph->getSizeProperty("viewSize");
+    }
+
+    getSpacingParameters(dataSet, nodeSpacing, spacing);
+
+    oriSize = new OrientableSizeProxy(size, mask);
+    depthMax = initializeAllNodes(root);
+    order[root] = 1;
+
+    firstWalk(root);
+
+    // check if the specified layer spacing is greater
+    // than the max of the minimum layer spacing of the tree
+    for (uint i = 0; i < maxYbyLevel.size() - 1; ++i) {
+        float minLayerSpacing = (maxYbyLevel[i] + maxYbyLevel[i + 1]) / 2.f;
+
+        if (minLayerSpacing + nodeSpacing > spacing) {
+            spacing = minLayerSpacing + nodeSpacing;
+        }
+    }
+
+    secondWalk(root, 0, 0);
+
+    if (hasOrthogonalEdge(dataSet)) {
+        oriLayout->setOrthogonalEdge(tree, spacing);
+    }
+
+    TreeTest::cleanComputedTree(graph, tree);
+
+    delete oriLayout;
+    delete oriSize;
+    return true;
 }
 //====================================================================
 int ImprovedWalker::initializeAllNodes(tlp::node root) {
-  return initializeNode(root, 0);
+    return initializeNode(root, 0);
 }
 //====================================================================
 int ImprovedWalker::initializeNode(tlp::node n, uint depth) {
-  if (maxYbyLevel.size() == depth) {
-    maxYbyLevel.push_back(0);
-  }
+    if (maxYbyLevel.size() == depth) {
+        maxYbyLevel.push_back(0);
+    }
 
-  float nodeHeight = oriSize->getNodeValue(n).getH();
-  maxYbyLevel[depth] = max(maxYbyLevel[depth], nodeHeight);
+    float nodeHeight = oriSize->getNodeValue(n).getH();
+    maxYbyLevel[depth] = max(maxYbyLevel[depth], nodeHeight);
 
-  prelimX[n] = 0;
-  modChildX[n] = 0;
+    prelimX[n] = 0;
+    modChildX[n] = 0;
 
-  shiftNode[n] = 0;
-  shiftDelta[n] = 0;
+    shiftNode[n] = 0;
+    shiftDelta[n] = 0;
 
-  ancestor[n] = n;
-  thread[n] = node();
+    ancestor[n] = n;
+    thread[n] = node();
 
-  int maxDepth = 0;
-  int count = 0;
+    int maxDepth = 0;
+    int count = 0;
 
-  for (auto currentNode : tree->getOutNodes(n)) {
-    order[currentNode] = ++count;
-    int treeDepth = initializeNode(currentNode, depth + 1);
-    maxDepth = max(treeDepth, maxDepth);
-  }
+    for (auto currentNode : tree->getOutNodes(n)) {
+        order[currentNode] = ++count;
+        int treeDepth = initializeNode(currentNode, depth + 1);
+        maxDepth = max(treeDepth, maxDepth);
+    }
 
-  return maxDepth + 1;
+    return maxDepth + 1;
 }
 //====================================================================
 int ImprovedWalker::countSibling(tlp::node from, tlp::node to) {
-  return abs(order[from] - order[to]);
+    return abs(order[from] - order[to]);
 }
 //====================================================================
 ImprovedWalkerIterator *ImprovedWalker::iterateSibling(tlp::node from, tlp::node to) {
-  int modifier = (order[from] > order[to] ? 1 : -1);
-  node father = tree->getInNode(from, 1);
+    int modifier = (order[from] > order[to] ? 1 : -1);
+    node father = tree->getInNode(from, 1);
 
-  return new ImprovedWalkerIterator(tree, father, order[from], order[to] + modifier);
+    return new ImprovedWalkerIterator(tree, father, order[from], order[to] + modifier);
 }
 //====================================================================
 Iterator<node> *ImprovedWalker::getChildren(tlp::node n) {
-  return tree->getOutNodes(n);
+    return tree->getOutNodes(n);
 }
 //====================================================================
 ImprovedWalkerIterator *ImprovedWalker::getReversedChildren(tlp::node n) {
-  int nbChildren = tree->outdeg(n);
-  return new ImprovedWalkerIterator(tree, n, nbChildren, 0);
+    int nbChildren = tree->outdeg(n);
+    return new ImprovedWalkerIterator(tree, n, nbChildren, 0);
 }
 
 //====================================================================
 void ImprovedWalker::firstWalk(tlp::node v) {
-  if (isLeaf(tree, v)) {
-    prelimX[v] = 0;
-    node vleftSibling = leftSibling(v);
+    if (isLeaf(tree, v)) {
+        prelimX[v] = 0;
+        node vleftSibling = leftSibling(v);
 
-    if (vleftSibling.isValid()) {
-      prelimX[v] += prelimX[vleftSibling] + nodeSpacing + oriSize->getNodeValue(v).getW() / 2.f +
-                    oriSize->getNodeValue(vleftSibling).getW() / 2.f;
-    }
-  } else {
-    node defaultAncestor = leftmostChild(v);
-
-    for (auto currentNode : getChildren(v)) {
-      firstWalk(currentNode);
-      combineSubtree(currentNode, &defaultAncestor);
-    }
-
-    executeShifts(v);
-
-    float midPoint = (prelimX[leftmostChild(v)] + prelimX[rightmostChild(v)]) / 2.f;
-
-    node leftBrother = leftSibling(v);
-
-    if (leftBrother.isValid()) {
-      prelimX[v] = prelimX[leftBrother] + nodeSpacing + oriSize->getNodeValue(v).getW() / 2.f +
-                   oriSize->getNodeValue(leftBrother).getW() / 2.f;
-      modChildX[v] = prelimX[v] - midPoint;
+        if (vleftSibling.isValid()) {
+            prelimX[v] += prelimX[vleftSibling] + nodeSpacing +
+                          oriSize->getNodeValue(v).getW() / 2.f +
+                          oriSize->getNodeValue(vleftSibling).getW() / 2.f;
+        }
     } else {
-      prelimX[v] = midPoint;
+        node defaultAncestor = leftmostChild(v);
+
+        for (auto currentNode : getChildren(v)) {
+            firstWalk(currentNode);
+            combineSubtree(currentNode, &defaultAncestor);
+        }
+
+        executeShifts(v);
+
+        float midPoint = (prelimX[leftmostChild(v)] + prelimX[rightmostChild(v)]) / 2.f;
+
+        node leftBrother = leftSibling(v);
+
+        if (leftBrother.isValid()) {
+            prelimX[v] = prelimX[leftBrother] + nodeSpacing +
+                         oriSize->getNodeValue(v).getW() / 2.f +
+                         oriSize->getNodeValue(leftBrother).getW() / 2.f;
+            modChildX[v] = prelimX[v] - midPoint;
+        } else {
+            prelimX[v] = midPoint;
+        }
     }
-  }
 }
 //====================================================================
 void ImprovedWalker::secondWalk(tlp::node v, float modifierX, int depth) {
-  OrientableCoord coord = oriLayout->createCoord(prelimX[v] + modifierX, depth * spacing, 0);
-  oriLayout->setNodeValue(v, coord);
+    OrientableCoord coord = oriLayout->createCoord(prelimX[v] + modifierX, depth * spacing, 0);
+    oriLayout->setNodeValue(v, coord);
 
-  for (auto n : getChildren(v)) {
-    secondWalk(n, modifierX + modChildX[v], depth + 1);
-  }
+    for (auto n : getChildren(v)) {
+        secondWalk(n, modifierX + modChildX[v], depth + 1);
+    }
 }
 //====================================================================
 void ImprovedWalker::combineSubtree(tlp::node v, tlp::node *defaultAncestor) {
-  node leftBrother = leftSibling(v);
+    node leftBrother = leftSibling(v);
 
-  if (leftBrother.isValid()) {
-    node nodeInsideRight;
-    node nodeOutsideRight;
-    node nodeInsideLeft;
-    node nodeOutsideLeft;
+    if (leftBrother.isValid()) {
+        node nodeInsideRight;
+        node nodeOutsideRight;
+        node nodeInsideLeft;
+        node nodeOutsideLeft;
 
-    float shiftInsideRight;
-    float shiftOutsideRight;
-    float shiftInsideLeft;
-    float shiftOutsideLeft;
+        float shiftInsideRight;
+        float shiftOutsideRight;
+        float shiftInsideLeft;
+        float shiftOutsideLeft;
 
-    nodeInsideRight = v;
-    nodeOutsideRight = v;
-    nodeInsideLeft = leftBrother;
-    nodeOutsideLeft = leftMostSibling(nodeInsideRight);
+        nodeInsideRight = v;
+        nodeOutsideRight = v;
+        nodeInsideLeft = leftBrother;
+        nodeOutsideLeft = leftMostSibling(nodeInsideRight);
 
-    shiftInsideRight = modChildX[nodeInsideRight];
-    shiftOutsideRight = modChildX[nodeOutsideRight];
-    shiftInsideLeft = modChildX[nodeInsideLeft];
-    shiftOutsideLeft = modChildX[nodeOutsideLeft];
+        shiftInsideRight = modChildX[nodeInsideRight];
+        shiftOutsideRight = modChildX[nodeOutsideRight];
+        shiftInsideLeft = modChildX[nodeInsideLeft];
+        shiftOutsideLeft = modChildX[nodeOutsideLeft];
 
-    while (nextRightContour(nodeInsideLeft).isValid() &&
-           nextLeftContour(nodeInsideRight).isValid()) {
+        while (nextRightContour(nodeInsideLeft).isValid() &&
+               nextLeftContour(nodeInsideRight).isValid()) {
 
-      nodeInsideLeft = nextRightContour(nodeInsideLeft);
-      nodeInsideRight = nextLeftContour(nodeInsideRight);
+            nodeInsideLeft = nextRightContour(nodeInsideLeft);
+            nodeInsideRight = nextLeftContour(nodeInsideRight);
 
-      if (nodeOutsideLeft.isValid()) {
-        nodeOutsideLeft = nextLeftContour(nodeOutsideLeft);
-      }
+            if (nodeOutsideLeft.isValid()) {
+                nodeOutsideLeft = nextLeftContour(nodeOutsideLeft);
+            }
 
-      if (nodeOutsideRight.isValid()) {
-        nodeOutsideRight = nextRightContour(nodeOutsideRight);
-      }
+            if (nodeOutsideRight.isValid()) {
+                nodeOutsideRight = nextRightContour(nodeOutsideRight);
+            }
 
-      ancestor[nodeOutsideRight] = v;
+            ancestor[nodeOutsideRight] = v;
 
-      float shift = (prelimX[nodeInsideLeft] + shiftInsideLeft) -
-                    (prelimX[nodeInsideRight] + shiftInsideRight) + nodeSpacing +
-                    oriSize->getNodeValue(nodeInsideLeft).getW() / 2.f +
-                    oriSize->getNodeValue(nodeInsideRight).getW() / 2.f;
+            float shift = (prelimX[nodeInsideLeft] + shiftInsideLeft) -
+                          (prelimX[nodeInsideRight] + shiftInsideRight) + nodeSpacing +
+                          oriSize->getNodeValue(nodeInsideLeft).getW() / 2.f +
+                          oriSize->getNodeValue(nodeInsideRight).getW() / 2.f;
 
-      if (shift > 0) {
-        node ancest = findCommonAncestor(nodeInsideLeft, v, *defaultAncestor);
-        moveSubtree(ancest, v, shift);
-        shiftInsideRight += shift;
-        shiftOutsideRight += shift;
-      }
+            if (shift > 0) {
+                node ancest = findCommonAncestor(nodeInsideLeft, v, *defaultAncestor);
+                moveSubtree(ancest, v, shift);
+                shiftInsideRight += shift;
+                shiftOutsideRight += shift;
+            }
 
-      shiftInsideRight += modChildX[nodeInsideRight];
-      shiftOutsideRight += modChildX[nodeOutsideRight];
-      shiftInsideLeft += modChildX[nodeInsideLeft];
-      shiftOutsideLeft += modChildX[nodeOutsideLeft];
+            shiftInsideRight += modChildX[nodeInsideRight];
+            shiftOutsideRight += modChildX[nodeOutsideRight];
+            shiftInsideLeft += modChildX[nodeInsideLeft];
+            shiftOutsideLeft += modChildX[nodeOutsideLeft];
+        }
+
+        if (nextRightContour(nodeInsideLeft).isValid() &&
+            !nextRightContour(nodeOutsideRight).isValid()) {
+            thread[nodeOutsideRight] = nextRightContour(nodeInsideLeft);
+            modChildX[nodeOutsideRight] += shiftInsideLeft - shiftOutsideRight;
+        }
+
+        if (nextLeftContour(nodeInsideRight).isValid() &&
+            !nextLeftContour(nodeOutsideLeft).isValid()) {
+            thread[nodeOutsideLeft] = nextLeftContour(nodeInsideRight);
+            modChildX[nodeOutsideLeft] += shiftInsideRight - shiftOutsideLeft;
+
+            *defaultAncestor = v;
+        }
     }
-
-    if (nextRightContour(nodeInsideLeft).isValid() &&
-        !nextRightContour(nodeOutsideRight).isValid()) {
-      thread[nodeOutsideRight] = nextRightContour(nodeInsideLeft);
-      modChildX[nodeOutsideRight] += shiftInsideLeft - shiftOutsideRight;
-    }
-
-    if (nextLeftContour(nodeInsideRight).isValid() && !nextLeftContour(nodeOutsideLeft).isValid()) {
-      thread[nodeOutsideLeft] = nextLeftContour(nodeInsideRight);
-      modChildX[nodeOutsideLeft] += shiftInsideRight - shiftOutsideLeft;
-
-      *defaultAncestor = v;
-    }
-  }
 }
 //====================================================================
 void ImprovedWalker::moveSubtree(tlp::node fromNode, tlp::node toNode, float rightShift) {
-  int nbElementSubtree = countSibling(toNode, fromNode);
-  float shiftByElem = rightShift / nbElementSubtree;
+    int nbElementSubtree = countSibling(toNode, fromNode);
+    float shiftByElem = rightShift / nbElementSubtree;
 
-  shiftDelta[toNode] -= shiftByElem;
-  shiftNode[toNode] += rightShift;
-  shiftDelta[fromNode] += shiftByElem;
+    shiftDelta[toNode] -= shiftByElem;
+    shiftNode[toNode] += rightShift;
+    shiftDelta[fromNode] += shiftByElem;
 
-  prelimX[toNode] += rightShift;
-  modChildX[toNode] += rightShift;
+    prelimX[toNode] += rightShift;
+    modChildX[toNode] += rightShift;
 }
 //====================================================================
 void ImprovedWalker::executeShifts(tlp::node v) {
-  float shift = 0;
-  float delta = 0;
+    float shift = 0;
+    float delta = 0;
 
-  for (auto currentNode : getReversedChildren(v)) {
-    prelimX[currentNode] += shift;
-    modChildX[currentNode] += shift;
+    for (auto currentNode : getReversedChildren(v)) {
+        prelimX[currentNode] += shift;
+        modChildX[currentNode] += shift;
 
-    delta += shiftDelta[currentNode];
-    shift += shiftNode[currentNode] + delta;
-  }
+        delta += shiftDelta[currentNode];
+        shift += shiftNode[currentNode] + delta;
+    }
 }
 //====================================================================

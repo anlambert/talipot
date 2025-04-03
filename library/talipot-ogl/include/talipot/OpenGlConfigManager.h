@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,75 +29,75 @@ namespace tlp {
  */
 class TLP_GL_SCOPE OpenGlConfigManager {
 
-public:
-  /**
-   * Returns the OpenGL version number supported by the host system as a string.
-   *
-   */
-  static std::string getOpenGLVersionString();
+  public:
+    /**
+     * Returns the OpenGL version number supported by the host system as a string.
+     *
+     */
+    static std::string getOpenGLVersionString();
 
-  /**
-   * Returns the OpenGL version number supported by the host system as a number.
-   */
-  static double getOpenGLVersion();
+    /**
+     * Returns the OpenGL version number supported by the host system as a number.
+     */
+    static double getOpenGLVersion();
 
-  /**
-   * Return the vendor name of the OpenGL driver installed on the host system.
-   */
-  static std::string getOpenGLVendor();
+    /**
+     * Return the vendor name of the OpenGL driver installed on the host system.
+     */
+    static std::string getOpenGLVendor();
 
-  static void initExtensions();
+    static void initExtensions();
 
-  /**
-   * Checks if an OpenGL extension is supported by the driver installed on the host system.
-   * \param extensionName the name of the OpenGL extension to check in the form "GL_.*" (for
-   * instance "GL_ARB_vertex_buffer_object")
-   */
-  static bool isExtensionSupported(const std::string &extensionName);
+    /**
+     * Checks if an OpenGL extension is supported by the driver installed on the host system.
+     * \param extensionName the name of the OpenGL extension to check in the form "GL_.*" (for
+     * instance "GL_ARB_vertex_buffer_object")
+     */
+    static bool isExtensionSupported(const std::string &extensionName);
 
-  /**
-   * Returns if vertex buffer objects can be used on the host system.
-   */
-  static bool hasVertexBufferObject();
+    /**
+     * Returns if vertex buffer objects can be used on the host system.
+     */
+    static bool hasVertexBufferObject();
 
-  /**
-   * Enables / disables anti-aliasing rendering.
-   */
-  static void setAntiAliasing(const bool antialiasing) {
-    _antialiased = antialiasing;
-  }
+    /**
+     * Enables / disables anti-aliasing rendering.
+     */
+    static void setAntiAliasing(const bool antialiasing) {
+        _antialiased = antialiasing;
+    }
 
-  /**
-   * Returns the anti-aliasing state
-   */
-  static bool antiAliasing() {
-    return _antialiased;
-  }
+    /**
+     * Returns the anti-aliasing state
+     */
+    static bool antiAliasing() {
+        return _antialiased;
+    }
 
-  /**
-   * Activates anti-aliasing
-   * This method has no effect if anti-aliasing has been disabled by a call to
-   * setAntiAliasing(false).
-   */
-  static void activateAntiAliasing();
+    /**
+     * Activates anti-aliasing
+     * This method has no effect if anti-aliasing has been disabled by a call to
+     * setAntiAliasing(false).
+     */
+    static void activateAntiAliasing();
 
-  /**
-   * deactivates anti-aliasing
-   * This method has no effect if anti-aliasing has been disabled by a call to
-   * setAntiAliasing(false).
-   */
-  static void deactivateAntiAliasing();
+    /**
+     * deactivates anti-aliasing
+     * This method has no effect if anti-aliasing has been disabled by a call to
+     * setAntiAliasing(false).
+     */
+    static void deactivateAntiAliasing();
 
-  /**
-   * Returns a maximum number of samples for anti-aliasing based on graphics hardware capability
-   *
-   */
-  static int maxNumberOfSamples();
+    /**
+     * Returns a maximum number of samples for anti-aliasing based on graphics hardware capability
+     *
+     */
+    static int maxNumberOfSamples();
 
-private:
-  static bool _glewIsInit;
-  static bool _antialiased;
-  static flat_hash_map<std::string, bool> _checkedExtensions;
+  private:
+    static bool _glewIsInit;
+    static bool _antialiased;
+    static flat_hash_map<std::string, bool> _checkedExtensions;
 };
 }
 

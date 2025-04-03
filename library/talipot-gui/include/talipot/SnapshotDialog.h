@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -34,37 +34,37 @@ class View;
 
 class TLP_QT_SCOPE SnapshotDialog : public QDialog {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  SnapshotDialog(const View *v, QWidget *parent = nullptr);
-  ~SnapshotDialog() override;
+  public:
+    SnapshotDialog(const View *v, QWidget *parent = nullptr);
+    ~SnapshotDialog() override;
 
-  void setSnapshotHasViewSizeRatio(bool snapshotHasViewSizeRatio);
+    void setSnapshotHasViewSizeRatio(bool snapshotHasViewSizeRatio);
 
-public slots:
+  public slots:
 
-  void accept() override;
+    void accept() override;
 
-protected slots:
+  protected slots:
 
-  void widthSpinBoxValueChanged(int value);
-  void heightSpinBoxValueChanged(int value);
-  void clicked(QAbstractButton *b);
+    void widthSpinBoxValueChanged(int value);
+    void heightSpinBoxValueChanged(int value);
+    void clicked(QAbstractButton *b);
 
-protected:
-  void resizeEvent(QResizeEvent *) override;
+  protected:
+    void resizeEvent(QResizeEvent *) override;
 
-  void sizeSpinBoxValueChanged();
+    void sizeSpinBoxValueChanged();
 
-  Ui::SnapshotDialog *ui;
-  const View *view;
+    Ui::SnapshotDialog *ui;
+    const View *view;
 
-  LinkWidget *linkWidget;
+    LinkWidget *linkWidget;
 
-  float ratio;
+    float ratio;
 
-  bool inSizeSpinBoxValueChanged;
+    bool inSizeSpinBoxValueChanged;
 };
 }
 

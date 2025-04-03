@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -75,108 +75,111 @@ unique_ptr<GlShaderProgram> GlGlyphRenderer::_glyphShader;
 unique_ptr<GlBox> GlGlyphRenderer::_selectionBox;
 
 void GlGlyphRenderer::startRendering() {
-  _nodeGlyphsToRender.clear();
-  _edgeExtremityGlyphsToRender.clear();
-  _nodeGlyphsToRender.reserve(_inputData->graph()->numberOfNodes());
-  _edgeExtremityGlyphsToRender.reserve(_inputData->graph()->numberOfEdges());
+    _nodeGlyphsToRender.clear();
+    _edgeExtremityGlyphsToRender.clear();
+    _nodeGlyphsToRender.reserve(_inputData->graph()->numberOfNodes());
+    _edgeExtremityGlyphsToRender.reserve(_inputData->graph()->numberOfEdges());
 
-  if (GlShaderProgram::shaderProgramsSupported() && _glyphShader.get() == nullptr) {
-    _glyphShader.reset(new GlShaderProgram("glyph"));
-    _glyphShader->addShaderFromSourceCode(Vertex, glyphShaderSrc);
-    _glyphShader->link();
-    _glyphShader->printInfoLog();
-  }
+    if (GlShaderProgram::shaderProgramsSupported() && _glyphShader.get() == nullptr) {
+        _glyphShader.reset(new GlShaderProgram("glyph"));
+        _glyphShader->addShaderFromSourceCode(Vertex, glyphShaderSrc);
+        _glyphShader->link();
+        _glyphShader->printInfoLog();
+    }
 
-  if (_glyphShader && _glyphShader->isLinked() && !GlShaderProgram::getCurrentActiveShader()) {
-    _renderingStarted = true;
-  }
+    if (_glyphShader && _glyphShader->isLinked() && !GlShaderProgram::getCurrentActiveShader()) {
+        _renderingStarted = true;
+    }
 }
 
 bool GlGlyphRenderer::renderingHasStarted() const {
-  return _renderingStarted;
+    return _renderingStarted;
 }
 
 void GlGlyphRenderer::addNodeGlyphRendering(Glyph *glyph, node n, float lod, const Coord &nodePos,
                                             const Size &nodeSize, float nodeRot, bool selected) {
-  _nodeGlyphsToRender.push_back(NodeGlyphData(glyph, n, lod, nodePos, nodeSize, nodeRot, selected));
+    _nodeGlyphsToRender.push_back(
+        NodeGlyphData(glyph, n, lod, nodePos, nodeSize, nodeRot, selected));
 }
 
 void GlGlyphRenderer::addEdgeExtremityGlyphRendering(EdgeExtremityGlyph *glyph, edge e, node source,
                                                      Color glyphColor, Color glyphBorderColor,
                                                      float lod, Coord beginAnchor, Coord srcAnchor,
                                                      Size size, bool selected) {
-  _edgeExtremityGlyphsToRender.push_back(EdgeExtremityGlyphData(
-      glyph, e, source, glyphColor, glyphBorderColor, lod, beginAnchor, srcAnchor, size, selected));
+    _edgeExtremityGlyphsToRender.push_back(
+        EdgeExtremityGlyphData(glyph, e, source, glyphColor, glyphBorderColor, lod, beginAnchor,
+                               srcAnchor, size, selected));
 }
 
 void GlGlyphRenderer::endRendering() {
 
-  if (!_renderingStarted) {
-    return;
-  }
-
-  if (!_selectionBox.get()) {
-    _selectionBox.reset(new GlBox(Coord(0, 0, 0), Size(1, 1, 1), Color(0, 0, 255, 255),
-                                  Color(0, 255, 0, 255), false, true));
-    _selectionBox->setOutlineSize(3);
-  }
-
-  const Color &colorSelect = _inputData->renderingParameters()->getSelectionColor();
-
-  _glyphShader->activate();
-
-  for (const auto &glyphData : _nodeGlyphsToRender) {
-    if (glyphData.selected) {
-      glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getSelectedNodesStencil(),
-                    0xFFFF);
-    } else {
-      glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getNodesStencil(), 0xFFFF);
+    if (!_renderingStarted) {
+        return;
     }
 
-    _glyphShader->setUniformVec3Float("pos", glyphData.nodePos);
-    _glyphShader->setUniformVec3Float("size", glyphData.nodeSize);
-    _glyphShader->setUniformVec3Float("rotVector", Coord(0, 0, 1));
-    _glyphShader->setUniformFloat("rotAngle", glyphData.nodeRot * M_PI / 180);
-
-    if (glyphData.selected) {
-      _selectionBox->setStencil(_inputData->renderingParameters()->getSelectedNodesStencil() - 1);
-      _selectionBox->setOutlineColor(colorSelect);
-      _selectionBox->draw(10, nullptr);
+    if (!_selectionBox.get()) {
+        _selectionBox.reset(new GlBox(Coord(0, 0, 0), Size(1, 1, 1), Color(0, 0, 255, 255),
+                                      Color(0, 255, 0, 255), false, true));
+        _selectionBox->setOutlineSize(3);
     }
 
-    glyphData.glyph->draw(glyphData.n, glyphData.lod);
-  }
+    const Color &colorSelect = _inputData->renderingParameters()->getSelectionColor();
 
-  for (const auto &glyphData : _edgeExtremityGlyphsToRender) {
-    if (glyphData.selected) {
-      glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getSelectedEdgesStencil(),
-                    0xFFFF);
-    } else {
-      glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getEdgesStencil(), 0xFFFF);
+    _glyphShader->activate();
+
+    for (const auto &glyphData : _nodeGlyphsToRender) {
+        if (glyphData.selected) {
+            glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getSelectedNodesStencil(),
+                          0xFFFF);
+        } else {
+            glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getNodesStencil(), 0xFFFF);
+        }
+
+        _glyphShader->setUniformVec3Float("pos", glyphData.nodePos);
+        _glyphShader->setUniformVec3Float("size", glyphData.nodeSize);
+        _glyphShader->setUniformVec3Float("rotVector", Coord(0, 0, 1));
+        _glyphShader->setUniformFloat("rotAngle", glyphData.nodeRot * M_PI / 180);
+
+        if (glyphData.selected) {
+            _selectionBox->setStencil(_inputData->renderingParameters()->getSelectedNodesStencil() -
+                                      1);
+            _selectionBox->setOutlineColor(colorSelect);
+            _selectionBox->draw(10, nullptr);
+        }
+
+        glyphData.glyph->draw(glyphData.n, glyphData.lod);
     }
 
-    Coord dir = glyphData.srcAnchor - glyphData.beginAnchor;
+    for (const auto &glyphData : _edgeExtremityGlyphsToRender) {
+        if (glyphData.selected) {
+            glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getSelectedEdgesStencil(),
+                          0xFFFF);
+        } else {
+            glStencilFunc(GL_LEQUAL, _inputData->renderingParameters()->getEdgesStencil(), 0xFFFF);
+        }
 
-    if (dir.norm() > 0) {
-      dir /= dir.norm();
+        Coord dir = glyphData.srcAnchor - glyphData.beginAnchor;
+
+        if (dir.norm() > 0) {
+            dir /= dir.norm();
+        }
+
+        Coord cross = dir ^ Coord(1, 0, 0);
+
+        if (cross.norm() > 0) {
+            cross /= cross.norm();
+        }
+
+        _glyphShader->setUniformVec3Float("pos", glyphData.srcAnchor - glyphData.size / 2.f * dir);
+        _glyphShader->setUniformVec3Float("size", glyphData.size);
+        _glyphShader->setUniformVec3Float("rotVector", cross);
+        _glyphShader->setUniformFloat("rotAngle", -acos(dir.dotProduct(Coord(1, 0, 0))));
+        glyphData.glyph->draw(glyphData.e, glyphData.source, glyphData.glyphColor,
+                              glyphData.glyphBorderColor, glyphData.lod);
     }
 
-    Coord cross = dir ^ Coord(1, 0, 0);
+    _glyphShader->deactivate();
 
-    if (cross.norm() > 0) {
-      cross /= cross.norm();
-    }
-
-    _glyphShader->setUniformVec3Float("pos", glyphData.srcAnchor - glyphData.size / 2.f * dir);
-    _glyphShader->setUniformVec3Float("size", glyphData.size);
-    _glyphShader->setUniformVec3Float("rotVector", cross);
-    _glyphShader->setUniformFloat("rotAngle", -acos(dir.dotProduct(Coord(1, 0, 0))));
-    glyphData.glyph->draw(glyphData.e, glyphData.source, glyphData.glyphColor,
-                          glyphData.glyphBorderColor, glyphData.lod);
-  }
-
-  _glyphShader->deactivate();
-
-  _renderingStarted = false;
+    _renderingStarted = false;
 }
 }

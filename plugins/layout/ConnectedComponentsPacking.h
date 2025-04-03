@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,14 +17,15 @@
 #include <talipot/PropertyAlgorithm.h>
 
 class ConnectedComponentsPacking : public tlp::LayoutAlgorithm {
-public:
-  PLUGININFORMATION("Connected Components Packing", "David Auber", "26/05/05",
-                    "Implements a layout packing of the connected components of a graph. It builds "
-                    "a layout of the graph connected components so that they do not overlap and "
-                    "minimizes the lost space (packing).",
-                    "1.0", "Misc")
-  ConnectedComponentsPacking(const tlp::PluginContext *context);
-  bool run() override;
+  public:
+    PLUGININFORMATION(
+        "Connected Components Packing", "David Auber", "26/05/05",
+        "Implements a layout packing of the connected components of a graph. It builds "
+        "a layout of the graph connected components so that they do not overlap and "
+        "minimizes the lost space (packing).",
+        "1.0", "Misc")
+    ConnectedComponentsPacking(const tlp::PluginContext *context);
+    bool run() override;
 };
 
 #endif // CONNECTED_COMPONENTS_PACKING_H

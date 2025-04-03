@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,41 +27,41 @@ static constexpr std::string_view paramHelp[] = {
     "Metric containing the edge weights."};
 //======================================================
 Kruskal::Kruskal(const tlp::PluginContext *context) : BooleanAlgorithm(context) {
-  addInParameter<NumericProperty *>("edge weight", paramHelp[0].data(), "viewMetric");
-  addOutParameter<uint>("#edges selected", "The number of newly selected edges");
+    addInParameter<NumericProperty *>("edge weight", paramHelp[0].data(), "viewMetric");
+    addOutParameter<uint>("#edges selected", "The number of newly selected edges");
 }
 
 //======================================================
 
 bool Kruskal::check(std::string &erreurMsg) {
-  if (!ConnectedTest::isConnected(graph)) {
-    erreurMsg = "The graph must be connected.";
-    return false;
-  }
+    if (!ConnectedTest::isConnected(graph)) {
+        erreurMsg = "The graph must be connected.";
+        return false;
+    }
 
-  return true;
+    return true;
 }
 //======================================================
 /// Compute the Minimum Spanning Tree
 bool Kruskal::run() {
-  /* Initialisation */
-  NumericProperty *edgeWeight = nullptr;
+    /* Initialisation */
+    NumericProperty *edgeWeight = nullptr;
 
-  if (dataSet != nullptr) {
-    dataSet->get("edge weight", edgeWeight);
-  }
+    if (dataSet != nullptr) {
+        dataSet->get("edge weight", edgeWeight);
+    }
 
-  if (edgeWeight == nullptr) {
-    edgeWeight = graph->getDoubleProperty("viewMetric");
-  }
+    if (edgeWeight == nullptr) {
+        edgeWeight = graph->getDoubleProperty("viewMetric");
+    }
 
-  selectMinimumSpanningTree(graph, result, edgeWeight, pluginProgress);
+    selectMinimumSpanningTree(graph, result, edgeWeight, pluginProgress);
 
-  // output some useful information
-  if (dataSet != nullptr) {
-    dataSet->set("#edges selected", result->numberOfNonDefaultValuatedEdges());
-  }
+    // output some useful information
+    if (dataSet != nullptr) {
+        dataSet->set("#edges selected", result->numberOfNonDefaultValuatedEdges());
+    }
 
-  return true;
+    return true;
 }
 //=======================================================================

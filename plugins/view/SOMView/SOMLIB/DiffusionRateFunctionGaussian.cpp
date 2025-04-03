@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,9 +25,9 @@ double DifusionRateFunctionGaussian::computeSpaceRate(unsigned int distance,
                                                       unsigned int maxIteration,
                                                       unsigned int inputSampleSize) {
 
-  double timeVal =
-      timeFunction->computeCurrentTimeRate(currentIteration, maxIteration, inputSampleSize);
-  double value = (sqrt((distance * distance))) / (2 * (timeVal * timeVal));
+    double timeVal =
+        timeFunction->computeCurrentTimeRate(currentIteration, maxIteration, inputSampleSize);
+    double value = (sqrt((distance * distance))) / (2 * (timeVal * timeVal));
 
-  return exp(-value);
+    return exp(-value);
 }

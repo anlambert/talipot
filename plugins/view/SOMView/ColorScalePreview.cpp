@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,44 +18,44 @@
 using namespace tlp;
 
 ColorScalePreview::ColorScalePreview(ColorScale *colorScale) : currentColorScale(colorScale) {
-  setAutoFillBackground(true);
-  fillLabel();
+    setAutoFillBackground(true);
+    fillLabel();
 }
 
 ColorScalePreview::~ColorScalePreview() {
-  // TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
 
 void ColorScalePreview::fillLabel() {
 
-  if (currentColorScale != nullptr && width() != 0 && height() != 0) {
+    if (currentColorScale != nullptr && width() != 0 && height() != 0) {
 
-    QPalette p = this->palette();
-    QLinearGradient grad(0, height() * 0.5, width(), height() * 0.5);
+        QPalette p = this->palette();
+        QLinearGradient grad(0, height() * 0.5, width(), height() * 0.5);
 
-    for (const auto &it : currentColorScale->getColorMap()) {
-      tlp::Color col = it.second;
-      QColor c(col.getR(), col.getG(), col.getB(), col.getA());
-      grad.setColorAt(it.first, c);
+        for (const auto &it : currentColorScale->getColorMap()) {
+            tlp::Color col = it.second;
+            QColor c(col.getR(), col.getG(), col.getB(), col.getA());
+            grad.setColorAt(it.first, c);
+        }
+
+        p.setBrush(QPalette::Window, QBrush(grad));
+        this->setPalette(p);
     }
-
-    p.setBrush(QPalette::Window, QBrush(grad));
-    this->setPalette(p);
-  }
 }
 
 void ColorScalePreview::setColorScale(ColorScale *colorScale) {
-  currentColorScale = colorScale;
-  fillLabel();
+    currentColorScale = colorScale;
+    fillLabel();
 }
 
 void ColorScalePreview::resizeEvent(QResizeEvent *event) {
-  QLabel::resizeEvent(event);
-  fillLabel();
+    QLabel::resizeEvent(event);
+    fillLabel();
 }
 
 void ColorScalePreview::mousePressEvent(QMouseEvent *) {
-  tlp::ColorScaleConfigDialog dialog(*currentColorScale, this);
-  dialog.exec();
-  fillLabel();
+    tlp::ColorScaleConfigDialog dialog(*currentColorScale, this);
+    dialog.exec();
+    fillLabel();
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,26 +22,26 @@ class PluginInformationListItem;
 }
 
 class PluginInformationListItem : public QWidget {
-  Q_OBJECT
-  Ui::PluginInformationListItem *_ui;
+    Q_OBJECT
+    Ui::PluginInformationListItem *_ui;
 
-public:
-  explicit PluginInformationListItem(const tlp::Plugin &plugin, QWidget *parent = nullptr);
-  ~PluginInformationListItem() override;
-  QWidget *description();
+  public:
+    explicit PluginInformationListItem(const tlp::Plugin &plugin, QWidget *parent = nullptr);
+    ~PluginInformationListItem() override;
+    QWidget *description();
 
-public slots:
-  void focusOut();
-  void focusIn();
+  public slots:
+    void focusOut();
+    void focusIn();
 
-signals:
-  void focused();
+  signals:
+    void focused();
 
-protected:
+  protected:
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-  void enterEvent(QEvent *) override;
+    void enterEvent(QEvent *) override;
 #else
-  void enterEvent(QEnterEvent *) override;
+    void enterEvent(QEnterEvent *) override;
 #endif
 };
 

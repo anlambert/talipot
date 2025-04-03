@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,63 +25,63 @@ class GlPolyQuad;
 
 class TLP_GL_SCOPE GlColorScale : public GlEntity, public Observable {
 
-public:
-  enum Orientation { Horizontal, Vertical };
+  public:
+    enum Orientation { Horizontal, Vertical };
 
-  GlColorScale(ColorScale *colorScale, const Coord &baseCoord, const float length,
-               const float thickness, Orientation orientation);
+    GlColorScale(ColorScale *colorScale, const Coord &baseCoord, const float length,
+                 const float thickness, Orientation orientation);
 
-  ~GlColorScale() override;
+    ~GlColorScale() override;
 
-  /**
-   * @brief Compute the color corresponding to the position in the color scale.
-   * The orientation of the scale define the coordinate used to compute the color (if the
-   *orientation is horizontal use only the X coordinate).
-   * If the position is outside of the entity coordinates returns the nearest extremity value.
-   **/
-  Color getColorAtPos(Coord pos);
+    /**
+     * @brief Compute the color corresponding to the position in the color scale.
+     * The orientation of the scale define the coordinate used to compute the color (if the
+     *orientation is horizontal use only the X coordinate).
+     * If the position is outside of the entity coordinates returns the nearest extremity value.
+     **/
+    Color getColorAtPos(Coord pos);
 
-  void draw(float lod, Camera *camera) override;
+    void draw(float lod, Camera *camera) override;
 
-  void translate(const Coord &move) override;
+    void translate(const Coord &move) override;
 
-  Coord getBaseCoord() const {
-    return baseCoord;
-  }
+    Coord getBaseCoord() const {
+        return baseCoord;
+    }
 
-  float getThickness() const {
-    return thickness;
-  }
+    float getThickness() const {
+        return thickness;
+    }
 
-  float getLength() const {
-    return length;
-  }
+    float getLength() const {
+        return length;
+    }
 
-  GlPolyQuad *getColorScalePolyQuad() const {
-    return colorScalePolyQuad;
-  }
+    GlPolyQuad *getColorScalePolyQuad() const {
+        return colorScalePolyQuad;
+    }
 
-  void setColorScale(ColorScale *scale);
+    void setColorScale(ColorScale *scale);
 
-  ColorScale *getColorScale() {
-    return colorScale;
-  }
+    ColorScale *getColorScale() {
+        return colorScale;
+    }
 
-  void getXML(std::string &) override {}
+    void getXML(std::string &) override {}
 
-  void setWithXML(const std::string &, uint &) override {}
+    void setWithXML(const std::string &, uint &) override {}
 
-protected:
-  void treatEvent(const Event &) override;
+  protected:
+    void treatEvent(const Event &) override;
 
-private:
-  void updateDrawing();
+  private:
+    void updateDrawing();
 
-  ColorScale *colorScale;
-  Coord baseCoord;
-  float length, thickness;
-  GlPolyQuad *colorScalePolyQuad;
-  Orientation orientation;
+    ColorScale *colorScale;
+    Coord baseCoord;
+    float length, thickness;
+    GlPolyQuad *colorScalePolyQuad;
+    Orientation orientation;
 };
 }
 

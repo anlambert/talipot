@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,17 +23,17 @@ class AboutDialog;
 }
 
 class AboutDialog : public QDialog {
-  Q_OBJECT
-public:
-  explicit AboutDialog(QWidget *parent = nullptr);
-  ~AboutDialog() override;
+    Q_OBJECT
+  public:
+    explicit AboutDialog(QWidget *parent = nullptr);
+    ~AboutDialog() override;
 
-private slots:
+  private slots:
 
-  void openUrlInBrowser(const QString &url);
+    void openUrlInBrowser(const QString &url);
 
-private:
-  Ui::AboutDialog *_ui;
+  private:
+    Ui::AboutDialog *_ui;
 };
 
 #endif // TALIPOT_ABOUT_DIALOG_H

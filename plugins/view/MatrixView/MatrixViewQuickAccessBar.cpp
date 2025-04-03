@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,36 +31,36 @@ MatrixViewQuickAccessBar::MatrixViewQuickAccessBar(MatrixViewConfigurationWidget
       _optionsWidget(opt) {}
 
 void MatrixViewQuickAccessBar::setEdgesVisible(bool visible) {
-  _optionsWidget->setDisplayEdges(visible);
-  showEdgesButton()->setIcon((visible ? QIcon(":/talipot/gui/icons/20/edges_enabled.png")
-                                      : QIcon(":/talipot/gui/icons/20/edges_disabled.png")));
-  emit settingsChanged();
+    _optionsWidget->setDisplayEdges(visible);
+    showEdgesButton()->setIcon((visible ? QIcon(":/talipot/gui/icons/20/edges_enabled.png")
+                                        : QIcon(":/talipot/gui/icons/20/edges_disabled.png")));
+    emit settingsChanged();
 }
 
 void MatrixViewQuickAccessBar::reset() {
-  QuickAccessBarImpl::reset();
-  showEdgesButton()->setChecked(_optionsWidget->displayGraphEdges());
-  showEdgesButton()->setIcon((_optionsWidget->displayGraphEdges()
-                                  ? QIcon(":/talipot/gui/icons/20/edges_enabled.png")
-                                  : QIcon(":/talipot/gui/icons/20/edges_disabled.png")));
-  backgroundColorButton()->setColor(_optionsWidget->getBackgroundColor());
-  showColorInterpolation()->setChecked(_optionsWidget->isEdgeColorInterpolation());
-  showColorInterpolation()->setIcon(
-      (_optionsWidget->isEdgeColorInterpolation()
-           ? QIcon(":/talipot/gui/icons/20/color_interpolation_enabled.png")
-           : QIcon(":/talipot/gui/icons/20/color_interpolation_disabled.png")));
+    QuickAccessBarImpl::reset();
+    showEdgesButton()->setChecked(_optionsWidget->displayGraphEdges());
+    showEdgesButton()->setIcon((_optionsWidget->displayGraphEdges()
+                                    ? QIcon(":/talipot/gui/icons/20/edges_enabled.png")
+                                    : QIcon(":/talipot/gui/icons/20/edges_disabled.png")));
+    backgroundColorButton()->setColor(_optionsWidget->getBackgroundColor());
+    showColorInterpolation()->setChecked(_optionsWidget->isEdgeColorInterpolation());
+    showColorInterpolation()->setIcon(
+        (_optionsWidget->isEdgeColorInterpolation()
+             ? QIcon(":/talipot/gui/icons/20/color_interpolation_enabled.png")
+             : QIcon(":/talipot/gui/icons/20/color_interpolation_disabled.png")));
 }
 
 void MatrixViewQuickAccessBar::setBackgroundColor(const QColor &col) {
-  _optionsWidget->setBackgroundColor(col);
-  emit settingsChanged();
+    _optionsWidget->setBackgroundColor(col);
+    emit settingsChanged();
 }
 
 void MatrixViewQuickAccessBar::setColorInterpolation(bool state) {
-  _optionsWidget->setEdgeColorInterpolation(state);
-  showColorInterpolation()->setIcon(
-      (state ? QIcon(":/talipot/gui/icons/20/color_interpolation_enabled.png")
-             : QIcon(":/talipot/gui/icons/20/color_interpolation_disabled.png")));
-  emit settingsChanged();
+    _optionsWidget->setEdgeColorInterpolation(state);
+    showColorInterpolation()->setIcon(
+        (state ? QIcon(":/talipot/gui/icons/20/color_interpolation_enabled.png")
+               : QIcon(":/talipot/gui/icons/20/color_interpolation_disabled.png")));
+    emit settingsChanged();
 }
 }

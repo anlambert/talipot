@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,19 +21,19 @@ namespace tlp {
 class ParallelCoordsDrawConfigWidget;
 
 class ParallelCoordinatesViewQuickAccessBar : public tlp::QuickAccessBarImpl {
-  Q_OBJECT
+    Q_OBJECT
 
-  ParallelCoordsDrawConfigWidget *_optionsWidget;
+    ParallelCoordsDrawConfigWidget *_optionsWidget;
 
-public:
-  ParallelCoordinatesViewQuickAccessBar(ParallelCoordsDrawConfigWidget *opt,
-                                        QWidget *parent = nullptr);
+  public:
+    ParallelCoordinatesViewQuickAccessBar(ParallelCoordsDrawConfigWidget *opt,
+                                          QWidget *parent = nullptr);
 
-public slots:
-  void reset() override;
-  void setNodesVisible(bool) override;
-  void setBackgroundColor(const QColor &) override;
-  void setLabelsVisible(bool) override;
+  public slots:
+    void reset() override;
+    void setNodesVisible(bool) override;
+    void setBackgroundColor(const QColor &) override;
+    void setLabelsVisible(bool) override;
 };
 }
 #endif // PARALLEL_COORDINATES_VIEW_QUICK_ACCESSBAR_H

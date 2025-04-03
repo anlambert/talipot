@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,18 +23,18 @@ namespace tlp {
 
 template <typename NodeFunction>
 void inline TLP_MAP_NODES(const tlp::Graph *graph, const NodeFunction &nodeFunction) {
-  for (auto n : graph->nodes()) {
-    nodeFunction(n);
-  }
+    for (auto n : graph->nodes()) {
+        nodeFunction(n);
+    }
 }
 
 template <typename NodeIndexFunction>
 void inline TLP_MAP_NODES_AND_INDICES(const tlp::Graph *graph,
                                       const NodeIndexFunction &nodeIndexFunction) {
-  uint i = 0;
-  for (auto n : graph->nodes()) {
-    nodeIndexFunction(n, i++);
-  }
+    uint i = 0;
+    for (auto n : graph->nodes()) {
+        nodeIndexFunction(n, i++);
+    }
 }
 
 // ===================================================================================
@@ -63,7 +63,7 @@ void inline TLP_MAP_NODES_AND_INDICES(const tlp::Graph *graph,
  */
 template <typename NodeFunction>
 void inline TLP_PARALLEL_MAP_NODES(const tlp::Graph *graph, const NodeFunction &nodeFunction) {
-  TLP_PARALLEL_MAP_VECTOR<tlp::node, NodeFunction>(graph->nodes(), nodeFunction);
+    TLP_PARALLEL_MAP_VECTOR<tlp::node, NodeFunction>(graph->nodes(), nodeFunction);
 }
 
 // ===================================================================================
@@ -94,25 +94,25 @@ void inline TLP_PARALLEL_MAP_NODES(const tlp::Graph *graph, const NodeFunction &
 template <typename NodeFunction>
 void inline TLP_PARALLEL_MAP_NODES_AND_INDICES(const tlp::Graph *graph,
                                                const NodeFunction &nodeFunction) {
-  TLP_PARALLEL_MAP_VECTOR_AND_INDICES<tlp::node, NodeFunction>(graph->nodes(), nodeFunction);
+    TLP_PARALLEL_MAP_VECTOR_AND_INDICES<tlp::node, NodeFunction>(graph->nodes(), nodeFunction);
 }
 
 // ===================================================================================
 
 template <typename EdgeFunction>
 void inline TLP_MAP_EDGES(const tlp::Graph *graph, const EdgeFunction &edgeFunction) {
-  for (auto e : graph->edges()) {
-    edgeFunction(e);
-  }
+    for (auto e : graph->edges()) {
+        edgeFunction(e);
+    }
 }
 
 template <typename EdgeIndexFunction>
 void inline TLP_MAP_EDGES_AND_INDICES(const tlp::Graph *graph,
                                       const EdgeIndexFunction &edgeIndexFunction) {
-  uint i = 0;
-  for (auto e : graph->edges()) {
-    edgeIndexFunction(e, i++);
-  }
+    uint i = 0;
+    for (auto e : graph->edges()) {
+        edgeIndexFunction(e, i++);
+    }
 }
 
 // ===================================================================================
@@ -141,7 +141,7 @@ void inline TLP_MAP_EDGES_AND_INDICES(const tlp::Graph *graph,
  */
 template <typename EdgeFunction>
 void inline TLP_PARALLEL_MAP_EDGES(const tlp::Graph *graph, const EdgeFunction &edgeFunction) {
-  TLP_PARALLEL_MAP_VECTOR<tlp::edge, EdgeFunction>(graph->edges(), edgeFunction);
+    TLP_PARALLEL_MAP_VECTOR<tlp::edge, EdgeFunction>(graph->edges(), edgeFunction);
 }
 
 // ===================================================================================
@@ -172,7 +172,7 @@ void inline TLP_PARALLEL_MAP_EDGES(const tlp::Graph *graph, const EdgeFunction &
 template <typename EdgeFunction>
 void inline TLP_PARALLEL_MAP_EDGES_AND_INDICES(const tlp::Graph *graph,
                                                const EdgeFunction &edgeFunction) {
-  TLP_PARALLEL_MAP_VECTOR_AND_INDICES<tlp::edge, EdgeFunction>(graph->edges(), edgeFunction);
+    TLP_PARALLEL_MAP_VECTOR_AND_INDICES<tlp::edge, EdgeFunction>(graph->edges(), edgeFunction);
 }
 }
 

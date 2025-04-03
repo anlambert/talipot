@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -170,10 +170,10 @@ Returns the number of strings in the collection.
   std::string operator[](const uint i) const;
 %MethodCode
 if (a0 < sipCpp->size()) {
-  sipRes = new std::string((*sipCpp)[a0]);
+    sipRes = new std::string((*sipCpp)[a0]);
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 

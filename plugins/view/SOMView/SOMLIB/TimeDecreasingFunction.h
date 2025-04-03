@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,18 +21,18 @@
  * See SOM algorithm for more details on time coefficient in SOM computation.
  */
 class TimeDecreasingFunction {
-public:
-  TimeDecreasingFunction() = default;
-  virtual ~TimeDecreasingFunction() = default;
-  /**
-   * Return the time coefficient for the given parameters.
-   * @param currentIteration The current iteration.
-   * @param maxIteration The maximum iteration number.
-   * @param inputSampleSize The size of the input sample.
-   * @return
-   */
-  virtual double computeCurrentTimeRate(unsigned int currentIteration, unsigned int maxIteration,
-                                        unsigned int inputSampleSize) = 0;
+  public:
+    TimeDecreasingFunction() = default;
+    virtual ~TimeDecreasingFunction() = default;
+    /**
+     * Return the time coefficient for the given parameters.
+     * @param currentIteration The current iteration.
+     * @param maxIteration The maximum iteration number.
+     * @param inputSampleSize The size of the input sample.
+     * @return
+     */
+    virtual double computeCurrentTimeRate(unsigned int currentIteration, unsigned int maxIteration,
+                                          unsigned int inputSampleSize) = 0;
 };
 
 #endif // TIME_DECREASING_FUNCTION_H

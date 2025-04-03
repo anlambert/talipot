@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,32 +27,32 @@ namespace tlp {
 class ConvolutionClustering;
 
 class ConvolutionClusteringSetup : public QDialog {
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::ConvolutionClusteringSetup *_ui;
+    Ui::ConvolutionClusteringSetup *_ui;
 
-public:
-  ConvolutionClusteringSetup(ConvolutionClustering *convolPlugin, QWidget *parent = nullptr);
-  ~ConvolutionClusteringSetup() override;
+  public:
+    ConvolutionClusteringSetup(ConvolutionClustering *convolPlugin, QWidget *parent = nullptr);
+    ~ConvolutionClusteringSetup() override;
 
-  ConvolutionClustering *getPlugin() const {
-    return convolPlugin;
-  }
-  bool getLogarithmicScale() const {
-    return useLogarithmicScale;
-  }
-  void abort() {
-    reject();
-  }
+    ConvolutionClustering *getPlugin() const {
+        return convolPlugin;
+    }
+    bool getLogarithmicScale() const {
+        return useLogarithmicScale;
+    }
+    void abort() {
+        reject();
+    }
 
-public slots:
-  void update();
-  void setlog(bool);
+  public slots:
+    void update();
+    void setlog(bool);
 
-private:
-  QWidget *histogramWidget;
-  ConvolutionClustering *convolPlugin;
-  bool useLogarithmicScale;
+  private:
+    QWidget *histogramWidget;
+    ConvolutionClustering *convolPlugin;
+    bool useLogarithmicScale;
 };
 }
 #endif // CONVOLUTION_CLUSTERING_SETUP_H

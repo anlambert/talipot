@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2024  The Talipot developers
+ * Copyright (C) 2024-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,36 +33,36 @@ static constexpr string_view paramHelp[] = {
 //=================================================================================
 
 class OGDFRandomHierarchy : public OGDFImportBase {
-public:
-  PLUGININFORMATION("Random Hierarchy (OGDF)", "Antoine Lambert", "02/2024",
-                    "Creates a random hierarchical graph", "1.0", "OGDF")
+  public:
+    PLUGININFORMATION("Random Hierarchy (OGDF)", "Antoine Lambert", "02/2024",
+                      "Creates a random hierarchical graph", "1.0", "OGDF")
 
-  OGDFRandomHierarchy(tlp::PluginContext *context) : OGDFImportBase(context) {
-    addInParameter<int>("n", paramHelp[0].data(), "1000");
-    addInParameter<int>("m", paramHelp[1].data(), "2000");
-    addInParameter<bool>("planar", paramHelp[2].data(), "true");
-    addInParameter<bool>("singleSource", paramHelp[3].data(), "true");
-    addInParameter<bool>("longEdges", paramHelp[4].data(), "false");
-  }
-
-  bool importOGDFGraph() override {
-    int n = 100;
-    int m = 100;
-    bool planar = false;
-    bool singleSource = false;
-    bool longEdges = true;
-
-    if (dataSet != nullptr) {
-      dataSet->get("n", n);
-      dataSet->get("m", m);
-      dataSet->get("planar", planar);
-      dataSet->get("singleSource", singleSource);
-      dataSet->get("longEdges", longEdges);
+    OGDFRandomHierarchy(tlp::PluginContext *context) : OGDFImportBase(context) {
+        addInParameter<int>("n", paramHelp[0].data(), "1000");
+        addInParameter<int>("m", paramHelp[1].data(), "2000");
+        addInParameter<bool>("planar", paramHelp[2].data(), "true");
+        addInParameter<bool>("singleSource", paramHelp[3].data(), "true");
+        addInParameter<bool>("longEdges", paramHelp[4].data(), "false");
     }
 
-    ogdf::randomHierarchy(G, n, m, planar, singleSource, longEdges);
-    return true;
-  }
+    bool importOGDFGraph() override {
+        int n = 100;
+        int m = 100;
+        bool planar = false;
+        bool singleSource = false;
+        bool longEdges = true;
+
+        if (dataSet != nullptr) {
+            dataSet->get("n", n);
+            dataSet->get("m", m);
+            dataSet->get("planar", planar);
+            dataSet->get("singleSource", singleSource);
+            dataSet->get("longEdges", longEdges);
+        }
+
+        ogdf::randomHierarchy(G, n, m, planar, singleSource, longEdges);
+        return true;
+    }
 };
 
 PLUGIN(OGDFRandomHierarchy)

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -117,70 +117,70 @@ GlCatmullRomCurve::GlCatmullRomCurve(const vector<Coord> &controlPoints, const C
 GlCatmullRomCurve::~GlCatmullRomCurve() = default;
 
 Coord GlCatmullRomCurve::computeCurvePointOnCPU(const std::vector<Coord> &controlPoints, float t) {
-  return computeCatmullRomPoint(controlPoints, t, closedCurve, alpha);
+    return computeCatmullRomPoint(controlPoints, t, closedCurve, alpha);
 }
 
 void GlCatmullRomCurve::computeCurvePointsOnCPU(const std::vector<Coord> &controlPoints,
                                                 std::vector<Coord> &curvePoints,
                                                 uint nbCurvePoints) {
-  computeCatmullRomPoints(controlPoints, curvePoints, closedCurve, nbCurvePoints, alpha);
+    computeCatmullRomPoints(controlPoints, curvePoints, closedCurve, nbCurvePoints, alpha);
 }
 
 void GlCatmullRomCurve::setCurveVertexShaderRenderingSpecificParameters() {
-  curveShaderProgram->setUniformBool("closedCurve", closedCurve);
-  curveShaderProgram->setUniformFloat("totalLength", totalLength);
-  curveShaderProgram->setUniformFloat("alpha", alpha);
+    curveShaderProgram->setUniformBool("closedCurve", closedCurve);
+    curveShaderProgram->setUniformFloat("totalLength", totalLength);
+    curveShaderProgram->setUniformFloat("alpha", alpha);
 }
 
 void GlCatmullRomCurve::drawCurve(vector<Coord> &controlPoints, const Color &startColor,
                                   const Color &endColor, const float startSize, const float endSize,
                                   const uint nbCurvePoints) {
 
-  GLint renderMode;
-  glGetIntegerv(GL_RENDER_MODE, &renderMode);
+    GLint renderMode;
+    glGetIntegerv(GL_RENDER_MODE, &renderMode);
 
-  vector<Coord> controlPointsCp;
-  vector<Coord> *controlPointsP = &controlPoints;
+    vector<Coord> controlPointsCp;
+    vector<Coord> *controlPointsP = &controlPoints;
 
-  if (paramType == UNIFORM) {
-    alpha = 0.0f;
-  } else if (paramType == CENTRIPETAL) {
-    alpha = 0.5f;
-  } else {
-    alpha = 1.0f;
-  }
-
-  if (closedCurve && renderMode != GL_SELECT && curveShaderProgramNormal != nullptr) {
-    controlPointsCp = controlPoints;
-    controlPointsCp.push_back(controlPointsCp[0]);
-    controlPointsP = &controlPointsCp;
-  }
-
-  if (curveShaderProgramNormal != nullptr) {
-    totalLength = 0.0f;
-
-    for (size_t i = 1; i < controlPointsP->size(); ++i) {
-      float dist = pow((*controlPointsP)[i - 1].dist((*controlPointsP)[i]), alpha);
-      totalLength += dist;
+    if (paramType == UNIFORM) {
+        alpha = 0.0f;
+    } else if (paramType == CENTRIPETAL) {
+        alpha = 0.5f;
+    } else {
+        alpha = 1.0f;
     }
-  }
 
-  static GlBezierCurve curve;
+    if (closedCurve && renderMode != GL_SELECT && curveShaderProgramNormal != nullptr) {
+        controlPointsCp = controlPoints;
+        controlPointsCp.push_back(controlPointsCp[0]);
+        controlPointsP = &controlPointsCp;
+    }
 
-  if (controlPoints.size() == 2) {
-    curve.setOutlined(outlined);
-    curve.setLineCurve(lineCurve);
-    curve.setCurveLineWidth(curveLineWidth);
-    curve.setCurveQuadBordersWidth(curveQuadBordersWidth);
-    curve.setOutlineColorInterpolation(outlineColorInterpolation);
-    curve.setOutlineColor(outlineColor);
-    curve.setTexture(texture);
-    curve.setBillboardCurve(billboardCurve);
-    curve.setLookDir(lookDir);
-    curve.drawCurve(controlPoints, startColor, endColor, startSize, endSize, nbCurvePoints);
-  } else {
-    AbstractGlCurve::drawCurve(*controlPointsP, startColor, endColor, startSize, endSize,
-                               nbCurvePoints);
-  }
+    if (curveShaderProgramNormal != nullptr) {
+        totalLength = 0.0f;
+
+        for (size_t i = 1; i < controlPointsP->size(); ++i) {
+            float dist = pow((*controlPointsP)[i - 1].dist((*controlPointsP)[i]), alpha);
+            totalLength += dist;
+        }
+    }
+
+    static GlBezierCurve curve;
+
+    if (controlPoints.size() == 2) {
+        curve.setOutlined(outlined);
+        curve.setLineCurve(lineCurve);
+        curve.setCurveLineWidth(curveLineWidth);
+        curve.setCurveQuadBordersWidth(curveQuadBordersWidth);
+        curve.setOutlineColorInterpolation(outlineColorInterpolation);
+        curve.setOutlineColor(outlineColor);
+        curve.setTexture(texture);
+        curve.setBillboardCurve(billboardCurve);
+        curve.setLookDir(lookDir);
+        curve.drawCurve(controlPoints, startColor, endColor, startSize, endSize, nbCurvePoints);
+    } else {
+        AbstractGlCurve::drawCurve(*controlPointsP, startColor, endColor, startSize, endSize,
+                                   nbCurvePoints);
+    }
 }
 }

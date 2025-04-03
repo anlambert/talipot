@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,19 +23,19 @@ DagLevelMetric::DagLevelMetric(const tlp::PluginContext *context) : DoubleAlgori
 DagLevelMetric::~DagLevelMetric() = default;
 //======================================================
 bool DagLevelMetric::run() {
-  NodeVectorProperty<uint> level(graph);
-  dagLevel(graph, level);
-  level.copyToProperty(result);
+    NodeVectorProperty<uint> level(graph);
+    dagLevel(graph, level);
+    level.copyToProperty(result);
 
-  return true;
+    return true;
 }
 //======================================================
 bool DagLevelMetric::check(std::string &erreurMsg) {
-  if (AcyclicTest::isAcyclic(graph)) {
-    erreurMsg = "";
-    return true;
-  } else {
-    erreurMsg = "The graph must be a acylic.";
-    return false;
-  }
+    if (AcyclicTest::isAcyclic(graph)) {
+        erreurMsg = "";
+        return true;
+    } else {
+        erreurMsg = "The graph must be a acylic.";
+        return false;
+    }
 }

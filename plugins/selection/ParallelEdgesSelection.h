@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,15 +29,15 @@
  *   auber@labri.fr
  */
 class ParallelEdgesSelection : public tlp::BooleanAlgorithm {
-public:
-  PLUGININFORMATION(tlp::SelectionAlgorithm::ParallelEdgesSelection, "David Auber", "20/01/2003",
-                    "Selects the parallel edges of a graph.<br/>Two edges are "
-                    "considered as parallel if they have the same source/origin and the same "
-                    "target/destination."
-                    "If it exists n edges between two nodes, only n-1 edges will be selected.",
-                    "1.1", "Selection")
-  ParallelEdgesSelection(const tlp::PluginContext *context);
-  bool run() override;
+  public:
+    PLUGININFORMATION(tlp::SelectionAlgorithm::ParallelEdgesSelection, "David Auber", "20/01/2003",
+                      "Selects the parallel edges of a graph.<br/>Two edges are "
+                      "considered as parallel if they have the same source/origin and the same "
+                      "target/destination."
+                      "If it exists n edges between two nodes, only n-1 edges will be selected.",
+                      "1.1", "Selection")
+    ParallelEdgesSelection(const tlp::PluginContext *context);
+    bool run() override;
 };
 
 #endif // PARALLEL_EDGE_SELECTION_H

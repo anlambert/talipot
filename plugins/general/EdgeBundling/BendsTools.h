@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,17 +19,17 @@
 #include <vector>
 
 class BendsTools {
-public:
-  static std::vector<tlp::node> bendsSimplification(std::vector<tlp::node> &bends,
-                                                    tlp::LayoutProperty *layout);
+  public:
+    static std::vector<tlp::node> bendsSimplification(std::vector<tlp::node> &bends,
+                                                      tlp::LayoutProperty *layout);
 
-private:
-  BendsTools();
+  private:
+    BendsTools();
 
-  static bool straightLine(tlp::LayoutProperty *layout, const tlp::node a, const tlp::node b,
+    static bool straightLine(tlp::LayoutProperty *layout, const tlp::node a, const tlp::node b,
+                             const tlp::node c);
+    static double cosAlpha(tlp::LayoutProperty *layout, const tlp::node a, const tlp::node b,
                            const tlp::node c);
-  static double cosAlpha(tlp::LayoutProperty *layout, const tlp::node a, const tlp::node b,
-                         const tlp::node c);
 };
 
 #endif // BENDS_TOOLS_H

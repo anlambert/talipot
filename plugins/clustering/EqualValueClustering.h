@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,15 +18,15 @@
 #include <talipot/NumericProperty.h>
 
 class EqualValueClustering : public tlp::Algorithm {
-public:
-  PLUGININFORMATION("Equal Value", "Patrick Mary", "16/04/2014",
-                    "Performs a graph clusterization grouping in the same cluster the nodes or "
-                    "edges having the same value for a given property.",
-                    "1.1", "Clustering")
-  EqualValueClustering(tlp::PluginContext *context);
-  bool run() override;
-  bool computeClusters(tlp::NumericProperty *prop, bool onNodes, bool connected);
-  bool computeClusters(tlp::PropertyInterface *prop, bool onNodes, bool connected);
+  public:
+    PLUGININFORMATION("Equal Value", "Patrick Mary", "16/04/2014",
+                      "Performs a graph clusterization grouping in the same cluster the nodes or "
+                      "edges having the same value for a given property.",
+                      "1.1", "Clustering")
+    EqualValueClustering(tlp::PluginContext *context);
+    bool run() override;
+    bool computeClusters(tlp::NumericProperty *prop, bool onNodes, bool connected);
+    bool computeClusters(tlp::PropertyInterface *prop, bool onNodes, bool connected);
 };
 
 #endif // EQUAL_VALUE_CLUSTERING_H

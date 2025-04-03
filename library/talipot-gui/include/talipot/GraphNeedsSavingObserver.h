@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -38,68 +38,68 @@ class Graph;
  */
 class TLP_QT_SCOPE GraphNeedsSavingObserver : public QObject, Observable {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  bool _needsSaving;
-  Graph *_graph;
-  QMainWindow *_mainWindow;
+    bool _needsSaving;
+    Graph *_graph;
+    QMainWindow *_mainWindow;
 
-  void addObserver();
-  void removeObservers();
+    void addObserver();
+    void removeObservers();
 
-public:
-  /**
-   * @brief GraphNeedsSavingObserver Class constructor
-   * @param graph The graph which needs to be observed for modifications
-   * @param mainWindow A QMainWindow object
-   */
-  GraphNeedsSavingObserver(Graph *graph, QMainWindow *mainWindow = nullptr);
+  public:
+    /**
+     * @brief GraphNeedsSavingObserver Class constructor
+     * @param graph The graph which needs to be observed for modifications
+     * @param mainWindow A QMainWindow object
+     */
+    GraphNeedsSavingObserver(Graph *graph, QMainWindow *mainWindow = nullptr);
 
-  ~GraphNeedsSavingObserver();
+    ~GraphNeedsSavingObserver();
 
-  /**
-   * @brief saved If the graph has been saved, one has to call this method to reset the status of
-   * the graph (it does not need to be saved).
-   * to indicate that the graph does not need to be saved until a new modification.
-   */
-  void saved();
+    /**
+     * @brief saved If the graph has been saved, one has to call this method to reset the status of
+     * the graph (it does not need to be saved).
+     * to indicate that the graph does not need to be saved until a new modification.
+     */
+    void saved();
 
-  /**
-   * @brief needsSaving Indicates if the graph has been modified, and thus needs to be saved.
-   *
-   * @return true if the graph needs to be saved, false otherwise.
-   */
-  bool needsSaving() const;
+    /**
+     * @brief needsSaving Indicates if the graph has been modified, and thus needs to be saved.
+     *
+     * @return true if the graph needs to be saved, false otherwise.
+     */
+    bool needsSaving() const;
 
-  /**
-   *
-   * @brief forceToSave Even if there is no modification on the graph, this method can be used to
-   * force to save the graph.
-   */
-  void forceToSave();
+    /**
+     *
+     * @brief forceToSave Even if there is no modification on the graph, this method can be used to
+     * force to save the graph.
+     */
+    void forceToSave();
 
-protected:
-  /**
-   * @see Listener
-   * @see Observer
-   * @see Observable
-   * @see Observable::treatEvents(const std::vector<Event>&)
-   *
-   * @brief treatEvents This function is called when events are sent to Observers, and Observers
-   * only.
-   *
-   * @param events The events that happened since the last unHoldObservers().
-   */
-  void treatEvents(const std::vector<Event> &) override;
+  protected:
+    /**
+     * @see Listener
+     * @see Observer
+     * @see Observable
+     * @see Observable::treatEvents(const std::vector<Event>&)
+     *
+     * @brief treatEvents This function is called when events are sent to Observers, and Observers
+     * only.
+     *
+     * @param events The events that happened since the last unHoldObservers().
+     */
+    void treatEvents(const std::vector<Event> &) override;
 
-signals:
+  signals:
 
-  /**
-   * @brief savingNeeded This signal is sent when the graph needs to be saved (it has been
-   * modified).
-   */
+    /**
+     * @brief savingNeeded This signal is sent when the graph needs to be saved (it has been
+     * modified).
+     */
 
-  void savingNeeded();
+    void savingNeeded();
 };
 }
 #endif // TALIPOT_GRAPH_NEEDS_SAVING_OBSERVER_H

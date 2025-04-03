@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,35 +28,35 @@ namespace tlp {
  */
 template <typename Obj, typename OTYPE>
 struct Circle : public Vector<Obj, 2, OTYPE> {
-  Circle() = default;
-  Circle(const Vector<Obj, 2, OTYPE> &pos, Obj radius)
-      : Vector<Obj, 2, OTYPE>(pos), radius(radius) {}
-  Circle(const Circle &c) : Vector<Obj, 2, OTYPE>(c), radius(c.radius) {}
-  Circle(Obj x, Obj y, Obj radius) : radius(radius) {
-    (*this)[0] = x;
-    (*this)[1] = y;
-  }
-  Circle &operator=(const Circle &) = default;
-  /**
-   * Translate "this" by vector v
-   */
-  void translate(const Vector<Obj, 2, OTYPE> &v) {
-    (*this) += v;
-  }
-  /**
-   * Merges this circle with another circle; merging operation
-   * consists in computing the smallest enclosing circle of the
-   * two circle and to store the result in "this".
-   */
-  Circle<Obj, OTYPE> &merge(const Circle<Obj, OTYPE> &c);
-  /**
-   * Radius of the circle
-   */
-  Obj radius;
-  /**
-   * Returns true if the circle is include in an other circle, false otherwise.
-   */
-  bool isIncludeIn(const Circle<Obj, OTYPE> &circle) const;
+    Circle() = default;
+    Circle(const Vector<Obj, 2, OTYPE> &pos, Obj radius)
+        : Vector<Obj, 2, OTYPE>(pos), radius(radius) {}
+    Circle(const Circle &c) : Vector<Obj, 2, OTYPE>(c), radius(c.radius) {}
+    Circle(Obj x, Obj y, Obj radius) : radius(radius) {
+        (*this)[0] = x;
+        (*this)[1] = y;
+    }
+    Circle &operator=(const Circle &) = default;
+    /**
+     * Translate "this" by vector v
+     */
+    void translate(const Vector<Obj, 2, OTYPE> &v) {
+        (*this) += v;
+    }
+    /**
+     * Merges this circle with another circle; merging operation
+     * consists in computing the smallest enclosing circle of the
+     * two circle and to store the result in "this".
+     */
+    Circle<Obj, OTYPE> &merge(const Circle<Obj, OTYPE> &c);
+    /**
+     * Radius of the circle
+     */
+    Obj radius;
+    /**
+     * Returns true if the circle is include in an other circle, false otherwise.
+     */
+    bool isIncludeIn(const Circle<Obj, OTYPE> &circle) const;
 };
 
 /**
@@ -67,37 +67,37 @@ struct Circle : public Vector<Obj, 2, OTYPE> {
 template <typename Obj, typename OTYPE>
 bool intersection(const tlp::Circle<Obj, OTYPE> &c1, const tlp::Circle<Obj, OTYPE> &c2,
                   tlp::Vector<Obj, 2, OTYPE> &sol1, tlp::Vector<Obj, 2, OTYPE> &sol2) {
-  double d = c1.dist(c2);
-  double r1 = c1.radius;
-  double r2 = c2.radius;
+    double d = c1.dist(c2);
+    double r1 = c1.radius;
+    double r2 = c2.radius;
 
-  if (c1 == c2) {
-    return false;
-  }
+    if (c1 == c2) {
+        return false;
+    }
 
-  if (d > (r1 + r2)) {
-    return false; // outside
-  }
+    if (d > (r1 + r2)) {
+        return false; // outside
+    }
 
-  if (d < fabs(r1 - r2)) {
-    return false; // inside
-  }
+    if (d < fabs(r1 - r2)) {
+        return false; // inside
+    }
 
-  double a = ((r1 * r1) - (r2 * r2) + (d * d)) / (2.0 * d);
-  Vec2d c1c2(c2 - c1);
-  Vec2d p2(c1 + c1c2 * a / d);
+    double a = ((r1 * r1) - (r2 * r2) + (d * d)) / (2.0 * d);
+    Vec2d c1c2(c2 - c1);
+    Vec2d p2(c1 + c1c2 * a / d);
 
-  double h = sqrt((r1 * r1) - (a * a));
-  double rx = -c1c2[1] * (h / d);
-  double ry = c1c2[0] * (h / d);
+    double h = sqrt((r1 * r1) - (a * a));
+    double rx = -c1c2[1] * (h / d);
+    double ry = c1c2[0] * (h / d);
 
-  sol1[0] = p2[0] + rx;
-  sol1[1] = p2[1] + ry;
+    sol1[0] = p2[0] + rx;
+    sol1[1] = p2[1] + ry;
 
-  sol2[0] = p2[0] - rx;
-  sol2[1] = p2[1] - ry;
+    sol2[0] = p2[0] - rx;
+    sol2[1] = p2[1] - ry;
 
-  return true;
+    return true;
 }
 
 /**

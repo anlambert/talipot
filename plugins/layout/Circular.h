@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -41,14 +41,15 @@
  * Email:  archam@cs.ubc.ca
  */
 class Circular : public tlp::LayoutAlgorithm {
-public:
-  PLUGININFORMATION("Circular", "David Auber/ Daniel Archambault", "25/11/2004",
-                    "Implements a circular layout that takes node size into account.<br/>"
-                    "It manages size of nodes and use a standard dfs for ordering nodes or search "
-                    "the maximum length cycle.",
-                    "1.1", "Basic")
-  Circular(const tlp::PluginContext *context);
-  bool run() override;
+  public:
+    PLUGININFORMATION(
+        "Circular", "David Auber/ Daniel Archambault", "25/11/2004",
+        "Implements a circular layout that takes node size into account.<br/>"
+        "It manages size of nodes and use a standard dfs for ordering nodes or search "
+        "the maximum length cycle.",
+        "1.1", "Basic")
+    Circular(const tlp::PluginContext *context);
+    bool run() override;
 };
 
 #endif // CIRCULAR_H

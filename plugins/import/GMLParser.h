@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,393 +21,389 @@
  */
 
 struct ParserError {
-  ParserError(int err = 0, int lin = 0, int cha = 0)
-      : errorNumber(err), lineInFile(lin), charInLine(cha) {}
-  int errorNumber;
-  int lineInFile;
-  int charInLine;
+    ParserError(int err = 0, int lin = 0, int cha = 0)
+        : errorNumber(err), lineInFile(lin), charInLine(cha) {}
+    int errorNumber;
+    int lineInFile;
+    int charInLine;
 };
 
 struct GMLValue {
-  std::string str;
-  long integer;
-  double real;
-  bool boolean;
+    std::string str;
+    long integer;
+    double real;
+    bool boolean;
 };
 
 enum GMLToken {
-  BOOLTOKEN,
-  ENDOFSTREAM,
-  STRINGTOKEN,
-  INTTOKEN,
-  DOUBLETOKEN,
-  ERRORINFILE,
-  OPENTOKEN,
-  CLOSETOKEN
+    BOOLTOKEN,
+    ENDOFSTREAM,
+    STRINGTOKEN,
+    INTTOKEN,
+    DOUBLETOKEN,
+    ERRORINFILE,
+    OPENTOKEN,
+    CLOSETOKEN
 };
 //=====================================================================================
 struct GMLTokenParser {
-  int curLine;
-  int curChar;
-  std::istream &is;
-  GMLTokenParser(std::istream &i) : curLine(0), curChar(0), is(i) {}
-  GMLToken nextToken(GMLValue &val) {
-    val.str.erase();
-    bool endOfStream = false, strGet = false, slashMode = false, started = false, stop = false;
-    char ch;
+    int curLine;
+    int curChar;
+    std::istream &is;
+    GMLTokenParser(std::istream &i) : curLine(0), curChar(0), is(i) {}
+    GMLToken nextToken(GMLValue &val) {
+        val.str.erase();
+        bool endOfStream = false, strGet = false, slashMode = false, started = false, stop = false;
+        char ch;
 
-    while ((!stop) && (endOfStream = bool(is.get(ch)))) {
-      curChar++;
+        while ((!stop) && (endOfStream = bool(is.get(ch)))) {
+            curChar++;
 
-      if (strGet) {
-        switch (ch) {
-        case 13:
-          break;
+            if (strGet) {
+                switch (ch) {
+                case 13:
+                    break;
 
-        case '\n':
-          curChar = 0;
-          curLine++;
-          val.str += ch;
-          break;
+                case '\n':
+                    curChar = 0;
+                    curLine++;
+                    val.str += ch;
+                    break;
 
-        case '\\':
+                case '\\':
 
-          if (!slashMode) {
-            slashMode = true;
-          } else {
-            val.str += ch;
-            slashMode = false;
-          }
+                    if (!slashMode) {
+                        slashMode = true;
+                    } else {
+                        val.str += ch;
+                        slashMode = false;
+                    }
 
-          break;
+                    break;
 
-        case '"':
+                case '"':
 
-          if (!slashMode) {
+                    if (!slashMode) {
+                        return STRINGTOKEN;
+                    } else {
+                        val.str += ch;
+                        slashMode = false;
+                    }
+
+                    break;
+
+                default:
+                    slashMode = false;
+                    val.str += ch;
+                    break;
+                }
+            } else {
+                switch (ch) {
+                case 13:
+                    break;
+
+                case ' ':
+
+                    if (started) {
+                        stop = true;
+                    }
+
+                    break;
+
+                case '\t':
+
+                    if (started) {
+                        stop = true;
+                    }
+
+                    break;
+
+                case '\n':
+                    curChar = 0;
+                    curLine++;
+
+                    if (started) {
+                        stop = true;
+                    }
+
+                    break;
+
+                case '[':
+
+                    if (!started) {
+                        return OPENTOKEN;
+                    } else {
+                        is.unget();
+                        stop = true;
+                    }
+
+                    break;
+
+                case ']':
+
+                    if (!started) {
+                        return CLOSETOKEN;
+                    } else {
+                        is.unget();
+                        stop = true;
+                    }
+
+                    break;
+
+                case '"':
+                    strGet = true;
+
+                    if (started) {
+                        is.unget();
+                        stop = true;
+                    } else {
+                        started = true;
+                    }
+
+                    break;
+
+                default:
+                    val.str += ch;
+                    started = true;
+                    break;
+                }
+            }
+        }
+
+        if (!started && !endOfStream) {
+            return ENDOFSTREAM;
+        }
+
+        char *endPtr = nullptr;
+        long resultl = strtol(val.str.c_str(), &endPtr, 10);
+
+        if (endPtr == (val.str.c_str() + val.str.length())) {
+            val.integer = resultl;
+            return INTTOKEN;
+        }
+
+        endPtr = nullptr;
+        double resultd = strtod(val.str.c_str(), &endPtr);
+
+        if (endPtr == (val.str.c_str() + val.str.length())) {
+            val.real = resultd;
+            return DOUBLETOKEN;
+        }
+
+        if (strcasecmp(val.str.c_str(), "true") == 0) {
+            val.boolean = true;
+            return BOOLTOKEN;
+        }
+
+        if (strcasecmp(val.str.c_str(), "false") == 0) {
+            val.boolean = false;
+            return BOOLTOKEN;
+        }
+
+        if (started) {
             return STRINGTOKEN;
-          } else {
-            val.str += ch;
-            slashMode = false;
-          }
-
-          break;
-
-        default:
-          slashMode = false;
-          val.str += ch;
-          break;
         }
-      } else {
-        switch (ch) {
-        case 13:
-          break;
 
-        case ' ':
-
-          if (started) {
-            stop = true;
-          }
-
-          break;
-
-        case '\t':
-
-          if (started) {
-            stop = true;
-          }
-
-          break;
-
-        case '\n':
-          curChar = 0;
-          curLine++;
-
-          if (started) {
-            stop = true;
-          }
-
-          break;
-
-        case '[':
-
-          if (!started) {
-            return OPENTOKEN;
-          } else {
-            is.unget();
-            stop = true;
-          }
-
-          break;
-
-        case ']':
-
-          if (!started) {
-            return CLOSETOKEN;
-          } else {
-            is.unget();
-            stop = true;
-          }
-
-          break;
-
-        case '"':
-          strGet = true;
-
-          if (started) {
-            is.unget();
-            stop = true;
-          } else {
-            started = true;
-          }
-
-          break;
-
-        default:
-          val.str += ch;
-          started = true;
-          break;
-        }
-      }
+        return ERRORINFILE;
     }
-
-    if (!started && !endOfStream) {
-      return ENDOFSTREAM;
-    }
-
-    char *endPtr = nullptr;
-    long resultl = strtol(val.str.c_str(), &endPtr, 10);
-
-    if (endPtr == (val.str.c_str() + val.str.length())) {
-      val.integer = resultl;
-      return INTTOKEN;
-    }
-
-    endPtr = nullptr;
-    double resultd = strtod(val.str.c_str(), &endPtr);
-
-    if (endPtr == (val.str.c_str() + val.str.length())) {
-      val.real = resultd;
-      return DOUBLETOKEN;
-    }
-
-    if (strcasecmp(val.str.c_str(), "true") == 0) {
-      val.boolean = true;
-      return BOOLTOKEN;
-    }
-
-    if (strcasecmp(val.str.c_str(), "false") == 0) {
-      val.boolean = false;
-      return BOOLTOKEN;
-    }
-
-    if (started) {
-      return STRINGTOKEN;
-    }
-
-    return ERRORINFILE;
-  }
 };
 //=====================================================================================
 struct GMLBuilder {
-  virtual ~GMLBuilder() = default;
-  virtual bool addBool(const std::string &, const bool) = 0;
-  virtual bool addInt(const std::string &, const int) = 0;
-  virtual bool addDouble(const std::string &, const double) = 0;
-  virtual bool addString(const std::string &, const std::string &) = 0;
-  virtual bool addStruct(const std::string &, GMLBuilder *&) = 0;
-  virtual bool close() = 0;
+    virtual ~GMLBuilder() = default;
+    virtual bool addBool(const std::string &, const bool) = 0;
+    virtual bool addInt(const std::string &, const int) = 0;
+    virtual bool addDouble(const std::string &, const double) = 0;
+    virtual bool addString(const std::string &, const std::string &) = 0;
+    virtual bool addStruct(const std::string &, GMLBuilder *&) = 0;
+    virtual bool close() = 0;
 };
 
 struct GMLTrue : public GMLBuilder {
-  bool addBool(const std::string &, const bool) override {
-    return true;
-  }
-  bool addInt(const std::string &, const int) override {
-    return true;
-  }
-  bool addDouble(const std::string &, const double) override {
-    return true;
-  }
-  bool addString(const std::string &, const std::string &) override {
-    return true;
-  }
-  bool addStruct(const std::string &, GMLBuilder *&newBuilder) override {
-    newBuilder = new GMLTrue();
-    return true;
-  }
-  bool close() override {
-    return true;
-  }
+    bool addBool(const std::string &, const bool) override {
+        return true;
+    }
+    bool addInt(const std::string &, const int) override {
+        return true;
+    }
+    bool addDouble(const std::string &, const double) override {
+        return true;
+    }
+    bool addString(const std::string &, const std::string &) override {
+        return true;
+    }
+    bool addStruct(const std::string &, GMLBuilder *&newBuilder) override {
+        newBuilder = new GMLTrue();
+        return true;
+    }
+    bool close() override {
+        return true;
+    }
 };
 
 struct GMLFalse : public GMLBuilder {
-  bool addBool(const std::string &, const bool) override {
-    return false;
-  }
-  bool addInt(const std::string &, const int) override {
-    return false;
-  }
-  bool addDouble(const std::string &, const double) override {
-    return false;
-  }
-  bool addString(const std::string &, const std::string &) override {
-    return false;
-  }
-  bool addStruct(const std::string &, GMLBuilder *&newBuilder) override {
-    newBuilder = new GMLFalse();
-    return false;
-  }
-  bool close() override {
-    return true;
-  }
+    bool addBool(const std::string &, const bool) override {
+        return false;
+    }
+    bool addInt(const std::string &, const int) override {
+        return false;
+    }
+    bool addDouble(const std::string &, const double) override {
+        return false;
+    }
+    bool addString(const std::string &, const std::string &) override {
+        return false;
+    }
+    bool addStruct(const std::string &, GMLBuilder *&newBuilder) override {
+        newBuilder = new GMLFalse();
+        return false;
+    }
+    bool close() override {
+        return true;
+    }
 };
 
 struct GMLWriter : public GMLBuilder {
-  bool addBool(const std::string &st, const bool boolean) override {
-    std::cout << st << " ==> "
-              << "bool::" << boolean << std::endl;
-    return true;
-  }
-  bool addInt(const std::string &st, const int integer) override {
-    std::cout << st << " ==> "
-              << "int::" << integer << std::endl;
-    return true;
-  }
-  bool addDouble(const std::string &st, const double real) override {
-    std::cout.flags(std::ios::scientific);
-    std::cout << st << " ==> "
-              << "real::" << real << std::endl;
-    return true;
-  }
-  bool addString(const std::string &st, const std::string &str) override {
-    std::cout << st << " ==> "
-              << "string::" << str << std::endl;
-    return true;
-  }
-  bool addStruct(const std::string &structName, GMLBuilder *&newBuilder) override {
-    std::cout << "struct::" << structName << std::endl;
-    newBuilder = new GMLWriter();
-    return true;
-  }
-  bool close() override {
-    std::cout << "EndStruct::" << std::endl;
-    return true;
-  }
+    bool addBool(const std::string &st, const bool boolean) override {
+        std::cout << st << " ==> " << "bool::" << boolean << std::endl;
+        return true;
+    }
+    bool addInt(const std::string &st, const int integer) override {
+        std::cout << st << " ==> " << "int::" << integer << std::endl;
+        return true;
+    }
+    bool addDouble(const std::string &st, const double real) override {
+        std::cout.flags(std::ios::scientific);
+        std::cout << st << " ==> " << "real::" << real << std::endl;
+        return true;
+    }
+    bool addString(const std::string &st, const std::string &str) override {
+        std::cout << st << " ==> " << "string::" << str << std::endl;
+        return true;
+    }
+    bool addStruct(const std::string &structName, GMLBuilder *&newBuilder) override {
+        std::cout << "struct::" << structName << std::endl;
+        newBuilder = new GMLWriter();
+        return true;
+    }
+    bool close() override {
+        std::cout << "EndStruct::" << std::endl;
+        return true;
+    }
 };
 //=====================================================================================
 template <bool displayComment>
 struct GMLParser {
-  std::list<GMLBuilder *> builderStack;
-  std::istream &inputStream;
+    std::list<GMLBuilder *> builderStack;
+    std::istream &inputStream;
 
-  GMLParser(std::istream &inputStream, GMLBuilder *builder) : inputStream(inputStream) {
-    builderStack.push_front(builder);
-  }
-  ~GMLParser() {
-    while (!builderStack.empty()) {
-      delete builderStack.front();
-      builderStack.pop_front();
+    GMLParser(std::istream &inputStream, GMLBuilder *builder) : inputStream(inputStream) {
+        builderStack.push_front(builder);
     }
-  }
-  bool parse() {
-    GMLTokenParser tokenParser(inputStream);
-    GMLToken currentToken;
-    GMLToken nextToken;
-    GMLValue currentValue;
-    GMLValue nextValue;
+    ~GMLParser() {
+        while (!builderStack.empty()) {
+            delete builderStack.front();
+            builderStack.pop_front();
+        }
+    }
+    bool parse() {
+        GMLTokenParser tokenParser(inputStream);
+        GMLToken currentToken;
+        GMLToken nextToken;
+        GMLValue currentValue;
+        GMLValue nextValue;
 
-    while ((currentToken = tokenParser.nextToken(currentValue)) != ENDOFSTREAM) {
-      switch (currentToken) {
-      case STRINGTOKEN:
-        nextToken = tokenParser.nextToken(nextValue);
+        while ((currentToken = tokenParser.nextToken(currentValue)) != ENDOFSTREAM) {
+            switch (currentToken) {
+            case STRINGTOKEN:
+                nextToken = tokenParser.nextToken(nextValue);
 
-        switch (nextToken) {
-        case OPENTOKEN:
-          GMLBuilder *newBuilder;
+                switch (nextToken) {
+                case OPENTOKEN:
+                    GMLBuilder *newBuilder;
 
-          if (builderStack.front()->addStruct(currentValue.str, newBuilder)) {
-            builderStack.push_front(newBuilder);
-          } else {
-            return false;
-          }
+                    if (builderStack.front()->addStruct(currentValue.str, newBuilder)) {
+                        builderStack.push_front(newBuilder);
+                    } else {
+                        return false;
+                    }
 
-          break;
+                    break;
 
-        case BOOLTOKEN:
+                case BOOLTOKEN:
 
-          if (!builderStack.front()->addBool(currentValue.str, nextValue.boolean)) {
-            std::cerr << "Error parsing stream line :" << tokenParser.curLine
-                      << " char : " << tokenParser.curChar << std::endl;
-            return false;
-          }
+                    if (!builderStack.front()->addBool(currentValue.str, nextValue.boolean)) {
+                        std::cerr << "Error parsing stream line :" << tokenParser.curLine
+                                  << " char : " << tokenParser.curChar << std::endl;
+                        return false;
+                    }
 
-          break;
+                    break;
 
-        case INTTOKEN:
+                case INTTOKEN:
 
-          if (!builderStack.front()->addInt(currentValue.str, nextValue.integer)) {
-            std::cerr << "Error parsing stream line :" << tokenParser.curLine
-                      << " char : " << tokenParser.curChar << std::endl;
-            return false;
-          }
+                    if (!builderStack.front()->addInt(currentValue.str, nextValue.integer)) {
+                        std::cerr << "Error parsing stream line :" << tokenParser.curLine
+                                  << " char : " << tokenParser.curChar << std::endl;
+                        return false;
+                    }
 
-          break;
+                    break;
 
-        case DOUBLETOKEN:
+                case DOUBLETOKEN:
 
-          if (!builderStack.front()->addDouble(currentValue.str, nextValue.real)) {
-            std::cerr << "Error parsing stream line :" << tokenParser.curLine
-                      << " char : " << tokenParser.curChar << std::endl;
-            return false;
-          }
+                    if (!builderStack.front()->addDouble(currentValue.str, nextValue.real)) {
+                        std::cerr << "Error parsing stream line :" << tokenParser.curLine
+                                  << " char : " << tokenParser.curChar << std::endl;
+                        return false;
+                    }
 
-          break;
+                    break;
 
-        case STRINGTOKEN:
+                case STRINGTOKEN:
 
-          if (!builderStack.front()->addString(currentValue.str, nextValue.str)) {
-            std::cerr << "Error parsing stream line :" << tokenParser.curLine
-                      << " char : " << tokenParser.curChar << std::endl;
-            return false;
-          }
+                    if (!builderStack.front()->addString(currentValue.str, nextValue.str)) {
+                        std::cerr << "Error parsing stream line :" << tokenParser.curLine
+                                  << " char : " << tokenParser.curChar << std::endl;
+                        return false;
+                    }
 
-          break;
+                    break;
 
-        case ERRORINFILE:
-          return false;
-          break;
+                case ERRORINFILE:
+                    return false;
+                    break;
 
-        case ENDOFSTREAM:
-          return true;
-          break;
+                case ENDOFSTREAM:
+                    return true;
+                    break;
 
-        default:
-          break;
+                default:
+                    break;
+                }
+
+                break;
+
+            case CLOSETOKEN:
+
+                if (builderStack.front()->close()) {
+                    delete builderStack.front();
+                } else {
+                    std::cerr << "Error parsing stream line :" << tokenParser.curLine
+                              << " char : " << tokenParser.curChar << std::endl;
+                    return false;
+                }
+
+                builderStack.pop_front();
+                break;
+
+            default:
+                std::cerr << "Error parsing stream line :" << tokenParser.curLine
+                          << " char : " << tokenParser.curChar << std::endl;
+                return false;
+            }
         }
 
-        break;
-
-      case CLOSETOKEN:
-
-        if (builderStack.front()->close()) {
-          delete builderStack.front();
-        } else {
-          std::cerr << "Error parsing stream line :" << tokenParser.curLine
-                    << " char : " << tokenParser.curChar << std::endl;
-          return false;
-        }
-
-        builderStack.pop_front();
-        break;
-
-      default:
-        std::cerr << "Error parsing stream line :" << tokenParser.curLine
-                  << " char : " << tokenParser.curChar << std::endl;
-        return false;
-      }
+        return true;
     }
-
-    return true;
-  }
 };
 //=====================================================================================

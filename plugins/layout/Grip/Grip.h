@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,51 +39,51 @@
 
 class Grip : public tlp::LayoutAlgorithm {
 
-public:
-  PLUGININFORMATION("GRIP", "Romain Bourqui", "01/11/2010",
-                    "Implements a force directed graph drawing algorithm first published as:<br/>"
-                    "<b>GRIP: Graph dRawing with Intelligent Placement</b>, P. Gajer and S.G. "
-                    "Kobourov, Journal Graph Algorithm and Applications, vol. 6, no. 3, pages "
-                    "203--224, (2002).",
-                    "1.1", "Force Directed")
+  public:
+    PLUGININFORMATION("GRIP", "Romain Bourqui", "01/11/2010",
+                      "Implements a force directed graph drawing algorithm first published as:<br/>"
+                      "<b>GRIP: Graph dRawing with Intelligent Placement</b>, P. Gajer and S.G. "
+                      "Kobourov, Journal Graph Algorithm and Applications, vol. 6, no. 3, pages "
+                      "203--224, (2002).",
+                      "1.1", "Force Directed")
 
-  Grip(const tlp::PluginContext *);
-  ~Grip() override;
+    Grip(const tlp::PluginContext *);
+    ~Grip() override;
 
-  bool run() override;
+    bool run() override;
 
-private:
-  void computeCurrentGraphLayout();
-  void computeOrdering();
-  void firstNodesPlacement();
-  void placement();
-  void initialPlacement(uint, uint);
-  void kk_local_reffinement(tlp::node);
-  void kk_reffinement(uint, uint);
-  void fr_reffinement(uint, uint);
-  void displace(tlp::node);
-  void updateLocalTemp(tlp::node);
-  void init();
-  void init_heat(uint);
+  private:
+    void computeCurrentGraphLayout();
+    void computeOrdering();
+    void firstNodesPlacement();
+    void placement();
+    void initialPlacement(uint, uint);
+    void kk_local_reffinement(tlp::node);
+    void kk_reffinement(uint, uint);
+    void fr_reffinement(uint, uint);
+    void displace(tlp::node);
+    void updateLocalTemp(tlp::node);
+    void init();
+    void init_heat(uint);
 
-  void seeLayout(uint);
+    void seeLayout(uint);
 
-  uint rounds(uint, uint, uint, uint, uint);
-  void set_nbr_size();
-  float sched(int, int, int, int, int);
+    uint rounds(uint, uint, uint, uint, uint);
+    void set_nbr_size();
+    float sched(int, int, int, int, int);
 
-  MISFiltering *misf;
-  float edgeLength;
-  int level;
-  flat_hash_map<tlp::node, std::vector<uint>> neighbors_dist;
-  flat_hash_map<tlp::node, std::vector<tlp::node>> neighbors;
-  flat_hash_map<uint, uint> levelToNbNeighbors;
-  flat_hash_map<tlp::node, tlp::Coord> disp;
-  flat_hash_map<tlp::node, tlp::Coord> oldDisp;
-  flat_hash_map<tlp::node, double> heat;
-  flat_hash_map<tlp::node, double> oldCos;
+    MISFiltering *misf;
+    float edgeLength;
+    int level;
+    flat_hash_map<tlp::node, std::vector<uint>> neighbors_dist;
+    flat_hash_map<tlp::node, std::vector<tlp::node>> neighbors;
+    flat_hash_map<uint, uint> levelToNbNeighbors;
+    flat_hash_map<tlp::node, tlp::Coord> disp;
+    flat_hash_map<tlp::node, tlp::Coord> oldDisp;
+    flat_hash_map<tlp::node, double> heat;
+    flat_hash_map<tlp::node, double> oldCos;
 
-  tlp::Graph *currentGraph;
-  int _dim;
+    tlp::Graph *currentGraph;
+    int _dim;
 };
 #endif // GRIP_H

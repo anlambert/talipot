@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,44 +33,44 @@ class Graph;
 }
 
 class AlgorithmRunner : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::AlgorithmRunner *_ui;
-  tlp::Graph *_graph;
-  QToolButton *_storeResultAsLocalButton;
-  QAction *_resultAsLocalPropAction;
+    Ui::AlgorithmRunner *_ui;
+    tlp::Graph *_graph;
+    QToolButton *_storeResultAsLocalButton;
+    QAction *_resultAsLocalPropAction;
 
-  QList<AlgorithmRunnerItem *> _favorites;
+    QList<AlgorithmRunnerItem *> _favorites;
 
-  void refreshTreeUi(QWidget *w);
-  void buildTreeUi(QWidget *w, tlp::PluginModel<tlp::Algorithm> *model, const QModelIndex &parent,
-                   bool root = false);
-  void insertItem(QWidget *w, const QString &name) const;
+    void refreshTreeUi(QWidget *w);
+    void buildTreeUi(QWidget *w, tlp::PluginModel<tlp::Algorithm> *model, const QModelIndex &parent,
+                     bool root = false);
+    void insertItem(QWidget *w, const QString &name) const;
 
-public:
-  explicit AlgorithmRunner(QWidget *parent = nullptr);
-  ~AlgorithmRunner() override;
+  public:
+    explicit AlgorithmRunner(QWidget *parent = nullptr);
+    ~AlgorithmRunner() override;
 
-signals:
-  void setStoreResultAsLocal(bool);
+  signals:
+    void setStoreResultAsLocal(bool);
 
-public slots:
-  void setGraph(tlp::Graph *);
-  void findPlugins();
-  void buildPluginsList();
-  void refreshPluginsList();
+  public slots:
+    void setGraph(tlp::Graph *);
+    void findPlugins();
+    void buildPluginsList();
+    void refreshPluginsList();
 
-protected slots:
-  void setFilter(QString);
-  void addFavorite(const QString &algName, const tlp::DataSet &data = tlp::DataSet());
-  void removeFavorite(const QString &algName);
-  void favorized(bool);
-  void setStoreResultAsLocal(QAction *);
-  void expanded(bool);
+  protected slots:
+    void setFilter(QString);
+    void addFavorite(const QString &algName, const tlp::DataSet &data = tlp::DataSet());
+    void removeFavorite(const QString &algName);
+    void favorized(bool);
+    void setStoreResultAsLocal(QAction *);
+    void expanded(bool);
 
-protected:
-  bool eventFilter(QObject *, QEvent *) override;
-  void resizeEvent(QResizeEvent *) override;
+  protected:
+    bool eventFilter(QObject *, QEvent *) override;
+    void resizeEvent(QResizeEvent *) override;
 };
 
 #endif // ALGORITHM_RUNNER_H

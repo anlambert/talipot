@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -63,7 +63,7 @@ typedef unsigned char uchar;
 #include <cmath>
 
 inline double fabs(int i) {
-  return std::fabs(double(i));
+    return std::fabs(double(i));
 }
 
 // Visual Studio 2013 improved C99 support, no need to redefine some cmath functions
@@ -74,35 +74,35 @@ inline double fabs(int i) {
 #include <cstdlib>
 
 inline double sqrt(int i) {
-  return std::sqrt(double(i));
+    return std::sqrt(double(i));
 }
 
 inline double sqrt(uint i) {
-  return std::sqrt(double(i));
+    return std::sqrt(double(i));
 }
 
 inline double log(int i) {
-  return std::log(double(i));
+    return std::log(double(i));
 }
 
 inline double log(uint i) {
-  return std::log(double(i));
+    return std::log(double(i));
 }
 
 inline double floor(int i) {
-  return std::floor(double(i));
+    return std::floor(double(i));
 }
 
 inline double floor(uint i) {
-  return std::floor(double(i));
+    return std::floor(double(i));
 }
 
 inline double round(double d) {
-  return std::floor(d + 0.5);
+    return std::floor(d + 0.5);
 }
 
 inline float strtof(const char *cptr, char **endptr) {
-  return std::strtod(cptr, endptr);
+    return std::strtod(cptr, endptr);
 }
 
 // C99 features, and VC++ does not support C99. workaround this.
@@ -111,7 +111,7 @@ inline float strtof(const char *cptr, char **endptr) {
 
 #if _MSC_VER <= 1600
 inline double log1p(double x) {
-  return log(x + 1);
+    return log(x + 1);
 }
 #endif
 
@@ -265,7 +265,7 @@ inline double log1p(double x) {
 #define SINGLE_ARG(...) __VA_ARGS__
 
 #define DECLARE_DLL_TEMPLATE_INSTANCE(TEMPLATE_CLASS, SCOPE) \
-  extern template class SCOPE TEMPLATE_CLASS;
+    extern template class SCOPE TEMPLATE_CLASS;
 
 #define INSTANTIATE_DLL_TEMPLATE(TEMPLATE_CLASS, SCOPE) template class SCOPE TEMPLATE_CLASS;
 

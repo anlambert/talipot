@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,70 +26,70 @@ class HistoStatsConfigWidget;
 
 class HistogramInteractor : public NodeLinkDiagramViewInteractor {
 
-public:
-  HistogramInteractor(const QIcon &icon, const QString &text, const uint priority = 0);
+  public:
+    HistogramInteractor(const QIcon &icon, const QString &text, const uint priority = 0);
 
-  bool isCompatible(const std::string &viewName) const override;
+    bool isCompatible(const std::string &viewName) const override;
 };
 
 class HistogramInteractorNavigation : public HistogramInteractor {
 
-public:
-  PLUGININFORMATION(InteractorName::HistogramInteractorNavigation, "Tulip Team", "02/04/2009",
-                    "Histogram Navigation Interactor", "1.0", "Navigation")
+  public:
+    PLUGININFORMATION(InteractorName::HistogramInteractorNavigation, "Tulip Team", "02/04/2009",
+                      "Histogram Navigation Interactor", "1.0", "Navigation")
 
-  HistogramInteractorNavigation(const PluginContext *);
+    HistogramInteractorNavigation(const PluginContext *);
 
-  void construct() override;
+    void construct() override;
 };
 
 class HistogramInteractorMetricMapping : public HistogramInteractor {
 
-public:
-  PLUGININFORMATION("HistogramInteractorColorMapping", "Tulip Team", "02/04/2009",
-                    "Histogram Color Mapping Interactor", "1.0", "Information")
+  public:
+    PLUGININFORMATION("HistogramInteractorColorMapping", "Tulip Team", "02/04/2009",
+                      "Histogram Color Mapping Interactor", "1.0", "Information")
 
-  HistogramInteractorMetricMapping(const PluginContext *);
+    HistogramInteractorMetricMapping(const PluginContext *);
 
-  void construct() override;
+    void construct() override;
 };
 
 class HistogramInteractorStatistics : public HistogramInteractor {
 
-public:
-  PLUGININFORMATION("HistogramInteractorStatistics", "Tulip Team", "02/04/2009",
-                    "Histogram Statistics Interactor", "1.0", "Information")
+  public:
+    PLUGININFORMATION("HistogramInteractorStatistics", "Tulip Team", "02/04/2009",
+                      "Histogram Statistics Interactor", "1.0", "Information")
 
-  HistogramInteractorStatistics(const PluginContext *);
-  ~HistogramInteractorStatistics() override;
+    HistogramInteractorStatistics(const PluginContext *);
+    ~HistogramInteractorStatistics() override;
 
-  void construct() override;
-  QWidget *configurationWidget() const override;
-  void install(QObject *target) override;
+    void construct() override;
+    QWidget *configurationWidget() const override;
+    void install(QObject *target) override;
 
-private:
-  HistoStatsConfigWidget *histoStatsConfigWidget;
-  HistogramStatistics *histoStatistics;
+  private:
+    HistoStatsConfigWidget *histoStatsConfigWidget;
+    HistogramStatistics *histoStatistics;
 };
 
 /**
  *  \brief interactor to get information about an element of the graph
  */
 class HistogramInteractorGetInformation : public NodeLinkDiagramViewInteractor {
-public:
-  PLUGININFORMATION("HistogramInteractorGetInformation", "Tulip Team", "18/06/2015",
-                    "Get Information Interactor", "1.0", "Information")
-  /**
-   * Default constructor
-   */
-  HistogramInteractorGetInformation(const tlp::PluginContext *);
+  public:
+    PLUGININFORMATION("HistogramInteractorGetInformation", "Tulip Team", "18/06/2015",
+                      "Get Information Interactor", "1.0", "Information")
+    /**
+     * Default constructor
+     */
+    HistogramInteractorGetInformation(const tlp::PluginContext *);
 
-  /**
-   * Construct chain of responsibility
-   */
-  void construct() override;
+    /**
+     * Construct chain of responsibility
+     */
+    void construct() override;
 
-  bool isCompatible(const std::string &viewName) const override;
+    bool isCompatible(const std::string &viewName) const override;
 };
 }
 

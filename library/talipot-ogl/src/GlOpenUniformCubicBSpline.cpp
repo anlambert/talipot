@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -83,7 +83,7 @@ GlOpenUniformCubicBSpline::GlOpenUniformCubicBSpline(const vector<Coord> &contro
 GlOpenUniformCubicBSpline::~GlOpenUniformCubicBSpline() = default;
 
 void GlOpenUniformCubicBSpline::setCurveVertexShaderRenderingSpecificParameters() {
-  curveShaderProgram->setUniformFloat("stepKnots", stepKnots);
+    curveShaderProgram->setUniformFloat("stepKnots", stepKnots);
 }
 
 void GlOpenUniformCubicBSpline::drawCurve(std::vector<Coord> &controlPoints,
@@ -91,35 +91,35 @@ void GlOpenUniformCubicBSpline::drawCurve(std::vector<Coord> &controlPoints,
                                           const float startSize, const float endSize,
                                           const uint nbCurvePoints) {
 
-  nbKnots = controlPoints.size() + curveDegree + 1;
-  stepKnots = 1.0f / ((float(nbKnots) - 2.0f * (float(curveDegree) + 1.0f)) + 2.0f - 1.0f);
+    nbKnots = controlPoints.size() + curveDegree + 1;
+    stepKnots = 1.0f / ((float(nbKnots) - 2.0f * (float(curveDegree) + 1.0f)) + 2.0f - 1.0f);
 
-  if (controlPoints.size() < (curveDegree + 1)) {
-    static GlBezierCurve curve;
-    curve.setOutlined(outlined);
-    curve.setOutlineColor(outlineColor);
-    curve.setLineCurve(lineCurve);
-    curve.setCurveLineWidth(curveLineWidth);
-    curve.setCurveQuadBordersWidth(curveQuadBordersWidth);
-    curve.setOutlineColorInterpolation(outlineColorInterpolation);
-    curve.setTexture(texture);
-    curve.setBillboardCurve(billboardCurve);
-    curve.setLookDir(lookDir);
-    curve.drawCurve(controlPoints, startColor, endColor, startSize, endSize, nbCurvePoints);
-  } else {
-    AbstractGlCurve::drawCurve(controlPoints, startColor, endColor, startSize, endSize,
-                               nbCurvePoints);
-  }
+    if (controlPoints.size() < (curveDegree + 1)) {
+        static GlBezierCurve curve;
+        curve.setOutlined(outlined);
+        curve.setOutlineColor(outlineColor);
+        curve.setLineCurve(lineCurve);
+        curve.setCurveLineWidth(curveLineWidth);
+        curve.setCurveQuadBordersWidth(curveQuadBordersWidth);
+        curve.setOutlineColorInterpolation(outlineColorInterpolation);
+        curve.setTexture(texture);
+        curve.setBillboardCurve(billboardCurve);
+        curve.setLookDir(lookDir);
+        curve.drawCurve(controlPoints, startColor, endColor, startSize, endSize, nbCurvePoints);
+    } else {
+        AbstractGlCurve::drawCurve(controlPoints, startColor, endColor, startSize, endSize,
+                                   nbCurvePoints);
+    }
 }
 
 Coord GlOpenUniformCubicBSpline::computeCurvePointOnCPU(const std::vector<Coord> &controlPoints,
                                                         float t) {
-  return computeOpenUniformBsplinePoint(controlPoints, t, curveDegree);
+    return computeOpenUniformBsplinePoint(controlPoints, t, curveDegree);
 }
 
 void GlOpenUniformCubicBSpline::computeCurvePointsOnCPU(const std::vector<Coord> &controlPoints,
                                                         std::vector<Coord> &curvePoints,
                                                         uint nbCurvePoints) {
-  computeOpenUniformBsplinePoints(controlPoints, curvePoints, curveDegree, nbCurvePoints);
+    computeOpenUniformBsplinePoints(controlPoints, curvePoints, curveDegree, nbCurvePoints);
 }
 }

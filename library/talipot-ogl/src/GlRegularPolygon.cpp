@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,45 +22,45 @@ GlRegularPolygon::GlRegularPolygon(const Coord &position, const Size &size, uint
                                    const Color &fillColor, const Color &outlineColor, bool filled,
                                    bool outlined, const string &textureName, float outlineSize)
     : position(position), size(size), numberOfSides(numberOfSides), startAngle(float(M_PI) / 2.0f) {
-  computePolygon();
+    computePolygon();
 
-  invertYTexture = false;
+    invertYTexture = false;
 
-  setFillColor(fillColor);
-  setOutlineColor(outlineColor);
-  setFillMode(filled);
-  setOutlineMode(outlined);
-  setTextureName(textureName);
-  setOutlineSize(outlineSize);
+    setFillColor(fillColor);
+    setOutlineColor(outlineColor);
+    setFillMode(filled);
+    setOutlineMode(outlined);
+    setTextureName(textureName);
+    setOutlineSize(outlineSize);
 }
 //=====================================================
 GlRegularPolygon::~GlRegularPolygon() = default;
 //=====================================================
 void GlRegularPolygon::setStartAngle(float angle) {
-  startAngle = angle;
-  computePolygon();
+    startAngle = angle;
+    computePolygon();
 }
 //=====================================================
 uint GlRegularPolygon::getNumberOfSides() const {
-  return numberOfSides;
+    return numberOfSides;
 }
 //=====================================================
 void GlRegularPolygon::setNumberOfSides(uint number) {
-  numberOfSides = number;
-  computePolygon();
+    numberOfSides = number;
+    computePolygon();
 }
 //=====================================================
 void GlRegularPolygon::resizePoints(const uint number) {
-  setNumberOfSides(number);
+    setNumberOfSides(number);
 }
 //=====================================================
 void GlRegularPolygon::computePolygon() {
-  boundingBox = BoundingBox();
-  boundingBox.expand(position + size / 2.f);
-  boundingBox.expand(position - size / 2.f);
+    boundingBox = BoundingBox();
+    boundingBox.expand(position + size / 2.f);
+    boundingBox.expand(position - size / 2.f);
 
-  setPoints(computeRegularPolygon(numberOfSides, position, size, startAngle));
+    setPoints(computeRegularPolygon(numberOfSides, position, size, startAngle));
 
-  clearGenerated();
+    clearGenerated();
 }
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,20 +22,20 @@ class QNetworkAccessManager;
 namespace tlp {
 
 struct NominatimGeocoderResult {
-  std::string address;
-  std::pair<double, double> latLng;
+    std::string address;
+    std::pair<double, double> latLng;
 };
 
 class NominatimGeocoder {
 
-public:
-  NominatimGeocoder();
-  ~NominatimGeocoder();
+  public:
+    NominatimGeocoder();
+    ~NominatimGeocoder();
 
-  std::vector<NominatimGeocoderResult> getLatLngForAddress(const std::string &address);
+    std::vector<NominatimGeocoderResult> getLatLngForAddress(const std::string &address);
 
-private:
-  QNetworkAccessManager *_networkAccessManager;
+  private:
+    QNetworkAccessManager *_networkAccessManager;
 };
 
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,19 +18,19 @@
 #include <string>
 
 struct DimensionBase {
-  virtual ~DimensionBase() = default;
-  virtual uint numberOfItems() const = 0;
-  virtual uint numberOfValues() const = 0;
-  virtual std::string getItemLabelAtRank(const uint rank) const = 0;
-  virtual std::string getItemLabel(const uint itemId) const = 0;
-  virtual double getItemValue(const uint itemId) const = 0;
-  virtual double getItemValueAtRank(const uint rank) const = 0;
-  virtual uint getItemIdAtRank(const uint rank) = 0;
-  virtual uint getRankForItem(const uint itemId) = 0;
-  virtual double minValue() const = 0;
-  virtual double maxValue() const = 0;
-  virtual std::vector<uint> links(const uint itemId) const = 0;
-  virtual std::string getDimensionName() const = 0;
+    virtual ~DimensionBase() = default;
+    virtual uint numberOfItems() const = 0;
+    virtual uint numberOfValues() const = 0;
+    virtual std::string getItemLabelAtRank(const uint rank) const = 0;
+    virtual std::string getItemLabel(const uint itemId) const = 0;
+    virtual double getItemValue(const uint itemId) const = 0;
+    virtual double getItemValueAtRank(const uint rank) const = 0;
+    virtual uint getItemIdAtRank(const uint rank) = 0;
+    virtual uint getRankForItem(const uint itemId) = 0;
+    virtual double minValue() const = 0;
+    virtual double maxValue() const = 0;
+    virtual std::vector<uint> links(const uint itemId) const = 0;
+    virtual std::string getDimensionName() const = 0;
 };
 
 #endif // DIMENSION_BASE_H

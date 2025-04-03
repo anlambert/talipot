@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,29 +21,29 @@
 #include <talipot/Graph.h>
 
 class ParallelToolsTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE(ParallelToolsTest);
-  CPPUNIT_TEST(testParallelMapIndices);
-  CPPUNIT_TEST(testParallelMapNodes);
-  CPPUNIT_TEST(testParallelMapEdges);
-  CPPUNIT_TEST(testParallelMapNodesAndIndices);
-  CPPUNIT_TEST(testParallelMapEdgesAndIndices);
-  CPPUNIT_TEST(testCriticalSection);
-  CPPUNIT_TEST(testNumberOfThreads);
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(ParallelToolsTest);
+    CPPUNIT_TEST(testParallelMapIndices);
+    CPPUNIT_TEST(testParallelMapNodes);
+    CPPUNIT_TEST(testParallelMapEdges);
+    CPPUNIT_TEST(testParallelMapNodesAndIndices);
+    CPPUNIT_TEST(testParallelMapEdgesAndIndices);
+    CPPUNIT_TEST(testCriticalSection);
+    CPPUNIT_TEST(testNumberOfThreads);
+    CPPUNIT_TEST_SUITE_END();
 
-private:
-  tlp::Graph *_graph;
+  private:
+    tlp::Graph *_graph;
 
-public:
-  void setUp() override;
-  void tearDown() override;
-  void testParallelMapIndices();
-  void testParallelMapNodes();
-  void testParallelMapEdges();
-  void testParallelMapNodesAndIndices();
-  void testParallelMapEdgesAndIndices();
-  void testCriticalSection();
-  void testNumberOfThreads();
+  public:
+    void setUp() override;
+    void tearDown() override;
+    void testParallelMapIndices();
+    void testParallelMapNodes();
+    void testParallelMapEdges();
+    void testParallelMapNodesAndIndices();
+    void testParallelMapEdgesAndIndices();
+    void testCriticalSection();
+    void testNumberOfThreads();
 };
 
 #endif // PARALLEL_TOOLS_TEST_H

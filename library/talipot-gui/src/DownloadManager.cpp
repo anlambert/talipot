@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,54 +19,54 @@
 using namespace tlp;
 
 DownloadManager::DownloadManager() {
-  connect(this, &QNetworkAccessManager::finished, this, &DownloadManager::downloadFinished);
+    connect(this, &QNetworkAccessManager::finished, this, &DownloadManager::downloadFinished);
 }
 
 QNetworkReply *DownloadManager::downloadPlugin(const QUrl &url, const QString &destination) {
-  downloadDestinations[url] = destination;
+    downloadDestinations[url] = destination;
 
-  QNetworkRequest request(url);
-  QNetworkReply *reply = get(request);
-  currentDownloads.append(reply);
-  return reply;
+    QNetworkRequest request(url);
+    QNetworkReply *reply = get(request);
+    currentDownloads.append(reply);
+    return reply;
 }
 
 bool DownloadManager::saveToDisk(const QString &filename, QIODevice *data) {
-  QFile file(filename);
+    QFile file(filename);
 
-  if (!file.open(QIODevice::WriteOnly)) {
-    fprintf(stderr, "Could not open %s for writing: %s\n", qPrintable(filename),
-            qPrintable(file.errorString()));
-    return false;
-  }
+    if (!file.open(QIODevice::WriteOnly)) {
+        fprintf(stderr, "Could not open %s for writing: %s\n", qPrintable(filename),
+                qPrintable(file.errorString()));
+        return false;
+    }
 
-  file.write(data->readAll());
-  file.close();
+    file.write(data->readAll());
+    file.close();
 
-  return true;
+    return true;
 }
 
 void DownloadManager::downloadFinished(QNetworkReply *reply) {
-  QUrl url = reply->url();
+    QUrl url = reply->url();
 
-  if (currentDownloads.contains(reply)) {
+    if (currentDownloads.contains(reply)) {
 
-    if (reply->error() == QNetworkReply::NoError) {
-      QString filename = downloadDestinations[url];
+        if (reply->error() == QNetworkReply::NoError) {
+            QString filename = downloadDestinations[url];
 
-      if (saveToDisk(filename, reply)) {
-        printf("Download of %s succeeded (saved to %s)\n", url.toEncoded().constData(),
-               qPrintable(filename));
-      }
-    } else {
-      fprintf(stderr, "Download of %s failed: %s\n", url.toEncoded().constData(),
-              qPrintable(reply->errorString()));
+            if (saveToDisk(filename, reply)) {
+                printf("Download of %s succeeded (saved to %s)\n", url.toEncoded().constData(),
+                       qPrintable(filename));
+            }
+        } else {
+            fprintf(stderr, "Download of %s failed: %s\n", url.toEncoded().constData(),
+                    qPrintable(reply->errorString()));
+        }
+
+        currentDownloads.removeAll(reply);
     }
 
-    currentDownloads.removeAll(reply);
-  }
-
-  reply->deleteLater();
+    reply->deleteLater();
 }
 
 INSTANTIATE_DLL_TEMPLATE(tlp::Singleton<tlp::DownloadManager>, TLP_QT_TEMPLATE_DEFINE_SCOPE)

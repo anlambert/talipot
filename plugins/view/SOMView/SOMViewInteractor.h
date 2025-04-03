@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,54 +20,54 @@
 namespace tlp {
 
 class SOMViewInteractor : public tlp::NodeLinkDiagramViewInteractor {
-public:
-  SOMViewInteractor(const QIcon &icon, const QString &text, const uint priority = 0);
+  public:
+    SOMViewInteractor(const QIcon &icon, const QString &text, const uint priority = 0);
 
-  bool isCompatible(const std::string &viewName) const override;
+    bool isCompatible(const std::string &viewName) const override;
 };
 
 class SOMViewNavigation : public SOMViewInteractor {
 
-  PLUGININFORMATION(InteractorName::SOMViewNavigation, "Dubois Jonathan", "02/04/2009",
-                    "Standard navigation with scale", "1.0", "Navigation")
+    PLUGININFORMATION(InteractorName::SOMViewNavigation, "Dubois Jonathan", "02/04/2009",
+                      "Standard navigation with scale", "1.0", "Navigation")
 
-public:
-  SOMViewNavigation(tlp::PluginContext *);
+  public:
+    SOMViewNavigation(tlp::PluginContext *);
 
-  void construct() override;
+    void construct() override;
 };
 
 class SOMViewSelection : public SOMViewInteractor {
 
-  PLUGININFORMATION("SOMViewSelection", "Dubois Jonathan", "02/04/2009",
-                    "Standard selection with scale", "1.0", "Selection")
+    PLUGININFORMATION("SOMViewSelection", "Dubois Jonathan", "02/04/2009",
+                      "Standard selection with scale", "1.0", "Selection")
 
-public:
-  SOMViewSelection(tlp::PluginContext *);
+  public:
+    SOMViewSelection(tlp::PluginContext *);
 
-  void construct() override;
+    void construct() override;
 };
 
 class SOMViewProperties : public SOMViewInteractor {
 
-  PLUGININFORMATION("SOMViewProperties", "Dubois Jonathan", "02/04/2009",
-                    "Standard show element info with scale", "1.0", "Information")
+    PLUGININFORMATION("SOMViewProperties", "Dubois Jonathan", "02/04/2009",
+                      "Standard show element info with scale", "1.0", "Information")
 
-public:
-  SOMViewProperties(tlp::PluginContext *);
+  public:
+    SOMViewProperties(tlp::PluginContext *);
 
-  void construct() override;
+    void construct() override;
 };
 
 class SOMViewThreshold : public SOMViewInteractor {
 
-  PLUGININFORMATION("SOMViewThreshold", "Dubois Jonathan", "02/04/2009",
-                    "Threshold selection on SOM", "1.0", "Information")
+    PLUGININFORMATION("SOMViewThreshold", "Dubois Jonathan", "02/04/2009",
+                      "Threshold selection on SOM", "1.0", "Information")
 
-public:
-  SOMViewThreshold(tlp::PluginContext *);
+  public:
+    SOMViewThreshold(tlp::PluginContext *);
 
-  void construct() override;
+    void construct() override;
 };
 }
 #endif // SOM_VIEW_INTERACTOR_H

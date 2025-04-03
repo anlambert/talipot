@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,26 +20,26 @@ GraphTableItemDelegate::GraphTableItemDelegate(QObject *parent) : ItemDelegate(p
 
 void GraphTableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                    const QModelIndex &index) const {
-  auto *pi = index.data(Model::PropertyRole).value<PropertyInterface *>();
+    auto *pi = index.data(Model::PropertyRole).value<PropertyInterface *>();
 
-  if (index.data().canConvert<double>() && dynamic_cast<DoubleProperty *>(pi) != nullptr) {
-    auto *prop = static_cast<DoubleProperty *>(pi);
-    auto value = index.data().value<double>();
-    double min = 0, max = 0;
+    if (index.data().canConvert<double>() && dynamic_cast<DoubleProperty *>(pi) != nullptr) {
+        auto *prop = static_cast<DoubleProperty *>(pi);
+        auto value = index.data().value<double>();
+        double min = 0, max = 0;
 
-    if (index.data(Model::IsNodeRole).value<bool>()) {
-      min = prop->getNodeMin(index.data(Model::GraphRole).value<tlp::Graph *>());
-      max = prop->getNodeMax(index.data(Model::GraphRole).value<tlp::Graph *>());
+        if (index.data(Model::IsNodeRole).value<bool>()) {
+            min = prop->getNodeMin(index.data(Model::GraphRole).value<tlp::Graph *>());
+            max = prop->getNodeMax(index.data(Model::GraphRole).value<tlp::Graph *>());
+        }
+
+        if (max != min) {
+            painter->setBrush(QColor(200, 200, 200));
+            painter->setPen(QColor(200, 200, 200));
+            painter->drawRect(option.rect.x(), option.rect.y() + 1,
+                              ((value - min) / (max - min)) * option.rect.width(),
+                              option.rect.height() - 2);
+        }
     }
 
-    if (max != min) {
-      painter->setBrush(QColor(200, 200, 200));
-      painter->setPen(QColor(200, 200, 200));
-      painter->drawRect(option.rect.x(), option.rect.y() + 1,
-                        ((value - min) / (max - min)) * option.rect.width(),
-                        option.rect.height() - 2);
-    }
-  }
-
-  ItemDelegate::paint(painter, option, index);
+    ItemDelegate::paint(painter, option, index);
 }

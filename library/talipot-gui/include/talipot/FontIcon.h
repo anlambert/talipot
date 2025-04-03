@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,20 +24,20 @@ namespace tlp {
 
 class TLP_QT_SCOPE FontIcon {
 
-public:
-  static const QIcon &icon(const QString &iconName, const double scaleFactor = 1.0,
-                           const double rotation = 0, const QPointF &translation = QPointF(0, 0));
+  public:
+    static const QIcon &icon(const QString &iconName, const double scaleFactor = 1.0,
+                             const double rotation = 0, const QPointF &translation = QPointF(0, 0));
 
-  static const QIcon &icon(const QString &iconName, const QColor &color,
-                           const double scaleFactor = 1.0, const double rotation = 0,
-                           const QPointF &translation = QPointF(0, 0));
+    static const QIcon &icon(const QString &iconName, const QColor &color,
+                             const double scaleFactor = 1.0, const double rotation = 0,
+                             const QPointF &translation = QPointF(0, 0));
 
-  static const QIcon &icon(const QString &iconName, const QColor &color,
-                           const QColor &colorDisabled, const QColor &colorActive,
-                           const QColor &colorSelected, const double scaleFactor = 1.0,
-                           const double rotation = 0, const QPointF &translation = QPointF(0, 0));
+    static const QIcon &icon(const QString &iconName, const QColor &color,
+                             const QColor &colorDisabled, const QColor &colorActive,
+                             const QColor &colorSelected, const double scaleFactor = 1.0,
+                             const double rotation = 0, const QPointF &translation = QPointF(0, 0));
 
-  static QIcon stackIcons(const QIcon &backIcon, const QIcon &frontIcon);
+    static QIcon stackIcons(const QIcon &backIcon, const QIcon &frontIcon);
 };
 
 }

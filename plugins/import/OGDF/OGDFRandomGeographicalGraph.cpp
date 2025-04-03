@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2023-2024  The Talipot developers
+ * Copyright (C) 2023-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,34 +30,34 @@ static constexpr string_view paramHelp[] = {
 //=================================================================================
 
 class OGDFRandomGeographicalGraph : public OGDFImportBase {
-public:
-  PLUGININFORMATION("Random Geographical Graph (OGDF)", "Antoine Lambert", "11/2023",
-                    "Creates a random geometric graph where edges are created based on "
-                    "their distance and the weight of nodes",
-                    "1.0", "OGDF")
+  public:
+    PLUGININFORMATION("Random Geographical Graph (OGDF)", "Antoine Lambert", "11/2023",
+                      "Creates a random geometric graph where edges are created based on "
+                      "their distance and the weight of nodes",
+                      "1.0", "OGDF")
 
-  OGDFRandomGeographicalGraph(tlp::PluginContext *context) : OGDFImportBase(context) {
-    addInParameter<int>("n", paramHelp[0].data(), "100");
-    addInParameter<double>("threshold", paramHelp[1].data(), "0.7");
-  }
-
-  bool importOGDFGraph() override {
-    int n = 100;
-    double threshold = 0.7;
-
-    if (dataSet != nullptr) {
-      dataSet->get("n", n);
-      dataSet->get("threshold", threshold);
+    OGDFRandomGeographicalGraph(tlp::PluginContext *context) : OGDFImportBase(context) {
+        addInParameter<int>("n", paramHelp[0].data(), "100");
+        addInParameter<double>("threshold", paramHelp[1].data(), "0.7");
     }
 
-    ogdf::Array<int> weights = ogdf::Array<int>(n);
-    for (int &w : weights) {
-      w = tlp::randomNumber(n);
+    bool importOGDFGraph() override {
+        int n = 100;
+        double threshold = 0.7;
+
+        if (dataSet != nullptr) {
+            dataSet->get("n", n);
+            dataSet->get("threshold", threshold);
+        }
+
+        ogdf::Array<int> weights = ogdf::Array<int>(n);
+        for (int &w : weights) {
+            w = tlp::randomNumber(n);
+        }
+        uniform_int_distribution<int> dist(0, n);
+        ogdf::randomGeographicalThresholdGraph(G, weights, dist, 0.7);
+        return true;
     }
-    uniform_int_distribution<int> dist(0, n);
-    ogdf::randomGeographicalThresholdGraph(G, weights, dist, 0.7);
-    return true;
-  }
 };
 
 PLUGIN(OGDFRandomGeographicalGraph)

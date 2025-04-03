@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,23 +25,23 @@ class GlLayer;
 
 class TLP_GL_SCOPE GlSceneVisitor {
 
-public:
-  GlSceneVisitor() : threadSafe(false) {}
-  virtual ~GlSceneVisitor() = default;
+  public:
+    GlSceneVisitor() : threadSafe(false) {}
+    virtual ~GlSceneVisitor() = default;
 
-  virtual void visit(GlEntity *) {}
-  virtual void visit(GlNode *) {}
-  virtual void visit(GlEdge *) {}
-  virtual void visit(GlLayer *) {}
-  virtual void endOfVisit() {}
-  virtual void reserveMemoryForGraphElts(uint /*nbNodes*/, uint /*nbEdges*/) {}
+    virtual void visit(GlEntity *) {}
+    virtual void visit(GlNode *) {}
+    virtual void visit(GlEdge *) {}
+    virtual void visit(GlLayer *) {}
+    virtual void endOfVisit() {}
+    virtual void reserveMemoryForGraphElts(uint /*nbNodes*/, uint /*nbEdges*/) {}
 
-  bool isThreadSafe() const {
-    return threadSafe;
-  }
+    bool isThreadSafe() const {
+        return threadSafe;
+    }
 
-protected:
-  bool threadSafe;
+  protected:
+    bool threadSafe;
 };
 }
 

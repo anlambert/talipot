@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -45,116 +45,117 @@ static constexpr std::string_view paramHelp[] = {
  *
  */
 class AttractAndIntroduce : public ImportModule {
-public:
-  PLUGININFORMATION("Attract And Introduce Model", "Arnaud Sallabery & Patrick Mary", "25/03/2014",
-                    "Randomly generates a graph using the Attract and Introduce Model described "
-                    "in<br/>J. H. Fowlera, C. T. Dawesa, N. A. Christakisb.<br/><b>Model of "
-                    "genetic variation in human social networks.</b><br/>PNAS 106 (6): 1720-1724, "
-                    "2009.",
-                    "1.0", "Social network")
+  public:
+    PLUGININFORMATION(
+        "Attract And Introduce Model", "Arnaud Sallabery & Patrick Mary", "25/03/2014",
+        "Randomly generates a graph using the Attract and Introduce Model described "
+        "in<br/>J. H. Fowlera, C. T. Dawesa, N. A. Christakisb.<br/><b>Model of "
+        "genetic variation in human social networks.</b><br/>PNAS 106 (6): 1720-1724, "
+        "2009.",
+        "1.0", "Social network")
 
-  AttractAndIntroduce(tlp::PluginContext *context) : ImportModule(context) {
-    addInParameter<uint>("nodes", paramHelp[0].data(), "750");
-    addInParameter<uint>("edges", paramHelp[1].data(), "3150");
-    addInParameter<double>("alpha", paramHelp[2].data(), "0.9");
-    addInParameter<double>("beta", paramHelp[3].data(), "0.3");
-  }
-
-  bool importGraph() override {
-    uint nbNodes = 750;
-    uint nbEdges = 3150;
-
-    double alpha = 0.9;
-    double beta = 0.3;
-
-    if (dataSet != nullptr) {
-      dataSet->get("nodes", nbNodes);
-      dataSet->get("edges", nbEdges);
-      dataSet->get("alpha", alpha);
-      dataSet->get("beta", beta);
+    AttractAndIntroduce(tlp::PluginContext *context) : ImportModule(context) {
+        addInParameter<uint>("nodes", paramHelp[0].data(), "750");
+        addInParameter<uint>("edges", paramHelp[1].data(), "3150");
+        addInParameter<double>("alpha", paramHelp[2].data(), "0.9");
+        addInParameter<double>("beta", paramHelp[3].data(), "0.3");
     }
 
-    // check arguments
-    if (alpha < 0 || alpha > 1) {
-      pluginProgress->setError("alpha is not a percentage,\nit is not between [0, 1]");
-      return false;
-    } else if (beta < 0 || beta > 1) {
-      pluginProgress->setError("beta is not a probability,\nit is is not between [0, 1]");
-      return false;
-    }
+    bool importGraph() override {
+        uint nbNodes = 750;
+        uint nbEdges = 3150;
 
-    pluginProgress->showPreview(false);
-    tlp::initRandomSequence();
+        double alpha = 0.9;
+        double beta = 0.3;
 
-    uint iterations = nbNodes + nbEdges;
-
-    graph->addNodes(nbNodes);
-    graph->reserveEdges(nbEdges);
-
-    NodeVectorProperty<double> pAttractProperty(graph);
-    NodeVectorProperty<double> pIntroduceProperty(graph);
-
-    for (uint i = 0; i < nbNodes; ++i) {
-      pAttractProperty[i] = ((1 - alpha) > randomNumber(1.0)) ? 0 : randomNumber(1.0);
-      pIntroduceProperty[i] = (beta > randomNumber(1.0)) ? 1 : 0;
-
-      if (i++ % 1000 == 0) {
-        if (pluginProgress->progress(i, iterations) != ProgressState::TLP_CONTINUE) {
-          return pluginProgress->state() != ProgressState::TLP_CANCEL;
+        if (dataSet != nullptr) {
+            dataSet->get("nodes", nbNodes);
+            dataSet->get("edges", nbEdges);
+            dataSet->get("alpha", alpha);
+            dataSet->get("beta", beta);
         }
-      }
-    }
 
-    uint tmpE = 0;
-    const vector<node> &nodes = graph->nodes();
+        // check arguments
+        if (alpha < 0 || alpha > 1) {
+            pluginProgress->setError("alpha is not a percentage,\nit is not between [0, 1]");
+            return false;
+        } else if (beta < 0 || beta > 1) {
+            pluginProgress->setError("beta is not a probability,\nit is is not between [0, 1]");
+            return false;
+        }
 
-    while (tmpE < nbEdges) {
-      uint i = randomNumber(nbNodes - 1);
-      uint j;
+        pluginProgress->showPreview(false);
+        tlp::initRandomSequence();
 
-      do {
-        j = randomNumber(nbNodes - 1);
-      } while (i == j);
+        uint iterations = nbNodes + nbEdges;
 
-      node nj = nodes[j];
+        graph->addNodes(nbNodes);
+        graph->reserveEdges(nbEdges);
 
-      if (pAttractProperty[j] > randomNumber(1.0)) {
-        node ni = nodes[i];
+        NodeVectorProperty<double> pAttractProperty(graph);
+        NodeVectorProperty<double> pIntroduceProperty(graph);
 
-        if (pIntroduceProperty[i] > randomNumber(1.0)) {
-          for (auto fd : graph->getInOutNodes(ni)) {
-            if (fd == nj || graph->hasEdge(fd, nj, false)) {
-              continue;
+        for (uint i = 0; i < nbNodes; ++i) {
+            pAttractProperty[i] = ((1 - alpha) > randomNumber(1.0)) ? 0 : randomNumber(1.0);
+            pIntroduceProperty[i] = (beta > randomNumber(1.0)) ? 1 : 0;
+
+            if (i++ % 1000 == 0) {
+                if (pluginProgress->progress(i, iterations) != ProgressState::TLP_CONTINUE) {
+                    return pluginProgress->state() != ProgressState::TLP_CANCEL;
+                }
             }
+        }
+
+        uint tmpE = 0;
+        const vector<node> &nodes = graph->nodes();
+
+        while (tmpE < nbEdges) {
+            uint i = randomNumber(nbNodes - 1);
+            uint j;
+
+            do {
+                j = randomNumber(nbNodes - 1);
+            } while (i == j);
+
+            node nj = nodes[j];
 
             if (pAttractProperty[j] > randomNumber(1.0)) {
-              graph->addEdge(fd, nj);
-              ++tmpE;
-              continue;
+                node ni = nodes[i];
+
+                if (pIntroduceProperty[i] > randomNumber(1.0)) {
+                    for (auto fd : graph->getInOutNodes(ni)) {
+                        if (fd == nj || graph->hasEdge(fd, nj, false)) {
+                            continue;
+                        }
+
+                        if (pAttractProperty[j] > randomNumber(1.0)) {
+                            graph->addEdge(fd, nj);
+                            ++tmpE;
+                            continue;
+                        }
+
+                        if (pAttractProperty[fd] > randomNumber(1.0)) {
+                            graph->addEdge(nj, fd);
+                            ++tmpE;
+                        }
+                    }
+                }
+
+                if (!graph->hasEdge(ni, nj, false)) {
+                    graph->addEdge(ni, nj);
+                    ++tmpE;
+                }
+
+                if (tmpE % 1000 == 0) {
+                    if (pluginProgress->progress(tmpE, iterations) != ProgressState::TLP_CONTINUE) {
+                        return pluginProgress->state() != ProgressState::TLP_CANCEL;
+                    }
+                }
             }
-
-            if (pAttractProperty[fd] > randomNumber(1.0)) {
-              graph->addEdge(nj, fd);
-              ++tmpE;
-            }
-          }
         }
 
-        if (!graph->hasEdge(ni, nj, false)) {
-          graph->addEdge(ni, nj);
-          ++tmpE;
-        }
-
-        if (tmpE % 1000 == 0) {
-          if (pluginProgress->progress(tmpE, iterations) != ProgressState::TLP_CONTINUE) {
-            return pluginProgress->state() != ProgressState::TLP_CANCEL;
-          }
-        }
-      }
+        return true;
     }
-
-    return true;
-  }
 };
 
 PLUGIN(AttractAndIntroduce)

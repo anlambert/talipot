@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,26 +23,27 @@ namespace tlp {
 
 class TLP_QT_SCOPE StringsListSelectionWidgetInterface {
 
-public:
-  virtual ~StringsListSelectionWidgetInterface() = default;
+  public:
+    virtual ~StringsListSelectionWidgetInterface() = default;
 
-  virtual void setUnselectedStringsList(const std::vector<std::string> &unselectedStringsList) = 0;
+    virtual void
+    setUnselectedStringsList(const std::vector<std::string> &unselectedStringsList) = 0;
 
-  virtual void setSelectedStringsList(const std::vector<std::string> &selectedStringsList) = 0;
+    virtual void setSelectedStringsList(const std::vector<std::string> &selectedStringsList) = 0;
 
-  virtual void clearUnselectedStringsList() = 0;
+    virtual void clearUnselectedStringsList() = 0;
 
-  virtual void clearSelectedStringsList() = 0;
+    virtual void clearSelectedStringsList() = 0;
 
-  virtual void setMaxSelectedStringsListSize(const uint maxSelectedStringsListSize) = 0;
+    virtual void setMaxSelectedStringsListSize(const uint maxSelectedStringsListSize) = 0;
 
-  virtual std::vector<std::string> getSelectedStringsList() const = 0;
+    virtual std::vector<std::string> getSelectedStringsList() const = 0;
 
-  virtual std::vector<std::string> getUnselectedStringsList() const = 0;
+    virtual std::vector<std::string> getUnselectedStringsList() const = 0;
 
-  virtual void selectAllStrings() = 0;
+    virtual void selectAllStrings() = 0;
 
-  virtual void unselectAllStrings() = 0;
+    virtual void unselectAllStrings() = 0;
 };
 }
 

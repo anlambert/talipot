@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,9 +17,9 @@
 using namespace tlp;
 
 SOMWidget::SOMWidget(QWidget *parent) : QWidget(parent), _ui(new Ui::SOMWidget) {
-  _ui->setupUi(this);
+    _ui->setupUi(this);
 }
 
 SOMWidget::~SOMWidget() {
-  delete _ui;
+    delete _ui;
 }

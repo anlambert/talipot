@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -54,20 +54,21 @@ using namespace tlp;
  *
  */
 class KCores : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION("K-Cores", "David Auber", "28/05/2006",
-                    "Node partitioning measure based on the K-core decomposition of a graph.<br/>"
-                    "K-cores were first introduced in:<br/><b>Network structure and minimum "
-                    "degree</b>, S. B. Seidman, Social Networks 5:269-287 (1983).<br/>"
-                    "This is a method for simplifying a graph topology which helps in analysis and "
-                    "visualization of social networks.<br>"
-                    "<b>Note</b>: use the default parameters to compute simple K-Cores (undirected "
-                    "and unweighted).",
-                    "2.0", "Graph")
+  public:
+    PLUGININFORMATION(
+        "K-Cores", "David Auber", "28/05/2006",
+        "Node partitioning measure based on the K-core decomposition of a graph.<br/>"
+        "K-cores were first introduced in:<br/><b>Network structure and minimum "
+        "degree</b>, S. B. Seidman, Social Networks 5:269-287 (1983).<br/>"
+        "This is a method for simplifying a graph topology which helps in analysis and "
+        "visualization of social networks.<br>"
+        "<b>Note</b>: use the default parameters to compute simple K-Cores (undirected "
+        "and unweighted).",
+        "2.0", "Graph")
 
-  KCores(const tlp::PluginContext *context);
-  ~KCores() override;
-  bool run() override;
+    KCores(const tlp::PluginContext *context);
+    ~KCores() override;
+    bool run() override;
 };
 
 //========================================================================================
@@ -84,113 +85,113 @@ static constexpr std::string_view paramHelp[] = {
 #define OUT 2
 //========================================================================================
 KCores::KCores(const PluginContext *context) : DoubleAlgorithm(context) {
-  addInParameter<StringCollection>(DEGREE_TYPE, paramHelp[0].data(), DEGREE_TYPES, true,
-                                   "<b>InOut</b> <br> <b>In</b> <br> <b>Out</b>");
-  addInParameter<NumericProperty *>("metric", paramHelp[1].data(), "", false);
+    addInParameter<StringCollection>(DEGREE_TYPE, paramHelp[0].data(), DEGREE_TYPES, true,
+                                     "<b>InOut</b> <br> <b>In</b> <br> <b>Out</b>");
+    addInParameter<NumericProperty *>("metric", paramHelp[1].data(), "", false);
 }
 //========================================================================================
 KCores::~KCores() = default;
 //========================================================================================
 bool KCores::run() {
-  NumericProperty *metric = nullptr;
-  StringCollection degreeTypes(DEGREE_TYPES);
-  degreeTypes.setCurrent(0);
+    NumericProperty *metric = nullptr;
+    StringCollection degreeTypes(DEGREE_TYPES);
+    degreeTypes.setCurrent(0);
 
-  if (dataSet != nullptr) {
-    dataSet->get(DEGREE_TYPE, degreeTypes);
-    dataSet->get("metric", metric);
-  }
-
-  auto degree_type = static_cast<EdgeType>(degreeTypes.getCurrent());
-
-  // the famous k
-  double k = DBL_MAX;
-  // use two NodeVectorProperty to hold the nodes infos
-  // because the more k increase the more nodes are "deleted"
-  NodeVectorProperty<bool> nodeDeleted(graph);
-  NodeVectorProperty<double> nodeK(graph);
-  degree(graph, nodeK, degree_type, metric, false);
-  const std::vector<node> &nodes = graph->nodes();
-  // the number of non deleted nodes
-  uint nbNodes = nodes.size();
-
-  for (uint i = 0; i < nbNodes; ++i) {
-    k = std::min(k, nodeK[i]);
-    nodeDeleted[i] = false;
-  }
-
-  // loop on remaining nodes
-  while (nbNodes) {
-    bool modify = true;
-    double next_k = DBL_MAX;
-
-    while (modify) {
-      modify = false;
-
-      // finally set the values
-      for (uint i = 0; i < nodes.size(); ++i) {
-        // nothing to do if the node
-        // is already deleted
-        if (nodeDeleted[i]) {
-          continue;
-        }
-
-        double &nK = nodeK[i];
-        double current_k = nK;
-        node n = nodes[i];
-
-        if (current_k <= k) {
-          nK = k;
-          // decrease neighbours weighted degree
-          for (auto e : graph->incidence(n)) {
-
-            const auto &[src, tgt] = graph->ends(e);
-            node m;
-
-            switch (degree_type) {
-            case IN_EDGE:
-              if ((m = tgt) == n) {
-                continue;
-              }
-
-              break;
-
-            case OUT_EDGE:
-              if ((m = src) == n) {
-                continue;
-              }
-
-              break;
-
-            default:
-              m = (src == n) ? tgt : src;
-            }
-
-            if (nodeDeleted[m]) {
-              continue;
-            }
-
-            nodeK[m] -= metric ? metric->getEdgeDoubleValue(e) : 1;
-          }
-
-          // mark node as deleted
-          nodeDeleted[i] = true;
-          --nbNodes;
-          modify = true;
-        } else if (current_k < next_k) {
-          // update next k value
-          next_k = current_k;
-        }
-      }
+    if (dataSet != nullptr) {
+        dataSet->get(DEGREE_TYPE, degreeTypes);
+        dataSet->get("metric", metric);
     }
 
-    k = next_k;
-  }
+    auto degree_type = static_cast<EdgeType>(degreeTypes.getCurrent());
 
-  // finally set the result values
-  nodeK.copyToProperty(result);
+    // the famous k
+    double k = DBL_MAX;
+    // use two NodeVectorProperty to hold the nodes infos
+    // because the more k increase the more nodes are "deleted"
+    NodeVectorProperty<bool> nodeDeleted(graph);
+    NodeVectorProperty<double> nodeK(graph);
+    degree(graph, nodeK, degree_type, metric, false);
+    const std::vector<node> &nodes = graph->nodes();
+    // the number of non deleted nodes
+    uint nbNodes = nodes.size();
 
-  return true;
+    for (uint i = 0; i < nbNodes; ++i) {
+        k = std::min(k, nodeK[i]);
+        nodeDeleted[i] = false;
+    }
+
+    // loop on remaining nodes
+    while (nbNodes) {
+        bool modify = true;
+        double next_k = DBL_MAX;
+
+        while (modify) {
+            modify = false;
+
+            // finally set the values
+            for (uint i = 0; i < nodes.size(); ++i) {
+                // nothing to do if the node
+                // is already deleted
+                if (nodeDeleted[i]) {
+                    continue;
+                }
+
+                double &nK = nodeK[i];
+                double current_k = nK;
+                node n = nodes[i];
+
+                if (current_k <= k) {
+                    nK = k;
+                    // decrease neighbours weighted degree
+                    for (auto e : graph->incidence(n)) {
+
+                        const auto &[src, tgt] = graph->ends(e);
+                        node m;
+
+                        switch (degree_type) {
+                        case IN_EDGE:
+                            if ((m = tgt) == n) {
+                                continue;
+                            }
+
+                            break;
+
+                        case OUT_EDGE:
+                            if ((m = src) == n) {
+                                continue;
+                            }
+
+                            break;
+
+                        default:
+                            m = (src == n) ? tgt : src;
+                        }
+
+                        if (nodeDeleted[m]) {
+                            continue;
+                        }
+
+                        nodeK[m] -= metric ? metric->getEdgeDoubleValue(e) : 1;
+                    }
+
+                    // mark node as deleted
+                    nodeDeleted[i] = true;
+                    --nbNodes;
+                    modify = true;
+                } else if (current_k < next_k) {
+                    // update next k value
+                    next_k = current_k;
+                }
+            }
+        }
+
+        k = next_k;
+    }
+
+    // finally set the result values
+    nodeK.copyToProperty(result);
+
+    return true;
 }
 //========================================================================================
 PLUGIN(KCores)

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,39 +20,39 @@ void RectangleRelativePositionList::addRectangleRelativePosition(
     vector<Rectangle<float>>::iterator itr, int numRect, float wdth, float hght, float x, float y,
     list<RectangleRelativePosition>::iterator itRectangleRelativePosition) {
 
-  RectangleRelativePosition newRectangleRelativePosition;
-  newRectangleRelativePosition.rectangleIterator = itr;
-  newRectangleRelativePosition.rectangleNumber = numRect;
-  newRectangleRelativePosition.rectangleWidth = wdth;
-  newRectangleRelativePosition.rectangleHeight = hght;
-  newRectangleRelativePosition.rectangleLeftAbscissa = x;
-  newRectangleRelativePosition.rectangleLowOrdinate = y;
+    RectangleRelativePosition newRectangleRelativePosition;
+    newRectangleRelativePosition.rectangleIterator = itr;
+    newRectangleRelativePosition.rectangleNumber = numRect;
+    newRectangleRelativePosition.rectangleWidth = wdth;
+    newRectangleRelativePosition.rectangleHeight = hght;
+    newRectangleRelativePosition.rectangleLeftAbscissa = x;
+    newRectangleRelativePosition.rectangleLowOrdinate = y;
 
-  this->insert(itRectangleRelativePosition, newRectangleRelativePosition);
+    this->insert(itRectangleRelativePosition, newRectangleRelativePosition);
 }
 
 void RectangleRelativePositionList::allocateCoordinates() {
 
-  for (auto &itr : *this) {
-    (*(itr.rectangleIterator))[0][0] = itr.rectangleLeftAbscissa;
-    (*(itr.rectangleIterator))[0][1] = itr.rectangleLowOrdinate;
-    (*(itr.rectangleIterator))[1][0] = (*(itr.rectangleIterator))[0][0] + itr.rectangleWidth;
-    (*(itr.rectangleIterator))[1][1] = (*(itr.rectangleIterator))[0][1] + itr.rectangleHeight;
-  }
+    for (auto &itr : *this) {
+        (*(itr.rectangleIterator))[0][0] = itr.rectangleLeftAbscissa;
+        (*(itr.rectangleIterator))[0][1] = itr.rectangleLowOrdinate;
+        (*(itr.rectangleIterator))[1][0] = (*(itr.rectangleIterator))[0][0] + itr.rectangleWidth;
+        (*(itr.rectangleIterator))[1][1] = (*(itr.rectangleIterator))[0][1] + itr.rectangleHeight;
+    }
 }
 
 void RectangleRelativePositionList::stockOfTemporaryBestCoordinates(int bestPlaceInFirstSequence) {
 
-  auto itRectToReposition = this->rbegin();
-  int positionRectToReposition;
+    auto itRectToReposition = this->rbegin();
+    int positionRectToReposition;
 
-  for (positionRectToReposition = this->size();
-       positionRectToReposition >= bestPlaceInFirstSequence && itRectToReposition != this->rend();
-       --positionRectToReposition) {
-    itRectToReposition->rectangleTemporaryBestLeftAbscissa =
-        itRectToReposition->rectangleTemporaryLeftAbscissa;
-    itRectToReposition->rectangleTemporaryBestLowOrdinate =
-        itRectToReposition->rectangleTemporaryLowOrdinate;
-    ++itRectToReposition;
-  }
+    for (positionRectToReposition = this->size();
+         positionRectToReposition >= bestPlaceInFirstSequence && itRectToReposition != this->rend();
+         --positionRectToReposition) {
+        itRectToReposition->rectangleTemporaryBestLeftAbscissa =
+            itRectToReposition->rectangleTemporaryLeftAbscissa;
+        itRectToReposition->rectangleTemporaryBestLowOrdinate =
+            itRectToReposition->rectangleTemporaryLowOrdinate;
+        ++itRectToReposition;
+    }
 }

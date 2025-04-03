@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,122 +18,122 @@
 using namespace tlp;
 
 void switchToLabel(Ui::HeaderFrame *ui, bool f = true) {
-  ui->titleLabel->setVisible(f);
-  ui->menusCombo->setVisible(!f);
+    ui->titleLabel->setVisible(f);
+    ui->menusCombo->setVisible(!f);
 }
 
 HeaderFrame::HeaderFrame(QWidget *parent)
     : QFrame(parent), _ui(new Ui::HeaderFrame), _expanded(true) {
-  _ui->setupUi(this);
-  switchToLabel(_ui);
-  connect(_ui->menusCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-          QOverload<int>::of(&HeaderFrame::menuChanged));
-  connect(_ui->expandButton, &QAbstractButton::toggled, this, &HeaderFrame::setExpanded);
+    _ui->setupUi(this);
+    switchToLabel(_ui);
+    connect(_ui->menusCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+            QOverload<int>::of(&HeaderFrame::menuChanged));
+    connect(_ui->expandButton, &QAbstractButton::toggled, this, &HeaderFrame::setExpanded);
 }
 
 HeaderFrame::~HeaderFrame() {
-  delete _ui;
+    delete _ui;
 }
 
 QString HeaderFrame::title() const {
-  return _ui->titleLabel->text();
+    return _ui->titleLabel->text();
 }
 
 void HeaderFrame::setTitle(const QString &title) {
-  _ui->titleLabel->setText(title);
+    _ui->titleLabel->setText(title);
 
-  if (_ui->menusCombo->count() == 0) {
-    switchToLabel(_ui);
-  }
+    if (_ui->menusCombo->count() == 0) {
+        switchToLabel(_ui);
+    }
 }
 
 QStringList HeaderFrame::menus() const {
-  QStringList result;
+    QStringList result;
 
-  for (int i = 0; i < _ui->menusCombo->count(); ++i) {
-    result << _ui->menusCombo->itemText(i);
-  }
+    for (int i = 0; i < _ui->menusCombo->count(); ++i) {
+        result << _ui->menusCombo->itemText(i);
+    }
 
-  return result;
+    return result;
 }
 
 void HeaderFrame::setMenus(const QStringList &menus) {
-  _ui->menusCombo->clear();
-  switchToLabel(_ui, menus.empty());
+    _ui->menusCombo->clear();
+    switchToLabel(_ui, menus.empty());
 
-  for (const QString &s : menus) {
-    _ui->menusCombo->addItem(s);
-  }
+    for (const QString &s : menus) {
+        _ui->menusCombo->addItem(s);
+    }
 }
 
 QString HeaderFrame::currentMenu() const {
-  return _ui->menusCombo->currentText();
+    return _ui->menusCombo->currentText();
 }
 
 int HeaderFrame::currentMenuIndex() const {
-  return _ui->menusCombo->currentIndex();
+    return _ui->menusCombo->currentIndex();
 }
 
 bool HeaderFrame::isExpandable() const {
-  return _ui->expandButton->isVisible();
+    return _ui->expandButton->isVisible();
 }
 
 void HeaderFrame::setExpandable(bool f) {
-  _ui->expandButton->setVisible(f);
+    _ui->expandButton->setVisible(f);
 }
 
 void HeaderFrame::expand(bool e) {
-  _ui->expandButton->setChecked(e);
+    _ui->expandButton->setChecked(e);
 }
 
 void HeaderFrame::setExpanded(bool e) {
-  _expanded = e;
+    _expanded = e;
 
-  QWidget *pw = parentWidget();
+    QWidget *pw = parentWidget();
 
-  if (!pw) {
-    return;
-  }
-
-  for (auto *obj : pw->children()) {
-    auto *w = dynamic_cast<QWidget *>(obj);
-
-    if (w && w != this) {
-      w->setVisible(e);
+    if (!pw) {
+        return;
     }
-  }
 
-  int maxH, minH;
+    for (auto *obj : pw->children()) {
+        auto *w = dynamic_cast<QWidget *>(obj);
 
-  if (!e) {
-    _oldHeightInfo = QPair<int, int>(pw->minimumHeight(), pw->maximumHeight());
-    maxH = height();
-    minH = height();
-  } else {
-    minH = _oldHeightInfo.first;
-    maxH = _oldHeightInfo.second;
-  }
+        if (w && w != this) {
+            w->setVisible(e);
+        }
+    }
 
-  pw->setMinimumSize(pw->minimumWidth(), minH);
-  pw->setMaximumSize(pw->maximumWidth(), maxH);
+    int maxH, minH;
 
-  _ui->expandButton->setToolTip(e ? "Hide contents" : "Show contents");
+    if (!e) {
+        _oldHeightInfo = QPair<int, int>(pw->minimumHeight(), pw->maximumHeight());
+        maxH = height();
+        minH = height();
+    } else {
+        minH = _oldHeightInfo.first;
+        maxH = _oldHeightInfo.second;
+    }
 
-  emit expanded(e);
+    pw->setMinimumSize(pw->minimumWidth(), minH);
+    pw->setMaximumSize(pw->maximumWidth(), maxH);
+
+    _ui->expandButton->setToolTip(e ? "Hide contents" : "Show contents");
+
+    emit expanded(e);
 }
 
 bool HeaderFrame::isExpanded() const {
-  return _expanded;
+    return _expanded;
 }
 
 QWidget *HeaderFrame::expandControl() const {
-  return _ui->expandButton;
+    return _ui->expandButton;
 }
 
 void HeaderFrame::insertWidget(QWidget *w) {
-  _ui->horizontalLayout->insertWidget(_ui->horizontalLayout->indexOf(_ui->expandButton), w);
+    _ui->horizontalLayout->insertWidget(_ui->horizontalLayout->indexOf(_ui->expandButton), w);
 }
 
 void HeaderFrame::menuChanged(int idx) {
-  emit menuChanged(_ui->menusCombo->itemText(idx));
+    emit menuChanged(_ui->menusCombo->itemText(idx));
 }

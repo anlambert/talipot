@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -38,48 +38,49 @@ namespace tlp {
  **/
 template <typename TYPE, typename FILTER>
 class FilterIterator : public Iterator<TYPE> {
-public:
-  FilterIterator(Iterator<TYPE> *it, FILTER filter) : _it(it), _filter(filter) {
-    update();
-  }
-  ~FilterIterator() {
-    delete _it;
-  }
-  TYPE next() {
-    TYPE tmp = _curVal;
-    update();
-    return tmp;
-  }
-  bool hasNext() {
-    return _hasNext;
-  }
-
-private:
-  void update() {
-    _hasNext = false;
-
-    while (_it->hasNext()) {
-      _curVal = _it->next();
-
-      if (_filter(_curVal)) {
-        _hasNext = true;
-        break;
-      }
+  public:
+    FilterIterator(Iterator<TYPE> *it, FILTER filter) : _it(it), _filter(filter) {
+        update();
     }
-  }
+    ~FilterIterator() {
+        delete _it;
+    }
+    TYPE next() {
+        TYPE tmp = _curVal;
+        update();
+        return tmp;
+    }
+    bool hasNext() {
+        return _hasNext;
+    }
 
-  bool _hasNext;
-  Iterator<TYPE> *_it;
-  TYPE _curVal;
-  FILTER _filter;
-  size_t _nbele;
+  private:
+    void update() {
+        _hasNext = false;
+
+        while (_it->hasNext()) {
+            _curVal = _it->next();
+
+            if (_filter(_curVal)) {
+                _hasNext = true;
+                break;
+            }
+        }
+    }
+
+    bool _hasNext;
+    Iterator<TYPE> *_it;
+    TYPE _curVal;
+    FILTER _filter;
+    size_t _nbele;
 };
 
 template <typename TYPE, typename FILTER>
 class MPFilterIterator : public FilterIterator<TYPE, FILTER>,
                          public MemoryPool<MPFilterIterator<TYPE, FILTER>> {
-public:
-  MPFilterIterator(Iterator<TYPE> *it, FILTER filter) : FilterIterator<TYPE, FILTER>(it, filter) {}
+  public:
+    MPFilterIterator(Iterator<TYPE> *it, FILTER filter)
+        : FilterIterator<TYPE, FILTER>(it, filter) {}
 };
 
 /**
@@ -96,7 +97,7 @@ public:
  **/
 template <typename TYPE, typename FILTER>
 inline Iterator<TYPE> *filterIterator(Iterator<TYPE> *it, FILTER filter) {
-  return new MPFilterIterator<TYPE, FILTER>(it, filter);
+    return new MPFilterIterator<TYPE, FILTER>(it, filter);
 }
 
 /**
@@ -114,8 +115,8 @@ inline Iterator<TYPE> *filterIterator(Iterator<TYPE> *it, FILTER filter) {
 template <typename Container, typename FILTER>
 inline Iterator<typename Container::value_type> *filterIterator(const Container &stlContainer,
                                                                 FILTER filter) {
-  return new MPFilterIterator<typename Container::value_type, FILTER>(stlIterator(stlContainer),
-                                                                      filter);
+    return new MPFilterIterator<typename Container::value_type, FILTER>(stlIterator(stlContainer),
+                                                                        filter);
 }
 }
 #endif // TALIPOT_FILTER_ITERATOR_H

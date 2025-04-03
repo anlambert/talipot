@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -41,43 +41,43 @@ static constexpr std::string_view paramHelp[] = {
 #define DEGREE_TYPES "InOut;In;Out;"
 //==============================================================================
 DegreeMetric::DegreeMetric(const tlp::PluginContext *context) : DoubleAlgorithm(context) {
-  addInParameter<StringCollection>(DEGREE_TYPE, paramHelp[0].data(), DEGREE_TYPES, true,
-                                   "<b>InOut</b> <br> <b>In</b> <br> <b>Out</b>");
-  addInParameter<NumericProperty *>("metric", paramHelp[1].data(), "", false);
-  addInParameter<bool>("norm", paramHelp[2].data(), "false", false);
+    addInParameter<StringCollection>(DEGREE_TYPE, paramHelp[0].data(), DEGREE_TYPES, true,
+                                     "<b>InOut</b> <br> <b>In</b> <br> <b>Out</b>");
+    addInParameter<NumericProperty *>("metric", paramHelp[1].data(), "", false);
+    addInParameter<bool>("norm", paramHelp[2].data(), "false", false);
 }
 //==================================================================
 bool DegreeMetric::run() {
-  StringCollection degreeTypes(DEGREE_TYPES);
-  degreeTypes.setCurrent(0);
-  NumericProperty *weights = nullptr;
-  bool norm = false;
+    StringCollection degreeTypes(DEGREE_TYPES);
+    degreeTypes.setCurrent(0);
+    NumericProperty *weights = nullptr;
+    bool norm = false;
 
-  if (dataSet != nullptr) {
-    dataSet->get(DEGREE_TYPE, degreeTypes);
-    dataSet->get("metric", weights);
-    dataSet->get("norm", norm);
-  }
+    if (dataSet != nullptr) {
+        dataSet->get(DEGREE_TYPE, degreeTypes);
+        dataSet->get("metric", weights);
+        dataSet->get("norm", norm);
+    }
 
-  NodeVectorProperty<double> deg(graph);
-  degree(graph, deg, static_cast<EdgeType>(degreeTypes.getCurrent()), weights, norm);
-  deg.copyToProperty(result);
+    NodeVectorProperty<double> deg(graph);
+    degree(graph, deg, static_cast<EdgeType>(degreeTypes.getCurrent()), weights, norm);
+    deg.copyToProperty(result);
 
-  return true;
+    return true;
 }
 //==================================================================
 bool DegreeMetric::check(std::string &errorMsg) {
-  // check weights validity if it exists
-  DoubleProperty *weights = nullptr;
+    // check weights validity if it exists
+    DoubleProperty *weights = nullptr;
 
-  if (dataSet != nullptr) {
-    dataSet->get("metric", weights);
+    if (dataSet != nullptr) {
+        dataSet->get("metric", weights);
 
-    if (weights && !weights->getEdgeDefaultValue() && !weights->hasNonDefaultValuatedEdges()) {
-      errorMsg = "Cannot compute a weighted degree with a null weight value\nfor all edges";
-      return false;
+        if (weights && !weights->getEdgeDefaultValue() && !weights->hasNonDefaultValuatedEdges()) {
+            errorMsg = "Cannot compute a weighted degree with a null weight value\nfor all edges";
+            return false;
+        }
     }
-  }
 
-  return true;
+    return true;
 }

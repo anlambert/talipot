@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,25 +25,25 @@
 namespace tlp {
 
 struct GlTexture {
-  GLuint id = 0;
-  int height = 0;
-  int width = 0;
+    GLuint id = 0;
+    int height = 0;
+    int width = 0;
 };
 
 /**
  *  \brief Class to load textures
  */
 class TLP_GL_SCOPE GlTextureLoader {
-public:
-  /**
-   * Load a texture from a file
-   * in the default implementation only bmp, jpeg and png files
-   * can be loaded.
-   * Return false if an error occurs
-   */
-  virtual bool loadTexture(const std::string &filename, GlTexture &texture);
+  public:
+    /**
+     * Load a texture from a file
+     * in the default implementation only bmp, jpeg and png files
+     * can be loaded.
+     * Return false if an error occurs
+     */
+    virtual bool loadTexture(const std::string &filename, GlTexture &texture);
 
-  virtual ~GlTextureLoader() = default;
+    virtual ~GlTextureLoader() = default;
 };
 
 /**
@@ -51,83 +51,83 @@ public:
  */
 class TLP_GL_SCOPE GlTextureManager {
 
-  typedef flat_hash_map<std::string, GlTexture> TextureMap;
+    typedef flat_hash_map<std::string, GlTexture> TextureMap;
 
-public:
-  /**
-   * Return texture info (id, width and height) for the given name
-   */
-  static GlTexture getTextureInfo(const std::string &);
+  public:
+    /**
+     * Return texture info (id, width and height) for the given name
+     */
+    static GlTexture getTextureInfo(const std::string &);
 
-  /**
-   * Check if a texture for the given name exists in the current context
-   */
-  static bool existsTexture(const std::string &filename);
-  /**
-   * Load texture with given name
-   */
-  static bool loadTexture(const std::string &);
-  /**
-   * Remove texture with given name
-   */
-  static void deleteTexture(const std::string &);
-  /**
-   * Begin a new texture with given name
-   */
-  static void beginNewTexture(const std::string &);
+    /**
+     * Check if a texture for the given name exists in the current context
+     */
+    static bool existsTexture(const std::string &filename);
+    /**
+     * Load texture with given name
+     */
+    static bool loadTexture(const std::string &);
+    /**
+     * Remove texture with given name
+     */
+    static void deleteTexture(const std::string &);
+    /**
+     * Begin a new texture with given name
+     */
+    static void beginNewTexture(const std::string &);
 
-  /**
-   * Activate a texture with given name
-   */
-  static bool activateTexture(const std::string &, int textureUnit = 0);
-  /**
-   * Disable texture with given name
-   */
-  static void deactivateTexture(int textureUnit = 0);
+    /**
+     * Activate a texture with given name
+     */
+    static bool activateTexture(const std::string &, int textureUnit = 0);
+    /**
+     * Disable texture with given name
+     */
+    static void deactivateTexture(int textureUnit = 0);
 
-  /**
-   * Clear vector of textures with error
-   */
-  static void clearErrorVector() {
-    texturesWithError.clear();
-  }
-  /**
-   * Remove an entry of vector of textures with error
-   */
-  static void removeEntryOfErrorVector(const std::string &name) {
-    texturesWithError.erase(name);
-  }
-
-  /**
-   * Register an external texture is GlTextureManager
-   */
-  static void registerExternalTexture(const std::string &textureName, const GLuint textureId);
-
-  /**
-   * Get Texture loader
-   */
-  static GlTextureLoader *getTextureLoader() {
-    return loader ? loader : (loader = new GlTextureLoader());
-  }
-
-  /**
-   * Set Texture loader
-   */
-  static void setTextureLoader(GlTextureLoader *texLoader) {
-    if (loader) {
-      delete loader;
+    /**
+     * Clear vector of textures with error
+     */
+    static void clearErrorVector() {
+        texturesWithError.clear();
+    }
+    /**
+     * Remove an entry of vector of textures with error
+     */
+    static void removeEntryOfErrorVector(const std::string &name) {
+        texturesWithError.erase(name);
     }
 
-    loader = texLoader;
-  }
+    /**
+     * Register an external texture is GlTextureManager
+     */
+    static void registerExternalTexture(const std::string &textureName, const GLuint textureId);
 
-  static void deleteAllTextures();
+    /**
+     * Get Texture loader
+     */
+    static GlTextureLoader *getTextureLoader() {
+        return loader ? loader : (loader = new GlTextureLoader());
+    }
 
-private:
-  static GlTextureLoader *loader;
+    /**
+     * Set Texture loader
+     */
+    static void setTextureLoader(GlTextureLoader *texLoader) {
+        if (loader) {
+            delete loader;
+        }
 
-  static TextureMap texturesMap;
-  static std::set<std::string> texturesWithError;
+        loader = texLoader;
+    }
+
+    static void deleteAllTextures();
+
+  private:
+    static GlTextureLoader *loader;
+
+    static TextureMap texturesMap;
+    static std::set<std::string> texturesWithError;
 };
 }
 

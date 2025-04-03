@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,25 +31,25 @@ static const std::string EEGLYPH_CATEGORY = "Edge extremity";
 class GlGraphInputData;
 
 class TLP_GL_SCOPE EdgeExtremityGlyph : public Plugin {
-public:
-  std::string category() const override {
-    return EEGLYPH_CATEGORY;
-  }
-  std::string icon() const override {
-    return MaterialDesignIcons::ShapePlus;
-  }
+  public:
+    std::string category() const override {
+        return EEGLYPH_CATEGORY;
+    }
+    std::string icon() const override {
+        return MaterialDesignIcons::ShapePlus;
+    }
 
-  EdgeExtremityGlyph(const tlp::PluginContext *context);
-  ~EdgeExtremityGlyph() override;
-  virtual void draw(edge e, node n, const Color &glyphColor, const Color &borderColor,
-                    float lod) = 0;
-  void get2DTransformationMatrix(const Coord &src, const Coord &dest, const Size &glyphSize,
-                                 MatrixGL &transformationMatrix, MatrixGL &scalingMatrix);
-  void get3DTransformationMatrix(const Coord &src, const Coord &dest, const Size &glyphSize,
-                                 MatrixGL &transformationMatrix, MatrixGL &scalingMatrix);
+    EdgeExtremityGlyph(const tlp::PluginContext *context);
+    ~EdgeExtremityGlyph() override;
+    virtual void draw(edge e, node n, const Color &glyphColor, const Color &borderColor,
+                      float lod) = 0;
+    void get2DTransformationMatrix(const Coord &src, const Coord &dest, const Size &glyphSize,
+                                   MatrixGL &transformationMatrix, MatrixGL &scalingMatrix);
+    void get3DTransformationMatrix(const Coord &src, const Coord &dest, const Size &glyphSize,
+                                   MatrixGL &transformationMatrix, MatrixGL &scalingMatrix);
 
-protected:
-  GlGraphInputData *edgeExtGlGraphInputData;
+  protected:
+    GlGraphInputData *edgeExtGlGraphInputData;
 };
 }
 

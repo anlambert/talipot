@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,56 +28,56 @@ class QShowEvent;
 class QHideEvent;
 
 class TalipotLogger : public QDialog {
-  Q_OBJECT
+    Q_OBJECT
 
-  QtMsgType _logType;
-  Ui::TalipotLogger *_ui;
-  bool _pythonOutput;
-  QMap<int, int> _logCounts;
-  QByteArray _windowGeometry;
-  bool _anchored;
-  int _nbLog;
-  QPixmap _emptyIcon;
+    QtMsgType _logType;
+    Ui::TalipotLogger *_ui;
+    bool _pythonOutput;
+    QMap<int, int> _logCounts;
+    QByteArray _windowGeometry;
+    bool _anchored;
+    int _nbLog;
+    QPixmap _emptyIcon;
 
-public:
-  enum LogType { Debug, Info, Warning, Error, Python };
+  public:
+    enum LogType { Debug, Info, Warning, Error, Python };
 
-  TalipotLogger(QWidget *parent = nullptr);
-  ~TalipotLogger() override;
-  QIcon icon(LogType logType) const;
-  int count() const;
-  int countByType(LogType logType) const;
-  TalipotLogger::LogType getLastLogType() const;
-  void log(QtMsgType, const QMessageLogContext &, const QString &);
+    TalipotLogger(QWidget *parent = nullptr);
+    ~TalipotLogger() override;
+    QIcon icon(LogType logType) const;
+    int count() const;
+    int countByType(LogType logType) const;
+    TalipotLogger::LogType getLastLogType() const;
+    void log(QtMsgType, const QMessageLogContext &, const QString &);
 
-  bool eventFilter(QObject *, QEvent *) override;
+    bool eventFilter(QObject *, QEvent *) override;
 
-  void showEvent(QShowEvent *) override;
-  void hideEvent(QHideEvent *) override;
+    void showEvent(QShowEvent *) override;
+    void hideEvent(QHideEvent *) override;
 
-  bool anchored() const {
-    return _anchored;
-  }
+    bool anchored() const {
+        return _anchored;
+    }
 
-  void setGeometry(int x, int y, int w, int h);
+    void setGeometry(int x, int y, int w, int h);
 
-  void updateLogItemsBackgroundColor();
+    void updateLogItemsBackgroundColor();
 
-public slots:
-  void setAnchored(bool anchored);
+  public slots:
+    void setAnchored(bool anchored);
 
-  void clear();
+    void clear();
 
-private slots:
-  void copy();
-  void showContextMenu(const QPoint &pos);
+  private slots:
+    void copy();
+    void showContextMenu(const QPoint &pos);
 
-private:
-  void logImpl(QtMsgType, const QString &);
+  private:
+    void logImpl(QtMsgType, const QString &);
 
-signals:
-  void cleared();
-  void resetLoggerPosition();
+  signals:
+    void cleared();
+    void resetLoggerPosition();
 };
 
 #endif // TALIPOT_LOGGER_H

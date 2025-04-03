@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -85,173 +85,176 @@ static const string AREA_PROPORTIONAL = "Area Proportional";
 #define UNIFORM_MAPPING 1
 
 class MetricSizeMapping : public SizeAlgorithm {
-public:
-  PLUGININFORMATION(
-      "Size Mapping", "Auber", "08/08/2003",
-      "Maps the size of the graph elements onto the values of a given numeric property.", "2.1",
-      "Size")
-  MetricSizeMapping(const PluginContext *context)
-      : SizeAlgorithm(context), entryMetric(nullptr), entrySize(nullptr), xaxis(true), yaxis(true),
-        zaxis(true), linearType(true), min(1), max(10), range(0), shift(0) {
-    addInParameter<NumericProperty *>("property", paramHelp[0].data(), "viewMetric");
-    addInParameter<SizeProperty>("input", paramHelp[1].data(), "viewSize");
-    addInParameter<bool>("width", paramHelp[2].data(), "true");
-    addInParameter<bool>("height", paramHelp[3].data(), "true");
-    addInParameter<bool>("depth", paramHelp[4].data(), "false");
-    addInParameter<double>("min size", paramHelp[5].data(), "1");
-    addInParameter<double>("max size", paramHelp[6].data(), "10");
-    addInParameter<StringCollection>(MAPPING_TYPE, paramHelp[7].data(), MAPPING_TYPES, true,
-                                     "<b>linear</b> <br/> <b>uniform</b>");
-    addInParameter<StringCollection>(TARGET_TYPE, paramHelp[8].data(), TARGET_TYPES, true,
-                                     "<b>nodes</b> <br/> <b>edges</b>");
-    addInParameter<StringCollection>("area proportional", paramHelp[7].data(),
-                                     "Area Proportional;Quadratic/Cubic", true,
-                                     "<b>Area Proportional</b> <br/> <b>Quadratic/Cubic</b>");
+  public:
+    PLUGININFORMATION(
+        "Size Mapping", "Auber", "08/08/2003",
+        "Maps the size of the graph elements onto the values of a given numeric property.", "2.1",
+        "Size")
+    MetricSizeMapping(const PluginContext *context)
+        : SizeAlgorithm(context), entryMetric(nullptr), entrySize(nullptr), xaxis(true),
+          yaxis(true), zaxis(true), linearType(true), min(1), max(10), range(0), shift(0) {
+        addInParameter<NumericProperty *>("property", paramHelp[0].data(), "viewMetric");
+        addInParameter<SizeProperty>("input", paramHelp[1].data(), "viewSize");
+        addInParameter<bool>("width", paramHelp[2].data(), "true");
+        addInParameter<bool>("height", paramHelp[3].data(), "true");
+        addInParameter<bool>("depth", paramHelp[4].data(), "false");
+        addInParameter<double>("min size", paramHelp[5].data(), "1");
+        addInParameter<double>("max size", paramHelp[6].data(), "10");
+        addInParameter<StringCollection>(MAPPING_TYPE, paramHelp[7].data(), MAPPING_TYPES, true,
+                                         "<b>linear</b> <br/> <b>uniform</b>");
+        addInParameter<StringCollection>(TARGET_TYPE, paramHelp[8].data(), TARGET_TYPES, true,
+                                         "<b>nodes</b> <br/> <b>edges</b>");
+        addInParameter<StringCollection>("area proportional", paramHelp[7].data(),
+                                         "Area Proportional;Quadratic/Cubic", true,
+                                         "<b>Area Proportional</b> <br/> <b>Quadratic/Cubic</b>");
 
-    // result needs to be an inout parameter
-    // in order to preserve the original values of non targeted elements
-    // i.e if "target" = "nodes", the values of edges must be preserved
-    // and if "target" = "edges", the values of nodes must be preserved
-    parameters.setDirection("result", INOUT_PARAM);
-  }
-
-  bool check(std::string &errorMsg) override {
-    xaxis = yaxis = zaxis = true;
-    min = 1;
-    max = 10;
-    proportional = "Area Proportional";
-    entryMetric = graph->getDoubleProperty("viewMetric");
-    entrySize = graph->getSizeProperty("viewSize");
-    linearType = true;
-    StringCollection mapping;
-    StringCollection proportionalType;
-    targetType.setCurrent(NODES_TARGET);
-
-    if (dataSet != nullptr) {
-      dataSet->get("property", entryMetric);
-      dataSet->get("input", entrySize);
-      dataSet->get("width", xaxis);
-      dataSet->get("height", yaxis);
-      dataSet->get("depth", zaxis);
-      dataSet->get("min size", min);
-      dataSet->get("max size", max);
-      // for compatibility with old parameter type
-      if (dataSet->getTypeName(MAPPING_TYPE) == dataSet->getTypeName<bool>()) {
-        dataSet->get(MAPPING_TYPE, linearType);
-      } else {
-        dataSet->get(MAPPING_TYPE, mapping);
-        linearType = mapping.getCurrent() == LINEAR_MAPPING;
-      }
-      dataSet->get(TARGET_TYPE, targetType);
-      dataSet->get("area proportional", proportionalType);
-      proportional = proportionalType.getCurrentString();
-      // old parameter name and behavior
-      if (dataSet->exists("node/edge")) {
-        bool nodeoredge = true;
-        dataSet->get("node/edge", nodeoredge);
-        targetType.setCurrent(nodeoredge ? NODES_TARGET : EDGES_TARGET);
-      }
+        // result needs to be an inout parameter
+        // in order to preserve the original values of non targeted elements
+        // i.e if "target" = "nodes", the values of edges must be preserved
+        // and if "target" = "edges", the values of nodes must be preserved
+        parameters.setDirection("result", INOUT_PARAM);
     }
 
-    if (min >= max) {
-      errorMsg = rangeSizeErrorMsg;
-      return false;
-    }
+    bool check(std::string &errorMsg) override {
+        xaxis = yaxis = zaxis = true;
+        min = 1;
+        max = 10;
+        proportional = "Area Proportional";
+        entryMetric = graph->getDoubleProperty("viewMetric");
+        entrySize = graph->getSizeProperty("viewSize");
+        linearType = true;
+        StringCollection mapping;
+        StringCollection proportionalType;
+        targetType.setCurrent(NODES_TARGET);
 
-    if (targetType.getCurrent() == NODES_TARGET) {
-      range = entryMetric->getNodeDoubleMax(graph) - entryMetric->getNodeDoubleMin(graph);
-    } else {
-      range = entryMetric->getEdgeDoubleMax(graph) - entryMetric->getEdgeDoubleMin(graph);
-    }
+        if (dataSet != nullptr) {
+            dataSet->get("property", entryMetric);
+            dataSet->get("input", entrySize);
+            dataSet->get("width", xaxis);
+            dataSet->get("height", yaxis);
+            dataSet->get("depth", zaxis);
+            dataSet->get("min size", min);
+            dataSet->get("max size", max);
+            // for compatibility with old parameter type
+            if (dataSet->getTypeName(MAPPING_TYPE) == dataSet->getTypeName<bool>()) {
+                dataSet->get(MAPPING_TYPE, linearType);
+            } else {
+                dataSet->get(MAPPING_TYPE, mapping);
+                linearType = mapping.getCurrent() == LINEAR_MAPPING;
+            }
+            dataSet->get(TARGET_TYPE, targetType);
+            dataSet->get("area proportional", proportionalType);
+            proportional = proportionalType.getCurrentString();
+            // old parameter name and behavior
+            if (dataSet->exists("node/edge")) {
+                bool nodeoredge = true;
+                dataSet->get("node/edge", nodeoredge);
+                targetType.setCurrent(nodeoredge ? NODES_TARGET : EDGES_TARGET);
+            }
+        }
 
-    if (range == 0) {
-      errorMsg = rangeMetricErrorMsg;
-      return false;
-    }
+        if (min >= max) {
+            errorMsg = rangeSizeErrorMsg;
+            return false;
+        }
 
-    if (!xaxis && !yaxis && !zaxis) {
-      errorMsg = "You need at least one axis to map on.";
-      return false;
-    }
+        if (targetType.getCurrent() == NODES_TARGET) {
+            range = entryMetric->getNodeDoubleMax(graph) - entryMetric->getNodeDoubleMin(graph);
+        } else {
+            range = entryMetric->getEdgeDoubleMax(graph) - entryMetric->getEdgeDoubleMin(graph);
+        }
 
-    if (proportional == AREA_PROPORTIONAL) {
-      max = max * max;
-    }
+        if (range == 0) {
+            errorMsg = rangeMetricErrorMsg;
+            return false;
+        }
 
-    return true;
-  }
-
-  bool run() override {
-    NumericProperty *tmp = nullptr;
-
-    if (!linearType) {
-      tmp = entryMetric->copyProperty(graph);
-      tmp->uniformQuantification(300);
-      entryMetric = tmp;
-    }
-
-    pluginProgress->showPreview(false);
-
-    if (targetType.getCurrent() == NODES_TARGET) {
-      shift = entryMetric->getNodeDoubleMin(graph);
-
-      // compute size of nodes
-      NodeVectorProperty<Size> nodeSize(graph);
-      nodeSize.copyFromProperty(entrySize);
-
-      TLP_PARALLEL_MAP_NODES(graph, [&](const node &n) {
-        double sizos = 0;
+        if (!xaxis && !yaxis && !zaxis) {
+            errorMsg = "You need at least one axis to map on.";
+            return false;
+        }
 
         if (proportional == AREA_PROPORTIONAL) {
-          const double power = 1.0 / (float(xaxis) + float(yaxis) + float(zaxis));
-          sizos =
-              min + pow((entryMetric->getNodeDoubleValue(n) - shift) * (max - min) / range, power);
+            max = max * max;
+        }
+
+        return true;
+    }
+
+    bool run() override {
+        NumericProperty *tmp = nullptr;
+
+        if (!linearType) {
+            tmp = entryMetric->copyProperty(graph);
+            tmp->uniformQuantification(300);
+            entryMetric = tmp;
+        }
+
+        pluginProgress->showPreview(false);
+
+        if (targetType.getCurrent() == NODES_TARGET) {
+            shift = entryMetric->getNodeDoubleMin(graph);
+
+            // compute size of nodes
+            NodeVectorProperty<Size> nodeSize(graph);
+            nodeSize.copyFromProperty(entrySize);
+
+            TLP_PARALLEL_MAP_NODES(graph, [&](const node &n) {
+                double sizos = 0;
+
+                if (proportional == AREA_PROPORTIONAL) {
+                    const double power = 1.0 / (float(xaxis) + float(yaxis) + float(zaxis));
+                    sizos = min +
+                            pow((entryMetric->getNodeDoubleValue(n) - shift) * (max - min) / range,
+                                power);
+                } else {
+                    sizos =
+                        min + (entryMetric->getNodeDoubleValue(n) - shift) * (max - min) / range;
+                }
+
+                if (xaxis) {
+                    nodeSize[n][0] = float(sizos);
+                }
+
+                if (yaxis) {
+                    nodeSize[n][1] = float(sizos);
+                }
+
+                if (zaxis) {
+                    nodeSize[n][2] = float(sizos);
+                }
+            });
+            nodeSize.copyToProperty(result);
         } else {
-          sizos = min + (entryMetric->getNodeDoubleValue(n) - shift) * (max - min) / range;
+            shift = entryMetric->getEdgeDoubleMin(graph);
+            // compute size of edges
+            EdgeVectorProperty<Size> edgeSize(graph);
+
+            TLP_PARALLEL_MAP_EDGES(graph, [&](const edge &e) {
+                double sizos =
+                    min + (entryMetric->getEdgeDoubleValue(e) - shift) * (max - min) / range;
+                edgeSize[e][0] = float(sizos);
+                edgeSize[e][1] = float(sizos);
+            });
+            edgeSize.copyToProperty(result);
         }
 
-        if (xaxis) {
-          nodeSize[n][0] = float(sizos);
+        if (!linearType) {
+            delete tmp;
         }
 
-        if (yaxis) {
-          nodeSize[n][1] = float(sizos);
-        }
-
-        if (zaxis) {
-          nodeSize[n][2] = float(sizos);
-        }
-      });
-      nodeSize.copyToProperty(result);
-    } else {
-      shift = entryMetric->getEdgeDoubleMin(graph);
-      // compute size of edges
-      EdgeVectorProperty<Size> edgeSize(graph);
-
-      TLP_PARALLEL_MAP_EDGES(graph, [&](const edge &e) {
-        double sizos = min + (entryMetric->getEdgeDoubleValue(e) - shift) * (max - min) / range;
-        edgeSize[e][0] = float(sizos);
-        edgeSize[e][1] = float(sizos);
-      });
-      edgeSize.copyToProperty(result);
+        return true;
     }
 
-    if (!linearType) {
-      delete tmp;
-    }
-
-    return true;
-  }
-
-private:
-  NumericProperty *entryMetric;
-  SizeProperty *entrySize;
-  bool xaxis, yaxis, zaxis, linearType;
-  double min, max;
-  double range;
-  double shift;
-  std::string proportional;
-  StringCollection targetType;
+  private:
+    NumericProperty *entryMetric;
+    SizeProperty *entrySize;
+    bool xaxis, yaxis, zaxis, linearType;
+    double min, max;
+    double range;
+    double shift;
+    std::string proportional;
+    StringCollection targetType;
 };
 
 PLUGIN(MetricSizeMapping)

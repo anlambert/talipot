@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,38 +24,38 @@ bool PathAlgorithm::computePath(Graph *graph, PathType pathType, EdgeOrientation
                                 node src, node tgt, BooleanProperty *result,
                                 DoubleProperty *weights) {
 
-  bool retVal = false;
-  tlp::ShortestPathType spt;
+    bool retVal = false;
+    tlp::ShortestPathType spt;
 
-  if (pathType == AllShortest) {
-    switch (edgesOrientation) {
-    case Directed:
-      spt = ShortestPathType::AllDirectedPaths;
-      break;
-    case Undirected:
-      spt = ShortestPathType::AllPaths;
-      break;
-    case Reversed:
-    default:
-      spt = ShortestPathType::AllReversedPaths;
+    if (pathType == AllShortest) {
+        switch (edgesOrientation) {
+        case Directed:
+            spt = ShortestPathType::AllDirectedPaths;
+            break;
+        case Undirected:
+            spt = ShortestPathType::AllPaths;
+            break;
+        case Reversed:
+        default:
+            spt = ShortestPathType::AllReversedPaths;
+        }
+    } else {
+        switch (edgesOrientation) {
+        case Directed:
+            spt = ShortestPathType::OneDirectedPath;
+            break;
+        case Undirected:
+            spt = ShortestPathType::OnePath;
+            break;
+        case Reversed:
+        default:
+            spt = ShortestPathType::OneReversedPath;
+        }
     }
-  } else {
-    switch (edgesOrientation) {
-    case Directed:
-      spt = ShortestPathType::OneDirectedPath;
-      break;
-    case Undirected:
-      spt = ShortestPathType::OnePath;
-      break;
-    case Reversed:
-    default:
-      spt = ShortestPathType::OneReversedPath;
+    graph->push();
+    retVal = selectShortestPaths(graph, src, tgt, spt, weights, result);
+    if (!retVal) {
+        graph->pop();
     }
-  }
-  graph->push();
-  retVal = selectShortestPaths(graph, src, tgt, spt, weights, result);
-  if (!retVal) {
-    graph->pop();
-  }
-  return retVal;
+    return retVal;
 }

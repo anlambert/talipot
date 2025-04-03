@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,45 +33,45 @@ class NominalParallelAxis;
 // and data ordering (ascendent or not) for a particular quantitative axis
 class QuantitativeAxisConfigDialog : public QDialog {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  QuantitativeAxisConfigDialog(QuantitativeParallelAxis *axis);
-  void closeEvent(QCloseEvent *event) override;
+  public:
+    QuantitativeAxisConfigDialog(QuantitativeParallelAxis *axis);
+    void closeEvent(QCloseEvent *event) override;
 
-private:
-  void initAxisPartitionsTable();
+  private:
+    void initAxisPartitionsTable();
 
-  QuantitativeParallelAxis *axis;
-  QSpinBox *nbGrads;
-  QDoubleSpinBox *doubleAxisMinValue, *doubleAxisMaxValue;
-  QSpinBox *intAxisMinValue, *intAxisMaxValue;
-  QComboBox *axisOrder;
-  QPushButton *okButton;
-  QCheckBox *log10Scale;
+    QuantitativeParallelAxis *axis;
+    QSpinBox *nbGrads;
+    QDoubleSpinBox *doubleAxisMinValue, *doubleAxisMaxValue;
+    QSpinBox *intAxisMinValue, *intAxisMaxValue;
+    QComboBox *axisOrder;
+    QPushButton *okButton;
+    QCheckBox *log10Scale;
 };
 
 // A really simple dialog which allows user to set labels order
 // on a particular nominative axis
 class NominalAxisConfigDialog : public QDialog {
 
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  NominalAxisConfigDialog(NominalParallelAxis *axis);
-  void closeEvent(QCloseEvent *event) override;
+  public:
+    NominalAxisConfigDialog(NominalParallelAxis *axis);
+    void closeEvent(QCloseEvent *event) override;
 
-public slots:
+  public slots:
 
-  void pressButtonUp();
-  void pressButtonDown();
-  void pressButtonLexOrder();
+    void pressButtonUp();
+    void pressButtonDown();
+    void pressButtonLexOrder();
 
-private:
-  NominalParallelAxis *axis;
-  QPushButton *okButton;
-  QHash<QString, itemInfo> hashDataBase;
-  ItemsListWidget *axisLabelsOrder;
+  private:
+    NominalParallelAxis *axis;
+    QPushButton *okButton;
+    QHash<QString, itemInfo> hashDataBase;
+    ItemsListWidget *axisLabelsOrder;
 };
 }
 

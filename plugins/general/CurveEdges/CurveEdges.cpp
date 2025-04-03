@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,7 +39,7 @@
 
 #define CURVE_TYPE "Curve Type"
 #define CURVE_TYPE_LIST \
-  "QuadraticContinuous;QuadraticDiscrete;QuadraticDiagonalCross;\
+    "QuadraticContinuous;QuadraticDiscrete;QuadraticDiagonalCross;\
 QuadraticStraightCross;QuadraticHorizontal;QuadraticVertical;CubicContinuous;CubicVertical;\
 CubicDiagonalCross;CubicVerticalDiagonalCross;CubicStraightCrossSource;CubicStraightCrossTarget"
 #define CURVE_TYPE_QUADRATIC_CONTINUOUS 0
@@ -84,274 +84,274 @@ static const char *curveTypeValues = "<b>QuadraticContinuous</b> <br>"
 
 class CurveEdges : public tlp::Algorithm {
 
-public:
-  PLUGININFORMATION("Curve edges", "Antoine Lambert", "16/01/2015",
-                    "Computes quadratic or cubic bezier paths for edges", "1.0", "")
+  public:
+    PLUGININFORMATION("Curve edges", "Antoine Lambert", "16/01/2015",
+                      "Computes quadratic or cubic bezier paths for edges", "1.0", "")
 
-  CurveEdges(tlp::PluginContext *context)
-      : tlp::Algorithm(context), curveType(0), curveRoundness(0.5), layout(nullptr),
-        bezierEdges(true) {
-    addInParameter<tlp::LayoutProperty>("layout", paramHelp[0].data(), "viewLayout");
-    addInParameter<float>("curve roundness", paramHelp[1].data(), "0.5");
-    addInParameter<tlp::StringCollection>("curve type", paramHelp[2].data(), CURVE_TYPE_LIST, true,
-                                          curveTypeValues);
-    addInParameter<bool>("bezier edges", paramHelp[3].data(), "true");
-  }
-
-  std::vector<tlp::Coord> computeCubicBezierControlPoints(tlp::edge e) {
-    const auto &[src, tgt] = graph->ends(e);
-    const tlp::Coord &srcCoord = layout->getNodeValue(src);
-    const tlp::Coord &tgtCoord = layout->getNodeValue(tgt);
-    tlp::Coord dir = tgtCoord - srcCoord;
-    dir /= dir.norm();
-    float length = srcCoord.dist(tgtCoord);
-    float factor = curveRoundness * length;
-    tlp::Coord normal = {dir[1], -dir[0]};
-    normal *= factor;
-
-    if (curveType == CURVE_TYPE_CUBIC_VERTICAL ||
-        curveType == CURVE_TYPE_CUBIC_VERTICAL_DIAGONALCROSS ||
-        curveType == CURVE_TYPE_CUBIC_STRAIGHTCROSS_SOURCE) {
-      dir = tlp::Coord(0, 0, 0);
+    CurveEdges(tlp::PluginContext *context)
+        : tlp::Algorithm(context), curveType(0), curveRoundness(0.5), layout(nullptr),
+          bezierEdges(true) {
+        addInParameter<tlp::LayoutProperty>("layout", paramHelp[0].data(), "viewLayout");
+        addInParameter<float>("curve roundness", paramHelp[1].data(), "0.5");
+        addInParameter<tlp::StringCollection>("curve type", paramHelp[2].data(), CURVE_TYPE_LIST,
+                                              true, curveTypeValues);
+        addInParameter<bool>("bezier edges", paramHelp[3].data(), "true");
     }
 
-    tlp::Coord p1 = dir;
-    p1 *= factor;
-    p1 += srcCoord;
+    std::vector<tlp::Coord> computeCubicBezierControlPoints(tlp::edge e) {
+        const auto &[src, tgt] = graph->ends(e);
+        const tlp::Coord &srcCoord = layout->getNodeValue(src);
+        const tlp::Coord &tgtCoord = layout->getNodeValue(tgt);
+        tlp::Coord dir = tgtCoord - srcCoord;
+        dir /= dir.norm();
+        float length = srcCoord.dist(tgtCoord);
+        float factor = curveRoundness * length;
+        tlp::Coord normal = {dir[1], -dir[0]};
+        normal *= factor;
 
-    if (curveType != CURVE_TYPE_CUBIC_STRAIGHTCROSS_TARGET) {
-      p1 += normal;
+        if (curveType == CURVE_TYPE_CUBIC_VERTICAL ||
+            curveType == CURVE_TYPE_CUBIC_VERTICAL_DIAGONALCROSS ||
+            curveType == CURVE_TYPE_CUBIC_STRAIGHTCROSS_SOURCE) {
+            dir = tlp::Coord(0, 0, 0);
+        }
+
+        tlp::Coord p1 = dir;
+        p1 *= factor;
+        p1 += srcCoord;
+
+        if (curveType != CURVE_TYPE_CUBIC_STRAIGHTCROSS_TARGET) {
+            p1 += normal;
+        }
+
+        if (curveType == CURVE_TYPE_CUBIC_STRAIGHTCROSS_TARGET) {
+            dir = tlp::Coord(0, 0, 0);
+        }
+
+        tlp::Coord p2 = dir;
+        p2 *= -factor;
+        p2 += tgtCoord;
+
+        if (curveType == CURVE_TYPE_CUBIC_DIAGONALCROSS ||
+            curveType == CURVE_TYPE_CUBIC_VERTICAL_DIAGONALCROSS) {
+            p2 -= normal;
+        } else if (curveType != CURVE_TYPE_CUBIC_STRAIGHTCROSS_SOURCE) {
+            p2 += normal;
+        }
+
+        std::vector<tlp::Coord> controlPoints;
+        controlPoints.push_back(p1);
+        controlPoints.push_back(p2);
+
+        return controlPoints;
     }
 
-    if (curveType == CURVE_TYPE_CUBIC_STRAIGHTCROSS_TARGET) {
-      dir = tlp::Coord(0, 0, 0);
-    }
+    std::vector<tlp::Coord> computeQuadraticBezierControlPoints(tlp::edge e) {
+        float x = FLT_MAX, y = FLT_MAX;
+        float factor = curveRoundness;
+        const auto &[src, tgt] = graph->ends(e);
+        const tlp::Coord &srcCoord = layout->getNodeValue(src);
+        const tlp::Coord &tgtCoord = layout->getNodeValue(tgt);
+        float dx = std::abs(srcCoord[0] - tgtCoord[0]);
+        float dy = std::abs(srcCoord[1] - tgtCoord[1]);
 
-    tlp::Coord p2 = dir;
-    p2 *= -factor;
-    p2 += tgtCoord;
+        if (curveType == CURVE_TYPE_QUADRATIC_DISCRETE ||
+            curveType == CURVE_TYPE_QUADRATIC_DIAGONALCROSS) {
+            if (dx < dy) {
+                if (srcCoord[1] > tgtCoord[1]) {
+                    if (srcCoord[0] < tgtCoord[0]) {
+                        x = srcCoord[0] + factor * dy;
+                        y = srcCoord[1] - factor * dy;
+                    } else if (srcCoord[0] > tgtCoord[0]) {
+                        x = srcCoord[0] - factor * dy;
+                        y = srcCoord[1] - factor * dy;
+                    }
+                } else if (srcCoord[1] < tgtCoord[1]) {
+                    if (srcCoord[0] < tgtCoord[0]) {
+                        x = srcCoord[0] + factor * dy;
+                        y = srcCoord[1] + factor * dy;
+                    } else if (srcCoord[0] > tgtCoord[0]) {
+                        x = srcCoord[0] - factor * dy;
+                        y = srcCoord[1] + factor * dy;
+                    }
+                }
 
-    if (curveType == CURVE_TYPE_CUBIC_DIAGONALCROSS ||
-        curveType == CURVE_TYPE_CUBIC_VERTICAL_DIAGONALCROSS) {
-      p2 -= normal;
-    } else if (curveType != CURVE_TYPE_CUBIC_STRAIGHTCROSS_SOURCE) {
-      p2 += normal;
-    }
+                if (curveType == CURVE_TYPE_QUADRATIC_DISCRETE && dx < factor * dy) {
+                    x = srcCoord[0];
+                }
+            } else if (dx > dy) {
+                if (srcCoord[1] > tgtCoord[1]) {
+                    if (srcCoord[0] < tgtCoord[0]) {
+                        x = srcCoord[0] + factor * dx;
+                        y = srcCoord[1] - factor * dx;
+                    } else if (srcCoord[0] > tgtCoord[0]) {
+                        x = srcCoord[0] - factor * dx;
+                        y = srcCoord[1] - factor * dx;
+                    }
+                } else if (srcCoord[1] < tgtCoord[1]) {
+                    if (srcCoord[0] < tgtCoord[0]) {
+                        x = srcCoord[0] + factor * dx;
+                        y = srcCoord[1] + factor * dx;
+                    } else if (srcCoord[0] > tgtCoord[0]) {
+                        x = srcCoord[0] - factor * dx;
+                        y = srcCoord[1] + factor * dx;
+                    }
+                }
 
-    std::vector<tlp::Coord> controlPoints;
-    controlPoints.push_back(p1);
-    controlPoints.push_back(p2);
+                if (curveType == CURVE_TYPE_QUADRATIC_DISCRETE && dy < factor * dx) {
+                    y = srcCoord[1];
+                }
+            }
+        } else if (curveType == CURVE_TYPE_QUADRATIC_STRAIGHTCROSS) {
+            if (dx < dy) {
+                x = srcCoord[0];
 
-    return controlPoints;
-  }
+                if (srcCoord[1] < tgtCoord[1]) {
+                    y = tgtCoord[1] - (1 - factor) * dy;
+                } else {
+                    y = tgtCoord[1] + (1 - factor) * dy;
+                }
+            } else if (dx > dy) {
+                if (srcCoord[0] < tgtCoord[0]) {
+                    x = tgtCoord[0] - (1 - factor) * dx;
+                } else {
+                    x = tgtCoord[0] + (1 - factor) * dx;
+                }
 
-  std::vector<tlp::Coord> computeQuadraticBezierControlPoints(tlp::edge e) {
-    float x = FLT_MAX, y = FLT_MAX;
-    float factor = curveRoundness;
-    const auto &[src, tgt] = graph->ends(e);
-    const tlp::Coord &srcCoord = layout->getNodeValue(src);
-    const tlp::Coord &tgtCoord = layout->getNodeValue(tgt);
-    float dx = std::abs(srcCoord[0] - tgtCoord[0]);
-    float dy = std::abs(srcCoord[1] - tgtCoord[1]);
+                y = srcCoord[1];
+            }
+        } else if (curveType == CURVE_TYPE_QUADRATIC_HORIZONTAL) {
+            if (srcCoord[0] < tgtCoord[0]) {
+                x = tgtCoord[0] - (1 - factor) * dx;
+            } else {
+                x = tgtCoord[0] + (1 - factor) * dx;
+            }
 
-    if (curveType == CURVE_TYPE_QUADRATIC_DISCRETE ||
-        curveType == CURVE_TYPE_QUADRATIC_DIAGONALCROSS) {
-      if (dx < dy) {
-        if (srcCoord[1] > tgtCoord[1]) {
-          if (srcCoord[0] < tgtCoord[0]) {
-            x = srcCoord[0] + factor * dy;
-            y = srcCoord[1] - factor * dy;
-          } else if (srcCoord[0] > tgtCoord[0]) {
-            x = srcCoord[0] - factor * dy;
-            y = srcCoord[1] - factor * dy;
-          }
-        } else if (srcCoord[1] < tgtCoord[1]) {
-          if (srcCoord[0] < tgtCoord[0]) {
-            x = srcCoord[0] + factor * dy;
-            y = srcCoord[1] + factor * dy;
-          } else if (srcCoord[0] > tgtCoord[0]) {
-            x = srcCoord[0] - factor * dy;
-            y = srcCoord[1] + factor * dy;
-          }
+            y = srcCoord[1];
+        } else if (curveType == CURVE_TYPE_QUADRATIC_VERTICAL) {
+            x = srcCoord[0];
+
+            if (srcCoord[1] < tgtCoord[1]) {
+                y = tgtCoord[1] - (1 - factor) * dy;
+            } else {
+                y = tgtCoord[1] + (1 - factor) * dy;
+            }
+
+        } else { // CURVE_TYPE_QUADRATIC_CONTINUOUS
+            if (dx < dy) {
+                if (srcCoord[1] > tgtCoord[1]) {
+                    if (srcCoord[0] < tgtCoord[0]) {
+                        x = srcCoord[0] + factor * dy;
+                        y = srcCoord[1] - factor * dy;
+
+                        if (tgtCoord[0] < x) {
+                            x = tgtCoord[0];
+                        }
+                    } else if (srcCoord[0] > tgtCoord[0]) {
+                        x = srcCoord[0] - factor * dy;
+                        y = srcCoord[1] - factor * dy;
+
+                        if (tgtCoord[0] > x) {
+                            x = tgtCoord[0];
+                        }
+                    }
+                } else if (srcCoord[1] < tgtCoord[1]) {
+                    if (srcCoord[0] < tgtCoord[0]) {
+                        x = srcCoord[0] + factor * dy;
+                        y = srcCoord[1] + factor * dy;
+
+                        if (tgtCoord[0] < x) {
+                            x = tgtCoord[0];
+                        }
+                    } else if (srcCoord[0] > tgtCoord[0]) {
+                        x = srcCoord[0] - factor * dy;
+                        y = srcCoord[1] + factor * dy;
+
+                        if (tgtCoord[0] > x) {
+                            x = tgtCoord[0];
+                        }
+                    }
+                }
+            } else if (dx > dy) {
+                if (srcCoord[1] > tgtCoord[1]) {
+                    if (srcCoord[0] < tgtCoord[0]) {
+                        x = srcCoord[0] + factor * dx;
+                        y = srcCoord[1] - factor * dx;
+                        y = tgtCoord[1] > y ? tgtCoord[1] : y;
+                    } else if (srcCoord[0] > tgtCoord[0]) {
+                        x = srcCoord[0] - factor * dx;
+                        y = srcCoord[1] - factor * dx;
+
+                        if (tgtCoord[1] > y) {
+                            y = tgtCoord[1];
+                        }
+                    }
+                } else if (srcCoord[1] < tgtCoord[1]) {
+                    if (srcCoord[0] < tgtCoord[0]) {
+                        x = srcCoord[0] + factor * dx;
+                        y = srcCoord[1] + factor * dx;
+                        y = tgtCoord[1] < y ? tgtCoord[1] : y;
+                    } else if (srcCoord[0] > tgtCoord[0]) {
+                        x = srcCoord[0] - factor * dx;
+                        y = srcCoord[1] + factor * dx;
+
+                        if (tgtCoord[1] < y) {
+                            y = tgtCoord[1];
+                        }
+                    }
+                }
+            }
         }
 
-        if (curveType == CURVE_TYPE_QUADRATIC_DISCRETE && dx < factor * dy) {
-          x = srcCoord[0];
-        }
-      } else if (dx > dy) {
-        if (srcCoord[1] > tgtCoord[1]) {
-          if (srcCoord[0] < tgtCoord[0]) {
-            x = srcCoord[0] + factor * dx;
-            y = srcCoord[1] - factor * dx;
-          } else if (srcCoord[0] > tgtCoord[0]) {
-            x = srcCoord[0] - factor * dx;
-            y = srcCoord[1] - factor * dx;
-          }
-        } else if (srcCoord[1] < tgtCoord[1]) {
-          if (srcCoord[0] < tgtCoord[0]) {
-            x = srcCoord[0] + factor * dx;
-            y = srcCoord[1] + factor * dx;
-          } else if (srcCoord[0] > tgtCoord[0]) {
-            x = srcCoord[0] - factor * dx;
-            y = srcCoord[1] + factor * dx;
-          }
-        }
+        std::vector<tlp::Coord> controlPoints;
 
-        if (curveType == CURVE_TYPE_QUADRATIC_DISCRETE && dy < factor * dx) {
-          y = srcCoord[1];
-        }
-      }
-    } else if (curveType == CURVE_TYPE_QUADRATIC_STRAIGHTCROSS) {
-      if (dx < dy) {
-        x = srcCoord[0];
-
-        if (srcCoord[1] < tgtCoord[1]) {
-          y = tgtCoord[1] - (1 - factor) * dy;
+        if (x != FLT_MAX && y != FLT_MAX) {
+            controlPoints.push_back({x, y});
         } else {
-          y = tgtCoord[1] + (1 - factor) * dy;
-        }
-      } else if (dx > dy) {
-        if (srcCoord[0] < tgtCoord[0]) {
-          x = tgtCoord[0] - (1 - factor) * dx;
-        } else {
-          x = tgtCoord[0] + (1 - factor) * dx;
+            controlPoints.push_back((srcCoord + tgtCoord) / 2.f);
         }
 
-        y = srcCoord[1];
-      }
-    } else if (curveType == CURVE_TYPE_QUADRATIC_HORIZONTAL) {
-      if (srcCoord[0] < tgtCoord[0]) {
-        x = tgtCoord[0] - (1 - factor) * dx;
-      } else {
-        x = tgtCoord[0] + (1 - factor) * dx;
-      }
+        return controlPoints;
+    }
 
-      y = srcCoord[1];
-    } else if (curveType == CURVE_TYPE_QUADRATIC_VERTICAL) {
-      x = srcCoord[0];
+    bool run() override {
 
-      if (srcCoord[1] < tgtCoord[1]) {
-        y = tgtCoord[1] - (1 - factor) * dy;
-      } else {
-        y = tgtCoord[1] + (1 - factor) * dy;
-      }
+        if (dataSet) {
+            tlp::StringCollection curveTypeSc;
 
-    } else { // CURVE_TYPE_QUADRATIC_CONTINUOUS
-      if (dx < dy) {
-        if (srcCoord[1] > tgtCoord[1]) {
-          if (srcCoord[0] < tgtCoord[0]) {
-            x = srcCoord[0] + factor * dy;
-            y = srcCoord[1] - factor * dy;
-
-            if (tgtCoord[0] < x) {
-              x = tgtCoord[0];
+            if (dataSet->get("curve type", curveTypeSc)) {
+                curveType = curveTypeSc.getCurrent();
             }
-          } else if (srcCoord[0] > tgtCoord[0]) {
-            x = srcCoord[0] - factor * dy;
-            y = srcCoord[1] - factor * dy;
 
-            if (tgtCoord[0] > x) {
-              x = tgtCoord[0];
-            }
-          }
-        } else if (srcCoord[1] < tgtCoord[1]) {
-          if (srcCoord[0] < tgtCoord[0]) {
-            x = srcCoord[0] + factor * dy;
-            y = srcCoord[1] + factor * dy;
-
-            if (tgtCoord[0] < x) {
-              x = tgtCoord[0];
-            }
-          } else if (srcCoord[0] > tgtCoord[0]) {
-            x = srcCoord[0] - factor * dy;
-            y = srcCoord[1] + factor * dy;
-
-            if (tgtCoord[0] > x) {
-              x = tgtCoord[0];
-            }
-          }
+            dataSet->get("curve roundness", curveRoundness);
+            dataSet->get("layout", layout);
+            dataSet->get("bezier edges", bezierEdges);
         }
-      } else if (dx > dy) {
-        if (srcCoord[1] > tgtCoord[1]) {
-          if (srcCoord[0] < tgtCoord[0]) {
-            x = srcCoord[0] + factor * dx;
-            y = srcCoord[1] - factor * dx;
-            y = tgtCoord[1] > y ? tgtCoord[1] : y;
-          } else if (srcCoord[0] > tgtCoord[0]) {
-            x = srcCoord[0] - factor * dx;
-            y = srcCoord[1] - factor * dx;
 
-            if (tgtCoord[1] > y) {
-              y = tgtCoord[1];
-            }
-          }
-        } else if (srcCoord[1] < tgtCoord[1]) {
-          if (srcCoord[0] < tgtCoord[0]) {
-            x = srcCoord[0] + factor * dx;
-            y = srcCoord[1] + factor * dx;
-            y = tgtCoord[1] < y ? tgtCoord[1] : y;
-          } else if (srcCoord[0] > tgtCoord[0]) {
-            x = srcCoord[0] - factor * dx;
-            y = srcCoord[1] + factor * dx;
-
-            if (tgtCoord[1] < y) {
-              y = tgtCoord[1];
-            }
-          }
+        if (layout == nullptr) {
+            layout = graph->getLayoutProperty("viewLayout");
         }
-      }
+
+        for (auto e : graph->edges()) {
+            if (curveType >= CURVE_TYPE_CUBIC_CONTINUOUS) {
+                layout->setEdgeValue(e, computeCubicBezierControlPoints(e));
+            } else {
+                layout->setEdgeValue(e, computeQuadraticBezierControlPoints(e));
+            }
+        }
+
+        if (bezierEdges) {
+            tlp::IntegerProperty *viewShape = graph->getIntegerProperty("viewShape");
+            viewShape->setAllEdgeValue(tlp::EdgeShape::BezierCurve);
+        }
+
+        return true;
     }
 
-    std::vector<tlp::Coord> controlPoints;
-
-    if (x != FLT_MAX && y != FLT_MAX) {
-      controlPoints.push_back({x, y});
-    } else {
-      controlPoints.push_back((srcCoord + tgtCoord) / 2.f);
-    }
-
-    return controlPoints;
-  }
-
-  bool run() override {
-
-    if (dataSet) {
-      tlp::StringCollection curveTypeSc;
-
-      if (dataSet->get("curve type", curveTypeSc)) {
-        curveType = curveTypeSc.getCurrent();
-      }
-
-      dataSet->get("curve roundness", curveRoundness);
-      dataSet->get("layout", layout);
-      dataSet->get("bezier edges", bezierEdges);
-    }
-
-    if (layout == nullptr) {
-      layout = graph->getLayoutProperty("viewLayout");
-    }
-
-    for (auto e : graph->edges()) {
-      if (curveType >= CURVE_TYPE_CUBIC_CONTINUOUS) {
-        layout->setEdgeValue(e, computeCubicBezierControlPoints(e));
-      } else {
-        layout->setEdgeValue(e, computeQuadraticBezierControlPoints(e));
-      }
-    }
-
-    if (bezierEdges) {
-      tlp::IntegerProperty *viewShape = graph->getIntegerProperty("viewShape");
-      viewShape->setAllEdgeValue(tlp::EdgeShape::BezierCurve);
-    }
-
-    return true;
-  }
-
-private:
-  int curveType;
-  float curveRoundness;
-  tlp::LayoutProperty *layout;
-  bool bezierEdges;
+  private:
+    int curveType;
+    float curveRoundness;
+    tlp::LayoutProperty *layout;
+    bool bezierEdges;
 };
 
 PLUGIN(CurveEdges)

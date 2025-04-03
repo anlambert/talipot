@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,60 +21,60 @@ const string BooleanVectorProperty::propertyTypename = "vector<bool>";
 
 //=================================================================================
 void BooleanProperty::reverse(const Graph *sg) {
-  if (sg == nullptr) {
-    sg = graph;
-  }
+    if (sg == nullptr) {
+        sg = graph;
+    }
 
-  for (auto n : sg->nodes()) {
-    notifyBeforeSetNodeValue(n);
-    nodeProperties.invertBooleanValue(n);
-    notifyAfterSetNodeValue(n);
-  }
+    for (auto n : sg->nodes()) {
+        notifyBeforeSetNodeValue(n);
+        nodeProperties.invertBooleanValue(n);
+        notifyAfterSetNodeValue(n);
+    }
 
-  for (auto e : sg->edges()) {
-    notifyBeforeSetEdgeValue(e);
-    edgeProperties.invertBooleanValue(e);
-    notifyAfterSetEdgeValue(e);
-  }
+    for (auto e : sg->edges()) {
+        notifyBeforeSetEdgeValue(e);
+        edgeProperties.invertBooleanValue(e);
+        notifyAfterSetEdgeValue(e);
+    }
 }
 
 //=================================================================================
 void BooleanProperty::reverseEdgeDirection(Graph *sg) {
-  if (sg == nullptr) {
-    sg = graph;
-  }
-
-  for (auto e : sg->edges()) {
-    if (getEdgeValue(e)) {
-      sg->reverse(e);
+    if (sg == nullptr) {
+        sg = graph;
     }
-  }
+
+    for (auto e : sg->edges()) {
+        if (getEdgeValue(e)) {
+            sg->reverse(e);
+        }
+    }
 }
 
 //=================================================================================
 PropertyInterface *BooleanProperty::clonePrototype(Graph *g, const std::string &n) const {
-  if (g == nullptr) {
-    return nullptr;
-  }
+    if (g == nullptr) {
+        return nullptr;
+    }
 
-  // allow to get an unregistered property (empty name)
-  BooleanProperty *p = n.empty() ? new BooleanProperty(g) : g->getLocalBooleanProperty(n);
-  p->setAllNodeValue(getNodeDefaultValue());
-  p->setAllEdgeValue(getEdgeDefaultValue());
-  return p;
+    // allow to get an unregistered property (empty name)
+    BooleanProperty *p = n.empty() ? new BooleanProperty(g) : g->getLocalBooleanProperty(n);
+    p->setAllNodeValue(getNodeDefaultValue());
+    p->setAllEdgeValue(getEdgeDefaultValue());
+    return p;
 }
 //=================================================================================
 PropertyInterface *BooleanVectorProperty::clonePrototype(Graph *g, const std::string &n) const {
-  if (!g) {
-    return nullptr;
-  }
+    if (!g) {
+        return nullptr;
+    }
 
-  // allow to get an unregistered property (empty name)
-  BooleanVectorProperty *p =
-      n.empty() ? new BooleanVectorProperty(g) : g->getLocalBooleanVectorProperty(n);
-  p->setAllNodeValue(getNodeDefaultValue());
-  p->setAllEdgeValue(getEdgeDefaultValue());
-  return p;
+    // allow to get an unregistered property (empty name)
+    BooleanVectorProperty *p =
+        n.empty() ? new BooleanVectorProperty(g) : g->getLocalBooleanVectorProperty(n);
+    p->setAllNodeValue(getNodeDefaultValue());
+    p->setAllEdgeValue(getEdgeDefaultValue());
+    return p;
 }
 
 INSTANTIATE_DLL_TEMPLATE(SINGLE_ARG(tlp::AbstractProperty<tlp::BooleanType, tlp::BooleanType>),

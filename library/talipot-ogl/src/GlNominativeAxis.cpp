@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,57 +24,57 @@ GlNominativeAxis::GlNominativeAxis(const string &axisName, const Coord &axisBase
 
 void GlNominativeAxis::setAxisGraduationsLabels(const std::vector<std::string> &axisGradsLabels,
                                                 const LabelPosition &labelsPos) {
-  labelsOrder = axisGradsLabels;
-  axisLabelsPosition = labelsPos;
+    labelsOrder = axisGradsLabels;
+    axisLabelsPosition = labelsPos;
 }
 
 void GlNominativeAxis::buildAxisGraduations() {
-  setAxisGraduations(labelsOrder, axisLabelsPosition);
-  labelsCoord.clear();
+    setAxisGraduations(labelsOrder, axisLabelsPosition);
+    labelsCoord.clear();
 
-  for (uint i = 0; i < labelsOrder.size(); ++i) {
-    if (axisOrientation == HORIZONTAL_AXIS) {
-      labelsCoord[labelsOrder[i]] =
-          Coord(axisBaseCoord.getX() + i * spaceBetweenAxisGrads, axisBaseCoord.getY());
-    } else if (axisOrientation == VERTICAL_AXIS) {
-      labelsCoord[labelsOrder[i]] =
-          Coord(axisBaseCoord.getX(), axisBaseCoord.getY() + i * spaceBetweenAxisGrads);
+    for (uint i = 0; i < labelsOrder.size(); ++i) {
+        if (axisOrientation == HORIZONTAL_AXIS) {
+            labelsCoord[labelsOrder[i]] =
+                Coord(axisBaseCoord.getX() + i * spaceBetweenAxisGrads, axisBaseCoord.getY());
+        } else if (axisOrientation == VERTICAL_AXIS) {
+            labelsCoord[labelsOrder[i]] =
+                Coord(axisBaseCoord.getX(), axisBaseCoord.getY() + i * spaceBetweenAxisGrads);
+        }
     }
-  }
 }
 
 Coord GlNominativeAxis::getAxisPointCoordForValue(const string &value) {
-  Coord ret;
+    Coord ret;
 
-  if (labelsCoord.contains(value)) {
-    ret = labelsCoord[value];
-  }
+    if (labelsCoord.contains(value)) {
+        ret = labelsCoord[value];
+    }
 
-  return ret;
+    return ret;
 }
 
 string GlNominativeAxis::getValueAtAxisPoint(const Coord &axisPointCoord) {
-  string ret;
+    string ret;
 
-  for (const auto &it : labelsCoord) {
-    if (it.second == axisPointCoord) {
-      ret = it.first;
-      break;
+    for (const auto &it : labelsCoord) {
+        if (it.second == axisPointCoord) {
+            ret = it.first;
+            break;
+        }
     }
-  }
 
-  return ret;
+    return ret;
 }
 
 void GlNominativeAxis::translate(const Coord &c) {
-  GlAxis::translate(c);
-  for (auto &[label, coord] : labelsCoord) {
-    coord += c;
-  }
+    GlAxis::translate(c);
+    for (auto &[label, coord] : labelsCoord) {
+        coord += c;
+    }
 }
 
 void GlNominativeAxis::updateAxis() {
-  buildAxisGraduations();
-  GlAxis::updateAxis();
+    buildAxisGraduations();
+    GlAxis::updateAxis();
 }
 }

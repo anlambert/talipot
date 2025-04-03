@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,27 +28,27 @@ namespace tlp {
 
 class TLP_QT_SCOPE FontIconDialog : public QDialog {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::FontIconDialog *_ui;
-  QString _selectedIconName;
+    Ui::FontIconDialog *_ui;
+    QString _selectedIconName;
 
-public:
-  FontIconDialog(QWidget *parent = nullptr);
+  public:
+    FontIconDialog(QWidget *parent = nullptr);
 
-  QString getSelectedIconName() const;
+    QString getSelectedIconName() const;
 
-  void setSelectedIconName(const QString &iconName);
+    void setSelectedIconName(const QString &iconName);
 
-  void accept() override;
+    void accept() override;
 
-  void showEvent(QShowEvent *) override;
+    void showEvent(QShowEvent *) override;
 
-protected slots:
+  protected slots:
 
-  void updateIconList();
+    void updateIconList();
 
-  void openUrlInBrowser(const QString &url);
+    void openUrlInBrowser(const QString &url);
 };
 }
 

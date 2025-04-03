@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2024  The Talipot developers
+ * Copyright (C) 2024-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,37 +31,37 @@ const QMap<GeoPortailMapType, QString> URLTemplates = {
 }
 
 QGVLayerGeoPortail::QGVLayerGeoPortail(GeoPortailMapType type) : type(type) {
-  switch (type) {
-  case GeoPortailMapType::Plan:
-    setName("Géoportail France Plan");
-    setDescription(
-        "<a target=\"_blank\" href=\"https://www.geoportail.gouv.fr/\">Géoportail France</a>");
+    switch (type) {
+    case GeoPortailMapType::Plan:
+        setName("Géoportail France Plan");
+        setDescription(
+            "<a target=\"_blank\" href=\"https://www.geoportail.gouv.fr/\">Géoportail France</a>");
 
-    break;
-  case GeoPortailMapType::Satellite:
-    setName("Géoportail France Satellite");
-    setDescription(
-        "<a target=\"_blank\" href=\"https://www.geoportail.gouv.fr/\">Géoportail France</a>");
-    break;
-  }
+        break;
+    case GeoPortailMapType::Satellite:
+        setName("Géoportail France Satellite");
+        setDescription(
+            "<a target=\"_blank\" href=\"https://www.geoportail.gouv.fr/\">Géoportail France</a>");
+        break;
+    }
 }
 
 int QGVLayerGeoPortail::minZoomlevel() const {
-  return 2;
+    return 2;
 }
 
 int QGVLayerGeoPortail::maxZoomlevel() const {
-  if (type == GeoPortailMapType::Plan) {
-    return 18;
-  } else {
-    return 19;
-  }
+    if (type == GeoPortailMapType::Plan) {
+        return 18;
+    } else {
+        return 19;
+    }
 }
 
 QString QGVLayerGeoPortail::tilePosToUrl(const QGV::GeoTilePos &tilePos) const {
-  QString url = URLTemplates[type];
-  url.replace("{z}", QString::number(tilePos.zoom()));
-  url.replace("{x}", QString::number(tilePos.pos().x()));
-  url.replace("{y}", QString::number(tilePos.pos().y()));
-  return url;
+    QString url = URLTemplates[type];
+    url.replace("{z}", QString::number(tilePos.zoom()));
+    url.replace("{x}", QString::number(tilePos.pos().x()));
+    url.replace("{y}", QString::number(tilePos.pos().y()));
+    return url;
 }

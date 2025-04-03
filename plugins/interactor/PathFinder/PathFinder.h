@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,63 +39,63 @@ class BooleanProperty;
  * You can thus display one or several shortest paths between two selected nodes.
  */
 class PathFinder : public tlp::GLInteractorComposite {
-  Q_OBJECT
-public:
-  PLUGININFORMATION("PathFinder", "Tulip Team", "03/24/2010", "Path finding interactor", "1.1",
-                    "Information")
+    Q_OBJECT
+  public:
+    PLUGININFORMATION("PathFinder", "Tulip Team", "03/24/2010", "Path finding interactor", "1.1",
+                      "Information")
 
-  PathFinder(const tlp::PluginContext *);
-  ~PathFinder() override;
-  void construct() override;
-  uint priority() const override {
-    return tlp::StandardInteractorPriority::PathSelection;
-  }
-  QWidget *configurationWidget() const override;
+    PathFinder(const tlp::PluginContext *);
+    ~PathFinder() override;
+    void construct() override;
+    uint priority() const override {
+        return tlp::StandardInteractorPriority::PathSelection;
+    }
+    QWidget *configurationWidget() const override;
 
-  /**
-   * @return The name of the property used to get the weight values over the edges.
-   */
-  std::string getWeightMetricName() const {
-    return weightMetric;
-  }
+    /**
+     * @return The name of the property used to get the weight values over the edges.
+     */
+    std::string getWeightMetricName() const {
+        return weightMetric;
+    }
 
-  /**
-   * @return The edge orientation used when computing the path.
-   * @see PathAlgorithm::EdgeOrientation
-   */
-  PathAlgorithm::EdgeOrientation getEdgeOrientation() const {
-    return edgeOrientation;
-  }
+    /**
+     * @return The edge orientation used when computing the path.
+     * @see PathAlgorithm::EdgeOrientation
+     */
+    PathAlgorithm::EdgeOrientation getEdgeOrientation() const {
+        return edgeOrientation;
+    }
 
-  /**
-   * @return the type of path the user wants to select.
-   * @see PathAlgorithm::PathType
-   */
-  PathAlgorithm::PathType getPathsType() const {
-    return pathsTypes;
-  }
+    /**
+     * @return the type of path the user wants to select.
+     * @see PathAlgorithm::PathType
+     */
+    PathAlgorithm::PathType getPathsType() const {
+        return pathsTypes;
+    }
 
-  bool isCompatible(const std::string &viewName) const override;
+    bool isCompatible(const std::string &viewName) const override;
 
-public slots:
+  public slots:
 
-  void setEdgeOrientation(const QString &orientation);
-  void setPathsType(const QString &pathType);
-  void setWeightMetric(const QString &metric);
+    void setEdgeOrientation(const QString &orientation);
+    void setPathsType(const QString &pathType);
+    void setWeightMetric(const QString &metric);
 
-private:
-  PathFinderComponent *getPathFinderComponent();
+  private:
+    PathFinderComponent *getPathFinderComponent();
 
-  std::string weightMetric;
-  PathAlgorithm::EdgeOrientation edgeOrientation;
-  PathAlgorithm::PathType pathsTypes;
+    std::string weightMetric;
+    PathAlgorithm::EdgeOrientation edgeOrientation;
+    PathAlgorithm::PathType pathsTypes;
 
-  // Used for GUI interaction.
-  std::map<PathAlgorithm::EdgeOrientation, std::string> edgeOrientationLabels;
-  std::map<PathAlgorithm::PathType, std::string> pathsTypesLabels;
+    // Used for GUI interaction.
+    std::map<PathAlgorithm::EdgeOrientation, std::string> edgeOrientationLabels;
+    std::map<PathAlgorithm::PathType, std::string> pathsTypesLabels;
 
-  // GUI elements.
-  PathFinderConfigurationWidget *_configurationWidget;
+    // GUI elements.
+    PathFinderConfigurationWidget *_configurationWidget;
 };
 }
 #endif // PATH_FINDER_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,24 +33,25 @@
  *
  */
 class StrengthClustering : public tlp::DoubleAlgorithm {
-public:
-  PLUGININFORMATION("Strength Clustering", "David Auber", "27/01/2003",
-                    "Implements a single-linkage clustering. The similarity measure used here is "
-                    "the Strength Metric computed on edges. The best threshold is found using MQ "
-                    "Quality Measure. See :<br/>"
-                    "<b>Software component capture using graph clustering</b>, Y. Chiricota. "
-                    "F.Jourdan, an G.Melancon, IWPC (2002).",
-                    "2.0", "Clustering")
-  StrengthClustering(tlp::PluginContext *context);
-  ~StrengthClustering() override;
-  bool run() override;
-  bool check(std::string &) override;
+  public:
+    PLUGININFORMATION("Strength Clustering", "David Auber", "27/01/2003",
+                      "Implements a single-linkage clustering. The similarity measure used here is "
+                      "the Strength Metric computed on edges. The best threshold is found using MQ "
+                      "Quality Measure. See :<br/>"
+                      "<b>Software component capture using graph clustering</b>, Y. Chiricota. "
+                      "F.Jourdan, an G.Melancon, IWPC (2002).",
+                      "2.0", "Clustering")
+    StrengthClustering(tlp::PluginContext *context);
+    ~StrengthClustering() override;
+    bool run() override;
+    bool check(std::string &) override;
 
-private:
-  void computeNodePartition(double threshold, std::vector<std::unordered_set<tlp::node>> &);
-  double computeMQValue(const std::vector<std::unordered_set<tlp::node>> &partition, tlp::Graph *);
-  double findBestThreshold(int numberOfSteps, bool &stopped);
-  tlp::DoubleProperty *values;
+  private:
+    void computeNodePartition(double threshold, std::vector<std::unordered_set<tlp::node>> &);
+    double computeMQValue(const std::vector<std::unordered_set<tlp::node>> &partition,
+                          tlp::Graph *);
+    double findBestThreshold(int numberOfSteps, bool &stopped);
+    tlp::DoubleProperty *values;
 };
 
 #endif // STRENGTH_CLUSTERING_H

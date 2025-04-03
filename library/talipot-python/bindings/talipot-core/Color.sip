@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,48 +35,48 @@ The value of each component can be read / written using the [] operator.
 %ConvertToTypeCode
 // Check if type is compatible
 if (sipIsErr == NULL) {
-  if (sipCanConvertToType(sipPy, sipFindType("tlp::Color"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
+    if (sipCanConvertToType(sipPy, sipFindType("tlp::Color"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
+        return 1;
+    }
+
+    if (!PyTuple_Check(sipPy) || PyTuple_GET_SIZE(sipPy) < 3) {
+        return 0;
+    }
+
+    for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(sipPy); ++i) {
+        PyObject *item = PyTuple_GET_ITEM(sipPy, i);
+        if (PyBool_Check(item)) {
+            return 0;
+        }
+        if (!PyLong_Check(item)) {
+            return 0;
+        }
+    }
+
     return 1;
-  }
-
-  if (!PyTuple_Check(sipPy) || PyTuple_GET_SIZE(sipPy) < 3) {
-    return 0;
-  }
-
-  for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(sipPy); ++i) {
-    PyObject *item = PyTuple_GET_ITEM(sipPy, i);
-    if (PyBool_Check(item)) {
-      return 0;
-    }
-    if (!PyLong_Check(item)) {
-      return 0;
-    }
-  }
-
-  return 1;
 }
 
 if (sipCanConvertToType(sipPy, sipFindType("tlp::Color"), SIP_NOT_NONE | SIP_NO_CONVERTORS)) {
-  int state = 0, err = 0;
-  const sipTypeDef *sipType = sipFindType("tlp::Color");
-  tlp::Color *c = static_cast<tlp::Color *>(
-      sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
-  *sipCppPtr = new tlp::Color(*c);
-  sipReleaseType(c, sipType, state);
+    int state = 0, err = 0;
+    const sipTypeDef *sipType = sipFindType("tlp::Color");
+    tlp::Color *c = static_cast<tlp::Color *>(
+        sipConvertToType(sipPy, sipType, NULL, SIP_NOT_NONE | SIP_NO_CONVERTORS, &state, &err));
+    *sipCppPtr = new tlp::Color(*c);
+    sipReleaseType(c, sipType, state);
 } else {
-  unsigned char r = 0;
-  unsigned char g = 0;
-  unsigned char b = 0;
-  unsigned char a = 255;
+    unsigned char r = 0;
+    unsigned char g = 0;
+    unsigned char b = 0;
+    unsigned char a = 255;
 
-  r = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 0)));
-  g = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 1)));
-  b = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 2)));
-  if (PyTuple_GET_SIZE(sipPy) > 3) {
-    a = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 3)));
-  }
+    r = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 0)));
+    g = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 1)));
+    b = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 2)));
+    if (PyTuple_GET_SIZE(sipPy) > 3) {
+        a = uchar(PyLong_AsLong(PyTuple_GET_ITEM(sipPy, 3)));
+    }
 
-  *sipCppPtr = new tlp::Color(r, g, b, a);
+    *sipCppPtr = new tlp::Color(r, g, b, a);
 }
 return sipGetState(sipTransferObj);
 %End
@@ -320,20 +320,20 @@ Sets the value component of the color in the HSV color space (must be in the ran
   unsigned short operator[](const uint i) const;
 %MethodCode
 if (a0 < 4) {
-  sipRes = (*sipCpp)[a0];
+    sipRes = (*sipCpp)[a0];
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 
   void __setitem__(int i, const unsigned short &value);
 %MethodCode
 if (a0 < 4) {
-  (*sipCpp)[a0] = a1;
+    (*sipCpp)[a0] = a1;
 } else {
-  sipIsErr = -1;
-  PyErr_SetNone(PyExc_IndexError);
+    sipIsErr = -1;
+    PyErr_SetNone(PyExc_IndexError);
 }
 %End
 

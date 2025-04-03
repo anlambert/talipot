@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,26 +27,26 @@ class GraphHierarchiesModel;
 }
 
 class ExportWizard : public QWizard {
-  Q_OBJECT
+    Q_OBJECT
 
-  Ui::ExportWizard *_ui;
-  tlp::Graph *_graph;
+    Ui::ExportWizard *_ui;
+    tlp::Graph *_graph;
 
-public:
-  explicit ExportWizard(tlp::Graph *g, const QString &exportFile, QWidget *parent = nullptr);
-  ~ExportWizard() override;
+  public:
+    explicit ExportWizard(tlp::Graph *g, const QString &exportFile, QWidget *parent = nullptr);
+    ~ExportWizard() override;
 
-  QString algorithm() const;
-  tlp::DataSet parameters() const;
-  QString outputFile() const;
+    QString algorithm() const;
+    tlp::DataSet parameters() const;
+    QString outputFile() const;
 
-protected slots:
-  void algorithmSelected(const QModelIndex &index);
-  void updateFinishButton();
+  protected slots:
+    void algorithmSelected(const QModelIndex &index);
+    void updateFinishButton();
 
-  void pathChanged(QString s);
-  void browseButtonClicked();
-  bool validateCurrentPage() override;
+    void pathChanged(QString s);
+    void browseButtonClicked();
+    bool validateCurrentPage() override;
 };
 
 #endif // EXPORT_WIZARD_H

@@ -40,152 +40,153 @@ DECLARE_DLL_TEMPLATE_INSTANCE(Singleton<PythonInterpreter>, TLP_PYTHON_TEMPLATE_
 
 class TLP_PYTHON_SCOPE PythonInterpreter : public QObject, public Singleton<PythonInterpreter> {
 
-  friend class Singleton<PythonInterpreter>;
+    friend class Singleton<PythonInterpreter>;
 
-  Q_OBJECT
+    Q_OBJECT
 
-  PythonInterpreter();
+    PythonInterpreter();
 
-  void holdGIL() const;
-  void releaseGIL() const;
+    void holdGIL() const;
+    void releaseGIL() const;
 
-  void setDefaultConsoleWidget(QAbstractScrollArea *consoleWidget);
-  void setConsoleWidget(QAbstractScrollArea *consoleWidget);
-  void setupVirtualEnv();
+    void setDefaultConsoleWidget(QAbstractScrollArea *consoleWidget);
+    void setConsoleWidget(QAbstractScrollArea *consoleWidget);
+    void setupVirtualEnv();
 
-  bool _wasInit;
-  bool _runningScript;
-  QSet<QString> _currentImportPaths;
-  QAbstractScrollArea *_defaultConsoleWidget;
-  QString _pythonVersion;
-  bool _outputEnabled;
-  bool _errorOutputEnabled;
+    bool _wasInit;
+    bool _runningScript;
+    QSet<QString> _currentImportPaths;
+    QAbstractScrollArea *_defaultConsoleWidget;
+    QString _pythonVersion;
+    bool _outputEnabled;
+    bool _errorOutputEnabled;
 
-  template <typename T, typename... Param>
-  void buildParamDataSet(DataSet *ds, T a, Param... param);
-  template <typename T>
-  void buildParamDataSet(DataSet *ds, T a);
-  template <typename T>
-  void addParameter(DataSet *ds, T a);
+    template <typename T, typename... Param>
+    void buildParamDataSet(DataSet *ds, T a, Param... param);
+    template <typename T>
+    void buildParamDataSet(DataSet *ds, T a);
+    template <typename T>
+    void addParameter(DataSet *ds, T a);
 
-public:
-  static const QString pythonPluginsPath;
-  static const QString pythonPluginsPathHome;
-  static const QString talipotVenvDirectory;
-  static const char pythonReservedCharacters[];
-  static const std::vector<QString> pythonAccentuatedCharacters;
-  static const std::vector<QString> pythonAccentuatedCharactersReplace;
-  static const char *pythonKeywords[];
+  public:
+    static const QString pythonPluginsPath;
+    static const QString pythonPluginsPathHome;
+    static const QString talipotVenvDirectory;
+    static const char pythonReservedCharacters[];
+    static const std::vector<QString> pythonAccentuatedCharacters;
+    static const std::vector<QString> pythonAccentuatedCharactersReplace;
+    static const char *pythonKeywords[];
 
-  ~PythonInterpreter() override;
+    ~PythonInterpreter() override;
 
-  bool interpreterInit();
+    bool interpreterInit();
 
-  bool importModule(const QString &moduleName);
+    bool importModule(const QString &moduleName);
 
-  bool registerNewModuleFromString(const QString &moduleName, const QString &moduleSrcCode);
+    bool registerNewModuleFromString(const QString &moduleName, const QString &moduleSrcCode);
 
-  bool runString(const QString &pyhtonCode, const QString &scriptFilePath = "");
+    bool runString(const QString &pyhtonCode, const QString &scriptFilePath = "");
 
-  bool runGraphScript(const QString &module, const QString &function, tlp::Graph *graph,
-                      const QString &scriptFilePath = "");
+    bool runGraphScript(const QString &module, const QString &function, tlp::Graph *graph,
+                        const QString &scriptFilePath = "");
 
-  template <typename T>
-  bool evalSingleStatementAndGetValue(const QString &pythonStatement, T &value);
+    template <typename T>
+    bool evalSingleStatementAndGetValue(const QString &pythonStatement, T &value);
 
-  bool callFunction(const QString &module, const QString &function, const tlp::DataSet &parameters);
+    bool callFunction(const QString &module, const QString &function,
+                      const tlp::DataSet &parameters);
 
-  template <typename RETURN_TYPE, typename... Param>
-  bool callFunctionWithParamsAndGetReturnValue(const QString &module, const QString &function,
-                                               RETURN_TYPE &returnValue, Param... param);
-  template <typename... Param>
-  bool callFunctionWithParams(const QString &module, const QString &function, Param... param);
+    template <typename RETURN_TYPE, typename... Param>
+    bool callFunctionWithParamsAndGetReturnValue(const QString &module, const QString &function,
+                                                 RETURN_TYPE &returnValue, Param... param);
+    template <typename... Param>
+    bool callFunctionWithParams(const QString &module, const QString &function, Param... param);
 
-  template <typename RETURN_TYPE>
-  bool callFunctionAndGetReturnValue(const QString &module, const QString &function,
-                                     const tlp::DataSet &parameters, RETURN_TYPE &returnValue);
+    template <typename RETURN_TYPE>
+    bool callFunctionAndGetReturnValue(const QString &module, const QString &function,
+                                       const tlp::DataSet &parameters, RETURN_TYPE &returnValue);
 
-  bool functionExists(const QString &moduleName, const QString &functionName);
+    bool functionExists(const QString &moduleName, const QString &functionName);
 
-  void addModuleSearchPath(const QString &path, const bool beforeOtherPaths = false);
+    void addModuleSearchPath(const QString &path, const bool beforeOtherPaths = false);
 
-  void deleteModule(const QString &moduleName);
+    void deleteModule(const QString &moduleName);
 
-  bool reloadModule(const QString &moduleName);
+    bool reloadModule(const QString &moduleName);
 
-  void stopCurrentScript();
+    void stopCurrentScript();
 
-  void pauseCurrentScript(const bool pause = true);
+    void pauseCurrentScript(const bool pause = true);
 
-  bool isScriptPaused() const;
+    bool isScriptPaused() const;
 
-  void setProcessQtEventsDuringScriptExecution(bool processQtEvents);
+    void setProcessQtEventsDuringScriptExecution(bool processQtEvents);
 
-  bool isRunningScript() const {
-    return _runningScript;
-  }
+    bool isRunningScript() const {
+        return _runningScript;
+    }
 
-  QString getPythonVersionStr() const {
-    return _pythonVersion;
-  }
+    QString getPythonVersionStr() const {
+        return _pythonVersion;
+    }
 
-  double getPythonVersion() const;
+    double getPythonVersion() const;
 
-  QString getPythonShellBanner();
+    QString getPythonShellBanner();
 
-  void setDefaultSIGINTHandler();
+    void setDefaultSIGINTHandler();
 
-  QVector<QString> getImportedModulesList();
+    QVector<QString> getImportedModulesList();
 
-  QVector<QString> getBaseTypesForType(const QString &type);
+    QVector<QString> getBaseTypesForType(const QString &type);
 
-  QVector<QString> getGlobalDictEntries(const QString &prefixFilter = "");
+    QVector<QString> getGlobalDictEntries(const QString &prefixFilter = "");
 
-  QVector<QString> getObjectDictEntries(const QString &objectName,
-                                        const QString &prefixFilter = "");
+    QVector<QString> getObjectDictEntries(const QString &objectName,
+                                          const QString &prefixFilter = "");
 
-  QString getVariableType(const QString &varName);
+    QString getVariableType(const QString &varName);
 
-  void setDefaultConsoleWidget(QPlainTextEdit *consoleWidget);
-  void setDefaultConsoleWidget(QTextBrowser *consoleWidget);
+    void setDefaultConsoleWidget(QPlainTextEdit *consoleWidget);
+    void setDefaultConsoleWidget(QTextBrowser *consoleWidget);
 
-  void setConsoleWidget(QPlainTextEdit *consoleWidget);
-  void setConsoleWidget(QTextBrowser *consoleWidget);
+    void setConsoleWidget(QPlainTextEdit *consoleWidget);
+    void setConsoleWidget(QTextBrowser *consoleWidget);
 
-  void resetConsoleWidget();
+    void resetConsoleWidget();
 
-  void initConsoleOutput();
+    void initConsoleOutput();
 
-  void loadTalipotPythonPluginsFromDir();
+    void loadTalipotPythonPluginsFromDir();
 
-  QString getStandardOutput() const;
+    QString getStandardOutput() const;
 
-  QString getStandardErrorOutput() const;
+    QString getStandardErrorOutput() const;
 
-  void clearOutputBuffers();
+    void clearOutputBuffers();
 
-  void setOutputEnabled(const bool enableOutput);
+    void setOutputEnabled(const bool enableOutput);
 
-  bool outputEnabled() const;
+    bool outputEnabled() const;
 
-  void setErrorOutputEnabled(const bool enableOutput);
+    void setErrorOutputEnabled(const bool enableOutput);
 
-  bool errorOutputEnabled() const;
+    bool errorOutputEnabled() const;
 
-  void sendOutputToConsole(const QString &output, bool stdErr) const;
+    void sendOutputToConsole(const QString &output, bool stdErr) const;
 
-  QString readLineFromConsole();
+    QString readLineFromConsole();
 
-  PyObject *callPythonFunction(const QString &module, const QString &function,
-                               const tlp::DataSet &parameters);
+    PyObject *callPythonFunction(const QString &module, const QString &function,
+                                 const tlp::DataSet &parameters);
 
-  PyObject *evalPythonStatement(const QString &pythonStatement, bool singleInput = false);
+    PyObject *evalPythonStatement(const QString &pythonStatement, bool singleInput = false);
 
-  void clearTracebacks();
+    void clearTracebacks();
 
-signals:
+  signals:
 
-  void scriptExecutionPaused();
+    void scriptExecutionPaused();
 };
 
 #include "PythonInterpreter.cxx"

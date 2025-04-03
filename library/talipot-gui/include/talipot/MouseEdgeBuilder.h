@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,54 +25,54 @@ class LayoutProperty;
 class GlWidget;
 
 class TLP_QT_SCOPE MouseEdgeBuilder : public GLInteractorComponent, public Observable {
-private:
-  node _source;
-  bool _started;
-  Coord _startPos, _curPos;
-  std::vector<Coord> _bends;
-  Graph *_graph;
-  LayoutProperty *_layoutProperty;
-  GlWidget *glWidget;
+  private:
+    node _source;
+    bool _started;
+    Coord _startPos, _curPos;
+    std::vector<Coord> _bends;
+    Graph *_graph;
+    LayoutProperty *_layoutProperty;
+    GlWidget *glWidget;
 
-protected:
-  /**
-   * @brief addLink Adds a link between a source and destination nodes. Adds an edge by default
-   * @param source
-   * @param dest
-   */
-  virtual void addLink(const node &source, const node &dest);
-  /**
-   * @brief source gets the source node.
-   * @return
-   */
-  node source() const {
-    return _source;
-  }
-  /**
-   * @brief bends returns the bends list.
-   * @return
-   */
-  const std::vector<Coord> &bends() const {
-    return _bends;
-  }
-  /**
-   * @brief setBends updates the bends list.
-   * @param bends
-   */
-  void setBends(const std::vector<Coord> &bends) {
-    _bends = bends;
-  }
+  protected:
+    /**
+     * @brief addLink Adds a link between a source and destination nodes. Adds an edge by default
+     * @param source
+     * @param dest
+     */
+    virtual void addLink(const node &source, const node &dest);
+    /**
+     * @brief source gets the source node.
+     * @return
+     */
+    node source() const {
+        return _source;
+    }
+    /**
+     * @brief bends returns the bends list.
+     * @return
+     */
+    const std::vector<Coord> &bends() const {
+        return _bends;
+    }
+    /**
+     * @brief setBends updates the bends list.
+     * @param bends
+     */
+    void setBends(const std::vector<Coord> &bends) {
+        _bends = bends;
+    }
 
-public:
-  MouseEdgeBuilder();
-  bool draw(GlWidget *) override;
-  bool eventFilter(QObject *, QEvent *) override;
-  void initObserver(Graph *);
-  void clearObserver();
+  public:
+    MouseEdgeBuilder();
+    bool draw(GlWidget *) override;
+    bool eventFilter(QObject *, QEvent *) override;
+    void initObserver(Graph *);
+    void clearObserver();
 
-  void treatEvent(const Event &) override;
+    void treatEvent(const Event &) override;
 
-  void clear() override;
+    void clear() override;
 };
 }
 #endif // TALIPOT_MOUSE_EDGE_BUILDER_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -27,11 +27,11 @@
  */
 class SpanningDagSelection : public tlp::BooleanAlgorithm {
 
-public:
-  PLUGININFORMATION(tlp::SelectionAlgorithm::SpanningDagSelection, "David Auber", "01/12/1999",
-                    "Selects an acyclic subgraph of a graph.", "1.0", "Selection")
-  SpanningDagSelection(const tlp::PluginContext *context);
-  bool run() override;
+  public:
+    PLUGININFORMATION(tlp::SelectionAlgorithm::SpanningDagSelection, "David Auber", "01/12/1999",
+                      "Selects an acyclic subgraph of a graph.", "1.0", "Selection")
+    SpanningDagSelection(const tlp::PluginContext *context);
+    bool run() override;
 };
 
 #endif // SPANNING_DAG_SELECTION_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -37,89 +37,89 @@ class PropertyNameValidator;
  * @brief Configuration widget for a property.
  */
 class TLP_QT_SCOPE PropertyConfigurationWidget : public QWidget, public CSVColumn {
-  Q_OBJECT
-public:
-  PropertyConfigurationWidget(uint propertyNumber, const QString &propertyName,
-                              bool propertyNameIsEditable, const std::string &PropertyType,
-                              PropertyNameValidator *validator, QWidget *parent = nullptr);
-  /**
-   * Return the selected property type.
-   *  The property type is not the label displayed in the
-   * combobox but correspond to the Property::propertyTypename
-   * static string variable of the property class.
-   */
-  const std::string &getPropertyType() const;
-  /**
-   * @brief Change the type of the property. Use the PropertyClass::propertyTypename static var.
-   **/
-  void setPropertyType(const std::string &propertyType);
+    Q_OBJECT
+  public:
+    PropertyConfigurationWidget(uint propertyNumber, const QString &propertyName,
+                                bool propertyNameIsEditable, const std::string &PropertyType,
+                                PropertyNameValidator *validator, QWidget *parent = nullptr);
+    /**
+     * Return the selected property type.
+     *  The property type is not the label displayed in the
+     * combobox but correspond to the Property::propertyTypename
+     * static string variable of the property class.
+     */
+    const std::string &getPropertyType() const;
+    /**
+     * @brief Change the type of the property. Use the PropertyClass::propertyTypename static var.
+     **/
+    void setPropertyType(const std::string &propertyType);
 
-  QString getPropertyName() const;
+    QString getPropertyName() const;
 
-  void setPropertyName(const QString &name);
+    void setPropertyName(const QString &name);
 
-  void toggleUsed();
+    void toggleUsed();
 
-  uint getPropertyNumber() const;
+    uint getPropertyNumber() const;
 
-private:
-  void typeCBChanged(const QString &index);
+  private:
+    void typeCBChanged(const QString &index);
 
-  PropertyNameValidator *propertyNameValidator;
-  QPushButton *propertyEditButton;
-  Ui_CSVPropertyDialog *ui;
-  bool nameEditable;
-  uint propertyNumber;
+    PropertyNameValidator *propertyNameValidator;
+    QPushButton *propertyEditButton;
+    Ui_CSVPropertyDialog *ui;
+    bool nameEditable;
+    uint propertyNumber;
 
-private slots:
-  void showPropertyCreationDialog();
-  void typeCBChanged(int);
+  private slots:
+    void showPropertyCreationDialog();
+    void typeCBChanged(int);
 
-  void addException();
-  void delCurrentException();
+    void addException();
+    void delCurrentException();
 
-signals:
-  void stateChange(bool state);
+  signals:
+    void stateChange(bool state);
 };
 
 /**
  * @brief Check if the property name already exist in the property list.
  **/
 class TLP_QT_SCOPE PropertyNameValidator : public QValidator {
-public:
-  PropertyNameValidator(const std::vector<PropertyConfigurationWidget *> &widgets,
-                        QObject *parent = nullptr)
-      : QValidator(parent), widgets(widgets) {}
-  ~PropertyNameValidator() override = default;
+  public:
+    PropertyNameValidator(const std::vector<PropertyConfigurationWidget *> &widgets,
+                          QObject *parent = nullptr)
+        : QValidator(parent), widgets(widgets) {}
+    ~PropertyNameValidator() override = default;
 
-  /**
-   * Validate the new property name. Check if any property does not have the same name
-   */
-  QValidator::State validate(QString &input, int &pos) const override;
+    /**
+     * Validate the new property name. Check if any property does not have the same name
+     */
+    QValidator::State validate(QString &input, int &pos) const override;
 
-  // set the index of the column/property currently edited
-  void setCurrentIndex(uint index) {
-    currentIndex = index;
-  }
+    // set the index of the column/property currently edited
+    void setCurrentIndex(uint index) {
+        currentIndex = index;
+    }
 
-private:
-  uint currentIndex;
-  const std::vector<PropertyConfigurationWidget *> &widgets;
+  private:
+    uint currentIndex;
+    const std::vector<PropertyConfigurationWidget *> &widgets;
 };
 
 class CSVTableHeader : public QHeaderView {
-  Q_OBJECT
+    Q_OBJECT
 
-  const std::vector<PropertyConfigurationWidget *> &widgets;
+    const std::vector<PropertyConfigurationWidget *> &widgets;
 
-public:
-  CSVTableHeader(QWidget *parent, std::vector<PropertyConfigurationWidget *> &propertyWidgets);
+  public:
+    CSVTableHeader(QWidget *parent, std::vector<PropertyConfigurationWidget *> &propertyWidgets);
 
-protected:
-  void paintSection(QPainter *painter, const QRect &rect, int logicalIndex) const override;
+  protected:
+    void paintSection(QPainter *painter, const QRect &rect, int logicalIndex) const override;
 
-protected slots:
-  void checkBoxPressed(int logicalIndex);
+  protected slots:
+    void checkBoxPressed(int logicalIndex);
 };
 
 /**
@@ -127,37 +127,37 @@ protected slots:
  *CSVContentHandler.
  **/
 class TLP_QT_SCOPE CSVTableWidget : public QTableWidget, public CSVContentHandler {
-public:
-  CSVTableWidget(QWidget *parent = nullptr);
-  bool begin() override;
-  bool line(uint row, const std::vector<std::string> &lineTokens) override;
-  bool end(uint rowNumber, uint columnNumber) override;
-  /**
-   * @brief Limit the line number of the preview. Need to parse the file again to take this limit
-   *into account.
-   **/
-  void setMaxPreviewLineNumber(uint lineNumber) {
-    // first row is used to display configuration widgets
-    maxLineNumber = lineNumber + 1;
-  }
+  public:
+    CSVTableWidget(QWidget *parent = nullptr);
+    bool begin() override;
+    bool line(uint row, const std::vector<std::string> &lineTokens) override;
+    bool end(uint rowNumber, uint columnNumber) override;
+    /**
+     * @brief Limit the line number of the preview. Need to parse the file again to take this limit
+     *into account.
+     **/
+    void setMaxPreviewLineNumber(uint lineNumber) {
+        // first row is used to display configuration widgets
+        maxLineNumber = lineNumber + 1;
+    }
 
-  uint getFirstLineIndex() const {
-    return firstLineIndex;
-  }
+    uint getFirstLineIndex() const {
+        return firstLineIndex;
+    }
 
-  void setFirstLineIndex(uint index) {
-    firstLineIndex = index;
-  }
+    void setFirstLineIndex(uint index) {
+        firstLineIndex = index;
+    }
 
-  int getNbCommentsLines() const {
-    return nbCommentsLines;
-  }
+    int getNbCommentsLines() const {
+        return nbCommentsLines;
+    }
 
-private:
-  uint maxLineNumber;
-  uint firstLineIndex;
-  bool checkCommentsLines;
-  int nbCommentsLines;
+  private:
+    uint maxLineNumber;
+    uint firstLineIndex;
+    bool checkCommentsLines;
+    int nbCommentsLines;
 };
 
 /**
@@ -167,147 +167,147 @@ private:
  *and columns.
  **/
 class TLP_QT_SCOPE CSVImportConfigurationWidget : public QWidget, public CSVContentHandler {
-  Q_OBJECT
-public:
-  CSVImportConfigurationWidget(QWidget *parent = nullptr);
-  ~CSVImportConfigurationWidget() override;
-  bool begin() override;
-  bool line(uint row, const std::vector<std::string> &lineTokens) override;
-  bool end(uint rowNumber, uint columnNumber) override;
-  void setFirstLineIndex(int firstLine);
+    Q_OBJECT
+  public:
+    CSVImportConfigurationWidget(QWidget *parent = nullptr);
+    ~CSVImportConfigurationWidget() override;
+    bool begin() override;
+    bool line(uint row, const std::vector<std::string> &lineTokens) override;
+    bool end(uint rowNumber, uint columnNumber) override;
+    void setFirstLineIndex(int firstLine);
 
-  /**
-   * @brief Update the widget contents with the new file parser.
-   **/
-  void setNewParser(tlp::CSVParser *parser);
+    /**
+     * @brief Update the widget contents with the new file parser.
+     **/
+    void setNewParser(tlp::CSVParser *parser);
 
-  /**
-   * @brief Get the import parameters.
-   *
-   * Use this object to configure import process of the CSVImportGraph object.
-   **/
-  CSVImportParameters getImportParameters() const;
+    /**
+     * @brief Get the import parameters.
+     *
+     * Use this object to configure import process of the CSVImportGraph object.
+     **/
+    CSVImportParameters getImportParameters() const;
 
-  // return the sorted names of the existing properties of a known typename
-  // see PropertyInterface::getTypename()
-  static const std::set<std::string> &getPropsForTypename(const std::string &type);
+    // return the sorted names of the existing properties of a known typename
+    // see PropertyInterface::getTypename()
+    static const std::set<std::string> &getPropsForTypename(const std::string &type);
 
-protected:
-  void updateWidget(const std::string &title = "Generating preview");
+  protected:
+    void updateWidget(const std::string &title = "Generating preview");
 
-  const std::vector<CSVColumn *> getPropertiesToImport() const;
+    const std::vector<CSVColumn *> getPropertiesToImport() const;
 
-  void updateLineNumbers(bool resetValues);
+    void updateLineNumbers(bool resetValues);
 
-  bool useFirstLineAsPropertyName() const;
-  void setUseFirstLineAsPropertyName(bool useFirstLineAsHeader) const;
-  uint rowCount() const;
-  uint columnCount() const;
+    bool useFirstLineAsPropertyName() const;
+    void setUseFirstLineAsPropertyName(bool useFirstLineAsHeader) const;
+    uint rowCount() const;
+    uint columnCount() const;
 
-  /**
-   *@brief The index of the first line to get in the file.
-   *@brief A line number from 0 to LastLineIndex.
-   **/
-  uint getFirstLineIndex() const;
+    /**
+     *@brief The index of the first line to get in the file.
+     *@brief A line number from 0 to LastLineIndex.
+     **/
+    uint getFirstLineIndex() const;
 
-  /**
-   * @brief The index of the last line to take in the file.
-   **/
-  uint getLastLineIndex() const;
-  /**
-   * @brief The index of the first imported line. This index change if user use the first line as
-   *column names.
-   * For example if the user wants to import all lines but uses the first line as column names this
-   *function will return 1 not 0.
-   **/
-  uint getFirstImportedLineIndex() const;
+    /**
+     * @brief The index of the last line to take in the file.
+     **/
+    uint getLastLineIndex() const;
+    /**
+     * @brief The index of the first imported line. This index change if user use the first line as
+     *column names.
+     * For example if the user wants to import all lines but uses the first line as column names
+     *this function will return 1 not 0.
+     **/
+    uint getFirstImportedLineIndex() const;
 
-  /**
-   * Empty the properties list.
-   */
-  void clearPropertiesTypeList();
-  /**
-   * Add a property to the current property list.
-   */
-  void addPropertyToPropertyList(const std::string &propertyName, bool isEditable,
-                                 const std::string &propertyType = std::string(""));
+    /**
+     * Empty the properties list.
+     */
+    void clearPropertiesTypeList();
+    /**
+     * Add a property to the current property list.
+     */
+    void addPropertyToPropertyList(const std::string &propertyName, bool isEditable,
+                                   const std::string &propertyType = std::string(""));
 
-  /**
-   * @brief Creates a property configuration widget.
-   *
-   * @param propertyNumber The property number.
-   * @param propertyName The name of the property.
-   * @param propertyNameIsEditable Whether the property's name is editable.
-   * @param propertyType The type of the property.
-   * @param parent This widget's parent.
-   * @return :PropertyConfigurationWidget*
-   **/
-  virtual PropertyConfigurationWidget *
-  createPropertyConfigurationWidget(uint propertyNumber, const QString &propertyName,
-                                    bool propertyNameIsEditable, const std::string &propertyType,
-                                    QWidget *parent);
+    /**
+     * @brief Creates a property configuration widget.
+     *
+     * @param propertyNumber The property number.
+     * @param propertyName The name of the property.
+     * @param propertyNameIsEditable Whether the property's name is editable.
+     * @param propertyType The type of the property.
+     * @param parent This widget's parent.
+     * @return :PropertyConfigurationWidget*
+     **/
+    virtual PropertyConfigurationWidget *
+    createPropertyConfigurationWidget(uint propertyNumber, const QString &propertyName,
+                                      bool propertyNameIsEditable, const std::string &propertyType,
+                                      QWidget *parent);
 
-  /**
-   * @brief Compute the name of the column. Return the first token for the column if the first lline
-   *is used as header r Column_x xhere x is the column index.
-   **/
-  QString generateColumnName(uint col) const;
-  /**
-   * @brief Compute the column data type. Take in account the first row only if it is not used as
-   *column label
-   **/
-  std::string getColumnType(uint col) const;
+    /**
+     * @brief Compute the name of the column. Return the first token for the column if the first
+     *lline is used as header r Column_x xhere x is the column index.
+     **/
+    QString generateColumnName(uint col) const;
+    /**
+     * @brief Compute the column data type. Take in account the first row only if it is not used as
+     *column label
+     **/
+    std::string getColumnType(uint col) const;
 
-  std::vector<PropertyConfigurationWidget *> propertyWidgets;
+    std::vector<PropertyConfigurationWidget *> propertyWidgets;
 
-protected slots:
+  protected slots:
 
-  void filterPreviewLineNumber(bool filter);
-  void previewLineNumberChanged(int value);
+    void filterPreviewLineNumber(bool filter);
+    void previewLineNumberChanged(int value);
 
-  void toLineValueChanged(int value);
+    void toLineValueChanged(int value);
 
-  void updateTableHeaders();
+    void updateTableHeaders();
 
-  void useFirstLineAsHeaderUpdated();
-  void propertyStateChanged(bool activated);
+    void useFirstLineAsHeaderUpdated();
+    void propertyStateChanged(bool activated);
 
-private:
-  /**
-   * @brief Try to guess the property datatype in function of the type of the previous tokens and
-   *the type of the current token.
-   **/
-  const std::string &guessPropertyDataType(const std::string &data,
-                                           const std::string &previousType) const;
+  private:
+    /**
+     * @brief Try to guess the property datatype in function of the type of the previous tokens and
+     *the type of the current token.
+     **/
+    const std::string &guessPropertyDataType(const std::string &data,
+                                             const std::string &previousType) const;
 
-  /**
-   * @brief Return the type of the column in function of the old and new type.
-   **/
-  const std::string &combinePropertyDataType(const std::string &previousType,
-                                             const std::string &newType) const;
-  /**
-   * @brief Try to guess the type of the data. Can recognize int, double, boolean or string. If the
-   *type is other return string.
-   * @return The property typename of the type
-   **/
-  const std::string &guessDataType(const std::string &data) const;
+    /**
+     * @brief Return the type of the column in function of the old and new type.
+     **/
+    const std::string &combinePropertyDataType(const std::string &previousType,
+                                               const std::string &newType) const;
+    /**
+     * @brief Try to guess the type of the data. Can recognize int, double, boolean or string. If
+     *the type is other return string.
+     * @return The property typename of the type
+     **/
+    const std::string &guessDataType(const std::string &data) const;
 
-  // update the max line number of the preview table
-  void setMaxPreviewLineNumber(uint lineNumber);
+    // update the max line number of the preview table
+    void setMaxPreviewLineNumber(uint lineNumber);
 
-  // The data type of the header
-  std::vector<std::string> columnHeaderType;
-  // The data type of the rest of the column;
-  std::vector<std::string> columnType;
+    // The data type of the header
+    std::vector<std::string> columnHeaderType;
+    // The data type of the rest of the column;
+    std::vector<std::string> columnType;
 
-  Ui::CSVImportConfigurationWidget *ui;
-  PropertyNameValidator *validator;
-  uint maxLineNumber;
-  uint headerColumnCount;
-  tlp::CSVParser *parser;
-  uint firstLine;
-  bool guessFirstLineIsHeader;
-  bool keepPropertyWidgets;
+    Ui::CSVImportConfigurationWidget *ui;
+    PropertyNameValidator *validator;
+    uint maxLineNumber;
+    uint headerColumnCount;
+    tlp::CSVParser *parser;
+    uint firstLine;
+    bool guessFirstLineIsHeader;
+    bool keepPropertyWidgets;
 };
 }
 #endif // TALIPOT_CSV_IMPORT_CONFIGURATION_WIDGET_H

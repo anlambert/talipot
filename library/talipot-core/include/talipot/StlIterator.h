@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,23 +36,23 @@ namespace tlp {
  **/
 template <typename T, typename ITERATOR>
 struct StlIterator : public Iterator<T> {
-  StlIterator(const ITERATOR &startIt, const ITERATOR &endIt) : it(startIt), itEnd(endIt) {}
-  T next() {
-    return *it++;
-  }
-  bool hasNext() {
-    return (itEnd != it);
-  }
+    StlIterator(const ITERATOR &startIt, const ITERATOR &endIt) : it(startIt), itEnd(endIt) {}
+    T next() {
+        return *it++;
+    }
+    bool hasNext() {
+        return (itEnd != it);
+    }
 
-private:
-  ITERATOR it, itEnd;
+  private:
+    ITERATOR it, itEnd;
 };
 //=================================================
 template <typename T, typename ITERATOR>
 struct MPStlIterator : public StlIterator<T, ITERATOR>,
                        public MemoryPool<MPStlIterator<T, ITERATOR>> {
-  MPStlIterator(const ITERATOR &startIt, const ITERATOR &endIt)
-      : StlIterator<T, ITERATOR>(startIt, endIt) {}
+    MPStlIterator(const ITERATOR &startIt, const ITERATOR &endIt)
+        : StlIterator<T, ITERATOR>(startIt, endIt) {}
 };
 //=================================================
 
@@ -67,152 +67,152 @@ struct MPStlIterator : public StlIterator<T, ITERATOR>,
  **/
 template <typename Container>
 inline Iterator<typename Container::value_type> *stlIterator(const Container &stlContainer) {
-  return new MPStlIterator<typename Container::value_type, typename Container::const_iterator>(
-      stlContainer.begin(), stlContainer.end());
+    return new MPStlIterator<typename Container::value_type, typename Container::const_iterator>(
+        stlContainer.begin(), stlContainer.end());
 }
 
 //=================================================
 template <typename Map>
 struct StlMapIterator
     : public Iterator<std::pair<typename Map::key_type, typename Map::mapped_type>> {
-  StlMapIterator(typename Map::const_iterator startIt, typename Map::const_iterator endIt)
-      : it(startIt), itEnd(endIt) {}
+    StlMapIterator(typename Map::const_iterator startIt, typename Map::const_iterator endIt)
+        : it(startIt), itEnd(endIt) {}
 
-  std::pair<typename Map::key_type, typename Map::mapped_type> next() {
-    return *it++;
-  }
+    std::pair<typename Map::key_type, typename Map::mapped_type> next() {
+        return *it++;
+    }
 
-  bool hasNext() {
-    return (itEnd != it);
-  }
+    bool hasNext() {
+        return (itEnd != it);
+    }
 
-private:
-  typename Map::const_iterator it, itEnd;
+  private:
+    typename Map::const_iterator it, itEnd;
 };
 //=================================================
 template <typename Map>
 inline StlMapIterator<Map> *stlMapIterator(const Map &map) {
-  return new StlMapIterator<Map>(map.begin(), map.end());
+    return new StlMapIterator<Map>(map.begin(), map.end());
 }
 //=================================================
 template <typename Map>
 struct StlMapKeyIterator : public tlp::Iterator<typename Map::key_type> {
-  StlMapKeyIterator(typename Map::const_iterator startIt, typename Map::const_iterator endIt)
-      : it(startIt), itEnd(endIt) {}
+    StlMapKeyIterator(typename Map::const_iterator startIt, typename Map::const_iterator endIt)
+        : it(startIt), itEnd(endIt) {}
 
-  typename Map::key_type next() {
-    auto tmp = it->first;
-    ++it;
-    return tmp;
-  }
+    typename Map::key_type next() {
+        auto tmp = it->first;
+        ++it;
+        return tmp;
+    }
 
-  bool hasNext() {
-    return it != itEnd;
-  }
+    bool hasNext() {
+        return it != itEnd;
+    }
 
-private:
-  typename Map::const_iterator it, itEnd;
+  private:
+    typename Map::const_iterator it, itEnd;
 };
 //=================================================
 template <typename Map>
 inline StlMapKeyIterator<Map> *stlMapKeyIterator(const Map &map) {
-  return new StlMapKeyIterator<Map>(map.begin(), map.end());
+    return new StlMapKeyIterator<Map>(map.begin(), map.end());
 }
 //=================================================
 template <typename Map>
 struct StlMapValueIterator : public tlp::Iterator<typename Map::mapped_type> {
-  StlMapValueIterator(typename Map::const_iterator startIt, typename Map::const_iterator endIt)
-      : it(startIt), itEnd(endIt) {}
+    StlMapValueIterator(typename Map::const_iterator startIt, typename Map::const_iterator endIt)
+        : it(startIt), itEnd(endIt) {}
 
-  typename Map::mapped_type next() {
-    auto tmp = it->second;
-    ++it;
-    return tmp;
-  }
+    typename Map::mapped_type next() {
+        auto tmp = it->second;
+        ++it;
+        return tmp;
+    }
 
-  bool hasNext() {
-    return it != itEnd;
-  }
+    bool hasNext() {
+        return it != itEnd;
+    }
 
-private:
-  typename Map::const_iterator it, itEnd;
+  private:
+    typename Map::const_iterator it, itEnd;
 };
 //=================================================
 template <typename Map>
 inline StlMapValueIterator<Map> *stlMapValueIterator(const Map &map) {
-  return new StlMapValueIterator<Map>(map.begin(), map.end());
+    return new StlMapValueIterator<Map>(map.begin(), map.end());
 }
 //=================================================
 template <typename Container>
 struct reverse_wrapper {
-  Container &_c;
-  reverse_wrapper(Container &c) : _c(c) {}
+    Container &_c;
+    reverse_wrapper(Container &c) : _c(c) {}
 
-  typename Container::reverse_iterator begin() {
-    return _c.rbegin();
-  }
-  typename Container::reverse_iterator end() {
-    return _c.rend();
-  }
+    typename Container::reverse_iterator begin() {
+        return _c.rbegin();
+    }
+    typename Container::reverse_iterator end() {
+        return _c.rend();
+    }
 };
 
 template <typename Container>
 struct reverse_wrapper_copy {
-  Container _c;
-  reverse_wrapper_copy(Container c) : _c(std::move(c)) {}
+    Container _c;
+    reverse_wrapper_copy(Container c) : _c(std::move(c)) {}
 
-  typename Container::reverse_iterator begin() {
-    return _c.rbegin();
-  }
-  typename Container::reverse_iterator end() {
-    return _c.rend();
-  }
+    typename Container::reverse_iterator begin() {
+        return _c.rbegin();
+    }
+    typename Container::reverse_iterator end() {
+        return _c.rend();
+    }
 };
 
 template <typename Container>
 struct const_reverse_wrapper {
-  const Container &_c;
-  const_reverse_wrapper(const Container &c) : _c(c) {}
+    const Container &_c;
+    const_reverse_wrapper(const Container &c) : _c(c) {}
 
-  typename Container::const_reverse_iterator begin() const {
-    return _c.rbegin();
-  }
-  typename Container::const_reverse_iterator end() const {
-    return _c.rend();
-  }
+    typename Container::const_reverse_iterator begin() const {
+        return _c.rbegin();
+    }
+    typename Container::const_reverse_iterator end() const {
+        return _c.rend();
+    }
 };
 
 template <typename Container>
 struct const_reverse_wrapper_copy {
-  const Container _c;
-  const_reverse_wrapper_copy(const Container c) : _c(std::move(c)) {}
+    const Container _c;
+    const_reverse_wrapper_copy(const Container c) : _c(std::move(c)) {}
 
-  typename Container::const_reverse_iterator begin() const {
-    return _c.rbegin();
-  }
-  typename Container::const_reverse_iterator end() const {
-    return _c.rend();
-  }
+    typename Container::const_reverse_iterator begin() const {
+        return _c.rbegin();
+    }
+    typename Container::const_reverse_iterator end() const {
+        return _c.rend();
+    }
 };
 
 template <typename Container>
 inline reverse_wrapper<Container> reversed(Container &c) {
-  return reverse_wrapper<Container>(c);
+    return reverse_wrapper<Container>(c);
 }
 
 template <typename Container>
 inline reverse_wrapper_copy<Container> reversed(Container &&c) {
-  return reverse_wrapper_copy<Container>(std::move(c));
+    return reverse_wrapper_copy<Container>(std::move(c));
 }
 
 template <typename Container>
 inline const_reverse_wrapper<Container> reversed(const Container &c) {
-  return const_reverse_wrapper<Container>(c);
+    return const_reverse_wrapper<Container>(c);
 }
 
 template <typename Container>
 inline const_reverse_wrapper_copy<Container> reversed(const Container &&c) {
-  return const_reverse_wrapper_copy<Container>(std::move(c));
+    return const_reverse_wrapper_copy<Container>(std::move(c));
 }
 
 }

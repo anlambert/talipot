@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,8 +21,8 @@ using namespace std;
 using namespace tlp;
 
 struct tlp::augmentableAndNodes_ {
-  bool augmentable;
-  vector<node> Nodes;
+    bool augmentable;
+    vector<node> Nodes;
 };
 
 //==========================================================
@@ -30,7 +30,7 @@ struct tlp::augmentableAndNodes_ {
  * A function that return the number of node of the infinite face
  */
 int Ordering::infFaceSize() {
-  return iteratorCount(contour.findAll(true));
+    return iteratorCount(contour.findAll(true));
 }
 
 //==========================================================
@@ -38,29 +38,29 @@ int Ordering::infFaceSize() {
  * return the number of ci in f such as ci+1 is in f
  */
 int Ordering::seqp(Face f) {
-  MutableContainer<bool> seq_p;
-  seq_p.setAll(false);
+    MutableContainer<bool> seq_p;
+    seq_p.setAll(false);
 
-  for (auto no : Gp->getFaceNodes(f)) {
-    if (contour.get(no.id)) {
-      seq_p.set(no.id, true);
-    }
-  }
-
-  int cpt = 0;
-  node n = v1[v1.size() - 1];
-  node n2 = right.get(n.id);
-
-  while (n != v1[0]) {
-    if (seq_p.get(n2.id) && seq_p.get(n.id)) {
-      cpt++;
+    for (auto no : Gp->getFaceNodes(f)) {
+        if (contour.get(no.id)) {
+            seq_p.set(no.id, true);
+        }
     }
 
-    n = n2;
-    n2 = right.get(n.id);
-  }
+    int cpt = 0;
+    node n = v1[v1.size() - 1];
+    node n2 = right.get(n.id);
 
-  return cpt;
+    while (n != v1[0]) {
+        if (seq_p.get(n2.id) && seq_p.get(n.id)) {
+            cpt++;
+        }
+
+        n = n2;
+        n2 = right.get(n.id);
+    }
+
+    return cpt;
 }
 
 //==========================================================
@@ -68,57 +68,57 @@ int Ordering::seqp(Face f) {
  * update members oute, outv and visitedFaces for face f
  */
 void Ordering::updateOutAndVisitedFaces(Face f) {
-  int cpt = 0;
-  int cpt2 = 0;
-  node node_tmp, node_first;
-  bool first_was_on_c = false;
-  bool pred_was_on_c = false;
-  bool visited_face = false;
-  Iterator<node> *it_node = Gp->getFaceNodes(f);
+    int cpt = 0;
+    int cpt2 = 0;
+    node node_tmp, node_first;
+    bool first_was_on_c = false;
+    bool pred_was_on_c = false;
+    bool visited_face = false;
+    Iterator<node> *it_node = Gp->getFaceNodes(f);
 
-  if (it_node->hasNext()) {
-    node_first = it_node->next();
+    if (it_node->hasNext()) {
+        node_first = it_node->next();
 
-    if (contour.get(node_first.id)) {
-      cpt++;
-      first_was_on_c = true;
-      pred_was_on_c = true;
+        if (contour.get(node_first.id)) {
+            cpt++;
+            first_was_on_c = true;
+            pred_was_on_c = true;
 
-      if (visitedNodes.get(node_first.id) && Gp->deg(node_first) == 2) {
-        visited_face = true;
-      }
+            if (visitedNodes.get(node_first.id) && Gp->deg(node_first) == 2) {
+                visited_face = true;
+            }
+        }
     }
-  }
 
-  while (it_node->hasNext()) {
-    node_tmp = it_node->next();
+    while (it_node->hasNext()) {
+        node_tmp = it_node->next();
 
-    if (contour.get(node_tmp.id)) {
-      cpt++;
+        if (contour.get(node_tmp.id)) {
+            cpt++;
 
-      if (pred_was_on_c) {
+            if (pred_was_on_c) {
+                cpt2++;
+            }
+
+            pred_was_on_c = true;
+
+            if (visitedNodes.get(node_tmp.id) && Gp->deg(node_tmp) == 2) {
+                visited_face = true;
+            }
+        } else {
+            pred_was_on_c = false;
+        }
+    }
+
+    delete it_node;
+
+    if (first_was_on_c && pred_was_on_c) {
         cpt2++;
-      }
-
-      pred_was_on_c = true;
-
-      if (visitedNodes.get(node_tmp.id) && Gp->deg(node_tmp) == 2) {
-        visited_face = true;
-      }
-    } else {
-      pred_was_on_c = false;
     }
-  }
 
-  delete it_node;
-
-  if (first_was_on_c && pred_was_on_c) {
-    cpt2++;
-  }
-
-  outv.set(f.id, cpt);
-  oute.set(f.id, cpt2);
-  visitedFaces.set(f.id, visited_face);
+    outv.set(f.id, cpt);
+    oute.set(f.id, cpt2);
+    visitedFaces.set(f.id, visited_face);
 }
 
 //==========================================================
@@ -126,20 +126,20 @@ void Ordering::updateOutAndVisitedFaces(Face f) {
  * update members left and right
  */
 void Ordering::updateContourLeftRight(node pred, node n, edge e, node last) {
-  node no = pred;
-  node no2 = n;
+    node no = pred;
+    node no2 = n;
 
-  while (no2 != last) {
-    contour.set(no2.id, true);
+    while (no2 != last) {
+        contour.set(no2.id, true);
+        right.set(no.id, no2);
+        left.set(no2.id, no);
+        e = Gp->predCycleEdge(e, no2);
+        no = no2;
+        no2 = Gp->opposite(e, no);
+    }
+
     right.set(no.id, no2);
     left.set(no2.id, no);
-    e = Gp->predCycleEdge(e, no2);
-    no = no2;
-    no2 = Gp->opposite(e, no);
-  }
-
-  right.set(no.id, no2);
-  left.set(no2.id, no);
 }
 
 //==========================================================
@@ -149,101 +149,101 @@ void Ordering::updateContourLeftRight(node pred, node n, edge e, node last) {
 void Ordering::updateNewSelectableNodes(node node_f, node no_tmp2, edge, node node_last,
                                         vector<Face> v_faces, bool one_face, bool was_visited,
                                         bool selection_face) {
-  MutableContainer<bool> tried;
-  tried.setAll(false);
-  node n = node_f;
-  node tmp = no_tmp2;
-  node tmp2 = node();
-  uint lim = v_faces.size();
+    MutableContainer<bool> tried;
+    tried.setAll(false);
+    node n = node_f;
+    node tmp = no_tmp2;
+    node tmp2 = node();
+    uint lim = v_faces.size();
 
-  while (n != node_last) {
-    tmp2 = n;
+    while (n != node_last) {
+        tmp2 = n;
+
+        if (Gp->deg(n) > 2 && isSelectable(n)) {
+            if (visitedNodes.get(n.id)) {
+                is_selectable_visited.set(n.id, true);
+            } else {
+                is_selectable.set(n.id, true);
+            }
+        } else {
+            is_selectable_visited.set(n.id, false);
+            is_selectable.set(n.id, false);
+        }
+
+        tried.set(n.id, true);
+        n = tmp;
+        tmp = right.get(n.id);
+    }
 
     if (Gp->deg(n) > 2 && isSelectable(n)) {
-      if (visitedNodes.get(n.id)) {
         is_selectable_visited.set(n.id, true);
-      } else {
-        is_selectable.set(n.id, true);
-      }
     } else {
-      is_selectable_visited.set(n.id, false);
-      is_selectable.set(n.id, false);
+        is_selectable_visited.set(n.id, false);
+        is_selectable.set(n.id, false);
     }
 
-    tried.set(n.id, true);
-    n = tmp;
-    tmp = right.get(n.id);
-  }
+    if (one_face) {
+        if (tmp2 == node()) {
+            tmp2 = node_f;
+        }
 
-  if (Gp->deg(n) > 2 && isSelectable(n)) {
-    is_selectable_visited.set(n.id, true);
-  } else {
-    is_selectable_visited.set(n.id, false);
-    is_selectable.set(n.id, false);
-  }
+        for (auto no_tmp : Gp->getFaceNodes(Gp->getFaceContaining(tmp2, node_last))) {
 
-  if (one_face) {
-    if (tmp2 == node()) {
-      tmp2 = node_f;
+            if (!tried.get(no_tmp.id)) {
+                bool on_c = contour.get(no_tmp.id);
+
+                if (on_c) {
+                    bool sel = isSelectable(no_tmp);
+
+                    if (sel) {
+                        if (visitedNodes.get(no_tmp.id)) {
+                            is_selectable_visited.set(no_tmp.id, true);
+                        } else {
+                            is_selectable.set(no_tmp.id, true);
+                        }
+                    } else {
+                        is_selectable_visited.set(no_tmp.id, false);
+                        is_selectable_visited.set(no_tmp.id, false);
+                    }
+                }
+
+                tried.set(no_tmp.id, true);
+            }
+        }
+
+        lim--;
     }
 
-    for (auto no_tmp : Gp->getFaceNodes(Gp->getFaceContaining(tmp2, node_last))) {
+    if ((selection_face && was_visited) || !selection_face) {
+        for (uint i = 0; i < lim; ++i) {
+            bool face_sel = false;
+            Face f_tmp = v_faces[i];
 
-      if (!tried.get(no_tmp.id)) {
-        bool on_c = contour.get(no_tmp.id);
+            if (is_selectable_face.get(f_tmp.id) || is_selectable_visited_face.get(f_tmp.id)) {
+                face_sel = true;
+            }
 
-        if (on_c) {
-          bool sel = isSelectable(no_tmp);
-
-          if (sel) {
-            if (visitedNodes.get(no_tmp.id)) {
-              is_selectable_visited.set(no_tmp.id, true);
+            if (face_sel) {
+                for (auto no_tmp : Gp->getFaceNodes(f_tmp)) {
+                    is_selectable.set(no_tmp.id, false);
+                    is_selectable_visited.set(no_tmp.id, false);
+                    tried.set(no_tmp.id, true);
+                }
             } else {
-              is_selectable.set(no_tmp.id, true);
+                for (auto no_tmp : Gp->getFaceNodes(f_tmp)) {
+                    if (!tried.get(no_tmp.id) &&
+                        (is_selectable_visited.get(no_tmp.id) || is_selectable.get(no_tmp.id))) {
+                        if (!isSelectable(no_tmp)) {
+                            is_selectable_visited.set(no_tmp.id, false);
+                            is_selectable.set(no_tmp.id, false);
+                        }
+                    }
+
+                    tried.set(no_tmp.id, true);
+                }
             }
-          } else {
-            is_selectable_visited.set(no_tmp.id, false);
-            is_selectable_visited.set(no_tmp.id, false);
-          }
         }
-
-        tried.set(no_tmp.id, true);
-      }
     }
-
-    lim--;
-  }
-
-  if ((selection_face && was_visited) || !selection_face) {
-    for (uint i = 0; i < lim; ++i) {
-      bool face_sel = false;
-      Face f_tmp = v_faces[i];
-
-      if (is_selectable_face.get(f_tmp.id) || is_selectable_visited_face.get(f_tmp.id)) {
-        face_sel = true;
-      }
-
-      if (face_sel) {
-        for (auto no_tmp : Gp->getFaceNodes(f_tmp)) {
-          is_selectable.set(no_tmp.id, false);
-          is_selectable_visited.set(no_tmp.id, false);
-          tried.set(no_tmp.id, true);
-        }
-      } else {
-        for (auto no_tmp : Gp->getFaceNodes(f_tmp)) {
-          if (!tried.get(no_tmp.id) &&
-              (is_selectable_visited.get(no_tmp.id) || is_selectable.get(no_tmp.id))) {
-            if (!isSelectable(no_tmp)) {
-              is_selectable_visited.set(no_tmp.id, false);
-              is_selectable.set(no_tmp.id, false);
-            }
-          }
-
-          tried.set(no_tmp.id, true);
-        }
-      }
-    }
-  }
 }
 
 //==========================================================
@@ -251,30 +251,30 @@ void Ordering::updateNewSelectableNodes(node node_f, node no_tmp2, edge, node no
  * update is_selectable_visted_face and is_selectable_face
  */
 void Ordering::updateSelectableFaces(vector<Face> v_faces) {
-  Face derniere = Gp->getFaceContaining(v1[0], v1[1]);
+    Face derniere = Gp->getFaceContaining(v1[0], v1[1]);
 
-  for (const auto &f_tmp : v_faces) {
-    if (f_tmp == derniere || isOuterFace.get(f_tmp.id)) {
-      continue;
-    }
+    for (const auto &f_tmp : v_faces) {
+        if (f_tmp == derniere || isOuterFace.get(f_tmp.id)) {
+            continue;
+        }
 
-    if (outv.get(f_tmp.id) < 3) {
-      continue;
-    }
+        if (outv.get(f_tmp.id) < 3) {
+            continue;
+        }
 
-    if (visitedFaces.get(f_tmp.id)) {
-      if (outv.get(f_tmp.id) == oute.get(f_tmp.id) + 1) {
-        is_selectable_visited_face.set(f_tmp.id, true);
-      } else {
-        is_selectable_visited_face.set(f_tmp.id, false);
-        is_selectable_face.set(f_tmp.id, false);
-      }
-    } else if (outv.get(f_tmp.id) == oute.get(f_tmp.id) + 1) {
-      is_selectable_face.set(f_tmp.id, true);
-    } else {
-      is_selectable_face.set(f_tmp.id, false);
+        if (visitedFaces.get(f_tmp.id)) {
+            if (outv.get(f_tmp.id) == oute.get(f_tmp.id) + 1) {
+                is_selectable_visited_face.set(f_tmp.id, true);
+            } else {
+                is_selectable_visited_face.set(f_tmp.id, false);
+                is_selectable_face.set(f_tmp.id, false);
+            }
+        } else if (outv.get(f_tmp.id) == oute.get(f_tmp.id) + 1) {
+            is_selectable_face.set(f_tmp.id, true);
+        } else {
+            is_selectable_face.set(f_tmp.id, false);
+        }
     }
-  }
 }
 
 //==========================================================
@@ -285,97 +285,97 @@ void Ordering::updateSelectableFaces(vector<Face> v_faces) {
  * augmentation process
  */
 struct augmentableAndNodes_ Ordering::getAugAndNodes(Face f) {
-  struct augmentableAndNodes_ res;
-  int small = infFaceSize();
-  int big = 0;
-  node nod = v1[v1.size() - 2];
-  node nod2 = v1[v1.size() - 1];
-  int pos = 0;
-  bool f_was_first = false;
-  bool f_was_last = true;
-  bool found_ff = false;
-  bool found_minl = false;
-  node n_f;
-  node n_l;
+    struct augmentableAndNodes_ res;
+    int small = infFaceSize();
+    int big = 0;
+    node nod = v1[v1.size() - 2];
+    node nod2 = v1[v1.size() - 1];
+    int pos = 0;
+    bool f_was_first = false;
+    bool f_was_last = true;
+    bool found_ff = false;
+    bool found_minl = false;
+    node n_f;
+    node n_l;
 
-  if (existMarkedF) {
-    n_f = minMarkedFace.n_first;
-    n_l = minMarkedFace.n_last;
-  } else {
-    n_f = nod2;
-    n_l = v1[0];
-  }
-
-  node no, no2, no3, no4;
-
-  if (nod2 == v1[1]) {
-    if (nod2 == n_f) {
-      f_was_first = true;
+    if (existMarkedF) {
+        n_f = minMarkedFace.n_first;
+        n_l = minMarkedFace.n_last;
+    } else {
+        n_f = nod2;
+        n_l = v1[0];
     }
 
-    for (auto n : Gp->getFaceNodes(f)) {
-      if (n == nod2) {
-        found_ff = true;
-        small = pos;
-        no2 = nod2;
-        no = nod;
-        break;
-      }
-    }
+    node no, no2, no3, no4;
 
-    nod = nod2;
-    nod2 = right.get(nod.id);
-    pos++;
-  }
-
-  while (nod2 != v1[1]) {
-    if (nod2 == n_f && !found_ff) {
-      f_was_first = true;
-    }
-
-    for (auto n : Gp->getFaceNodes(f)) {
-      if (n == nod2) {
-        if (pos < small) {
-          found_ff = true;
-          small = pos;
-          no2 = nod2;
-          no = nod;
+    if (nod2 == v1[1]) {
+        if (nod2 == n_f) {
+            f_was_first = true;
         }
 
-        if (pos > big) {
-          big = pos;
-          no3 = nod2;
-          no4 = nod;
+        for (auto n : Gp->getFaceNodes(f)) {
+            if (n == nod2) {
+                found_ff = true;
+                small = pos;
+                no2 = nod2;
+                no = nod;
+                break;
+            }
+        }
 
-          if (found_minl) {
-            f_was_last = false;
+        nod = nod2;
+        nod2 = right.get(nod.id);
+        pos++;
+    }
+
+    while (nod2 != v1[1]) {
+        if (nod2 == n_f && !found_ff) {
+            f_was_first = true;
+        }
+
+        for (auto n : Gp->getFaceNodes(f)) {
+            if (n == nod2) {
+                if (pos < small) {
+                    found_ff = true;
+                    small = pos;
+                    no2 = nod2;
+                    no = nod;
+                }
+
+                if (pos > big) {
+                    big = pos;
+                    no3 = nod2;
+                    no4 = nod;
+
+                    if (found_minl) {
+                        f_was_last = false;
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        if (nod2 == n_l) {
+            found_minl = true;
+        }
+
+        if (!f_was_last) {
             break;
-          }
         }
 
-        break;
-      }
+        nod = nod2;
+        nod2 = right.get(nod.id);
+        pos++;
     }
 
-    if (nod2 == n_l) {
-      found_minl = true;
-    }
-
-    if (!f_was_last) {
-      break;
-    }
-
-    nod = nod2;
-    nod2 = right.get(nod.id);
-    pos++;
-  }
-
-  res.augmentable = (f_was_first && f_was_last);
-  res.Nodes.push_back(no);
-  res.Nodes.push_back(no2);
-  res.Nodes.push_back(no4);
-  res.Nodes.push_back(no3);
-  return res;
+    res.augmentable = (f_was_first && f_was_last);
+    res.Nodes.push_back(no);
+    res.Nodes.push_back(no2);
+    res.Nodes.push_back(no4);
+    res.Nodes.push_back(no3);
+    return res;
 }
 
 //==========================================================
@@ -383,49 +383,49 @@ struct augmentableAndNodes_ Ordering::getAugAndNodes(Face f) {
  * set minMarkedFace at f
  */
 void Ordering::setMinMarkedFace(Face f) {
-  existMarkedF = true;
-  int small = infFaceSize() - v1.size();
-  int big = 0;
-  node n_f, n_l;
-  node nod = v1[v1.size() - 1];
-  node nod2 = v1[v1.size() - 2];
-  int pos = 0;
-  bool done = false;
-  bool first_pass = true;
+    existMarkedF = true;
+    int small = infFaceSize() - v1.size();
+    int big = 0;
+    node n_f, n_l;
+    node nod = v1[v1.size() - 1];
+    node nod2 = v1[v1.size() - 2];
+    int pos = 0;
+    bool done = false;
+    bool first_pass = true;
 
-  while (!done) {
-    if (!first_pass && nod2 == v1[0]) {
-      done = true;
-      continue;
-    }
-
-    if (first_pass) {
-      first_pass = false;
-    }
-
-    for (auto tmp : Gp->getFaceNodes(f)) {
-
-      if (tmp == nod) {
-        if (pos < small) {
-          n_f = tmp;
-          small = pos;
+    while (!done) {
+        if (!first_pass && nod2 == v1[0]) {
+            done = true;
+            continue;
         }
 
-        if (pos > big) {
-          big = pos;
-          n_l = tmp;
+        if (first_pass) {
+            first_pass = false;
         }
-      }
+
+        for (auto tmp : Gp->getFaceNodes(f)) {
+
+            if (tmp == nod) {
+                if (pos < small) {
+                    n_f = tmp;
+                    small = pos;
+                }
+
+                if (pos > big) {
+                    big = pos;
+                    n_l = tmp;
+                }
+            }
+        }
+
+        nod2 = nod;
+        nod = right.get(nod2.id);
+        pos++;
     }
 
-    nod2 = nod;
-    nod = right.get(nod2.id);
-    pos++;
-  }
-
-  minMarkedFace.n_first = n_f;
-  minMarkedFace.n_last = n_l;
-  minMarkedFace.face = f;
+    minMarkedFace.n_first = n_f;
+    minMarkedFace.n_last = n_l;
+    minMarkedFace.face = f;
 }
 
 //==========================================================
@@ -433,59 +433,59 @@ void Ordering::setMinMarkedFace(Face f) {
  * compute the "minimal" marked face
  */
 void Ordering::minMarkedf() {
-  int contourSize = infFaceSize() - v1.size();
+    int contourSize = infFaceSize() - v1.size();
 
-  minMarkedFace.face = Face();
-  int first = contourSize;
-  int last = 0;
-  minMarkedFace.n_first = v1[v1.size() - 1];
-  minMarkedFace.n_last = v1[0];
+    minMarkedFace.face = Face();
+    int first = contourSize;
+    int last = 0;
+    minMarkedFace.n_first = v1[v1.size() - 1];
+    minMarkedFace.n_last = v1[0];
 
-  Iterator<uint> *itf = markedFaces.findAll(true);
+    Iterator<uint> *itf = markedFaces.findAll(true);
 
-  if (!itf->hasNext()) {
-    existMarkedF = false;
-  }
+    if (!itf->hasNext()) {
+        existMarkedF = false;
+    }
 
-  for (uint faceId : itf) {
-    int i = 0;
-    int small = contourSize;
-    int big = 0;
-    Face f = Face(faceId);
-    node n_f, n_l;
-    node n = v1[v1.size() - 2];
-    node n2 = v1[v1.size() - 1];
+    for (uint faceId : itf) {
+        int i = 0;
+        int small = contourSize;
+        int big = 0;
+        Face f = Face(faceId);
+        node n_f, n_l;
+        node n = v1[v1.size() - 2];
+        node n2 = v1[v1.size() - 1];
 
-    while (n != v1[0]) {
+        while (n != v1[0]) {
 
-      for (auto tmp : Gp->getFaceNodes(f)) {
+            for (auto tmp : Gp->getFaceNodes(f)) {
 
-        if (tmp == n2) {
-          if (i < small) {
-            n_f = tmp;
-            small = i;
-          }
+                if (tmp == n2) {
+                    if (i < small) {
+                        n_f = tmp;
+                        small = i;
+                    }
 
-          if (i > big) {
-            n_l = tmp;
-            big = i;
-          }
+                    if (i > big) {
+                        n_l = tmp;
+                        big = i;
+                    }
+                }
+            }
+
+            n = n2;
+            n2 = right.get(n.id);
+            i++;
         }
-      }
 
-      n = n2;
-      n2 = right.get(n.id);
-      i++;
+        if (small > first && big < last) {
+            minMarkedFace.n_first = n_f;
+            minMarkedFace.n_last = n_l;
+            minMarkedFace.face = f;
+            first = small;
+            last = big;
+        }
     }
-
-    if (small > first && big < last) {
-      minMarkedFace.n_first = n_f;
-      minMarkedFace.n_last = n_l;
-      minMarkedFace.face = f;
-      first = small;
-      last = big;
-    }
-  }
 }
 
 //==========================================================
@@ -495,39 +495,39 @@ void Ordering::minMarkedf() {
  * at point n and in counter-clockwise
  */
 node Ordering::getLastOfQ(Face f, node pred, node n, edge e) {
-  vector<node> q;
-  edge e_tmp = e;
-  node tmp = pred;
-  node tmp2 = n;
-  bool done = false;
-  e_tmp = Gp->succCycleEdge(e_tmp, tmp);
-
-  while (!Gp->containEdge(f, e_tmp)) {
+    vector<node> q;
+    edge e_tmp = e;
+    node tmp = pred;
+    node tmp2 = n;
+    bool done = false;
     e_tmp = Gp->succCycleEdge(e_tmp, tmp);
-  }
 
-  tmp2 = Gp->opposite(e_tmp, tmp);
-  q.push_back(tmp);
-
-  while (!done) {
-    for (uint l = 0; l < q.size() - 1; ++l) {
-      if (Gp->hasEdge(q[l], tmp2, false)) {
-        done = true;
-        break;
-      }
+    while (!Gp->containEdge(f, e_tmp)) {
+        e_tmp = Gp->succCycleEdge(e_tmp, tmp);
     }
 
-    if (done) {
-      break;
-    }
-
-    q.push_back(tmp2);
-    tmp = tmp2;
-    e_tmp = Gp->predCycleEdge(e_tmp, tmp);
     tmp2 = Gp->opposite(e_tmp, tmp);
-  }
+    q.push_back(tmp);
 
-  return q.back();
+    while (!done) {
+        for (uint l = 0; l < q.size() - 1; ++l) {
+            if (Gp->hasEdge(q[l], tmp2, false)) {
+                done = true;
+                break;
+            }
+        }
+
+        if (done) {
+            break;
+        }
+
+        q.push_back(tmp2);
+        tmp = tmp2;
+        e_tmp = Gp->predCycleEdge(e_tmp, tmp);
+        tmp2 = Gp->opposite(e_tmp, tmp);
+    }
+
+    return q.back();
 }
 
 //==========================================================
@@ -537,39 +537,39 @@ node Ordering::getLastOfQ(Face f, node pred, node n, edge e) {
  * at point n and in clockwise
  */
 node Ordering::getLastOfP(Face f, node pred, node n, edge e) {
-  vector<node> p;
-  edge e_tmp = e;
-  node tmp = pred;
-  node tmp2 = n;
-  bool done = false;
-  e_tmp = Gp->predCycleEdge(e_tmp, tmp);
-
-  while (!Gp->containEdge(f, e_tmp)) {
+    vector<node> p;
+    edge e_tmp = e;
+    node tmp = pred;
+    node tmp2 = n;
+    bool done = false;
     e_tmp = Gp->predCycleEdge(e_tmp, tmp);
-  }
 
-  tmp2 = Gp->opposite(e_tmp, tmp);
-  p.push_back(tmp);
-
-  while (!done) {
-    for (uint l = 0; l < p.size() - 1; ++l) {
-      if (Gp->hasEdge(p[l], tmp2, false)) {
-        done = true;
-        break;
-      }
+    while (!Gp->containEdge(f, e_tmp)) {
+        e_tmp = Gp->predCycleEdge(e_tmp, tmp);
     }
 
-    if (done) {
-      break;
-    }
-
-    p.push_back(tmp2);
-    tmp = tmp2;
-    e_tmp = Gp->succCycleEdge(e_tmp, tmp2);
     tmp2 = Gp->opposite(e_tmp, tmp);
-  }
+    p.push_back(tmp);
 
-  return p.back();
+    while (!done) {
+        for (uint l = 0; l < p.size() - 1; ++l) {
+            if (Gp->hasEdge(p[l], tmp2, false)) {
+                done = true;
+                break;
+            }
+        }
+
+        if (done) {
+            break;
+        }
+
+        p.push_back(tmp2);
+        tmp = tmp2;
+        e_tmp = Gp->succCycleEdge(e_tmp, tmp2);
+        tmp2 = Gp->opposite(e_tmp, tmp);
+    }
+
+    return p.back();
 }
 
 //==========================================================
@@ -577,22 +577,22 @@ node Ordering::getLastOfP(Face f, node pred, node n, edge e) {
  * return the longest path of degree 2 on face fn from node fn[from]
  */
 vector<node> Ordering::getPathFrom(vector<node> fn, int from) {
-  vector<node> res;
-  int i = from;
-  int l = fn.size();
-  res.push_back(fn[i]);
-  i = (l + i - 1) % l;
-
-  while (Gp->deg(fn[i]) == 2) {
+    vector<node> res;
+    int i = from;
+    int l = fn.size();
     res.push_back(fn[i]);
     i = (l + i - 1) % l;
-  }
 
-  if (res.size() == 1 || !Gp->hasEdge(res[0], fn[i], false)) {
-    res.push_back(fn[i]);
-  }
+    while (Gp->deg(fn[i]) == 2) {
+        res.push_back(fn[i]);
+        i = (l + i - 1) % l;
+    }
 
-  return res;
+    if (res.size() == 1 || !Gp->hasEdge(res[0], fn[i], false)) {
+        res.push_back(fn[i]);
+    }
+
+    return res;
 }
 
 //==========================================================
@@ -601,225 +601,225 @@ vector<node> Ordering::getPathFrom(vector<node> fn, int from) {
  */
 void Ordering::augment(Face f, node pred, node n, node pred_last, node last, int nbNewFace,
                        bool pair) {
-  int nbTours = (pair ? nbNewFace : nbNewFace - 1);
-  int right_ov = 1, left_ov = 1, right_oe = 0, left_oe = 0;
-  bool visited = false;
-  node n_pred, n_n, l_pred, n_last;
-  edge e1, e2;
-  vector<Face> newFaces;
-  Face newFace;
-  node no_selectable;
-  node tmp, tmp2, l_tmp, l_tmp2;
-  edge e_tmp, e_ltmp;
-  bool was_last_face = (f == Gp->getFaceContaining(v1[0], v1[1]));
+    int nbTours = (pair ? nbNewFace : nbNewFace - 1);
+    int right_ov = 1, left_ov = 1, right_oe = 0, left_oe = 0;
+    bool visited = false;
+    node n_pred, n_n, l_pred, n_last;
+    edge e1, e2;
+    vector<Face> newFaces;
+    Face newFace;
+    node no_selectable;
+    node tmp, tmp2, l_tmp, l_tmp2;
+    edge e_tmp, e_ltmp;
+    bool was_last_face = (f == Gp->getFaceContaining(v1[0], v1[1]));
 
-  n_pred = pred;
-  n_n = n;
-  l_pred = pred_last;
-  n_last = last;
-  e1 = Gp->existEdge(n_pred, n_n);
+    n_pred = pred;
+    n_n = n;
+    l_pred = pred_last;
+    n_last = last;
+    e1 = Gp->existEdge(n_pred, n_n);
 
-  if (!e1.isValid()) {
-    e1 = Gp->existEdge(n_n, n_pred);
-  }
-
-  e2 = Gp->existEdge(l_pred, n_last);
-
-  if (!e2.isValid()) {
-    e2 = Gp->existEdge(n_last, l_pred);
-  }
-
-  e1 = Gp->predCycleEdge(e1, n_n);
-  n_pred = n_n;
-  n_n = Gp->opposite(e1, n_pred);
-
-  for (int i = 1; i <= nbTours; ++i) {
-
-    while (Gp->containEdge(f, e1)) {
-      left_oe++;
-      left_ov++;
-
-      if (Gp->deg(n_pred) == 2 && visitedNodes.get(n_pred.id)) {
-        visited = true;
-      }
-
-      n_pred = n_n;
-      e1 = Gp->predCycleEdge(e1, n_n);
-      n_n = Gp->opposite(e1, n_pred);
+    if (!e1.isValid()) {
+        e1 = Gp->existEdge(n_n, n_pred);
     }
 
-    no_selectable = n_n;
-    e_tmp = e1;
-    tmp = n_pred;
-    node lastP = getLastOfP(f, tmp, tmp2, e_tmp);
+    e2 = Gp->existEdge(l_pred, n_last);
 
-    while (Gp->containEdge(f, e2)) {
-      right_ov++;
-      right_oe++;
-
-      if (Gp->deg(n_last) == 2 && visitedNodes.get(n_last.id)) {
-        visited = true;
-      }
-
-      n_last = l_pred;
-      e2 = Gp->succCycleEdge(e2, n_last);
-      l_pred = Gp->opposite(e2, n_last);
+    if (!e2.isValid()) {
+        e2 = Gp->existEdge(n_last, l_pred);
     }
 
-    e_tmp = e2;
-    tmp = n_last;
-    node lastQ = getLastOfQ(f, tmp, tmp2, e_tmp);
-    newFace = Gp->splitFace(f, lastP, lastQ, n_pred);
-    edge dummy = Gp->existEdge(lastP, lastQ);
-
-    if (!dummy.isValid()) {
-      dummy = Gp->existEdge(lastQ, lastP);
-    }
-
-    dummy_edge.push_back(dummy);
-    newFaces.push_back(f);
-
-    if (visited) {
-      visitedFaces.set(f.id, true);
-    }
-
-    oute.set(f.id, left_oe + right_oe);
-    outv.set(f.id, left_ov + right_ov);
-    f = newFace;
-
-    n_pred = n_n;
     e1 = Gp->predCycleEdge(e1, n_n);
+    n_pred = n_n;
     n_n = Gp->opposite(e1, n_pred);
-    n_last = l_pred;
-    e2 = Gp->succCycleEdge(e2, n_last);
-    l_pred = Gp->opposite(e2, n_last);
-    left_ov = 1;
-    right_ov = 1;
-    left_oe = 0;
-    right_oe = 0;
-    visited = false;
-  }
 
-  if (!pair) {
-    while (Gp->containEdge(f, e1)) {
-      n_pred = n_n;
-      e1 = Gp->predCycleEdge(e1, n_n);
-      n_n = Gp->opposite(e1, n_pred);
+    for (int i = 1; i <= nbTours; ++i) {
+
+        while (Gp->containEdge(f, e1)) {
+            left_oe++;
+            left_ov++;
+
+            if (Gp->deg(n_pred) == 2 && visitedNodes.get(n_pred.id)) {
+                visited = true;
+            }
+
+            n_pred = n_n;
+            e1 = Gp->predCycleEdge(e1, n_n);
+            n_n = Gp->opposite(e1, n_pred);
+        }
+
+        no_selectable = n_n;
+        e_tmp = e1;
+        tmp = n_pred;
+        node lastP = getLastOfP(f, tmp, tmp2, e_tmp);
+
+        while (Gp->containEdge(f, e2)) {
+            right_ov++;
+            right_oe++;
+
+            if (Gp->deg(n_last) == 2 && visitedNodes.get(n_last.id)) {
+                visited = true;
+            }
+
+            n_last = l_pred;
+            e2 = Gp->succCycleEdge(e2, n_last);
+            l_pred = Gp->opposite(e2, n_last);
+        }
+
+        e_tmp = e2;
+        tmp = n_last;
+        node lastQ = getLastOfQ(f, tmp, tmp2, e_tmp);
+        newFace = Gp->splitFace(f, lastP, lastQ, n_pred);
+        edge dummy = Gp->existEdge(lastP, lastQ);
+
+        if (!dummy.isValid()) {
+            dummy = Gp->existEdge(lastQ, lastP);
+        }
+
+        dummy_edge.push_back(dummy);
+        newFaces.push_back(f);
+
+        if (visited) {
+            visitedFaces.set(f.id, true);
+        }
+
+        oute.set(f.id, left_oe + right_oe);
+        outv.set(f.id, left_ov + right_ov);
+        f = newFace;
+
+        n_pred = n_n;
+        e1 = Gp->predCycleEdge(e1, n_n);
+        n_n = Gp->opposite(e1, n_pred);
+        n_last = l_pred;
+        e2 = Gp->succCycleEdge(e2, n_last);
+        l_pred = Gp->opposite(e2, n_last);
+        left_ov = 1;
+        right_ov = 1;
+        left_oe = 0;
+        right_oe = 0;
+        visited = false;
     }
 
-    no_selectable = n_pred;
-    e_tmp = e1;
-    tmp = n_n;
-    node lastP = getLastOfP(f, tmp, tmp2, e_tmp);
+    if (!pair) {
+        while (Gp->containEdge(f, e1)) {
+            n_pred = n_n;
+            e1 = Gp->predCycleEdge(e1, n_n);
+            n_n = Gp->opposite(e1, n_pred);
+        }
 
-    while (Gp->containEdge(f, e2)) {
-      n_last = l_pred;
-      e2 = Gp->succCycleEdge(e2, l_pred);
-      l_pred = Gp->opposite(e2, n_last);
-    }
+        no_selectable = n_pred;
+        e_tmp = e1;
+        tmp = n_n;
+        node lastP = getLastOfP(f, tmp, tmp2, e_tmp);
 
-    e_tmp = e2;
-    tmp = n_last;
-    node lastQ = getLastOfQ(f, tmp, tmp2, e_tmp);
+        while (Gp->containEdge(f, e2)) {
+            n_last = l_pred;
+            e2 = Gp->succCycleEdge(e2, l_pred);
+            l_pred = Gp->opposite(e2, n_last);
+        }
 
-    newFace = Gp->splitFace(f, lastP, lastQ, n_pred);
-    edge dummy = Gp->existEdge(lastP, lastQ);
+        e_tmp = e2;
+        tmp = n_last;
+        node lastQ = getLastOfQ(f, tmp, tmp2, e_tmp);
 
-    if (!dummy.isValid()) {
-      dummy = Gp->existEdge(lastQ, lastP);
-    }
+        newFace = Gp->splitFace(f, lastP, lastQ, n_pred);
+        edge dummy = Gp->existEdge(lastP, lastQ);
 
-    dummy_edge.push_back(dummy);
-    newFaces.push_back(f);
-    newFaces.push_back(newFace);
+        if (!dummy.isValid()) {
+            dummy = Gp->existEdge(lastQ, lastP);
+        }
 
-    updateOutAndVisitedFaces(f);
-    updateOutAndVisitedFaces(newFace);
-  } else {
-    newFaces.push_back(f);
+        dummy_edge.push_back(dummy);
+        newFaces.push_back(f);
+        newFaces.push_back(newFace);
 
-    while (n_pred != n_last) {
-      left_ov++;
-      left_oe++;
-
-      if (Gp->deg(n_pred) == 2 && visitedNodes.get(n_n.id))
-        visited = true;
-
-      n_pred = n_n;
-      n_n = right.get(n_pred.id);
-    }
-
-    visitedFaces.set(f.id, visited);
-    oute.set(f.id, left_oe);
-    outv.set(f.id, left_ov);
-  }
-
-  if (was_last_face) {
-    outv.add(newFaces[0].id, v1.size() - 2);
-    oute.add(newFaces[0].id, v1.size() - 1);
-  }
-
-  // update markedFaces
-  uint taille = newFaces.size();
-
-  if (pair && ((left_ov == 2 && left_oe == 1) || (left_ov == 1 && left_oe == 0))) {
-    for (uint i = 0; i < taille - 1; ++i) {
-      markedFaces.set((newFaces[i]).id, true);
-    }
-
-    setMinMarkedFace(newFaces[newFaces.size() - 2]);
-  } else {
-    for (uint i = 0; i < taille; ++i) {
-      if (i != taille - 2) {
-        markedFaces.set((newFaces[i]).id, true);
-      }
-    }
-
-    setMinMarkedFace(newFaces[newFaces.size() - 1]);
-  }
-
-  // update of is_selectable_visited_face, is_selectable_face, is_selectable and is_selectable
-  if (pair && left_ov == 2 && left_oe == 1) {
-    if (isSelectable(n_n)) {
-      if (visitedNodes.get(n_n.id)) {
-        is_selectable_visited.set(n_n.id, true);
-      } else {
-        is_selectable.set(n_n.id, true);
-      }
-    }
-
-    if (isSelectable(n_pred)) {
-      if (visitedNodes.get(n_pred.id)) {
-        is_selectable_visited.set(n_pred.id, true);
-      } else {
-        is_selectable.set(n_pred.id, true);
-      }
-    }
-  }
-
-  else if (pair) {
-    Face f_tmp = newFaces[newFaces.size() - 1];
-
-    if (outv.get(f_tmp.id) >= 2) {
-      if (visitedFaces.get(f_tmp.id)) {
-        is_selectable_visited_face.set(f_tmp.id, true);
-      } else {
-        is_selectable_face.set(f_tmp.id, true);
-      }
+        updateOutAndVisitedFaces(f);
+        updateOutAndVisitedFaces(newFace);
     } else {
-      if (visitedNodes.get(no_selectable.id)) {
-        is_selectable_visited.set(no_selectable.id, true);
-      } else {
-        is_selectable.set(no_selectable.id, true);
-      }
+        newFaces.push_back(f);
+
+        while (n_pred != n_last) {
+            left_ov++;
+            left_oe++;
+
+            if (Gp->deg(n_pred) == 2 && visitedNodes.get(n_n.id))
+                visited = true;
+
+            n_pred = n_n;
+            n_n = right.get(n_pred.id);
+        }
+
+        visitedFaces.set(f.id, visited);
+        oute.set(f.id, left_oe);
+        outv.set(f.id, left_ov);
     }
-  } else {
-    if (visitedNodes.get(no_selectable.id)) {
-      is_selectable_visited.set(no_selectable.id, true);
+
+    if (was_last_face) {
+        outv.add(newFaces[0].id, v1.size() - 2);
+        oute.add(newFaces[0].id, v1.size() - 1);
+    }
+
+    // update markedFaces
+    uint taille = newFaces.size();
+
+    if (pair && ((left_ov == 2 && left_oe == 1) || (left_ov == 1 && left_oe == 0))) {
+        for (uint i = 0; i < taille - 1; ++i) {
+            markedFaces.set((newFaces[i]).id, true);
+        }
+
+        setMinMarkedFace(newFaces[newFaces.size() - 2]);
     } else {
-      is_selectable.set(no_selectable.id, true);
+        for (uint i = 0; i < taille; ++i) {
+            if (i != taille - 2) {
+                markedFaces.set((newFaces[i]).id, true);
+            }
+        }
+
+        setMinMarkedFace(newFaces[newFaces.size() - 1]);
     }
-  }
+
+    // update of is_selectable_visited_face, is_selectable_face, is_selectable and is_selectable
+    if (pair && left_ov == 2 && left_oe == 1) {
+        if (isSelectable(n_n)) {
+            if (visitedNodes.get(n_n.id)) {
+                is_selectable_visited.set(n_n.id, true);
+            } else {
+                is_selectable.set(n_n.id, true);
+            }
+        }
+
+        if (isSelectable(n_pred)) {
+            if (visitedNodes.get(n_pred.id)) {
+                is_selectable_visited.set(n_pred.id, true);
+            } else {
+                is_selectable.set(n_pred.id, true);
+            }
+        }
+    }
+
+    else if (pair) {
+        Face f_tmp = newFaces[newFaces.size() - 1];
+
+        if (outv.get(f_tmp.id) >= 2) {
+            if (visitedFaces.get(f_tmp.id)) {
+                is_selectable_visited_face.set(f_tmp.id, true);
+            } else {
+                is_selectable_face.set(f_tmp.id, true);
+            }
+        } else {
+            if (visitedNodes.get(no_selectable.id)) {
+                is_selectable_visited.set(no_selectable.id, true);
+            } else {
+                is_selectable.set(no_selectable.id, true);
+            }
+        }
+    } else {
+        if (visitedNodes.get(no_selectable.id)) {
+            is_selectable_visited.set(no_selectable.id, true);
+        } else {
+            is_selectable.set(no_selectable.id, true);
+        }
+    }
 }
 
 //==========================================================
@@ -828,294 +828,294 @@ void Ordering::augment(Face f, node pred, node n, node pred_last, node last, int
  */
 void Ordering::selectAndUpdate(node n) {
 
-  // update visitedNodes, contour, is_selectable and is_selectable_visited
-  visitedNodes.set(n.id, false);
-  contour.set(n.id, false);
-  is_selectable_visited.set(n.id, false);
-  is_selectable.set(n.id, false);
+    // update visitedNodes, contour, is_selectable and is_selectable_visited
+    visitedNodes.set(n.id, false);
+    contour.set(n.id, false);
+    is_selectable_visited.set(n.id, false);
+    is_selectable.set(n.id, false);
 
-  vector<node> res;
-  vector<node> noeuds;
-  vector<Face> faces = vector<Face>();
-  vector<bool> split;
-  MutableContainer<bool> on_cont;
-  node n1;
+    vector<node> res;
+    vector<node> noeuds;
+    vector<Face> faces = vector<Face>();
+    vector<bool> split;
+    MutableContainer<bool> on_cont;
+    node n1;
 
-  res.push_back(n);
-  _data.push_back(res);
+    res.push_back(n);
+    _data.push_back(res);
 
-  node v = left.get(n.id);
-  n1 = v;
-  on_cont.setAll(false);
+    node v = left.get(n.id);
+    n1 = v;
+    on_cont.setAll(false);
 
-  // search the neighborhood of v and update visitedNodes
-  on_cont.set(n1.id, true);
-  faces.push_back(Gp->getFaceContaining(n1, n));
-  noeuds.push_back(n1);
-  visitedNodes.set(n1.id, true);
-  edge e_first = Gp->existEdge(n1, n);
-
-  if (!e_first.isValid()) {
-    e_first = Gp->existEdge(n, n1);
-  }
-
-  edge e = Gp->succCycleEdge(e_first, n);
-  n1 = Gp->opposite(e, n);
-
-  while (n1 != v) {
-    visitedNodes.set(n1.id, true);
-    noeuds.push_back(n1);
+    // search the neighborhood of v and update visitedNodes
     on_cont.set(n1.id, true);
-    e = Gp->succCycleEdge(e, n);
+    faces.push_back(Gp->getFaceContaining(n1, n));
+    noeuds.push_back(n1);
+    visitedNodes.set(n1.id, true);
+    edge e_first = Gp->existEdge(n1, n);
 
-    if (Gp->opposite(e, n) != v) {
-      faces.push_back(Gp->getFaceContaining(n1, n));
+    if (!e_first.isValid()) {
+        e_first = Gp->existEdge(n, n1);
     }
 
+    edge e = Gp->succCycleEdge(e_first, n);
     n1 = Gp->opposite(e, n);
-  }
 
-  node tmp;
-  node tmp2;
-  edge e_tmp;
-  node node_f;
-  node node_last;
-  bool done = false;
-  tmp = noeuds[noeuds.size() - 1];
-  tmp2 = right.get(tmp.id);
+    while (n1 != v) {
+        visitedNodes.set(n1.id, true);
+        noeuds.push_back(n1);
+        on_cont.set(n1.id, true);
+        e = Gp->succCycleEdge(e, n);
 
-  while (!done && tmp2 != v1[1]) {
-    done = true;
+        if (Gp->opposite(e, n) != v) {
+            faces.push_back(Gp->getFaceContaining(n1, n));
+        }
 
-    for (const auto &face : faces) {
-      if (Gp->containNode(face, tmp2)) {
-        done = false;
-        break;
-      }
+        n1 = Gp->opposite(e, n);
     }
 
-    if (done) {
-      continue;
-    }
-
-    tmp = tmp2;
+    node tmp;
+    node tmp2;
+    edge e_tmp;
+    node node_f;
+    node node_last;
+    bool done = false;
+    tmp = noeuds[noeuds.size() - 1];
     tmp2 = right.get(tmp.id);
-  }
 
-  node_last = tmp;
-  tmp = v;
-  tmp2 = n;
-
-  while (tmp != v1[v1.size() - 2] && tmp != node_last) {
-    done = false;
-    tmp2 = tmp;
-    tmp = left.get(tmp2.id);
-
-    for (const auto &face : faces) {
-      if (Gp->containNode(face, tmp)) {
+    while (!done && tmp2 != v1[1]) {
         done = true;
-        break;
-      }
+
+        for (const auto &face : faces) {
+            if (Gp->containNode(face, tmp2)) {
+                done = false;
+                break;
+            }
+        }
+
+        if (done) {
+            continue;
+        }
+
+        tmp = tmp2;
+        tmp2 = right.get(tmp.id);
     }
 
-    if (!done) {
-      break;
+    node_last = tmp;
+    tmp = v;
+    tmp2 = n;
+
+    while (tmp != v1[v1.size() - 2] && tmp != node_last) {
+        done = false;
+        tmp2 = tmp;
+        tmp = left.get(tmp2.id);
+
+        for (const auto &face : faces) {
+            if (Gp->containNode(face, tmp)) {
+                done = true;
+                break;
+            }
+        }
+
+        if (!done) {
+            break;
+        }
     }
-  }
 
-  node_f = tmp2;
-  node no_tmp = tmp;
+    node_f = tmp2;
+    node no_tmp = tmp;
 
-  // for the update of outv and oute
-  node n2 = node_f;
-  n2 = right.get(n2.id);
+    // for the update of outv and oute
+    node n2 = node_f;
+    n2 = right.get(n2.id);
 
-  while (n2 != node_last) {
+    while (n2 != node_last) {
 
-    for (Face f_tmp : Gp->getFacesAdj(n2)) {
-      outv.add(f_tmp.id, -1);
+        for (Face f_tmp : Gp->getFacesAdj(n2)) {
+            outv.add(f_tmp.id, -1);
+        }
+
+        oute.add(ext.id, -1);
+        n2 = right.get(n2.id);
     }
 
     oute.add(ext.id, -1);
-    n2 = right.get(n2.id);
-  }
 
-  oute.add(ext.id, -1);
+    // split and merge old faces
+    e = Gp->predCycleEdge(e_first, n1);
+    n2 = Gp->opposite(e, n1);
+    bool spli = false;
 
-  // split and merge old faces
-  e = Gp->predCycleEdge(e_first, n1);
-  n2 = Gp->opposite(e, n1);
-  bool spli = false;
+    for (int i = 0; uint(i) < noeuds.size() - 1; i++) {
+        bool entered = false;
 
-  for (int i = 0; uint(i) < noeuds.size() - 1; i++) {
-    bool entered = false;
+        while (n2 != noeuds[i + 1]) {
+            entered = true;
 
-    while (n2 != noeuds[i + 1]) {
-      entered = true;
+            if (on_cont.get(n2.id) || contour.get(n2.id)) {
+                spli = true;
+                Face f1 = Gp->splitFace(faces[i], n1, noeuds[i + 1], n2);
+                edge dummy = Gp->existEdge(n1, noeuds[i + 1]);
 
-      if (on_cont.get(n2.id) || contour.get(n2.id)) {
-        spli = true;
-        Face f1 = Gp->splitFace(faces[i], n1, noeuds[i + 1], n2);
-        edge dummy = Gp->existEdge(n1, noeuds[i + 1]);
+                if (!dummy.isValid()) {
+                    dummy = Gp->existEdge(noeuds[i + 1], n1);
+                }
 
-        if (!dummy.isValid()) {
-          dummy = Gp->existEdge(noeuds[i + 1], n1);
+                dummy_edge.push_back(dummy);
+                Gp->mergeFaces(ext, f1);
+                n2 = noeuds[i + 1];
+                e = Gp->existEdge(n1, n2);
+
+                if (!e.isValid()) {
+                    e = Gp->existEdge(n2, n1);
+                }
+            } else {
+                on_cont.set(n2.id, true);
+                e = Gp->predCycleEdge(e, n2);
+                n1 = n2;
+                n2 = Gp->opposite(e, n1);
+            }
         }
 
-        dummy_edge.push_back(dummy);
-        Gp->mergeFaces(ext, f1);
-        n2 = noeuds[i + 1];
-        e = Gp->existEdge(n1, n2);
-
-        if (!e.isValid()) {
-          e = Gp->existEdge(n2, n1);
+        if (!entered) {
+            Gp->mergeFaces(ext, faces[i]);
         }
-      } else {
-        on_cont.set(n2.id, true);
+
+        if (entered && !spli) {
+            Gp->mergeFaces(ext, faces[i]);
+        }
+
         e = Gp->predCycleEdge(e, n2);
         n1 = n2;
         n2 = Gp->opposite(e, n1);
-      }
+
+        if (n2 == n) {
+            e = Gp->predCycleEdge(e, n1);
+            n2 = Gp->opposite(e, n1);
+        }
+
+        split.push_back(spli);
+        spli = false;
     }
 
-    if (!entered) {
-      Gp->mergeFaces(ext, faces[i]);
+    // update visitedFaces
+    for (int i = 0; uint(i) < noeuds.size(); i++) {
+        int deg = Gp->deg(noeuds[i]);
+
+        for (Face f2 : Gp->getFacesAdj(noeuds[i])) {
+
+            if (deg == 2 && !isOuterFace.get(f2.id)) {
+                visitedFaces.set(f2.id, true);
+            }
+        }
     }
 
-    if (entered && !spli) {
-      Gp->mergeFaces(ext, faces[i]);
+    Face derniere = Gp->getFaceContaining(v1[0], v1[1]);
+    //
+    e_tmp = Gp->existEdge(node_f, no_tmp);
+
+    if (!e_tmp.isValid()) {
+        e_tmp = Gp->existEdge(no_tmp, node_f);
     }
 
-    e = Gp->predCycleEdge(e, n2);
-    n1 = n2;
-    n2 = Gp->opposite(e, n1);
+    e_tmp = Gp->predCycleEdge(e_tmp, node_f);
+    no_tmp = Gp->opposite(e_tmp, node_f);
+    edge ed_tmp = e_tmp;
+    node no_tmp2 = no_tmp;
 
-    if (n2 == n) {
-      e = Gp->predCycleEdge(e, n1);
-      n2 = Gp->opposite(e, n1);
+    // update contour, left , right
+    updateContourLeftRight(node_f, no_tmp, e_tmp, node_last);
+
+    // update outv, oute, seqP
+    bool one_face = true;
+    int addNode = 0;
+    MutableContainer<bool> update_seqp;
+    vector<Face> v_face;
+    update_seqp.setAll(false);
+
+    for (int i = 0; uint(i) < faces.size(); i++) {
+        if (split[i]) {
+            outv.set((faces[i]).id, 0);
+            oute.set((faces[i]).id, 0);
+            seqP.set((faces[i]).id, seqp(faces[i]));
+            update_seqp.set((faces[i]).id, true);
+            v_face.push_back(faces[i]);
+
+            if (faces[i] == derniere) {
+                outv.set((faces[i]).id, v1.size() - 2);
+                oute.set((faces[i]).id, v1.size() - 1);
+            }
+
+            if (Gp->containNode(faces[i], node_f)) {
+                outv.add((faces[i]).id, 1);
+            }
+
+            if (Gp->containNode(faces[i], node_last)) {
+                outv.add((faces[i]).id, 1);
+            }
+        }
     }
 
-    split.push_back(spli);
-    spli = false;
-  }
+    n1 = node_f;
+    n2 = no_tmp;
+    Face f1 = Gp->getFaceContaining(n1, n2);
 
-  // update visitedFaces
-  for (int i = 0; uint(i) < noeuds.size(); i++) {
-    int deg = Gp->deg(noeuds[i]);
-
-    for (Face f2 : Gp->getFacesAdj(noeuds[i])) {
-
-      if (deg == 2 && !isOuterFace.get(f2.id)) {
-        visitedFaces.set(f2.id, true);
-      }
+    if (!update_seqp.get(f1.id)) {
+        seqP.set(f1.id, seqp(f1));
+        update_seqp.set(f1.id, true);
+        v_face.push_back(f1);
     }
-  }
 
-  Face derniere = Gp->getFaceContaining(v1[0], v1[1]);
-  //
-  e_tmp = Gp->existEdge(node_f, no_tmp);
+    while (n2 != node_last) {
+        f1 = Gp->getFaceContaining(n1, n2);
+        oute.add(f1.id, 1);
+        addNode++;
+        int cpt = 0;
 
-  if (!e_tmp.isValid()) {
-    e_tmp = Gp->existEdge(no_tmp, node_f);
-  }
+        for (Face f2 : Gp->getFacesAdj(n2)) {
 
-  e_tmp = Gp->predCycleEdge(e_tmp, node_f);
-  no_tmp = Gp->opposite(e_tmp, node_f);
-  edge ed_tmp = e_tmp;
-  node no_tmp2 = no_tmp;
+            if (isOuterFace.get(f2.id))
+                continue;
 
-  // update contour, left , right
-  updateContourLeftRight(node_f, no_tmp, e_tmp, node_last);
+            cpt++;
 
-  // update outv, oute, seqP
-  bool one_face = true;
-  int addNode = 0;
-  MutableContainer<bool> update_seqp;
-  vector<Face> v_face;
-  update_seqp.setAll(false);
+            if (!update_seqp.get(f2.id)) {
+                seqP.set(f2.id, seqp(f2));
+                update_seqp.set(f2.id, true);
+                v_face.push_back(f2);
+            }
 
-  for (int i = 0; uint(i) < faces.size(); i++) {
-    if (split[i]) {
-      outv.set((faces[i]).id, 0);
-      oute.set((faces[i]).id, 0);
-      seqP.set((faces[i]).id, seqp(faces[i]));
-      update_seqp.set((faces[i]).id, true);
-      v_face.push_back(faces[i]);
+            outv.add(f2.id, 1);
+        }
 
-      if (faces[i] == derniere) {
-        outv.set((faces[i]).id, v1.size() - 2);
-        oute.set((faces[i]).id, v1.size() - 1);
-      }
+        n1 = n2;
+        n2 = right.get(n1.id);
 
-      if (Gp->containNode(faces[i], node_f)) {
-        outv.add((faces[i]).id, 1);
-      }
-
-      if (Gp->containNode(faces[i], node_last)) {
-        outv.add((faces[i]).id, 1);
-      }
+        if (cpt != 1)
+            one_face = false;
     }
-  }
 
-  n1 = node_f;
-  n2 = no_tmp;
-  Face f1 = Gp->getFaceContaining(n1, n2);
-
-  if (!update_seqp.get(f1.id)) {
-    seqP.set(f1.id, seqp(f1));
-    update_seqp.set(f1.id, true);
-    v_face.push_back(f1);
-  }
-
-  while (n2 != node_last) {
     f1 = Gp->getFaceContaining(n1, n2);
     oute.add(f1.id, 1);
-    addNode++;
-    int cpt = 0;
 
-    for (Face f2 : Gp->getFacesAdj(n2)) {
-
-      if (isOuterFace.get(f2.id))
-        continue;
-
-      cpt++;
-
-      if (!update_seqp.get(f2.id)) {
-        seqP.set(f2.id, seqp(f2));
-        update_seqp.set(f2.id, true);
-        v_face.push_back(f2);
-      }
-
-      outv.add(f2.id, 1);
+    if (!update_seqp.get(f1.id)) {
+        seqP.set(f1.id, seqp(f1));
+        v_face.push_back(f1);
+        update_seqp.set(f1.id, true);
     }
 
-    n1 = n2;
-    n2 = right.get(n1.id);
+    outv.add(ext.id, addNode);
+    oute.add(ext.id, addNode + 1);
 
-    if (cpt != 1)
-      one_face = false;
-  }
+    if (Gp->deg(node_f) != 2 && Gp->deg(node_last) != 2)
+        one_face = false;
 
-  f1 = Gp->getFaceContaining(n1, n2);
-  oute.add(f1.id, 1);
+    // update is_selectable_visited_face and is_selectable_face
+    updateSelectableFaces(v_face);
 
-  if (!update_seqp.get(f1.id)) {
-    seqP.set(f1.id, seqp(f1));
-    v_face.push_back(f1);
-    update_seqp.set(f1.id, true);
-  }
-
-  outv.add(ext.id, addNode);
-  oute.add(ext.id, addNode + 1);
-
-  if (Gp->deg(node_f) != 2 && Gp->deg(node_last) != 2)
-    one_face = false;
-
-  // update is_selectable_visited_face and is_selectable_face
-  updateSelectableFaces(v_face);
-
-  // update of is_selectable and is_selectable_visited
-  updateNewSelectableNodes(node_f, no_tmp2, ed_tmp, node_last, v_face, one_face);
+    // update of is_selectable and is_selectable_visited
+    updateNewSelectableNodes(node_f, no_tmp2, ed_tmp, node_last, v_face, one_face);
 }
 
 //==========================================================
@@ -1123,191 +1123,191 @@ void Ordering::selectAndUpdate(node n) {
  * select face f and update members
  */
 void Ordering::selectAndUpdate(Face f) {
-  int compteur = 0;
-  node n;
-  node pred;
-  Iterator<node> *it_n = Gp->getFaceNodes(f);
+    int compteur = 0;
+    node n;
+    node pred;
+    Iterator<node> *it_n = Gp->getFaceNodes(f);
 
-  while (it_n->hasNext()) {
-    pred = n;
-    n = it_n->next();
+    while (it_n->hasNext()) {
+        pred = n;
+        n = it_n->next();
 
-    if (Gp->deg(n) == 2 && contour.get(n.id))
-      break;
+        if (Gp->deg(n) == 2 && contour.get(n.id))
+            break;
 
-    compteur++;
-  }
-
-  if (compteur == 0) {
-    pred = left.get(n.id);
-
-    while (Gp->deg(pred) == 2) {
-      n = pred;
-      pred = left.get(n.id);
+        compteur++;
     }
-  }
 
-  delete it_n;
+    if (compteur == 0) {
+        pred = left.get(n.id);
 
-  vector<node> noeuds;
-  node n1 = pred;
-  node n2 = n;
-  edge edge_pred = Gp->existEdge(n1, n2);
+        while (Gp->deg(pred) == 2) {
+            n = pred;
+            pred = left.get(n.id);
+        }
+    }
 
-  if (!edge_pred.isValid())
-    edge_pred = Gp->existEdge(n2, n1);
+    delete it_n;
 
-  edge_pred = Gp->succCycleEdge(edge_pred, pred);
-  bool min_markded_face = false;
-  int add_node = 0;
-  bool was_visited = visitedFaces.get(f.id);
-  int suppNodes = 1;
+    vector<node> noeuds;
+    node n1 = pred;
+    node n2 = n;
+    edge edge_pred = Gp->existEdge(n1, n2);
 
-  // update is_selectable_visited_face, is_selectable_face, visitedNodes, contour, outv, oute,
-  // visitedFaces and seqP
-  is_selectable_visited_face.set(f.id, false);
-  is_selectable_face.set(f.id, false);
-  visitedNodes.set(n2.id, false);
-  contour.set(n2.id, false);
-  outv.set(f.id, 0);
-  oute.set(f.id, 0);
-  visitedFaces.set(f.id, false);
-  seqP.set(f.id, 0);
+    if (!edge_pred.isValid())
+        edge_pred = Gp->existEdge(n2, n1);
 
-  noeuds.push_back(n2);
-  n1 = n2;
-  n2 = right.get(n1.id);
+    edge_pred = Gp->succCycleEdge(edge_pred, pred);
+    bool min_markded_face = false;
+    int add_node = 0;
+    bool was_visited = visitedFaces.get(f.id);
+    int suppNodes = 1;
 
-  while (Gp->deg(n2) == 2 && n2 != v1[0]) {
-    suppNodes++;
-    noeuds.push_back(n2);
+    // update is_selectable_visited_face, is_selectable_face, visitedNodes, contour, outv, oute,
+    // visitedFaces and seqP
+    is_selectable_visited_face.set(f.id, false);
+    is_selectable_face.set(f.id, false);
     visitedNodes.set(n2.id, false);
     contour.set(n2.id, false);
+    outv.set(f.id, 0);
+    oute.set(f.id, 0);
+    visitedFaces.set(f.id, false);
+    seqP.set(f.id, 0);
+
+    noeuds.push_back(n2);
     n1 = n2;
     n2 = right.get(n1.id);
-  }
 
-  _data.push_back(noeuds);
-
-  // test if face f is marked and if it is the "minimal" one
-  if (markedFaces.get(f.id)) {
-    markedFaces.set(f.id, false);
-
-    if (f == minMarkedFace.face)
-      min_markded_face = true;
-  }
-
-  Gp->mergeFaces(ext, f);
-
-  // update visitedNodes and visitedFaces  for extremities of the path
-  visitedNodes.set(pred.id, true);
-
-  if (Gp->deg(pred) == 2) {
-
-    for (Face fa : Gp->getFacesAdj(pred)) {
-      visitedFaces.set(fa.id, true);
+    while (Gp->deg(n2) == 2 && n2 != v1[0]) {
+        suppNodes++;
+        noeuds.push_back(n2);
+        visitedNodes.set(n2.id, false);
+        contour.set(n2.id, false);
+        n1 = n2;
+        n2 = right.get(n1.id);
     }
-  }
 
-  visitedNodes.set(n2.id, true);
+    _data.push_back(noeuds);
 
-  if (Gp->deg(n2) == 2) {
+    // test if face f is marked and if it is the "minimal" one
+    if (markedFaces.get(f.id)) {
+        markedFaces.set(f.id, false);
 
-    for (Face fa : Gp->getFacesAdj(n2)) {
-      visitedFaces.set(fa.id, true);
+        if (f == minMarkedFace.face)
+            min_markded_face = true;
     }
-  }
 
-  // update contour, left and right
-  node n4 = pred;
-  edge_pred = Gp->predCycleEdge(edge_pred, pred);
-  node n3 = Gp->opposite(edge_pred, n4);
-  updateContourLeftRight(n4, n3, edge_pred, n2);
+    Gp->mergeFaces(ext, f);
 
-  // update outv, oute, seqP
-  bool one_face = true;
-  MutableContainer<bool> update_seqp;
-  vector<Face> v_face;
-  node no_tmp2 = n3;
-  edge ed_tmp = edge_pred;
-  update_seqp.setAll(false);
-  outv.add(ext.id, -suppNodes);
-  oute.add(ext.id, -suppNodes - 1);
+    // update visitedNodes and visitedFaces  for extremities of the path
+    visitedNodes.set(pred.id, true);
 
-  while (n3 != n2) {
-    int cpt = 0;
+    if (Gp->deg(pred) == 2) {
 
-    for (Face fa : Gp->getFacesAdj(n3)) {
+        for (Face fa : Gp->getFacesAdj(pred)) {
+            visitedFaces.set(fa.id, true);
+        }
+    }
 
-      if (isOuterFace.get(fa.id))
-        continue;
+    visitedNodes.set(n2.id, true);
 
-      cpt++;
-      outv.add(fa.id, 1);
+    if (Gp->deg(n2) == 2) {
 
-      if (!update_seqp.get(fa.id)) {
-        seqP.set(fa.id, seqp(fa));
-        v_face.push_back(fa);
-        update_seqp.set(fa.id, true);
-      }
+        for (Face fa : Gp->getFacesAdj(n2)) {
+            visitedFaces.set(fa.id, true);
+        }
+    }
+
+    // update contour, left and right
+    node n4 = pred;
+    edge_pred = Gp->predCycleEdge(edge_pred, pred);
+    node n3 = Gp->opposite(edge_pred, n4);
+    updateContourLeftRight(n4, n3, edge_pred, n2);
+
+    // update outv, oute, seqP
+    bool one_face = true;
+    MutableContainer<bool> update_seqp;
+    vector<Face> v_face;
+    node no_tmp2 = n3;
+    edge ed_tmp = edge_pred;
+    update_seqp.setAll(false);
+    outv.add(ext.id, -suppNodes);
+    oute.add(ext.id, -suppNodes - 1);
+
+    while (n3 != n2) {
+        int cpt = 0;
+
+        for (Face fa : Gp->getFacesAdj(n3)) {
+
+            if (isOuterFace.get(fa.id))
+                continue;
+
+            cpt++;
+            outv.add(fa.id, 1);
+
+            if (!update_seqp.get(fa.id)) {
+                seqP.set(fa.id, seqp(fa));
+                v_face.push_back(fa);
+                update_seqp.set(fa.id, true);
+            }
+        }
+
+        Face fa = Gp->getFaceContaining(n4, n3);
+
+        if (!update_seqp.get(fa.id)) {
+            seqP.set(fa.id, seqp(fa));
+            v_face.push_back(fa);
+            update_seqp.set(fa.id, true);
+        }
+
+        add_node++;
+        oute.add(fa.id, 1);
+        n4 = n3;
+        n3 = right.get(n4.id);
+
+        if (cpt != 1)
+            one_face = false;
     }
 
     Face fa = Gp->getFaceContaining(n4, n3);
+    oute.add(fa.id, 1);
 
     if (!update_seqp.get(fa.id)) {
-      seqP.set(fa.id, seqp(fa));
-      v_face.push_back(fa);
-      update_seqp.set(fa.id, true);
+        seqP.set(fa.id, seqp(fa));
+        v_face.push_back(fa);
+        update_seqp.set(fa.id, true);
     }
 
-    add_node++;
-    oute.add(fa.id, 1);
-    n4 = n3;
-    n3 = right.get(n4.id);
+    if (Gp->deg(n3) != 2 && Gp->deg(pred) != 2)
+        one_face = false;
 
-    if (cpt != 1)
-      one_face = false;
-  }
+    if (add_node == 0) {
 
-  Face fa = Gp->getFaceContaining(n4, n3);
-  oute.add(fa.id, 1);
+        for (Face tmp_f : Gp->getFacesAdj(n2)) {
 
-  if (!update_seqp.get(fa.id)) {
-    seqP.set(fa.id, seqp(fa));
-    v_face.push_back(fa);
-    update_seqp.set(fa.id, true);
-  }
+            if (isOuterFace.get(tmp_f.id))
+                continue;
 
-  if (Gp->deg(n3) != 2 && Gp->deg(pred) != 2)
-    one_face = false;
-
-  if (add_node == 0) {
-
-    for (Face tmp_f : Gp->getFacesAdj(n2)) {
-
-      if (isOuterFace.get(tmp_f.id))
-        continue;
-
-      if (!update_seqp.get(tmp_f.id)) {
-        v_face.push_back(tmp_f);
-        seqP.set(tmp_f.id, seqp(tmp_f));
-        update_seqp.set(tmp_f.id, true);
-      }
+            if (!update_seqp.get(tmp_f.id)) {
+                v_face.push_back(tmp_f);
+                seqP.set(tmp_f.id, seqp(tmp_f));
+                update_seqp.set(tmp_f.id, true);
+            }
+        }
     }
-  }
 
-  outv.add(ext.id, add_node);
-  oute.add(ext.id, add_node + 1);
+    outv.add(ext.id, add_node);
+    oute.add(ext.id, add_node + 1);
 
-  // Update of is_selectable_visited_face and is_selectable_face
-  updateSelectableFaces(v_face);
+    // Update of is_selectable_visited_face and is_selectable_face
+    updateSelectableFaces(v_face);
 
-  // update of is_selectable and is_selectable_visited
-  updateNewSelectableNodes(pred, no_tmp2, ed_tmp, n2, v_face, one_face, was_visited, true);
+    // update of is_selectable and is_selectable_visited
+    updateNewSelectableNodes(pred, no_tmp2, ed_tmp, n2, v_face, one_face, was_visited, true);
 
-  // update minMarkedFace
-  if (min_markded_face)
-    minMarkedf();
+    // update minMarkedFace
+    if (min_markded_face)
+        minMarkedf();
 }
 
 //==========================================================
@@ -1315,60 +1315,60 @@ void Ordering::selectAndUpdate(Face f) {
  * return true if node n can be selected
  */
 bool Ordering::isSelectable(node n) {
-  if (n == v1[0] || n == v1[v1.size() - 1])
-    return false;
-
-  if (Gp->deg(n) >= 3) {
-    int sepf = 0, ispf = 0;
-    node n_predCont, n_succCont;
-    Face derniere = Gp->getFaceContaining(v1[0], v1[1]);
-
-    n_predCont = left.get(n.id);
-    n_succCont = right.get(n.id);
-
-    for (Face faces : Gp->getFacesAdj(n)) {
-
-      if (isOuterFace.get(faces.id))
-        continue;
-
-      if (markedFaces.get(faces.id)) {
+    if (n == v1[0] || n == v1[v1.size() - 1])
         return false;
-      }
 
-      int out_vertex = outv.get(faces.id);
-      int out_edge = oute.get(faces.id);
+    if (Gp->deg(n) >= 3) {
+        int sepf = 0, ispf = 0;
+        node n_predCont, n_succCont;
+        Face derniere = Gp->getFaceContaining(v1[0], v1[1]);
 
-      if (out_vertex >= 3 || (out_vertex == 2 && out_edge == 0)) {
-        sepf++;
-        edge e1 = Gp->existEdge(n_predCont, n);
+        n_predCont = left.get(n.id);
+        n_succCont = right.get(n.id);
 
-        if (!e1.isValid())
-          e1 = Gp->existEdge(n, n_predCont);
+        for (Face faces : Gp->getFacesAdj(n)) {
 
-        edge e2 = Gp->existEdge(n_succCont, n);
+            if (isOuterFace.get(faces.id))
+                continue;
 
-        if (!e2.isValid())
-          e2 = Gp->existEdge(n, n_succCont);
+            if (markedFaces.get(faces.id)) {
+                return false;
+            }
 
-        if ((Gp->containNode(faces, n_succCont) && !(Gp->containEdge(faces, e2))) ||
-            (Gp->containNode(faces, n_predCont) && !(Gp->containEdge(faces, e1)))) {
-          int seq = seqP.get((faces).id);
+            int out_vertex = outv.get(faces.id);
+            int out_edge = oute.get(faces.id);
 
-          if (faces == derniere) {
-            out_vertex -= v1.size() - 2;
-            out_edge -= v1.size() - 1;
-          }
+            if (out_vertex >= 3 || (out_vertex == 2 && out_edge == 0)) {
+                sepf++;
+                edge e1 = Gp->existEdge(n_predCont, n);
 
-          if (out_vertex == seq + 1 && seq - out_edge == 1)
-            ispf++;
+                if (!e1.isValid())
+                    e1 = Gp->existEdge(n, n_predCont);
+
+                edge e2 = Gp->existEdge(n_succCont, n);
+
+                if (!e2.isValid())
+                    e2 = Gp->existEdge(n, n_succCont);
+
+                if ((Gp->containNode(faces, n_succCont) && !(Gp->containEdge(faces, e2))) ||
+                    (Gp->containNode(faces, n_predCont) && !(Gp->containEdge(faces, e1)))) {
+                    int seq = seqP.get((faces).id);
+
+                    if (faces == derniere) {
+                        out_vertex -= v1.size() - 2;
+                        out_edge -= v1.size() - 1;
+                    }
+
+                    if (out_vertex == seq + 1 && seq - out_edge == 1)
+                        ispf++;
+                }
+            }
         }
-      }
+
+        return (ispf == sepf);
     }
 
-    return (ispf == sepf);
-  }
-
-  return false;
+    return false;
 }
 
 //==========================================================
@@ -1377,144 +1377,145 @@ Ordering::Ordering(PlanarConMap *G, PluginProgress *pluginProgress, int minProgr
     : Gp(computePlanarConMap(G->addCloneSubGraph())), oute(), outv(), visitedNodes(),
       visitedFaces(), seqP(), isOuterFace(), contour(), is_selectable(), is_selectable_visited(),
       is_selectable_face(), is_selectable_visited_face(), left(), right() {
-  assert(BiconnectedTest::isBiconnected(G));
-  assert(BiconnectedTest::isBiconnected(Gp));
-  init();
-  assert(v1.size() > 1);
+    assert(BiconnectedTest::isBiconnected(G));
+    assert(BiconnectedTest::isBiconnected(Gp));
+    init();
+    assert(v1.size() > 1);
 
-  uint nbTours = Gp->numberOfNodes();
-  Face derniere = Gp->getFaceContaining(v1[0], v1[1]);
-  node n;
+    uint nbTours = Gp->numberOfNodes();
+    Face derniere = Gp->getFaceContaining(v1[0], v1[1]);
+    node n;
 
-  int nbMax = nbTours;
+    int nbMax = nbTours;
 
-  while ((Gp->nbFaces() > 2) && (nbTours > 1)) {
-    nbTours--;
+    while ((Gp->nbFaces() > 2) && (nbTours > 1)) {
+        nbTours--;
 
-    // give some feedback
-    if (pluginProgress &&
-        (pluginProgress->progress(minProgress + (deltaProgress * (nbMax - nbTours)) / nbMax,
-                                  maxProgress) != ProgressState::TLP_CONTINUE))
-      return;
+        // give some feedback
+        if (pluginProgress &&
+            (pluginProgress->progress(minProgress + (deltaProgress * (nbMax - nbTours)) / nbMax,
+                                      maxProgress) != ProgressState::TLP_CONTINUE))
+            return;
 
-    // search for a visited node that can be selected
-    Iterator<uint> *itn = is_selectable_visited.findAll(true);
+        // search for a visited node that can be selected
+        Iterator<uint> *itn = is_selectable_visited.findAll(true);
 
-    while (itn->hasNext()) {
-      n = node(itn->next());
-      selectAndUpdate(n);
+        while (itn->hasNext()) {
+            n = node(itn->next());
+            selectAndUpdate(n);
 
-      if (Gp->nbFaces() <= 2)
-        break;
+            if (Gp->nbFaces() <= 2)
+                break;
 
-      delete itn;
-      itn = is_selectable_visited.findAll(true);
-    }
-
-    delete itn;
-
-    if (Gp->nbFaces() <= 2)
-      break;
-
-    // search for a visited face that can be selected
-    bool selVisitedFace = false;
-
-    for (uint faceId : is_selectable_visited_face.findAll(true)) {
-      Face f = Face(faceId);
-      selectAndUpdate(f);
-      selVisitedFace = true;
-      break;
-    }
-
-    // search for a non-visited and selectable node, occur when no visited node or face has been
-    // selected
-    bool selNode = false;
-
-    if (!selVisitedFace) {
-      for (uint id : is_selectable.findAll(true)) {
-        n = node(id);
-        selNode = true;
-        selectAndUpdate(n);
-        break;
-      }
-    }
-
-    // search for a non-visited selectable face, occur when no node or visited face has been
-    // selected
-    bool selFace = false;
-
-    if (!selNode && !selVisitedFace) {
-
-      for (uint faceId : is_selectable_face.findAll(true)) {
-        Face f(faceId);
-        selectAndUpdate(f);
-        selFace = true;
-        break;
-      }
-    }
-
-    // search for a face to augment, occur when no node or face has been selected
-    if (!selNode && !selVisitedFace && !selFace) {
-
-      for (Face fac : Gp->getFaces()) {
-
-        if (isOuterFace.get((fac).id))
-          continue;
-
-        int s = seqP.get((fac).id);
-        int ov = outv.get(((fac).id));
-        int oe = oute.get(((fac).id));
-        int nbNewFace;
-        bool pair;
-
-        if (fac == derniere) {
-          ov -= v1.size() - 2;
-          oe -= v1.size() - 1;
+            delete itn;
+            itn = is_selectable_visited.findAll(true);
         }
 
-        if ((s - oe) % 2) {
-          pair = false;
-          nbNewFace = (s - oe) / 2 + 1;
-        } else {
-          pair = true;
-          nbNewFace = (s - oe) / 2;
-        }
+        delete itn;
 
-        if (ov == s + 1 && s - oe >= 2) {
-          struct augmentableAndNodes_ res = getAugAndNodes(fac);
-
-          if (!existMarkedF || res.augmentable) {
-            augment(fac, res.Nodes[0], res.Nodes[1], res.Nodes[2], res.Nodes[3], nbNewFace, pair);
+        if (Gp->nbFaces() <= 2)
             break;
-          }
+
+        // search for a visited face that can be selected
+        bool selVisitedFace = false;
+
+        for (uint faceId : is_selectable_visited_face.findAll(true)) {
+            Face f = Face(faceId);
+            selectAndUpdate(f);
+            selVisitedFace = true;
+            break;
         }
-      }
+
+        // search for a non-visited and selectable node, occur when no visited node or face has been
+        // selected
+        bool selNode = false;
+
+        if (!selVisitedFace) {
+            for (uint id : is_selectable.findAll(true)) {
+                n = node(id);
+                selNode = true;
+                selectAndUpdate(n);
+                break;
+            }
+        }
+
+        // search for a non-visited selectable face, occur when no node or visited face has been
+        // selected
+        bool selFace = false;
+
+        if (!selNode && !selVisitedFace) {
+
+            for (uint faceId : is_selectable_face.findAll(true)) {
+                Face f(faceId);
+                selectAndUpdate(f);
+                selFace = true;
+                break;
+            }
+        }
+
+        // search for a face to augment, occur when no node or face has been selected
+        if (!selNode && !selVisitedFace && !selFace) {
+
+            for (Face fac : Gp->getFaces()) {
+
+                if (isOuterFace.get((fac).id))
+                    continue;
+
+                int s = seqP.get((fac).id);
+                int ov = outv.get(((fac).id));
+                int oe = oute.get(((fac).id));
+                int nbNewFace;
+                bool pair;
+
+                if (fac == derniere) {
+                    ov -= v1.size() - 2;
+                    oe -= v1.size() - 1;
+                }
+
+                if ((s - oe) % 2) {
+                    pair = false;
+                    nbNewFace = (s - oe) / 2 + 1;
+                } else {
+                    pair = true;
+                    nbNewFace = (s - oe) / 2;
+                }
+
+                if (ov == s + 1 && s - oe >= 2) {
+                    struct augmentableAndNodes_ res = getAugAndNodes(fac);
+
+                    if (!existMarkedF || res.augmentable) {
+                        augment(fac, res.Nodes[0], res.Nodes[1], res.Nodes[2], res.Nodes[3],
+                                nbNewFace, pair);
+                        break;
+                    }
+                }
+            }
+        }
     }
-  }
 
-  if (nbTours == 1) {
-    tlp::error() << "Error : non initialized partition" << std::endl;
-    exit(-1);
-  }
+    if (nbTours == 1) {
+        tlp::error() << "Error : non initialized partition" << std::endl;
+        exit(-1);
+    }
 
-  vector<node> nodes;
-  n = v1[v1.size() - 1];
-  node n2;
-  n2 = right.get(n.id);
-
-  while (n2 != v1[0]) {
-    nodes.push_back(n2);
-    n = n2;
+    vector<node> nodes;
+    n = v1[v1.size() - 1];
+    node n2;
     n2 = right.get(n.id);
-  }
 
-  _data.push_back(nodes);
-  vector<node> res;
+    while (n2 != v1[0]) {
+        nodes.push_back(n2);
+        n = n2;
+        n2 = right.get(n.id);
+    }
 
-  for (uint k = v1.size(); k >= 1; --k)
-    res.push_back(v1[k - 1]);
+    _data.push_back(nodes);
+    vector<node> res;
 
-  _data.push_back(res);
+    for (uint k = v1.size(); k >= 1; --k)
+        res.push_back(v1[k - 1]);
+
+    _data.push_back(res);
 }
 
 //==========================================================
@@ -1522,47 +1523,47 @@ Ordering::Ordering(PlanarConMap *G, PluginProgress *pluginProgress, int minProgr
  * initialize v1
  */
 void Ordering::init_v1(vector<node> fn) {
-  int l = fn.size();
-  int i = 0;
-  int cpt2 = 0;
+    int l = fn.size();
+    int i = 0;
+    int cpt2 = 0;
 
-  while (Gp->deg(fn[i]) == 2 && cpt2 < l) {
-    i = (l + i + 1) % l;
-    cpt2++;
-  }
-
-  if (cpt2 == l)
-    for (int i = l / 2; i > 0; --i)
-      v1.push_back(fn[i]);
-  else {
-    cpt2 = 1;
-    v1.push_back(fn[i]);
-    i = (l + i - 1) % l;
-
-    while (Gp->deg(fn[i]) == 2) {
-      v1.push_back(fn[i]);
-      cpt2++;
-      i = (l + i - 1) % l;
+    while (Gp->deg(fn[i]) == 2 && cpt2 < l) {
+        i = (l + i + 1) % l;
+        cpt2++;
     }
 
-    if (v1.size() == 1 || !Gp->hasEdge(v1[0], fn[i], false)) {
-      v1.push_back(fn[i]);
-      cpt2++;
+    if (cpt2 == l)
+        for (int i = l / 2; i > 0; --i)
+            v1.push_back(fn[i]);
+    else {
+        cpt2 = 1;
+        v1.push_back(fn[i]);
+        i = (l + i - 1) % l;
+
+        while (Gp->deg(fn[i]) == 2) {
+            v1.push_back(fn[i]);
+            cpt2++;
+            i = (l + i - 1) % l;
+        }
+
+        if (v1.size() == 1 || !Gp->hasEdge(v1[0], fn[i], false)) {
+            v1.push_back(fn[i]);
+            cpt2++;
+        }
+
+        vector<node> tmp;
+
+        while (cpt2 < l) {
+            tmp = getPathFrom(fn, i);
+
+            if (tmp.size() > v1.size())
+                v1 = tmp;
+
+            cpt2 += tmp.size() - 1;
+            i = (l + i - tmp.size() + 1) % l;
+            tmp.clear();
+        }
     }
-
-    vector<node> tmp;
-
-    while (cpt2 < l) {
-      tmp = getPathFrom(fn, i);
-
-      if (tmp.size() > v1.size())
-        v1 = tmp;
-
-      cpt2 += tmp.size() - 1;
-      i = (l + i - tmp.size() + 1) % l;
-      tmp.clear();
-    }
-  }
 }
 
 //==========================================================
@@ -1570,18 +1571,18 @@ void Ordering::init_v1(vector<node> fn) {
  * initialize ext, isOuterFace
  */
 void Ordering::init_outerface() {
-  uint max_size = 0;
+    uint max_size = 0;
 
-  for (Face tmp : Gp->getFaces()) {
+    for (Face tmp : Gp->getFaces()) {
 
-    if (Gp->nbFacesNodes(tmp) > max_size) {
-      max_size = Gp->nbFacesNodes(tmp);
-      ext = tmp;
+        if (Gp->nbFacesNodes(tmp) > max_size) {
+            max_size = Gp->nbFacesNodes(tmp);
+            ext = tmp;
+        }
     }
-  }
 
-  isOuterFace.setAll(false);
-  isOuterFace.set(ext.id, true);
+    isOuterFace.setAll(false);
+    isOuterFace.set(ext.id, true);
 }
 
 //==========================================================
@@ -1589,15 +1590,15 @@ void Ordering::init_outerface() {
  * initialize seqP
  */
 void Ordering::init_seqP() {
-  seqP.setAll(0);
+    seqP.setAll(0);
 
-  for (Face fa : Gp->getFaces()) {
+    for (Face fa : Gp->getFaces()) {
 
-    if (isOuterFace.get(fa.id))
-      continue;
+        if (isOuterFace.get(fa.id))
+            continue;
 
-    seqP.set(fa.id, seqp(fa));
-  }
+        seqP.set(fa.id, seqp(fa));
+    }
 }
 
 //==========================================================
@@ -1605,42 +1606,42 @@ void Ordering::init_seqP() {
  * initialize outv and oute
  */
 void Ordering::init_outv_oute() {
-  oute.setAll(0);
-  outv.setAll(0);
-  int cpt = 0;
-  node no_first, no_pred, n;
-  Iterator<node> *it_node2 = Gp->getFaceNodes(ext);
+    oute.setAll(0);
+    outv.setAll(0);
+    int cpt = 0;
+    node no_first, no_pred, n;
+    Iterator<node> *it_node2 = Gp->getFaceNodes(ext);
 
-  if (it_node2->hasNext()) {
-    no_first = it_node2->next();
+    if (it_node2->hasNext()) {
+        no_first = it_node2->next();
 
-    for (Face f : Gp->getFacesAdj(no_first)) {
-      outv.add(f.id, 1);
-    }
-  }
-
-  no_pred = no_first;
-
-  while (it_node2->hasNext()) {
-    if (cpt != 0)
-      no_pred = n;
-
-    cpt++;
-    n = it_node2->next();
-
-    for (Face f : Gp->getFacesAdj(n)) {
-      outv.add(f.id, 1);
+        for (Face f : Gp->getFacesAdj(no_first)) {
+            outv.add(f.id, 1);
+        }
     }
 
-    Face face = Gp->getFaceContaining(n, no_pred);
+    no_pred = no_first;
+
+    while (it_node2->hasNext()) {
+        if (cpt != 0)
+            no_pred = n;
+
+        cpt++;
+        n = it_node2->next();
+
+        for (Face f : Gp->getFacesAdj(n)) {
+            outv.add(f.id, 1);
+        }
+
+        Face face = Gp->getFaceContaining(n, no_pred);
+        oute.add(face.id, 1);
+    }
+
+    delete it_node2;
+    Face face = Gp->getFaceContaining(no_first, n);
     oute.add(face.id, 1);
-  }
-
-  delete it_node2;
-  Face face = Gp->getFaceContaining(no_first, n);
-  oute.add(face.id, 1);
-  outv.set(ext.id, cpt + 1);
-  oute.set(ext.id, cpt + 1);
+    outv.set(ext.id, cpt + 1);
+    oute.set(ext.id, cpt + 1);
 }
 
 //==========================================================
@@ -1648,17 +1649,17 @@ void Ordering::init_outv_oute() {
  * initialize is_selectable and is_selectable_visited
  */
 void Ordering::init_selectableNodes() {
-  is_selectable_visited.setAll(false);
-  is_selectable.setAll(false);
+    is_selectable_visited.setAll(false);
+    is_selectable.setAll(false);
 
-  for (auto no_tmp : Gp->getFaceNodes(ext)) {
+    for (auto no_tmp : Gp->getFaceNodes(ext)) {
 
-    if (Gp->deg(no_tmp) < 3 || no_tmp == v1[0] || no_tmp == v1[v1.size() - 1])
-      continue;
+        if (Gp->deg(no_tmp) < 3 || no_tmp == v1[0] || no_tmp == v1[v1.size() - 1])
+            continue;
 
-    if (isSelectable(no_tmp))
-      is_selectable.set(no_tmp.id, true);
-  }
+        if (isSelectable(no_tmp))
+            is_selectable.set(no_tmp.id, true);
+    }
 }
 
 //==========================================================
@@ -1666,22 +1667,22 @@ void Ordering::init_selectableNodes() {
  * initialize is_selectable_face and is_selectable_visited_face
  */
 void Ordering::init_selectableFaces() {
-  is_selectable_visited_face.setAll(false);
-  is_selectable_face.setAll(false);
+    is_selectable_visited_face.setAll(false);
+    is_selectable_face.setAll(false);
 
-  Face derniere = Gp->getFaceContaining(v1[0], v1[1]);
+    Face derniere = Gp->getFaceContaining(v1[0], v1[1]);
 
-  for (Face f : Gp->getFaces()) {
+    for (Face f : Gp->getFaces()) {
 
-    if (f == derniere || isOuterFace.get(f.id))
-      continue;
+        if (f == derniere || isOuterFace.get(f.id))
+            continue;
 
-    if (outv.get(f.id) < 3)
-      continue;
+        if (outv.get(f.id) < 3)
+            continue;
 
-    if (outv.get(f.id) == oute.get(f.id) + 1)
-      is_selectable_face.set(f.id, true);
-  }
+        if (outv.get(f.id) == oute.get(f.id) + 1)
+            is_selectable_face.set(f.id, true);
+    }
 }
 
 //==========================================================
@@ -1690,58 +1691,58 @@ void Ordering::init_selectableFaces() {
  */
 void Ordering::init() {
 
-  init_outerface();
+    init_outerface();
 
-  // initialize contour, left, right
-  contour.setAll(false);
-  Iterator<node> *itn = Gp->getFaceNodes(ext);
-  vector<node> fn;
-  node no, pred, first;
-  int cpt = 0;
+    // initialize contour, left, right
+    contour.setAll(false);
+    Iterator<node> *itn = Gp->getFaceNodes(ext);
+    vector<node> fn;
+    node no, pred, first;
+    int cpt = 0;
 
-  if (itn->hasNext()) {
-    first = itn->next();
-    contour.set(first.id, true);
-    fn.push_back(first);
-    pred = first;
-  }
+    if (itn->hasNext()) {
+        first = itn->next();
+        contour.set(first.id, true);
+        fn.push_back(first);
+        pred = first;
+    }
 
-  while (itn->hasNext()) {
-    if (cpt != 0)
-      pred = no;
-    else
-      cpt = 1;
+    while (itn->hasNext()) {
+        if (cpt != 0)
+            pred = no;
+        else
+            cpt = 1;
 
-    no = itn->next();
-    contour.set(no.id, true);
-    fn.push_back(no);
-    left.set(pred.id, no);
-    right.set(no.id, pred);
-  }
+        no = itn->next();
+        contour.set(no.id, true);
+        fn.push_back(no);
+        left.set(pred.id, no);
+        right.set(no.id, pred);
+    }
 
-  delete itn;
-  right.set(first.id, no);
-  left.set(no.id, first);
+    delete itn;
+    right.set(first.id, no);
+    left.set(no.id, first);
 
-  //  Initialize markedFaces and visitedFaces and visitedNodes
-  markedFaces.setAll(false);
-  visitedFaces.setAll(false);
-  visitedNodes.setAll(false);
+    //  Initialize markedFaces and visitedFaces and visitedNodes
+    markedFaces.setAll(false);
+    visitedFaces.setAll(false);
+    visitedNodes.setAll(false);
 
-  init_v1(fn);
-  init_seqP();
-  init_outv_oute();
-  init_selectableNodes();
-  init_selectableFaces();
+    init_v1(fn);
+    init_seqP();
+    init_outv_oute();
+    init_selectableNodes();
+    init_selectableFaces();
 
-  // Initialize minMarkedFace
-  existMarkedF = false;
-  minMarkedFace.face = Face();
-  minMarkedFace.n_first = v1[v1.size() - 1];
-  minMarkedFace.n_last = v1[0];
+    // Initialize minMarkedFace
+    existMarkedF = false;
+    minMarkedFace.face = Face();
+    minMarkedFace.n_first = v1[v1.size() - 1];
+    minMarkedFace.n_last = v1[0];
 }
 
 //==========================================================
 Ordering::~Ordering() {
-  delete Gp;
+    delete Gp;
 }

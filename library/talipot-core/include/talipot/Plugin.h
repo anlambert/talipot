@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -76,129 +76,129 @@ TLP_SCOPE std::string getMinor(const std::string &release);
  * @see tlp::Interactor for plugins responsible for user interactions.
  */
 class TLP_SCOPE Plugin : public tlp::WithParameter, public tlp::WithDependency {
-public:
-  virtual ~Plugin() = default;
+  public:
+    virtual ~Plugin() = default;
 
-  /**
-    @brief The icon (preferably a thumbnail) of the plugin
-    @return std::string the icon path
-    */
-  virtual std::string icon() const;
+    /**
+      @brief The icon (preferably a thumbnail) of the plugin
+      @return std::string the icon path
+      */
+    virtual std::string icon() const;
 
-  /**
-    @brief A string identifier for a plugin used for categorization purposes.
-    @returns std::string the category of the plugin.
-    */
-  virtual std::string category() const = 0;
+    /**
+      @brief A string identifier for a plugin used for categorization purposes.
+      @returns std::string the category of the plugin.
+      */
+    virtual std::string category() const = 0;
 
-  /**
-   * @brief Returns the name of the plug-in, as registered in the Talipot plug-in system.
-   * This name must be unique, and if multiple plug-ins have the same name,
-   * only the latest encountered will be considered.
-   * @return string the name of the plug-in.
-   */
-  virtual std::string name() const = 0;
+    /**
+     * @brief Returns the name of the plug-in, as registered in the Talipot plug-in system.
+     * This name must be unique, and if multiple plug-ins have the same name,
+     * only the latest encountered will be considered.
+     * @return string the name of the plug-in.
+     */
+    virtual std::string name() const = 0;
 
-  /**
-   * @brief Returns the name of the group this plug-in belongs to.
-   * Groups and sub-groups are separated by two colons.
-   * e.g. trees::planar trees
-   * @return the group name of this plug-in.
-   */
-  virtual std::string group() const = 0;
+    /**
+     * @brief Returns the name of the group this plug-in belongs to.
+     * Groups and sub-groups are separated by two colons.
+     * e.g. trees::planar trees
+     * @return the group name of this plug-in.
+     */
+    virtual std::string group() const = 0;
 
-  /**
-   * @brief The name of the author of this plug-in.
-   * @return the name of the author.
-   */
-  virtual std::string author() const = 0;
+    /**
+     * @brief The name of the author of this plug-in.
+     * @return the name of the author.
+     */
+    virtual std::string author() const = 0;
 
-  /**
-   * @brief The creation date of the plug-in.
-   * This date is in a free format, but most Talipot plug-ins use a DD/MM/YYYY
-   * @return the creation date.
-   */
-  virtual std::string date() const = 0;
+    /**
+     * @brief The creation date of the plug-in.
+     * This date is in a free format, but most Talipot plug-ins use a DD/MM/YYYY
+     * @return the creation date.
+     */
+    virtual std::string date() const = 0;
 
-  /**
-   * @brief Information about the plug-in, from the plug-in author.
-   * This information can contains anything, and the developer is completely free to put anything
-   * here.
-   * Most plug-ins by use an html format to generate help from these information.
-   * @return string The information associated with this plug-in.
-   */
-  virtual std::string info() const = 0;
+    /**
+     * @brief Information about the plug-in, from the plug-in author.
+     * This information can contains anything, and the developer is completely free to put anything
+     * here.
+     * Most plug-ins by use an html format to generate help from these information.
+     * @return string The information associated with this plug-in.
+     */
+    virtual std::string info() const = 0;
 
-  /**
-   * @brief The release version of the plug-in, including major and minor.
-   * The version should be X.Y, X being the major, and Y the minor.
-   * @return string The release version.
-   */
-  virtual std::string release() const = 0;
+    /**
+     * @brief The release version of the plug-in, including major and minor.
+     * The version should be X.Y, X being the major, and Y the minor.
+     * @return string The release version.
+     */
+    virtual std::string release() const = 0;
 
-  /**
-   * @brief The version of Talipot this plug-in was built with.
-   * Talipot versions are X.Y.Z, X being the major, Y the minor, and Z the patch.
-   *
-   * @return The Talipot version the plug-in was built with.
-   */
-  virtual std::string talipotRelease() const = 0;
+    /**
+     * @brief The version of Talipot this plug-in was built with.
+     * Talipot versions are X.Y.Z, X being the major, Y the minor, and Z the patch.
+     *
+     * @return The Talipot version the plug-in was built with.
+     */
+    virtual std::string talipotRelease() const = 0;
 
-  /**
-   * @brief Only the major of the plug-in version.
-   * A version should be X.Y, X being the major.
-   *
-   * @return The major part of the plug-in version.
-   */
-  virtual std::string major() const;
+    /**
+     * @brief Only the major of the plug-in version.
+     * A version should be X.Y, X being the major.
+     *
+     * @return The major part of the plug-in version.
+     */
+    virtual std::string major() const;
 
-  /**
-   * @brief Only the minor of the plug-in version.
-   * A version should be X.Y, Y being the major.
-   *
-   * @return The minor part of the plug-in version.
-   */
-  virtual std::string minor() const;
+    /**
+     * @brief Only the minor of the plug-in version.
+     * A version should be X.Y, Y being the major.
+     *
+     * @return The minor part of the plug-in version.
+     */
+    virtual std::string minor() const;
 
-  /**
-   * @return The major Talipot version the plug-in was built with.
-   */
-  virtual std::string talipotMajor() const;
+    /**
+     * @return The major Talipot version the plug-in was built with.
+     */
+    virtual std::string talipotMajor() const;
 
-  /**
-   * @return Return the minor Talipot version this plug-in was built with.
-   */
-  virtual std::string talipotMinor() const;
+    /**
+     * @return Return the minor Talipot version this plug-in was built with.
+     */
+    virtual std::string talipotMinor() const;
 
-  /**
-   * @brief Returns the ID of the glyph this factory builds.
-   * @TODO this member should be removed once there is a system in Talipot to handle glyphs.
-   *
-   * @return int the id of the glyph.
-   **/
-  virtual int id() const;
+    /**
+     * @brief Returns the ID of the glyph this factory builds.
+     * @TODO this member should be removed once there is a system in Talipot to handle glyphs.
+     *
+     * @return int the id of the glyph.
+     **/
+    virtual int id() const;
 
-  /**
-   * @return Return the a string indicating the programming language used to write the plugin (C++,
-   * Python).
-   */
-  virtual std::string programmingLanguage() const;
+    /**
+     * @return Return the a string indicating the programming language used to write the plugin
+     * (C++, Python).
+     */
+    virtual std::string programmingLanguage() const;
 
-  /**
-   * @brief Allow to declare the previous name of a plugin as deprecated
-   * in order to keep an ascending compatibility at running time
-   */
-  void declareDeprecatedName(const std::string &oldName);
+    /**
+     * @brief Allow to declare the previous name of a plugin as deprecated
+     * in order to keep an ascending compatibility at running time
+     */
+    void declareDeprecatedName(const std::string &oldName);
 
-  /**
-   * @return the old name of the plugin if any; returns an empty string if not.
-   */
-  std::string deprecatedName() {
-    return !oldName.empty() ? oldName : std::string();
-  }
+    /**
+     * @return the old name of the plugin if any; returns an empty string if not.
+     */
+    std::string deprecatedName() {
+        return !oldName.empty() ? oldName : std::string();
+    }
 
-protected:
-  std::string oldName;
+  protected:
+    std::string oldName;
 };
 
 /**
@@ -224,27 +224,27 @@ protected:
  * @see PLUGIN
  */
 #define PLUGININFORMATION(NAME, AUTHOR, DATE, INFO, RELEASE, GROUP) \
-  std::string name() const override {                               \
-    return NAME;                                                    \
-  }                                                                 \
-  std::string author() const override {                             \
-    return AUTHOR;                                                  \
-  }                                                                 \
-  std::string date() const override {                               \
-    return DATE;                                                    \
-  }                                                                 \
-  std::string info() const override {                               \
-    return INFO;                                                    \
-  }                                                                 \
-  std::string release() const override {                            \
-    return RELEASE;                                                 \
-  }                                                                 \
-  std::string talipotRelease() const override {                     \
-    return TALIPOT_VERSION;                                         \
-  }                                                                 \
-  std::string group() const override {                              \
-    return GROUP;                                                   \
-  }
+    std::string name() const override {                             \
+        return NAME;                                                \
+    }                                                               \
+    std::string author() const override {                           \
+        return AUTHOR;                                              \
+    }                                                               \
+    std::string date() const override {                             \
+        return DATE;                                                \
+    }                                                               \
+    std::string info() const override {                             \
+        return INFO;                                                \
+    }                                                               \
+    std::string release() const override {                          \
+        return RELEASE;                                             \
+    }                                                               \
+    std::string talipotRelease() const override {                   \
+        return TALIPOT_VERSION;                                     \
+    }                                                               \
+    std::string group() const override {                            \
+        return GROUP;                                               \
+    }
 }
 
 // This include is here because the PluginsManager needs to know the Plugin type, and the PLUGIN
@@ -275,22 +275,22 @@ PLUGIN(MyPlugin) // Register MyPlugin into Talipot
  * @see tlp::Plugin
  * @see PLUGININFORMATION
  */
-#define PLUGIN(C)                                                  \
-  class C##Factory : public tlp::FactoryInterface {                \
-  public:                                                          \
-    C##Factory() {                                                 \
-      tlp::PluginsManager::registerPlugin(this);                   \
-    }                                                              \
-    ~C##Factory() {}                                               \
-    tlp::Plugin *createPluginObject(tlp::PluginContext *context) { \
-      C *tmp = new C(context);                                     \
-      return tmp;                                                  \
-    }                                                              \
-  };                                                               \
-                                                                   \
-  extern "C" {                                                     \
-  C##Factory C##FactoryInitializer;                                \
-  }
+#define PLUGIN(C)                                                      \
+    class C##Factory : public tlp::FactoryInterface {                  \
+      public:                                                          \
+        C##Factory() {                                                 \
+            tlp::PluginsManager::registerPlugin(this);                 \
+        }                                                              \
+        ~C##Factory() {}                                               \
+        tlp::Plugin *createPluginObject(tlp::PluginContext *context) { \
+            C *tmp = new C(context);                                   \
+            return tmp;                                                \
+        }                                                              \
+    };                                                                 \
+                                                                       \
+    extern "C" {                                                       \
+    C##Factory C##FactoryInitializer;                                  \
+    }
 }
 
 #endif // TALIPOT_PLUGIN_H

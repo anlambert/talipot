@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2020-2022  The Talipot developers
+ * Copyright (C) 2020-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,31 +21,31 @@ namespace tlp {
 
 template <typename T>
 class Singleton {
-private:
-  Singleton(const Singleton<T> &) = delete;
-  Singleton &operator=(const Singleton<T> &) = delete;
+  private:
+    Singleton(const Singleton<T> &) = delete;
+    Singleton &operator=(const Singleton<T> &) = delete;
 
-  static std::unique_ptr<T> _instance;
-  static std::once_flag _once;
+    static std::unique_ptr<T> _instance;
+    static std::once_flag _once;
 
-public:
-  Singleton() = default;
-  virtual ~Singleton() = default;
+  public:
+    Singleton() = default;
+    virtual ~Singleton() = default;
 
-  static T &instance() {
-    std::call_once(_once, []() { _instance.reset(new T); });
-    return *(_instance.get());
-  }
+    static T &instance() {
+        std::call_once(_once, []() { _instance.reset(new T); });
+        return *(_instance.get());
+    }
 
-  template <typename... Args>
-  static T &instance(Args &&...args) {
-    std::call_once(_once, [&]() { _instance.reset(new T(std::forward<Args>(args)...)); });
-    return *(_instance.get());
-  }
+    template <typename... Args>
+    static T &instance(Args &&...args) {
+        std::call_once(_once, [&]() { _instance.reset(new T(std::forward<Args>(args)...)); });
+        return *(_instance.get());
+    }
 
-  void deleteEarly() {
-    _instance.reset(nullptr);
-  }
+    void deleteEarly() {
+        _instance.reset(nullptr);
+    }
 };
 
 template <typename T>

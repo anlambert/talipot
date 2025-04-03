@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -55,161 +55,161 @@ namespace tlp {
  */
 class TLP_SCOPE ColorScale : public Observable {
 
-public:
-  /**
-   * Initializes a color scale with a default set of colors.
-   *
-   */
-  ColorScale();
+  public:
+    /**
+     * Initializes a color scale with a default set of colors.
+     *
+     */
+    ColorScale();
 
-  /**
-   * Initializes a color scale with a set of colors passed as parameter.
-   * @param colors a vector of colors defining the color scale (first color is at position 0.0, last
-   * color at position 1.0)
-   * @param gradient specifies if the color scale should be a gradient or not
-   *
-   */
-  ColorScale(const std::vector<Color> &colors, const bool gradient = true);
+    /**
+     * Initializes a color scale with a set of colors passed as parameter.
+     * @param colors a vector of colors defining the color scale (first color is at position 0.0,
+     * last color at position 1.0)
+     * @param gradient specifies if the color scale should be a gradient or not
+     *
+     */
+    ColorScale(const std::vector<Color> &colors, const bool gradient = true);
 
-  /**
-   * Initializes a color scale with a map of stop points and colors passed as parameter.
-   *
-   * @param colorMap a map of stop points and colors defining the color scale (The keys of the map
-   * must be between 0.0 and 1.0, other ones will be ignored.)
-   * @param gradient specifies if the color scale should be a gradient or not
-   *
-   */
-  ColorScale(const std::map<float, Color> &colorMap, const bool gradient = true);
+    /**
+     * Initializes a color scale with a map of stop points and colors passed as parameter.
+     *
+     * @param colorMap a map of stop points and colors defining the color scale (The keys of the map
+     * must be between 0.0 and 1.0, other ones will be ignored.)
+     * @param gradient specifies if the color scale should be a gradient or not
+     *
+     */
+    ColorScale(const std::map<float, Color> &colorMap, const bool gradient = true);
 
-  ColorScale(const ColorScale &scale);
+    ColorScale(const ColorScale &scale);
 
-  ColorScale &operator=(const ColorScale &scale);
+    ColorScale &operator=(const ColorScale &scale);
 
-  ~ColorScale() override;
+    ~ColorScale() override;
 
-  /**
-   * @brief Clears the color scale.
-   *
-   */
-  void clear() {
-    colorMap.clear();
-  }
+    /**
+     * @brief Clears the color scale.
+     *
+     */
+    void clear() {
+        colorMap.clear();
+    }
 
-  /**
-   * @brief Gets the number of stops points into the color scale.
-   *
-   */
-  uint getStopsCount() {
-    return colorMap.size();
-  }
+    /**
+     * @brief Gets the number of stops points into the color scale.
+     *
+     */
+    uint getStopsCount() {
+        return colorMap.size();
+    }
 
-  /**
-   * @brief Configures the color scale with regular stop points.
-   *
-   * This method configures the color scale from a vector of colors and
-   * associates regular stop points to them.
-   *
-   * @warning If the scale was already configured the previous configuration is lost.
-   *
-   * @param colors the colors to use in the color scale
-   * @param gradient if set to true, color scale is a gradient
-   *
-   */
-  virtual void setColorScale(const std::vector<Color> &colors, const bool gradient = true);
+    /**
+     * @brief Configures the color scale with regular stop points.
+     *
+     * This method configures the color scale from a vector of colors and
+     * associates regular stop points to them.
+     *
+     * @warning If the scale was already configured the previous configuration is lost.
+     *
+     * @param colors the colors to use in the color scale
+     * @param gradient if set to true, color scale is a gradient
+     *
+     */
+    virtual void setColorScale(const std::vector<Color> &colors, const bool gradient = true);
 
-  /**
-   * @brief Adds a color to the color scale at specific position.
-   *
-   * This method adds a color to the color scale at a specific position.
-   * @param pos the position in the color scale (0.0 <= pos <= 1.0)
-   * @param color the color to add at the specified position
-   *
-   */
-  virtual void setColorAtPos(const float pos, const Color &color);
+    /**
+     * @brief Adds a color to the color scale at specific position.
+     *
+     * This method adds a color to the color scale at a specific position.
+     * @param pos the position in the color scale (0.0 <= pos <= 1.0)
+     * @param color the color to add at the specified position
+     *
+     */
+    virtual void setColorAtPos(const float pos, const Color &color);
 
-  /**
-   * @brief Returns the color for a given position in the color scale.
-   *
-   * This method computes the color associated to a specific position in the color scale and returns
-   * it.
-   * @param pos This value defines the position of the color in the scale and must be between 0.0
-   * and 1.0 (it will be clamped otherwise)
-   * @return the color corresponding to the position in the scale
-   *
-   */
-  virtual Color getColorAtPos(const float pos) const;
+    /**
+     * @brief Returns the color for a given position in the color scale.
+     *
+     * This method computes the color associated to a specific position in the color scale and
+     * returns it.
+     * @param pos This value defines the position of the color in the scale and must be between 0.0
+     * and 1.0 (it will be clamped otherwise)
+     * @return the color corresponding to the position in the scale
+     *
+     */
+    virtual Color getColorAtPos(const float pos) const;
 
-  /**
-   * @brief Returns true is the color scale was initialized.
-   *
-   */
-  bool colorScaleInitialized() const {
-    return !colorMap.empty();
-  }
+    /**
+     * @brief Returns true is the color scale was initialized.
+     *
+     */
+    bool colorScaleInitialized() const {
+        return !colorMap.empty();
+    }
 
-  /**
-   * @brief Returns a map corresponding to the color scale.
-   * The index of the map is the position for the corresponding color in the color scale. The index
-   * is comprised between 0 and 1.
-   *
-   */
-  const std::map<float, Color> &getColorMap() const {
-    return colorMap;
-  }
+    /**
+     * @brief Returns a map corresponding to the color scale.
+     * The index of the map is the position for the corresponding color in the color scale. The
+     * index is comprised between 0 and 1.
+     *
+     */
+    const std::map<float, Color> &getColorMap() const {
+        return colorMap;
+    }
 
-  /**
-   * @brief Sets the map of stop points and colors used to perform color mapping.
-   *
-   * @warning The keys of the map must be between 0.0 and 1.0, other values will be ignored.
-   *
-   */
-  void setColorMap(const std::map<float, Color> &colorMap);
+    /**
+     * @brief Sets the map of stop points and colors used to perform color mapping.
+     *
+     * @warning The keys of the map must be between 0.0 and 1.0, other values will be ignored.
+     *
+     */
+    void setColorMap(const std::map<float, Color> &colorMap);
 
-  /**
-   * @brief Returns true if the color scale is a gradient.
-   *
-   */
-  bool isGradient() const {
-    return gradient;
-  }
+    /**
+     * @brief Returns true if the color scale is a gradient.
+     *
+     */
+    bool isGradient() const {
+        return gradient;
+    }
 
-  /**
-   * @brief specify whether the color scale must be considered as a gradient
-   */
-  void setGradient(const bool g) {
-    gradient = g;
-  }
+    /**
+     * @brief specify whether the color scale must be considered as a gradient
+     */
+    void setGradient(const bool g) {
+        gradient = g;
+    }
 
-  /**
-   * @brief Sets the transparency of all the colors in the underlying map.
-   *
-   */
-  void setColorMapTransparency(unsigned char transparency);
+    /**
+     * @brief Sets the transparency of all the colors in the underlying map.
+     *
+     */
+    void setColorMapTransparency(unsigned char transparency);
 
-  /**
-   * @brief Tests color scale equality with another one.
-   *
-   */
-  bool operator==(const ColorScale &cs) const {
-    return (gradient == cs.gradient) && (colorMap == cs.colorMap);
-  }
+    /**
+     * @brief Tests color scale equality with another one.
+     *
+     */
+    bool operator==(const ColorScale &cs) const {
+        return (gradient == cs.gradient) && (colorMap == cs.colorMap);
+    }
 
-  /**
-   * @brief Tests color scale equality with a regular one defined by a vector of colors.
-   *
-   */
-  bool operator==(const std::vector<Color> &colors) const;
+    /**
+     * @brief Tests color scale equality with a regular one defined by a vector of colors.
+     *
+     */
+    bool operator==(const std::vector<Color> &colors) const;
 
-  /**
-   * @brief Tests if the color scale has regular stop points, meaning the distance between each
-   * consecutive stop is constant.
-   *
-   */
-  bool hasRegularStops() const;
+    /**
+     * @brief Tests if the color scale has regular stop points, meaning the distance between each
+     * consecutive stop is constant.
+     *
+     */
+    bool hasRegularStops() const;
 
-protected:
-  std::map<float, Color> colorMap;
-  bool gradient;
+  protected:
+    std::map<float, Color> colorMap;
+    bool gradient;
 };
 }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -56,17 +56,17 @@ TLP_SCOPE edge nextFaceEdge(Graph *g, edge source, node target);
  * @see PlanarConMap
  */
 struct TLP_SCOPE NodeMapIterator : public Iterator<node> {
-  ///
-  NodeMapIterator(Graph *sg, node source, node target);
-  ~NodeMapIterator() override;
-  /// Return the next element
-  node next() override;
-  /// Return true if it exist a next element
-  bool hasNext() override;
+    ///
+    NodeMapIterator(Graph *sg, node source, node target);
+    ~NodeMapIterator() override;
+    /// Return the next element
+    node next() override;
+    /// Return true if it exist a next element
+    bool hasNext() override;
 
-private:
-  std::list<node> cloneIt;
-  std::list<node>::iterator itStl;
+  private:
+    std::list<node> cloneIt;
+    std::list<node>::iterator itStl;
 };
 
 /**
@@ -90,19 +90,19 @@ private:
  * @see PlanarConMap
  */
 struct TLP_SCOPE EdgeMapIterator : public Iterator<edge> {
-  ///
-  EdgeMapIterator(const Graph *sg, edge source, node target);
-  /// Return the next element
-  edge next() override;
-  /// Return true if it exist a next element
-  bool hasNext() override;
+    ///
+    EdgeMapIterator(const Graph *sg, edge source, node target);
+    /// Return the next element
+    edge next() override;
+    /// Return true if it exist a next element
+    bool hasNext() override;
 
-private:
-  std::vector<edge> adj;
-  edge start;
-  int treat;
-  uint pos;
-  bool finished;
+  private:
+    std::vector<edge> adj;
+    edge start;
+    int treat;
+    uint pos;
+    bool finished;
 };
 }
 #endif // TALIPOT_MAP_ITERATOR_H

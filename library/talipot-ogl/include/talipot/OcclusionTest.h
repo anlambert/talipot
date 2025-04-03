@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,43 +30,43 @@ typedef Rectangle<int> RectangleInt2D;
  * @todo Use the Talipot quadtree to store AABB and thus speedup testRectangle function
  */
 struct TLP_GL_SCOPE OcclusionTest {
-  std::vector<RectangleInt2D> data;
-  /**
-   * Remove all 2D AABB previously added.
-   */
-  void clear() {
-    data.clear();
-  }
-  /**
-   * Add a new 2D AABB to the set of non overlapping AABB
-   * if that AABB intersect with AABB already inserted,
-   * the AABB is not inserted.
-   *
-   * @return true if the AABB is inserted else false.
-   *
-   */
-  bool addRectangle(const RectangleInt2D &rec) {
-    if (!testRectangle(rec)) {
-      data.push_back(rec);
-      return true;
+    std::vector<RectangleInt2D> data;
+    /**
+     * Remove all 2D AABB previously added.
+     */
+    void clear() {
+        data.clear();
     }
+    /**
+     * Add a new 2D AABB to the set of non overlapping AABB
+     * if that AABB intersect with AABB already inserted,
+     * the AABB is not inserted.
+     *
+     * @return true if the AABB is inserted else false.
+     *
+     */
+    bool addRectangle(const RectangleInt2D &rec) {
+        if (!testRectangle(rec)) {
+            data.push_back(rec);
+            return true;
+        }
 
-    return false;
-  }
-  /**
-   * @brief test wehter or nort the AABB intersect with a AABB already inserted.
-   *
-   * @return true if the AABB intersect else false.
-   */
-  bool testRectangle(const RectangleInt2D &rec) {
-    for (const auto &r : data) {
-      if (rec.intersect(r)) {
-        return true;
-      }
+        return false;
     }
+    /**
+     * @brief test wehter or nort the AABB intersect with a AABB already inserted.
+     *
+     * @return true if the AABB intersect else false.
+     */
+    bool testRectangle(const RectangleInt2D &rec) {
+        for (const auto &r : data) {
+            if (rec.intersect(r)) {
+                return true;
+            }
+        }
 
-    return false;
-  }
+        return false;
+    }
 };
 }
 

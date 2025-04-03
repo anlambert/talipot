@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,62 +20,62 @@
 namespace tlp {
 class TLP_SCOPE Size : public Vec3f {
 
-public:
-  Size(float s = 1) : Vec3f(s) {}
+  public:
+    Size(float s = 1) : Vec3f(s) {}
 
-  Size(float w, float h, float d = 1) : Vec3f(w, h, d) {}
+    Size(float w, float h, float d = 1) : Vec3f(w, h, d) {}
 
-  Size(const Vec3f &v) : Vec3f(v) {}
+    Size(const Vec3f &v) : Vec3f(v) {}
 
-  Size(const Vec2f &v, float d = 1) : Vec3f(v, d) {}
+    Size(const Vec2f &v, float d = 1) : Vec3f(v, d) {}
 
-  float width() const {
-    return (*this)[0];
-  }
+    float width() const {
+        return (*this)[0];
+    }
 
-  float height() const {
-    return (*this)[1];
-  }
+    float height() const {
+        return (*this)[1];
+    }
 
-  float depth() const {
-    return (*this)[2];
-  }
+    float depth() const {
+        return (*this)[2];
+    }
 
-  float &width() {
-    return (*this)[0];
-  }
+    float &width() {
+        return (*this)[0];
+    }
 
-  float &height() {
-    return (*this)[1];
-  }
+    float &height() {
+        return (*this)[1];
+    }
 
-  float &depth() {
-    return (*this)[2];
-  }
+    float &depth() {
+        return (*this)[2];
+    }
 
-  void setW(const float width) {
-    (*this)[0] = width;
-  }
+    void setW(const float width) {
+        (*this)[0] = width;
+    }
 
-  void setH(const float height) {
-    (*this)[1] = height;
-  }
+    void setH(const float height) {
+        (*this)[1] = height;
+    }
 
-  void setD(const float depth) {
-    (*this)[2] = depth;
-  }
+    void setD(const float depth) {
+        (*this)[2] = depth;
+    }
 
-  float getW() const {
-    return (*this)[0];
-  }
+    float getW() const {
+        return (*this)[0];
+    }
 
-  float getH() const {
-    return (*this)[1];
-  }
+    float getH() const {
+        return (*this)[1];
+    }
 
-  float getD() const {
-    return (*this)[2];
-  }
+    float getD() const {
+        return (*this)[2];
+    }
 };
 }
 
@@ -83,9 +83,9 @@ namespace std {
 
 template <>
 struct hash<tlp::Size> {
-  size_t operator()(const tlp::Size &s) const {
-    return hash_vector(s);
-  }
+    size_t operator()(const tlp::Size &s) const {
+        return hash_vector(s);
+    }
 };
 
 }

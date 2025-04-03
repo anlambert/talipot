@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -20,12 +20,12 @@
 
 %ConvertToTypeCode
 if (sipIsErr == NULL) {
-  return PyUnicode_Check(sipPy);
+    return PyUnicode_Check(sipPy);
 }
 
 if (sipPy == Py_None) {
-  *sipCppPtr = new std::string;
-  return 1;
+    *sipCppPtr = new std::string;
+    return 1;
 }
 *sipCppPtr = new std::string(convertPythonUnicodeObjectToStdString(sipPy));
 return 1;

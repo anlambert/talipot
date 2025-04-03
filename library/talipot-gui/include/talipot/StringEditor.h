@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,21 +25,21 @@ namespace tlp {
  * @brief Simple String edition widget.
  **/
 class TLP_QT_SCOPE StringEditor : public QDialog {
-  QString currentString;
-  QTextEdit *edit;
+    QString currentString;
+    QTextEdit *edit;
 
-public:
-  explicit StringEditor(QWidget *parent = nullptr);
+  public:
+    explicit StringEditor(QWidget *parent = nullptr);
 
-  QString getString() const;
-  void setString(const QString &qstr);
+    QString getString() const;
+    void setString(const QString &qstr);
 
-  // redefinition to ensure it is shown in the center of its parent
-  void showEvent(QShowEvent *ev) override;
+    // redefinition to ensure it is shown in the center of its parent
+    void showEvent(QShowEvent *ev) override;
 
-public slots:
-  // redefinition to ensure to catch the end of input
-  void done(int r) override;
+  public slots:
+    // redefinition to ensure to catch the end of input
+    void done(int r) override;
 };
 }
 
