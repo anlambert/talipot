@@ -76,6 +76,7 @@ jobs:
           -Wl,-rpath,${{ matrix.config.homebrew_path }}/opt/llvm/lib/c++
           -L${{ matrix.config.homebrew_path }}/opt/llvm/lib/unwind -lunwind"
           -DCMAKE_RANLIB=/usr/bin/ranlib
+          -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path)
           -DPython3_EXECUTABLE=${{ matrix.config.homebrew_path }}/bin/python${{ matrix.config.pyver }}
           -DTALIPOT_BUILD_CORE_ONLY=ON
           -DTALIPOT_BUILD_TESTS=ON
