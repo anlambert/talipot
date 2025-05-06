@@ -5,8 +5,7 @@ Welcome to Talipot Python documentation!
 
 Talipot is an information visualization framework written in C++ dedicated to the analysis and visualization of graphs.
 Talipot Python is a set of modules that exposes to Python almost all the content of the Talipot C++ API. The bindings
-has been developed with the SIP_ tool from Riverbank_. The main
-features provided by the bindings are listed below :
+has been developed with the SIP_ tool. The main features provided by the bindings are listed below :
 
 * creation and manipulation of graphs
 * storage of data on graph elements (float, integer, boolean, color, size, coordinate, list, ...)
@@ -36,6 +35,4 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`search`
 
-.. _SIP: http://www.riverbankcomputing.co.uk/software/sip/intro
-
-.. _Riverbank: http://www.riverbankcomputing.co.uk/
+.. _SIP: https://github.com/Python-SIP/sip

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -119,8 +119,8 @@ AboutDialog::AboutDialog(QWidget *parent)
     <li>
       <b> SIP </b> %6
       <br/>
-      <a href="https://www.riverbankcomputing.com/software/sip">
-        https://www.riverbankcomputing.com/software/sip
+      <a href="https://github.com/Python-SIP/sip">
+        https://github.com/Python-SIP/sip
       </a>
     </li>
   </ul>
