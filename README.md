@@ -96,8 +96,7 @@ The following dependencies are required to build Talipot:
   * [yajl](https://lloyd.github.io/yajl) >= 2.0
   * [Python](https://www.python.org) >= 3.0
   * [SIP](https://github.com/Python-SIP/sip) >= 6.8.5
-  (if SIP can not be found or its version does not match the required one,
-  you need to install it through the pip tool)
+
 
 In order to generate the documentation, the following tools must be installed:
 
