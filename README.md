@@ -97,7 +97,6 @@ The following dependencies are required to build Talipot:
   * [Python](https://www.python.org) >= 3.0
   * [SIP](https://github.com/Python-SIP/sip) >= 6.8.5
 
-
 In order to generate the documentation, the following tools must be installed:
 
   * [Sphinx](https://www.sphinx-doc.org) to build the User Manual, Developer Handbook and
