@@ -106,7 +106,7 @@ bash bundlers/linux/make_appimage_bundle.sh --appdir $PWD
 APP_DIR=Talipot.AppDir
 
 # get appimagetool
-wget "https://github.com/probonopd/AppImageKit/releases/download/\
+wget "https://github.com/AppImage/appimagetool/releases/download/\
 continuous/appimagetool-$(uname -p).AppImage"
 chmod a+x appimagetool-$(uname -p).AppImage
 
