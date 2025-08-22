@@ -1,12 +1,12 @@
 # require 3.15 for GNUInstallDirs
 cmake_minimum_required(VERSION 3.15...3.18)
 
-project(QuaZip VERSION 1.4)
+project(QuaZip VERSION 1.5)
 
 include(cmake/clone-repo.cmake)
 
 set(QUAZIP_LIB_VERSION ${QuaZip_VERSION})
-set(QUAZIP_LIB_SOVERSION 1.4.0)
+set(QUAZIP_LIB_SOVERSION 1.5.0)
 
 if(EMSCRIPTEN)
   #option(ZLIB_INCLUDE "Path to include dir" "")
@@ -77,9 +77,13 @@ set(QUAZIP_LIB_TARGET_NAME QuaZip)
 set(QUAZIP_DIR_NAME QuaZip-Qt${QUAZIP_QT_MAJOR_VERSION}-${QUAZIP_LIB_VERSION})
 set(QUAZIP_PACKAGE_NAME QuaZip-Qt${QUAZIP_QT_MAJOR_VERSION})
 
+message(STATUS "QUAZIP_QT_MAJOR_VERSION set to ${QUAZIP_QT_MAJOR_VERSION}")
+message(STATUS "CMAKE_CXX_STANDARD set to ${CMAKE_CXX_STANDARD}")
+
 if(QUAZIP_QT_MAJOR_VERSION EQUAL 6)
+    SET(QT_USE_OLD_VERSION_LESS_TARGETS ON)
     find_package(Qt6 REQUIRED COMPONENTS Core Core5Compat
-            OPTIONAL_COMPONENTS Network)
+            OPTIONAL_COMPONENTS Network Test)
     message(STATUS "Found Qt version ${Qt6_VERSION} at ${Qt6_DIR}")
     set(QUAZIP_QT_ZLIB_COMPONENT BundledZLIB)
     set(QUAZIP_QT_ZLIB_HEADER_COMPONENT ZlibPrivate)

@@ -111,7 +111,7 @@ sdist.exclude = [
   "thirdparty/QGeoView/",
   "thirdparty/ftgl/",
   "thirdparty/libtess2/",
-  "thirdparty/quazip-1.4/",
+  "thirdparty/quazip-1.5/",
   "thirdparty/stb/",
   "utils/crash_handler/",
   "utils/git-hooks/",
