@@ -1032,7 +1032,7 @@ inline bool IsValidCapacity(size_t n) { return ((n + 1) & n) == 0 && n > 0; }
 //   EMPTY -> EMPTY
 //   FULL -> DELETED
 // --------------------------------------------------------------------------
-inline void ConvertDeletedToEmptyAndFullToDeleted(ctrl_t* ctrl, size_t capacity) {
+inline void ConvertDeletedToEmptyAndFullToDeleted(ctrl_t* GTL_RESTRICT ctrl, size_t capacity) {
     assert(ctrl[capacity] == kSentinel);
     assert(IsValidCapacity(capacity));
     for (ctrl_t* pos = ctrl; pos != ctrl + capacity + 1; pos += Group::kWidth) {
@@ -2143,11 +2143,14 @@ public:
             return *slot_;
         }
 
+        // returns a reference to the inserted `value_type`.
+        // beware that the returned reference is stable only for `node` hash map or sets. When using
+        // a `flat` version, this reference can be used immediately, but we shouldn't store a pointer to it.
         template<class... Args>
-        void operator()(Args&&... args) const {
+        const auto& operator()(Args&&... args) const {
             assert(*slot_);
             PolicyTraits::construct(alloc_, *slot_, std::forward<Args>(args)...);
-            *slot_ = nullptr;
+            return PolicyTraits::element(slot());
         }
 
     private:
@@ -2204,7 +2207,6 @@ public:
     void lazy_emplace_at(size_t& idx, F&& f) {
         slot_type* slot = slots_ + idx;
         std::forward<F>(f)(constructor(&alloc_ref(), &slot));
-        assert(!slot);
     }
 
     template<class K = key_type, class F>
@@ -2488,7 +2490,7 @@ private:
     friend struct hashtable_debug_internal::HashtableDebugAccess;
 
     template<class K = key_type>
-    bool find_impl(const key_arg<K>& key, size_t hashval, size_t& offset) {
+    bool find_impl(const key_arg<K>& GTL_RESTRICT key, size_t hashval, size_t& GTL_RESTRICT offset) {
         if constexpr (!std_alloc_t::value) {
             // ctrl_ could be nullptr
             if (!ctrl_)
@@ -2650,7 +2652,7 @@ private:
         if constexpr (!std::is_trivially_destructible<typename PolicyTraits::value_type>::value ||
                       std::is_same<typename Policy::is_flat, std::false_type>::value) {
             // node map or not trivially destructible... we  need to iterate and destroy values one by one
-            for (size_t i = 0; i != capacity_; ++i) {
+            for (size_t i = 0, cnt = capacity_; i != cnt; ++i) {
                 if (IsFull(ctrl_[i])) {
                     PolicyTraits::destroy(&alloc_ref(), slots_ + i);
                 }
@@ -2768,7 +2770,7 @@ private:
         }
     }
 
-    bool has_element(const value_type& elem, size_t hashval) const {
+    bool has_element(const value_type& GTL_RESTRICT elem, size_t hashval) const {
         if constexpr (!std_alloc_t::value) {
             // ctrl_ could be nullptr
             if (!ctrl_)
@@ -2835,7 +2837,7 @@ private:
 
 protected:
     template<class K>
-    size_t _find_key(const K& key, size_t hashval) {
+    size_t _find_key(const K& GTL_RESTRICT key, size_t hashval) {
         if constexpr (!std_alloc_t::value) {
             // ctrl_ could be nullptr
             if (!ctrl_)
@@ -3578,7 +3580,7 @@ public:
             UniqueLock m(inner);
             inner.set_.clear();
             if constexpr (!std::is_same_v<gtl::priv::empty, aux_type>)
-                inner->aux_.clear();
+                inner.aux_.clear();
         }
     }
 
@@ -3589,7 +3591,7 @@ public:
         UniqueLock m(inner);
         inner.set_.clear();
         if constexpr (!std::is_same_v<gtl::priv::empty, aux_type>)
-            inner->aux_.clear();
+            inner.aux_.clear();
     }
 
     // This overload kicks in when the argument is an rvalue of insertable and
@@ -4119,7 +4121,8 @@ public:
 
     template<class K = key_type, typename std::enable_if_t<!std::is_same_v<K, iterator>, int> = 0>
     node_type extract(const key_arg<K>& key) {
-        auto it = find(key);
+        UniqueLock m;
+        auto it = this->template find<K, UniqueLock>(key, this->hash(key), m);
         return it == end() ? node_type() : extract(const_iterator{ it });
     }
 
