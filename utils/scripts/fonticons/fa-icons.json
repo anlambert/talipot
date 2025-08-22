@@ -242,7 +242,7 @@
       "5.15.0",
       "6.0.0-beta2"
     ],
-    "label": "42.group",
+    "label": "42 Group",
     "search": {
       "terms": []
     },
@@ -443,7 +443,7 @@
       "3.2.0",
       "5.0.0"
     ],
-    "label": "App.net",
+    "label": "Adn",
     "search": {
       "terms": []
     },
@@ -471,7 +471,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "affiliatetheme",
+    "label": "Affiliatetheme",
     "search": {
       "terms": []
     },
@@ -493,6 +493,54 @@
       "brands"
     ],
     "unicode": "f834",
+    "voted": false
+  },
+  "alarm-clock": {
+    "aliases": {
+      "unicodes": {
+        "composite": [
+          "23f0"
+        ],
+        "secondary": [
+          "10f34e"
+        ]
+      }
+    },
+    "changes": [
+      "5.0.0",
+      "5.9.0",
+      "6.0.0-beta1",
+      "6.0.0-beta2",
+      "6.0.0-beta3",
+      "6.2.0",
+      "6.3.0",
+      "6.4.0",
+      "6.5.0",
+      "6.6.0",
+      "6.7.0"
+    ],
+    "label": "Alarm Clock",
+    "search": {
+      "terms": [
+        "alarm",
+        "alarm clock",
+        "clock",
+        "date",
+        "late",
+        "pending",
+        "reminder",
+        "sleep",
+        "snooze",
+        "timer",
+        "timestamp",
+        "watch"
+      ]
+    },
+    "styles": [
+      "solid",
+      "regular"
+    ],
+    "unicode": "f34e",
     "voted": false
   },
   "algolia": {
@@ -887,7 +935,7 @@
       "4.2.0",
       "5.0.0"
     ],
-    "label": "AngelList",
+    "label": "Angellist",
     "search": {
       "terms": []
     },
@@ -1221,7 +1269,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Angry Creative",
+    "label": "Angrycreative",
     "search": {
       "terms": []
     },
@@ -1304,7 +1352,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "iOS App Store",
+    "label": "App Store Ios",
     "search": {
       "terms": []
     },
@@ -1318,7 +1366,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Apper Systems AB",
+    "label": "Apper",
     "search": {
       "terms": []
     },
@@ -1983,7 +2031,6 @@
     "label": "Arrow Right Arrow Left",
     "search": {
       "terms": [
-        "Rightwards Arrow Over Leftwards Arrow",
         "arrow",
         "arrows",
         "reciprocate",
@@ -3308,7 +3355,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Asymmetrik, Ltd.",
+    "label": "Asymmetrik",
     "search": {
       "terms": []
     },
@@ -3512,7 +3559,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "avianex",
+    "label": "Avianex",
     "search": {
       "terms": []
     },
@@ -3580,7 +3627,7 @@
       "5.0.0",
       "5.1.0"
     ],
-    "label": "Amazon Web Services (AWS)",
+    "label": "Aws",
     "search": {
       "terms": []
     },
@@ -4793,7 +4840,7 @@
     "changes": [
       "5.8.0"
     ],
-    "label": "Battle.net",
+    "label": "Battle Net",
     "search": {
       "terms": []
     },
@@ -5184,7 +5231,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "BIMobject",
+    "label": "Bimobject",
     "search": {
       "terms": []
     },
@@ -5363,7 +5410,7 @@
       "4.4.0",
       "5.0.0"
     ],
-    "label": "Font Awesome Black Tie",
+    "label": "Black Tie",
     "search": {
       "terms": [
         "administrator"
@@ -5379,7 +5426,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "BlackBerry",
+    "label": "Blackberry",
     "search": {
       "terms": []
     },
@@ -5579,7 +5626,7 @@
       "4.5.0",
       "5.0.0"
     ],
-    "label": "Bluetooth",
+    "label": "Bluetooth B",
     "search": {
       "terms": []
     },
@@ -7349,7 +7396,7 @@
       "3.2.0",
       "5.0.0"
     ],
-    "label": "BTC",
+    "label": "Btc",
     "search": {
       "terms": []
     },
@@ -8011,7 +8058,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Büromöbel-Experte GmbH & Co. KG.",
+    "label": "Buromobelexperte",
     "search": {
       "terms": []
     },
@@ -8086,6 +8133,26 @@
       "solid"
     ],
     "unicode": "f207",
+    "voted": false
+  },
+  "bus-side": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Bus Side",
+    "search": {
+      "terms": [
+        "bus",
+        "public transportation",
+        "transportation",
+        "travel",
+        "vehicle"
+      ]
+    },
+    "styles": [
+      "solid"
+    ],
+    "unicode": "e81d",
     "voted": false
   },
   "bus-simple": {
@@ -8171,7 +8238,7 @@
     "changes": [
       "5.11.0"
     ],
-    "label": "Buy n Large",
+    "label": "Buy N Large",
     "search": {
       "terms": []
     },
@@ -8186,7 +8253,7 @@
       "4.3.0",
       "5.0.0"
     ],
-    "label": "BuySellAds",
+    "label": "Buysellads",
     "search": {
       "terms": []
     },
@@ -8797,7 +8864,8 @@
       ]
     },
     "styles": [
-      "solid"
+      "solid",
+      "regular"
     ],
     "unicode": "f030",
     "voted": false
@@ -9711,6 +9779,20 @@
     "unicode": "f07a",
     "voted": false
   },
+  "cash-app": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Cash App",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7d4",
+    "voted": false
+  },
   "cash-register": {
     "aliases": {
       "unicodes": {
@@ -9797,7 +9879,7 @@
     "changes": [
       "5.0.2"
     ],
-    "label": "Amazon Pay Credit Card",
+    "label": "Cc Amazon Pay",
     "search": {
       "terms": []
     },
@@ -9831,7 +9913,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Apple Pay Credit Card",
+    "label": "Cc Apple Pay",
     "search": {
       "terms": []
     },
@@ -9846,7 +9928,7 @@
       "4.4.0",
       "5.0.0"
     ],
-    "label": "Diner's Club Credit Card",
+    "label": "Cc Diners Club",
     "search": {
       "terms": []
     },
@@ -9861,7 +9943,7 @@
       "4.2.0",
       "5.0.0"
     ],
-    "label": "Discover Credit Card",
+    "label": "Cc Discover",
     "search": {
       "terms": []
     },
@@ -9876,7 +9958,7 @@
       "4.4.0",
       "5.0.0"
     ],
-    "label": "JCB Credit Card",
+    "label": "Cc Jcb",
     "search": {
       "terms": []
     },
@@ -9891,7 +9973,7 @@
       "4.2.0",
       "5.0.0"
     ],
-    "label": "MasterCard Credit Card",
+    "label": "Cc Mastercard",
     "search": {
       "terms": []
     },
@@ -9906,7 +9988,7 @@
       "4.2.0",
       "5.0.0"
     ],
-    "label": "Paypal Credit Card",
+    "label": "Cc Paypal",
     "search": {
       "terms": []
     },
@@ -9921,7 +10003,7 @@
       "4.2.0",
       "5.0.0"
     ],
-    "label": "Stripe Credit Card",
+    "label": "Cc Stripe",
     "search": {
       "terms": []
     },
@@ -9936,7 +10018,7 @@
       "4.2.0",
       "5.0.0"
     ],
-    "label": "Visa Credit Card",
+    "label": "Cc Visa",
     "search": {
       "terms": []
     },
@@ -10251,6 +10333,9 @@
     "label": "Charging Station",
     "search": {
       "terms": [
+        "car charger",
+        "charge",
+        "charging",
         "electric",
         "ev",
         "tesla",
@@ -12793,7 +12878,6 @@
     "label": "Clipboard",
     "search": {
       "terms": [
-        "clipboar",
         "clipboard",
         "copy",
         "notepad",
@@ -13087,9 +13171,11 @@
     "label": "Clone",
     "search": {
       "terms": [
+        "add",
         "arrange",
         "copy",
         "duplicate",
+        "new",
         "paste"
       ]
     },
@@ -13176,7 +13262,8 @@
       ]
     },
     "styles": [
-      "solid"
+      "solid",
+      "regular"
     ],
     "unicode": "f0c2",
     "voted": false
@@ -13628,7 +13715,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "cloudscale.ch",
+    "label": "Cloudscale",
     "search": {
       "terms": []
     },
@@ -13657,7 +13744,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "cloudversify",
+    "label": "Cloudversify",
     "search": {
       "terms": []
     },
@@ -13968,7 +14055,7 @@
       "4.5.0",
       "5.0.0"
     ],
-    "label": "Codie Pie",
+    "label": "Codiepie",
     "search": {
       "terms": []
     },
@@ -14712,7 +14799,7 @@
       "4.3.0",
       "5.0.0"
     ],
-    "label": "Connect Develop",
+    "label": "Connectdevelop",
     "search": {
       "terms": []
     },
@@ -14997,7 +15084,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "cPanel",
+    "label": "Cpanel",
     "search": {
       "terms": []
     },
@@ -15028,7 +15115,7 @@
     "changes": [
       "5.0.11"
     ],
-    "label": "Creative Commons Attribution",
+    "label": "Creative Commons By",
     "search": {
       "terms": []
     },
@@ -15042,7 +15129,7 @@
     "changes": [
       "5.0.11"
     ],
-    "label": "Creative Commons Noncommercial",
+    "label": "Creative Commons Nc",
     "search": {
       "terms": []
     },
@@ -15056,7 +15143,7 @@
     "changes": [
       "5.0.11"
     ],
-    "label": "Creative Commons Noncommercial (Euro Sign)",
+    "label": "Creative Commons Nc Eu",
     "search": {
       "terms": []
     },
@@ -15070,7 +15157,7 @@
     "changes": [
       "5.0.11"
     ],
-    "label": "Creative Commons Noncommercial (Yen Sign)",
+    "label": "Creative Commons Nc Jp",
     "search": {
       "terms": []
     },
@@ -15084,7 +15171,7 @@
     "changes": [
       "5.0.11"
     ],
-    "label": "Creative Commons No Derivative Works",
+    "label": "Creative Commons Nd",
     "search": {
       "terms": []
     },
@@ -15098,7 +15185,7 @@
     "changes": [
       "5.0.11"
     ],
-    "label": "Creative Commons Public Domain",
+    "label": "Creative Commons Pd",
     "search": {
       "terms": []
     },
@@ -15112,7 +15199,7 @@
     "changes": [
       "5.0.11"
     ],
-    "label": "Alternate Creative Commons Public Domain",
+    "label": "Creative Commons Pd Alt",
     "search": {
       "terms": []
     },
@@ -15140,7 +15227,7 @@
     "changes": [
       "5.0.11"
     ],
-    "label": "Creative Commons Share Alike",
+    "label": "Creative Commons Sa",
     "search": {
       "terms": []
     },
@@ -15168,7 +15255,7 @@
     "changes": [
       "5.0.11"
     ],
-    "label": "Creative Commons Sampling +",
+    "label": "Creative Commons Sampling Plus",
     "search": {
       "terms": []
     },
@@ -15197,7 +15284,7 @@
       "5.0.11",
       "5.4.0"
     ],
-    "label": "Creative Commons CC0",
+    "label": "Creative Commons Zero",
     "search": {
       "terms": []
     },
@@ -15590,7 +15677,7 @@
       "3.1.0",
       "5.0.0"
     ],
-    "label": "CSS 3 Logo",
+    "label": "Css3",
     "search": {
       "terms": [
         "code"
@@ -15606,7 +15693,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Alternate CSS3 Logo",
+    "label": "Css3 Alt",
     "search": {
       "terms": []
     },
@@ -15766,7 +15853,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Dungeons & Dragons",
+    "label": "D And D",
     "search": {
       "terms": []
     },
@@ -15780,7 +15867,7 @@
     "changes": [
       "5.4.0"
     ],
-    "label": "D&D Beyond",
+    "label": "D And D Beyond",
     "search": {
       "terms": [
         "Dungeons & Dragons",
@@ -15802,7 +15889,7 @@
       "5.12.1",
       "5.14.0"
     ],
-    "label": "dailymotion",
+    "label": "Dailymotion",
     "search": {
       "terms": []
     },
@@ -15832,7 +15919,7 @@
       "5.0.0",
       "5.0.3"
     ],
-    "label": "DashCube",
+    "label": "Dashcube",
     "search": {
       "terms": []
     },
@@ -16010,7 +16097,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "deploy.dog",
+    "label": "Deploydog",
     "search": {
       "terms": []
     },
@@ -16090,7 +16177,7 @@
     "changes": [
       "5.4.0"
     ],
-    "label": "DEV",
+    "label": "Dev",
     "search": {
       "terms": []
     },
@@ -16105,7 +16192,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "deviantART",
+    "label": "Deviantart",
     "search": {
       "terms": []
     },
@@ -16158,7 +16245,7 @@
     "changes": [
       "5.6.0"
     ],
-    "label": "DHL",
+    "label": "Dhl",
     "search": {
       "terms": [
         "Dalsey",
@@ -16735,7 +16822,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "Digg Logo",
+    "label": "Digg",
     "search": {
       "terms": []
     },
@@ -16856,6 +16943,20 @@
     "unicode": "e163",
     "voted": false
   },
+  "disqus": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Disqus",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7d5",
+    "voted": false
+  },
   "divide": {
     "aliases": {
       "unicodes": {
@@ -16945,7 +17046,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "DocHub",
+    "label": "Dochub",
     "search": {
       "terms": []
     },
@@ -17407,7 +17508,16 @@
   },
   "draw-polygon": {
     "aliases": {
+      "names": [
+        "vector-polygon"
+      ],
       "unicodes": {
+        "composite": [
+          "e2c7"
+        ],
+        "primary": [
+          "e2c7"
+        ],
         "secondary": [
           "10f5ee"
         ]
@@ -17679,7 +17789,7 @@
       "5.0.0",
       "6.0.0-beta1"
     ],
-    "label": "Drupal Logo",
+    "label": "Drupal",
     "search": {
       "terms": []
     },
@@ -17835,6 +17945,20 @@
       "solid"
     ],
     "unicode": "f6d9",
+    "voted": false
+  },
+  "duolingo": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Duolingo",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e812",
     "voted": false
   },
   "dyalog": {
@@ -18247,7 +18371,7 @@
       "5.0.11",
       "5.7.0"
     ],
-    "label": "eBay",
+    "label": "Ebay",
     "search": {
       "terms": []
     },
@@ -18264,7 +18388,7 @@
       "5.12.1",
       "6.1.2"
     ],
-    "label": "Edge Browser",
+    "label": "Edge",
     "search": {
       "terms": [
         "browser",
@@ -18282,7 +18406,7 @@
       "5.13.1",
       "5.14.0"
     ],
-    "label": "Edge Legacy Browser",
+    "label": "Edge Legacy",
     "search": {
       "terms": []
     },
@@ -18413,6 +18537,27 @@
     "unicode": "e16d",
     "voted": true
   },
+  "eleventy": {
+    "aliases": {
+      "names": [
+        "11ty"
+      ]
+    },
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Eleventy",
+    "search": {
+      "terms": [
+        "11ty"
+      ]
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7d6",
+    "voted": false
+  },
   "ellipsis": {
     "aliases": {
       "names": [
@@ -18541,7 +18686,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "Galactic Empire",
+    "label": "Empire",
     "search": {
       "terms": []
     },
@@ -18770,7 +18915,7 @@
       "4.6.0",
       "5.0.0"
     ],
-    "label": "Envira Gallery",
+    "label": "Envira",
     "search": {
       "terms": [
         "leaf"
@@ -19101,7 +19246,7 @@
       "4.4.0",
       "5.0.0"
     ],
-    "label": "ExpeditedSSL",
+    "label": "Expeditedssl",
     "search": {
       "terms": []
     },
@@ -21103,7 +21248,7 @@
     "changes": [
       "5.4.0"
     ],
-    "label": "Fantasy Flight-games",
+    "label": "Fantasy Flight Games",
     "search": {
       "terms": [
         "Dungeons & Dragons",
@@ -21333,7 +21478,7 @@
     "changes": [
       "5.6.0"
     ],
-    "label": "FedEx",
+    "label": "Fedex",
     "search": {
       "terms": [
         "Federal Express",
@@ -22665,12 +22810,21 @@
   },
   "film": {
     "aliases": {
+      "names": [
+        "film-alt",
+        "film-simple"
+      ],
       "unicodes": {
         "composite": [
-          "1f39e"
+          "1f39e",
+          "f3a0"
+        ],
+        "primary": [
+          "f3a0"
         ],
         "secondary": [
-          "10f008"
+          "10f008",
+          "10f3a0"
         ]
       }
     },
@@ -23096,7 +23250,7 @@
     "changes": [
       "5.0.12"
     ],
-    "label": "Alternate First Order",
+    "label": "First Order Alt",
     "search": {
       "terms": []
     },
@@ -23110,7 +23264,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "firstdraft",
+    "label": "Firstdraft",
     "search": {
       "terms": []
     },
@@ -23935,7 +24089,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Alternate Fort Awesome",
+    "label": "Fort Awesome Alt",
     "search": {
       "terms": [
         "castle"
@@ -24131,7 +24285,7 @@
       "5.0.0",
       "5.12.0"
     ],
-    "label": "freeCodeCamp",
+    "label": "Free Code Camp",
     "search": {
       "terms": []
     },
@@ -24145,7 +24299,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "FreeBSD",
+    "label": "Freebsd",
     "search": {
       "terms": []
     },
@@ -24802,7 +24956,7 @@
       "4.4.0",
       "5.0.0"
     ],
-    "label": "GG Currency",
+    "label": "Gg",
     "search": {
       "terms": []
     },
@@ -24817,7 +24971,7 @@
       "4.4.0",
       "5.0.0"
     ],
-    "label": "GG Currency Circle",
+    "label": "Gg Circle",
     "search": {
       "terms": []
     },
@@ -24996,7 +25150,7 @@
       "2.0.0",
       "5.0.0"
     ],
-    "label": "GitHub",
+    "label": "Github",
     "search": {
       "terms": [
         "octocat"
@@ -25013,7 +25167,7 @@
       "3.0.0",
       "5.0.0"
     ],
-    "label": "Alternate GitHub",
+    "label": "Github Alt",
     "search": {
       "terms": [
         "octocat"
@@ -25029,7 +25183,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "GitKraken",
+    "label": "Gitkraken",
     "search": {
       "terms": []
     },
@@ -25047,7 +25201,7 @@
       "6.0.0-beta1",
       "6.1.2"
     ],
-    "label": "GitLab",
+    "label": "Gitlab",
     "search": {
       "terms": [
         "Axosoft"
@@ -25263,7 +25417,7 @@
     "changes": [
       "6.0.0-beta2"
     ],
-    "label": "Go",
+    "label": "Golang",
     "search": {
       "terms": []
     },
@@ -25342,7 +25496,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "Google Logo",
+    "label": "Google",
     "search": {
       "terms": []
     },
@@ -25555,7 +25709,7 @@
       "3.2.0",
       "5.0.0"
     ],
-    "label": "Gratipay (Gittip)",
+    "label": "Gratipay",
     "search": {
       "terms": [
         "favorite",
@@ -25660,9 +25814,16 @@
   "grip": {
     "aliases": {
       "names": [
+        "grid-horizontal",
         "grip-horizontal"
       ],
       "unicodes": {
+        "composite": [
+          "e307"
+        ],
+        "primary": [
+          "e307"
+        ],
         "secondary": [
           "10f58d"
         ]
@@ -25683,10 +25844,16 @@
     "search": {
       "terms": [
         "affordance",
+        "app",
+        "collection",
+        "dashboard",
         "drag",
         "drop",
         "grab",
-        "handle"
+        "grid",
+        "handle",
+        "launcher",
+        "square"
       ]
     },
     "styles": [
@@ -25769,6 +25936,9 @@
   },
   "grip-vertical": {
     "aliases": {
+      "names": [
+        "grid-vertical"
+      ],
       "unicodes": {
         "secondary": [
           "10f58e"
@@ -25806,7 +25976,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Gripfire, Inc.",
+    "label": "Gripfire",
     "search": {
       "terms": []
     },
@@ -27241,9 +27411,21 @@
   },
   "handshake": {
     "aliases": {
+      "names": [
+        "handshake-alt",
+        "handshake-simple"
+      ],
       "unicodes": {
+        "composite": [
+          "1f91d",
+          "f4c6"
+        ],
+        "primary": [
+          "f4c6"
+        ],
         "secondary": [
-          "10f2b5"
+          "10f2b5",
+          "10f4c6"
         ]
       }
     },
@@ -27314,91 +27496,21 @@
     "unicode": "f4c4",
     "voted": false
   },
-  "handshake-simple": {
+  "handshake-slash": {
     "aliases": {
       "names": [
-        "handshake-alt"
+        "handshake-alt-slash",
+        "handshake-simple-slash"
       ],
       "unicodes": {
         "composite": [
-          "1f91d"
+          "e05f"
+        ],
+        "primary": [
+          "e05f"
         ],
         "secondary": [
-          "10f4c6"
-        ]
-      }
-    },
-    "changes": [
-      "5.0.9",
-      "6.0.0-beta1",
-      "6.1.0",
-      "6.2.0",
-      "6.3.0",
-      "6.4.0",
-      "6.5.0",
-      "6.6.0",
-      "6.7.0"
-    ],
-    "label": "Handshake Simple",
-    "search": {
-      "terms": [
-        "agreement",
-        "greeting",
-        "hand",
-        "handshake",
-        "meeting",
-        "partnership",
-        "shake"
-      ]
-    },
-    "styles": [
-      "solid"
-    ],
-    "unicode": "f4c6",
-    "voted": false
-  },
-  "handshake-simple-slash": {
-    "aliases": {
-      "names": [
-        "handshake-alt-slash"
-      ],
-      "unicodes": {
-        "secondary": [
-          "10e05f"
-        ]
-      }
-    },
-    "changes": [
-      "5.13.0",
-      "5.14.0",
-      "6.0.0-beta1",
-      "6.2.0",
-      "6.3.0",
-      "6.4.0",
-      "6.4.1",
-      "6.5.0",
-      "6.6.0",
-      "6.7.0"
-    ],
-    "label": "Handshake Simple Slash",
-    "search": {
-      "terms": [
-        "broken",
-        "covid-19",
-        "disabled",
-        "social distance"
-      ]
-    },
-    "styles": [
-      "solid"
-    ],
-    "unicode": "e05f",
-    "voted": false
-  },
-  "handshake-slash": {
-    "aliases": {
-      "unicodes": {
-        "secondary": [
+          "10e05f",
           "10e060"
         ]
       }
@@ -27892,12 +28004,21 @@
   },
   "headphones": {
     "aliases": {
+      "names": [
+        "headphones-alt",
+        "headphones-simple"
+      ],
       "unicodes": {
         "composite": [
-          "1f3a7"
+          "1f3a7",
+          "f58f"
+        ],
+        "primary": [
+          "f58f"
         ],
         "secondary": [
-          "10f025"
+          "10f025",
+          "10f58f"
         ]
       }
     },
@@ -27925,47 +28046,11 @@
       ]
     },
     "styles": [
-      "solid"
+      "solid",
+      "regular"
     ],
     "unicode": "f025",
     "voted": false
-  },
-  "headphones-simple": {
-    "aliases": {
-      "names": [
-        "headphones-alt"
-      ],
-      "unicodes": {
-        "secondary": [
-          "10f58f"
-        ]
-      }
-    },
-    "changes": [
-      "5.1.0",
-      "6.0.0-beta1",
-      "6.2.0",
-      "6.3.0",
-      "6.4.0",
-      "6.5.0",
-      "6.6.0",
-      "6.7.0"
-    ],
-    "label": "Headphones Simple",
-    "search": {
-      "terms": [
-        "audio",
-        "listen",
-        "music",
-        "sound",
-        "speaker"
-      ]
-    },
-    "styles": [
-      "solid"
-    ],
-    "unicode": "f58f",
-    "voted": true
   },
   "headset": {
     "aliases": {
@@ -28046,35 +28131,16 @@
     "search": {
       "terms": [
         "ace",
-        "black",
-        "black heart",
-        "blue",
-        "blue heart",
-        "brown",
-        "brown heart",
         "card",
-        "evil",
         "favorite",
         "game",
-        "green",
-        "green heart",
         "heart",
         "heart suit",
         "like",
         "love",
-        "orange",
-        "orange heart",
-        "purple",
-        "purple heart",
-        "red heart",
         "relationship",
         "valentine",
-        "white",
-        "white heart",
-        "wicked",
-        "wishlist",
-        "yellow",
-        "yellow heart"
+        "wishlist"
       ]
     },
     "styles": [
@@ -28456,6 +28522,46 @@
     "unicode": "e503",
     "voted": false
   },
+  "hexagon": {
+    "aliases": {
+      "unicodes": {
+        "composite": [
+          "2b23"
+        ],
+        "secondary": [
+          "10f312"
+        ]
+      }
+    },
+    "changes": [
+      "5.0.0",
+      "5.10.1",
+      "5.10.2",
+      "6.0.0-beta1",
+      "6.0.0",
+      "6.2.0",
+      "6.3.0",
+      "6.4.0",
+      "6.5.0",
+      "6.6.0",
+      "6.7.0"
+    ],
+    "label": "Hexagon",
+    "search": {
+      "terms": [
+        "Horizontal Black Hexagon",
+        "geometry",
+        "honeycomb",
+        "polygon",
+        "shape"
+      ]
+    },
+    "styles": [
+      "solid"
+    ],
+    "unicode": "f312",
+    "voted": false
+  },
   "hexagon-nodes": {
     "changes": [
       "6.7.0"
@@ -28648,7 +28754,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "HireAHelper",
+    "label": "Hire A Helper",
     "search": {
       "terms": []
     },
@@ -28662,7 +28768,7 @@
     "changes": [
       "5.15.0"
     ],
-    "label": "Hive Blockchain Network",
+    "label": "Hive",
     "search": {
       "terms": []
     },
@@ -29309,7 +29415,8 @@
       ]
     },
     "styles": [
-      "solid"
+      "solid",
+      "regular"
     ],
     "unicode": "f015",
     "voted": false
@@ -30085,7 +30192,7 @@
       "3.1.0",
       "5.0.0"
     ],
-    "label": "HTML 5 Logo",
+    "label": "Html5",
     "search": {
       "terms": []
     },
@@ -30099,7 +30206,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "HubSpot",
+    "label": "Hubspot",
     "search": {
       "terms": []
     },
@@ -30467,7 +30574,7 @@
       "5.12.0",
       "5.14.0"
     ],
-    "label": "iDeal",
+    "label": "Ideal",
     "search": {
       "terms": []
     },
@@ -30635,7 +30742,7 @@
       "5.0.0",
       "6.1.2"
     ],
-    "label": "IMDB",
+    "label": "Imdb",
     "search": {
       "terms": []
     },
@@ -30882,7 +30989,7 @@
     "changes": [
       "5.15.0"
     ],
-    "label": "InstaLOD",
+    "label": "Instalod",
     "search": {
       "terms": []
     },
@@ -30915,7 +31022,7 @@
       "4.4.0",
       "5.0.0"
     ],
-    "label": "Internet-explorer",
+    "label": "Internet Explorer",
     "search": {
       "terms": [
         "browser",
@@ -30932,7 +31039,7 @@
     "changes": [
       "5.6.0"
     ],
-    "label": "InVision",
+    "label": "Invision",
     "search": {
       "terms": [
         "app",
@@ -30951,7 +31058,7 @@
       "4.2.0",
       "5.0.0"
     ],
-    "label": "ioxhost",
+    "label": "Ioxhost",
     "search": {
       "terms": []
     },
@@ -31004,7 +31111,7 @@
     "changes": [
       "5.8.0"
     ],
-    "label": "itch.io",
+    "label": "Itch Io",
     "search": {
       "terms": []
     },
@@ -31018,7 +31125,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "iTunes",
+    "label": "Itunes",
     "search": {
       "terms": []
     },
@@ -31192,7 +31299,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Jenkis",
+    "label": "Jenkins",
     "search": {
       "terms": []
     },
@@ -31359,7 +31466,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "Joomla Logo",
+    "label": "Joomla",
     "search": {
       "terms": []
     },
@@ -31373,7 +31480,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "JavaScript (JS)",
+    "label": "Js",
     "search": {
       "terms": []
     },
@@ -31388,7 +31495,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "jsFiddle",
+    "label": "Jsfiddle",
     "search": {
       "terms": []
     },
@@ -31427,7 +31534,7 @@
     "changes": [
       "6.5.2"
     ],
-    "label": "JXL",
+    "label": "Jxl",
     "search": {
       "terms": []
     },
@@ -31523,6 +31630,20 @@
     ],
     "unicode": "f5fa",
     "voted": true
+  },
+  "kakao-talk": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Kakao Talk",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7d7",
+    "voted": false
   },
   "key": {
     "aliases": {
@@ -31628,7 +31749,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "KeyCDN",
+    "label": "Keycdn",
     "search": {
       "terms": []
     },
@@ -31836,7 +31957,7 @@
     "changes": [
       "5.0.2"
     ],
-    "label": "KORVUE",
+    "label": "Korvue",
     "search": {
       "terms": []
     },
@@ -32244,7 +32365,7 @@
       "4.2.0",
       "5.0.0"
     ],
-    "label": "last.fm",
+    "label": "Lastfm",
     "search": {
       "terms": []
     },
@@ -32779,7 +32900,7 @@
       "1.0.0",
       "5.0.0"
     ],
-    "label": "LinkedIn",
+    "label": "Linkedin",
     "search": {
       "terms": [
         "linkedin-square",
@@ -32800,7 +32921,7 @@
       "5.8.0",
       "5.8.1"
     ],
-    "label": "LinkedIn In",
+    "label": "Linkedin In",
     "search": {
       "terms": [
         "linkedin",
@@ -32811,6 +32932,20 @@
       "brands"
     ],
     "unicode": "f0e1",
+    "voted": false
+  },
+  "linktree": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Linktree",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7d8",
     "voted": false
   },
   "linode": {
@@ -33413,6 +33548,34 @@
     "unicode": "e520",
     "voted": false
   },
+  "lumon": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Lumon",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7e2",
+    "voted": false
+  },
+  "lumon-drop": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Lumon Drop",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7e3",
+    "voted": false
+  },
   "lungs": {
     "aliases": {
       "unicodes": {
@@ -33496,7 +33659,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "lyft",
+    "label": "Lyft",
     "search": {
       "terms": []
     },
@@ -34728,7 +34891,7 @@
       "3.1.0",
       "5.0.0"
     ],
-    "label": "MaxCDN",
+    "label": "Maxcdn",
     "search": {
       "terms": []
     },
@@ -34785,7 +34948,7 @@
     "changes": [
       "5.11.0"
     ],
-    "label": "Material Design for Bootstrap",
+    "label": "Mdb",
     "search": {
       "terms": []
     },
@@ -34840,7 +35003,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "MedApps",
+    "label": "Medapps",
     "search": {
       "terms": []
     },
@@ -34880,7 +35043,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "MRT",
+    "label": "Medrt",
     "search": {
       "terms": []
     },
@@ -35149,7 +35312,7 @@
       "5.12.0",
       "5.14.0"
     ],
-    "label": "Micro.blog",
+    "label": "Microblog",
     "search": {
       "terms": []
     },
@@ -35836,12 +35999,41 @@
     "unicode": "f3cd",
     "voted": false
   },
+  "mobile-vibrate": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Mobile Vibrate",
+    "search": {
+      "terms": [
+        "android",
+        "call",
+        "cell",
+        "cell phone",
+        "device",
+        "haptic",
+        "mobile",
+        "mobile phone",
+        "notification",
+        "number",
+        "phone",
+        "screen",
+        "telephone",
+        "text"
+      ]
+    },
+    "styles": [
+      "solid"
+    ],
+    "unicode": "e816",
+    "voted": false
+  },
   "modx": {
     "changes": [
       "4.5.0",
       "5.0.0"
     ],
-    "label": "MODX",
+    "label": "Modx",
     "search": {
       "terms": []
     },
@@ -36934,7 +37126,7 @@
     "changes": [
       "6.1.0"
     ],
-    "label": "NFC Directional",
+    "label": "Nfc Directional",
     "search": {
       "terms": [
         "connect",
@@ -37001,7 +37193,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Node.js",
+    "label": "Node",
     "search": {
       "terms": []
     },
@@ -37016,7 +37208,7 @@
       "5.0.0",
       "5.0.3"
     ],
-    "label": "Node.js JS",
+    "label": "Node Js",
     "search": {
       "terms": []
     },
@@ -37024,6 +37216,26 @@
       "brands"
     ],
     "unicode": "f3d3",
+    "voted": false
+  },
+  "non-binary": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Non Binary",
+    "search": {
+      "terms": [
+        "female",
+        "gender",
+        "male",
+        "nb",
+        "queer"
+      ]
+    },
+    "styles": [
+      "solid"
+    ],
+    "unicode": "e807",
     "voted": false
   },
   "not-equal": {
@@ -37164,11 +37376,25 @@
     "unicode": "f481",
     "voted": false
   },
+  "notion": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Notion",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7d9",
+    "voted": false
+  },
   "npm": {
     "changes": [
       "5.0.0"
     ],
-    "label": "npm",
+    "label": "Npm",
     "search": {
       "terms": []
     },
@@ -37183,7 +37409,7 @@
       "5.0.0",
       "5.15.0"
     ],
-    "label": "NS8",
+    "label": "Ns8",
     "search": {
       "terms": []
     },
@@ -37312,6 +37538,46 @@
       "regular"
     ],
     "unicode": "f248",
+    "voted": false
+  },
+  "octagon": {
+    "aliases": {
+      "unicodes": {
+        "composite": [
+          "1f6d1"
+        ],
+        "secondary": [
+          "10f306"
+        ]
+      }
+    },
+    "changes": [
+      "5.0.0",
+      "5.10.1",
+      "5.10.2",
+      "6.0.0-beta1",
+      "6.0.0",
+      "6.2.0",
+      "6.3.0",
+      "6.4.0",
+      "6.5.0",
+      "6.6.0",
+      "6.7.0"
+    ],
+    "label": "Octagon",
+    "search": {
+      "terms": [
+        "octagonal",
+        "shape",
+        "sign",
+        "stop",
+        "stop sign"
+      ]
+    },
+    "styles": [
+      "solid"
+    ],
+    "unicode": "f306",
     "voted": false
   },
   "octopus-deploy": {
@@ -37475,12 +37741,26 @@
     "unicode": "f679",
     "voted": false
   },
+  "openai": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Openai",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7cf",
+    "voted": false
+  },
   "opencart": {
     "changes": [
       "4.4.0",
       "5.0.0"
     ],
-    "label": "OpenCart",
+    "label": "Opencart",
     "search": {
       "terms": []
     },
@@ -37495,7 +37775,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "OpenID",
+    "label": "Openid",
     "search": {
       "terms": []
     },
@@ -37554,7 +37834,7 @@
     "changes": [
       "5.11.0"
     ],
-    "label": "ORCID",
+    "label": "Orcid",
     "search": {
       "terms": []
     },
@@ -37569,7 +37849,7 @@
       "5.0.0",
       "5.8.0"
     ],
-    "label": "Open Source Initiative",
+    "label": "Osi",
     "search": {
       "terms": []
     },
@@ -37709,7 +37989,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "page4 Corporation",
+    "label": "Page4",
     "search": {
       "terms": []
     },
@@ -37959,6 +38239,20 @@
       "solid"
     ],
     "unicode": "f482",
+    "voted": false
+  },
+  "pandora": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Pandora",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7da",
     "voted": false
   },
   "panorama": {
@@ -38661,6 +38955,25 @@
     "unicode": "f303",
     "voted": false
   },
+  "pentagon": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Pentagon",
+    "search": {
+      "terms": [
+        "5",
+        "five",
+        "pentagon",
+        "shape"
+      ]
+    },
+    "styles": [
+      "solid"
+    ],
+    "unicode": "e790",
+    "voted": false
+  },
   "people-arrows": {
     "aliases": {
       "names": [
@@ -38926,7 +39239,7 @@
     "changes": [
       "5.15.0"
     ],
-    "label": "PerByte",
+    "label": "Perbyte",
     "search": {
       "terms": []
     },
@@ -39597,8 +39910,7 @@
       "terms": [
         "drown",
         "emergency",
-        "swim",
-        "uer"
+        "swim"
       ]
     },
     "styles": [
@@ -40761,7 +41073,7 @@
     "changes": [
       "5.0.5"
     ],
-    "label": "PHP",
+    "label": "Php",
     "search": {
       "terms": []
     },
@@ -40778,7 +41090,7 @@
       "5.0.10",
       "5.12.0"
     ],
-    "label": "Pied Piper Logo",
+    "label": "Pied Piper",
     "search": {
       "terms": []
     },
@@ -40794,7 +41106,7 @@
       "5.0.0",
       "5.7.0"
     ],
-    "label": "Alternate Pied Piper Logo (Old)",
+    "label": "Pied Piper Alt",
     "search": {
       "terms": []
     },
@@ -40808,7 +41120,7 @@
     "changes": [
       "5.0.10"
     ],
-    "label": "Pied Piper Hat (Old)",
+    "label": "Pied Piper Hat",
     "search": {
       "terms": [
         "clothing"
@@ -40825,7 +41137,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "Pied Piper PP Logo (Old)",
+    "label": "Pied Piper Pp",
     "search": {
       "terms": []
     },
@@ -40946,6 +41258,20 @@
     ],
     "unicode": "e43a",
     "voted": true
+  },
+  "pixelfed": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Pixelfed",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7db",
+    "voted": false
   },
   "pixiv": {
     "changes": [
@@ -41471,7 +41797,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "PlayStation",
+    "label": "Playstation",
     "search": {
       "terms": []
     },
@@ -42311,7 +42637,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "QQ",
+    "label": "Qq",
     "search": {
       "terms": []
     },
@@ -42348,6 +42674,8 @@
         "barcode",
         "info",
         "information",
+        "qr",
+        "qr-code",
         "scan"
       ]
     },
@@ -42416,7 +42744,7 @@
       "5.7.0",
       "5.8.0"
     ],
-    "label": "QuinScape",
+    "label": "Quinscape",
     "search": {
       "terms": []
     },
@@ -42772,7 +43100,7 @@
       "5.5.0",
       "5.8.0"
     ],
-    "label": "ReactEurope",
+    "label": "Reacteurope",
     "search": {
       "terms": []
     },
@@ -42787,7 +43115,7 @@
       "5.0.9",
       "5.0.10"
     ],
-    "label": "ReadMe",
+    "label": "Readme",
     "search": {
       "terms": []
     },
@@ -42802,7 +43130,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "Rebel Alliance",
+    "label": "Rebel",
     "search": {
       "terms": []
     },
@@ -43067,7 +43395,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "red river",
+    "label": "Red River",
     "search": {
       "terms": []
     },
@@ -43306,7 +43634,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "replyd",
+    "label": "Replyd",
     "search": {
       "terms": []
     },
@@ -43458,7 +43786,7 @@
       "5.1.1",
       "5.8.0"
     ],
-    "label": "Rev.io",
+    "label": "Rev",
     "search": {
       "terms": []
     },
@@ -44026,7 +44354,7 @@
       "5.8.0",
       "5.15.0"
     ],
-    "label": "Rocket.Chat",
+    "label": "Rocketchat",
     "search": {
       "terms": []
     },
@@ -44932,7 +45260,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "SCHLIX",
+    "label": "Schlix",
     "search": {
       "terms": []
     },
@@ -45510,6 +45838,30 @@
       "brands"
     ],
     "unicode": "f213",
+    "voted": false
+  },
+  "septagon": {
+    "aliases": {
+      "names": [
+        "heptagon"
+      ]
+    },
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Septagon",
+    "search": {
+      "terms": [
+        "7",
+        "heptagon",
+        "seven",
+        "shape"
+      ]
+    },
+    "styles": [
+      "solid"
+    ],
+    "unicode": "e820",
     "voted": false
   },
   "server": {
@@ -46109,7 +46461,7 @@
       "5.0.0",
       "5.7.0"
     ],
-    "label": "Shirts in Bulk",
+    "label": "Shirtsinbulk",
     "search": {
       "terms": []
     },
@@ -46272,7 +46624,6 @@
         "building",
         "buy",
         "closed",
-        "covid-19",
         "disabled",
         "purchase",
         "shopping"
@@ -46695,7 +47046,7 @@
       "4.3.0",
       "5.0.0"
     ],
-    "label": "SimplyBuilt",
+    "label": "Simplybuilt",
     "search": {
       "terms": []
     },
@@ -46703,6 +47054,48 @@
       "brands"
     ],
     "unicode": "f215",
+    "voted": false
+  },
+  "single-quote-left": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Single Quote Left",
+    "search": {
+      "terms": [
+        "left single quotation mark",
+        "mention",
+        "note",
+        "phrase",
+        "text",
+        "type"
+      ]
+    },
+    "styles": [
+      "solid"
+    ],
+    "unicode": "e81b",
+    "voted": false
+  },
+  "single-quote-right": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Single Quote Right",
+    "search": {
+      "terms": [
+        "mention",
+        "note",
+        "phrase",
+        "right single quotation mark",
+        "text",
+        "type"
+      ]
+    },
+    "styles": [
+      "solid"
+    ],
+    "unicode": "e81c",
     "voted": false
   },
   "sink": {
@@ -46745,7 +47138,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "SISTRIX",
+    "label": "Sistrix",
     "search": {
       "terms": []
     },
@@ -46949,7 +47342,7 @@
       "5.0.0",
       "5.0.3"
     ],
-    "label": "skyatlas",
+    "label": "Skyatlas",
     "search": {
       "terms": []
     },
@@ -46990,7 +47383,7 @@
       "5.0.0",
       "5.7.0"
     ],
-    "label": "Slack Logo",
+    "label": "Slack",
     "search": {
       "terms": [
         "anchor",
@@ -47855,6 +48248,27 @@
     "unicode": "f110",
     "voted": false
   },
+  "spiral": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Spiral",
+    "search": {
+      "terms": [
+        "design",
+        "dizzy",
+        "rotate",
+        "spin",
+        "swirl",
+        "twist"
+      ]
+    },
+    "styles": [
+      "solid"
+    ],
+    "unicode": "e80a",
+    "voted": false
+  },
   "splotch": {
     "aliases": {
       "unicodes": {
@@ -48484,6 +48898,20 @@
     "unicode": "f082",
     "voted": false
   },
+  "square-figma": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Square Figma",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7e4",
+    "voted": false
+  },
   "square-font-awesome": {
     "changes": [
       "5.0.0",
@@ -48825,6 +49253,20 @@
     "unicode": "e62e",
     "voted": false
   },
+  "square-linkedin": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Square Linkedin",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7d0",
+    "voted": false
+  },
   "square-minus": {
     "aliases": {
       "names": [
@@ -49112,7 +49554,7 @@
       "5.14.0",
       "6.1.2"
     ],
-    "label": "Pied Piper Square Logo (Old)",
+    "label": "Square Pied Piper",
     "search": {
       "terms": []
     },
@@ -49420,7 +49862,7 @@
       "6.0.0-beta1",
       "6.1.2"
     ],
-    "label": "Snapchat Square",
+    "label": "Square Snapchat",
     "search": {
       "terms": []
     },
@@ -50253,7 +50695,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "StayLinked",
+    "label": "Staylinked",
     "search": {
       "terms": [
         "linkin"
@@ -50579,7 +51021,6 @@
         "building",
         "buy",
         "closed",
-        "covid-19",
         "disabled",
         "purchase",
         "shopping"
@@ -50766,7 +51207,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "Studio Vinari",
+    "label": "Studiovinari",
     "search": {
       "terms": []
     },
@@ -50781,7 +51222,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "StumbleUpon Logo",
+    "label": "Stumbleupon",
     "search": {
       "terms": []
     },
@@ -50796,7 +51237,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "StumbleUpon Circle",
+    "label": "Stumbleupon Circle",
     "search": {
       "terms": []
     },
@@ -52751,6 +53192,22 @@
     "unicode": "f120",
     "voted": false
   },
+  "tex": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Tex",
+    "search": {
+      "terms": [
+        "latex"
+      ]
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7ff",
+    "voted": false
+  },
   "text-height": {
     "aliases": {
       "unicodes": {
@@ -52902,7 +53359,7 @@
       "4.6.0",
       "5.0.0"
     ],
-    "label": "ThemeIsle",
+    "label": "Themeisle",
     "search": {
       "terms": []
     },
@@ -53236,12 +53693,26 @@
     "unicode": "f3ff",
     "voted": false
   },
+  "tidal": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Tidal",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7dc",
+    "voted": false
+  },
   "tiktok": {
     "changes": [
       "5.13.1",
       "5.14.0"
     ],
-    "label": "TikTok",
+    "label": "Tiktok",
     "search": {
       "terms": []
     },
@@ -53399,12 +53870,21 @@
   },
   "toilet-paper": {
     "aliases": {
+      "names": [
+        "toilet-paper-alt",
+        "toilet-paper-blank"
+      ],
       "unicodes": {
         "composite": [
-          "1f9fb"
+          "1f9fb",
+          "f71f"
+        ],
+        "primary": [
+          "f71f"
         ],
         "secondary": [
-          "10f71e"
+          "10f71e",
+          "10f71f"
         ]
       }
     },
@@ -54566,7 +55046,8 @@
       ]
     },
     "styles": [
-      "solid"
+      "solid",
+      "regular"
     ],
     "unicode": "f0d1",
     "voted": false
@@ -55289,7 +55770,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "UIkit",
+    "label": "Uikit",
     "search": {
       "terms": []
     },
@@ -55392,7 +55873,7 @@
     "changes": [
       "5.15.0"
     ],
-    "label": "Uncharted Software",
+    "label": "Uncharted",
     "search": {
       "terms": []
     },
@@ -55459,7 +55940,7 @@
       "5.14.0",
       "6.0.0-beta3"
     ],
-    "label": "Unity 3D",
+    "label": "Unity",
     "search": {
       "terms": []
     },
@@ -55863,7 +56344,7 @@
       "5.6.0",
       "5.8.0"
     ],
-    "label": "UPS",
+    "label": "Ups",
     "search": {
       "terms": [
         "United Parcel Service",
@@ -55897,7 +56378,7 @@
       "4.5.0",
       "5.0.0"
     ],
-    "label": "USB",
+    "label": "Usb",
     "search": {
       "terms": []
     },
@@ -55909,13 +56390,22 @@
   },
   "user": {
     "aliases": {
+      "names": [
+        "user-alt",
+        "user-large"
+      ],
       "unicodes": {
         "composite": [
           "1f464",
-          "f2c0"
+          "f2c0",
+          "f406"
+        ],
+        "primary": [
+          "f406"
         ],
         "secondary": [
-          "10f007"
+          "10f007",
+          "10f406"
         ]
       }
     },
@@ -56252,80 +56742,6 @@
     "unicode": "f728",
     "voted": false
   },
-  "user-large": {
-    "aliases": {
-      "names": [
-        "user-alt"
-      ],
-      "unicodes": {
-        "secondary": [
-          "10f406"
-        ]
-      }
-    },
-    "changes": [
-      "5.0.0",
-      "5.0.3",
-      "5.0.11",
-      "6.0.0-beta1",
-      "6.2.0",
-      "6.3.0",
-      "6.4.0",
-      "6.5.0",
-      "6.6.0",
-      "6.7.0"
-    ],
-    "label": "User Large",
-    "search": {
-      "terms": [
-        "employee",
-        "uer",
-        "users-people"
-      ]
-    },
-    "styles": [
-      "solid"
-    ],
-    "unicode": "f406",
-    "voted": false
-  },
-  "user-large-slash": {
-    "aliases": {
-      "names": [
-        "user-alt-slash"
-      ],
-      "unicodes": {
-        "secondary": [
-          "10f4fa"
-        ]
-      }
-    },
-    "changes": [
-      "5.0.11",
-      "6.0.0-beta1",
-      "6.2.0",
-      "6.3.0",
-      "6.4.0",
-      "6.5.0",
-      "6.6.0",
-      "6.7.0"
-    ],
-    "label": "User Large Slash",
-    "search": {
-      "terms": [
-        "disabled",
-        "disconnect",
-        "employee",
-        "uer",
-        "users-people"
-      ]
-    },
-    "styles": [
-      "solid"
-    ],
-    "unicode": "f4fa",
-    "voted": false
-  },
   "user-lock": {
     "aliases": {
       "unicodes": {
@@ -56546,7 +56962,7 @@
         "sign up",
         "signup",
         "team",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -56620,6 +57036,7 @@
         "employee",
         "protect",
         "safety",
+        "security",
         "uer"
       ]
     },
@@ -56631,8 +57048,19 @@
   },
   "user-slash": {
     "aliases": {
+      "names": [
+        "user-alt-slash",
+        "user-large-slash"
+      ],
       "unicodes": {
+        "composite": [
+          "f4fa"
+        ],
+        "primary": [
+          "f4fa"
+        ],
         "secondary": [
+          "10f4fa",
           "10f506"
         ]
       }
@@ -57032,7 +57460,7 @@
       "5.6.0",
       "5.8.0"
     ],
-    "label": "United States Postal Service",
+    "label": "Usps",
     "search": {
       "terms": [
         "american",
@@ -57051,7 +57479,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "us-Sunnah Foundation",
+    "label": "Ussunnah",
     "search": {
       "terms": []
     },
@@ -57184,7 +57612,6 @@
       "terms": [
         "airport",
         "bus",
-        "machine",
         "minibus",
         "public-transportation",
         "transportation",
@@ -57227,41 +57654,6 @@
       "solid"
     ],
     "unicode": "e2c5",
-    "voted": false
-  },
-  "vector-square": {
-    "aliases": {
-      "unicodes": {
-        "secondary": [
-          "10f5cb"
-        ]
-      }
-    },
-    "changes": [
-      "5.1.0",
-      "6.0.0-beta1",
-      "6.0.0",
-      "6.2.0",
-      "6.3.0",
-      "6.4.0",
-      "6.5.0",
-      "6.6.0",
-      "6.7.0"
-    ],
-    "label": "Vector Square",
-    "search": {
-      "terms": [
-        "anchors",
-        "lines",
-        "object",
-        "render",
-        "shape"
-      ]
-    },
-    "styles": [
-      "solid"
-    ],
-    "unicode": "f5cb",
     "voted": false
   },
   "venus": {
@@ -57987,7 +58379,7 @@
       "5.0.0",
       "6.0.0-beta3"
     ],
-    "label": "VK",
+    "label": "Vk",
     "search": {
       "terms": []
     },
@@ -58001,7 +58393,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "VNV",
+    "label": "Vnv",
     "search": {
       "terms": []
     },
@@ -58328,11 +58720,25 @@
     "unicode": "f729",
     "voted": true
   },
+  "vsco": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "Vsco",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7dd",
+    "voted": false
+  },
   "vuejs": {
     "changes": [
       "5.0.0"
     ],
-    "label": "Vue.js",
+    "label": "Vuejs",
     "search": {
       "terms": []
     },
@@ -58371,6 +58777,20 @@
       "solid"
     ],
     "unicode": "57",
+    "voted": false
+  },
+  "w3c": {
+    "changes": [
+      "7.0.0"
+    ],
+    "label": "W3c",
+    "search": {
+      "terms": []
+    },
+    "styles": [
+      "brands"
+    ],
+    "unicode": "e7de",
     "voted": false
   },
   "walkie-talkie": {
@@ -58867,7 +59287,7 @@
       "5.0.0",
       "5.0.3"
     ],
-    "label": "Weixin (WeChat)",
+    "label": "Weixin",
     "search": {
       "terms": []
     },
@@ -58882,7 +59302,7 @@
       "4.3.0",
       "5.0.0"
     ],
-    "label": "What's App",
+    "label": "Whatsapp",
     "search": {
       "terms": []
     },
@@ -59076,7 +59496,7 @@
     "changes": [
       "5.0.0"
     ],
-    "label": "WHMCS",
+    "label": "Whmcs",
     "search": {
       "terms": []
     },
@@ -59452,7 +59872,7 @@
     "changes": [
       "6.0.0-beta1"
     ],
-    "label": "wirsindhandwerk",
+    "label": "Wirsindhandwerk",
     "search": {
       "terms": []
     },
@@ -59480,7 +59900,7 @@
     "changes": [
       "5.4.0"
     ],
-    "label": "Wizards of the Coast",
+    "label": "Wizards Of The Coast",
     "search": {
       "terms": [
         "Dungeons & Dragons",
@@ -59572,7 +59992,7 @@
       "4.1.0",
       "5.0.0"
     ],
-    "label": "WordPress Logo",
+    "label": "Wordpress",
     "search": {
       "terms": []
     },
@@ -59626,7 +60046,7 @@
       "4.6.0",
       "5.0.0"
     ],
-    "label": "WPBeginner",
+    "label": "Wpbeginner",
     "search": {
       "terms": []
     },
@@ -59641,7 +60061,7 @@
       "4.7.0",
       "5.0.0"
     ],
-    "label": "WPExplorer",
+    "label": "Wpexplorer",
     "search": {
       "terms": []
     },
@@ -59656,7 +60076,7 @@
       "4.6.0",
       "5.0.0"
     ],
-    "label": "WPForms",
+    "label": "Wpforms",
     "search": {
       "terms": []
     },
@@ -59675,7 +60095,7 @@
     "changes": [
       "5.4.2"
     ],
-    "label": "wpressr",
+    "label": "Wpressr",
     "search": {
       "terms": [
         "rendact"
@@ -59996,7 +60416,7 @@
       "5.0.3",
       "5.13.1"
     ],
-    "label": "Yahoo Logo",
+    "label": "Yahoo",
     "search": {
       "terms": []
     },
@@ -60194,7 +60614,7 @@
       "3.2.0",
       "5.0.0"
     ],
-    "label": "YouTube",
+    "label": "Youtube",
     "search": {
       "terms": [
         "film",

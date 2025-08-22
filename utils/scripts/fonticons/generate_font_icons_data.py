@@ -1,4 +1,4 @@
-# Copyright (C) 2019  The Talipot developers
+# Copyright (C) 2019-2025  The Talipot developers
 #
 # Talipot is a fork of Tulip, created by David Auber
 # and the Tulip development Team from LaBRI, University of Bordeaux
@@ -59,6 +59,7 @@ fa_icons = defaultdict(list)
 fa_name_replace = {
     '500px': 'px500',
     '42-group': 'group42',
+    '11ty': 'ty11',
     **{'%s' % i: 'digit-%s' % i for i in range(10)}
 }
 fa_name_replace_inv = {
@@ -99,6 +100,8 @@ with open(fa_constants_path, 'w', **open_kwargs) as fa_constants_h:
         for icon_data in fa_icons[style]:
             icon_aliases = icon_data.get("aliases", {}).get("names", [])
             for icon_name in [icon_data['name'], *icon_aliases]:
+                if icon_name in fa_name_replace:
+                    icon_name = fa_name_replace[icon_name]
                 icon_name_prefix = '%s-%s' % (fa_style_prefix[style],
                                               icon_name)
                 icon_constant_name = to_upper_style(icon_name)
