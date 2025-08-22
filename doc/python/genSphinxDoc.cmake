@@ -12,7 +12,7 @@ IF(WIN32)
       "${BIN_DIR}/../../library/talipot-ogdf"
       "${BIN_DIR}/../../library/talipot-python/src/"
       "${BIN_DIR}/../../thirdparty/gzstream"
-      "${BIN_DIR}/../../thirdparty/quazip-1.4/quazip"
+      "${BIN_DIR}/../../thirdparty/quazip-1.5/quazip"
       "${BIN_DIR}/../../thirdparty/ftgl"
       "${BIN_DIR}/../../thirdparty/OGDF"
       "${BIN_DIR}/../../thirdparty/libtess2"

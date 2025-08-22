@@ -69,7 +69,7 @@ MACRO(UNIT_TEST)
         ${CMAKE_BINARY_DIR}/library/talipot-gui/src
         ${CMAKE_BINARY_DIR}/thirdparty/libtess2
         ${CMAKE_BINARY_DIR}/thirdparty/OGDF
-        ${CMAKE_BINARY_DIR}/thirdparty/quazip-1.4/quazip
+        ${CMAKE_BINARY_DIR}/thirdparty/quazip-1.5/quazip
         ${CMAKE_BINARY_DIR}/thirdparty/QGeoView
         ${CMAKE_BINARY_DIR}/library/talipot-ogdf
         ${CMAKE_BINARY_DIR}/library/talipot-python/src
