@@ -54,8 +54,7 @@ private:
 };
 
 // ---------------------------------------------------------------------------
-// An object which calls a lambda in its constructor, and another one in
-// its destructor
+// An object which calls a lambda in its  destructor
 //
 // This object must be captured in a local variable, Otherwise, since it is a
 // temporary, it will be destroyed immediately, thus calling the function.
@@ -85,6 +84,11 @@ private:
     bool do_it_;
     F    unset_;
 };
+
+#if __cpp_deduction_guides >= 201703
+template<class F>
+scoped_guard(F f) -> scoped_guard<F>;
+#endif
 
 // ---------------------------------------------------------------------------
 // An object which assigns a value to a variable in its constructor, and resets
