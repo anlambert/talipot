@@ -71,6 +71,7 @@ jobs:
           -DTALIPOT_USE_CCACHE=ON
           -DTALIPOT_BUILD_CORE_ONLY=ON
           -DTALIPOT_BUILD_DOC=OFF
+          -DTALIPOT_USE_QT6=OFF
       - name: Talipot core build
         working-directory: ./build
         run: ninja -j4

@@ -103,6 +103,7 @@ jobs:
         run: cmake .
           -DTALIPOT_BUILD_CORE_ONLY=OFF
           -DTALIPOT_BUILD_DOC=ON
+          -DTALIPOT_USE_QT6=OFF
       - name: Talipot complete build
         working-directory: ./build
         run: make -j4

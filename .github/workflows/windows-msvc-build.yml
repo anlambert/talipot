@@ -104,7 +104,6 @@ jobs:
             -DCMAKE_LIBRARY_PATH="%LIBRARY_PATH%"^
             -DCMAKE_PREFIX_PATH="%QT_ROOT_DIR%"^
             -DPython3_EXECUTABLE="%Python3_ROOT_DIR%/python.exe"^
-            -DTALIPOT_USE_QT6=ON^
             -DTALIPOT_BUILD_DOC=OFF^
             -DTALIPOT_BUILD_TESTS=ON ..
       - name: Add msbuild to PATH

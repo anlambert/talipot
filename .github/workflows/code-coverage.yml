@@ -25,8 +25,9 @@ jobs:
           binutils-dev
           libzstd-dev
           libgit2-dev
-          qtbase5-dev
-          libquazip5-dev
+          qt6-base-dev
+          libqt6core5compat6-dev
+          libquazip1-qt6-dev
           libglew-dev
           libfreetype6-dev
           libfribidi-dev

@@ -96,7 +96,6 @@ jobs:
         run: cmake .
           -DTALIPOT_BUILD_CORE_ONLY=OFF
           -DCMAKE_PREFIX_PATH=${{ matrix.config.homebrew_path }}/opt/qt6
-          -DTALIPOT_USE_QT6=ON
       - name: Talipot complete build
         working-directory: ./build
         run: make -j4
