@@ -337,9 +337,8 @@ if platform.system() == 'Darwin':
     pyexe = os.path.join('%1', f'../Frameworks/Python.framework/Versions/{pyver}/bin/python3')
     if os.path.exists(pyexe):
         sys._base_executable = pyexe
-os.environ['LD_LIBRARY_PATH'] = '%2';
-os.environ['DYLD_FALLBACK_LIBRARY_PATH'] = '%2';
-os.environ['DYLD_FRAMEWORK_PATH'] = '%2';
+for env_var in ('LD_LIBRARY_PATH', 'DYLD_FALLBACK_LIBRARY_PATH', 'DYLD_FRAMEWORK_PATH'):
+    os.environ[env_var] = '%2:' + os.environ.get(env_var, '')
 venv.create('%3', with_pip=True, symlinks=True)
 )")
                   .arg(QApplication::applicationDirPath(), tlpStringToQString(tlp::TalipotLibDir),
