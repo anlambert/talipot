@@ -11,12 +11,20 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: Talipot build on macOS 13 (x86_64)
-            os: macos-13
-            pyver: "3.13"
-            homebrew_path: /usr/local
           - name: Talipot build on macOS 14 (arm64)
             os: macos-14
+            pyver: "3.13"
+            homebrew_path: /opt/homebrew
+          - name: Talipot build on macOS 15 (x86_64)
+            os: macos-15-intel
+            pyver: "3.13"
+            homebrew_path: /usr/local
+          - name: Talipot build on macOS 15 (arm64)
+            os: macos-15
+            pyver: "3.13"
+            homebrew_path: /opt/homebrew
+          - name: Talipot build on macOS 26 (arm64)
+            os: macos-26
             pyver: "3.13"
             homebrew_path: /opt/homebrew
     steps:

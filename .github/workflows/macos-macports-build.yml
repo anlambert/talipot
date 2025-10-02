@@ -8,16 +8,20 @@ jobs:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     env:
-      CLANG_VERSION: 19
+      CLANG_VERSION: 20
       PYTHON_VERSION: "3.13"
     strategy:
       fail-fast: false
       matrix:
         config:
-          - name: Talipot build on macOS x86_64
-            os: macos-13
-          - name: Talipot build on macOS arm64
+          - name: Talipot build on macOS 15 x86_64
+            os: macos-15-intel
+          - name: Talipot build on macOS 14 arm64
             os: macos-14
+          - name: Talipot build on macOS 15 arm64
+            os: macos-15
+          - name: Talipot build on macOS 26 arm64
+            os: macos-26
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v4
