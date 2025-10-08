@@ -56,7 +56,7 @@ jobs:
       - name: Install SIP
         run:
           ${{ matrix.config.homebrew_path }}/bin/pip${{ matrix.config.pyver }}
-          install sip --break-system-packages
+          install 'sip != 6.13.0' --break-system-packages
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |

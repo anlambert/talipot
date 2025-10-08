@@ -47,7 +47,7 @@ jobs:
       - name: Install sip
         run: |
           sudo apt remove python3-packaging || true
-          sudo pip3 install sip packaging
+          sudo pip3 install 'sip != 6.13.0' packaging
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |

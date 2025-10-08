@@ -61,7 +61,6 @@ jobs:
           graphviz
           libgit2
           python${{ env.PYTHON_VERSION_NO_DOT }}
-          py${{ env.PYTHON_VERSION_NO_DOT }}-sip
           pkgconfig
           cppunit
           freetype
@@ -74,6 +73,8 @@ jobs:
           py${{ env.PYTHON_VERSION_NO_DOT }}-pip
       - name: Install Sphinx
         run: pip-${{ env.PYTHON_VERSION }} install sphinx
+      - name: Install sip
+        run: sudo pip-${{ env.PYTHON_VERSION }} install 'sip != 6.13.0'
       - name: Save MacPorts ccache
         run: source ./macports-ci ccache --save
       - name: Create build directory

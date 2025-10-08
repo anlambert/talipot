@@ -59,7 +59,7 @@ jobs:
       - name: Install sip and sphinx
         run: |
           set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%
-          pip install sip sphinx
+          pip install "sip != 6.13.0" sphinx
         shell: cmd
       - name: Prepare ccache timestamp
         id: get-current-date

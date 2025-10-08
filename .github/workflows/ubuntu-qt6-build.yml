@@ -53,7 +53,7 @@ jobs:
           libqt6core5compat6-dev
           xvfb
       - name: Install sphinx and sip
-        run: pip install sphinx sip --user
+        run: pip install sphinx 'sip != 6.13.0' --user
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |

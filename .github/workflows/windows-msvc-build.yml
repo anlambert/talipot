@@ -79,7 +79,7 @@ jobs:
       - name: Install sip
         run: |
           set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%
-          pip install sip
+          pip install "sip != 6.13.0"
       - name: Install clcache
         run: |
           set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%

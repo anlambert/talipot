@@ -62,11 +62,13 @@ jobs:
               fribidi \
               fontconfig \
               python-sphinx \
-              sip \
+              python-pip \
               xorg-server-xvfb
 
             mkdir /talipot_build
             cd /talipot_build
+
+            sudo pip install --break-system-packages 'sip != 6.13.0'
 
             cmake -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PWD/install \
