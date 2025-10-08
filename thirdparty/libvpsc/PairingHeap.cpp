@@ -41,7 +41,7 @@ PairingHeap<T>::PairingHeap(bool (*lessThan)(T const &lhs, T const &rhs)) {
 template <class T>
 PairingHeap<T>::PairingHeap(const PairingHeap<T> &rhs) {
   root = nullptr;
-  counter = rhs->size();
+  counter = rhs.size();
   *this = rhs;
 }
 
