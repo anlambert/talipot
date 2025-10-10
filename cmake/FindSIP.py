@@ -2,7 +2,7 @@ import os
 
 import sipbuild
 
-sip_version = tuple(map(int, sipbuild.version.SIP_VERSION_STR.split(".")))
+sip_version = tuple(map(int, sipbuild.version.SIP_VERSION_STR.split(".")[:2]))
 
 if sip_version >= (6, 10):
     from sipbuild.module.abi_version import get_latest_version, get_module_source_dir
