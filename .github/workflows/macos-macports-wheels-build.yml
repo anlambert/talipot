@@ -22,9 +22,9 @@ jobs:
           - os: macos-15
             macosx_deployment_target: "15.0"
             arch: arm64
-          - os: macos-26
-            macosx_deployment_target: "26.0"
-            arch: arm64
+          # - os: macos-26
+          #   macosx_deployment_target: "26.0"
+          #   arch: arm64
 
     env:
       CLANG_VERSION: 20
