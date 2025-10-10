@@ -39,7 +39,7 @@ jobs:
         with:
           cmake-version: "3.31.6"
       - name: Install build dependencies with vcpkg
-        uses: johnwason/vcpkg-action@v6
+        uses: johnwason/vcpkg-action@v7
         id: vcpkg
         with:
           pkgs: zlib
@@ -51,7 +51,6 @@ jobs:
           triplet: x64-windows-release
           extra-args: --allow-unsupported --recurse --keep-going
           token: ${{ github.token }}
-          github-binarycache: true
       - name: Sets CIBW_BUILD environment variable
         env:
           pyVer: "${{matrix.python-version}}"
