@@ -126,5 +126,8 @@ jobs:
           path: ./build/doc/to_upload
       - name: Upload Talipot documentation to GitHub Pages
         id: deployment
-        if: matrix.config.os == 'ubuntu-24.04'
+        if: |
+          matrix.config.os == 'ubuntu-24.04' &&
+          github.event_name == 'push' &&
+          startsWith(github.ref, 'refs/tags/v')
         uses: actions/deploy-pages@v4
