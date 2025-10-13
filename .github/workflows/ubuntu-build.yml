@@ -15,6 +15,12 @@ jobs:
             os: ubuntu-22.04
           - name: Talipot build on Ubuntu 24.04
             os: ubuntu-24.04
+    permissions:
+      pages: write  # to deploy to Pages
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v4
@@ -100,3 +106,19 @@ jobs:
       - name: Check Talipot application can be executed
         working-directory: ./build/install/bin
         run: xvfb-run ./talipot --check-application-starts --debug-plugins-load
+      - name: Prepare documentation upload
+        if: matrix.config.os == 'ubuntu-24.04'
+        run: |
+          mkdir to_upload
+          cp -r python/html/ to_upload/python
+          cp -r doxygen/html/ to_upload/doxygen
+        working-directory: ./build/doc
+      - name: Upload Talipot documentation to GitHub Actions artifacts
+        if: matrix.config.os == 'ubuntu-24.04'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build/doc/to_upload
+      - name: Upload Talipot documentation to GitHub Pages
+        id: deployment
+        if: matrix.config.os == 'ubuntu-24.04'
+        uses: actions/deploy-pages@v4
