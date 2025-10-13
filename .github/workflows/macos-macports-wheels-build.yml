@@ -46,6 +46,22 @@ jobs:
           which python
           python --version
           sudo pip install twine build
+      - name: Install MacPorts
+        run: |
+          curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
+          source ./macports-ci install --sync=rsync
+      - name: Install Talipot build dependencies
+        run: sudo port -N install
+          cmake
+          ccache
+          bison
+          zlib
+          zstd
+          libomp
+          qhull
+          yajl
+          libgit2
+          graphviz
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
@@ -66,22 +82,6 @@ jobs:
           key: macos-wheels-ccache-${{ matrix.python-version }}-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             ${{ matrix.config.os }}-ccache-${{ matrix.python-version }}-
-      - name: Install MacPorts
-        run: |
-          curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
-          source ./macports-ci install --sync=rsync
-      - name: Install Talipot build dependencies
-        run: sudo port -N install
-          cmake
-          ccache
-          bison
-          zlib
-          zstd
-          libomp
-          qhull
-          yajl
-          libgit2
-          graphviz
       - name: Sets CIBW_BUILD environment variable
         env:
           pyVer: "${{matrix.python-version}}"
