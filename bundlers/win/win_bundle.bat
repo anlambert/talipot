@@ -56,7 +56,7 @@ copy "%SRC_DIR%\\LICENSE" "%DEST_DIR%\\"
 
 echo 'Running NSIS installer generator'
 cd "%DEST_DIR%"
-set PATH=%NSIS_PATH%;%PATH%
+set PATH=%NSIS_PATH:"=%;%PATH%
 if "%OUT_FILE%" == "" (
   makensis /V4 Talipot.nsi
 ) else (

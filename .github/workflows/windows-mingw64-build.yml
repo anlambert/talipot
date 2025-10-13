@@ -61,6 +61,10 @@ jobs:
           set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%
           pip install "sip != 6.13.0" sphinx
         shell: cmd
+      - name: Install NSIS
+        uses: repolevedavaj/install-nsis@v1.1.0
+        with:
+          nsis-version: '3.11'
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
