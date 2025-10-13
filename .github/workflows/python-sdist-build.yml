@@ -32,10 +32,16 @@ jobs:
         run: |
           echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
         shell: bash
+      - name: Get ccache directory
+        id: get-cccache-dir
+        run: |
+          ccache_dir=$(ccache -sv | grep "Cache directory" | awk '{print $3}')
+          echo "ccache-dir=$ccache_dir" >> $GITHUB_OUTPUT
+        shell: bash
       - name: Cache files
         uses: actions/cache@v4
         with:
-          path: ~/.ccache
+          path: ${{ steps.get-cccache-dir.outputs.ccache-dir }}
           key: sdist-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             sdist-ccache-
