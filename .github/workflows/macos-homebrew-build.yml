@@ -29,7 +29,7 @@ jobs:
             homebrew_path: /opt/homebrew
     steps:
       - name: Checkout Talipot code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Reinstall Python framework
         run: |
           sudo rm -rf /Library/Frameworks/Python.framework

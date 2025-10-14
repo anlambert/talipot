@@ -27,7 +27,7 @@ jobs:
             qt_major: 6
     steps:
       - name: Checkout Talipot code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install mingw64 and Talipot build dependencies
         uses: msys2/setup-msys2@v2
         with:

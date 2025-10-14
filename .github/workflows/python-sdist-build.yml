@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Talipot code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Apt update
         run: sudo apt update
       - name: Install Talipot Python package build dependencies

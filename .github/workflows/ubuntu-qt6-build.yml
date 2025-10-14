@@ -17,7 +17,7 @@ jobs:
             os: ubuntu-24.04
     steps:
       - name: Checkout Talipot code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - if: matrix.config.name == 'Talipot build Qt6 latest'
         name: Add KDE Neon apt repository to use latest Qt6 release
         run: |

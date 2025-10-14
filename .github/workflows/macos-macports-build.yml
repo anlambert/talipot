@@ -24,7 +24,7 @@ jobs:
             os: macos-26
     steps:
       - name: Checkout Talipot code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Compute environment variable
         run: |
           PYTHON_VERSION_NO_DOT=$(echo $PYTHON_VERSION | sed 's/\.//')
