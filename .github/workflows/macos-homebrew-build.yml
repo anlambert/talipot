@@ -128,9 +128,10 @@ jobs:
       - name: Check bundled Talipot can be installed and executed
         working-directory: ./build
         run: |
-          for package in $(brew list); do
-            brew uninstall --ignore-dependencies --force $package
-          done
+          sudo rm -rf ${{ matrix.config.homebrew_path }} || \
+          (for package in $(brew list); do \
+            brew uninstall --ignore-dependencies --force $package; \
+          done)
           hdiutil attach Talipot*.dmg
           cp -r /Volumes/Talipot*/Talipot*.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Talipot*.app

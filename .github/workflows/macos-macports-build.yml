@@ -133,7 +133,7 @@ jobs:
       - name: Check bundled Talipot can be installed and executed
         working-directory: ./build
         run: |
-          sudo port -Nfp uninstall installed
+          sudo rm -rf /opt/local
           hdiutil attach Talipot*.dmg
           cp -r /Volumes/Talipot*/Talipot*.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Talipot*.app
