@@ -1652,12 +1652,15 @@ bool PythonCodeEditor::loadCodeFromFile(const QString &filePath) {
     return false;
   }
 
-  file.open(QIODevice::ReadOnly | QIODevice::Text);
+  QString scriptCode;
+  if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    scriptCode = QString::fromUtf8(file.readAll().data());
+    file.close();
+  } else {
+    return false;
+  }
+
   QFileInfo fileInfo(file);
-
-  QString scriptCode = QString::fromUtf8(file.readAll().data());
-  file.close();
-
   _lastSavedTime = fileInfo.lastModified();
 
   if (filePath == getFileName() && !toPlainText().isEmpty()) {

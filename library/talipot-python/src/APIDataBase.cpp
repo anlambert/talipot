@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -61,24 +61,25 @@ void APIDataBase::loadApiFile(const QString &apiFilePath) {
     return;
   }
 
-  apiFile.open(QIODevice::ReadOnly | QIODevice::Text);
-  QTextStream in(&apiFile);
+  if (apiFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    QTextStream in(&apiFile);
 
-  while (!in.atEnd()) {
-    QString line = in.readLine();
+    while (!in.atEnd()) {
+      QString line = in.readLine();
 
-    if (line.startsWith("talipot.tlp.MaterialDesignIcons?1") ||
-        line.startsWith("talipot.tlp.MaterialDesignIcons.__init__") ||
-        line.startsWith("talipot.tlp.FontAwesome?1") ||
-        line.startsWith("talipot.tlp.FontAwesome.__init__")) {
-      continue;
-    }
+      if (line.startsWith("talipot.tlp.MaterialDesignIcons?1") ||
+          line.startsWith("talipot.tlp.MaterialDesignIcons.__init__") ||
+          line.startsWith("talipot.tlp.FontAwesome?1") ||
+          line.startsWith("talipot.tlp.FontAwesome.__init__")) {
+        continue;
+      }
 
-    addApiEntry(line);
+      addApiEntry(line);
 
-    if (line.startsWith("talipot.tlp.Vec3f.")) {
-      addApiEntry(line.replace("Vec3f", "Coord"));
-      addApiEntry(line.replace("Coord", "Size"));
+      if (line.startsWith("talipot.tlp.Vec3f.")) {
+        addApiEntry(line.replace("Vec3f", "Coord"));
+        addApiEntry(line.replace("Coord", "Size"));
+      }
     }
   }
 }

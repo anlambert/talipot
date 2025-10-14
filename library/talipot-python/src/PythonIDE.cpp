@@ -866,13 +866,14 @@ bool PythonIDE::loadPythonPlugin(const QString &fileName, bool clear) {
   QString pluginName = "";
 
   QString pluginCode;
-  file.open(QIODevice::ReadOnly | QIODevice::Text);
-
-  while (!file.atEnd()) {
-    pluginCode += file.readLine();
+  if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    while (!file.atEnd()) {
+      pluginCode += file.readLine();
+    }
+    file.close();
+  } else {
+    return false;
   }
-
-  file.close();
 
   if (checkAndGetPluginInfoFromSrcCode(pluginCode, pluginName, pluginClassName, pluginType,
                                        pluginClass)) {

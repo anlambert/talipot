@@ -223,20 +223,22 @@ void setApplicationGuiTheme(const QString &guiTheme, bool updateGui) {
   qApp->setPalette(getGuiThemePalette(guiTheme));
 
   QFile talipotQssFile(":/talipot/app/style/talipot.qss");
-  talipotQssFile.open(QIODevice::ReadOnly | QIODevice::Text);
-  QString talipotQss = talipotQssFile.readAll();
-  talipotQss = talipotQss.arg(backgroundColor().name(), alternateBackgroundColor().name(),
-                              textColor().name());
-  if (applicationHasDarkGuiTheme()) {
-    QFile talipotDarkQssFile(":/talipot/app/style/talipotDark.qss");
-    talipotDarkQssFile.open(QIODevice::ReadOnly | QIODevice::Text);
-    talipotQss += talipotDarkQssFile.readAll();
-    talipotDarkQssFile.close();
+  if (talipotQssFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    QString talipotQss = talipotQssFile.readAll();
+    talipotQss = talipotQss.arg(backgroundColor().name(), alternateBackgroundColor().name(),
+                                textColor().name());
+    if (applicationHasDarkGuiTheme()) {
+      QFile talipotDarkQssFile(":/talipot/app/style/talipotDark.qss");
+      if (talipotDarkQssFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        talipotQss += talipotDarkQssFile.readAll();
+        talipotDarkQssFile.close();
+      }
+    }
+    QString styleName = qApp->style()->objectName();
+    qApp->setStyleSheet(talipotQss);
+    qApp->style()->setObjectName(styleName);
+    talipotQssFile.close();
   }
-  QString styleName = qApp->style()->objectName();
-  qApp->setStyleSheet(talipotQss);
-  qApp->style()->setObjectName(styleName);
-  talipotQssFile.close();
 
   if (updateGui) {
     // repolish all widgets
