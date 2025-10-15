@@ -58,6 +58,13 @@ The Talipot framework offers numerous features, notably:
   * A graphical user interface, based on the [Qt](https://www.qt.io) framework, enabling
   to easily interact and manipulate the different components of the framework.
 
+## Documentations
+
+The following but quite incomplete documentationss are currently available:
+
+- [Talipot C++ API documentation](https://anlambert.github.io/talipot/doxygen/index.html)
+
+- [Talipot Python API documentation](https://anlambert.github.io/talipot/python/index.html)
 
 ## Installing Talipot
 
@@ -69,6 +76,16 @@ OpenSUSE, Ubuntu, MacOS and Windows.
 For each release, Talipot offers precompiled binaries for Linux (using
 [AppImage](https://github.com/AppImage/AppImageKit)), MacOS (dmg bundles) or Windows
 ([NSIS](https://nsis.sourceforge.io/Main_Page) based installers).
+
+### Python module
+
+The Python module for Talipot is currently uploaded on the
+[PyPI testing instance](https://test.pypi.org/project/talipot/).
+
+You can install it in your Python environment using the following `pip` command:
+```shell
+$ pip install --extra-index-url https://test.pypi.org/simple/ talipot
+```
 
 ### Compiling from scratch
 
