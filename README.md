@@ -60,7 +60,7 @@ The Talipot framework offers numerous features, notably:
 
 ## Documentations
 
-The following but quite incomplete documentationss are currently available:
+The following but quite incomplete documentations are currently available:
 
 - [Talipot C++ API documentation](https://anlambert.github.io/talipot/doxygen/index.html)
 
