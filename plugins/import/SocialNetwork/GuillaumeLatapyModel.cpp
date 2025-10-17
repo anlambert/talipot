@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -164,7 +164,7 @@ struct GuillaumeLatapyModel : public ImportModule {
     return pluginProgress->state() != ProgressState::TLP_CANCEL;
   }
 
-  bool isNotNodeInVector(vector<node> vec, node n) {
+  bool isNotNodeInVector(const vector<node> &vec, node n) {
     return std::find(vec.begin(), vec.end(), n) == vec.end();
   }
 };
