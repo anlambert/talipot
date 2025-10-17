@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -25,6 +25,10 @@ static map<string, string> iconFamily = {
     {"fab", "fa-brands-400"}, {"far", "fa-regular-400"}, {"fas", "fa-solid-900"}};
 
 #include "FontAwesomeData.cpp"
+
+string FontAwesome::getTTFLocation(const string &iconName) {
+  return TalipotShareDir + "fonts/FontAwesome/" + getIconFamily(iconName) + ".ttf";
+}
 
 string FontAwesome::getWOFF2Location(const string &iconName) {
   return TalipotShareDir + "fonts/FontAwesome/" + getIconFamily(iconName) + ".woff2";

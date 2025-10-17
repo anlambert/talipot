@@ -27,6 +27,10 @@ static vector<string> iconsNames;
 
 #include "MaterialDesignIconsData.cpp"
 
+string MaterialDesignIcons::getTTFLocation() {
+  return TalipotShareDir + "fonts/MaterialDesignIcons/" + "materialdesignicons-webfont.ttf";
+}
+
 string MaterialDesignIcons::getWOFF2Location() {
   return TalipotShareDir + "fonts/MaterialDesignIcons/" + "materialdesignicons-webfont.woff2";
 }

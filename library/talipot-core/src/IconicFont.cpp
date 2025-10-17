@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2021  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,6 +18,11 @@
 #include "talipot/MaterialDesignIcons.h"
 
 using namespace tlp;
+
+std::string IconicFont::getTTFLocation(const std::string &iconName) {
+  return (iconName.find("fa") == 0) ? FontAwesome::getTTFLocation(iconName)
+                                    : MaterialDesignIcons::getTTFLocation();
+}
 
 std::string IconicFont::getWOFF2Location(const std::string &iconName) {
   assert(isIconSupported(iconName));

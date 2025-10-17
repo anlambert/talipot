@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2021  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -24,6 +24,13 @@ namespace tlp {
 class TLP_SCOPE IconicFont {
 
 public:
+  /**
+   * Returns the location of the TrueType font file bundled with Talipot
+   * defining the icon with the given name
+   * @param iconName the name of the icon
+   */
+  static std::string getTTFLocation(const std::string &iconName);
+
   /**
    * Returns the location of the .woff2 font file bundled with Talipot
    * defining the icon with the given name

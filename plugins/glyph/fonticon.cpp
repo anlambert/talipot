@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2024  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -60,7 +60,7 @@ public:
         nbOutlineIndices(0) {}
 
   FontIconData(const std::string &iconName)
-      : fontFile(IconicFont::getWOFF2Location(iconName)),
+      : fontFile(IconicFont::getTTFLocation(iconName)),
         iconCodePoint(IconicFont::getIconCodePoint(iconName)), renderingDataBuffer(0),
         indicesBuffer(0), nbVertices(0), nbIndices(0), nbOutlineIndices(0) {}
 
@@ -267,7 +267,7 @@ static FontIconData &getFontIconData(const string &iconName, ElementType eltType
     if (defaultFontIconData.iconCodePoint == 0) {
       static const std::string defaultIconName = FontAwesome::Solid::QuestionCircle;
       defaultFontIconData.iconCodePoint = IconicFont::getIconCodePoint(defaultIconName);
-      defaultFontIconData.fontFile = IconicFont::getWOFF2Location(defaultIconName);
+      defaultFontIconData.fontFile = IconicFont::getTTFLocation(defaultIconName);
     }
 
     if (iconName.empty()) {
