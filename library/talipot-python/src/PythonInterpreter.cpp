@@ -334,7 +334,7 @@ if platform.system() == 'Windows':
 sys._base_executable = os.path.join('%1', python_command)
 if platform.system() == 'Darwin':
     pyver = '.'.join(map(str, sys.version_info[0:2]))
-    pyexe = os.path.join('%1', f'../Frameworks/Python.framework/Versions/{pyver}/bin/python3')
+    pyexe = os.path.join('%1', f'../Frameworks/Python.framework/Versions/{pyver}/bin/python{pyver}')
     if os.path.exists(pyexe):
         sys._base_executable = pyexe
 for env_var in ('LD_LIBRARY_PATH', 'DYLD_FALLBACK_LIBRARY_PATH', 'DYLD_FRAMEWORK_PATH'):
