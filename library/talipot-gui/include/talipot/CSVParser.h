@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,7 +22,9 @@
 
 #include <QString>
 
+#if (QT_VERSION < QT_VERSION_CHECK(6, 7, 0))
 class QTextCodec;
+#endif
 
 namespace tlp {
 
@@ -116,7 +118,8 @@ protected:
 private:
   void tokenize(const std::string &str, std::vector<std::string> &tokens, const QString &delimiters,
                 const bool mergedelim, char _textDelimiter, uint numberOfCol);
-  std::string convertStringEncoding(const std::string &toConvert, QTextCodec *encoder);
+
+  std::string convertStringEncoding(const std::string &toConvert);
 
   /**
    * @brief Function to extract a line from a istream. Can handle Linux,Mac and Windows end of line

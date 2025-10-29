@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -14,7 +14,11 @@
 #include "talipot/CSVParserConfigurationWidget.h"
 #include "ui_CSVParserConfigurationWidget.h"
 
+#if (QT_VERSION < QT_VERSION_CHECK(6, 7, 0))
 #include <QTextCodec>
+#else
+#include <QStringConverter>
+#endif
 #include <QFileDialog>
 
 #include <talipot/CSVParser.h>
@@ -83,15 +87,17 @@ CSVParser *CSVParserConfigurationWidget::buildParser(uint firstLine, uint lastLi
 }
 
 void CSVParserConfigurationWidget::fillEncodingComboBox() {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 7, 0))
   QList<QByteArray> codecs = QTextCodec::availableCodecs();
-  ui->encodingComboBox->clear();
   QStringList list;
-
   for (const auto &it : codecs) {
     list.push_back(it);
   }
-
+#else
+  QStringList list = QStringConverter::availableCodecs();
+#endif
   list.sort();
+  ui->encodingComboBox->clear();
   ui->encodingComboBox->addItems(list);
 }
 

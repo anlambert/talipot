@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -11,11 +11,15 @@
  *
  */
 
-#include <QTextCodec>
-
 #include <talipot/CSVParser.h>
 #include <talipot/TlpQtTools.h>
 #include <talipot/PluginProgress.h>
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 7, 0))
+#include <QTextCodec>
+#else
+#include <QStringDecoder>
+#endif
 
 using namespace std;
 using namespace tlp;
@@ -31,8 +35,22 @@ CSVSimpleParser::CSVSimpleParser(const string &fileName, const QString &separato
 
 CSVSimpleParser::~CSVSimpleParser() = default;
 
-string CSVSimpleParser::convertStringEncoding(const std::string &toConvert, QTextCodec *encoder) {
-  return QStringToTlpString(encoder->toUnicode(toConvert.c_str()));
+string CSVSimpleParser::convertStringEncoding(const string &toConvert) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 7, 0))
+  QTextCodec *codec = QTextCodec::codecForName(_fileEncoding.c_str());
+
+  if (codec == nullptr) {
+    qWarning() << __PRETTY_FUNCTION__ << ":" << __LINE__
+               << " Cannot found the conversion codec to convert from " << _fileEncoding
+               << " string will be treated as utf8.";
+    codec = QTextCodec::codecForName("UTF-8");
+  }
+  QString converted = codec->toUnicode(toConvert.c_str());
+#else
+  auto decoder = QStringDecoder(_fileEncoding.c_str());
+  QString converted = decoder(toConvert.c_str());
+#endif
+  return QStringToTlpString(converted);
 }
 
 bool CSVSimpleParser::parse(CSVContentHandler *handler, PluginProgress *progress,
@@ -65,15 +83,6 @@ bool CSVSimpleParser::parse(CSVContentHandler *handler, PluginProgress *progress
 
     uint displayProgressEachLineNumber = 200;
 
-    QTextCodec *codec = QTextCodec::codecForName(_fileEncoding.c_str());
-
-    if (codec == nullptr) {
-      qWarning() << __PRETTY_FUNCTION__ << ":" << __LINE__
-                 << " Cannot found the conversion codec to convert from " << _fileEncoding
-                 << " string will be treated as utf8.";
-      codec = QTextCodec::codecForName("UTF-8");
-    }
-
     if (progress) {
       progress->progress(0, 100);
     }
@@ -105,7 +114,8 @@ bool CSVSimpleParser::parse(CSVContentHandler *handler, PluginProgress *progress
 
       if (!line.empty() && row >= _firstLine) {
         // Correct the encoding of the line.
-        line = convertStringEncoding(line, codec);
+
+        line = convertStringEncoding(line);
 
         tokens.clear();
         tokenize(line, tokens, _separator, _mergesep, _textDelimiter, 0);
