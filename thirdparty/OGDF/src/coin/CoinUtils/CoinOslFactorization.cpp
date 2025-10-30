@@ -6,8 +6,6 @@
 #include "CoinUtilsConfig.h"
 
 #include <cassert>
-#include <cstdint>
-
 #include "CoinPragma.hpp"
 #include "CoinOslFactorization.hpp"
 #include "CoinOslC.h"

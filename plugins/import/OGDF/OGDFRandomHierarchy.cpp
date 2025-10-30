@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2024  The Talipot developers
+ * Copyright (C) 2024-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -11,7 +11,7 @@
  *
  */
 
-#include <ogdf/basic/graph_generators/randomHierarchy.h>
+#include <ogdf/basic/graph_generators/randomized.h>
 
 #include "OGDFImportBase.h"
 
@@ -60,7 +60,7 @@ public:
       dataSet->get("longEdges", longEdges);
     }
 
-    ogdf::randomHierarchy(G, n, m, planar, singleSource, longEdges);
+    ogdf::randomHierarchy(*G, n, m, planar, singleSource, longEdges);
     return true;
   }
 };

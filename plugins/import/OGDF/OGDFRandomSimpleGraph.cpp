@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2024  The Talipot developers
+ * Copyright (C) 2024-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -45,7 +45,7 @@ public:
       dataSet->get("m", m);
     }
 
-    ogdf::randomSimpleGraph(G, n, m);
+    ogdf::randomSimpleGraph(*G, n, m);
     return true;
   }
 };

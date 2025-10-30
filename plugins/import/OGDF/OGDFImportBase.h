@@ -22,13 +22,16 @@ public:
   virtual bool importOGDFGraph() = 0;
 
   bool importGraph() override {
+    G = new ogdf::Graph();
     if (importOGDFGraph()) {
-      convertOGDFGraphToTalipotGraph(G, graph);
+      convertOGDFGraphToTalipotGraph(*G, graph);
+      delete G;
       return true;
     }
+    delete G;
     return false;
   }
 
 protected:
-  ogdf::Graph G;
+  ogdf::Graph *G = nullptr;
 };

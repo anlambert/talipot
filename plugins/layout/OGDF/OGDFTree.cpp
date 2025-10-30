@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,10 +30,9 @@ static const vector<ogdf::Orientation> orientation = {
 };
 
 #define ELT_ROOTSELECTION "Root selection"
-#define ELT_ROOTSELECTIONLIST "rootIsSource;rootIsSink;rootByCoord"
+#define ELT_ROOTSELECTIONLIST "rootIsSource;rootByCoord"
 static const vector<ogdf::TreeLayout::RootSelectionType> rootSelection = {
     ogdf::TreeLayout::RootSelectionType::Source,
-    ogdf::TreeLayout::RootSelectionType::Sink,
     ogdf::TreeLayout::RootSelectionType::ByCoord,
 };
 

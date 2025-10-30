@@ -30,12 +30,27 @@
  */
 
 
+#include <ogdf/basic/Array.h>
+#include <ogdf/basic/GraphAttributes.h>
+
+#include <cmath>
+//used for splitting
+#include <ogdf/basic/Graph.h>
+#include <ogdf/basic/GraphCopy.h>
+#include <ogdf/basic/GraphList.h>
+#include <ogdf/basic/LayoutModule.h>
+#include <ogdf/basic/List.h>
+#include <ogdf/basic/Math.h>
+#include <ogdf/basic/geometry.h>
 #include <ogdf/graphalg/ConvexHull.h>
+#include <ogdf/packing/CCLayoutPackModule.h>
 #include <ogdf/packing/ComponentSplitterLayout.h>
 #include <ogdf/packing/TileToRowsCCPacker.h>
-//used for splitting
-#include <ogdf/basic/GraphCopy.h>
-#include <ogdf/basic/simple_graph_alg.h>
+
+#include <cstddef>
+#include <limits>
+#include <memory>
+#include <vector>
 
 namespace ogdf {
 
@@ -48,44 +63,33 @@ ComponentSplitterLayout::ComponentSplitterLayout() {
 void ComponentSplitterLayout::call(GraphAttributes& GA) {
 	// Only do preparations and call if layout is valid
 	if (m_secondaryLayout) {
-		//first we split the graph into its components
+		// first we split the graph into its components
 		const Graph& G = GA.constGraph();
 
 		Graph::CCsInfo ccs = Graph::CCsInfo(G);
-
 		int numberOfComponents = ccs.numberOfCCs();
 
 		if (numberOfComponents == 0) {
 			return;
 		}
 
-		// intialize the array of lists of nodes contained in a CC
-		Array<List<node>> nodesInCC(numberOfComponents);
-
-		// intialize the array of lists of edges contained in a CC
-		Array<List<edge>> edgesInCC(numberOfComponents);
-
-		for (int i = 0; i < numberOfComponents; ++i) {
-			for (int j = ccs.startNode(i); j < ccs.stopNode(i); ++j) {
-				nodesInCC[i].pushBack(ccs.v(j));
-			}
-			for (int j = ccs.startEdge(i); j < ccs.stopEdge(i); ++j) {
-				edgesInCC[i].pushBack(ccs.e(j));
-			}
-		}
-
-
 		// Create copies of the connected components and corresponding
 		// GraphAttributes
 		GraphCopy GC;
-		GC.createEmpty(G);
+		GC.setOriginalGraph(G);
 
-		EdgeArray<edge> auxCopy(G);
+		NodeArray<node> nodeCopy;
+		EdgeArray<edge> auxCopy;
 
 		for (int i = 0; i < numberOfComponents; i++) {
-			GC.initByNodes(nodesInCC[i], auxCopy);
+			nodeCopy.init(G);
+			auxCopy.init(G);
+			GC.clear();
+			GC.insert(ccs, i, nodeCopy, auxCopy);
+
 			GraphAttributes cGA(GC, GA.attributes());
-			//copy information into copy GA
+
+			// copy information into copy GA
 			for (node v : GC.nodes) {
 				cGA.width(v) = GA.width(GC.original(v));
 				cGA.height(v) = GA.height(GC.original(v));
@@ -102,6 +106,7 @@ void ComponentSplitterLayout::call(GraphAttributes& GA) {
 					cGA.bends(e) = GA.bends(GC.original(e));
 				}
 			}
+
 			m_secondaryLayout->call(cGA);
 
 			// copy layout information back into GA
@@ -124,8 +129,9 @@ void ComponentSplitterLayout::call(GraphAttributes& GA) {
 				}
 			}
 		}
+
 		// rotate component drawings and call the packer
-		reassembleDrawings(GA, nodesInCC, edgesInCC);
+		reassembleDrawings(GA, ccs);
 	}
 }
 
@@ -175,9 +181,8 @@ double atan2ex(double y, double x) {
 
 //TODO: Regard some kind of aspect ration (input)
 //(then also the rotation of a single component makes sense)
-void ComponentSplitterLayout::reassembleDrawings(GraphAttributes& GA,
-		const Array<List<node>>& nodesInCC, const Array<List<edge>>& edgesInCC) {
-	int numberOfComponents = nodesInCC.size();
+void ComponentSplitterLayout::reassembleDrawings(GraphAttributes& GA, const Graph::CCsInfo& ccs) {
+	int numberOfComponents = ccs.numberOfCCs();
 
 	Array<IPoint> box;
 	Array<IPoint> offset;
@@ -189,24 +194,23 @@ void ComponentSplitterLayout::reassembleDrawings(GraphAttributes& GA,
 
 	//iterate through all components and compute convex hull
 	for (int j = 0; j < numberOfComponents; j++) {
-		//todo: should not use std::vector, but in order not
-		//to have to change all interfaces, we do it anyway
+		// todo: should not use std::vector, but in order not
+		// to have to change all interfaces, we do it anyway
 		std::vector<DPoint> points;
 
-		//collect node positions and at the same time center average
+		// collect node positions and at the same time center average
 		// at origin
 		double avg_x = 0.0;
 		double avg_y = 0.0;
-		for (node v : nodesInCC[j]) {
+		for (node v : ccs.nodes(j)) {
 			DPoint dp(GA.x(v), GA.y(v));
 			avg_x += dp.m_x;
 			avg_y += dp.m_y;
 			points.push_back(dp);
 		}
-
 		size_t nbBends = 0;
 		if (GA.has(GraphAttributes::edgeGraphics)) {
-			for (edge e : edgesInCC[j]) {
+			for (edge e : ccs.edges(j)) {
 				const DPolyline& bends = GA.bends(e);
 				for (const DPoint& dp : bends) {
 					avg_x += dp.m_x;
@@ -216,14 +220,14 @@ void ComponentSplitterLayout::reassembleDrawings(GraphAttributes& GA,
 				nbBends += bends.size();
 			}
 		}
-		avg_x /= (nodesInCC[j].size() + nbBends);
-		avg_y /= (nodesInCC[j].size() + nbBends);
+		avg_x /= (ccs.numberOfNodes(j) + nbBends);
+		avg_y /= (ccs.numberOfNodes(j) + nbBends);
 
-		//adapt positions to origin
+		// adapt positions to origin
 		int count = 0;
-		//assume same order of vertices and positions
-		for (node v : nodesInCC[j]) {
-			//TODO: I am not sure if we need to update both
+		// assume same order of vertices and positions
+		for (node v : ccs.nodes(j)) {
+			// TODO: I am not sure if we need to update both
 			GA.x(v) = GA.x(v) - avg_x;
 			GA.y(v) = GA.y(v) - avg_y;
 			points.at(count).m_x -= avg_x;
@@ -231,9 +235,8 @@ void ComponentSplitterLayout::reassembleDrawings(GraphAttributes& GA,
 
 			count++;
 		}
-
 		if (GA.has(GraphAttributes::edgeGraphics)) {
-			for (edge e : edgesInCC[j]) {
+			for (edge e : ccs.edges(j)) {
 				for (DPoint& bend : GA.bends(e)) {
 					bend.m_x = bend.m_x - avg_x;
 					bend.m_y = bend.m_y - avg_y;
@@ -362,14 +365,14 @@ void ComponentSplitterLayout::reassembleDrawings(GraphAttributes& GA,
 	// Apply offset and rebuild Graph
 	for (int j = 0; j < numberOfComponents; j++) {
 		// apply rotation and offset to all nodes
-		for (node v : nodesInCC[j]) {
+		for (node v : ccs.nodes(j)) {
 			DPoint rp = rotatePoint(DPoint(GA.x(v), GA.y(v)), index);
 			GA.x(v) = rp.m_x;
 			GA.y(v) = rp.m_y;
 		}
 
 		if (GA.has(GraphAttributes::edgeGraphics)) {
-			for (edge e : edgesInCC[j]) {
+			for (edge e : ccs.edges(j)) {
 				for (DPoint& bend : GA.bends(e)) {
 					bend = rotatePoint(bend, index);
 				}
@@ -387,4 +390,5 @@ void ComponentSplitterLayout::reassembleDrawings(GraphAttributes& GA,
 		MLG.moveToZero();
 #endif
 }
+
 }
