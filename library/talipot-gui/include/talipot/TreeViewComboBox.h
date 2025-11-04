@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -18,6 +18,8 @@
 #include <QTreeView>
 
 #include <talipot/config.h>
+
+namespace tlp {
 
 class TLP_QT_SCOPE TreeViewComboBox : public QComboBox {
 
@@ -50,5 +52,7 @@ signals:
 
   void currentItemChanged();
 };
+
+}
 
 #endif // TALIPOT_TREE_VIEW_COMBO_BOX_H

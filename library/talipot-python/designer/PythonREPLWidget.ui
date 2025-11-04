@@ -85,7 +85,7 @@
        </widget>
       </item>
       <item>
-       <widget class="TreeViewComboBox" name="graphCombo">
+       <widget class="tlp::TreeViewComboBox" name="graphCombo">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -163,7 +163,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TreeViewComboBox</class>
+   <class>tlp::TreeViewComboBox</class>
    <extends>QComboBox</extends>
    <header>talipot/TreeViewComboBox.h</header>
    <container>1</container>
