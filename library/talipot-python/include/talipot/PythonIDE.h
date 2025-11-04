@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,7 +21,11 @@
 
 #include <talipot/config.h>
 
+class QAction;
+class QLabel;
+class QProgressBar;
 class QTabWidget;
+class QToolBar;
 
 namespace Ui {
 class PythonIDE;
@@ -36,6 +40,7 @@ class PythonCodeEditor;
 class PythonInterpreter;
 class PythonEditorsTabWidget;
 class DataSet;
+class TreeViewComboBox;
 
 class TLP_PYTHON_SCOPE PythonIDE : public QWidget {
 
@@ -57,11 +62,20 @@ class TLP_PYTHON_SCOPE PythonIDE : public QWidget {
   QWidget *_scriptEditorsWidget, *_scriptControlWidget;
   QWidget *_pluginEditorsWidget, *_pluginControlWidget;
   QWidget *_moduleEditorsWidget, *_moduleControlWidget;
+  QProgressBar *_progressBar;
 
   bool _anchored;
 
   QByteArray _splitterState;
   QWidget *_outputWidget;
+
+  QToolBar *_scriptsTopToolBar, *_pluginsTopToolBar, *_modulesTopToolBar;
+  QToolBar *_scriptsBottomToolBar, *_pluginsBottomToolBar, *_modulesBottomToolBar;
+  TreeViewComboBox *_graphComboBox;
+  QAction *_runScriptAction, *_pauseScriptAction, *_stopScriptAction, *_useUndoAction;
+  QAction *_anchoredAction, *_anchoredAction_2, *_anchoredAction_3;
+  QAction *_registerPluginAction, *_removePluginAction;
+  QLabel *_pluginStatusLabel;
 
   bool loadPythonPlugin(const QString &fileName, bool clear = true);
   bool loadPythonPluginFromSrcCode(const QString &moduleName, const QString &pluginSrcCode,
@@ -126,6 +140,13 @@ private:
   bool loadModuleFromSrcCode(const QString &moduleName, const QString &moduleSrcCode);
 
   void loadScriptsAndModulesFromPythonScriptViewDataSet(const DataSet &dataSet);
+
+  template <typename Slot>
+  QAction *addToolBarAction(QToolBar *toolBar, const QString &iconName,
+                            const QKeySequence &shortcut, const QString &toolTip, Slot slot,
+                            const QSize &iconSize = QSize(), const QColor &iconColor = Qt::white);
+
+  QAction *addCommonBottomToolBarActions(QToolBar *toolBar);
 
 signals:
 

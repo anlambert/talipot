@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -110,40 +110,8 @@ void PythonEditorsTabWidget::clearErrorIndicators() {
   }
 }
 
-bool PythonEditorsTabWidget::eventFilter(QObject *obj, QEvent *event) {
-#ifdef __APPLE__
-  Qt::KeyboardModifiers modifier = Qt::MetaModifier;
-#else
-  Qt::KeyboardModifiers modifier = Qt::ControlModifier;
-#endif
-
-  if (event->type() == QEvent::KeyPress) {
-    auto *keyEvt = static_cast<QKeyEvent *>(event);
-
-    if (keyEvt->modifiers() == modifier && keyEvt->key() == Qt::Key_S) {
-      if (obj == getCurrentEditor()) {
-        QString moduleFile = tabText(currentIndex());
-
-        // workaround a Qt5 bug on linux
-        moduleFile = moduleFile.replace("&", "");
-
-        if (!moduleFile.contains("no file")) {
-          saveCurrentEditorContentToFile();
-          return true;
-        } else {
-          // when there is no file associated to the Python module, its content will then be saved
-          // in the project file (.tlpx) currently loaded in Talipot
-          if (moduleFile[moduleFile.size() - 1] == '*') {
-            moduleFile = moduleFile.mid(0, moduleFile.size() - 1);
-          }
-
-          setTabText(currentIndex(), moduleFile);
-          emit fileSaved(currentIndex());
-          return false;
-        }
-      }
-    }
-  } else if (event->type() == QEvent::FocusIn && !_dontTreatFocusIn) {
+bool PythonEditorsTabWidget::eventFilter(QObject *, QEvent *event) {
+  if (event->type() == QEvent::FocusIn && !_dontTreatFocusIn) {
     _dontTreatFocusIn = true;
     reloadCodeInEditorsIfNeeded();
     _dontTreatFocusIn = false;

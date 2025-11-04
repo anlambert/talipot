@@ -11,6 +11,7 @@
  *
  */
 
+#include <cassert>
 #include <talipot/PythonInterpreter.h>
 
 #include <QMessageBox>
@@ -21,6 +22,10 @@
 #include <QCryptographicHash>
 #include <QRegularExpression>
 #include <QDesktopServices>
+#include <QToolBar>
+#include <QToolButton>
+#include <QShortcutEvent>
+#include <QProgressBar>
 
 #include <talipot/Algorithm.h>
 #include <talipot/Project.h>
@@ -32,6 +37,7 @@
 #include <talipot/PythonIDE.h>
 #include <talipot/PythonPluginCreationDialog.h>
 #include <talipot/PythonShellWidget.h>
+#include <talipot/TreeViewComboBox.h>
 
 #include "ui_PythonIDE.h"
 
@@ -338,57 +344,156 @@ PythonIDE::PythonIDE(QWidget *parent)
       _scriptStopped(false), _saveFilesToProject(true), _notifyProjectModified(false),
       _anchored(true), _outputWidget(nullptr) {
   _ui->setupUi(this);
+  qApp->installEventFilter(this);
 
   QString pythonVersion(PythonInterpreter::instance().getPythonVersionStr());
   _ui->header->setTitle("Python " + pythonVersion);
   _ui->header->setExpandable(false);
 
-  _ui->newMainScriptButton->setIcon(FontIcon::icon(MaterialDesignIcons::File, QColor(Qt::white)));
-  _ui->loadMainScriptButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
-  _ui->saveMainScriptButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
-  _ui->saveMainScriptAsButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::FileExportOutline, QColor(Qt::white)));
-  _ui->newStringModuleButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::FilePlus, QColor(Qt::white)));
-  _ui->newPluginButton->setIcon(FontIcon::icon(MaterialDesignIcons::File, QColor(Qt::white)));
-  _ui->loadPluginButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
-  _ui->savePluginButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
-  _ui->savePluginAsButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::FileExportOutline, QColor(Qt::white)));
-  _ui->newModuleButton->setIcon(FontIcon::icon(MaterialDesignIcons::File, QColor(Qt::white)));
-  _ui->loadModuleButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::FileImport, QColor(Qt::white)));
-  _ui->saveModuleButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::FileExport, QColor(Qt::white)));
-  _ui->saveModuleAsButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::FileExportOutline, QColor(Qt::white)));
-  _ui->decreaseFontSizeButton->setIcon(FontIcon::icon(MaterialDesignIcons::MinusCircle, Qt::black));
-  _ui->increaseFontSizeButton->setIcon(FontIcon::icon(MaterialDesignIcons::PlusCircle, Qt::black));
-  _ui->runScriptButton->setIcon(FontIcon::icon(MaterialDesignIcons::Play, QColor(Qt::white)));
-  _ui->pauseScriptButton->setIcon(FontIcon::icon(MaterialDesignIcons::Pause, QColor(Qt::white)));
-  _ui->stopScriptButton->setIcon(FontIcon::icon(MaterialDesignIcons::Stop, QColor(Qt::white)));
-  _ui->decreaseFontSizeButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::Minus, QColor(Qt::white)));
-  _ui->increaseFontSizeButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::Plus, QColor(Qt::white)));
-  _ui->decreaseFontSizeButton_2->setIcon(
-      FontIcon::icon(MaterialDesignIcons::Minus, QColor(Qt::white)));
-  _ui->increaseFontSizeButton_2->setIcon(
-      FontIcon::icon(MaterialDesignIcons::Plus, QColor(Qt::white)));
-  _ui->decreaseFontSizeButton_3->setIcon(
-      FontIcon::icon(MaterialDesignIcons::Minus, QColor(Qt::white)));
-  _ui->increaseFontSizeButton_3->setIcon(
-      FontIcon::icon(MaterialDesignIcons::Plus, QColor(Qt::white)));
-  _ui->registerPluginButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::DatabaseRefresh, QColor(Qt::white)));
-  _ui->removePluginButton->setIcon(
-      FontIcon::icon(MaterialDesignIcons::DatabaseRemove, QColor(Qt::white)));
-  useUndoToggled(_ui->useUndoCB->isChecked());
-  connect(_ui->useUndoCB, &QAbstractButton::toggled, this, &PythonIDE::useUndoToggled);
+  _scriptsTopToolBar = new QToolBar(this);
+  _scriptsTopToolBar->setProperty("pythonToolbar", true);
+  _ui->scriptsTabLayout->insertWidget(0, _scriptsTopToolBar);
+  _pluginsTopToolBar = new QToolBar(this);
+  _pluginsTopToolBar->setProperty("pythonToolbar", true);
+  _ui->pluginsTabLayout->insertWidget(0, _pluginsTopToolBar);
+  _modulesTopToolBar = new QToolBar(this);
+  _modulesTopToolBar->setProperty("pythonToolbar", true);
+  _ui->modulesTabLayout->insertWidget(0, _modulesTopToolBar);
+
+  addToolBarAction(_scriptsTopToolBar, MaterialDesignIcons::File, QKeySequence::New,
+                   "New main script", &PythonIDE::newScript);
+
+  addToolBarAction(_scriptsTopToolBar, MaterialDesignIcons::FileImport, QKeySequence::Open,
+                   "Open main script from file", QOverload<>::of(&PythonIDE::loadScript));
+
+  addToolBarAction(_scriptsTopToolBar, MaterialDesignIcons::FileExport, QKeySequence::Save,
+                   "Save main script to file", QOverload<>::of(&PythonIDE::saveScript));
+
+  addToolBarAction(_scriptsTopToolBar, MaterialDesignIcons::FileExportOutline, QKeySequence::SaveAs,
+                   "Save main script to another file", &PythonIDE::saveScriptAs);
+
+  _scriptsTopToolBar->addSeparator();
+  auto *graphLabel = new QLabel("graph:");
+  graphLabel->setObjectName("graphLabel");
+  _scriptsTopToolBar->addWidget(graphLabel);
+
+  _graphComboBox = new TreeViewComboBox();
+  _graphComboBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  connect(_graphComboBox, &TreeViewComboBox::currentItemChanged, this,
+          &PythonIDE::graphComboBoxIndexChanged);
+  _scriptsTopToolBar->addWidget(_graphComboBox);
+
+  addToolBarAction(_pluginsTopToolBar, MaterialDesignIcons::File, QKeySequence::New,
+                   "Create new Talipot Python plugin", &PythonIDE::newPythonPlugin);
+
+  addToolBarAction(_pluginsTopToolBar, MaterialDesignIcons::FileImport, QKeySequence::Open,
+                   "Open Talipot Python plugin from file",
+                   QOverload<>::of(&PythonIDE::loadPythonPlugin));
+
+  addToolBarAction(_pluginsTopToolBar, MaterialDesignIcons::FileExport, QKeySequence::Save,
+                   "Save Talipot Python plugin to file/project",
+                   QOverload<>::of(&PythonIDE::savePythonPlugin));
+
+  addToolBarAction(_pluginsTopToolBar, MaterialDesignIcons::FileExportOutline, QKeySequence::SaveAs,
+                   "Save plugin to another file", &PythonIDE::savePythonPluginAs);
+
+  QWidget *spacer = new QWidget();
+  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  _pluginsTopToolBar->addWidget(spacer);
+
+  addToolBarAction(_modulesTopToolBar, MaterialDesignIcons::FilePlus, QKeySequence::AddTab,
+                   "New string module", &PythonIDE::newStringModule);
+
+  addToolBarAction(_modulesTopToolBar, MaterialDesignIcons::File, QKeySequence::New,
+                   "New file module", &PythonIDE::newFileModule);
+
+  addToolBarAction(_modulesTopToolBar, MaterialDesignIcons::FileImport, QKeySequence::Open,
+                   "Import module from file", QOverload<>::of(&PythonIDE::loadModule));
+
+  addToolBarAction(_modulesTopToolBar, MaterialDesignIcons::FileExport, QKeySequence::Save,
+                   "Save module to file/project", QOverload<>::of(&PythonIDE::saveModule));
+
+  addToolBarAction(_modulesTopToolBar, MaterialDesignIcons::FileExportOutline, QKeySequence::SaveAs,
+                   "Save module to another file", &PythonIDE::saveModuleAs);
+
+  spacer = new QWidget();
+  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  _modulesTopToolBar->addWidget(spacer);
+
+  _scriptsBottomToolBar = new QToolBar(this);
+  _scriptsBottomToolBar->layout()->setContentsMargins(3, 0, 4, 0);
+  _scriptsBottomToolBar->setProperty("pythonIDEBottomWidget", true);
+  _ui->stackedWidget->addWidget(_scriptsBottomToolBar);
+  _pluginsBottomToolBar = new QToolBar(this);
+  _pluginsBottomToolBar->setProperty("pythonIDEBottomWidget", true);
+  _ui->stackedWidget->addWidget(_pluginsBottomToolBar);
+  _modulesBottomToolBar = new QToolBar(this);
+  _modulesBottomToolBar->setProperty("pythonIDEBottomWidget", true);
+  _ui->stackedWidget->addWidget(_modulesBottomToolBar);
+
+  _runScriptAction = addToolBarAction(_scriptsBottomToolBar, MaterialDesignIcons::Play,
+                                      QKeySequence("Ctrl+Return"), "Execute script",
+                                      &PythonIDE::executeCurrentScript, QSize(19, 19));
+  _runScriptAction->setEnabled(false);
+
+  _pauseScriptAction = addToolBarAction(_scriptsBottomToolBar, MaterialDesignIcons::Pause,
+                                        QKeySequence("Ctrl+Shift+Return"), "Pause script",
+                                        &PythonIDE::pauseCurrentScript, QSize(19, 19));
+  _pauseScriptAction->setEnabled(false);
+
+  _stopScriptAction =
+      addToolBarAction(_scriptsBottomToolBar, MaterialDesignIcons::Stop, QKeySequence("Ctrl+Space"),
+                       "Stop script", &PythonIDE::stopCurrentScript, QSize(19, 19));
+  _stopScriptAction->setEnabled(false);
+
+  _useUndoAction = addToolBarAction(
+      _scriptsBottomToolBar, MaterialDesignIcons::Play, QKeySequence(),
+      "If checked (default), current graph state will be saved before the script execution\nand "
+      "will be restored automatically if the script fails, or manually\nif the script succeeds by "
+      "clicking on the 'Undo' button.\n\nIf unchecked, every modification performed by the script "
+      "on the graph\ncan not be undone but performance of the script execution will be better\n(in "
+      "particular when dealing with a large graph).",
+      &PythonIDE::useUndoToggled, QSize(19, 19));
+  _useUndoAction->setCheckable(true);
+  _useUndoAction->setChecked(true);
+  useUndoToggled(_useUndoAction->isChecked());
+
+  _progressBar = new QProgressBar();
+  QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  sizePolicy.setHorizontalStretch(0);
+  sizePolicy.setVerticalStretch(0);
+  sizePolicy.setHeightForWidth(_progressBar->sizePolicy().hasHeightForWidth());
+  _progressBar->setSizePolicy(sizePolicy);
+  _progressBar->setMaximum(100);
+  _progressBar->setValue(-1);
+  _progressBar->setTextVisible(false);
+  _scriptsBottomToolBar->addWidget(_progressBar);
+
+  _anchoredAction = addCommonBottomToolBarActions(_scriptsBottomToolBar);
+
+  _registerPluginAction = addToolBarAction(
+      _pluginsBottomToolBar, MaterialDesignIcons::DatabaseRefresh, QKeySequence("Ctrl+Return"),
+      "Register or update plugin in database", &PythonIDE::registerPythonPlugin, QSize(19, 19));
+
+  _removePluginAction = addToolBarAction(
+      _pluginsBottomToolBar, MaterialDesignIcons::DatabaseRemove, QKeySequence("Ctrl+Shift+Return"),
+      "Remove plugin from database", &PythonIDE::removePythonPlugin, QSize(19, 19));
+
+  _pluginStatusLabel = new QLabel();
+  sizePolicy = QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  sizePolicy.setHorizontalStretch(0);
+  sizePolicy.setVerticalStretch(0);
+  sizePolicy.setHeightForWidth(_pluginStatusLabel->sizePolicy().hasHeightForWidth());
+  _pluginStatusLabel->setSizePolicy(sizePolicy);
+  _pluginsBottomToolBar->addWidget(_pluginStatusLabel);
+
+  _anchoredAction_2 = addCommonBottomToolBarActions(_pluginsBottomToolBar);
+
+  spacer = new QWidget();
+  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  _modulesBottomToolBar->addWidget(spacer);
+
+  _anchoredAction_3 = addCommonBottomToolBarActions(_modulesBottomToolBar);
 
   _ui->mainScriptsTabWidget->clear();
   _ui->modulesTabWidget->clear();
@@ -414,52 +519,12 @@ PythonIDE::PythonIDE(QWidget *parent)
 
   connect(_ui->tabWidget, &QTabWidget::currentChanged, this, &PythonIDE::currentTabChanged);
 
-  connect(_ui->newModuleButton, &QAbstractButton::clicked, this, &PythonIDE::newFileModule);
-  connect(_ui->newStringModuleButton, &QAbstractButton::clicked, this, &PythonIDE::newStringModule);
-  connect(_ui->loadModuleButton, &QAbstractButton::clicked, this,
-          QOverload<>::of(&PythonIDE::loadModule));
-  connect(_ui->saveModuleButton, &QAbstractButton::clicked, this,
-          QOverload<>::of(&PythonIDE::saveModule));
-  connect(_ui->saveModuleAsButton, &QAbstractButton::clicked, this, &PythonIDE::saveModuleAs);
-  connect(_ui->newPluginButton, &QAbstractButton::clicked, this, &PythonIDE::newPythonPlugin);
-  connect(_ui->loadPluginButton, &QAbstractButton::clicked, this,
-          QOverload<>::of(&PythonIDE::loadPythonPlugin));
-  connect(_ui->savePluginButton, &QAbstractButton::clicked, this,
-          QOverload<>::of(&PythonIDE::savePythonPlugin));
-  connect(_ui->savePluginAsButton, &QAbstractButton::clicked, this, &PythonIDE::savePythonPluginAs);
-  connect(_ui->registerPluginButton, &QAbstractButton::clicked, this,
-          &PythonIDE::registerPythonPlugin);
-  connect(_ui->removePluginButton, &QAbstractButton::clicked, this, &PythonIDE::removePythonPlugin);
   connect(_ui->consoleWidget, &QTextBrowser::anchorClicked, this, &PythonIDE::scrollToEditorLine);
-  connect(_ui->decreaseFontSizeButton, &QAbstractButton::clicked, this,
-          &PythonIDE::decreaseFontSize);
-  connect(_ui->increaseFontSizeButton, &QAbstractButton::clicked, this,
-          &PythonIDE::increaseFontSize);
-  connect(_ui->decreaseFontSizeButton_2, &QAbstractButton::clicked, this,
-          &PythonIDE::decreaseFontSize);
-  connect(_ui->increaseFontSizeButton_2, &QAbstractButton::clicked, this,
-          &PythonIDE::increaseFontSize);
-  connect(_ui->decreaseFontSizeButton_3, &QAbstractButton::clicked, this,
-          &PythonIDE::decreaseFontSize);
-  connect(_ui->increaseFontSizeButton_3, &QAbstractButton::clicked, this,
-          &PythonIDE::increaseFontSize);
 
   connect(_ui->mainScriptsTabWidget, &PythonEditorsTabWidget::fileSaved, this,
           &PythonIDE::scriptSaved);
   connect(_ui->modulesTabWidget, &PythonEditorsTabWidget::fileSaved, this, &PythonIDE::moduleSaved);
   connect(_ui->pluginsTabWidget, &PythonEditorsTabWidget::fileSaved, this, &PythonIDE::pluginSaved);
-
-  connect(_ui->runScriptButton, &QAbstractButton::clicked, this, &PythonIDE::executeCurrentScript);
-  connect(_ui->pauseScriptButton, &QAbstractButton::clicked, this, &PythonIDE::pauseCurrentScript);
-  connect(_ui->stopScriptButton, &QAbstractButton::clicked, this, &PythonIDE::stopCurrentScript);
-  connect(_ui->newMainScriptButton, &QAbstractButton::clicked, this, &PythonIDE::newScript);
-  connect(_ui->loadMainScriptButton, &QAbstractButton::clicked, this,
-          QOverload<>::of(&PythonIDE::loadScript));
-  connect(_ui->saveMainScriptButton, &QAbstractButton::clicked, this,
-          QOverload<>::of(&PythonIDE::saveScript));
-  connect(_ui->saveMainScriptAsButton, &QAbstractButton::clicked, this, &PythonIDE::saveScriptAs);
-  connect(_ui->graphComboBox, &TreeViewComboBox::currentItemChanged, this,
-          &PythonIDE::graphComboBoxIndexChanged);
 
   connect(_ui->modulesTabWidget, &PythonEditorsTabWidget::filesReloaded, _ui->mainScriptsTabWidget,
           &PythonEditorsTabWidget::reloadCodeInEditorsIfNeeded);
@@ -486,10 +551,6 @@ PythonIDE::PythonIDE(QWidget *parent)
           &PythonIDE::saveAllScripts);
   connect(_ui->pluginsTabWidget->tabBar(), &QTabBar::tabMoved, this, &PythonIDE::saveAllPlugins);
 
-  connect(_ui->anchoredCB, &QAbstractButton::toggled, this, &PythonIDE::anchored);
-  connect(_ui->anchoredCB_2, &QAbstractButton::toggled, this, &PythonIDE::anchored);
-  connect(_ui->anchoredCB_3, &QAbstractButton::toggled, this, &PythonIDE::anchored);
-
   connect(_ui->splitter, &QSplitter::splitterMoved,
           [this] { _splitterState = _ui->splitter->saveState(); });
 
@@ -515,6 +576,50 @@ PythonIDE::~PythonIDE() {
   delete _ui;
 }
 
+template <typename Slot>
+QAction *PythonIDE::addToolBarAction(QToolBar *toolBar, const QString &iconName,
+                                     const QKeySequence &shortcut, const QString &toolTip,
+                                     Slot slot, const QSize &iconSize, const QColor &iconColor) {
+  QAction *action = nullptr;
+
+  action = toolBar->addAction(FontIcon::icon(iconName, iconColor), "", this, slot);
+  action->setShortcut(shortcut);
+  action->setShortcutContext(Qt::ApplicationShortcut);
+  QString tooltip = toolTip;
+  QString shortcutString = shortcut.toString(QKeySequence::NativeText);
+  if (!shortcutString.isEmpty()) {
+    tooltip += QString(" (%1)").arg(shortcutString);
+  }
+  action->setToolTip(tooltip);
+
+  QToolButton *button = static_cast<QToolButton *>(toolBar->widgetForAction(action));
+  button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+  if (iconSize.isValid()) {
+    button->setIconSize(iconSize);
+  }
+
+  return action;
+}
+
+QAction *PythonIDE::addCommonBottomToolBarActions(QToolBar *toolBar) {
+  QAction *anchoredAction = addToolBarAction(
+      toolBar, MaterialDesignIcons::WindowRestore, QKeySequence(),
+      "Display the Python IDE in a separate window", &PythonIDE::anchored, QSize(19, 19));
+  anchoredAction->setCheckable(true);
+
+  toolBar->addWidget(new QLabel("Font size: "));
+
+  addToolBarAction(toolBar, MaterialDesignIcons::Minus, QKeySequence::ZoomOut,
+                   "Decrease the size of the font used in Python code editors",
+                   &PythonIDE::decreaseFontSize, QSize(19, 19));
+
+  addToolBarAction(toolBar, MaterialDesignIcons::Plus, QKeySequence::ZoomIn,
+                   "Increase the size of the font used in Python code editors",
+                   &PythonIDE::increaseFontSize, QSize(19, 19));
+
+  return anchoredAction;
+}
+
 int PythonIDE::addModuleEditor(const QString &fileName) {
   int idx = _ui->modulesTabWidget->addEditor(fileName);
   getModuleEditor(idx)->getAutoCompletionDb()->setGraph(getSelectedGraph());
@@ -524,8 +629,8 @@ int PythonIDE::addModuleEditor(const QString &fileName) {
 int PythonIDE::addPluginEditor(const QString &fileName) {
   int idx = _ui->pluginsTabWidget->addEditor(fileName);
   getPluginEditor(idx)->getAutoCompletionDb()->setGraph(getSelectedGraph());
-  _ui->registerPluginButton->setEnabled(true);
-  _ui->removePluginButton->setEnabled(true);
+  _registerPluginAction->setEnabled(true);
+  _removePluginAction->setEnabled(true);
   return idx;
 }
 
@@ -1110,12 +1215,12 @@ void PythonIDE::registerPythonPlugin(bool clear) {
       _pythonInterpreter->reloadModule(moduleName);
     }
 
-    _ui->pluginStatusLabel->setText("Plugin successfully registered");
+    _pluginStatusLabel->setText("Plugin successfully registered");
     _editedPluginsClassName[pluginFile] = pluginClassName;
     _editedPluginsType[pluginFile] = pluginType;
     _editedPluginsName[pluginFile] = pluginName;
   } else {
-    _ui->pluginStatusLabel->setText("Plugin registration failed");
+    _pluginStatusLabel->setText("Plugin registration failed");
     indicateErrors();
   }
 
@@ -1134,9 +1239,9 @@ void PythonIDE::removePythonPlugin() {
 
   if (tlp::PluginsManager::pluginExists(QStringToTlpString(pluginName))) {
     tlp::PluginsManager::removePlugin(QStringToTlpString(pluginName));
-    _ui->pluginStatusLabel->setText("Plugin successfully removed");
+    _pluginStatusLabel->setText("Plugin successfully removed");
   } else {
-    _ui->pluginStatusLabel->setText("Plugin not registered in database");
+    _pluginStatusLabel->setText("Plugin not registered in database");
   }
 }
 
@@ -1686,7 +1791,7 @@ int PythonIDE::addMainScriptEditor(const QString &fileName) {
   getMainScriptEditor(idx)->getAutoCompletionDb()->setGraph(getSelectedGraph());
 
   if (_ui->mainScriptsTabWidget->count() == 1) {
-    _ui->runScriptButton->setEnabled(true);
+    _runScriptAction->setEnabled(true);
   }
 
   return idx;
@@ -1698,11 +1803,11 @@ void PythonIDE::pauseCurrentScript() {
 
 void PythonIDE::currentScriptPaused() {
   Observable::unholdObservers();
-  _ui->pauseScriptButton->setEnabled(false);
-  _ui->runScriptButton->setEnabled(true);
-  _ui->runScriptButton->setToolTip("Resume script (Ctrl + Return)");
-  _ui->progressBar->setRange(0, 100);
-  _ui->progressBar->reset();
+  _pauseScriptAction->setEnabled(false);
+  _runScriptAction->setEnabled(true);
+  _runScriptAction->setToolTip("Resume script (Ctrl + Return)");
+  _progressBar->setRange(0, 100);
+  _progressBar->reset();
 }
 
 void PythonIDE::newScript() {
@@ -1844,7 +1949,7 @@ void PythonIDE::saveAllScripts() {
 
 void PythonIDE::setGraphsModel(tlp::GraphHierarchiesModel *model) {
   _graphsModel = model;
-  _ui->graphComboBox->setModel(model);
+  _graphComboBox->setModel(model);
   _ui->replWidget->setModel(model);
 }
 
@@ -1860,14 +1965,14 @@ void PythonIDE::dropEvent(QDropEvent *dropEv) {
   const auto *mimeType = dynamic_cast<const tlp::GraphMimeType *>(dropEv->mimeData());
 
   if (mimeType != nullptr) {
-    auto *model = static_cast<tlp::GraphHierarchiesModel *>(_ui->graphComboBox->model());
+    auto *model = static_cast<tlp::GraphHierarchiesModel *>(_graphComboBox->model());
     QModelIndex graphIndex = model->indexOf(mimeType->graph());
 
-    if (graphIndex == _ui->graphComboBox->selectedIndex()) {
+    if (graphIndex == _graphComboBox->selectedIndex()) {
       return;
     }
 
-    _ui->graphComboBox->selectIndex(graphIndex);
+    _graphComboBox->selectIndex(graphIndex);
     dropEv->accept();
   }
 }
@@ -1886,10 +1991,10 @@ void PythonIDE::executeCurrentScript() {
   if (_pythonInterpreter->isScriptPaused()) {
     Observable::holdObservers();
     _pythonInterpreter->pauseCurrentScript(false);
-    _ui->runScriptButton->setEnabled(false);
-    _ui->runScriptButton->setToolTip("Run script (Ctrl + Return)");
-    _ui->pauseScriptButton->setEnabled(true);
-    _ui->progressBar->setRange(0, 0);
+    _runScriptAction->setEnabled(false);
+    _runScriptAction->setToolTip("Run script (Ctrl + Return)");
+    _pauseScriptAction->setEnabled(true);
+    _progressBar->setRange(0, 0);
     return;
   }
 
@@ -1915,7 +2020,7 @@ void PythonIDE::executeCurrentScript() {
     return;
   }
 
-  if (_ui->useUndoCB->isChecked()) {
+  if (_useUndoAction->isChecked()) {
     graph->push();
   }
 
@@ -1923,11 +2028,11 @@ void PythonIDE::executeCurrentScript() {
 
   _pythonInterpreter->setProcessQtEventsDuringScriptExecution(true);
 
-  _ui->progressBar->setRange(0, 0);
+  _progressBar->setRange(0, 0);
 
-  _ui->runScriptButton->setEnabled(false);
-  _ui->stopScriptButton->setEnabled(true);
-  _ui->pauseScriptButton->setEnabled(true);
+  _runScriptAction->setEnabled(false);
+  _stopScriptAction->setEnabled(true);
+  _pauseScriptAction->setEnabled(true);
 
   QApplication::processEvents();
 
@@ -1936,16 +2041,16 @@ void PythonIDE::executeCurrentScript() {
   _scriptRunning = false;
 
   _pythonInterpreter->setProcessQtEventsDuringScriptExecution(false);
-  _ui->stopScriptButton->setEnabled(false);
-  _ui->runScriptButton->setEnabled(true);
-  _ui->pauseScriptButton->setEnabled(false);
+  _stopScriptAction->setEnabled(false);
+  _runScriptAction->setEnabled(true);
+  _pauseScriptAction->setEnabled(false);
 
   if (scriptExecOk) {
     _pythonInterpreter->runString("del main");
 
     // no need to keep new graph state in memory as the script
     // only performed read only operations on the graph
-    if (_ui->useUndoCB->isChecked()) {
+    if (_useUndoAction->isChecked()) {
       graph->popIfNoUpdates();
     }
 
@@ -1955,13 +2060,13 @@ void PythonIDE::executeCurrentScript() {
       indicateErrors();
     }
 
-    if (_ui->useUndoCB->isChecked()) {
+    if (_useUndoAction->isChecked()) {
       graph->pop(false);
     }
   }
 
-  _ui->progressBar->setRange(0, 100);
-  _ui->progressBar->reset();
+  _progressBar->setRange(0, 100);
+  _progressBar->reset();
 
   _pythonInterpreter->resetConsoleWidget();
 
@@ -2075,20 +2180,39 @@ bool PythonIDE::loadModuleFromSrcCode(const QString &moduleName, const QString &
   return ret;
 }
 
-bool PythonIDE::eventFilter(QObject *obj, QEvent *event) {
-#ifdef __APPLE__
-  Qt::KeyboardModifiers modifier = Qt::MetaModifier;
-#else
-  Qt::KeyboardModifiers modifier = Qt::ControlModifier;
-#endif
+bool PythonIDE::eventFilter(QObject *, QEvent *event) {
+  if (event->type() == QEvent::Shortcut) {
+    // ensure keyboard shortcuts work as some are ambiguous with those
+    // defined in Talipot main window
+    auto *scEvt = static_cast<QShortcutEvent *>(event);
+    if (scEvt->isAmbiguous()) {
+      QToolBar *topToolBar = nullptr;
+      QToolBar *bottomToolBar = nullptr;
+      if (_scriptsTopToolBar->isVisible()) {
+        topToolBar = _scriptsTopToolBar;
+        bottomToolBar = _scriptsBottomToolBar;
+      } else if (_modulesTopToolBar->isVisible()) {
+        topToolBar = _modulesTopToolBar;
+        bottomToolBar = _modulesBottomToolBar;
+      } else if (_pluginsTopToolBar->isVisible()) {
+        topToolBar = _pluginsTopToolBar;
+        bottomToolBar = _pluginsBottomToolBar;
+      }
 
-  if (event->type() == QEvent::KeyPress) {
-    auto *keyEvt = static_cast<QKeyEvent *>(event);
-
-    if (obj == getCurrentMainScriptEditor() && keyEvt->modifiers() == modifier &&
-        keyEvt->key() == Qt::Key_Return) {
-      executeCurrentScript();
-      return true;
+      if (topToolBar) {
+        for (const auto &action : topToolBar->actions()) {
+          if (action->shortcut() == scEvt->key()) {
+            action->trigger();
+            return true;
+          }
+        }
+        for (const auto &action : bottomToolBar->actions()) {
+          if (action->shortcut() == scEvt->key()) {
+            action->trigger();
+            return true;
+          }
+        }
+      }
     }
   }
 
@@ -2140,7 +2264,7 @@ void PythonIDE::closeScriptTabRequested(int idx) {
   }
 
   if (_ui->mainScriptsTabWidget->count() == 0) {
-    _ui->runScriptButton->setEnabled(false);
+    _runScriptAction->setEnabled(false);
   }
 }
 
@@ -2171,8 +2295,8 @@ void PythonIDE::closePluginTabRequested(int idx) {
   }
 
   if (_ui->pluginsTabWidget->count() == 0) {
-    _ui->registerPluginButton->setEnabled(false);
-    _ui->removePluginButton->setEnabled(false);
+    _registerPluginAction->setEnabled(false);
+    _removePluginAction->setEnabled(false);
   }
 }
 
@@ -2313,13 +2437,13 @@ void PythonIDE::setModuleEditorsVisible(bool visible) {
 }
 
 Graph *PythonIDE::getSelectedGraph() const {
-  return _graphsModel->data(_ui->graphComboBox->selectedIndex(), Model::GraphRole).value<Graph *>();
+  return _graphsModel->data(_graphComboBox->selectedIndex(), Model::GraphRole).value<Graph *>();
 }
 
 void PythonIDE::setAnchoredCheckboxVisible(bool visible) {
-  _ui->anchoredCB->setVisible(visible);
-  _ui->anchoredCB_2->setVisible(visible);
-  _ui->anchoredCB_3->setVisible(visible);
+  _anchoredAction->setVisible(visible);
+  _anchoredAction_2->setVisible(visible);
+  _anchoredAction_3->setVisible(visible);
 }
 
 void PythonIDE::anchored(bool anchored) {
@@ -2329,9 +2453,9 @@ void PythonIDE::anchored(bool anchored) {
 
 void PythonIDE::setAnchored(bool anchored) {
   _anchored = anchored;
-  disconnect(_ui->anchoredCB, &QAbstractButton::toggled, this, &PythonIDE::anchored);
-  disconnect(_ui->anchoredCB_2, &QAbstractButton::toggled, this, &PythonIDE::anchored);
-  disconnect(_ui->anchoredCB_3, &QAbstractButton::toggled, this, &PythonIDE::anchored);
+  disconnect(_anchoredAction, &QAction::toggled, this, &PythonIDE::anchored);
+  disconnect(_anchoredAction_2, &QAction::toggled, this, &PythonIDE::anchored);
+  disconnect(_anchoredAction_3, &QAction::toggled, this, &PythonIDE::anchored);
   QIcon icon;
   QString tooltip;
   if (anchored) {
@@ -2341,18 +2465,18 @@ void PythonIDE::setAnchored(bool anchored) {
     icon = FontIcon::icon(MaterialDesignIcons::DockLeft, QColor(Qt::white));
     tooltip = "Dock the Python IDE to the left of Talipot window";
   }
-  _ui->anchoredCB->setIcon(icon);
-  _ui->anchoredCB_2->setIcon(icon);
-  _ui->anchoredCB_3->setIcon(icon);
-  _ui->anchoredCB->setToolTip(tooltip);
-  _ui->anchoredCB_2->setToolTip(tooltip);
-  _ui->anchoredCB_3->setToolTip(tooltip);
-  _ui->anchoredCB->setChecked(anchored);
-  _ui->anchoredCB_2->setChecked(anchored);
-  _ui->anchoredCB_3->setChecked(anchored);
-  connect(_ui->anchoredCB, &QAbstractButton::toggled, this, &PythonIDE::anchored);
-  connect(_ui->anchoredCB_2, &QAbstractButton::toggled, this, &PythonIDE::anchored);
-  connect(_ui->anchoredCB_3, &QAbstractButton::toggled, this, &PythonIDE::anchored);
+  _anchoredAction->setIcon(icon);
+  _anchoredAction_2->setIcon(icon);
+  _anchoredAction_3->setIcon(icon);
+  _anchoredAction->setToolTip(tooltip);
+  _anchoredAction_2->setToolTip(tooltip);
+  _anchoredAction_3->setToolTip(tooltip);
+  _anchoredAction->setChecked(anchored);
+  _anchoredAction_2->setChecked(anchored);
+  _anchoredAction_3->setChecked(anchored);
+  connect(_anchoredAction, &QAction::toggled, this, &PythonIDE::anchored);
+  connect(_anchoredAction_2, &QAction::toggled, this, &PythonIDE::anchored);
+  connect(_anchoredAction_3, &QAction::toggled, this, &PythonIDE::anchored);
   for (int i = _ui->mainScriptsTabWidget->count() - 1; i >= 0; --i) {
     _ui->mainScriptsTabWidget->getEditor(i)->resetFindReplaceDialog();
   }
@@ -2374,11 +2498,11 @@ void PythonIDE::useUndoToggled(bool useUndo) {
   static QIcon baseIcon =
       FontIcon::icon(MaterialDesignIcons::Reply, QColor(Qt::white), 0.8, 0, QPoint(0, -2));
   if (useUndo) {
-    _ui->useUndoCB->setIcon(baseIcon);
+    _useUndoAction->setIcon(baseIcon);
   } else {
     static QIcon icon = FontIcon::stackIcons(
         baseIcon, FontIcon::icon(MaterialDesignIcons::WindowClose, QColor(Qt::black)));
-    _ui->useUndoCB->setIcon(icon);
+    _useUndoAction->setIcon(icon);
   }
 }
 

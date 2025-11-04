@@ -611,7 +611,7 @@ QFrame[header="true"] QComboBox QAbstractItemView {
   border-top: none;
 }
 
-#PythonIDE QFrame[pythonToolbar="true"] {
+#PythonIDE QWidget[pythonToolbar="true"] {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   border-right: black;
@@ -619,7 +619,7 @@ QFrame[header="true"] QComboBox QAbstractItemView {
   background: #323232;
 }
 
-#PythonIDE QFrame[pythonToolbar="true"] QToolButton,
+#PythonIDE QWidget[pythonToolbar="true"] QToolButton,
 #PythonIDE QWidget[pythonIDEBottomWidget="true"] QToolButton {
   border-image: none;
   border-top: 1px solid rgba(0,0,0,0);
@@ -633,17 +633,18 @@ QFrame[header="true"] QComboBox QAbstractItemView {
 }
 
 #PythonIDE QWidget[pythonIDEBottomWidget="true"] QToolButton:hover {
+  border-image: none;
   background: #565656;
 }
 
-#PythonIDE QFrame[pythonToolbar="true"] QToolButton:hover {
+#PythonIDE QWidget[pythonToolbar="true"] QToolButton:hover {
   border-image: none;
   background: #595b5d;
 }
 
-#PythonIDE QFrame[pythonToolbar="true"] QToolButton:checked,
-#PythonIDE QFrame[pythonToolbar="true"] QToolButton:pressed,
-#PythonIDE QFrame[pythonToolbar="true"] QPushButton:pressed {
+#PythonIDE QWidget[pythonToolbar="true"] QToolButton:checked,
+#PythonIDE QWidget[pythonToolbar="true"] QToolButton:pressed,
+#PythonIDE QWidget[pythonToolbar="true"] QPushButton:pressed {
   border-image: none;
   background: black;
 }
@@ -688,6 +689,8 @@ QFrame[header="true"] QComboBox QAbstractItemView {
   border: none;
   border-top: 1px solid black;
   background: #323232;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 #PythonIDE QWidget[pythonIDEBottomWidget="true"] QPushButton,

@@ -32,20 +32,6 @@
 using namespace std;
 using namespace tlp;
 
-class GragKeyboardFocusEventFilter : public QObject {
-public:
-  bool eventFilter(QObject *, QEvent *event) override {
-    if (event->type() == QEvent::ShortcutOverride) {
-      event->accept();
-      return true;
-    }
-
-    return false;
-  }
-};
-
-static GragKeyboardFocusEventFilter keyboardFocusEventFilter;
-
 static char sepChar[] = {' ', '\t', '=', '(', '[', '{', ',', '*', '+', '/', '^', '-', 0};
 
 namespace tlp {
@@ -79,7 +65,6 @@ AutoCompletionList::AutoCompletionList() : QListWidget(), _codeEditor(nullptr) {
   setAttribute(Qt::WA_StaticContents);
   setFrameShape(StyledPanel);
   setFrameShadow(Plain);
-  installEventFilter(&keyboardFocusEventFilter);
   _activated = false;
   _wasActivated = false;
   setToolTip("Use up and down arrow keys to navigate through the list (or use the mouse wheel).\n"
@@ -449,7 +434,6 @@ unique_ptr<AutoCompletionDataBase> PythonCodeEditor::_autoCompletionDb;
 PythonCodeEditor::PythonCodeEditor(QWidget *parent)
     : QPlainTextEdit(parent), _highlighter(nullptr), _tooltipActive(false), _indentPattern(4, ' ') {
   setObjectName("PythonCodeEditor");
-  installEventFilter(&keyboardFocusEventFilter);
   setAutoIndentation(true);
   setIndentationGuides(true);
   setHighlightEditedLine(true);
