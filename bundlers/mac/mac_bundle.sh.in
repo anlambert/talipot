@@ -131,6 +131,17 @@ platforms position styles tls
     done
 fi
 
+# copy missing libbrotlicommon.1.dylib when using homebrew
+if [ -f /opt/homebrew/lib/libbrotlicommon.1.dylib ]
+then
+    cp /opt/homebrew/lib/libbrotlicommon.1.dylib ${TALIPOT_APP}/Contents/Frameworks
+fi
+
+if [ -f /usr/local/lib/libbrotlicommon.1.dylib ]
+then
+    cp /usr/local/lib/libbrotlicommon.1.dylib ${TALIPOT_APP}/Contents/Frameworks
+fi
+
 echo 'Fix remaining hardcoded dylib loading paths'
 # fix remaining hardcoded dylib loading paths in binaries to ensure bundle portability
 pushd "${DEST_DIR}/application/Talipot.app/Contents/" > /dev/null 2>&1
