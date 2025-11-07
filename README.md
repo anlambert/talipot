@@ -1,4 +1,4 @@
-# Talipot [![license](https://img.shields.io/github/license/anlambert/talipot.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+# Talipot [![license](https://img.shields.io/github/license/anlambert/talipot.svg)](https://www.gnu.org/licenses/gpl-3.0.html) [![Supported platforms](https://img.shields.io/badge/platforms-Linux%20|%20macOS%20|%20Windows%20-blue)](https://github.com/anlambert/talipot)
 [![Build Status](https://github.com/anlambert/talipot/actions/workflows/ubuntu-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/ubuntu-build.yml)
 [![Build Status](https://github.com/anlambert/talipot/actions/workflows/archlinux-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/archlinux-build.yml)
 [![Build Status](https://github.com/anlambert/talipot/actions/workflows/appimage-build.yml/badge.svg?branch=master)](https://github.com/anlambert/talipot/actions/workflows/appimage-build.yml)
