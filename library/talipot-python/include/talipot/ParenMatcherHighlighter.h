@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -42,8 +42,7 @@ public:
 
 class ParenMatcherHighlighter : public QSyntaxHighlighter {
 
-  QVector<char> _leftParensToMatch;
-  QVector<char> _rightParensToMatch;
+  const QVector<char> _parensToMatch = {'(', '[', '{', ')', ']', '}'};
 
 public:
   explicit ParenMatcherHighlighter(QTextDocument *parent = nullptr);

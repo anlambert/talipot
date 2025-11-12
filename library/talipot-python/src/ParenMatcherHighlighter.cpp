@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,14 +30,7 @@ void ParenInfoTextBlockData::sortParenInfo() {
 }
 
 ParenMatcherHighlighter::ParenMatcherHighlighter(QTextDocument *parent)
-    : QSyntaxHighlighter(parent) {
-  _leftParensToMatch.append('(');
-  _leftParensToMatch.append('[');
-  _leftParensToMatch.append('{');
-  _rightParensToMatch.append(')');
-  _rightParensToMatch.append(']');
-  _rightParensToMatch.append('}');
-}
+    : QSyntaxHighlighter(parent) {}
 
 void ParenMatcherHighlighter::highlightBlock(const QString &text) {
   auto *data = new ParenInfoTextBlockData;
@@ -68,27 +61,15 @@ void ParenMatcherHighlighter::highlightBlock(const QString &text) {
     pos = modifiedText.indexOf(simpleQuotesRegexp, pos + match.capturedLength(), &match);
   }
 
-  for (char c : _leftParensToMatch) {
-    int leftPos = modifiedText.indexOf(c);
+  for (char paren : _parensToMatch) {
+    int pos = modifiedText.indexOf(paren);
 
-    while (leftPos != -1) {
+    while (pos != -1) {
       ParenInfo info;
-      info.character = c;
-      info.position = currentBlock().position() + leftPos;
+      info.character = paren;
+      info.position = currentBlock().position() + pos;
       data->insert(info);
-      leftPos = modifiedText.indexOf(c, leftPos + 1);
-    }
-  }
-
-  for (char c : _rightParensToMatch) {
-    int rightPos = modifiedText.indexOf(c);
-
-    while (rightPos != -1) {
-      ParenInfo info;
-      info.character = c;
-      info.position = currentBlock().position() + rightPos;
-      data->insert(info);
-      rightPos = modifiedText.indexOf(c, rightPos + 1);
+      pos = modifiedText.indexOf(paren, pos + 1);
     }
   }
 
