@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -73,8 +73,7 @@ public:
    * If there is no value, it returns the default node value.
    *
    * @param n The node for which we want to get the value of the property.
-   * @return :StoredType< NodeType::RealType >::ConstReference The value of the property for
-   *this node.
+   * @return The value of the property for this node.
    **/
   TYPE_CONST_REFERENCE(NodeType)
   getNodeValue(const node n) const;
@@ -115,12 +114,133 @@ public:
   virtual void setNodeValue(const node n, TYPE_CONST_REFERENCE(NodeType) v);
 
   /**
+   * @brief inner class used to overload the operator[] to set a node value
+   **/
+  class NodeValueProxy {
+  protected:
+    AbstractProperty *_prop;
+    node _n;
+
+  public:
+    constexpr NodeValueProxy(AbstractProperty *prop, node n) : _prop(prop), _n(n) {}
+
+    constexpr TYPE_CONST_REFERENCE(NodeType) getValue() const {
+      return _prop->getNodeValue(_n);
+    }
+
+    /**
+     * @brief overloading of operator= to assign a node value
+     * which allow to write: prop[n] = val
+     **/
+    NodeValueProxy &operator=(TYPE_CONST_REFERENCE(NodeType) val) {
+      _prop->setNodeValue(_n, val);
+      return *this;
+    }
+
+    /**
+     * @brief overloading of operator= to assign a node value
+     * which allow to write: prop1[n] = prop2[m]
+     **/
+    NodeValueProxy &operator=(const NodeValueProxy &ref) {
+      _prop->setNodeValue(_n, ref.getValue());
+      return *this;
+    }
+
+    constexpr bool operator==(const NodeValueProxy &ref) const {
+      return getValue() == ref.getValue();
+    }
+
+    /**
+     * @brief overloading of value type conversion operator
+     * which allow to write: if (prop[n])
+     **/
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ >= 13
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdangling-reference"
+#endif
+    constexpr operator TYPE_CONST_REFERENCE(NodeType)() const {
+      return getValue();
+    }
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ >= 13
+#pragma GCC diagnostic pop
+#endif
+  };
+
+  /**
+   * @brief overloading of operator[] to set a node value
+   **/
+  constexpr NodeValueProxy operator[](node n) {
+    return NodeValueProxy(this, n);
+  }
+
+  /**
    * @brief Set the value of an edge and notify the observers of a modification.
    *
    * @param e The edge to set the value of.
    * @param v The value to affect for this edge.
    **/
   virtual void setEdgeValue(const edge e, TYPE_CONST_REFERENCE(EdgeType) v);
+
+  /**
+   * @brief inner class used to overload the operator[] to set an edge value
+   **/
+  class EdgeValueProxy {
+
+  protected:
+    AbstractProperty *_prop;
+    edge _e;
+
+  public:
+    constexpr EdgeValueProxy(AbstractProperty *prop, edge e) : _prop(prop), _e(e) {}
+
+    constexpr TYPE_CONST_REFERENCE(EdgeType) getValue() const {
+      return _prop->getEdgeValue(_e);
+    }
+
+    /**
+     * @brief overloading of operator= to assign an edge value
+     * which allow to write: prop[n] = val
+     **/
+    EdgeValueProxy &operator=(TYPE_CONST_REFERENCE(EdgeType) val) {
+      _prop->setEdgeValue(_e, val);
+      return *this;
+    }
+
+    /**
+     * @brief overloading of operator= to assign an edge value
+     * which allow to write: prop1[e1] = prop2[e2]
+     **/
+    EdgeValueProxy &operator=(const EdgeValueProxy &ref) {
+      _prop->setEdgeValue(_e, ref.getValue());
+      return *this;
+    }
+
+    constexpr bool operator==(const EdgeValueProxy &ref) const {
+      return getValue() == ref.getValue();
+    }
+
+    /**
+     * @brief overloading of value type conversion operator
+     * which allow to write: if (prop[e])
+     **/
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ >= 13
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdangling-reference"
+#endif
+    constexpr operator TYPE_CONST_REFERENCE(EdgeType)() const {
+      return getValue();
+    }
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ >= 13
+#pragma GCC diagnostic pop
+#endif
+  };
+
+  /**
+   * @brief overloading of operator[] to set an edge value
+   **/
+  constexpr EdgeValueProxy operator[](edge e) {
+    return EdgeValueProxy(this, e);
+  }
 
   /**
    * @brief Sets the value of all nodes and notify the observers.

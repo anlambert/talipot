@@ -26,7 +26,7 @@
                                                                                       \
     uint id;                                                                          \
                                                                                       \
-    element() : id(UINT_MAX) {}                                                       \
+    constexpr element() : id(UINT_MAX) {}                                             \
                                                                                       \
     element(uint j) : id(j) {}                                                        \
                                                                                       \

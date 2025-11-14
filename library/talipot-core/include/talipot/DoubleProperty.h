@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -47,7 +47,128 @@ public:
   }
 
   void setNodeValue(const node n, StoredType<double>::ConstReference v) override;
+
+  // inner class used to extend the overloading of the operator[]
+  // to set a node value
+  class NodeValueProxy : public AbstractProperty<tlp::DoubleType, tlp::DoubleType,
+                                                 tlp::NumericProperty>::NodeValueProxy {
+
+  public:
+    constexpr NodeValueProxy(DoubleProperty *prop, node n)
+        : AbstractProperty<tlp::DoubleType, tlp::DoubleType, tlp::NumericProperty>::NodeValueProxy(
+              prop, n) {}
+
+    NodeValueProxy &operator=(StoredType<double>::ConstReference val) {
+      _prop->setNodeValue(_n, val);
+      return *this;
+    }
+
+    // prefix increment
+    NodeValueProxy &operator++() {
+      _prop->setNodeValue(_n, getValue() + 1);
+      return *this;
+    }
+
+    // postfix increment
+    auto operator++(int) {
+      auto val = getValue();
+      _prop->setNodeValue(_n, val + 1);
+      return val;
+    }
+
+    // increment and assign
+    NodeValueProxy &operator+=(double val) {
+      _prop->setNodeValue(_n, getValue() + val);
+      return *this;
+    }
+
+    // prefix decrement
+    NodeValueProxy &operator--() {
+      _prop->setNodeValue(_n, getValue() - 1);
+      return *this;
+    }
+
+    // postfix decrement
+    auto operator--(int) {
+      auto val = getValue();
+      _prop->setNodeValue(_n, val - 1);
+      return val;
+    }
+
+    // decrement and assign
+    NodeValueProxy &operator-=(double val) {
+      _prop->setNodeValue(_n, getValue() - val);
+      return *this;
+    }
+  };
+
+  // overload operator[] to set a node value
+  constexpr NodeValueProxy operator[](node n) {
+    return NodeValueProxy(this, n);
+  }
+
   void setEdgeValue(const edge e, StoredType<double>::ConstReference v) override;
+
+  // inner class used to extend the overloading of the operator[]
+  // to set an edge value
+  class EdgeValueProxy : public AbstractProperty<tlp::DoubleType, tlp::DoubleType,
+                                                 tlp::NumericProperty>::EdgeValueProxy {
+
+  public:
+    constexpr EdgeValueProxy(DoubleProperty *prop, edge e)
+        : AbstractProperty<tlp::DoubleType, tlp::DoubleType, tlp::NumericProperty>::EdgeValueProxy(
+              prop, e) {}
+
+    EdgeValueProxy &operator=(StoredType<double>::ConstReference val) {
+      _prop->setEdgeValue(_e, val);
+      return *this;
+    }
+
+    // prefix increment
+    EdgeValueProxy &operator++() {
+      _prop->setEdgeValue(_e, getValue() + 1);
+      return *this;
+    }
+
+    // postfix increment
+    auto operator++(int) {
+      auto val = getValue();
+      _prop->setEdgeValue(_e, val + 1);
+      return val;
+    }
+
+    // increase value
+    EdgeValueProxy &operator+=(double val) {
+      _prop->setEdgeValue(_e, getValue() + val);
+      return *this;
+    }
+
+    // prefix decrement
+    EdgeValueProxy &operator--() {
+      _prop->setEdgeValue(_e, getValue() - 1);
+      return *this;
+    }
+
+    // postfix decrement
+    auto operator--(int) {
+      auto val = getValue();
+      _prop->setEdgeValue(_e, val - 1);
+      return val;
+    }
+
+    // decrease value
+
+    EdgeValueProxy &operator-=(double val) {
+      _prop->setEdgeValue(_e, getValue() - val);
+      return *this;
+    }
+  };
+
+  // overload operator[] to set an edge value
+  constexpr EdgeValueProxy operator[](edge e) {
+    return EdgeValueProxy(this, e);
+  }
+
   void setAllNodeValue(StoredType<double>::ConstReference v, const Graph *graph = nullptr) override;
   void setAllEdgeValue(StoredType<double>::ConstReference v, const Graph *graph = nullptr) override;
 

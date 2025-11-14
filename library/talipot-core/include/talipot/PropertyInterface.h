@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -173,13 +173,6 @@ public:
   virtual std::string getNodeStringValue(const node n) const = 0;
 
   /**
-   * @brief Gets a string representation of the edge default value.
-   * @param e The edge to get the value of.
-   * @return A string representation of the edge default value.
-   */
-  virtual std::string getEdgeStringValue(const edge e) const = 0;
-
-  /**
    * @brief Sets a new value on the node, represented by the string parameter.
    * @param n The node on which to set the new value.
    * @param value A string representing the value to set on the node.
@@ -189,6 +182,71 @@ public:
   virtual bool setNodeStringValue(const node n, const std::string &value) = 0;
 
   /**
+   * @brief inner class used to overload the operator[] to set a node string value
+   **/
+  class NodeValueProxy {
+  protected:
+    PropertyInterface *_prop;
+    node _n;
+
+  public:
+    constexpr NodeValueProxy(PropertyInterface *prop, node n) : _prop(prop), _n(n) {}
+
+    std::string getStringValue() const {
+      return _prop->getNodeStringValue(_n);
+    }
+
+    /**
+     * @brief overloading of operator= to assign a node string value
+     * which allows to write: prop[n] = strval
+     **/
+    NodeValueProxy &operator=(const std::string &val) {
+      _prop->setNodeStringValue(_n, val);
+      return *this;
+    }
+
+    /**
+     * @brief overloading of operator= to assign a node string value
+     * which allows to write: prop1[n] = prop2[m]
+     **/
+    NodeValueProxy &operator=(const NodeValueProxy &ref) {
+      _prop->setNodeStringValue(_n, ref.getStringValue());
+      return *this;
+    }
+
+    /**
+     * @brief overloading of operator==
+     * which allows to write: prop1[n] == prop2[m]
+     **/
+    bool operator==(const std::string &str) const {
+      return _prop->getNodeStringValue(_n) == str;
+    }
+
+    /**
+     * @brief overloading of std::string conversion operator
+     **/
+
+    operator std::string() const {
+      return getStringValue();
+    }
+  };
+
+  /**
+   * @brief overloading of operator[] to set a node string value
+   **/
+
+  constexpr NodeValueProxy operator[](node n) {
+    return NodeValueProxy(this, n);
+  }
+
+  /**
+   * @brief Gets a string representation of the edge default value.
+   * @param e The edge to get the value of.
+   * @return A string representation of the edge default value.
+   */
+  virtual std::string getEdgeStringValue(const edge e) const = 0;
+
+  /**
    * @brief Sets a new value on the edge, represented by the string parameter.
    * @param e The edge on which to set value on.
    * @param value A string representing the value to set on the edge.
@@ -196,6 +254,71 @@ public:
    * value is not set.
    */
   virtual bool setEdgeStringValue(const edge e, const std::string &value) = 0;
+
+  /**
+   * @brief inner class used to overload the operator[] to set an edge string value
+   **/
+  class EdgeValueProxy {
+
+  protected:
+    PropertyInterface *_prop;
+    edge _e;
+
+  public:
+    constexpr EdgeValueProxy(PropertyInterface *prop, edge e) : _prop(prop), _e(e) {}
+
+    std::string getStringValue() const {
+      return _prop->getEdgeStringValue(_e);
+    }
+
+    /**
+     * @brief overloading of operator= to assign a edge string value
+     * which allows to write: prop[e] = strval
+     **/
+    EdgeValueProxy &operator=(const std::string &val) {
+      _prop->setEdgeStringValue(_e, val);
+      return *this;
+    }
+
+    /**
+     * @brief overloading of operator= to assign a edge string value
+     * which allows to write: prop1[e1] = prop2[e2]
+     **/
+    EdgeValueProxy &operator=(const EdgeValueProxy &ref) {
+      _prop->setEdgeStringValue(_e, ref.getStringValue());
+      return *this;
+    }
+
+    /**
+     * @brief overloading of operator==
+     * which allows to write: prop1[e1] == prop2[e2]
+     **/
+    bool operator==(const std::string &str) const {
+      return _prop->getEdgeStringValue(_e) == str;
+    }
+
+    /**
+     * @brief overloading of std::string conversion operator
+     **/
+    operator std::string() {
+      return getStringValue();
+    }
+  };
+
+  /**
+   * @brief overloading of operator[] to set a edge string value value
+   **/
+  constexpr EdgeValueProxy operator[](edge e) {
+    return EdgeValueProxy(this, e);
+  }
+
+  /**
+   * @brief overloading of operator[] to get the edge string value
+   **/
+
+  std::string operator[](edge e) const {
+    return getEdgeStringValue(e);
+  }
 
   /**
    * @brief Gets a string representation of the node default value.
@@ -668,6 +791,17 @@ protected:
   PropertyEventType evtType;
   uint eltId;
 };
+
+inline bool operator==(const PropertyInterface::NodeValueProxy &a,
+                       const PropertyInterface::NodeValueProxy &b) {
+  return a.getStringValue() == b.getStringValue();
+}
+
+inline bool operator==(const PropertyInterface::EdgeValueProxy &a,
+                       const PropertyInterface::EdgeValueProxy &b) {
+  return a.getStringValue() == b.getStringValue();
+}
+
 }
 
 //================================================================================
