@@ -52,5 +52,7 @@ UNIT_TEST(ParallelToolsTest ParallelToolsTest.cpp talipotlibtest.cpp)
 UNIT_TEST(TlpToolsTest TlpToolsTest.cpp talipotlibtest.cpp)
 UNIT_TEST(GraphTraversalTest GraphTraversalTest.cpp talipotlibtest.cpp)
 UNIT_TEST(PropertyProxyTest PropertyProxyTest.cpp talipotlibtest.cpp)
+UNIT_TEST(PropertyArraySubscriptTest PropertyArraySubscriptTest.cpp
+          talipotlibtest.cpp)
 
 SET_TESTS_PROPERTIES(PluginsTest PROPERTIES DEPENDS copyTestData)
