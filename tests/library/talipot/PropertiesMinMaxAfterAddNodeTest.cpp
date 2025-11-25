@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,8 +40,8 @@ void PropertiesMinMaxAfterAddNodeTest::testDoublePropertyMinMaxAfterAddNode() {
   const double d2 = 89.6;
 
   // set values to doubleProp
-  doubleProp->setNodeValue(n1, d1);
-  doubleProp->setNodeValue(n2, d2);
+  (*doubleProp)[n1] = d1;
+  (*doubleProp)[n2] = d2;
   CPPUNIT_ASSERT_EQUAL(d1, doubleProp->getNodeMin(graph));
   CPPUNIT_ASSERT_EQUAL(d2, doubleProp->getNodeMax(graph));
 
@@ -64,8 +64,8 @@ void PropertiesMinMaxAfterAddNodeTest::testIntegerPropertyMinMaxAfterAddNode() {
   const int i2 = 56;
 
   // set values to doubleProp
-  intProp->setNodeValue(n1, i1);
-  intProp->setNodeValue(n2, i2);
+  (*intProp)[n1] = i1;
+  (*intProp)[n2] = i2;
   CPPUNIT_ASSERT_EQUAL(i1, intProp->getNodeMin(graph));
   CPPUNIT_ASSERT_EQUAL(i2, intProp->getNodeMax(graph));
 
@@ -87,8 +87,8 @@ void PropertiesMinMaxAfterAddNodeTest::testLayoutPropertyMinMaxAfterAddNode() {
   const Coord firstNodePos = {1.0f, 2.0f};
   const Coord secondNodePos = {3.0f, 4.0f};
 
-  property->setNodeValue(n1, firstNodePos);
-  property->setNodeValue(n2, secondNodePos);
+  (*property)[n1] = firstNodePos;
+  (*property)[n2] = secondNodePos;
   CPPUNIT_ASSERT_EQUAL(firstNodePos, property->getMin(graph));
   CPPUNIT_ASSERT_EQUAL(secondNodePos, property->getMax(graph));
 

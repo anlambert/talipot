@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -61,7 +61,7 @@ bool PathFinderComponent::eventFilter(QObject *obj, QEvent *event) {
       // user is selecting a new path source
       src = tmp;
       // select it
-      selectionProperty->setNodeValue(src, true);
+      (*selectionProperty)[src] = true;
     } else {
       src = node();
     }
@@ -83,7 +83,7 @@ bool PathFinderComponent::eventFilter(QObject *obj, QEvent *event) {
       selectionProperty->setAllNodeValue(false);
       selectionProperty->setAllEdgeValue(false);
       // select it
-      selectionProperty->setNodeValue(src = tmp, true);
+      (*selectionProperty)[src = tmp] = true;
 
       Observable::unholdObservers();
     } else {
@@ -141,12 +141,12 @@ void PathFinderComponent::selectPath(GlWidget *glWidget, Graph *graph) {
     if (!pathFound) {
       selection->setAllNodeValue(false);
       selection->setAllEdgeValue(false);
-      selection->setNodeValue(src, true);
+      (*selection)[src] = true;
       QMessageBox::warning(nullptr, "Path finder",
                            "A path between the selected nodes cannot be found.");
     }
   } else if (src.isValid()) {
-    selection->setNodeValue(src, true);
+    (*selection)[src] = true;
   }
 }
 

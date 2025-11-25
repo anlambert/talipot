@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021  The Talipot developers
+ * Copyright (C) 2021-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -241,7 +241,7 @@ unsigned int PropertyProxy::numberOfNonDefaultValuatedEdges(const Graph *g) cons
                                                             val) {                            \
     auto *prop = _graph->get##PROP_TYPE##Property(_propertyName);                             \
     if (_n.isValid()) {                                                                       \
-      prop->setNodeValue(_n, val);                                                            \
+      (*prop)[_n] = val;                                                                      \
     } else if (_e.isValid()) {                                                                \
       prop->setEdgeValue(_e, val);                                                            \
     }                                                                                         \
@@ -325,7 +325,7 @@ PropertyValueWrapper::operator TYPE_CONST_REFERENCE(LineType)() const {
 PropertyValueWrapper &PropertyValueWrapper::operator=(TYPE_CONST_REFERENCE(PointType) val) {
   auto *prop = _graph->getLayoutProperty(_propertyName);
   if (_n.isValid()) {
-    prop->setNodeValue(_n, val);
+    (*prop)[_n] = val;
   }
   return *this;
 }

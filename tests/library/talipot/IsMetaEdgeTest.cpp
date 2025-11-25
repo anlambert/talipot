@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,7 +28,7 @@ void createCompleteGraphAndSelect(Graph *graph, BooleanProperty *selection) {
   for (uint j = 0; j < nbNodesPerCluster; ++j) {
     node n = graph->addNode();
     addedNodes.push_back(n);
-    selection->setNodeValue(n, true);
+    (*selection)[n] = true;
   }
 
   for (size_t i = 0; i < addedNodes.size(); ++i) {

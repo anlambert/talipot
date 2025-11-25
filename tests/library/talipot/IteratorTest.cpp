@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,7 +29,7 @@ void IteratorTest::setUp() {
   idMetric = graph->getDoubleProperty("idMetric");
   for (uint i = 0; i < numberOfNodes; ++i) {
     tlp::node n = graph->addNode();
-    idMetric->setNodeValue(n, n.id);
+    (*idMetric)[n] = n.id;
   }
 }
 
@@ -138,8 +138,7 @@ void IteratorTest::testIteratorCount() {
 }
 
 void IteratorTest::testIteratorMap() {
-  tlp::iteratorMap(graph->getNodes(),
-                   [this](const tlp::node &n) { idMetric->setNodeValue(n, n.id + 1); });
+  tlp::iteratorMap(graph->getNodes(), [this](const tlp::node &n) { (*idMetric)[n] = n.id + 1; });
   for (tlp::node n : graph->getNodes()) {
     CPPUNIT_ASSERT_EQUAL(n.id + 1.0, idMetric->getNodeValue(n));
   }

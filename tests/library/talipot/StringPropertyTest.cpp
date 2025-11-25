@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,7 +39,7 @@ void StringPropertyTest::simpleVectorTest() {
     tmp.push_back(tmpstr.str());
   }
 
-  vectorProperty->setNodeValue(n, tmp);
+  (*vectorProperty)[n] = tmp;
 
   const vector<string> &value = vectorProperty->getNodeValue(n);
   CPPUNIT_ASSERT_EQUAL(size_t(5), value.size());
@@ -60,7 +60,7 @@ void StringPropertyTest::complexVectorTest() {
     tmp = vectorProperty->getNodeValue(n);
     CPPUNIT_ASSERT(tmp.size() == i);
     tmp.push_back(tmpstr.str());
-    vectorProperty->setNodeValue(n, tmp);
+    (*vectorProperty)[n] = tmp;
   }
 
   const vector<string> &value = vectorProperty->getNodeValue(n);

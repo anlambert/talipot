@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2022-2024  The Talipot developers
+ * Copyright (C) 2022-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -59,7 +59,7 @@ bool applyGraphvizLayout(Graph *graph, LayoutProperty *result, const string &lay
     for (auto n : graph->nodes()) {
       string posValue = agxget(nodesMap[n], pos);
       if (getCoordFromGraphvizPos(c, posValue)) {
-        result->setNodeValue(n, c);
+        (*result)[n] = c;
       }
     }
     pos = agattr(G, AGEDGE, const_cast<char *>("pos"), 0);

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -232,7 +232,7 @@ void ConvolutionClustering::getClusters(const std::vector<int> &ranges) {
   for (auto n : graph->nodes()) {
     int tmp = getInterval(int((metric->getNodeDoubleValue(n) - minVal) * histosize / maxMinRange),
                           ranges);
-    result->setNodeValue(n, tmp);
+    (*result)[n] = tmp;
   }
 }
 //================================================================================

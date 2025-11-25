@@ -160,72 +160,72 @@ PropertyProxy::PropertyProxy(tlp::Graph *graph, const std::string &propertyName)
 
 void PropertyProxy::setNodeValue(const tlp::node &n, bool val) {
   _property = _graph->getBooleanProperty(_propertyName);
-  static_cast<tlp::BooleanProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::BooleanProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, int val) {
   _property = _graph->getIntegerProperty(_propertyName);
-  static_cast<tlp::IntegerProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::IntegerProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, double val) {
   _property = _graph->getDoubleProperty(_propertyName);
-  static_cast<tlp::DoubleProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::DoubleProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, const std::string &val) {
   _property = _graph->getStringProperty(_propertyName);
-  static_cast<tlp::StringProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::StringProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, const tlp::Coord &val) {
   _property = _graph->getLayoutProperty(_propertyName);
-  static_cast<tlp::LayoutProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::LayoutProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, const tlp::Size &val) {
   _property = _graph->getSizeProperty(_propertyName);
-  static_cast<tlp::SizeProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::SizeProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, const tlp::Color &val) {
   _property = _graph->getColorProperty(_propertyName);
-  static_cast<tlp::ColorProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::ColorProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<bool> &val) {
   if (val.empty())
     return;
   _property = _graph->getBooleanVectorProperty(_propertyName);
-  static_cast<tlp::BooleanVectorProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::BooleanVectorProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<int> &val) {
   if (val.empty())
     return;
   _property = _graph->getIntegerVectorProperty(_propertyName);
-  static_cast<tlp::IntegerVectorProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::IntegerVectorProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<double> &val) {
   if (val.empty())
     return;
   _property = _graph->getDoubleVectorProperty(_propertyName);
-  static_cast<tlp::DoubleVectorProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::DoubleVectorProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<std::string> &val) {
   if (val.empty())
     return;
   _property = _graph->getStringVectorProperty(_propertyName);
-  static_cast<tlp::StringVectorProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::StringVectorProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<tlp::Coord> &val) {
   if (val.empty())
     return;
   _property = _graph->getCoordVectorProperty(_propertyName);
-  static_cast<tlp::CoordVectorProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::CoordVectorProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<tlp::Size> &val) {
@@ -240,7 +240,7 @@ void PropertyProxy::setNodeValue(const tlp::node &n, const std::vector<tlp::Colo
   if (val.empty())
     return;
   _property = _graph->getColorVectorProperty(_propertyName);
-  static_cast<tlp::ColorVectorProperty *>(_property)->setNodeValue(n, val);
+  (*static_cast<tlp::ColorVectorProperty *>(_property))[n] = val;
 }
 
 void PropertyProxy::setEdgeValue(const tlp::edge &e, bool val) {

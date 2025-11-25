@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -155,7 +155,7 @@ public:
       auto func = [colorProp](node n, const string &nodeVal) {
         Color color;
         if (decodeGraphvizColor(color, nodeVal)) {
-          colorProp->setNodeValue(n, color);
+          (*colorProp)[n] = color;
         }
       };
       return func;
@@ -174,13 +174,13 @@ public:
     auto setNodeLayoutFunc = [&](node n, const string &nodeVal) {
       Coord coord;
       if (getCoordFromGraphvizPos(coord, nodeVal)) {
-        viewLayout->setNodeValue(n, coord);
+        (*viewLayout)[n] = coord;
       }
     };
 
     auto setNodeShapeFunc = [&](node n, const string &nodeVal) {
       if (shapeMap.contains(nodeVal)) {
-        viewShape->setNodeValue(n, shapeMap[nodeVal]);
+        (*viewShape)[n] = shapeMap[nodeVal];
       }
     };
 
@@ -195,7 +195,7 @@ public:
       auto setNodeSizeFunc = [i, viewSize](node n, const string &nodeVal) {
         Size size = viewSize->getNodeValue(n);
         size[i] = atof(nodeVal.c_str()) * 72;
-        viewSize->setNodeValue(n, size);
+        (*viewSize)[n] = size;
       };
       return setNodeSizeFunc;
     };
@@ -233,7 +233,7 @@ public:
       if (!nodeMap.contains(n)) {
         node nTlp;
         nodeMap[n] = nTlp = graph->addNode();
-        viewLabel->setNodeValue(nTlp, agnameof(n));
+        (*viewLabel)[nTlp] = agnameof(n);
         Agsym_t *sym = 0;
         while ((sym = agnxtattr(g, AGNODE, sym))) {
           string attrName = sym->name;
@@ -242,7 +242,7 @@ public:
 
           auto *prop = graph->getStringProperty(attrName);
           prop->setNodeDefaultValue(attrDefaultValue);
-          prop->setNodeValue(nTlp, attrValue);
+          (*prop)[nTlp] = attrValue;
 
           if (!attrValue.empty() && setNodePropertyMap.contains(attrName)) {
             setNodePropertyMap[attrName](nTlp, attrValue);

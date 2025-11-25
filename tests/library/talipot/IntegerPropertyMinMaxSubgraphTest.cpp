@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -29,14 +29,14 @@ void IntegerPropertyMinMaxSubgraphTest::setUp() {
   graph = newGraph();
   IntegerProperty *intProperty = graph->getIntegerProperty(integerPropertyName);
   node n = graph->addNode();
-  intProperty->setNodeValue(n, rootGraphMin);
+  (*intProperty)[n] = rootGraphMin;
   n = graph->addNode();
-  intProperty->setNodeValue(n, rootGraphMax);
+  (*intProperty)[n] = rootGraphMax;
   subGraph = graph->addSubGraph();
   n = subGraph->addNode();
-  intProperty->setNodeValue(n, subgraphMin);
+  (*intProperty)[n] = subgraphMin;
   n = subGraph->addNode();
-  intProperty->setNodeValue(n, subgraphMax);
+  (*intProperty)[n] = subgraphMax;
 }
 
 void IntegerPropertyMinMaxSubgraphTest::tearDown() {

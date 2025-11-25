@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -239,8 +239,8 @@ void BubbleTree::calcLayout2(tlp::node n, tlp::Vec5d &nrPos,
   rot2[2] = 0.;
   zeta = rot1 * zeta[0] + rot2 * zeta[1];
 
-  result->setNodeValue(n, Coord(float(enclosingCircleCenter[0] + zeta[0]),
-                                float(enclosingCircleCenter[1] + zeta[1]), 0.));
+  (*result)[n] = Coord(float(enclosingCircleCenter[0] + zeta[0]),
+                       float(enclosingCircleCenter[1] + zeta[1]), 0.);
 
   /*
    * Place bend on edge to prevent overlapping
@@ -288,7 +288,7 @@ void BubbleTree::calcLayout(tlp::node n, NodeVectorProperty<Vec5d> &relativePosi
   /*
    * Make the recursive call, to place the children of n.
    */
-  result->setNodeValue(n, Coord(0., 0., 0.));
+  (*result)[n] = Coord(0., 0., 0.);
   Iterator<node> *it = tree->getOutNodes(n);
 
   if (it->hasNext()) {

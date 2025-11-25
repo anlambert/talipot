@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -62,7 +62,7 @@ bool IdMetric::run() {
 
   if (nodes) {
     for (auto n : graph->nodes()) {
-      result->setNodeValue(n, n.id);
+      (*result)[n] = n.id;
     }
   }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -475,7 +475,7 @@ void GlGlyphScale::setGlyphsList(const vector<int> &glyphsList) {
   glyphScaleMap.clear();
 
   for (auto glyph : glyphsList) {
-    glyphGraphShape->setNodeValue(glyphGraph->addNode(), glyph);
+    (*glyphGraphShape)[glyphGraph->addNode()] = glyph;
   }
 
   size = length / glyphsList.size();
@@ -488,7 +488,7 @@ void GlGlyphScale::setGlyphsList(const vector<int> &glyphsList) {
     float xCenter = baseCoord.getX() - size / 2;
 
     for (auto n : glyphGraph->nodes()) {
-      glyphGraphLayout->setNodeValue(n, Coord(xCenter, baseCoord.getY() + i * size + size / 2));
+      (*glyphGraphLayout)[n] = Coord(xCenter, baseCoord.getY() + i * size + size / 2);
       int oldI = i++;
       glyphScaleMap[make_pair(baseCoord.getY() + oldI * size, baseCoord.getY() + i * size)] =
           glyphGraphShape->getNodeValue(n);
@@ -500,7 +500,7 @@ void GlGlyphScale::setGlyphsList(const vector<int> &glyphsList) {
     float yCenter = baseCoord.getY() - size / 2;
 
     for (auto n : glyphGraph->nodes()) {
-      glyphGraphLayout->setNodeValue(n, Coord(baseCoord.getX() + i++ * size + size / 2, yCenter));
+      (*glyphGraphLayout)[n] = Coord(baseCoord.getX() + i++ * size + size / 2, yCenter);
       int oldI = i++;
       glyphScaleMap[make_pair(baseCoord.getX() + oldI * size, baseCoord.getX() + i * size)] =
           glyphGraphShape->getNodeValue(n);
@@ -555,7 +555,7 @@ void GlGlyphScale::draw(float, Camera *camera) {
 void GlGlyphScale::translate(const Coord &move) {
   for (auto n : glyphGraph->nodes()) {
     Coord currentNodeCoord = glyphGraphLayout->getNodeValue(n);
-    glyphGraphLayout->setNodeValue(n, currentNodeCoord + move);
+    (*glyphGraphLayout)[n] = currentNodeCoord + move;
   }
 }
 
@@ -1071,7 +1071,7 @@ void HistogramMetricMapping::updateGraphWithMapping(Graph *graph, LayoutProperty
 
       if (mappingType == VIEWCOLOR_MAPPING || mappingType == VIEWBORDERCOLOR_MAPPING) {
         Color newNodeColor = glColorScale->getColorAtPos(Coord(0, yCurve, 0));
-        graphColors->setNodeValue(n, newNodeColor);
+        (*graphColors)[n] = newNodeColor;
       } else if (mappingType == SIZE_MAPPING) {
         float newNodeSize = glSizeScale->getSizeAtPos(Coord(0, yCurve, 0));
 
@@ -1091,13 +1091,13 @@ void HistogramMetricMapping::updateGraphWithMapping(Graph *graph, LayoutProperty
             newSize[2] = currentSize[2];
           }
 
-          graphSizes->setNodeValue(n, newSize);
+          (*graphSizes)[n] = newSize;
         } else {
-          graphBorderSizes->setNodeValue(n, newNodeSize);
+          (*graphBorderSizes)[n] = newNodeSize;
         }
       } else {
         int newGlyphId = glGlyphScale->getGlyphAtPos(Coord(0, yCurve, 0));
-        graphShapes->setNodeValue(n, newGlyphId);
+        (*graphShapes)[n] = newGlyphId;
       }
     }
 
@@ -1201,7 +1201,7 @@ void HistogramMetricMapping::updateMapping(GlQuantitativeAxis *histoXAxis, uint 
       }
 
       int glyphId = glGlyphScale->getGlyphAtPos(Coord(0, yCurve, 0));
-      glyphGraphShape->setNodeValue(n, glyphId);
+      (*glyphGraphShape)[n] = glyphId;
       glyphGraphLayout->setNodeValue(
           n, Coord(x + increment / 2,
                    histoXAxis->getAxisBaseCoord().getY() - offset - increment / 2, 0));

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -37,22 +37,22 @@ void Grip::computeCurrentGraphLayout() {
 
     if (nb_nodes == 1) {
       node n = currentGraph->getOneNode();
-      result->setNodeValue(n, Coord(0, 0, 0));
+      (*result)[n] = Coord(0, 0, 0);
     }
 
     if (nb_nodes == 2) {
       node n1 = nodes[0];
       node n2 = nodes[1];
-      result->setNodeValue(n1, Coord(0, 0, 0));
-      result->setNodeValue(n2, Coord(1, 0, 0));
+      (*result)[n1] = Coord(0, 0, 0);
+      (*result)[n2] = Coord(1, 0, 0);
     } else if (nb_nodes == 3) {
       if (currentGraph->numberOfEdges() == 3) {
         node n1 = nodes[0];
         node n2 = nodes[1];
         node n3 = nodes[2];
-        result->setNodeValue(n1, Coord(0, 0, 0));
-        result->setNodeValue(n2, Coord(1, 0, 0));
-        result->setNodeValue(n3, Coord(0.5, sqrt(0.5), 0));
+        (*result)[n1] = Coord(0, 0, 0);
+        (*result)[n2] = Coord(1, 0, 0);
+        (*result)[n3] = Coord(0.5, sqrt(0.5), 0);
       } else {
         auto edges = currentGraph->edges();
         edge e1 = edges[0];
@@ -75,9 +75,9 @@ void Grip::computeCurrentGraphLayout() {
           n = (src2 == tgt1) ? tgt2 : src2;
         }
 
-        result->setNodeValue(src1, Coord(0, 0, 0));
-        result->setNodeValue(tgt1, Coord(1, 0, 0));
-        result->setNodeValue(n, Coord(2, 0, 0));
+        (*result)[src1] = Coord(0, 0, 0);
+        (*result)[tgt1] = Coord(1, 0, 0);
+        (*result)[n] = Coord(2, 0, 0);
       }
     }
   } else {
@@ -130,7 +130,7 @@ bool Grip::run() {
     graph->applyPropertyAlgorithm("Connected Components Packing", &layout, err, &tmp);
 
     for (auto n : graph->nodes()) {
-      result->setNodeValue(n, layout.getNodeValue(n));
+      (*result)[n] = layout.getNodeValue(n);
     }
 
   } else {
@@ -155,12 +155,12 @@ void Grip::firstNodesPlacement() {
   float d13 = getDist(currentGraph, n1, n3);
   float d23 = getDist(currentGraph, n2, n3);
 
-  result->setNodeValue(n1, Coord(0, 0, 0));
-  result->setNodeValue(n2, Coord(d12, 0, 0));
+  (*result)[n1] = Coord(0, 0, 0);
+  (*result)[n2] = Coord(d12, 0, 0);
 
   float x3 = (d13 * d13 - d23 * d23 + d12 * d12) / (d12 * 2.);
   float y3 = sqrt(d13 * d13 - x3 * x3);
-  result->setNodeValue(n3, Coord(x3, y3, 0));
+  (*result)[n3] = Coord(x3, y3, 0);
 
   if (_dim == 2) {
     oldDisp[n1] = Coord(1., 0, 0);
@@ -261,7 +261,7 @@ void Grip::initialPlacement(uint start, uint end) {
     oldDisp[currNode] /= nbConsidered;
     oldDisp[currNode] += alea;
     c_tmp += alea;
-    result->setNodeValue(currNode, c_tmp);
+    (*result)[currNode] = c_tmp;
     heat[currNode] = edgeLength / 6.0;
     kk_local_reffinement(currNode);
   }
@@ -304,7 +304,7 @@ void Grip::displace(node n) {
     disp[n] /= disp_norm;
     oldDisp[n] = disp[n];
     disp[n] *= float(heat[n]);
-    result->setNodeValue(n, result->getNodeValue(n) + disp[n]);
+    (*result)[n] = result->getNodeValue(n) + disp[n];
   }
 }
 //======================================================
@@ -464,7 +464,7 @@ void Grip::init() {
       alea[2] = 0.;
     }
 
-    result->setNodeValue(n, alea);
+    (*result)[n] = alea;
     disp[n] = Coord(0, 0, 0);
     oldDisp[n] = Coord(0, 0, 0);
     heat[n] = edgeLength / 6.;

@@ -51,7 +51,7 @@ QPixmap GlyphRenderer::render(int glyphId, const QColor &backgroundColor,
       for (const string &glyphName : PluginsManager::availablePlugins<Glyph>()) {
         auto glId = GlyphManager::glyphId(glyphName);
         // Create the glyph preview
-        graph->getIntegerProperty("viewShape")->setNodeValue(node, glId);
+        (*graph)["viewShape"][node] = glId;
         renderer.renderScene(false, true);
         QString glKey = QString::number(glId) + backgroundColor.name();
         previews[glKey] = QPixmap::fromImage(renderer.getImage());

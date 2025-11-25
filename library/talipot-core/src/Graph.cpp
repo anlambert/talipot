@@ -484,8 +484,8 @@ void tlp::removeFromGraph(Graph *ioG, BooleanProperty *inSel) {
     } else {
       // unselected edge -> don't remove node ends !
       const auto &[src, tgt] = ioG->ends(e);
-      inSel->setNodeValue(src, false);
-      inSel->setNodeValue(tgt, false);
+      (*inSel)[src] = false;
+      (*inSel)[tgt] = false;
     }
   }
 
@@ -516,8 +516,8 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
   if (inSel) {
     for (auto e : inSel->getNonDefaultValuatedEdges(inG)) {
       const auto &[src, tgt] = inG->ends(e);
-      inSel->setNodeValue(src, true);
-      inSel->setNodeValue(tgt, true);
+      (*inSel)[src] = true;
+      (*inSel)[tgt] = true;
     }
   }
 
@@ -556,7 +556,7 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
 
     // select added node
     if (outSel) {
-      outSel->setNodeValue(nOut, true);
+      (*outSel)[nOut] = true;
     }
 
     // add to translation tab
@@ -1104,9 +1104,9 @@ void updatePropertiesUngroup(Graph *graph, node metanode, GraphProperty *cluster
   clusterSize->scale(Size(scale, scale, size[2] / depth), cluster);
 
   for (auto n : cluster->nodes()) {
-    graphLayout->setNodeValue(n, clusterLayout->getNodeValue(n));
-    graphSize->setNodeValue(n, clusterSize->getNodeValue(n));
-    graphRot->setNodeValue(n, clusterRot->getNodeValue(n) + rot);
+    (*graphLayout)[n] = clusterLayout->getNodeValue(n);
+    (*graphSize)[n] = clusterSize->getNodeValue(n);
+    (*graphRot)[n] = clusterRot->getNodeValue(n) + rot;
   }
 
   for (auto e : cluster->edges()) {
@@ -1251,7 +1251,7 @@ node Graph::createMetaNode(Graph *subGraph, bool multiEdges, bool edgeDelAll) {
 
   GraphProperty *metaInfo = static_cast<GraphAbstract *>(getRoot())->getMetaGraphProperty();
   node metaNode = addNode();
-  metaInfo->setNodeValue(metaNode, subGraph);
+  (*metaInfo)[metaNode] = subGraph;
   Observable::holdObservers();
 
   // updateGroupLayout(this, subGraph, metaNode);
@@ -1611,7 +1611,7 @@ void Graph::createMetaNodes(Iterator<Graph *> *itS, Graph *quotientGraph, vector
         // Create one metanode for each subgraph(cluster)
         node metaN = quotientGraph->addNode();
         metaNodes.push_back(metaN);
-        metaInfo->setNodeValue(metaN, its);
+        (*metaInfo)[metaN] = its;
         // compute meta node values
         for (PropertyInterface *property : quotientGraph->getObjectProperties()) {
           property->computeMetaValue(metaN, its, quotientGraph);

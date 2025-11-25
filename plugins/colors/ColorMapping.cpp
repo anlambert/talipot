@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -213,9 +213,9 @@ public:
           double dd = entryMetric->getNodeDoubleValue(n);
 
           if (eltTypes.getCurrent() == LOGARITHMIC_ELT) {
-            result->setNodeValue(n, getColor(log(dd + (1 - minN)), maxN));
+            (*result)[n] = getColor(log(dd + (1 - minN)), maxN);
           } else {
-            result->setNodeValue(n, getColor(dd - minN, maxN - minN));
+            (*result)[n] = getColor(dd - minN, maxN - minN);
           }
 
           if ((iter % 100 == 0) &&
@@ -278,7 +278,7 @@ public:
 
         for (auto id : elements) {
           if (targetType.getCurrent() == NODES_TARGET) {
-            result->setNodeValue(node(id), it.second);
+            (*result)[node(id)] = it.second;
           } else {
             result->setEdgeValue(edge(id), it.second);
           }

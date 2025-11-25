@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -157,7 +157,7 @@ public:
         cAngle = nAngle;
       }
       // affect the greater of the two computed angular spreads
-      angles->setNodeValue(n, cAngle);
+      (*angles)[n] = cAngle;
       return cAngle;
     }
   }
@@ -235,11 +235,11 @@ public:
     if (depth > 0) {
       // layout the node in the middle of the sector
       double nAngle = (startAngle + endAngle)/2.0;
-      result->setNodeValue(n, Coord(lRadii[depth] * cos(nAngle),
+      (*result)[n] = Coord(lRadii[depth] * cos(nAngle,
             lRadii[depth] * sin(nAngle),
             0));
     } else
-      result->setNodeValue(n, Coord(0, 0, 0));
+      (*result)[n] = Coord(0, 0, 0);
     const double& nSpread = angles->getNodeValue(n);
     checkAngle = false;
     for(const node &on : tree->getOutNodes(n)) {
@@ -300,7 +300,7 @@ public:
           result->setNodeValue(
               n, Coord(lRadii[depth] * float(cos(nAngle)), lRadii[depth] * float(sin(nAngle)), 0));
         } else {
-          result->setNodeValue(n, Coord(0, 0, 0));
+          (*result)[n] = Coord(0, 0, 0);
         }
 
         visited.set(n.id, true);
@@ -361,7 +361,7 @@ public:
       const Size &boundingBox = sizes->getNodeValue(n);
       double diam = 2. * sqrt(boundingBox.getW() * boundingBox.getW() / 4.0 +
                               boundingBox.getH() * boundingBox.getH() / 4.0);
-      circleSizes->setNodeValue(n, Size(float(diam), float(diam), 1.0f));
+      (*circleSizes)[n] = Size(float(diam), float(diam), 1.0f);
     }
     sizes = circleSizes;
 

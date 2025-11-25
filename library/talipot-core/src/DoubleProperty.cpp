@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -54,7 +54,7 @@ static void computeNodeAvgValue(
   }
 
   if (nbNodes) {
-    metric->setNodeValue(mN, value / nbNodes);
+    (*metric)[mN] = value / nbNodes;
   }
 }
 
@@ -93,7 +93,7 @@ static void computeNodeSumValue(
   for (auto n : sg->nodes()) {
     value += metric->getNodeValue(n);
   }
-  metric->setNodeValue(mN, value);
+  (*metric)[mN] = value;
 }
 
 static void computeEdgeSumValue(
@@ -131,7 +131,7 @@ static void computeNodeMaxValue(
       value = nVal;
     }
   }
-  metric->setNodeValue(mN, value);
+  (*metric)[mN] = value;
 }
 
 static void computeEdgeMaxValue(
@@ -173,7 +173,7 @@ static void computeNodeMinValue(
       value = nVal;
     }
   }
-  metric->setNodeValue(mN, value);
+  (*metric)[mN] = value;
 }
 
 static void computeEdgeMinValue(
@@ -240,7 +240,7 @@ public:
   void computeMetaValue(AbstractProperty<DoubleType, DoubleType, NumericProperty> *width, node mN,
                         Graph *, Graph *) override {
     // meta node border width is 1
-    width->setNodeValue(mN, 1);
+    (*width)[mN] = 1;
   }
 };
 

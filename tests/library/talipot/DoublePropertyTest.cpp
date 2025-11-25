@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -114,9 +114,9 @@ void DoublePropertyTest::testDoublePropertySubGraphMin() {
   DoubleProperty *doubleProperty = graph->getDoubleProperty(doublePropertyName);
   Graph *subGraph = graph->addSubGraph();
   node n2 = subGraph->addNode();
-  doubleProperty->setNodeValue(n2, 6);
+  (*doubleProperty)[n2] = 6;
   node n3 = subGraph->addNode();
-  doubleProperty->setNodeValue(n3, 9);
+  (*doubleProperty)[n3] = 9;
   CPPUNIT_ASSERT_EQUAL(originalMin, doubleProperty->getNodeMin());
   CPPUNIT_ASSERT_EQUAL(6.0, doubleProperty->getNodeMin(subGraph));
 
@@ -132,9 +132,9 @@ void DoublePropertyTest::testDoublePropertySubGraphMax() {
   DoubleProperty *doubleProperty = graph->getDoubleProperty(doublePropertyName);
   Graph *subGraph = graph->addSubGraph();
   node n2 = subGraph->addNode();
-  doubleProperty->setNodeValue(n2, 6.0);
+  (*doubleProperty)[n2] = 6.0;
   node n3 = subGraph->addNode();
-  doubleProperty->setNodeValue(n3, 9.0);
+  (*doubleProperty)[n3] = 9.0;
   CPPUNIT_ASSERT_EQUAL(doubleProperty->getNodeMax(), originalMax);
   CPPUNIT_ASSERT_EQUAL(9.0, doubleProperty->getNodeMax(subGraph));
 
@@ -158,16 +158,16 @@ void DoublePropertyTest::testDoublePropertyInfValue() {
   DoubleProperty *prop = graph->getLocalDoubleProperty(doublePropertyName);
   CPPUNIT_ASSERT(prop->getNodeValue(n) == 0.0);
 
-  prop->setNodeValue(n, infValue);
+  (*prop)[n] = infValue;
   CPPUNIT_ASSERT(prop->getNodeValue(n) == infValue);
 
-  prop->setNodeValue(n, 1.0);
+  (*prop)[n] = 1.0;
   CPPUNIT_ASSERT(prop->getNodeValue(n) == 1.0);
 
-  prop->setNodeValue(n, -infValue);
+  (*prop)[n] = -infValue;
   CPPUNIT_ASSERT(prop->getNodeValue(n) == -infValue);
 
-  prop->setNodeValue(n, 1.0);
+  (*prop)[n] = 1.0;
   CPPUNIT_ASSERT(prop->getNodeValue(n) == 1.0);
 
   prop->setNodeStringValue(n, "inf");
@@ -261,7 +261,7 @@ void DoublePropertyTest::testDoublePropertySetDefaultValue() {
   CPPUNIT_ASSERT_DOUBLES_EQUAL(prop->getEdgeDefaultValue(), v2, 1e-6);
 
   // set value of n1 to future default value
-  prop->setNodeValue(n1, v2);
+  (*prop)[n1] = v2;
   // check non default valuated nodes
   CPPUNIT_ASSERT_EQUAL(prop->numberOfNonDefaultValuatedNodes(), 1u);
   // change the default node value for future added nodes
@@ -271,7 +271,7 @@ void DoublePropertyTest::testDoublePropertySetDefaultValue() {
   // check non default valuated nodes
   CPPUNIT_ASSERT_EQUAL(prop->numberOfNonDefaultValuatedNodes(), graph->numberOfNodes() - 1);
   // reset n1 prop value to v1
-  prop->setNodeValue(n1, v1);
+  (*prop)[n1] = v1;
 
   // set value of e1 to future default value
   prop->setEdgeValue(e1, v1);
@@ -315,7 +315,7 @@ void DoublePropertyTest::testDoublePropertySetDefaultValue() {
   // check if there is no graph push/pop side effect when setting the new default value
   // on a node that already has it
   graph->push();
-  prop->setNodeValue(n1, v2);
+  (*prop)[n1] = v2;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(prop->getNodeValue(n1), v2, 1e-6);
   graph->pop();
   CPPUNIT_ASSERT_DOUBLES_EQUAL(prop->getNodeValue(n1), v1, 1e-6);

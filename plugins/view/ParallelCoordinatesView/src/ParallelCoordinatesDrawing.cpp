@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -294,25 +294,24 @@ void ParallelCoordinatesDrawing::plotData(const uint dataId, const Color &color)
       if (!graphProxy->highlightedEltsSet() || graphProxy->isDataSelected(dataId)) {
         node n = axisPointsGraph->addNode();
         axisPointsDataMap[n] = dataId;
-        axisPointsGraphLayout->setNodeValue(n, pointCoord);
-        axisPointsGraphSize->setNodeValue(n, adjustedViewSize);
+        (*axisPointsGraphLayout)[n] = pointCoord;
+        (*axisPointsGraphSize)[n] = adjustedViewSize;
 
         if (graphProxy->getDataLocation() == ElementType::NODE) {
-          axisPointsGraphShape->setNodeValue(
-              n, graphProxy->getPropertyValueForData<IntegerProperty, IntegerType>("viewShape",
-                                                                                   dataId));
+          (*axisPointsGraphShape)[n] =
+              graphProxy->getPropertyValueForData<IntegerProperty, IntegerType>("viewShape",
+                                                                                dataId);
         } else {
-          axisPointsGraphShape->setNodeValue(n, NodeShape::Circle);
+          (*axisPointsGraphShape)[n] = NodeShape::Circle;
         }
 
-        axisPointsGraphLabels->setNodeValue(
-            n,
-            graphProxy->getPropertyValueForData<StringProperty, StringType>("viewLabel", dataId));
-        axisPointsGraphColors->setNodeValue(
-            n, graphProxy->getPropertyValueForData<ColorProperty, ColorType>("viewColor", dataId));
+        (*axisPointsGraphLabels)[n] =
+            graphProxy->getPropertyValueForData<StringProperty, StringType>("viewLabel", dataId);
+        (*axisPointsGraphColors)[n] =
+            graphProxy->getPropertyValueForData<ColorProperty, ColorType>("viewColor", dataId);
 
         if (graphProxy->isDataSelected(dataId)) {
-          axisPointsGraphSelection->setNodeValue(n, true);
+          (*axisPointsGraphSelection)[n] = true;
         }
       }
     }

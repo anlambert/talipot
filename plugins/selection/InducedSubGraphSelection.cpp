@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -66,13 +66,13 @@ bool InducedSubGraphSelection::run() {
 
   // add input selected nodes to result selection
   for (auto current : itN) {
-    result->setNodeValue(current, true);
+    (*result)[current] = true;
   }
 
   if (useEdges) {
     for (auto e : itE) {
-      result->setNodeValue(graph->source(e), true);
-      result->setNodeValue(graph->target(e), true);
+      (*result)[graph->source(e)] = true;
+      (*result)[graph->target(e)] = true;
     }
   } else {
     delete itE;

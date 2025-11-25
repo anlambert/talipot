@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -400,9 +400,9 @@ void SOMView::setColorToMap(tlp::ColorProperty *newColor) {
     deleteAfter = true;
     for (auto n : som->nodes()) {
       if (mask->getNodeValue(n)) {
-        cp->setNodeValue(n, newColor->getNodeValue(n));
+        (*cp)[n] = newColor->getNodeValue(n);
       } else {
-        cp->setNodeValue(n, Color(200, 200, 200));
+        (*cp)[n] = Color(200, 200, 200);
       }
     }
   } else {
@@ -709,8 +709,8 @@ void SOMView::computeMapping() {
         assert(nodeSize.getW() >= 0 && nodeSize.getH() >= 0);
       }
 
-      graphLayoutProperty->setNodeValue(n, nodeCoord);
-      graphSizeProperty->setNodeValue(n, nodeSize);
+      (*graphLayoutProperty)[n] = nodeCoord;
+      (*graphSizeProperty)[n] = nodeSize;
       ++num;
     }
   }
@@ -798,7 +798,7 @@ void SOMView::computeColor(SOMMap *som, tlp::NumericProperty *property, tlp::Col
       pos = fabs(float((curentValue - min) / (max - min)));
     }
 
-    result->setNodeValue(n, colorScale.getColorAtPos(pos));
+    (*result)[n] = colorScale.getColorAtPos(pos);
   }
 }
 
@@ -877,9 +877,9 @@ void SOMView::updateNodeColorMapping(tlp::ColorProperty *cp) {
         deleteAfter = true;
         for (auto n : som->nodes()) {
           if (mask->getNodeValue(n)) {
-            somColorProperty->setNodeValue(n, origColor->getNodeValue(n));
+            (*somColorProperty)[n] = origColor->getNodeValue(n);
           } else {
-            somColorProperty->setNodeValue(n, Color(200, 200, 200));
+            (*somColorProperty)[n] = Color(200, 200, 200);
           }
         }
       } else {
@@ -899,7 +899,7 @@ void SOMView::updateNodeColorMapping(tlp::ColorProperty *cp) {
 
       for (auto n : it.second) {
         // Update real color
-        realColorProp->setNodeValue(n, currentNodeColor);
+        (*realColorProp)[n] = currentNodeColor;
       }
     }
 
@@ -936,9 +936,9 @@ void SOMView::refreshPreviews() {
     if (mask) {
       for (auto n : som->nodes()) {
         if (mask->getNodeValue(n)) {
-          maskedColor->setNodeValue(n, color->getNodeValue(n));
+          (*maskedColor)[n] = color->getNodeValue(n);
         } else {
-          maskedColor->setNodeValue(n, Color(200, 200, 200));
+          (*maskedColor)[n] = Color(200, 200, 200);
         }
       }
       itPC.second->updateColors(maskedColor);
@@ -960,7 +960,7 @@ void SOMView::setMask(const std::set<node> &maskSet) {
   mask->setAllNodeValue(false);
 
   for (auto n : maskSet) {
-    mask->setNodeValue(n, true);
+    (*mask)[n] = true;
   }
 
   refreshPreviews();
@@ -1024,7 +1024,7 @@ void SOMView::selectAllNodesInMask() {
     for (auto n : mask->getNodesEqualTo(true, som)) {
       if (mappingTab.contains(n)) {
         for (auto v : mappingTab[n]) {
-          selection->setNodeValue(v, true);
+          (*selection)[v] = true;
         }
       }
     }

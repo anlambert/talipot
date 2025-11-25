@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -109,7 +109,7 @@ bool SquarifiedTreeMap::run() {
     // change the glyph of all internal nodes to be a window
     for (auto n : graph->nodes()) {
       if (graph->outdeg(n) != 0) {
-        glyphResult->setNodeValue(n, NodeShape::Window);
+        (*glyphResult)[n] = NodeShape::Window;
       }
     }
   }
@@ -120,9 +120,9 @@ bool SquarifiedTreeMap::run() {
   computeNodesSize(root);
 
   Vec2d center = initialSpace.center();
-  result->setNodeValue(root, Coord(float(center[0]), float(center[1]), 0));
+  (*result)[root] = Coord(float(center[0]), float(center[1]), 0);
   Size initialSpaceSize = {float(initialSpace.width()), float(initialSpace.height())};
-  sizeResult->setNodeValue(root, initialSpaceSize);
+  (*sizeResult)[root] = initialSpaceSize;
   vector<node> toTreat(orderedChildren(root));
 
   if (!toTreat.empty()) {
@@ -176,8 +176,8 @@ void SquarifiedTreeMap::layoutRow(const std::vector<tlp::node> &row, const int d
     assert(layoutRec.isValid());
     sum += nodesSize.get(n.id);
     Vec2d center = layoutRec.center();
-    result->setNodeValue(n, Coord(float(center[0]), float(center[1]), float(depth * SEPARATION_Z)));
-    sizeResult->setNodeValue(n, Size(float(layoutRec.width()), float(layoutRec.height()), 0));
+    (*result)[n] = Coord(float(center[0]), float(center[1]), float(depth * SEPARATION_Z));
+    (*sizeResult)[n] = Size(float(layoutRec.width()), float(layoutRec.height()), 0);
 
     if (graph->outdeg(n) > 0) {
       vector<node> toTreat(orderedChildren(n));

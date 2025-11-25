@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -52,11 +52,11 @@ int StrongComponents::attachNumerotation(tlp::node n, flat_hash_map<tlp::node, b
       renum.pop();
       finished[tmp] = true;
       minAttach[tmp] = res;
-      result->setNodeValue(tmp, curComponent);
+      (*result)[tmp] = curComponent;
     }
 
     finished[n] = true;
-    result->setNodeValue(n, curComponent);
+    (*result)[n] = curComponent;
     curComponent++;
     renum.pop();
   }

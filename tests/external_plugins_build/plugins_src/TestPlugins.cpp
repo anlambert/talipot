@@ -30,7 +30,7 @@ public:
 
   bool run() override {
     result->setAllNodeValue(false);
-    result->setNodeValue(graph->getRandomNode(), true);
+    (*result)[graph->getRandomNode()] = true;
     return true;
   }
 };
@@ -47,7 +47,7 @@ public:
 
   bool run() override {
     result->setAllNodeValue(tlp::Color::Red);
-    result->setNodeValue(graph->getRandomNode(), tlp::Color::Green);
+    (*result)[graph->getRandomNode()] = tlp::Color::Green;
     return true;
   }
 };
@@ -64,7 +64,7 @@ public:
 
   bool run() override {
     result->setAllNodeValue(tlp::randomNumber());
-    result->setNodeValue(graph->getRandomNode(), tlp::randomNumber());
+    (*result)[graph->getRandomNode()] = tlp::randomNumber();
     return true;
   }
 };
@@ -82,7 +82,7 @@ public:
 
   bool run() override {
     result->setAllNodeValue(tlp::randomNumber(10000));
-    result->setNodeValue(graph->getRandomNode(), tlp::randomNumber(10000));
+    (*result)[graph->getRandomNode()] = tlp::randomNumber(10000);
     return true;
   }
 };
@@ -99,7 +99,7 @@ public:
 
   bool run() override {
     result->setAllNodeValue(tlp::Coord(0.0f, 0.0f));
-    result->setNodeValue(graph->getRandomNode(), tlp::Coord(10.0f, 10.0f));
+    (*result)[graph->getRandomNode()] = tlp::Coord(10.0f, 10.0f);
     return true;
   }
 };
@@ -116,7 +116,7 @@ public:
 
   bool run() override {
     result->setAllNodeValue(tlp::Size(1.0f, 1.0f, 1.0f));
-    result->setNodeValue(graph->getRandomNode(), tlp::Size(10.0f, 10.0f, 10.0f));
+    (*result)[graph->getRandomNode()] = tlp::Size(10.0f, 10.0f, 10.0f);
     return true;
   }
 };
@@ -133,7 +133,7 @@ public:
 
   bool run() override {
     result->setAllNodeValue("foo");
-    result->setNodeValue(graph->getRandomNode(), "bar");
+    (*result)[graph->getRandomNode()] = "bar";
     return true;
   }
 };

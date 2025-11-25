@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -53,7 +53,7 @@ void moveBendsToSphere(Graph *graph, float ray, LayoutProperty *layout) {
     Coord c = layout->getNodeValue(n);
     c /= c.norm();
     c *= ray;
-    layout->setNodeValue(n, c);
+    (*layout)[n] = c;
   }
 }
 
@@ -77,7 +77,7 @@ void addSphereGraph(Graph *graph, double radius) {
     while (teta < 180) {
       node n = graph->addNode();
       Coord c = getCoordFromPolar(radius, rho, teta);
-      layout->setNodeValue(n, c);
+      (*layout)[n] = c;
       teta += 5.;
     }
 
@@ -86,8 +86,8 @@ void addSphereGraph(Graph *graph, double radius) {
 
   node n = graph->addNode();
   Coord c = getCoordFromPolar(radius, 0, 0);
-  layout->setNodeValue(n, c);
+  (*layout)[n] = c;
   n = graph->addNode();
   c = getCoordFromPolar(radius, 0, 180);
-  layout->setNodeValue(n, c);
+  (*layout)[n] = c;
 }

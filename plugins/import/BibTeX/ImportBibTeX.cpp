@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -151,15 +151,15 @@ public:
 
         if (createPubliNodes) {
           // setup key, type and year
-          keyProp->setNodeValue(publi, key);
+          (*keyProp)[publi] = key;
           string type;
           transform(fe.type().begin(), fe.type().end(), type.begin(), ::tolower);
-          typeProp->setNodeValue(publi, type);
-          yearProp->setNodeValue(publi, year);
+          (*typeProp)[publi] = type;
+          (*yearProp)[publi] = year;
           // set rendering properties
-          color->setNodeValue(publi, Color::Beige);
-          label->setNodeValue(publi, key);
-          icon->setNodeValue(publi, FontAwesome::Regular::FileAlt);
+          (*color)[publi] = Color::Beige;
+          (*label)[publi] = key;
+          (*icon)[publi] = FontAwesome::Regular::FileAlt;
         }
 
         // loop of entry fields
@@ -256,14 +256,14 @@ public:
 
               if (itAuth != authorsMap.end()) {
                 authorNodes.push_back(author = itAuth->second);
-                countProp->setNodeValue(author, countProp->getNodeValue(author) + 1);
+                (*countProp)[author] = countProp->getNodeValue(author) + 1;
               } else {
                 authorNodes.push_back(author = graph->addNode());
                 authorsMap[aKey] = author;
-                authNameProp->setNodeValue(author, aName);
-                label->setNodeValue(author, aName);
-                icon->setNodeValue(author, FontAwesome::Solid::User);
-                countProp->setNodeValue(author, 1);
+                (*authNameProp)[author] = aName;
+                (*label)[author] = aName;
+                (*icon)[author] = FontAwesome::Solid::User;
+                (*countProp)[author] = 1;
               }
 
               if (createPubliNodes) {
@@ -276,7 +276,7 @@ public:
 
             if (createPubliNodes) {
               // store authors
-              authProp->setNodeValue(publi, authPropValue);
+              (*authProp)[publi] = authPropValue;
             } else {
               // display a warning for publication without author
               if (authorNodes.empty()) {

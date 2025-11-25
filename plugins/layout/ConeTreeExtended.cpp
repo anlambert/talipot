@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -194,7 +194,7 @@ bool ConeTreeExtended::run() {
   if (orientation == "horizontal") {
     for (auto n : graph->nodes()) {
       const Size &tmp = nodeSize->getNodeValue(n);
-      nodeSize->setNodeValue(n, Size(tmp[1], tmp[0], tmp[2]));
+      (*nodeSize)[n] = Size(tmp[1], tmp[0], tmp[2]);
     }
   }
 
@@ -228,12 +228,12 @@ bool ConeTreeExtended::run() {
 
       if (!graph->getAttribute("viewLayout", elementLayout)) {
         const Size &tmp = nodeSize->getNodeValue(n);
-        nodeSize->setNodeValue(n, Size(tmp[1], tmp[0], tmp[2]));
+        (*nodeSize)[n] = Size(tmp[1], tmp[0], tmp[2]);
       }
 
       const Coord &tmpC = result->getNodeValue(n);
 
-      result->setNodeValue(n, Coord(-tmpC[1], tmpC[0], tmpC[2]));
+      (*result)[n] = Coord(-tmpC[1], tmpC[0], tmpC[2]);
     }
   }
 

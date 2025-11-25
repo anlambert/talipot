@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -82,7 +82,7 @@ void OrientableLayout::setAllNodeValue(const PointType &v) {
 
 //====================================================================
 void OrientableLayout::setNodeValue(tlp::node n, const PointType &v) {
-  layout->setNodeValue(n, v);
+  (*layout)[n] = v;
 }
 
 //====================================================================

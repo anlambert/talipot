@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -107,7 +107,7 @@ double DepthMetric::getNodeValue(tlp::node current) {
     }
 
     // save current maxDepth
-    result->setNodeValue(current, maxDepth);
+    (*result)[current] = maxDepth;
     // unstack current dfsParams
     delete dfsLevels.top().outEdges;
     dfsLevels.pop();
@@ -136,7 +136,7 @@ bool DepthMetric::run() {
   result->setAllEdgeValue(0);
   result->setAllNodeValue(0);
   for (auto n : graph->nodes()) {
-    result->setNodeValue(n, getNodeValue(n));
+    (*result)[n] = getNodeValue(n);
   }
   return true;
 }

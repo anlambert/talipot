@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -140,7 +140,7 @@ bool Tutte::run() {
         ++i;
       }
 
-      result->setNodeValue(n, Coord(tmpCoord.getX() / i, tmpCoord.getY() / i, 0));
+      (*result)[n] = Coord(tmpCoord.getX() / i, tmpCoord.getY() / i, 0);
 
       if (fabs(baseCoord.getX() - tmpCoord.getX() / i) > 0.02) {
         ok = true;
