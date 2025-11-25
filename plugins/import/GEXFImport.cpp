@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -273,7 +273,7 @@ public:
     // parse node label
     if (xmlReader.attributes().hasAttribute("label")) {
       string nodeLabel = QStringToTlpString(xmlReader.attributes().value("label").toString());
-      viewLabel->setNodeValue(n, nodeLabel);
+      (*viewLabel)[n] = nodeLabel;
     }
 
     // parse node pid
@@ -302,7 +302,7 @@ public:
           a = xmlReader.attributes().value("a").toString().toFloat();
         }
 
-        viewColor->setNodeValue(n, Color(uchar(r), uchar(g), uchar(b), uchar(a * 255)));
+        (*viewColor)[n] = Color(uchar(r), uchar(g), uchar(b), uchar(a * 255));
       }
       // parse node coordinates
       else if (xmlReader.isStartElement() && xmlReader.qualifiedName() == QString("viz:position")) {
@@ -310,12 +310,12 @@ public:
         float x = xmlReader.attributes().value("x").toString().toFloat();
         float y = xmlReader.attributes().value("y").toString().toFloat();
         float z = xmlReader.attributes().value("z").toString().toFloat();
-        viewLayout->setNodeValue(n, Coord(x, y, z));
+        (*viewLayout)[n] = Coord(x, y, z);
       }
       // parse node size
       else if (xmlReader.isStartElement() && xmlReader.qualifiedName() == QString("viz:size")) {
         float size = xmlReader.attributes().value("value").toString().toFloat();
-        viewSize->setNodeValue(n, Size(size, size, size));
+        (*viewSize)[n] = Size(size, size, size);
       }
       // parse node attributes
       else if (xmlReader.isStartElement() && xmlReader.qualifiedName() == QString("attvalue")) {

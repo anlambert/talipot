@@ -245,9 +245,8 @@ void ParallelCoordinatesGraphProxy::colorDataAccordingToHighlightedElts() {
 
       if (highlightedEltsSet() && isDataHighlighted(dataId) && currentColor != originalColor) {
         if (getDataLocation() == ElementType::NODE) {
-          originalDataColors->setNodeValue(node(dataId),
-                                           Color(currentColor.getR(), currentColor.getG(),
-                                                 currentColor.getB(), originalColor.getA()));
+          (*originalDataColors)[node(dataId)] = Color(currentColor.getR(), currentColor.getG(),
+                                                      currentColor.getB(), originalColor.getA());
         } else {
           originalDataColors->setEdgeValue(edge(dataId),
                                            Color(currentColor.getR(), currentColor.getG(),

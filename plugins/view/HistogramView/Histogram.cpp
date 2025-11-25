@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -500,7 +500,7 @@ void Histogram::updateLayout() {
         histogramLayout->setNodeValue(node(histogramBins[i][j]), nodeCoord);
       } else {
         node n = edgeToNode[edge(histogramBins[i][j])];
-        histogramEdgeLayout->setNodeValue(n, nodeCoord);
+        (*histogramEdgeLayout)[n] = nodeCoord;
 
         vector<Coord> edgeHistoPointCoord;
         edgeHistoPointCoord.push_back(nodeCoord);

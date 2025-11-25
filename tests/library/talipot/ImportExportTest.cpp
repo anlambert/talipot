@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -198,19 +198,19 @@ void ImportExportTest::testSubGraphsImportExport() {
   i = 0;
   IntegerProperty *sub1id = sub1->getLocalIntegerProperty("sub1id");
   for (auto n : sub1->nodes()) {
-    sub1id->setNodeValue(n, i++);
+    (*sub1id)[n] = i++;
   }
 
   i = 0;
   IntegerProperty *sub2id = sub2->getLocalIntegerProperty("sub2id");
   for (auto n : sub2->nodes()) {
-    sub2id->setNodeValue(n, i++);
+    (*sub2id)[n] = i++;
   }
 
   i = 0;
   IntegerProperty *subsubid = subsub->getLocalIntegerProperty("subsubid");
   for (auto n : subsub->nodes()) {
-    subsubid->setNodeValue(n, i++);
+    (*subsubid)[n] = i++;
   }
 
   exportImportGraph(original);
@@ -242,7 +242,7 @@ Graph *ImportExportTest::createSimpleGraph() const {
 
   for (uint i = 0; i < 100; ++i) {
     node n = original->addNode();
-    layout->setNodeValue(n, Coord(i % 11, i / 10));
+    (*layout)[n] = Coord(i % 11, i / 10);
   }
 
   for (int x = 0; x < 10; ++x) {
@@ -304,23 +304,23 @@ Graph *ImportExportTest::createSimpleGraph() const {
       oss.str("");
     }
 
-    booleanProp->setNodeValue(n, n.id % 2 == 0);
-    colorProp->setNodeValue(n, genRandomColor());
-    doubleProp->setNodeValue(n, tlp::randomNumber(DBL_MAX));
-    integerProp->setNodeValue(n, tlp::randomNumber(INT_MAX));
-    layoutProp->setNodeValue(n, genRandomCoord());
-    sizeProp->setNodeValue(n, genRandomSize());
+    (*booleanProp)[n] = n.id % 2 == 0;
+    (*colorProp)[n] = genRandomColor();
+    (*doubleProp)[n] = tlp::randomNumber(DBL_MAX);
+    (*integerProp)[n] = tlp::randomNumber(INT_MAX);
+    (*layoutProp)[n] = genRandomCoord();
+    (*sizeProp)[n] = genRandomSize();
     oss << "node " << n.id;
-    stringProp->setNodeValue(n, oss.str());
+    (*stringProp)[n] = oss.str();
     oss.str("");
 
-    booleanVecProp->setNodeValue(n, boolVec);
-    colorVecProp->setNodeValue(n, colorVec);
-    doubleVecProp->setNodeValue(n, doubleVec);
-    integerVecProp->setNodeValue(n, intVec);
-    coordVecProp->setNodeValue(n, coordVec);
-    sizeVecProp->setNodeValue(n, sizeVec);
-    stringVecProp->setNodeValue(n, stringVec);
+    (*booleanVecProp)[n] = boolVec;
+    (*colorVecProp)[n] = colorVec;
+    (*doubleVecProp)[n] = doubleVec;
+    (*integerVecProp)[n] = intVec;
+    (*coordVecProp)[n] = coordVec;
+    (*sizeVecProp)[n] = sizeVec;
+    (*stringVecProp)[n] = stringVec;
   }
 
   for (auto e : original->edges()) {
@@ -371,7 +371,7 @@ Graph *ImportExportTest::createSimpleGraph() const {
 void ImportExportTest::updateIdProperty(Graph *graph) const {
   IntegerProperty *id = graph->getIntegerProperty("id");
   for (auto n : graph->nodes()) {
-    id->setNodeValue(n, n.id);
+    (*id)[n] = n.id;
   }
   for (auto e : graph->edges()) {
     id->setEdgeValue(e, e.id);
@@ -384,11 +384,11 @@ void ImportExportTest::testNanInfValuesImportExport() {
   DoubleVectorProperty *doubleVecProp = original->getDoubleVectorProperty("doubleVecProp");
   for (auto n : original->nodes()) {
     if (n.id % 3 == 0) {
-      doubleProp->setNodeValue(n, std::numeric_limits<double>::quiet_NaN());
+      (*doubleProp)[n] = std::numeric_limits<double>::quiet_NaN();
     } else if (n.id % 3 == 1) {
-      doubleProp->setNodeValue(n, numeric_limits<float>::infinity());
+      (*doubleProp)[n] = numeric_limits<float>::infinity();
     } else {
-      doubleProp->setNodeValue(n, -numeric_limits<float>::infinity());
+      (*doubleProp)[n] = -numeric_limits<float>::infinity();
     }
   }
   vector<double> value;

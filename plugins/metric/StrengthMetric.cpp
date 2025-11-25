@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -193,7 +193,7 @@ bool StrengthMetric::run() {
 
   pluginProgress->setComment("Computing Strength metric on nodes...");
   for (auto n : graph->nodes()) {
-    result->setNodeValue(n, getNodeValue(n));
+    (*result)[n] = getNodeValue(n);
 
     if ((++steps % (maxSteps / 10)) == 0) {
       if (pluginProgress->progress(steps, maxSteps) != ProgressState::TLP_CONTINUE) {

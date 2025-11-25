@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -651,7 +651,7 @@ void GeographicViewGraphicsView::mapToPolygon() {
               bb.expand(c);
             }
 
-            geoLayout->setNodeValue(n, bb.center());
+            (*geoLayout)[n] = bb.center();
             polygon->setFillColor(graph->getColorProperty("viewColor")->getNodeValue(n));
             polygon->setOutlineColor(graph->getColorProperty("viewBorderColor")->getNodeValue(n));
             break;
@@ -729,8 +729,8 @@ void GeographicViewGraphicsView::createLayoutWithAddresses(const string &address
           nodeLatLng[n] = addressesLatLngMap[addr];
 
           if (createLatAndLngProps) {
-            latitudeProperty->setNodeValue(n, nodeLatLng[n].first);
-            longitudeProperty->setNodeValue(n, nodeLatLng[n].second);
+            (*latitudeProperty)[n] = nodeLatLng[n].first;
+            (*longitudeProperty)[n] = nodeLatLng[n].second;
           }
         } else {
           if (!resetLatAndLngValues) {
@@ -794,8 +794,8 @@ void GeographicViewGraphicsView::createLayoutWithAddresses(const string &address
             addressesLatLngMap[addr] = latLng;
 
             if (createLatAndLngProps) {
-              latitudeProperty->setNodeValue(n, latLng.first);
-              longitudeProperty->setNodeValue(n, latLng.second);
+              (*latitudeProperty)[n] = latLng.first;
+              (*longitudeProperty)[n] = latLng.second;
             }
           }
         }
@@ -954,8 +954,8 @@ void GeographicViewGraphicsView::treatEvent(const Event &ev) {
     pair<double, double> latLng = {mercatorToLatitude(p.y()), p.x() / 2};
     nodeLatLng[n] = latLng;
     if (latitudeProperty && longitudeProperty) {
-      latitudeProperty->setNodeValue(n, latLng.first);
-      longitudeProperty->setNodeValue(n, latLng.second);
+      (*latitudeProperty)[n] = latLng.first;
+      (*longitudeProperty)[n] = latLng.second;
     }
   }
 }
@@ -1042,12 +1042,12 @@ void GeographicViewGraphicsView::switchViewType() {
     for (auto n : graph->nodes()) {
       if (viewSize != geoViewSize) {
         const Size &nodeSize = viewSize->getNodeValue(n);
-        geoViewSize->setNodeValue(n, nodeSize);
+        (*geoViewSize)[n] = nodeSize;
       }
 
       if (nodeLatLng.contains(n)) {
         const auto &[lat, lng] = nodeLatLng[n];
-        geoLayout->setNodeValue(n, Coord(lng * 2., latitudeToMercator(lat), 0));
+        (*geoLayout)[n] = Coord(lng * 2., latitudeToMercator(lat), 0);
       }
     }
 
@@ -1098,11 +1098,11 @@ void GeographicViewGraphicsView::switchViewType() {
       for (auto n : graph->nodes()) {
         if (viewSize != geoViewSize) {
           const Size &nodeSize = viewSize->getNodeValue(n);
-          geoViewSize->setNodeValue(n, nodeSize);
+          (*geoViewSize)[n] = nodeSize;
         }
 
         if (nodeLatLng.contains(n)) {
-          geoLayout->setNodeValue(n, projectLatLngToSphere(nodeLatLng[n], 50));
+          (*geoLayout)[n] = projectLatLngToSphere(nodeLatLng[n], 50);
         }
       }
 

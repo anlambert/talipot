@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -81,7 +81,7 @@ public:
         layout->setNodeValue(
             current, Coord(i * 2 * h + shift + i * spacing, iRow * (1.0 - hHeight + spacing), 0));
       } else {
-        layout->setNodeValue(current, Coord(i * (1.0 + spacing), iRow * (1.0 + spacing), 0));
+        (*layout)[current] = Coord(i * (1.0 + spacing), iRow * (1.0 + spacing), 0);
       }
 
       if (previous.isValid()) {

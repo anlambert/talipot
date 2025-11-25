@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -229,25 +229,25 @@ void PushPopTest::testSetValue() {
 
   DoubleProperty *prop = graph->getDoubleProperty("prop");
 
-  prop->setNodeValue(n1, 1.0);
+  (*prop)[n1] = 1.0;
   prop->setEdgeValue(e0, 1.0);
 
   graph->push();
   node n2 = graph->addNode();
   edge e1 = graph->addEdge(n0, n2);
 
-  prop->setNodeValue(n2, 2.0);
+  (*prop)[n2] = 2.0;
   prop->setEdgeValue(e1, 2.0);
   CPPUNIT_ASSERT_EQUAL(0.0, prop->getNodeValue(n0));
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getEdgeValue(e0));
   CPPUNIT_ASSERT_EQUAL(2.0, prop->getNodeValue(n2));
   CPPUNIT_ASSERT_EQUAL(2.0, prop->getEdgeValue(e1));
 
-  prop->setNodeValue(n1, 2.0);
+  (*prop)[n1] = 2.0;
   prop->setEdgeValue(e0, 2.0);
   CPPUNIT_ASSERT_EQUAL(2.0, prop->getNodeValue(n1));
   CPPUNIT_ASSERT_EQUAL(2.0, prop->getEdgeValue(e0));
-  prop->setNodeValue(n1, 4.0);
+  (*prop)[n1] = 4.0;
   prop->setEdgeValue(e0, 4.0);
   CPPUNIT_ASSERT(prop->getNodeValue(n1) == 4.0);
   CPPUNIT_ASSERT(prop->getEdgeValue(e0) == 4.0);
@@ -296,7 +296,7 @@ void PushPopTest::testSetValue() {
   CPPUNIT_ASSERT_EQUAL(3.0, prop->getEdgeValue(e0));
   CPPUNIT_ASSERT_EQUAL(3.0, prop->getEdgeValue(e1));
 
-  prop->setNodeValue(n0, 2.0);
+  (*prop)[n0] = 2.0;
   CPPUNIT_ASSERT_EQUAL(2.0, prop->getNodeValue(n0));
   prop->setEdgeValue(e0, 1.0);
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getEdgeValue(e0));
@@ -320,7 +320,7 @@ void PushPopTest::testSetEltValue() {
   vv.push_back(1.0);
   vv.push_back(1.0);
 
-  prop->setNodeValue(n1, vv);
+  (*prop)[n1] = vv;
   prop->setEdgeValue(e0, vv);
 
   graph->push();
@@ -329,7 +329,7 @@ void PushPopTest::testSetEltValue() {
 
   CPPUNIT_ASSERT(prop->getEdgeValue(e1).empty());
 
-  prop->setNodeValue(n2, vv);
+  (*prop)[n2] = vv;
   prop->setEdgeValue(e1, vv);
   CPPUNIT_ASSERT(prop->getNodeValue(n0).empty());
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getEdgeEltValue(e0, 0));
@@ -426,7 +426,7 @@ void PushPopTest::testVectorValue() {
   svv.push_back("a");
   svv.push_back("b");
 
-  sprop->setNodeValue(n1, svv);
+  (*sprop)[n1] = svv;
   sprop->setEdgeValue(e0, svv);
   sprop->pushBackNodeEltValue(n1, "c");
   sprop->pushBackEdgeEltValue(e0, "c");
@@ -441,16 +441,16 @@ void PushPopTest::testVectorValue() {
   vv.push_back(1.0);
   vv.push_back(1.0);
 
-  prop->setNodeValue(n1, vv);
+  (*prop)[n1] = vv;
   prop->setEdgeValue(e0, vv);
 
   graph->push();
   node n2 = graph->addNode();
   edge e1 = graph->addEdge(n0, n2);
 
-  prop->setNodeValue(n2, vv);
+  (*prop)[n2] = vv;
   prop->setEdgeValue(e1, vv);
-  sprop->setNodeValue(n2, svv);
+  (*sprop)[n2] = svv;
   sprop->setEdgeValue(e1, svv);
   CPPUNIT_ASSERT(prop->getNodeValue(n0).empty());
   CPPUNIT_ASSERT(sprop->getNodeValue(n0).empty());
@@ -554,7 +554,7 @@ void PushPopTest::testCopyProperty() {
 
   DoubleProperty *prop = graph->getDoubleProperty("prop");
 
-  prop->setNodeValue(n0, 1.0);
+  (*prop)[n0] = 1.0;
   prop->setEdgeValue(e0, 1.0);
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getNodeValue(n0));
   CPPUNIT_ASSERT_EQUAL(0.0, prop->getNodeValue(n1));
@@ -587,7 +587,7 @@ void PushPopTest::testCopyProperty() {
   graph->push();
   prop->setAllNodeValue(0.0);
   prop->setAllEdgeValue(0.0);
-  prop->setNodeValue(n1, 1.0);
+  (*prop)[n1] = 1.0;
   prop->setEdgeValue(e1, 1.0);
   CPPUNIT_ASSERT_EQUAL(0.0, prop->getNodeValue(n0));
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getNodeValue(n1));
@@ -974,7 +974,7 @@ void PushPopTest::testAddDelProps() {
   DoubleProperty *dProp = graph->getDoubleProperty("double");
   CPPUNIT_ASSERT(graph->existProperty("double"));
   node n = graph->addNode();
-  dProp->setNodeValue(n, 123456789.);
+  (*dProp)[n] = 123456789.;
 
   graph->pop();
 
@@ -1026,7 +1026,7 @@ void PushPopTest::testRenameProps() {
   DoubleProperty *dProp = graph->getDoubleProperty("double");
   CPPUNIT_ASSERT(graph->existProperty("double"));
   node n = graph->addNode();
-  dProp->setNodeValue(n, 123456789.);
+  (*dProp)[n] = 123456789.;
 
   dProp->rename("dbl");
   CPPUNIT_ASSERT(!graph->existProperty("double"));
@@ -1245,7 +1245,7 @@ void PushPopTest::testMetaNode() {
   node n0 = graph->addNode();
   LayoutProperty *layout = graph->getLayoutProperty("viewLayout");
   Coord coord0 = {-1, -1, -1};
-  layout->setNodeValue(n0, coord0);
+  (*layout)[n0] = coord0;
 
   vector<node> tmp;
   tmp.push_back(n0);
@@ -1259,7 +1259,7 @@ void PushPopTest::testMetaNode() {
   node metaNode = clone->createMetaNode(tmp);
   Color mColor = {255, 255, 255, 127};
   ColorProperty *color = graph->getColorProperty("viewColor");
-  color->setNodeValue(metaNode, mColor);
+  (*color)[metaNode] = mColor;
 
   CPPUNIT_ASSERT(graph->isElement(metaNode));
   CPPUNIT_ASSERT(graph->isMetaNode(metaNode));

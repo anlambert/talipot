@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -64,8 +64,8 @@ void SOMMap::initMap() {
       break;
 
     default:
-      std::cerr << __PRETTY_FUNCTION__ << ":" << __LINE__ << " "
-                << "connectivity unknown" << std::endl;
+      std::cerr << __PRETTY_FUNCTION__ << ":" << __LINE__ << " " << "connectivity unknown"
+                << std::endl;
       assert(false);
     }
 
@@ -145,8 +145,8 @@ void SOMMap::registerModification(const vector<string> &propertiesToListen) {
 
       // If the property is double no need to convert
       if (properties[propertyNumber]->getTypename() == "double") {
-        static_cast<DoubleProperty *>(properties[propertyNumber])
-            ->setNodeValue(n, nodeToNodeVec[n][propertyNumber]);
+        (*static_cast<DoubleProperty *>(properties[propertyNumber]))[n] =
+            nodeToNodeVec[n][propertyNumber];
       } else {
         std::cerr << __PRETTY_FUNCTION__ << ":" << __LINE__ << " unmanaged type "
                   << properties[propertyNumber]->getTypename() << std::endl;

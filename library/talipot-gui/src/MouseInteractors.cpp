@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -321,7 +321,7 @@ protected:
     ColorProperty *colorProp = graph->getColorProperty("viewColor");
     Color color = colorProp->getNodeValue(n);
     color[3] = alphaBegin + t * (alphaEnd - alphaBegin);
-    colorProp->setNodeValue(n, color);
+    (*colorProp)[n] = color;
   }
 
 protected:
@@ -393,7 +393,7 @@ bool MouseNKeysNavigator::eventFilter(QObject *widget, QEvent *e) {
         float alphaOrigin = colorProp->getNodeValue(n)[3];
         Color color = colorProp->getNodeValue(n);
         color[3] = 0;
-        colorProp->setNodeValue(n, color);
+        (*colorProp)[n] = color;
 
         Observable::unholdObservers();
 

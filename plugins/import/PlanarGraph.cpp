@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -71,9 +71,9 @@ public:
     graph->addEdge(f.b, f.c);
     graph->addEdge(f.c, f.a);
     float val = nbNodes;
-    newLayout->setNodeValue(f.a, Coord(-val, -val, 0));
-    newLayout->setNodeValue(f.b, Coord(0, val, 0));
-    newLayout->setNodeValue(f.c, Coord(val, -val, 0));
+    (*newLayout)[f.a] = Coord(-val, -val, 0);
+    (*newLayout)[f.b] = Coord(0, val, 0);
+    (*newLayout)[f.c] = Coord(val, -val, 0);
     uint nb = 3;
 
     while (nb < nbNodes) {
@@ -84,7 +84,7 @@ public:
       Coord tmp = newLayout->getNodeValue(f.a) + newLayout->getNodeValue(f.b) +
                   newLayout->getNodeValue(f.c);
       tmp /= 3.0;
-      newLayout->setNodeValue(n, tmp);
+      (*newLayout)[n] = tmp;
 
       // Split the triangle in three part
       graph->addEdge(n, f.a);

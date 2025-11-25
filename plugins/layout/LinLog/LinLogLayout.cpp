@@ -569,7 +569,7 @@ bool LinLogLayout::minimizeEnergyNoTree(int nrIterations) {
 
         if (!skipNodes || !skipNodes->getNodeValue(u)) {
           // if(!noackPillar->getNodeValue(u))
-          layoutResult->setNodeValue(u, pos);
+          (*layoutResult)[u] = pos;
         }
 
         double curEnergy = getEnergy(u);
@@ -587,7 +587,7 @@ bool LinLogLayout::minimizeEnergyNoTree(int nrIterations) {
 
         if (!skipNodes || !skipNodes->getNodeValue(u)) {
           // if(!noackPillar->getNodeValue(u))
-          layoutResult->setNodeValue(u, pos);
+          (*layoutResult)[u] = pos;
         }
 
         double curEnergy = getEnergy(u);
@@ -604,7 +604,7 @@ bool LinLogLayout::minimizeEnergyNoTree(int nrIterations) {
 
       if (!skipNodes || !skipNodes->getNodeValue(u)) {
         // if(!noackPillar->getNodeValue(u))
-        layoutResult->setNodeValue(u, pos);
+        (*layoutResult)[u] = pos;
       }
     }
 
@@ -688,7 +688,7 @@ bool LinLogLayout::minimizeEnergy(int nrIterations) {
         octTree->addNode(u, pos, 0);
 
         if (!skipNodes || !skipNodes->getNodeValue(u)) {
-          layoutResult->setNodeValue(u, pos);
+          (*layoutResult)[u] = pos;
         }
 
         double curEnergy = getEnergy(u);
@@ -709,7 +709,7 @@ bool LinLogLayout::minimizeEnergy(int nrIterations) {
         octTree->addNode(u, pos, 0);
 
         if (!skipNodes || !skipNodes->getNodeValue(u)) {
-          layoutResult->setNodeValue(u, pos);
+          (*layoutResult)[u] = pos;
         }
 
         double curEnergy = getEnergy(u);
@@ -725,7 +725,7 @@ bool LinLogLayout::minimizeEnergy(int nrIterations) {
       }
 
       if (!skipNodes || !skipNodes->getNodeValue(u)) {
-        layoutResult->setNodeValue(u, pos);
+        (*layoutResult)[u] = pos;
       }
     }
 

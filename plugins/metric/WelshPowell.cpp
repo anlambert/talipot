@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -132,7 +132,7 @@ public:
 #ifndef NDEBUG
             cout << "new node found color : " << currentColor << endl;
 #endif
-            result->setNodeValue(nInfo.n, nodesInfo[i].val = currentColor);
+            (*result)[nInfo.n] = nodesInfo[i].val = currentColor;
             ++numberOfColoredNodes;
 
             if (i == minIndex) {

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -62,7 +62,7 @@ void HierarchicalGraph::buildGrid(tlp::Graph *sg) {
       grid.resize(level + 1);
     }
 
-    embedding->setNodeValue(n, grid[level].size());
+    (*embedding)[n] = grid[level].size();
     grid[level].push_back(n);
   });
 }
@@ -79,7 +79,7 @@ void HierarchicalGraph::twoLayerCrossReduction(tlp::Graph *sg, uint freeLayer) {
       sum += embedding->getNodeValue(itn);
       ++deg;
     }
-    embedding->setNodeValue(n, sum / deg);
+    (*embedding)[n] = sum / deg;
   }
 }
 //================================================================================
@@ -91,7 +91,7 @@ void HierarchicalGraph::initCross(tlp::Graph *sg, tlp::node n, tlp::MutableConta
   }
 
   visited.set(n.id, true);
-  embedding->setNodeValue(n, id);
+  (*embedding)[n] = id;
   for (auto it : sg->getOutNodes(n)) {
     initCross(sg, it, visited, id + 1);
   }
@@ -101,7 +101,7 @@ void HierarchicalGraph::initCross(tlp::Graph *sg, tlp::node n, tlp::MutableConta
 void HierarchicalGraph::crossReduction(tlp::Graph *sg) {
 
   node tmp = sg->addNode();
-  embedding->setNodeValue(tmp, 0);
+  (*embedding)[tmp] = 0;
   for (auto it : sg->nodes()) {
     if (sg->outdeg(it) == 0) {
       sg->addEdge(it, tmp);
@@ -291,7 +291,7 @@ bool HierarchicalGraph::run() {
     tmpSize->copy(nodeSize);
     for (auto n : graph->nodes()) {
       const Size &tmp = tmpSize->getNodeValue(n);
-      tmpSize->setNodeValue(n, Size(tmp[1], tmp[0], tmp[2]));
+      (*tmpSize)[n] = Size(tmp[1], tmp[0], tmp[2]);
     }
     nodeSize = tmpSize;
   }
@@ -371,7 +371,7 @@ bool HierarchicalGraph::run() {
   assert(resultBool);
 
   for (auto n : graph->nodes()) {
-    result->setNodeValue(n, tmpLayout.getNodeValue(n));
+    (*result)[n] = tmpLayout.getNodeValue(n);
   }
 
   computeEdgeBends(graph, tmpLayout, replacedEdges, reversedEdges);
@@ -452,7 +452,7 @@ bool HierarchicalGraph::run() {
     Coord tmp = result->getNodeValue(n);
     const Size &tmpS = nodeSize->getNodeValue(n);
     tmp[1] -= (levelMaxSize[nodeLevel.get(n.id)] - tmpS[1]) / 2.f;
-    result->setNodeValue(n, tmp);
+    (*result)[n] = tmp;
   }
 
   // rotate layout
@@ -461,7 +461,7 @@ bool HierarchicalGraph::run() {
     delete nodeSize;
     for (auto n : graph->nodes()) {
       const Coord &tmpC = result->getNodeValue(n);
-      result->setNodeValue(n, Coord(-tmpC[1], tmpC[0], tmpC[2]));
+      (*result)[n] = Coord(-tmpC[1], tmpC[0], tmpC[2]);
     }
     for (auto e : graph->edges()) {
       const LineType::RealType &tmp = result->getEdgeValue(e);

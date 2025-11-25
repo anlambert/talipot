@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -198,11 +198,11 @@ static void restoreTextureFilesFromProject(tlp::Graph *g, tlp::Project *project,
     // If the original texture file is not present in the computer but is present in the project
     // change the texture path for the node in the viewTexture property
     if (!fileInfo.exists() && project->exists(textureProjectFile)) {
-      viewTexture->setNodeValue(n, QStringToTlpString(project->toAbsolutePath(textureProjectFile)));
+      (*viewTexture)[n] = QStringToTlpString(project->toAbsolutePath(textureProjectFile));
     } else if (fileInfo.exists()) {
-      viewTexture->setNodeValue(n, QStringToTlpString(fileInfo.absoluteFilePath()));
+      (*viewTexture)[n] = QStringToTlpString(fileInfo.absoluteFilePath());
     } else if (textureFile.startsWith("http")) {
-      viewTexture->setNodeValue(n, QStringToTlpString(textureFile));
+      (*viewTexture)[n] = QStringToTlpString(textureFile);
     }
   }
 

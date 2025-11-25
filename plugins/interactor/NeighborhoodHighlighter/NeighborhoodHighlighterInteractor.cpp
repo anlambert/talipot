@@ -429,8 +429,8 @@ void NeighborhoodHighlighter::updateNeighborhoodGraphLayoutAndColors() {
     ColorProperty *origGraphColors = originalInputData->colors();
 
     for (auto n2 : neighborhoodGraph->nodes()) {
-      neighborhoodGraphOriginalLayout->setNodeValue(n2, origGraphLayout->getNodeValue(n2));
-      neighborhoodGraphBackupColors->setNodeValue(n2, origGraphColors->getNodeValue(n2));
+      (*neighborhoodGraphOriginalLayout)[n2] = origGraphLayout->getNodeValue(n2);
+      (*neighborhoodGraphBackupColors)[n2] = origGraphColors->getNodeValue(n2);
     }
 
     for (auto e : neighborhoodGraph->edges()) {
@@ -495,7 +495,7 @@ void NeighborhoodHighlighter::computeNeighborhoodGraphCircleLayout() {
   Size centralNodeSize =
       originalGlGraph->inputData()->sizes()->getNodeValue(neighborhoodGraphCentralNode);
   Coord centralNodeCoord = neighborhoodGraphLayout->getNodeValue(neighborhoodGraphCentralNode);
-  neighborhoodGraphCircleLayout->setNodeValue(neighborhoodGraphCentralNode, centralNodeCoord);
+  (*neighborhoodGraphCircleLayout)[neighborhoodGraphCentralNode] = centralNodeCoord;
 
   vector<node> neighborsNodes;
   for (auto n : neighborhoodGraph->nodes()) {

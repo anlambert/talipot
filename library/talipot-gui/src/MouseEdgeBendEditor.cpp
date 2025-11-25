@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -357,7 +357,7 @@ void MouseEdgeBendEditor::mMouseTranslate(int newX, int newY, GlWidget *glWidget
     if (edgeSelected) {
       _layout->setEdgeValue(mEdge, coordinates);
     } else {
-      _coordsVectorProperty->setNodeValue(mNode, coordinates);
+      (*_coordsVectorProperty)[mNode] = coordinates;
     }
     Observable::unholdObservers();
   }
@@ -395,7 +395,7 @@ void MouseEdgeBendEditor::mMouseDelete() {
     if (edgeSelected) {
       _layout->setEdgeValue(mEdge, coordinates);
     } else {
-      _coordsVectorProperty->setNodeValue(mNode, coordinates);
+      (*_coordsVectorProperty)[mNode] = coordinates;
     }
 
     Observable::unholdObservers();
@@ -457,7 +457,7 @@ void MouseEdgeBendEditor::mMouseCreate(int x, int y, GlWidget *glWidget) {
     _layout->setEdgeValue(mEdge, coordinates);
   } else {
     if (_coordsVectorProperty) {
-      _coordsVectorProperty->setNodeValue(mNode, coordinates);
+      (*_coordsVectorProperty)[mNode] = coordinates;
     }
   }
 

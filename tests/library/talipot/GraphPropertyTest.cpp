@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -45,8 +45,8 @@ void GraphPropertyTest::testDestroyGraph() {
   GraphProperty *proxy1 = meta1->getLocalGraphProperty("viewMetaGraph");
   node mnode1 = meta1->addNode();
   node mnode2 = meta1->addNode();
-  proxy1->setNodeValue(mnode1, g1);
-  proxy1->setNodeValue(mnode2, g2);
+  (*proxy1)[mnode1] = g1;
+  (*proxy1)[mnode2] = g2;
   graph->delSubGraph(g2);
   CPPUNIT_ASSERT_EQUAL(nullGraph, proxy1->getNodeValue(mnode2));
   CPPUNIT_ASSERT_EQUAL(g1, proxy1->getNodeValue(mnode1));
@@ -64,9 +64,9 @@ void GraphPropertyTest::testSetGet() {
   GraphProperty *proxy1 = meta1->getLocalGraphProperty("viewMetaGraph");
   node mnode1 = meta1->addNode();
   node mnode2 = meta1->addNode();
-  proxy1->setNodeValue(mnode1, g1);
-  proxy1->setNodeValue(mnode2, g2);
-  proxy1->setNodeValue(mnode2, g3);
+  (*proxy1)[mnode1] = g1;
+  (*proxy1)[mnode2] = g2;
+  (*proxy1)[mnode2] = g3;
   graph->delSubGraph(g2);
   CPPUNIT_ASSERT_EQUAL(g3, proxy1->getNodeValue(mnode2));
   CPPUNIT_ASSERT_EQUAL(g1, proxy1->getNodeValue(mnode1));

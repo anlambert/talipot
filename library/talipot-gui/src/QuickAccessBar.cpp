@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -400,8 +400,8 @@ void QuickAccessBarImpl::setLabelColor(const QColor &c) {
   Color color = QColorToColor(c);
 
   for (auto n : selected->getNonDefaultValuatedNodes(_mainView->graph())) {
-    labelColors->setNodeValue(n, color);
-    labelBorderColors->setNodeValue(n, color);
+    (*labelColors)[n] = color;
+    (*labelBorderColors)[n] = color;
     hasSelected = true;
   }
 
@@ -437,7 +437,7 @@ void QuickAccessBarImpl::setAllColorValues(ElementType eltType, ColorProperty *p
 
   if (eltType == ElementType::NODE) {
     for (auto n : selected->getNonDefaultValuatedNodes(_mainView->graph())) {
-      prop->setNodeValue(n, color);
+      (*prop)[n] = color;
       hasSelected = true;
     }
 

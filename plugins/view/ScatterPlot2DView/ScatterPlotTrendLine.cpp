@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -129,7 +129,7 @@ bool ScatterPlotTrendLine::compute(GlWidget *) {
     IntegerProperty *xDimInt = graph->getIntegerProperty(xDimName);
     xDim = new DoubleProperty(graph);
     for (auto n : graph->nodes()) {
-      xDim->setNodeValue(n, double(xDimInt->getNodeValue(n)));
+      (*xDim)[n] = double(xDimInt->getNodeValue(n));
     }
   }
 
@@ -139,7 +139,7 @@ bool ScatterPlotTrendLine::compute(GlWidget *) {
     IntegerProperty *yDimInt = graph->getIntegerProperty(yDimName);
     yDim = new DoubleProperty(graph);
     for (auto n : graph->nodes()) {
-      yDim->setNodeValue(n, double(yDimInt->getNodeValue(n)));
+      (*yDim)[n] = double(yDimInt->getNodeValue(n));
     }
   }
 

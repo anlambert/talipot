@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -90,7 +90,7 @@ bool MixedModel::run() {
   if (orientation == "horizontal") {
     for (auto n : graph->nodes()) {
       const Size tmp = sizeResult->getNodeValue(n);
-      sizeResult->setNodeValue(n, Size(tmp[1], tmp[0], tmp[2]));
+      (*sizeResult)[n] = Size(tmp[1], tmp[0], tmp[2]);
     }
   }
 
@@ -119,10 +119,10 @@ bool MixedModel::run() {
     } else if (component.size() < 4) {
       node n = component[0];
       const Coord &c = sizeResult->getNodeValue(n);
-      result->setNodeValue(n, Coord(0, 0, 0));
+      (*result)[n] = Coord(0, 0, 0);
       node n2 = component[1];
       const Coord &c2 = sizeResult->getNodeValue(n2);
-      result->setNodeValue(n2, Coord(spacing + c.getX() / 2 + c2.getX() / 2, 0, 0));
+      (*result)[n2] = Coord(spacing + c.getX() / 2 + c2.getX() / 2, 0, 0);
 
       for (auto e : graph->getEdges(n, n2, false)) {
         edge_planar.push_back(e);
@@ -293,9 +293,9 @@ bool MixedModel::run() {
   if (orientation == "horizontal") {
     for (auto n : graph->nodes()) {
       const Size &size = sizeResult->getNodeValue(n);
-      sizeResult->setNodeValue(n, Size(size[1], size[0], size[2]));
+      (*sizeResult)[n] = Size(size[1], size[0], size[2]);
       const Coord &coord = result->getNodeValue(n);
-      result->setNodeValue(n, Coord(-coord[1], coord[0], coord[2]));
+      (*result)[n] = Coord(-coord[1], coord[0], coord[2]);
     }
     for (auto e : graph->edges()) {
       const auto &tmp = result->getEdgeValue(e);
@@ -349,7 +349,7 @@ void MixedModel::placeNodesEdges() {
     Coord c = nodeSize.get(n.id);
     c[0] -= edgeNodeSpacing;
     graph->getSizeProperty("viewSize")->setNodeValue(n, Size(c[0], c[1], 0.3f));
-    result->setNodeValue(n, NodeCoords[n]);
+    (*result)[n] = NodeCoords[n];
   }
 
   for (auto e : carte->edges()) {

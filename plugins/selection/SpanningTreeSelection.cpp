@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -38,7 +38,7 @@ bool SpanningTreeSelection::run() {
 
     for (auto n : graph->nodes()) {
       if (viewSelection->getNodeValue(n)) {
-        result->setNodeValue(n, true);
+        (*result)[n] = true;
       }
     }
   }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -398,7 +398,7 @@ void TableView::mapToGraphSelection() {
 
     for (const QModelIndex &idx : selectionModel->selectedRows()) {
       node n(idx.data(Model::ElementIdRole).toUInt());
-      out->setNodeValue(n, true);
+      (*out)[n] = true;
     }
   } else {
     out->setAllEdgeValue(false);
@@ -437,7 +437,7 @@ void TableView::toggleHighlightedRows() {
   for (const auto &idx : rows) {
     if (NODES_DISPLAYED) {
       node n(idx.data(Model::ElementIdRole).toUInt());
-      selection->setNodeValue(n, !selection->getNodeValue(n));
+      (*selection)[n] = !selection->getNodeValue(n);
     } else {
       edge e(idx.data(Model::ElementIdRole).toUInt());
       selection->setEdgeValue(e, !selection->getEdgeValue(e));
@@ -465,7 +465,7 @@ void TableView::selectHighlightedRows() {
 
   for (const auto &idx : rows) {
     if (NODES_DISPLAYED)
-      selection->setNodeValue(node(idx.data(Model::ElementIdRole).toUInt()), true);
+      (*selection)[node(idx.data(Model::ElementIdRole).toUInt())] = true;
     else
       selection->setEdgeValue(edge(idx.data(Model::ElementIdRole).toUInt()), true);
   }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -252,55 +252,55 @@ public:
 private:
   tlp::node addFileNode(const QFileInfo &info, tlp::Graph *g) {
     tlp::node n = g->addNode();
-    _absolutePaths->setNodeValue(n, tlp::QStringToTlpString(info.absoluteFilePath()));
-    _baseNames->setNodeValue(n, tlp::QStringToTlpString(info.baseName()));
-    _createdDates->setNodeValue(n, tlp::QStringToTlpString(info.birthTime().toString()));
-    _fileNames->setNodeValue(n, tlp::QStringToTlpString(info.fileName()));
-    _isDir->setNodeValue(n, info.isDir());
-    _isExecutable->setNodeValue(n, info.isExecutable());
-    _isReadable->setNodeValue(n, info.isReadable());
-    _isSymlink->setNodeValue(n, info.isSymLink());
-    _isWritable->setNodeValue(n, info.isWritable());
-    _lastModifiedDates->setNodeValue(n, tlp::QStringToTlpString(info.lastModified().toString()));
-    _lastReadDates->setNodeValue(n, tlp::QStringToTlpString(info.lastRead().toString()));
-    _owners->setNodeValue(n, tlp::QStringToTlpString(info.owner()));
-    _permissions->setNodeValue(n, int(info.permissions()));
-    _suffixes->setNodeValue(n, tlp::QStringToTlpString(info.suffix()));
-    _sizes->setNodeValue(n, info.size());
+    (*_absolutePaths)[n] = tlp::QStringToTlpString(info.absoluteFilePath());
+    (*_baseNames)[n] = tlp::QStringToTlpString(info.baseName());
+    (*_createdDates)[n] = tlp::QStringToTlpString(info.birthTime().toString());
+    (*_fileNames)[n] = tlp::QStringToTlpString(info.fileName());
+    (*_isDir)[n] = info.isDir();
+    (*_isExecutable)[n] = info.isExecutable();
+    (*_isReadable)[n] = info.isReadable();
+    (*_isSymlink)[n] = info.isSymLink();
+    (*_isWritable)[n] = info.isWritable();
+    (*_lastModifiedDates)[n] = tlp::QStringToTlpString(info.lastModified().toString());
+    (*_lastReadDates)[n] = tlp::QStringToTlpString(info.lastRead().toString());
+    (*_owners)[n] = tlp::QStringToTlpString(info.owner());
+    (*_permissions)[n] = int(info.permissions());
+    (*_suffixes)[n] = tlp::QStringToTlpString(info.suffix());
+    (*_sizes)[n] = info.size();
 
     if (_useIcons) {
       std::string extension = QStringToTlpString(info.suffix());
 
       if (info.isDir()) {
-        _fontIcon->setNodeValue(n, tlp::FontAwesome::Regular::Folder);
+        (*_fontIcon)[n] = tlp::FontAwesome::Regular::Folder;
         tlp::ColorProperty *viewColor = graph->getColorProperty("viewColor");
-        viewColor->setNodeValue(n, dirColor);
+        (*viewColor)[n] = dirColor;
       } else if (std::find(commonTextFilesExt.begin(), commonTextFilesExt.end(), extension) !=
                  commonTextFilesExt.end()) {
-        _fontIcon->setNodeValue(n, tlp::FontAwesome::Regular::FileAlt);
+        (*_fontIcon)[n] = tlp::FontAwesome::Regular::FileAlt;
       } else if (std::find(commonArchiveFilesExt.begin(), commonArchiveFilesExt.end(), extension) !=
                  commonArchiveFilesExt.end()) {
-        _fontIcon->setNodeValue(n, tlp::FontAwesome::Regular::FileArchive);
+        (*_fontIcon)[n] = tlp::FontAwesome::Regular::FileArchive;
       } else if (std::find(commonAudioFilesExt.begin(), commonAudioFilesExt.end(), extension) !=
                  commonAudioFilesExt.end()) {
-        _fontIcon->setNodeValue(n, tlp::FontAwesome::Regular::FileAudio);
+        (*_fontIcon)[n] = tlp::FontAwesome::Regular::FileAudio;
       } else if (std::find(commonImageFilesExt.begin(), commonImageFilesExt.end(), extension) !=
                  commonImageFilesExt.end()) {
-        _fontIcon->setNodeValue(n, tlp::FontAwesome::Regular::FileImage);
+        (*_fontIcon)[n] = tlp::FontAwesome::Regular::FileImage;
       } else if (std::find(commonVideoFilesExt.begin(), commonVideoFilesExt.end(), extension) !=
                  commonVideoFilesExt.end()) {
-        _fontIcon->setNodeValue(n, tlp::FontAwesome::Regular::FileVideo);
+        (*_fontIcon)[n] = tlp::FontAwesome::Regular::FileVideo;
       } else if (std::find(commonDevFilesExt.begin(), commonDevFilesExt.end(), extension) !=
                  commonDevFilesExt.end()) {
-        _fontIcon->setNodeValue(n, tlp::FontAwesome::Regular::FileCode);
+        (*_fontIcon)[n] = tlp::FontAwesome::Regular::FileCode;
       } else if (extension == "pdf") {
-        _fontIcon->setNodeValue(n, tlp::FontAwesome::Regular::FilePdf);
+        (*_fontIcon)[n] = tlp::FontAwesome::Regular::FilePdf;
       } else if (extension == "doc" || extension == "docx") {
-        _fontIcon->setNodeValue(n, tlp::FontAwesome::Regular::FileWord);
+        (*_fontIcon)[n] = tlp::FontAwesome::Regular::FileWord;
       } else if (extension == "xls" || extension == "xlsx") {
-        _fontIcon->setNodeValue(n, tlp::FontAwesome::Regular::FileExcel);
+        (*_fontIcon)[n] = tlp::FontAwesome::Regular::FileExcel;
       } else if (extension == "ppt" || extension == "pptx") {
-        _fontIcon->setNodeValue(n, tlp::FontAwesome::Regular::FilePowerpoint);
+        (*_fontIcon)[n] = tlp::FontAwesome::Regular::FilePowerpoint;
       }
     }
 

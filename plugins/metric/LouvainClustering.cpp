@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -426,7 +426,7 @@ bool LouvainClustering::run() {
   int maxVal = -1;
   TLP_MAP_NODES_AND_INDICES(graph, [&](const node n, uint i) {
     int val = renumber[n2c[(*clusters)[i]]];
-    result->setNodeValue(n, val);
+    (*result)[n] = val;
     maxVal = std::max(val, maxVal);
   });
 

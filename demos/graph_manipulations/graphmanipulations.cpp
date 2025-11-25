@@ -45,20 +45,20 @@ int main(int, char **) {
   // now in color. 'viewColor' is the Talipot GUI's default color property, so when we load it we
   // will see the color immediately If 'viewColor' did not exist before, this creates it.
   ColorProperty *color = myGraph->getColorProperty("viewColor");
-  color->setNodeValue(a, Color(255, 0, 0));
-  color->setNodeValue(b, Color(0, 255, 0));
-  color->setNodeValue(c, Color(0, 0, 255));
-  color->setNodeValue(d, Color(255, 0, 0));
-  color->setNodeValue(e, Color(0, 255, 0));
+  (*color)[a] = Color(255, 0, 0);
+  (*color)[b] = Color(0, 255, 0);
+  (*color)[c] = Color(0, 0, 255);
+  (*color)[d] = Color(255, 0, 0);
+  (*color)[e] = Color(0, 255, 0);
   // hey look, this is a 3-coloration :)
 
   // set the label of the nodes (again, with Talipot's default label property)
   StringProperty *label = myGraph->getStringProperty("viewLabel");
-  label->setNodeValue(a, "A");
-  label->setNodeValue(b, "B");
-  label->setNodeValue(c, "C");
-  label->setNodeValue(d, "D");
-  label->setNodeValue(e, "E");
+  (*label)[a] = "A";
+  (*label)[b] = "B";
+  (*label)[c] = "C";
+  (*label)[d] = "D";
+  (*label)[e] = "E";
 
   DoubleProperty *metric = myGraph->getDoubleProperty("degree");
 
@@ -75,7 +75,7 @@ int main(int, char **) {
   } else {
     std::cout << "could not find the plugin, computing" << std::endl;
     for (auto n : myGraph->nodes()) {
-      metric->setNodeValue(n, myGraph->deg(n));
+      (*metric)[n] = myGraph->deg(n);
     }
   }
 

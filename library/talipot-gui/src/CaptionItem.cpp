@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -353,13 +353,13 @@ void CaptionItem::applyNewFilter(float begin, float end) {
           _metricProperty->getNodeValue(nit) > endMetric) {
         tmp[3] = 25;
         borderTmp[3] = 25;
-        _colorProperty->setNodeValue(nit, tmp);
-        borderColorProperty->setNodeValue(nit, borderTmp);
+        (*_colorProperty)[nit] = tmp;
+        (*borderColorProperty)[nit] = borderTmp;
       } else {
         tmp[3] = 255;
         borderTmp[3] = 255;
-        _colorProperty->setNodeValue(nit, tmp);
-        borderColorProperty->setNodeValue(nit, borderTmp);
+        (*_colorProperty)[nit] = tmp;
+        (*borderColorProperty)[nit] = borderTmp;
       }
     }
 

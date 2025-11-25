@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -57,15 +57,15 @@ void IntegerPropertyMinMaxUpdateTest::testIntegerPropertyMinUpdate() {
   CPPUNIT_ASSERT_EQUAL_MESSAGE("test IntegerProperty min value before update", originalMin,
                                minNode);
 
-  integerProperty->setNodeValue(n1, newMin);
+  (*integerProperty)[n1] = newMin;
   minNode = integerProperty->getNodeMin();
   CPPUNIT_ASSERT_EQUAL_MESSAGE("test IntegerProperty min value after update", newMin, minNode);
 
   Graph *subGraph = graph->addSubGraph();
   node n2 = subGraph->addNode();
-  integerProperty->setNodeValue(n2, 6);
+  (*integerProperty)[n2] = 6;
   node n3 = subGraph->addNode();
-  integerProperty->setNodeValue(n3, 9);
+  (*integerProperty)[n3] = 9;
   CPPUNIT_ASSERT_EQUAL(newMin, integerProperty->getNodeMin());
   CPPUNIT_ASSERT_EQUAL(6, integerProperty->getNodeMin(subGraph));
 
@@ -85,15 +85,15 @@ void IntegerPropertyMinMaxUpdateTest::testIntegerPropertyMaxUpdate() {
   CPPUNIT_ASSERT_EQUAL_MESSAGE("test IntegerProperty max value before update", originalMax,
                                maxNode);
 
-  integerProperty->setNodeValue(n4, newMax);
+  (*integerProperty)[n4] = newMax;
   maxNode = graph->getLocalIntegerProperty(integerPropertyName)->getNodeMax();
   CPPUNIT_ASSERT_EQUAL_MESSAGE("test IntegerProperty max value after update", newMax, maxNode);
 
   Graph *subGraph = graph->addSubGraph();
   node n2 = subGraph->addNode();
-  integerProperty->setNodeValue(n2, 6);
+  (*integerProperty)[n2] = 6;
   node n3 = subGraph->addNode();
-  integerProperty->setNodeValue(n3, 9);
+  (*integerProperty)[n3] = 9;
   CPPUNIT_ASSERT_EQUAL(newMax, integerProperty->getNodeMax());
   CPPUNIT_ASSERT_EQUAL(9, integerProperty->getNodeMax(subGraph));
 

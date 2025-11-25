@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,7 +49,7 @@ public:
         tlp::GraphProperty *prop = graph->getGraphProperty(name);
 
         for (const auto &[nodeId, value] : graphValues) {
-          prop->setNodeValue(tlp::node(nodeId), _clusterIndex[value]);
+          (*prop)[tlp::node(nodeId)] = _clusterIndex[value];
         }
       }
     }

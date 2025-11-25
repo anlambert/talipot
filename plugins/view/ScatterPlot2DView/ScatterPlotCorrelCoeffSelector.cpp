@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -358,7 +358,7 @@ bool ScatterPlotCorrelCoeffSelector::eventFilter(QObject *obj, QEvent *e) {
         Observable::holdObservers();
 
         for (auto n : polygonsToNodesSubsetAndCorrelCoeff[selectedPolygon].first) {
-          viewSelection->setNodeValue(n, true);
+          (*viewSelection)[n] = true;
         }
 
         for (size_t i = 0; i < polygonsToNodesSubsetAndCorrelCoeff[selectedPolygon].first.size();

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -351,7 +351,7 @@ void BasicPluginsTest::testEqualValueClustering() {
 
   for (uint i = 0; i < NB_ADD; ++i) {
     nodes.push_back(graph->addNode());
-    metric->setNodeValue(nodes[i], randomNumber(NB_ADD - 1));
+    (*metric)[nodes[i]] = randomNumber(NB_ADD - 1);
   }
 
   uint NB_EDGES = EDGE_RATIO * NB_ADD;

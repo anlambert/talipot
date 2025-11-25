@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -146,7 +146,7 @@ bool Circular::run() {
     // set the (max 2) nodes maxRad apart
     double xcoord = maxRad / 2.0;
     for (auto n : graph->nodes()) {
-      result->setNodeValue(n, Coord(xcoord, 0, 0));
+      (*result)[n] = Coord(xcoord, 0, 0);
       xcoord *= -1;
     }
   } // end if
@@ -198,10 +198,10 @@ bool Circular::run() {
 
       // compute the position of the node.
       gamma += halfAngle;
-      result->setNodeValue(n, Coord(rayon * cos(gamma), rayon * sin(gamma), 0));
+      (*result)[n] = Coord(rayon * cos(gamma), rayon * sin(gamma), 0);
       gamma += halfAngle;
     } // end while
-  }   // end else
+  } // end else
 
   return true;
 } // end run

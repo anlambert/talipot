@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -69,11 +69,11 @@ public:
 
   void computeMetaValue(AbstractStringProperty *label, node mN, Graph *sg, Graph *) override {
     if (sgLabel) {
-      label->setNodeValue(mN, sgLabel->getNodeValue(sg->getOneNode()));
+      (*label)[mN] = sgLabel->getNodeValue(sg->getOneNode());
     } else if (useSubGraphName) {
       string name;
       sg->getAttribute("name", name);
-      label->setNodeValue(mN, name);
+      (*label)[mN] = name;
     }
   }
 };
@@ -230,7 +230,7 @@ public:
     IntegerProperty *viewShape = graph->getIntegerProperty("viewShape");
 
     for (auto mNode : mNodes) {
-      viewShape->setNodeValue(mNode, NodeShape::Square);
+      (*viewShape)[mNode] = NodeShape::Square;
     }
 
     // restore previous calculators
@@ -398,7 +398,7 @@ public:
         // if a quotient graph has been computed
         // update metaInfo of current meta node
         if (dSet.getAndFree("quotientGraph", sg)) {
-          metaInfo->setNodeValue(mn, sg);
+          (*metaInfo)[mn] = sg;
         }
 
         ++itn;

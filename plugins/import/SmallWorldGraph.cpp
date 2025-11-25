@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -91,7 +91,7 @@ public:
     const vector<node> &nodes = graph->nodes();
 
     for (auto n : nodes) {
-      newLayout->setNodeValue(n, Coord(float(randomNumber(WIDTH)), float(randomNumber(HEIGHT)), 0));
+      (*newLayout)[n] = Coord(float(randomNumber(WIDTH)), float(randomNumber(HEIGHT)), 0);
     }
 
     // double minSize = DBL_MAX;

@@ -462,9 +462,9 @@ bool GraphModel::setAllNodeValue(PropertyInterface *prop, QVariant v, const Grap
   return true;
 }
 
-#define SET_NODE_VALUE(PROP, TYPE)                               \
-  else if (dynamic_cast<PROP *>(prop) != nullptr) {              \
-    static_cast<PROP *>(prop)->setNodeValue(n, v.value<TYPE>()); \
+#define SET_NODE_VALUE(PROP, TYPE)                     \
+  else if (dynamic_cast<PROP *>(prop) != nullptr) {    \
+    (*static_cast<PROP *>(prop))[n] = v.value<TYPE>(); \
   }
 
 bool GraphModel::setNodeValue(uint id, PropertyInterface *prop, QVariant v) {
@@ -472,29 +472,27 @@ bool GraphModel::setNodeValue(uint id, PropertyInterface *prop, QVariant v) {
 
   if (dynamic_cast<IntegerProperty *>(prop) != nullptr) {
     if (prop->getName() == "viewShape") {
-      static_cast<IntegerProperty *>(prop)->setNodeValue(n, v.value<NodeShape::NodeShapes>());
+      (*static_cast<IntegerProperty *>(prop))[n] = v.value<NodeShape::NodeShapes>();
     } else if (prop->getName() == "viewLabelPosition") {
-      static_cast<IntegerProperty *>(prop)->setNodeValue(n,
-                                                         v.value<LabelPosition::LabelPositions>());
+      (*static_cast<IntegerProperty *>(prop))[n] = v.value<LabelPosition::LabelPositions>();
     } else {
-      static_cast<IntegerProperty *>(prop)->setNodeValue(n, v.value<int>());
+      (*static_cast<IntegerProperty *>(prop))[n] = v.value<int>();
     }
   } else if (dynamic_cast<StringProperty *>(prop) != nullptr) {
     if (prop->getName() == "viewFont") {
-      static_cast<StringProperty *>(prop)->setNodeValue(n, v.value<Font>().fontName());
+      (*static_cast<StringProperty *>(prop))[n] = v.value<Font>().fontName();
     } else if (prop->getName() == "viewIcon") {
-      static_cast<StringProperty *>(prop)->setNodeValue(
-          n, QStringToTlpString(v.value<FontIconName>().iconName));
+      (*static_cast<StringProperty *>(prop))[n] =
+          QStringToTlpString(v.value<FontIconName>().iconName);
     } else if (prop->getName() == "viewTexture") {
-      static_cast<StringProperty *>(prop)->setNodeValue(
-          n, QStringToTlpString(v.value<TextureFile>().texturePath));
+      (*static_cast<StringProperty *>(prop))[n] =
+          QStringToTlpString(v.value<TextureFile>().texturePath);
     } else {
-      static_cast<StringProperty *>(prop)->setNodeValue(n, QStringToTlpString(v.value<QString>()));
+      (*static_cast<StringProperty *>(prop))[n] = QStringToTlpString(v.value<QString>());
     }
   } else if (dynamic_cast<BooleanVectorProperty *>(prop) != nullptr) {
     auto vb = v.value<QVector<bool>>();
-    static_cast<BooleanVectorProperty *>(prop)->setNodeValue(
-        n, std::vector<bool>(vb.begin(), vb.end()));
+    (*static_cast<BooleanVectorProperty *>(prop))[n] = std::vector<bool>(vb.begin(), vb.end());
   }
 
   STANDARD_NODE_CHECKS(SET_NODE_VALUE)

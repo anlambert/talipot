@@ -177,11 +177,11 @@ Defines a graph with 3 nodes and 3 edges, the edge between A and C is named E an
           if (curNode == curLine) {
             switch (type) {
             case TLP_DOUBLE:
-              metric->setNodeValue(nodes[curNode], valDouble);
+              (*metric)[nodes[curNode]] = valDouble;
               break;
 
             case TLP_STRING:
-              stringP->setNodeValue(nodes[curNode], valString);
+              (*stringP)[nodes[curNode]] = valString;
               break;
 
             default:

@@ -42,7 +42,7 @@ static bool voronoiDiagram(tlp::Graph *graph, bool voronoiCellsSubGraphs,
 
     for (size_t i = 0; i < voronoiDiag.nbVertices(); ++i) {
       tlp::node n = voronoiSg->addNode();
-      layout->setNodeValue(n, voronoiDiag.vertex(i));
+      (*layout)[n] = voronoiDiag.vertex(i);
     }
 
     const std::vector<tlp::node> &sgNodes = voronoiSg->nodes();

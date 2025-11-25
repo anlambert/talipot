@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -98,7 +98,7 @@ bool OGDFLayoutPluginBase::run() {
   // and store them in the Tulip Layout Property
   for (auto n : graph->nodes()) {
     Coord nodeCoord = tlpToOGDF->getNodeCoordFromOGDFGraphAttr(n);
-    result->setNodeValue(n, nodeCoord);
+    (*result)[n] = nodeCoord;
   }
 
   // same operation as above but with edges
@@ -125,7 +125,7 @@ void OGDFLayoutPluginBase::transposeLayoutVertically() {
   for (auto n : graph->nodes()) {
     Coord nodeCoord = result->getNodeValue(n);
     nodeCoord[1] = midY - (nodeCoord[1] - midY);
-    result->setNodeValue(n, nodeCoord);
+    (*result)[n] = nodeCoord;
   }
 
   for (auto e : graph->edges()) {

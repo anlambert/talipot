@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,19 +39,19 @@ MouseSelectionEditor::MouseSelectionEditor()
     : glWidget(nullptr), layer(nullptr), composite(nullptr) {
   operation = NONE;
 
-  _controls[0].resizePoints(3);  // triangle
+  _controls[0].resizePoints(3); // triangle
   _controls[0].setStencil(0);
-  _controls[1].resizePoints(4);  // square
+  _controls[1].resizePoints(4); // square
   _controls[1].setStencil(0);
-  _controls[2].resizePoints(3);  // triangle
+  _controls[2].resizePoints(3); // triangle
   _controls[2].setStencil(0);
   _controls[3].resizePoints(30); // circle
   _controls[3].setStencil(0);
-  _controls[4].resizePoints(3);  // triangle
+  _controls[4].resizePoints(3); // triangle
   _controls[4].setStencil(0);
-  _controls[5].resizePoints(4);  // square
+  _controls[5].resizePoints(4); // square
   _controls[5].setStencil(0);
-  _controls[6].resizePoints(3);  // triangle
+  _controls[6].resizePoints(3); // triangle
   _controls[6].setStencil(0);
   _controls[7].resizePoints(30); // circle
   _controls[7].setStencil(0);
@@ -569,7 +569,7 @@ void MouseSelectionEditor::mMouseRotate(double newX, double newY, GlWidget *glWi
     if (mode == COORD_AND_SIZE || mode == SIZE) {
       for (auto n : _selection->getNodesEqualTo(true, _graph)) {
         double rotation = _rotation->getNodeValue(n);
-        _rotation->setNodeValue(n, rotation - degAngle);
+        (*_rotation)[n] = rotation - degAngle;
       }
     }
 
@@ -763,7 +763,7 @@ void MouseSelectionEditor::mAlign(EditOperation operation, GlWidget *) {
       break;
     }
 
-    _layout->setNodeValue(n, old);
+    (*_layout)[n] = old;
   }
 
   Observable::unholdObservers();

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -350,7 +350,7 @@ void MatrixView::normalizeSizes(double maxVal) {
 
     const Size &s =
         originalSizes->getNodeValue(node(_displayedNodesToGraphEntities->getNodeValue(n)));
-    matrixSizes->setNodeValue(n, Size(s[0] * maxVal / maxWidth, s[1] * maxVal / maxHeight, 1));
+    (*matrixSizes)[n] = Size(s[0] * maxVal / maxWidth, s[1] * maxVal / maxHeight, 1);
   }
   Observable::unholdObservers();
 }
@@ -365,11 +365,11 @@ void MatrixView::addNode(tlp::Graph *, const tlp::node n) {
   for (int i = 0; i < 2; ++i) {
     node dispNode = _matrixGraph->addNode();
     nodeToDisplayedNodes.push_back(dispNode);
-    _displayedNodesToGraphEntities->setNodeValue(dispNode, n.id);
-    _displayedNodesAreNodes->setNodeValue(dispNode, true);
+    (*_displayedNodesToGraphEntities)[dispNode] = n.id;
+    (*_displayedNodesAreNodes)[dispNode] = true;
   }
 
-  _graphEntitiesToDisplayedNodes->setNodeValue(n, nodeToDisplayedNodes);
+  (*_graphEntitiesToDisplayedNodes)[n] = nodeToDisplayedNodes;
 }
 
 void MatrixView::addEdge(tlp::Graph *g, const tlp::edge e) {
@@ -382,8 +382,8 @@ void MatrixView::addEdge(tlp::Graph *g, const tlp::edge e) {
   for (int i = 0; i < 2; ++i) {
     node dispEdge = _matrixGraph->addNode();
     edgeToDisplayedNodes.push_back(dispEdge);
-    _displayedNodesToGraphEntities->setNodeValue(dispEdge, e.id);
-    _displayedNodesAreNodes->setNodeValue(dispEdge, false);
+    (*_displayedNodesToGraphEntities)[dispEdge] = e.id;
+    (*_displayedNodesAreNodes)[dispEdge] = false;
   }
 
   _graphEntitiesToDisplayedNodes->setEdgeValue(e, edgeToDisplayedNodes);

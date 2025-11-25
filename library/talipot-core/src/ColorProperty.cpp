@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2020  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,7 +23,7 @@ class ViewColorCalculator : public AbstractColorProperty::MetaValueCalculator {
 public:
   void computeMetaValue(AbstractColorProperty *color, node mN, Graph *, Graph *) override {
     // meta node color is half opaque white
-    color->setNodeValue(mN, Color(255, 255, 255, 127));
+    (*color)[mN] = Color(255, 255, 255, 127);
   }
 
   void computeMetaValue(AbstractColorProperty *color, edge mE, Iterator<edge> *itE,

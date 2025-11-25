@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,18 +40,18 @@ public:
 
     switch (sg->numberOfNodes()) {
     case 0:
-      layout->setNodeValue(mN, Coord(0, 0, 0));
+      (*layout)[mN] = Coord(0, 0, 0);
       return;
 
     case 1:
-      layout->setNodeValue(mN, static_cast<LayoutProperty *>(layout)->getMax(sg));
+      (*layout)[mN] = static_cast<LayoutProperty *>(layout)->getMax(sg);
       return;
 
     default:
       // between the min and max computed values
-      layout->setNodeValue(mN, (static_cast<LayoutProperty *>(layout)->getMax(sg) +
-                                static_cast<LayoutProperty *>(layout)->getMin(sg)) /
-                                   2.0f);
+      (*layout)[mN] = (static_cast<LayoutProperty *>(layout)->getMax(sg) +
+                       static_cast<LayoutProperty *>(layout)->getMin(sg)) /
+                      2.0f;
     }
   }
 };

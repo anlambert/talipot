@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -100,7 +100,7 @@ void BooleanPropertyTest::testSetGet(bool value) {
 
   for (uint i = 0; i < graph->numberOfNodes() * 10; ++i) {
     node n = graph->getRandomNode();
-    selection->setNodeValue(n, !value);
+    (*selection)[n] = !value;
     CPPUNIT_ASSERT_EQUAL(!value, selection->getNodeValue(n));
   }
 
@@ -118,7 +118,7 @@ void BooleanPropertyTest::testCopy() {
 
   for (uint i = 0; i < graph->numberOfNodes() * 10; ++i) {
     node n = graph->getRandomNode();
-    selection->setNodeValue(n, !value);
+    (*selection)[n] = !value;
     CPPUNIT_ASSERT_EQUAL(!value, selection->getNodeValue(n));
   }
 
@@ -151,7 +151,7 @@ void BooleanPropertyTest::testDelete(bool value) {
 
   node n = graph->getRandomNode();
 
-  selection->setNodeValue(n, !value);
+  (*selection)[n] = !value;
   CPPUNIT_ASSERT_EQUAL(!value, selection->getNodeValue(n));
   graph->delNode(n);
   n = graph->addNode();
@@ -173,8 +173,8 @@ void BooleanPropertyTest::testReverse() {
   selection->setAllNodeValue(false);
   selection->setAllEdgeValue(false);
 
-  selection->setNodeValue(node(0), true);
-  selection->setNodeValue(node(graph->numberOfNodes() - 1), true);
+  (*selection)[node(0)] = true;
+  (*selection)[node(graph->numberOfNodes() - 1)] = true;
   selection->setEdgeValue(edge(0), true);
   selection->setEdgeValue(edge(graph->numberOfEdges() - 1), true);
 

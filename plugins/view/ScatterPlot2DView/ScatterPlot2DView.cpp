@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -177,9 +177,9 @@ void ScatterPlot2DView::setState(const DataSet &dataSet) {
       for (auto e : scatterPlotGraph->edges()) {
         node n = edgeToNode[e] = edgeAsNodeGraph->addNode();
         nodeToEdge[n] = e;
-        edgeAsNodeGraphColor->setNodeValue(n, graphColor->getEdgeValue(e));
-        edgeAsNodeGraphSelection->setNodeValue(n, graphSelection->getEdgeValue(e));
-        edgeAsNodeGraphLabel->setNodeValue(n, graphLabel->getEdgeValue(e));
+        (*edgeAsNodeGraphColor)[n] = graphColor->getEdgeValue(e);
+        (*edgeAsNodeGraphSelection)[n] = graphSelection->getEdgeValue(e);
+        (*edgeAsNodeGraphLabel)[n] = graphLabel->getEdgeValue(e);
       }
       // This is quite ugly but before listening to the graph we must
       // ensure that its viewMetaGraph property already exist to avoid
@@ -420,7 +420,7 @@ void ScatterPlot2DView::computeNodeSizes() {
   for (auto n : scatterPlotGraph->nodes()) {
     const Size &nodeSize = viewSize->getNodeValue(n);
     Size adjustedNodeSize = pointMinSize + resizeFactor * (nodeSize - Size(1.0f));
-    scatterPlotSize->setNodeValue(n, adjustedNodeSize);
+    (*scatterPlotSize)[n] = adjustedNodeSize;
   }
 
   GlGraphInputData *glGraphInputData = glGraph->inputData();
@@ -1085,11 +1085,11 @@ void ScatterPlot2DView::afterSetEdgeValue(PropertyInterface *p, const edge e) {
   if (p->getName() == "viewColor") {
     ColorProperty *edgeAsNodeGraphColors = edgeAsNodeGraph->getColorProperty("viewColor");
     auto *viewColor = static_cast<ColorProperty *>(p);
-    edgeAsNodeGraphColors->setNodeValue(edgeToNode[e], viewColor->getEdgeValue(e));
+    (*edgeAsNodeGraphColors)[edgeToNode[e]] = viewColor->getEdgeValue(e);
   } else if (p->getName() == "viewLabel") {
     StringProperty *edgeAsNodeGraphLabels = edgeAsNodeGraph->getStringProperty("viewLabel");
     auto *viewLabel = static_cast<StringProperty *>(p);
-    edgeAsNodeGraphLabels->setNodeValue(edgeToNode[e], viewLabel->getEdgeValue(e));
+    (*edgeAsNodeGraphLabels)[edgeToNode[e]] = viewLabel->getEdgeValue(e);
   } else if (p->getName() == "viewSelection") {
     BooleanProperty *edgeAsNodeGraphSelection =
         edgeAsNodeGraph->getBooleanProperty("viewSelection");
@@ -1097,7 +1097,7 @@ void ScatterPlot2DView::afterSetEdgeValue(PropertyInterface *p, const edge e) {
     edgeAsNodeGraphSelection->removeListener(this);
 
     if (edgeAsNodeGraphSelection->getNodeValue(edgeToNode[e]) != viewSelection->getEdgeValue(e)) {
-      edgeAsNodeGraphSelection->setNodeValue(edgeToNode[e], viewSelection->getEdgeValue(e));
+      (*edgeAsNodeGraphSelection)[edgeToNode[e]] = viewSelection->getEdgeValue(e);
     }
 
     edgeAsNodeGraphSelection->addListener(this);
@@ -1131,7 +1131,7 @@ void ScatterPlot2DView::afterSetAllEdgeValue(PropertyInterface *p) {
     auto *viewSelection = static_cast<BooleanProperty *>(p);
     for (auto e : scatterPlotGraph->edges()) {
       if (edgeAsNodeGraphSelection->getNodeValue(edgeToNode[e]) != viewSelection->getEdgeValue(e)) {
-        edgeAsNodeGraphSelection->setNodeValue(edgeToNode[e], viewSelection->getEdgeValue(e));
+        (*edgeAsNodeGraphSelection)[edgeToNode[e]] = viewSelection->getEdgeValue(e);
       }
     }
   }

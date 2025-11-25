@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -144,7 +144,7 @@ bool PolyominoPacking::run() {
 
   if (connectedComponents.size() <= 1) {
     for (auto n : graph->nodes()) {
-      result->setNodeValue(n, layout->getNodeValue(n));
+      (*result)[n] = layout->getNodeValue(n);
     }
     for (auto e : graph->edges()) {
       result->setEdgeValue(e, layout->getEdgeValue(e));
@@ -224,7 +224,7 @@ bool PolyominoPacking::run() {
 
     for (uint j = 0; j < nbNodes; ++j) {
       node n = ccNodes[j];
-      result->setNodeValue(n, layout->getNodeValue(n) + move);
+      (*result)[n] = layout->getNodeValue(n) + move;
       for (auto e : graph->getOutEdges(n)) {
         const vector<Coord> &bends = layout->getEdgeValue(e);
 

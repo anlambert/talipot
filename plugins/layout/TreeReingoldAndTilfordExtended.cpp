@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -306,7 +306,7 @@ void TreeReingoldAndTilfordExtended::calcLayout(tlp::node n, flat_hash_map<tlp::
     tmpCoord.set(float(x + (*p)[n]), -float(y + maxLevelSize[level] / 2.f), 0);
   }
 
-  result->setNodeValue(n, tmpCoord);
+  (*result)[n] = tmpCoord;
 
   if (useLength) {
     for (auto ite : tree->getOutEdges(n)) {
@@ -387,7 +387,7 @@ bool TreeReingoldAndTilfordExtended::run() {
       const Size &boundCircle = sizes->getNodeValue(n);
       double diam = 2 * sqrt(boundCircle.getW() * boundCircle.getW() / 4.0 +
                              boundCircle.getH() * boundCircle.getH() / 4.0);
-      circleSizes->setNodeValue(n, Size(float(diam), float(diam), 1.0f));
+      (*circleSizes)[n] = Size(float(diam), float(diam), 1.0f);
     }
     sizes = circleSizes;
   }
@@ -462,7 +462,7 @@ bool TreeReingoldAndTilfordExtended::run() {
   if (orientation == "horizontal") {
     for (auto n : tree->nodes()) {
       const Coord &tmpC = result->getNodeValue(n);
-      result->setNodeValue(n, Coord(-tmpC[1], tmpC[0], tmpC[2]));
+      (*result)[n] = Coord(-tmpC[1], tmpC[0], tmpC[2]);
     }
   }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -242,7 +242,7 @@ void BubblePack::calcLayout(tlp::node n, Vec2f pos, NodeVectorProperty<Vec4f> &r
    */
   Vec4f &relPos = relativePosition[n];
   Vec2f shift(relPos[2], relPos[3]);
-  result->setNodeValue(n, Coord(pos + shift, 0));
+  (*result)[n] = Coord(pos + shift, 0);
   for (auto ni : tree->getOutNodes(n)) {
     Vec4f &relPos = relativePosition[ni];
     Vec2f relat(relPos[0], relPos[1]);

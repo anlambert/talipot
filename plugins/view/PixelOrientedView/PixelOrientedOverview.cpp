@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -169,7 +169,7 @@ void PixelOrientedOverview::computePixelView(GlWidget *glWidget) {
     Vec2i pos = pixelOrientedMediator->getPixelPosForRank(i);
     Coord nodeCoord = Coord(pos[0], pos[1], 0);
     xCoordSet.insert(pos[0]);
-    pixelLayout->setNodeValue(n, nodeCoord);
+    (*pixelLayout)[n] = nodeCoord;
     ++currentStep;
 
     if (glWidget != nullptr && currentStep % drawStep == 0) {

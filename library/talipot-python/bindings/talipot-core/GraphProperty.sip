@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -57,7 +57,7 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   void setNodeValue(const tlp::node node, tlp::Graph *val);
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setNodeValue(*a0, a1);
+  (*sipCpp)[*a0] = a1;
 } else {
   sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
@@ -95,7 +95,7 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   void __setitem__(const tlp::node n, tlp::Graph* g) const;
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setNodeValue(*a0, a1);
+  (*sipCpp)[*a0] = a1;
 } else {
   sipIsErr = throwInvalidNodeException(sipCpp->getGraph(), *a0);
 }
