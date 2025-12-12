@@ -133,14 +133,14 @@ void MatrixView::setOriented(bool flag) {
         vector<int> edgeNodes = _graphEntitiesToDisplayedNodes->getEdgeValue(e);
         _matrixGraph->delNode(node(edgeNodes[1]));
         edgeNodes.resize(1);
-        _graphEntitiesToDisplayedNodes->setEdgeValue(e, edgeNodes);
+        (*_graphEntitiesToDisplayedNodes)[e] = edgeNodes;
       }
     } else {
       for (auto e : graph()->edges()) {
         // must add the symmetric node
         vector<int> edgeNodes = _graphEntitiesToDisplayedNodes->getEdgeValue(e);
         edgeNodes.push_back(_matrixGraph->addNode().id);
-        _graphEntitiesToDisplayedNodes->setEdgeValue(e, edgeNodes);
+        (*_graphEntitiesToDisplayedNodes)[e] = edgeNodes;
 
         // layout and shape will be updated in updateLayout method
         // but other view properties must be set now
@@ -386,7 +386,7 @@ void MatrixView::addEdge(tlp::Graph *g, const tlp::edge e) {
     (*_displayedNodesAreNodes)[dispEdge] = false;
   }
 
-  _graphEntitiesToDisplayedNodes->setEdgeValue(e, edgeToDisplayedNodes);
+  (*_graphEntitiesToDisplayedNodes)[e] = edgeToDisplayedNodes;
 
   const auto &[src, tgt] = g->ends(e);
 
@@ -398,12 +398,12 @@ void MatrixView::addEdge(tlp::Graph *g, const tlp::edge e) {
 
   _edgesMap[e] = dispEdge;
 
-  _displayedEdgesToGraphEdges->setEdgeValue(dispEdge, e.id);
+  (*_displayedEdgesToGraphEdges)[dispEdge] = e.id;
 
   ColorProperty *originalColors = graph()->getColorProperty("viewColor");
   ColorProperty *colors = glWidget()->inputData()->colors();
 
-  colors->setEdgeValue(dispEdge, originalColors->getEdgeValue(e));
+  (*colors)[dispEdge] = originalColors->getEdgeValue(e);
 }
 
 void MatrixView::treatEvent(const Event &message) {
@@ -577,7 +577,7 @@ void MatrixView::updateLayout() {
     bends[3] = tgtPos;
     vector<Coord> curvePoints;
     computeBezierPoints(bends, curvePoints, 20);
-    layout->setEdgeValue(e, curvePoints);
+    (*layout)[e] = curvePoints;
   }
 
   unholdObservers();

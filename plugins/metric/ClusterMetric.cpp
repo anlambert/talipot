@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -59,7 +59,7 @@ bool ClusterMetric::run() {
 
   for (uint i = 0; i < nbEdges; ++i) {
     edge e = edges[i];
-    result->setEdgeValue(e, clusterGetEdgeValue(graph, clusters, e));
+    (*result)[e] = clusterGetEdgeValue(graph, clusters, e);
   }
 
   return true;

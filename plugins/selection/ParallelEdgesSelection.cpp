@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,7 +40,7 @@ bool ParallelEdgesSelection::run() {
   result->setAllEdgeValue(false);
 
   for (auto e : parallelEdges) {
-    result->setEdgeValue(e, true);
+    (*result)[e] = true;
   }
 
   // output some useful information

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -558,8 +558,8 @@ void NodeLinkDiagramView::addRemoveItemToSelection(bool pushGraph, bool toggleSe
     (*elementSelected)[node(itemId)] =
         toggleSelection ? !elementSelected->getNodeValue(node(itemId)) : selectValue;
   } else {
-    elementSelected->setEdgeValue(
-        edge(itemId), toggleSelection ? !elementSelected->getEdgeValue(edge(itemId)) : selectValue);
+    (*elementSelected)[edge(itemId)] =
+        toggleSelection ? !elementSelected->getEdgeValue(edge(itemId)) : selectValue;
   }
 }
 
@@ -623,8 +623,7 @@ void NodeLinkDiagramView::addRemoveInEdgesToSelection(bool pushGraph, bool toggl
   }
 
   for (auto e : graph()->getInEdges(node(itemId))) {
-    elementSelected->setEdgeValue(e, toggleSelection ? !elementSelected->getEdgeValue(e)
-                                                     : selectValue);
+    (*elementSelected)[e] = toggleSelection ? !elementSelected->getEdgeValue(e) : selectValue;
   }
 }
 
@@ -642,8 +641,7 @@ void NodeLinkDiagramView::addRemoveOutEdgesToSelection(bool pushGraph, bool togg
   }
 
   for (auto e : graph()->getOutEdges(node(itemId))) {
-    elementSelected->setEdgeValue(e, toggleSelection ? !elementSelected->getEdgeValue(e)
-                                                     : selectValue);
+    (*elementSelected)[e] = toggleSelection ? !elementSelected->getEdgeValue(e) : selectValue;
   }
 }
 

@@ -36,7 +36,7 @@ bool ConnectedComponents::run() {
 
   // propagate nodes computed value to edges
   for (auto e : graph->edges()) {
-    result->setEdgeValue(e, result->getNodeValue(graph->source(e)));
+    (*result)[e] = result->getNodeValue(graph->source(e));
   }
 
   if (dataSet != nullptr) {

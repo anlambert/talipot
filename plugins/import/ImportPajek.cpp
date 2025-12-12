@@ -297,7 +297,7 @@ public:
 
         if (val > 0) {
           edge e = graph->addEdge(nodes[curNodeId], nodes[i]);
-          weights->setEdgeValue(e, val);
+          (*weights)[e] = val;
         }
       }
 
@@ -460,7 +460,7 @@ public:
           }
 
           // set weight
-          weights->setEdgeValue(e, weight);
+          (*weights)[e] = weight;
 
           // looking for edge's label if any
           for (first = 3; first < nbTokens; first += 2) {
@@ -470,13 +470,13 @@ public:
                 return false;
               }
 
-              labels->setEdgeValue(e, tokens[first]);
+              (*labels)[e] = tokens[first];
               break;
             }
           }
         } else {
           // default edge weight is 1
-          weights->setEdgeValue(e, 1.0);
+          (*weights)[e] = 1.0;
         }
 
         return true;

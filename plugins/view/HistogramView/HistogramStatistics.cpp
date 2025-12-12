@@ -377,7 +377,7 @@ void HistogramStatistics::computeInteractor() {
         if (histoView->getDataLocation() == ElementType::EDGE) {
           (*viewSelection)[node(pos->first)] = true;
         } else {
-          viewSelection->setEdgeValue(edge(pos->first), true);
+          (*viewSelection)[edge(pos->first)] = true;
         }
 
         pos = find_if(++pos, graphPropertyValueSet.end(), valInBounds);

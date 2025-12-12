@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -132,7 +132,7 @@ void updateLayout(node src, edge e, Graph *graph, LayoutProperty *layout,
   }
 
   TLP_LOCK_SECTION(LAYOUT) {
-    layout->setEdgeValue(e, bends);
+    (*layout)[e] = bends;
   }
   TLP_UNLOCK_SECTION(LAYOUT);
 }
@@ -654,14 +654,14 @@ bool EdgeBundling::run() {
 
       if (origEdge.isValid()) {
         oriGraph->addEdge(removedEdge);
-        layout->setEdgeValue(removedEdge, layout->getEdgeValue(origEdge));
+        (*layout)[removedEdge] = layout->getEdgeValue(origEdge);
       } else {
         origEdge = oriGraph->existEdge(tgt, src);
         assert(origEdge.isValid());
         oriGraph->addEdge(removedEdge);
         std::vector<tlp::Coord> bends = layout->getEdgeValue(origEdge);
         std::reverse(bends.begin(), bends.end());
-        layout->setEdgeValue(removedEdge, bends);
+        (*layout)[removedEdge] = bends;
       }
     }
   }

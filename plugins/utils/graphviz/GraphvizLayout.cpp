@@ -67,7 +67,7 @@ bool applyGraphvizLayout(Graph *graph, LayoutProperty *result, const string &lay
     for (auto e : graph->edges()) {
       string posValue = agxget(edgesMap[e], pos);
       if (getCoordsFromGraphvizPos(bends, posValue)) {
-        result->setEdgeValue(e, bends);
+        (*result)[e] = bends;
       }
     }
     gvFreeLayout(gvc, G);

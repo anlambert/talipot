@@ -230,25 +230,25 @@ void PushPopTest::testSetValue() {
   DoubleProperty *prop = graph->getDoubleProperty("prop");
 
   (*prop)[n1] = 1.0;
-  prop->setEdgeValue(e0, 1.0);
+  (*prop)[e0] = 1.0;
 
   graph->push();
   node n2 = graph->addNode();
   edge e1 = graph->addEdge(n0, n2);
 
   (*prop)[n2] = 2.0;
-  prop->setEdgeValue(e1, 2.0);
+  (*prop)[e1] = 2.0;
   CPPUNIT_ASSERT_EQUAL(0.0, prop->getNodeValue(n0));
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getEdgeValue(e0));
   CPPUNIT_ASSERT_EQUAL(2.0, prop->getNodeValue(n2));
   CPPUNIT_ASSERT_EQUAL(2.0, prop->getEdgeValue(e1));
 
   (*prop)[n1] = 2.0;
-  prop->setEdgeValue(e0, 2.0);
+  (*prop)[e0] = 2.0;
   CPPUNIT_ASSERT_EQUAL(2.0, prop->getNodeValue(n1));
   CPPUNIT_ASSERT_EQUAL(2.0, prop->getEdgeValue(e0));
   (*prop)[n1] = 4.0;
-  prop->setEdgeValue(e0, 4.0);
+  (*prop)[e0] = 4.0;
   CPPUNIT_ASSERT(prop->getNodeValue(n1) == 4.0);
   CPPUNIT_ASSERT(prop->getEdgeValue(e0) == 4.0);
 
@@ -298,7 +298,7 @@ void PushPopTest::testSetValue() {
 
   (*prop)[n0] = 2.0;
   CPPUNIT_ASSERT_EQUAL(2.0, prop->getNodeValue(n0));
-  prop->setEdgeValue(e0, 1.0);
+  (*prop)[e0] = 1.0;
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getEdgeValue(e0));
 
   graph->pop();
@@ -321,7 +321,7 @@ void PushPopTest::testSetEltValue() {
   vv.push_back(1.0);
 
   (*prop)[n1] = vv;
-  prop->setEdgeValue(e0, vv);
+  (*prop)[e0] = vv;
 
   graph->push();
   node n2 = graph->addNode();
@@ -330,7 +330,7 @@ void PushPopTest::testSetEltValue() {
   CPPUNIT_ASSERT(prop->getEdgeValue(e1).empty());
 
   (*prop)[n2] = vv;
-  prop->setEdgeValue(e1, vv);
+  (*prop)[e1] = vv;
   CPPUNIT_ASSERT(prop->getNodeValue(n0).empty());
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getEdgeEltValue(e0, 0));
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getNodeEltValue(n2, 0));
@@ -427,7 +427,7 @@ void PushPopTest::testVectorValue() {
   svv.push_back("b");
 
   (*sprop)[n1] = svv;
-  sprop->setEdgeValue(e0, svv);
+  (*sprop)[e0] = svv;
   sprop->pushBackNodeEltValue(n1, "c");
   sprop->pushBackEdgeEltValue(e0, "c");
 
@@ -442,16 +442,16 @@ void PushPopTest::testVectorValue() {
   vv.push_back(1.0);
 
   (*prop)[n1] = vv;
-  prop->setEdgeValue(e0, vv);
+  (*prop)[e0] = vv;
 
   graph->push();
   node n2 = graph->addNode();
   edge e1 = graph->addEdge(n0, n2);
 
   (*prop)[n2] = vv;
-  prop->setEdgeValue(e1, vv);
+  (*prop)[e1] = vv;
   (*sprop)[n2] = svv;
-  sprop->setEdgeValue(e1, svv);
+  (*sprop)[e1] = svv;
   CPPUNIT_ASSERT(prop->getNodeValue(n0).empty());
   CPPUNIT_ASSERT(sprop->getNodeValue(n0).empty());
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getEdgeEltValue(e0, 0));
@@ -555,7 +555,7 @@ void PushPopTest::testCopyProperty() {
   DoubleProperty *prop = graph->getDoubleProperty("prop");
 
   (*prop)[n0] = 1.0;
-  prop->setEdgeValue(e0, 1.0);
+  (*prop)[e0] = 1.0;
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getNodeValue(n0));
   CPPUNIT_ASSERT_EQUAL(0.0, prop->getNodeValue(n1));
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getEdgeValue(e0));
@@ -588,7 +588,7 @@ void PushPopTest::testCopyProperty() {
   prop->setAllNodeValue(0.0);
   prop->setAllEdgeValue(0.0);
   (*prop)[n1] = 1.0;
-  prop->setEdgeValue(e1, 1.0);
+  (*prop)[e1] = 1.0;
   CPPUNIT_ASSERT_EQUAL(0.0, prop->getNodeValue(n0));
   CPPUNIT_ASSERT_EQUAL(1.0, prop->getNodeValue(n1));
   CPPUNIT_ASSERT_EQUAL(0.0, prop->getEdgeValue(e0));

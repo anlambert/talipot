@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -160,7 +160,7 @@ public:
     int maxVal = -1;
     for (auto e : graph->edges()) {
       int val = compo.get(e.id);
-      result->setEdgeValue(e, val);
+      (*result)[e] = val;
       maxVal = std::max(val, maxVal);
     }
 

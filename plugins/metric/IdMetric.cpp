@@ -68,7 +68,7 @@ bool IdMetric::run() {
 
   if (edges) {
     for (auto e : graph->edges()) {
-      result->setEdgeValue(e, e.id);
+      (*result)[e] = e.id;
     }
   }
 

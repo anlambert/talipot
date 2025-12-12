@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -993,7 +993,7 @@ void HistogramView::afterSetNodeValue(PropertyInterface *p, const node n) {
     auto *edgeAsNodeGraphSelection = static_cast<BooleanProperty *>(p);
     BooleanProperty *viewSelection = _histoGraph->getBooleanProperty("viewSelection");
     viewSelection->removeListener(this);
-    viewSelection->setEdgeValue(nodeToEdge[n], edgeAsNodeGraphSelection->getNodeValue(n));
+    (*viewSelection)[nodeToEdge[n]] = edgeAsNodeGraphSelection->getNodeValue(n);
     viewSelection->addListener(this);
     setUpdateNeeded();
     return;

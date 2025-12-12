@@ -668,9 +668,9 @@ QVariant GraphModel::edgeDefaultValue(PropertyInterface *prop) {
   return QVariant();
 }
 
-#define SET_EDGE_VALUE(PROP, TYPE)                               \
-  else if (dynamic_cast<PROP *>(prop) != nullptr) {              \
-    static_cast<PROP *>(prop)->setEdgeValue(e, v.value<TYPE>()); \
+#define SET_EDGE_VALUE(PROP, TYPE)                     \
+  else if (dynamic_cast<PROP *>(prop) != nullptr) {    \
+    (*static_cast<PROP *>(prop))[e] = v.value<TYPE>(); \
   }
 
 bool GraphModel::setEdgeValue(uint id, PropertyInterface *prop, QVariant v) {
@@ -678,39 +678,37 @@ bool GraphModel::setEdgeValue(uint id, PropertyInterface *prop, QVariant v) {
 
   if (dynamic_cast<IntegerProperty *>(prop) != nullptr) {
     if (prop->getName() == "viewShape") {
-      static_cast<IntegerProperty *>(prop)->setEdgeValue(e, v.value<EdgeShape::EdgeShapes>());
+      (*static_cast<IntegerProperty *>(prop))[e] = v.value<EdgeShape::EdgeShapes>();
 
     } else if (prop->getName() == "viewTgtAnchorShape") {
-      static_cast<IntegerProperty *>(prop)->setEdgeValue(
-          e, v.value<EdgeExtremityShape::EdgeExtremityShapes>());
+      (*static_cast<IntegerProperty *>(prop))[e] =
+          v.value<EdgeExtremityShape::EdgeExtremityShapes>();
 
     } else if (prop->getName() == "viewSrcAnchorShape") {
-      static_cast<IntegerProperty *>(prop)->setEdgeValue(
-          e, v.value<EdgeExtremityShape::EdgeExtremityShapes>());
+      (*static_cast<IntegerProperty *>(prop))[e] =
+          v.value<EdgeExtremityShape::EdgeExtremityShapes>();
 
     } else if (prop->getName() == "viewLabelPosition") {
-      static_cast<IntegerProperty *>(prop)->setEdgeValue(e,
-                                                         v.value<LabelPosition::LabelPositions>());
+      (*static_cast<IntegerProperty *>(prop))[e] = v.value<LabelPosition::LabelPositions>();
 
     } else {
-      static_cast<IntegerProperty *>(prop)->setEdgeValue(e, v.value<int>());
+      (*static_cast<IntegerProperty *>(prop))[e] = v.value<int>();
     }
   } else if (dynamic_cast<StringProperty *>(prop) != nullptr) {
     if (prop->getName() == "viewFont") {
-      static_cast<StringProperty *>(prop)->setEdgeValue(e, v.value<Font>().fontName());
+      (*static_cast<StringProperty *>(prop))[e] = v.value<Font>().fontName();
     } else if (prop->getName() == "viewIcon") {
-      static_cast<StringProperty *>(prop)->setEdgeValue(
-          e, QStringToTlpString(v.value<FontIconName>().iconName));
+      (*static_cast<StringProperty *>(prop))[e] =
+          QStringToTlpString(v.value<FontIconName>().iconName);
     } else if (prop->getName() == "viewTexture") {
-      static_cast<StringProperty *>(prop)->setEdgeValue(
-          e, QStringToTlpString(v.value<TextureFile>().texturePath));
+      (*static_cast<StringProperty *>(prop))[e] =
+          QStringToTlpString(v.value<TextureFile>().texturePath);
     } else {
-      static_cast<StringProperty *>(prop)->setEdgeValue(e, QStringToTlpString(v.value<QString>()));
+      (*static_cast<StringProperty *>(prop))[e] = QStringToTlpString(v.value<QString>());
     }
   } else if (dynamic_cast<BooleanVectorProperty *>(prop) != nullptr) {
     auto vb = v.value<QVector<bool>>();
-    static_cast<BooleanVectorProperty *>(prop)->setEdgeValue(
-        e, std::vector<bool>(vb.begin(), vb.end()));
+    (*static_cast<BooleanVectorProperty *>(prop))[e] = std::vector<bool>(vb.begin(), vb.end());
   }
 
   STANDARD_EDGE_CHECKS(SET_EDGE_VALUE)

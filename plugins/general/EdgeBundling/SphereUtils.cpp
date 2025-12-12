@@ -46,7 +46,7 @@ void moveBendsToSphere(Graph *graph, float ray, LayoutProperty *layout) {
       bend = c;
     }
 
-    layout->setEdgeValue(e, bends);
+    (*layout)[e] = bends;
   }
 
   for (auto n : graph->nodes()) {

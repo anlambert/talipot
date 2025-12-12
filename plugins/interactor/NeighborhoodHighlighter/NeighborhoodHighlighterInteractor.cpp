@@ -54,7 +54,7 @@ public:
             srcBends[i] + (animationStep / float(nbAnimationSteps) * (destBends[i] - srcBends[i])));
       }
 
-      viewLayout->setEdgeValue(e, newBends);
+      (*viewLayout)[e] = newBends;
     }
   }
 
@@ -434,8 +434,8 @@ void NeighborhoodHighlighter::updateNeighborhoodGraphLayoutAndColors() {
     }
 
     for (auto e : neighborhoodGraph->edges()) {
-      neighborhoodGraphOriginalLayout->setEdgeValue(e, origGraphLayout->getEdgeValue(e));
-      neighborhoodGraphBackupColors->setEdgeValue(e, origGraphColors->getEdgeValue(e));
+      (*neighborhoodGraphOriginalLayout)[e] = origGraphLayout->getEdgeValue(e);
+      (*neighborhoodGraphBackupColors)[e] = origGraphColors->getEdgeValue(e);
     }
 
     *neighborhoodGraphLayout = *neighborhoodGraphOriginalLayout;
@@ -565,7 +565,7 @@ void NeighborhoodHighlighter::computeNeighborhoodGraphCircleLayout() {
       edgesBend = finalBendsCoord;
     }
 
-    neighborhoodGraphCircleLayout->setEdgeValue(e, edgesBends);
+    (*neighborhoodGraphCircleLayout)[e] = edgesBends;
   }
 }
 

@@ -146,7 +146,7 @@ bool ConnectedComponentsPacking::run() {
   }
 
   for (auto e : graph->edges()) {
-    result->setEdgeValue(e, layout->getEdgeValue(e));
+    (*result)[e] = layout->getEdgeValue(e);
   }
 
   for (uint i = 0; i < ccNodes.size(); ++i) {

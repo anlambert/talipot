@@ -76,7 +76,7 @@ void OrientableSizeProxy::setAllEdgeValue(const LineType &v) {
 
 //====================================================================
 void OrientableSizeProxy::setEdgeValue(const tlp::edge e, const LineType &v) {
-  sizesProxy->setEdgeValue(e, v);
+  (*sizesProxy)[e] = v;
 }
 
 //====================================================================

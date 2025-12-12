@@ -104,7 +104,7 @@ void OrientableLayout::setAllEdgeValue(const LineType &v) {
 //====================================================================
 void OrientableLayout::setEdgeValue(const tlp::edge e, const LineType &v) {
   CoordLineType vecCoord(v.begin(), v.end());
-  layout->setEdgeValue(e, vecCoord);
+  (*layout)[e] = vecCoord;
 }
 
 //====================================================================

@@ -591,7 +591,7 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
 
     // select added edge
     if (outSel) {
-      outSel->setEdgeValue(eOut, true);
+      (*outSel)[eOut] = true;
     }
 
     // copy edge properties
@@ -1110,8 +1110,8 @@ void updatePropertiesUngroup(Graph *graph, node metanode, GraphProperty *cluster
   }
 
   for (auto e : cluster->edges()) {
-    graphLayout->setEdgeValue(e, clusterLayout->getEdgeValue(e));
-    graphSize->setEdgeValue(e, clusterSize->getEdgeValue(e));
+    (*graphLayout)[e] = clusterLayout->getEdgeValue(e);
+    (*graphSize)[e] = clusterSize->getEdgeValue(e);
   }
 
   // propagate all cluster local properties
@@ -1359,7 +1359,7 @@ node Graph::createMetaNode(Graph *subGraph, bool multiEdges, bool edgeDelAll) {
 
   // update metaInfo of new meta edges
   for (const auto &[mE, edges] : subEdges) {
-    metaInfo->setEdgeValue(mE, edges);
+    (*metaInfo)[mE] = edges;
     // compute meta edge values
     for (PropertyInterface *property : getObjectProperties()) {
       property->computeMetaValue(mE, getEdgeMetaInfo(mE), this);
@@ -1467,7 +1467,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
         if (isElement(src)) {
           if (isElement(tgt) && isElement(metaEdge)) {
             addEdge(e);
-            graphColors->setEdgeValue(e, metaColor);
+            (*graphColors)[e] = metaColor;
           } else if (src != metaNode) {
             node tgt2 = mappingM.get(tgt.id);
 
@@ -1504,7 +1504,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
           }
 
           edge mE = graph->addEdge(src, tgt);
-          metaInfo->setEdgeValue(mE, edges);
+          (*metaInfo)[mE] = edges;
           // compute meta edge values
           for (PropertyInterface *property : graph->getObjectProperties()) {
             property->computeMetaValue(mE, getEdgeMetaInfo(mE), graph);
@@ -1572,7 +1572,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
 
         if (!existEdge(src, tgt).isValid()) {
           edge addedEdge = addEdge(src, tgt);
-          graphColors->setEdgeValue(addedEdge, edgeColor);
+          (*graphColors)[addedEdge] = edgeColor;
         } else {
           tlp::error() << __PRETTY_FUNCTION__ << ": bug exist edge 1" << std::endl;
         }
@@ -1663,7 +1663,7 @@ void Graph::createMetaNodes(Iterator<Graph *> *itS, Graph *quotientGraph, vector
   }
   // set viewMetaGraph for added meta edges
   for (const auto &[mE, edges] : eMapping) {
-    metaInfo->setEdgeValue(mE, edges);
+    (*metaInfo)[mE] = edges;
     // compute meta edge values
     for (auto *prop : quotientGraph->getObjectProperties()) {
       prop->computeMetaValue(mE, getRoot()->getEdgeMetaInfo(mE), quotientGraph);

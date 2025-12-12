@@ -454,7 +454,7 @@ bool TreeReingoldAndTilfordExtended::run() {
         }
         tmp.push_back(coord);
       }
-      result->setEdgeValue(e, tmp);
+      (*result)[e] = tmp;
     }
   }
 

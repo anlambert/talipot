@@ -1071,7 +1071,7 @@ void ScatterPlot2DView::afterSetNodeValue(PropertyInterface *p, const node n) {
     auto *edgeAsNodeGraphSelection = static_cast<BooleanProperty *>(p);
     BooleanProperty *viewSelection = scatterPlotGraph->getBooleanProperty("viewSelection");
     viewSelection->removeListener(this);
-    viewSelection->setEdgeValue(nodeToEdge[n], edgeAsNodeGraphSelection->getNodeValue(n));
+    (*viewSelection)[nodeToEdge[n]] = edgeAsNodeGraphSelection->getNodeValue(n);
     viewSelection->addListener(this);
     return;
   }

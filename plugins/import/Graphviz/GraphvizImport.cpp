@@ -165,7 +165,7 @@ public:
       auto func = [colorProp](edge e, const string &edgeVal) {
         Color color;
         if (decodeGraphvizColor(color, edgeVal)) {
-          colorProp->setEdgeValue(e, color);
+          (*colorProp)[e] = color;
         }
       };
       return func;
@@ -187,7 +187,7 @@ public:
     auto setEdgeLayoutFunc = [&](edge e, const string &edgeVal) {
       vector<Coord> bends;
       if (getCoordsFromGraphvizPos(bends, edgeVal)) {
-        viewLayout->setEdgeValue(e, bends);
+        (*viewLayout)[e] = bends;
       }
     };
 
@@ -267,7 +267,7 @@ public:
 
           auto *prop = graph->getStringProperty(attrName);
           prop->setEdgeDefaultValue(attrDefaultValue);
-          prop->setEdgeValue(eTlp, attrValue);
+          (*prop)[eTlp] = attrValue;
 
           if (!attrValue.empty() && setEdgePropertyMap.contains(attrName)) {
             setEdgePropertyMap[attrName](eTlp, attrValue);

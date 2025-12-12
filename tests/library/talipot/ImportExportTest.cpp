@@ -346,23 +346,23 @@ Graph *ImportExportTest::createSimpleGraph() const {
       oss.str("");
     }
 
-    booleanProp->setEdgeValue(e, e.id % 2 == 0);
-    colorProp->setEdgeValue(e, genRandomColor());
-    doubleProp->setEdgeValue(e, tlp::randomNumber(DBL_MAX));
-    integerProp->setEdgeValue(e, tlp::randomNumber(INT_MAX));
-    layoutProp->setEdgeValue(e, coordVec);
-    sizeProp->setEdgeValue(e, genRandomSize());
+    (*booleanProp)[e] = e.id % 2 == 0;
+    (*colorProp)[e] = genRandomColor();
+    (*doubleProp)[e] = tlp::randomNumber(DBL_MAX);
+    (*integerProp)[e] = tlp::randomNumber(INT_MAX);
+    (*layoutProp)[e] = coordVec;
+    (*sizeProp)[e] = genRandomSize();
     oss << "edge " << e.id;
-    stringProp->setEdgeValue(e, oss.str());
+    (*stringProp)[e] = oss.str();
     oss.str("");
 
-    booleanVecProp->setEdgeValue(e, boolVec);
-    colorVecProp->setEdgeValue(e, colorVec);
-    doubleVecProp->setEdgeValue(e, doubleVec);
-    integerVecProp->setEdgeValue(e, intVec);
-    coordVecProp->setEdgeValue(e, coordVec);
-    sizeVecProp->setEdgeValue(e, sizeVec);
-    stringVecProp->setEdgeValue(e, stringVec);
+    (*booleanVecProp)[e] = boolVec;
+    (*colorVecProp)[e] = colorVec;
+    (*doubleVecProp)[e] = doubleVec;
+    (*integerVecProp)[e] = intVec;
+    (*coordVecProp)[e] = coordVec;
+    (*sizeVecProp)[e] = sizeVec;
+    (*stringVecProp)[e] = stringVec;
   }
 
   return original;
@@ -374,7 +374,7 @@ void ImportExportTest::updateIdProperty(Graph *graph) const {
     (*id)[n] = n.id;
   }
   for (auto e : graph->edges()) {
-    id->setEdgeValue(e, e.id);
+    (*id)[e] = e.id;
   }
 }
 

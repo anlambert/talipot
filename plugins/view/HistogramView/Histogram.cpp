@@ -504,7 +504,7 @@ void Histogram::updateLayout() {
 
         vector<Coord> edgeHistoPointCoord;
         edgeHistoPointCoord.push_back(nodeCoord);
-        histogramLayout->setEdgeValue(edge(histogramBins[i][j]), edgeHistoPointCoord);
+        (*histogramLayout)[edge(histogramBins[i][j])] = edgeHistoPointCoord;
       }
     }
   }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -812,12 +812,12 @@ public:
           // addEdge if needed
           if (value) {
             edge e = graph->addEdge(src, nodes[ic]);
-            metric->setEdgeValue(e, value);
+            (*metric)[e] = value;
 
             if (dataFormat != DL_FM) {
               // matrix is symmetric
               e = graph->addEdge(nodes[ic], src);
-              metric->setEdgeValue(e, value);
+              (*metric)[e] = value;
             }
           }
         }
@@ -859,7 +859,7 @@ public:
         }
 
         // add edge
-        metric->setEdgeValue(graph->addEdge(src, tgt), 1.0);
+        (*metric)[graph->addEdge(src, tgt)] = 1.0;
       }
 
       return true;
@@ -922,7 +922,7 @@ public:
         value = 0;
       }
 
-      metric->setEdgeValue(e, value);
+      (*metric)[e] = value;
       return true;
     }
 

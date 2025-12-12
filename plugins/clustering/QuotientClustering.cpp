@@ -84,7 +84,7 @@ public:
   void computeMetaValue(AbstractProperty<IntegerType, IntegerType, NumericProperty> *card, edge mE,
                         Iterator<edge> *itE, Graph *) override {
     uint nbEdges = iteratorCount(itE);
-    card->setEdgeValue(mE, nbEdges);
+    (*card)[mE] = nbEdges;
   }
 };
 
@@ -256,8 +256,8 @@ public:
         edge op = quotientGraph->existEdge(tgt, src);
 
         if (op.isValid()) {
-          opProp->setEdgeValue(op, mE.id);
-          opProp->setEdgeValue(mE, op.id);
+          (*opProp)[op] = mE.id;
+          (*opProp)[mE] = op.id;
         }
       }
       set<edge> edgesToDel;
@@ -311,9 +311,9 @@ public:
                 }
 
                 if (opOK) {
-                  metric->setEdgeValue(op, value);
+                  (*metric)[op] = value;
                 } else {
-                  metric->setEdgeValue(mE, value);
+                  (*metric)[mE] = value;
                 }
               }
             }
@@ -324,9 +324,9 @@ public:
             uint card = cardProp->getEdgeValue(mE) + cardProp->getEdgeValue(op);
 
             if (opOK) {
-              cardProp->setEdgeValue(op, card);
+              (*cardProp)[op] = card;
             } else {
-              cardProp->setEdgeValue(mE, card);
+              (*cardProp)[mE] = card;
             }
           }
 
@@ -345,7 +345,7 @@ public:
             se.insert(e);
           }
 
-          metaInfo->setEdgeValue(meToKeep, se);
+          (*metaInfo)[meToKeep] = se;
         }
       }
 

@@ -270,7 +270,7 @@ public:
                 // add edge from author to publi
                 edge e = graph->addEdge(author, publi);
                 // set year
-                yearProp->setEdgeValue(e, year);
+                (*yearProp)[e] = year;
               }
             }
 
@@ -293,7 +293,7 @@ public:
                 } else {
                   e = graph->addEdge(a1, a2);
                 }
-                countProp->setEdgeValue(e, cnt + 1);
+                (*countProp)[e] = cnt + 1;
               };
               // create edges between the authors of the publications
               if (authorNodes.size() == 1) {
@@ -301,9 +301,9 @@ public:
                   // create a loop to record publication information
                   edge e = graph->addEdge(authorNodes[0], authorNodes[0]);
                   // setup key, type and year
-                  keyProp->setEdgeValue(e, key);
-                  typeProp->setEdgeValue(e, fe.type());
-                  yearProp->setEdgeValue(e, year);
+                  (*keyProp)[e] = key;
+                  (*typeProp)[e] = fe.type();
+                  (*yearProp)[e] = year;
                 } else {
                   addLink(authorNodes[0], authorNodes[0]);
                 }
@@ -313,9 +313,9 @@ public:
                     for (uint k = j + 1; k < authorNodes.size(); ++k) {
                       edge e = graph->addEdge(authorNodes[j], authorNodes[k]);
                       // setup key, type and year
-                      keyProp->setEdgeValue(e, key);
-                      typeProp->setEdgeValue(e, fe.type());
-                      yearProp->setEdgeValue(e, year);
+                      (*keyProp)[e] = key;
+                      (*typeProp)[e] = fe.type();
+                      (*yearProp)[e] = year;
                     }
                   }
                 } else {

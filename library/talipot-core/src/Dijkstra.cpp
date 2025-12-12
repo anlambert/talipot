@@ -127,7 +127,7 @@ bool Dijkstra::searchPath(node n, BooleanProperty *result) {
       }
 
       n = tgt;
-      result->setEdgeValue(e, true);
+      (*result)[e] = true;
       ok = true;
       break;
     }
@@ -162,7 +162,7 @@ void Dijkstra::internalSearchPaths(node n, BooleanProperty *result) {
       continue;
     }
 
-    result->setEdgeValue(e, true);
+    (*result)[e] = true;
     if (!result->getNodeValue(tgt)) {
       internalSearchPaths(tgt, result);
     }

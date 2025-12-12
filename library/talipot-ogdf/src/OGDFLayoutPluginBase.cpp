@@ -104,7 +104,7 @@ bool OGDFLayoutPluginBase::run() {
   // same operation as above but with edges
   for (auto e : graph->edges()) {
     vector<Coord> edgeCoord = tlpToOGDF->getEdgeCoordFromOGDFGraphAttr(e);
-    result->setEdgeValue(e, edgeCoord);
+    (*result)[e] = edgeCoord;
   }
 
   afterCall();
@@ -136,7 +136,7 @@ void OGDFLayoutPluginBase::transposeLayoutVertically() {
         bend[1] = midY - (bend[1] - midY);
       }
 
-      result->setEdgeValue(e, bends);
+      (*result)[e] = bends;
     }
   }
 }

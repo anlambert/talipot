@@ -390,7 +390,7 @@ public:
 
       if (xmlReader.attributes().hasAttribute("label")) {
         string edgeLabel = QStringToTlpString(xmlReader.attributes().value("label").toString());
-        viewLabel->setEdgeValue(e, edgeLabel);
+        (*viewLabel)[e] = edgeLabel;
       }
 
       xmlReader.readNext();
@@ -565,7 +565,7 @@ public:
       bends.push_back(p1);
       bends.push_back(p2);
 
-      viewLayout->setEdgeValue(e, bends);
+      (*viewLayout)[e] = bends;
     }
   }
 

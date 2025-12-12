@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -195,7 +195,7 @@ Defines a graph with 3 nodes and 3 edges, the edge between A and C is named E an
                 e = graph->addEdge(nodes[curLine], nodes[curNode]);
               }
 
-              metric->setEdgeValue(e, valDouble);
+              (*metric)[e] = valDouble;
               break;
 
             case TLP_STRING:
@@ -204,7 +204,7 @@ Defines a graph with 3 nodes and 3 edges, the edge between A and C is named E an
                 e = graph->addEdge(nodes[curLine], nodes[curNode]);
               }
 
-              stringP->setEdgeValue(e, valString);
+              (*stringP)[e] = valString;
               break;
 
             case TLP_NOVAL:

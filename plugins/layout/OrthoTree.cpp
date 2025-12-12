@@ -86,7 +86,7 @@ void OrthoTree::computeLayout(const node n, NodeVectorProperty<double> &vertical
     Coord bend = {cn[0], c[1]};
     vector<Coord> bends(1);
     bends[0] = bend;
-    result->setEdgeValue(e, bends);
+    (*result)[e] = bends;
     computeLayout(u, verticalSize);
   }
 }

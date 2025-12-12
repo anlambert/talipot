@@ -115,7 +115,7 @@ public:
     if (getDataLocation() == ElementType::NODE) {
       (*getProperty<PROPERTY>(propertyName))[node(dataId)] = propertyValue;
     } else {
-      getProperty<PROPERTY>(propertyName)->setEdgeValue(edge(dataId), propertyValue);
+      (*getProperty<PROPERTY>(propertyName))[edge(dataId)] = propertyValue;
     }
   }
 

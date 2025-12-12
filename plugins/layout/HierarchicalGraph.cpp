@@ -226,7 +226,7 @@ void HierarchicalGraph::computeEdgeBends(const tlp::Graph *mySGraph, tlp::Layout
       edgeLine.push_back(p2);
     }
 
-    result->setEdgeValue(toUpdate, edgeLine);
+    (*result)[toUpdate] = edgeLine;
   }
 }
 //=======================================================================
@@ -257,7 +257,7 @@ void HierarchicalGraph::computeSelfLoops(tlp::Graph *mySGraph, tlp::LayoutProper
       tmpLCoord.push_back(c);
     }
 
-    result->setEdgeValue(tmp.old, tmpLCoord);
+    (*result)[tmp.old] = tmpLCoord;
     mySGraph->delNode(tmp.n1, true);
     mySGraph->delNode(tmp.n2, true);
   }
@@ -432,7 +432,7 @@ bool HierarchicalGraph::run() {
       vector<Coord> pos(2);
       pos[0] = srcPos;
       pos[1] = tgtPos;
-      result->setEdgeValue(e, pos);
+      (*result)[e] = pos;
     } else {
       vector<Coord> pos(4);
       Coord src2Pos = old.front();
@@ -443,7 +443,7 @@ bool HierarchicalGraph::run() {
       pos[1] = src2Pos;
       pos[2] = tgt2Pos;
       pos[3] = tgtPos;
-      result->setEdgeValue(e, pos);
+      (*result)[e] = pos;
     }
   }
 
@@ -471,7 +471,7 @@ bool HierarchicalGraph::run() {
         tmp2.push_back(Coord(-p[1], p[0], p[2]));
       }
 
-      result->setEdgeValue(e, tmp2);
+      (*result)[e] = tmp2;
     }
   }
 
