@@ -1059,7 +1059,7 @@ void GeographicViewGraphicsView::switchViewType() {
           edgeBendsCoords.push_back(Coord(lng * 2., latitudeToMercator(lat), 0));
         }
 
-        geoLayout->setEdgeValue(e, edgeBendsCoords);
+        (*geoLayout)[e] = edgeBendsCoords;
       }
     }
 
@@ -1119,7 +1119,7 @@ void GeographicViewGraphicsView::switchViewType() {
           bends.push_back(polarToSpherical(tmp, 75));
         }
 
-        geoLayout->setEdgeValue(e, bends);
+        (*geoLayout)[e] = bends;
       }
       geoLayout->addListener(this);
     }

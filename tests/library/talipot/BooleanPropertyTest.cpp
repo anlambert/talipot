@@ -106,7 +106,7 @@ void BooleanPropertyTest::testSetGet(bool value) {
 
   for (uint i = 0; i < graph->numberOfEdges() * 10; ++i) {
     edge e = graph->getRandomEdge();
-    selection->setEdgeValue(e, !value);
+    (*selection)[e] = !value;
     CPPUNIT_ASSERT_EQUAL(!value, selection->getEdgeValue(e));
   }
 }
@@ -124,7 +124,7 @@ void BooleanPropertyTest::testCopy() {
 
   for (uint i = 0; i < graph->numberOfEdges() * 10; ++i) {
     edge e = graph->getRandomEdge();
-    selection->setEdgeValue(e, !value);
+    (*selection)[e] = !value;
     CPPUNIT_ASSERT_EQUAL(!value, selection->getEdgeValue(e));
   }
 
@@ -157,7 +157,7 @@ void BooleanPropertyTest::testDelete(bool value) {
   n = graph->addNode();
   CPPUNIT_ASSERT_EQUAL(value, selection->getNodeValue(n));
   edge e = graph->addEdge(n, n);
-  selection->setEdgeValue(e, !value);
+  (*selection)[e] = !value;
   CPPUNIT_ASSERT_EQUAL(!value, selection->getEdgeValue(e));
   graph->delEdge(e);
   e = graph->addEdge(n, n);
@@ -175,8 +175,8 @@ void BooleanPropertyTest::testReverse() {
 
   (*selection)[node(0)] = true;
   (*selection)[node(graph->numberOfNodes() - 1)] = true;
-  selection->setEdgeValue(edge(0), true);
-  selection->setEdgeValue(edge(graph->numberOfEdges() - 1), true);
+  (*selection)[edge(0)] = true;
+  (*selection)[edge(graph->numberOfEdges() - 1)] = true;
 
   CPPUNIT_ASSERT_EQUAL(true, selection->getNodeValue(node(0)));
   CPPUNIT_ASSERT_EQUAL(true, selection->getNodeValue(node(graph->numberOfNodes() - 1)));

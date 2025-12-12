@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -510,7 +510,7 @@ bool TLPBImport::importGraph() {
                   value.replace(pos, TulipBitmapDirSym.size(), TalipotBitmapDir);
                 }
 
-                static_cast<StringProperty *>(prop)->setEdgeValue(e, value);
+                (*static_cast<StringProperty *>(prop))[e] = value;
               } else
 
                 // read and set edge value

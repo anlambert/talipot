@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -111,7 +111,7 @@ QPixmap EdgeExtremityGlyphRenderer::render(int glyphId, const QColor &background
         const Plugin &info = PluginsManager::pluginInformation(glyphName);
         int glId = info.id();
         // Create the glyph preview
-        graph->getIntegerProperty("viewTgtAnchorShape")->setEdgeValue(e, glId);
+        (*graph)["viewTgtAnchorShape"][e] = glId;
         renderer.renderScene(true);
         QString glKey = QString::number(glId) + backgroundColor.name();
         previews[glKey] = QPixmap::fromImage(renderer.getImage());

@@ -191,7 +191,7 @@ void MouseLassoNodesSelectorInteractorComponent::selectGraphElementsUnderPolygon
         vector<edge> edges = graph->getEdges(selectedNodes[i], selectedNodes[j], false);
 
         for (auto edge : edges) {
-          viewSelection->setEdgeValue(edge, true);
+          (*viewSelection)[edge] = true;
         }
       }
     }

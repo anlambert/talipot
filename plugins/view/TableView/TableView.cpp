@@ -406,7 +406,7 @@ void TableView::mapToGraphSelection() {
 
     for (const QModelIndex &idx : selectionModel->selectedRows()) {
       edge e(idx.data(Model::ElementIdRole).toUInt());
-      out->setEdgeValue(e, true);
+      (*out)[e] = true;
     }
   }
 }
@@ -440,7 +440,7 @@ void TableView::toggleHighlightedRows() {
       (*selection)[n] = !selection->getNodeValue(n);
     } else {
       edge e(idx.data(Model::ElementIdRole).toUInt());
-      selection->setEdgeValue(e, !selection->getEdgeValue(e));
+      (*selection)[e] = !selection->getEdgeValue(e);
     }
   }
 
@@ -467,7 +467,7 @@ void TableView::selectHighlightedRows() {
     if (NODES_DISPLAYED)
       (*selection)[node(idx.data(Model::ElementIdRole).toUInt())] = true;
     else
-      selection->setEdgeValue(edge(idx.data(Model::ElementIdRole).toUInt()), true);
+      (*selection)[edge(idx.data(Model::ElementIdRole).toUInt())] = true;
   }
 
   if (sortModel->filterProperty() == selection) {

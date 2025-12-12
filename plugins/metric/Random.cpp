@@ -71,7 +71,7 @@ bool RandomMetric::run() {
 
   if (edges) {
     for (auto e : graph->edges()) {
-      result->setEdgeValue(e, randomNumber());
+      (*result)[e] = randomNumber();
     }
   }
 

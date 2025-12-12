@@ -35,7 +35,7 @@ void createCompleteGraphAndSelect(Graph *graph, BooleanProperty *selection) {
     for (size_t j = 0; j < addedNodes.size(); ++j) {
       if (addedNodes[i] != addedNodes[j]) {
         edge e = graph->addEdge(addedNodes[i], addedNodes[j]);
-        selection->setEdgeValue(e, true);
+        (*selection)[e] = true;
       }
     }
   }

@@ -355,7 +355,7 @@ void MouseEdgeBendEditor::mMouseTranslate(int newX, int newY, GlWidget *glWidget
 
     Observable::holdObservers();
     if (edgeSelected) {
-      _layout->setEdgeValue(mEdge, coordinates);
+      (*_layout)[mEdge] = coordinates;
     } else {
       (*_coordsVectorProperty)[mNode] = coordinates;
     }
@@ -393,7 +393,7 @@ void MouseEdgeBendEditor::mMouseDelete() {
     _graph->push();
 
     if (edgeSelected) {
-      _layout->setEdgeValue(mEdge, coordinates);
+      (*_layout)[mEdge] = coordinates;
     } else {
       (*_coordsVectorProperty)[mNode] = coordinates;
     }
@@ -454,7 +454,7 @@ void MouseEdgeBendEditor::mMouseCreate(int x, int y, GlWidget *glWidget) {
   _graph->push();
 
   if (edgeSelected) {
-    _layout->setEdgeValue(mEdge, coordinates);
+    (*_layout)[mEdge] = coordinates;
   } else {
     if (_coordsVectorProperty) {
       (*_coordsVectorProperty)[mNode] = coordinates;

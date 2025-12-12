@@ -175,7 +175,7 @@ bool StrengthMetric::run() {
   pluginProgress->setComment("Computing Strength metric on edges...");
 
   for (auto e : graph->edges()) {
-    result->setEdgeValue(e, getEdgeValue(e));
+    (*result)[e] = getEdgeValue(e);
 
     if ((++steps % (maxSteps / 10)) == 0) {
       if (pluginProgress->progress(steps, maxSteps) != ProgressState::TLP_CONTINUE) {

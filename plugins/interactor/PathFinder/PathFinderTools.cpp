@@ -43,7 +43,7 @@ bool getNodeEnclosingCircle(Circlef &circle, GlGraphInputData *inputData, node n
 bool getEdgeEnclosingCircle(Circlef &circle, GlGraphInputData *inputData, edge e) {
   auto *selection = new BooleanProperty(inputData->graph());
   selection->setAllEdgeValue(false);
-  selection->setEdgeValue(e, true);
+  (*selection)[e] = true;
 
   if (inputData->layout()->getEdgeValue(e).empty()) {
     return false;

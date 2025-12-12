@@ -70,7 +70,7 @@ static void computeEdgeAvgValue(
   }
 
   if (nbEdges) {
-    metric->setEdgeValue(mE, value / nbEdges);
+    (*metric)[mE] = value / nbEdges;
   }
 }
 
@@ -105,7 +105,7 @@ static void computeEdgeSumValue(
     value += metric->getEdgeValue(e);
   }
 
-  metric->setEdgeValue(mE, value);
+  (*metric)[mE] = value;
 }
 
 // max values
@@ -147,7 +147,7 @@ static void computeEdgeMaxValue(
     }
   }
 
-  metric->setEdgeValue(mE, value);
+  (*metric)[mE] = value;
 }
 
 // min values
@@ -189,7 +189,7 @@ static void computeEdgeMinValue(
     }
   }
 
-  metric->setEdgeValue(mE, value);
+  (*metric)[mE] = value;
 }
 
 // 2 arrays to hold the predefined functions

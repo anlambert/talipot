@@ -136,7 +136,7 @@ bool ReachableSubGraphSelection::run() {
     for (auto e : graph->edges()) {
       const auto &[src, tgt] = graph->ends(e);
       if (reachables.contains(src) && reachables.contains(tgt)) {
-        result->setEdgeValue(e, true);
+        (*result)[e] = true;
         ++num_edges;
       }
     }

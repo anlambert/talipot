@@ -141,7 +141,7 @@ public:
           edge e = graph->existEdge(v, w, directed);
 
           if (e.isValid()) {
-            result->setEdgeValue(e, result->getEdgeValue(e) + vd);
+            (*result)[e] = result->getEdgeValue(e) + vd;
             if (weight) {
               avg_path_length += vd * weight->getEdgeDoubleValue(e);
             } else {
@@ -182,11 +182,11 @@ public:
       for (auto e : graph->edges()) {
 
         if (norm) {
-          result->setEdgeValue(e, result->getEdgeValue(e) * eNormFactor);
+          (*result)[e] = result->getEdgeValue(e) * eNormFactor;
         }
 
         if (!directed) {
-          result->setEdgeValue(e, result->getEdgeValue(e) * 0.5);
+          (*result)[e] = result->getEdgeValue(e) * 0.5;
         }
       }
     }

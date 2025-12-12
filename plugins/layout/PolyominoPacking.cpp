@@ -147,7 +147,7 @@ bool PolyominoPacking::run() {
       (*result)[n] = layout->getNodeValue(n);
     }
     for (auto e : graph->edges()) {
-      result->setEdgeValue(e, layout->getEdgeValue(e));
+      (*result)[e] = layout->getEdgeValue(e);
     }
     return true;
   }
@@ -234,7 +234,7 @@ bool PolyominoPacking::run() {
             coord += move;
           }
 
-          result->setEdgeValue(e, newBends);
+          (*result)[e] = newBends;
         }
       }
     }

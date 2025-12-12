@@ -84,9 +84,9 @@ bool StrongComponents::run() {
     const auto &[src, tgt] = graph->ends(e);
 
     if (result->getNodeValue(src) == result->getNodeValue(tgt)) {
-      result->setEdgeValue(e, result->getNodeValue(src));
+      (*result)[e] = result->getNodeValue(src);
     } else {
-      result->setEdgeValue(e, curComponent);
+      (*result)[e] = curComponent;
     }
   }
 

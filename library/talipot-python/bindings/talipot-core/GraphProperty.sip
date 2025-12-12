@@ -70,7 +70,7 @@ tlp.GraphProperty.setEdgeValue(tlp.edge, set of tlp.edge)
 
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setEdgeValue(*a0, *a1);
+(*  sipCpp)[*a0] = *a1;
 } else {
   sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }
@@ -113,7 +113,7 @@ if (sipCpp->getGraph()->isElement(*a0)) {
   void __setitem__(const tlp::edge e, const std::set<tlp::edge> &se) const;
 %MethodCode
 if (sipCpp->getGraph()->isElement(*a0)) {
-  sipCpp->setEdgeValue(*a0, *a1);
+(*  sipCpp)[*a0] = *a1;
 } else {
   sipIsErr = throwInvalidEdgeException(sipCpp->getGraph(), *a0);
 }

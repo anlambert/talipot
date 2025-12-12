@@ -260,7 +260,7 @@ void BubbleTree::calcLayout2(tlp::node n, tlp::Vec5d &nrPos,
       delete itE;
       vector<Coord> tmp(1);
       tmp[0] = Coord(float(bend[0]), float(bend[1]), 0.);
-      result->setEdgeValue(ite, tmp);
+      (*result)[ite] = tmp;
     }
   }
 

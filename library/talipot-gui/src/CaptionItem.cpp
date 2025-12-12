@@ -379,13 +379,13 @@ void CaptionItem::applyNewFilter(float begin, float end) {
           _metricProperty->getEdgeValue(e) > endMetric) {
         tmp[3] = 25;
         borderTmp[3] = 25;
-        _colorProperty->setEdgeValue(e, tmp);
-        borderColorProperty->setEdgeValue(e, borderTmp);
+        (*_colorProperty)[e] = tmp;
+        (*borderColorProperty)[e] = borderTmp;
       } else {
         tmp[3] = 255;
         borderTmp[3] = 255;
-        _colorProperty->setEdgeValue(e, tmp);
-        borderColorProperty->setEdgeValue(e, borderTmp);
+        (*_colorProperty)[e] = tmp;
+        (*borderColorProperty)[e] = borderTmp;
       }
     }
   }

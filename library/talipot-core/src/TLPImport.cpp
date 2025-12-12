@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -368,7 +368,7 @@ struct TLPGraphBuilder : public TLPTrue {
         bool result = EdgeSetType::fromString(v, value);
 
         if (result) {
-          gProp->setEdgeValue(e, v);
+          (*gProp)[e] = v;
         } else {
           std::stringstream ess;
           ess << "invalid edge value for property " << propertyName;

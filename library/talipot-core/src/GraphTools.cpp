@@ -95,7 +95,7 @@ void makeProperDag(Graph *graph, list<node> &addedNodes, flat_hash_map<edge, edg
         edge e = graph->addEdge(n1, n2);
 
         if (edgeLength) {
-          edgeLength->setEdgeValue(e, delta - 2);
+          (*edgeLength)[e] = delta - 2;
         }
 
         dLevel[n2] = sLevel - 1;
@@ -390,7 +390,7 @@ void selectSpanningTree(Graph *graph, BooleanProperty *selection, PluginProgress
           (*selection)[neighbour] = true;
           roots.push_back(neighbour);
           nbNodes++;
-          selection->setEdgeValue(e, true);
+          (*selection)[e] = true;
 
           if (pluginProgress) {
             pluginProgress->setComment("Computing spanning tree...");
@@ -467,7 +467,7 @@ void selectMinimumSpanningTree(Graph *graph, BooleanProperty *selection,
       }
     }
 
-    selection->setEdgeValue(cur, true);
+    (*selection)[cur] = true;
 
     if (pluginProgress) {
       pluginProgress->setComment("Computing minimum spanning tree...");

@@ -370,7 +370,7 @@ bool ScatterPlotCorrelCoeffSelector::eventFilter(QObject *obj, QEvent *e) {
                                       false);
 
             if (e.isValid()) {
-              viewSelection->setEdgeValue(e, true);
+              (*viewSelection)[e] = true;
             }
           }
         }

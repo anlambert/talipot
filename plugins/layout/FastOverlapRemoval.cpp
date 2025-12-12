@@ -122,7 +122,7 @@ bool FastOverlapRemoval::run() {
   // initialize result for edges
   result->setAllEdgeValue(viewLayout->getEdgeDefaultValue());
   for (auto e : viewLayout->getNonDefaultValuatedEdges()) {
-    result->setEdgeValue(e, viewLayout->getEdgeValue(e));
+    (*result)[e] = viewLayout->getEdgeValue(e);
   }
 
   NodeVectorProperty<vpsc::Rectangle> nodeRectangles(graph);

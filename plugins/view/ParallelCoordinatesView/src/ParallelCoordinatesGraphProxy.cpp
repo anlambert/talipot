@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -229,13 +229,11 @@ void ParallelCoordinatesGraphProxy::colorDataAccordingToHighlightedElts() {
 
       if (!isDataHighlighted(dataId) && currentColor.getA() != unhighlightedEltsColorAlphaValue) {
         if (getDataLocation() == ElementType::NODE) {
-          originalDataColors->setNodeValue(node(dataId),
-                                           Color(currentColor.getR(), currentColor.getG(),
-                                                 currentColor.getB(), originalColor.getA()));
+          (*originalDataColors)[node(dataId)] = Color(currentColor.getR(), currentColor.getG(),
+                                                      currentColor.getB(), originalColor.getA());
         } else {
-          originalDataColors->setEdgeValue(edge(dataId),
-                                           Color(currentColor.getR(), currentColor.getG(),
-                                                 currentColor.getB(), originalColor.getA()));
+          (*originalDataColors)[edge(dataId)] = Color(currentColor.getR(), currentColor.getG(),
+                                                      currentColor.getB(), originalColor.getA());
         }
 
         Color newColor = getOriginalDataColor(dataId);
@@ -248,9 +246,8 @@ void ParallelCoordinatesGraphProxy::colorDataAccordingToHighlightedElts() {
           (*originalDataColors)[node(dataId)] = Color(currentColor.getR(), currentColor.getG(),
                                                       currentColor.getB(), originalColor.getA());
         } else {
-          originalDataColors->setEdgeValue(edge(dataId),
-                                           Color(currentColor.getR(), currentColor.getG(),
-                                                 currentColor.getB(), originalColor.getA()));
+          (*originalDataColors)[edge(dataId)] = Color(currentColor.getR(), currentColor.getG(),
+                                                      currentColor.getB(), originalColor.getA());
         }
 
         setPropertyValueForData<ColorProperty, ColorType>("viewColor", dataId,

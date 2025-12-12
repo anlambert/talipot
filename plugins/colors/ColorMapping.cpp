@@ -247,9 +247,9 @@ public:
           double dd = entryMetric->getEdgeDoubleValue(e);
 
           if (eltTypes.getCurrent() == LOGARITHMIC_ELT) {
-            result->setEdgeValue(e, getColor(log(dd + (1 - minE)), maxE));
+            (*result)[e] = getColor(log(dd + (1 - minE)), maxE);
           } else {
-            result->setEdgeValue(e, getColor(dd - minE, maxE - minE));
+            (*result)[e] = getColor(dd - minE, maxE - minE);
           }
 
           if ((iter % 100 == 0) &&
@@ -280,7 +280,7 @@ public:
           if (targetType.getCurrent() == NODES_TARGET) {
             (*result)[node(id)] = it.second;
           } else {
-            result->setEdgeValue(edge(id), it.second);
+            (*result)[edge(id)] = it.second;
           }
 
           if ((iter % 100 == 0) &&

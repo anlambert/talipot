@@ -1108,7 +1108,7 @@ void HistogramMetricMapping::updateGraphWithMapping(Graph *graph, LayoutProperty
 
       if (mappingType == VIEWCOLOR_MAPPING) {
         Color newEdgeColor = glColorScale->getColorAtPos(Coord(0, yCurve, 0));
-        graphColors->setEdgeValue(e, newEdgeColor);
+        (*graphColors)[e] = newEdgeColor;
       }
     }
   }

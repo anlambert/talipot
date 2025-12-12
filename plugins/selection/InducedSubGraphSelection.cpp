@@ -83,7 +83,7 @@ bool InducedSubGraphSelection::run() {
   for (auto current : result->getNodesEqualTo(true)) {
     for (auto e : graph->getOutEdges(current)) {
       if (result->getNodeValue(graph->target(e))) {
-        result->setEdgeValue(e, true);
+        (*result)[e] = true;
         ++sel;
       }
     }

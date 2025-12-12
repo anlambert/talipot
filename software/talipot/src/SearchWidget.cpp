@@ -49,7 +49,7 @@ public:
 
     if (onEdges) {
       for (auto e : g->edges())
-        prop->setEdgeValue(e, compare(e));
+        (*prop)[e] = compare(e);
     }
 
     return prop;
@@ -365,7 +365,7 @@ void SearchWidget::search() {
 
     if (onEdges) {
       for (auto e : result->getEdgesEqualTo(true)) {
-        output->setEdgeValue(e, true);
+        (*output)[e] = true;
         resultsCountEdges++;
       }
     }
@@ -384,7 +384,7 @@ void SearchWidget::search() {
     if (onEdges) {
       for (auto e : output->getEdgesEqualTo(true)) {
         if (result->getEdgeValue(e)) {
-          output->setEdgeValue(e, false);
+          (*output)[e] = false;
           resultsCountEdges++;
         }
       }

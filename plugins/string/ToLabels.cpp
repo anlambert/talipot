@@ -75,7 +75,7 @@ public:
           pluginProgress->progress(step, max_step);
         }
 
-        result->setEdgeValue(e, input->getEdgeStringValue(e));
+        (*result)[e] = input->getEdgeStringValue(e);
       }
     }
 

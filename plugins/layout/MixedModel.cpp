@@ -151,7 +151,7 @@ bool MixedModel::run() {
             bends.push_back(Coord(0, float(max), 0));
           }
 
-          result->setEdgeValue(e, bends);
+          (*result)[e] = bends;
         }
 
         for (auto e : graph->getEdges(n, n3, false)) {
@@ -271,7 +271,7 @@ bool MixedModel::run() {
 
     for (auto e : added_edges) {
       currentGraph->delEdge(e, true);
-      result->setEdgeValue(e, dv);
+      (*result)[e] = dv;
     }
 
     delete carte;
@@ -305,7 +305,7 @@ bool MixedModel::run() {
         tmp2.push_back(Coord(-coord[1], coord[0], coord[2]));
       }
 
-      result->setEdgeValue(e, tmp2);
+      (*result)[e] = tmp2;
     }
   }
 
@@ -399,7 +399,7 @@ void MixedModel::placeNodesEdges() {
       }
 
       if (!bends.empty()) {
-        result->setEdgeValue(e, bends);
+        (*result)[e] = bends;
       }
     }
 
@@ -419,9 +419,9 @@ void MixedModel::placeNodesEdges() {
       vector<Coord> bends;
       bends.push_back(Coord(-maxX + (c_n.getX() + c_v.getX()) / 2.f,
                             -maxY + (c_n.getY() + c_v.getY()) / 2.f, -z_size));
-      result->setEdgeValue(e, bends);
-      graph->getIntegerProperty("viewShape")->setEdgeValue(e, EdgeShape::BezierCurve);
-      graph->getColorProperty("viewColor")->setEdgeValue(e, Color(218, 218, 218));
+      (*result)[e] = bends;
+      (*graph)["viewShape"][e] = EdgeShape::BezierCurve;
+      (*graph)["viewColor"][e] = Color(218, 218, 218);
     }
   }
 }

@@ -274,7 +274,7 @@ void DoublePropertyTest::testDoublePropertySetDefaultValue() {
   (*prop)[n1] = v1;
 
   // set value of e1 to future default value
-  prop->setEdgeValue(e1, v1);
+  (*prop)[e1] = v1;
   // check non default valuated edges
   CPPUNIT_ASSERT_EQUAL(prop->numberOfNonDefaultValuatedEdges(), 1u);
   // change the default edge value for future added edges
@@ -284,7 +284,7 @@ void DoublePropertyTest::testDoublePropertySetDefaultValue() {
   // check non default valuated edges
   CPPUNIT_ASSERT_EQUAL(prop->numberOfNonDefaultValuatedEdges(), graph->numberOfEdges() - 1);
   // reset value of e1 to v2
-  prop->setEdgeValue(e1, v2);
+  (*prop)[e1] = v2;
 
   // check number of non default valuated elements
   CPPUNIT_ASSERT_EQUAL(prop->numberOfNonDefaultValuatedNodes(), graph->numberOfNodes());
@@ -357,7 +357,7 @@ void DoublePropertyTest::testVectorDoublePropertyCopyFrom() {
     CPPUNIT_ASSERT(nVectorProp[n] == prop->getNodeValue(n));
   }
   for (auto e : graph->edges()) {
-    prop->setEdgeValue(e, tlp::randomNumber());
+    (*prop)[e] = tlp::randomNumber();
   }
   EdgeVectorProperty<double> eVectorProp(graph);
   eVectorProp.copyFromProperty(prop);

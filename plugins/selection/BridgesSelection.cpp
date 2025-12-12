@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021  The Talipot developers
+ * Copyright (C) 2021-2025  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,7 +32,7 @@ public:
   bool run() override {
     vector<edge> bridges = ConnectedTest::computeBridges(graph);
     for (auto e : bridges) {
-      result->setEdgeValue(e, true);
+      (*result)[e] = true;
     }
     if (dataSet) {
       dataSet->set<uint>("#bridges", bridges.size());

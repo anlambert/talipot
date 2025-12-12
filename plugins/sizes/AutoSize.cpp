@@ -38,7 +38,7 @@ public:
     }
 
     for (auto e : graph->edges()) {
-      result->setEdgeValue(e, getEdgeValue(e));
+      (*result)[e] = getEdgeValue(e);
     }
     return true;
   }
