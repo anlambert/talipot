@@ -7,7 +7,12 @@ sip_version = tuple(map(int, sipbuild.version.SIP_VERSION_STR.split(".")[:2]))
 if sip_version >= (6, 10):
     from sipbuild.module.abi_version import get_latest_version, get_module_source_dir
 
-    abi_major_version = get_latest_version()
+    if sip_version >= (6, 15):
+        from sipbuild.py_versions import DEFAULT_ABI_MAJOR
+
+        abi_major_version = DEFAULT_ABI_MAJOR
+    else:
+        abi_major_version = get_latest_version()
     abi_minor_version = get_latest_version(abi_major_version)
     abi_version = f"{abi_major_version}.{abi_minor_version}"
     module_source_dir = get_module_source_dir((abi_major_version, abi_minor_version))
