@@ -77,10 +77,7 @@ jobs:
       - name: Install clcache
         run: |
           set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%
-          pip install scandir wheel
-          pip install git+https://github.com/anlambert/pyuv@master#egg=pyuv
-          set SETUPTOOLS_SCM_PRETEND_VERSION=v4.2.13
-          pip install git+https://github.com/dgehri/clcache@v4.2.13-dehri#egg=clcache
+          pip install git+https://github.com/Aussiemon/clcache@master#egg=clcache
       - name: Install NSIS
         uses: repolevedavaj/install-nsis@v1.1.0
         with:
