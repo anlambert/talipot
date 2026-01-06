@@ -51,6 +51,9 @@ jobs:
             mingw-w64-${{ matrix.config.arch }}-glew
             mingw-w64-${{ matrix.config.arch }}-qt${{ matrix.config.qt_major }}
             mingw-w64-${{ matrix.config.arch }}-quazip-qt${{ matrix.config.qt_major }}
+      - if: matrix.config.msystem == 'mingw64'
+        name: Fix qmake for Qt5
+        run: cp /mingw64/bin/qmake-qt5.exe /mingw64/bin/qmake.exe
       - name: Install Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v5
         id: python-install
