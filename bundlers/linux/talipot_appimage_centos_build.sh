@@ -2,16 +2,12 @@
 
 # this script should only be run in a CentOS Stream [8|9].x docker image
 
-centos8=false
-centos9=true
-if grep -q "CentOS Stream release 8" /etc/centos-release
+centos9=false
+centos10=true
+if grep -q "CentOS Stream release 9" /etc/centos-release
 then
-  centos8=true
-  centos9=false
-  # CentOS 8 packages have been moved to the vault
-  sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-  sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' \
-    /etc/yum.repos.d/CentOS-*
+  centos9=true
+  centos10=false
 fi
 
 cd
@@ -26,19 +22,22 @@ yum -y install epel-release
 yum -y install xz tar gzip make wget ccache git
 yum -y install dnf-plugins-core
 
-if [ "$centos8" = true ]
+if [ "$centos9" = true ]
 then
-  # add extra CentOS 8 repositories to get some build dependencies
-  yum config-manager --set-enabled powertools
-  yum -y install https://pkgs.sysadmins.ws/el8/base/x86_64/raven-release.el8.noarch.rpm
+  # add extra CentOS 9 repository to get quazip-qt5 dependency
+  yum -y install https://pkgs.sysadmins.ws/el9/base/x86_64/raven-release.el9.noarch.rpm
   talipot_use_qt6=OFF
   qmake=qmake-qt5
 else
-  # add extra CentOS 9 repositories to get some build dependencies
-  yum config-manager --set-enabled crb
+  # add extra CentOS 10 repository to get yajl-devel dependency
+  yum -y install https://repo.almalinux.org/almalinux/10/BaseOS/x86_64/os/Packages/almalinux-gpg-keys-10.1-16.el10.x86_64.rpm
+  yum -y install https://repo.almalinux.org/almalinux/10/devel/x86_64/os/Packages/almalinux-release-devel-10-1.el10.x86_64.rpm
   talipot_use_qt6=ON
   qmake=qmake
 fi
+
+# add extra CentOS 9/10 repositories to get some build dependencies
+yum config-manager --set-enabled crb
 
 yum -y install cmake
 
@@ -47,7 +46,7 @@ yum -y install zlib-devel libzstd-devel qhull-devel yajl-devel \
   graphviz-devel libgit2-devel binutils-devel
 yum -y install freetype-devel fontconfig-devel glew-devel fribidi-devel
 
-if [ "$centos8" = true ]
+if [ "$centos9" = true ]
 then
   yum -y install qt5-qtbase-devel qt5-qtimageformats qt5-qtsvg \
     quazip-qt5-devel --enablerepo=epel-testing --nobest
@@ -57,8 +56,8 @@ else
 fi
 
 # install Python 3, Sphinx and SIP
-yum -y install python3.11-devel python3.11-pip
-pip3.11 install sphinx 'sip != 6.13.0'
+yum -y install python3.13-devel python3.13-pip
+pip3.13 install sphinx 'sip != 6.13.0'
 
 # needed for generating the AppImage
 yum -y install fuse fuse-libs file
@@ -67,7 +66,7 @@ yum -y install fuse fuse-libs file
 yum -y install doxygen graphviz
 
 # install recent GCC
-yum -y install gcc-toolset-13
+yum -y install gcc-toolset-15
 
 # needed to build and run tests
 yum -y install cppunit-devel xorg-x11-server-Xvfb
@@ -84,10 +83,10 @@ cd /talipot/build
 git config --global --add safe.directory /talipot
 
 cmake -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_C_COMPILER=/opt/rh/gcc-toolset-13/root/bin/gcc \
-      -DCMAKE_CXX_COMPILER=/opt/rh/gcc-toolset-13/root/bin/g++ \
+      -DCMAKE_C_COMPILER=/opt/rh/gcc-toolset-15/root/usr/bin/gcc \
+      -DCMAKE_CXX_COMPILER=/opt/rh/gcc-toolset-15/root/usr/bin/g++ \
       -DCMAKE_INSTALL_PREFIX=$PWD/install \
-      -DPython3_EXECUTABLE=/usr/bin/python3.11 \
+      -DPython3_EXECUTABLE=/usr/bin/python3.13 \
       -DTALIPOT_USE_CCACHE=ON \
       -DTALIPOT_BUILD_FOR_APPIMAGE=ON \
       -DTALIPOT_BUILD_TESTS=ON \
@@ -107,12 +106,12 @@ APP_DIR=Talipot.AppDir
 
 # get appimagetool
 wget "https://github.com/AppImage/appimagetool/releases/download/\
-continuous/appimagetool-$(uname -p).AppImage"
-chmod a+x appimagetool-$(uname -p).AppImage
+continuous/appimagetool-x86_64.AppImage"
+chmod a+x appimagetool-x86_64.AppImage
 
 # finally build the portable app
-TALIPOT_APPIMAGE=Talipot-$(sh talipot-config --version)-$(uname -p)-qt$($qmake -query QT_VERSION).AppImage
-./appimagetool-$(uname -p).AppImage $APP_DIR $TALIPOT_APPIMAGE
+TALIPOT_APPIMAGE=Talipot-$(sh talipot-config --version)-x86_64-qt$($qmake -query QT_VERSION).AppImage
+./appimagetool-x86_64.AppImage $APP_DIR $TALIPOT_APPIMAGE
 chmod +x $TALIPOT_APPIMAGE
 
 if [ -d /talipot_host_build ]; then

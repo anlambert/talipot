@@ -131,8 +131,8 @@ if [ "$PYTHON_LIB" != "" ]; then
   popd > /dev/null 2>&1
   mkdir -p $PYTHON_PACKAGE_BUNDLE_DIR/ensurepip/_bundled
   pushd $PYTHON_PACKAGE_BUNDLE_DIR/ensurepip/_bundled > /dev/null 2>&1
-  setuptools_version=$(python3.11 -c "import ensurepip;print(ensurepip._SETUPTOOLS_VERSION)")
-  pip_version=$(python3.11 -c "import ensurepip;print(ensurepip._PIP_VERSION)")
+  setuptools_version=$(python3.13 -c "import ensurepip;print(ensurepip._SETUPTOOLS_VERSION)")
+  pip_version=$(python3.13 -c "import ensurepip;print(ensurepip._PIP_VERSION)")
   wget https://pypi.debian.net/setuptools/setuptools-${setuptools_version}-py3-none-any.whl
   wget https://pypi.debian.net/pip/pip-${pip_version}-py3-none-any.whl
   popd > /dev/null 2>&1

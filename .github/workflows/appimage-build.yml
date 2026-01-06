@@ -6,17 +6,17 @@ concurrency:
 jobs:
   appimage:
     name: ${{ matrix.config.name }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         config:
-          - name: Talipot AppImage build on CentOS 8 Stream
-            docker-image: tgagor/centos-stream:8
-            centos-version: centos8
           - name: Talipot AppImage build on CentOS 9 Stream
             docker-image: dokken/centos-stream-9
             centos-version: centos9
+          - name: Talipot AppImage build on CentOS 10 Stream
+            docker-image: dokken/centos-stream-10
+            centos-version: centos10
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v5
