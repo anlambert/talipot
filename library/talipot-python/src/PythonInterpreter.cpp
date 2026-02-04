@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -329,11 +329,15 @@ import platform
 import sys
 import venv
 python_command = 'python3'
+pyver = '.'.join(map(str, sys.version_info[0:2]))
 if platform.system() == 'Windows':
     python_command = 'python.exe'
 sys._base_executable = os.path.join('%1', python_command)
-if platform.system() == 'Darwin':
-    pyver = '.'.join(map(str, sys.version_info[0:2]))
+if platform.system() == 'Linux':
+    python_path = os.path.join('%1', f'python{pyver}')
+    if os.path.exists(python_path):
+        sys._base_executable = python_path
+elif platform.system() == 'Darwin':
     pyexe = os.path.join('%1', f'../Frameworks/Python.framework/Versions/{pyver}/bin/python{pyver}')
     if os.path.exists(pyexe):
         sys._base_executable = pyexe

@@ -131,9 +131,11 @@ if [ "$PYTHON_LIB" != "" ]; then
   popd > /dev/null 2>&1
   mkdir -p $PYTHON_PACKAGE_BUNDLE_DIR/ensurepip/_bundled
   pushd $PYTHON_PACKAGE_BUNDLE_DIR/ensurepip/_bundled > /dev/null 2>&1
-  setuptools_version=$(python3.13 -c "import ensurepip;print(ensurepip._SETUPTOOLS_VERSION)")
+  setuptools_version=$(python3.13 -c "import ensurepip;print(getattr(ensurepip, '_SETUPTOOLS_VERSION', 'none'))")
   pip_version=$(python3.13 -c "import ensurepip;print(ensurepip._PIP_VERSION)")
-  wget https://pypi.debian.net/setuptools/setuptools-${setuptools_version}-py3-none-any.whl
+  if [ "$setuptools_version" != "none" ]; then
+    wget https://pypi.debian.net/setuptools/setuptools-${setuptools_version}-py3-none-any.whl
+  fi
   wget https://pypi.debian.net/pip/pip-${pip_version}-py3-none-any.whl
   popd > /dev/null 2>&1
 fi
@@ -148,11 +150,16 @@ if [ $(${QMAKE} -query QT_VERSION | cut -c1) -ge 6 ]
 then
   linuxdeployqt_opts+=" -unsupported-allow-new-glibc"
   linuxdeployqt_opts+=" -exclude-libs=libnss3.so,libnssutil3.so"
+  linuxdeployqt_opts+=" -executable-dir=$PYTHON_PACKAGE_BUNDLE_DIR/lib-dynload/"
 fi
 
 export LD_LIBRARY_PATH=/usr/lib64/samba/
 ./linuxdeployqt-continuous-x86_64.AppImage $BUNDLE_BIN_DIR/talipot \
   $linuxdeployqt_opts
+
+# libexpat is excluded by linuxdeployqt but we need to copy it to
+# avoid a missing symbol error when initializing Python
+cp /usr/lib64/libexpat.so.1* $BUNDLE_LIB_DIR
 
 pushd $BUNDLE_LIB_DIR > /dev/null 2>&1
 
