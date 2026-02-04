@@ -12,8 +12,6 @@ int main() {
 	return 0;
 }" has_sse3_pmmintrin)
 
-message("${has_sse3_pmmintrin}")
-
 if (NOT has_sse3_pmmintrin)
 	if(NOT MSVC)
 		set(CMAKE_REQUIRED_FLAGS -sse3)
