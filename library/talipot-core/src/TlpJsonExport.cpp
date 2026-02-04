@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -88,7 +88,7 @@ public:
     saveMetaData_V4();
 
     _writer.writeString(GraphToken);
-    _writer.writeMapOpen();  // graph hierarchy map
+    _writer.writeMapOpen(); // graph hierarchy map
     saveGraph_V4(graph);
     _writer.writeMapClose(); // graph hierarchy map
 
@@ -130,8 +130,6 @@ public:
    * @return void
    **/
   void saveGraph_V4(Graph *g) {
-    node n;
-    edge e;
 
     _writer.writeString(GraphIDToken);
 

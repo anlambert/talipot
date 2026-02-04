@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -217,8 +217,12 @@ std::fstream *Project::stdFileStream(const QString &path, std::ios_base::openmod
 
 QIODevice *Project::fileStream(const QString &path, QIODevice::OpenMode mode) {
   auto *result = new QFile(toAbsolutePath(path));
-  result->open(mode);
-  return result;
+  if (result->open(mode)) {
+    return result;
+  } else {
+    delete result;
+    return nullptr;
+  }
 }
 
 QString Project::absoluteRootPath() const {

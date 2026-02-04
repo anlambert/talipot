@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -593,7 +593,6 @@ void NeighborhoodHighlighter::morphCircleAlphaAnimStep(int animStep) {
 float NeighborhoodHighlighter::computeNeighborhoodGraphRadius(
     LayoutProperty *neighborhoodGraphLayoutProp) {
   float radius = 0;
-  node n;
   Coord centralNodeCoord = neighborhoodGraphLayoutProp->getNodeValue(neighborhoodGraphCentralNode);
   for (auto n : neighborhoodGraph->nodes()) {
     Coord nodeCoord = neighborhoodGraphLayoutProp->getNodeValue(n);

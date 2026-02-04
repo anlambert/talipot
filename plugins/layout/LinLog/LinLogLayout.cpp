@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -767,8 +767,6 @@ void LinLogLayout::computeBaryCenter() {
 
 void LinLogLayout::initWeights() {
   linLogWeight.setAllNodeValue(0.0);
-
-  node u;
 
   if (edgeWeight == nullptr) {
     linLogWeight.setAllEdgeValue(1.0);

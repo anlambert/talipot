@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -19,7 +19,6 @@ using namespace std;
 static bool voronoiDiagram(tlp::Graph *graph, bool voronoiCellsSubGraphs,
                            bool connectNodeToCellBorder, bool originalClone) {
   vector<tlp::Coord> sites;
-  tlp::node n;
   tlp::VoronoiDiagram voronoiDiag;
 
   tlp::LayoutProperty *layout = graph->getLayoutProperty("viewLayout");
