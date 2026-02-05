@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -144,7 +144,7 @@ bool PolyominoPacking::run() {
 
   if (connectedComponents.size() <= 1) {
     for (auto n : graph->nodes()) {
-      (*result)[n] = layout->getNodeValue(n);
+      (*result)[n] = (*layout)[n];
     }
     for (auto e : graph->edges()) {
       (*result)[e] = layout->getEdgeValue(e);
@@ -224,7 +224,7 @@ bool PolyominoPacking::run() {
 
     for (uint j = 0; j < nbNodes; ++j) {
       node n = ccNodes[j];
-      (*result)[n] = layout->getNodeValue(n) + move;
+      (*result)[n] = (*layout)[n] + move;
       for (auto e : graph->getOutEdges(n)) {
         const vector<Coord> &bends = layout->getEdgeValue(e);
 
@@ -306,8 +306,8 @@ void PolyominoPacking::genPolyomino(Polyomino &poly, LayoutProperty *layout, Siz
 
   for (uint i = 0; i < nbNodes; ++i) {
     node n = ccNodes[i];
-    const Coord &nodeCoord = layout->getNodeValue(n);
-    const Size &nodeSize = size->getNodeValue(n);
+    const Coord &nodeCoord = (*layout)[n];
+    const Size &nodeSize = (*size)[n];
     Vec2i point = vec3fToVec2i(nodeCoord);
     point[0] += dx;
     point[1] += dy;
@@ -344,8 +344,8 @@ void PolyominoPacking::fillEdge(edge e, const Vec2i &p, std::vector<Vec2i> &cell
 
   Coord pf = Coord(p[0], p[1]);
   const auto &[src, tgt] = graph->ends(e);
-  const Coord &srcCoord = layout->getNodeValue(src);
-  Coord tgtCoord = layout->getNodeValue(tgt);
+  const Coord &srcCoord = (*layout)[src];
+  Coord tgtCoord = (*layout)[tgt];
   const std::vector<Coord> &bends = layout->getEdgeValue(e);
 
   if (bends.empty()) {

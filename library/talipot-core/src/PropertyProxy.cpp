@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021-2025  The Talipot developers
+ * Copyright (C) 2021-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -252,7 +252,7 @@ unsigned int PropertyProxy::numberOfNonDefaultValuatedEdges(const Graph *g) cons
   PropertyValueWrapper::operator TYPE_CONST_REFERENCE(PROP_TYPE##Type)() const { \
     auto *prop = _graph->get##PROP_TYPE##Property(_propertyName);                \
     if (_n.isValid()) {                                                          \
-      return prop->getNodeValue(_n);                                             \
+      return (*prop)[_n];                                                        \
     } else {                                                                     \
       return prop->getEdgeValue(_e);                                             \
     }                                                                            \
@@ -311,7 +311,7 @@ PropertyValueWrapper &PropertyValueWrapper::operator=(TYPE_CONST_REFERENCE(LineT
 
 PropertyValueWrapper::operator TYPE_CONST_REFERENCE(LineType)() const {
   if (_n.isValid()) {
-    return _graph->getCoordVectorProperty(_propertyName)->getNodeValue(_n);
+    return (*_graph->getCoordVectorProperty(_propertyName))[_n];
   } else {
     if (_graph->existProperty(_propertyName) &&
         _graph->getProperty(_propertyName)->getTypename() == LayoutProperty::propertyTypename) {
@@ -333,7 +333,7 @@ PropertyValueWrapper &PropertyValueWrapper::operator=(TYPE_CONST_REFERENCE(Point
 PropertyValueWrapper::operator TYPE_CONST_REFERENCE(PointType)() const {
   auto *prop = _graph->getLayoutProperty(_propertyName);
   if (_n.isValid()) {
-    return prop->getNodeValue(_n);
+    return (*prop)[_n];
   } else {
     static REAL_TYPE(PointType) p;
     return p;

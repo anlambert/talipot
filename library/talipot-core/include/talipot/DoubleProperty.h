@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -54,56 +54,64 @@ public:
                                                  tlp::NumericProperty>::NodeValueProxy {
 
   public:
-    constexpr NodeValueProxy(DoubleProperty *prop, node n)
+    constexpr NodeValueProxy(const DoubleProperty *prop, node n)
         : AbstractProperty<tlp::DoubleType, tlp::DoubleType, tlp::NumericProperty>::NodeValueProxy(
               prop, n) {}
 
     NodeValueProxy &operator=(StoredType<double>::ConstReference val) {
-      _prop->setNodeValue(_n, val);
+      getProperty()->setNodeValue(_n, val);
       return *this;
+    }
+
+    constexpr bool operator==(const NodeValueProxy &ref) const {
+      return getValue() == ref.getValue();
+    }
+
+    constexpr bool operator==(int val) const {
+      return getValue() == val;
     }
 
     // prefix increment
     NodeValueProxy &operator++() {
-      _prop->setNodeValue(_n, getValue() + 1);
+      getProperty()->setNodeValue(_n, getValue() + 1);
       return *this;
     }
 
     // postfix increment
     auto operator++(int) {
       auto val = getValue();
-      _prop->setNodeValue(_n, val + 1);
+      getProperty()->setNodeValue(_n, val + 1);
       return val;
     }
 
     // increment and assign
     NodeValueProxy &operator+=(double val) {
-      _prop->setNodeValue(_n, getValue() + val);
+      getProperty()->setNodeValue(_n, getValue() + val);
       return *this;
     }
 
     // prefix decrement
     NodeValueProxy &operator--() {
-      _prop->setNodeValue(_n, getValue() - 1);
+      getProperty()->setNodeValue(_n, getValue() - 1);
       return *this;
     }
 
     // postfix decrement
     auto operator--(int) {
       auto val = getValue();
-      _prop->setNodeValue(_n, val - 1);
+      getProperty()->setNodeValue(_n, val - 1);
       return val;
     }
 
     // decrement and assign
     NodeValueProxy &operator-=(double val) {
-      _prop->setNodeValue(_n, getValue() - val);
+      getProperty()->setNodeValue(_n, getValue() - val);
       return *this;
     }
   };
 
   // overload operator[] to set a node value
-  constexpr NodeValueProxy operator[](node n) {
+  constexpr NodeValueProxy operator[](node n) const {
     return NodeValueProxy(this, n);
   }
 
@@ -120,46 +128,66 @@ public:
               prop, e) {}
 
     EdgeValueProxy &operator=(StoredType<double>::ConstReference val) {
-      _prop->setEdgeValue(_e, val);
+      getProperty()->setEdgeValue(_e, val);
       return *this;
+    }
+
+    constexpr bool operator==(const EdgeValueProxy &ref) const {
+      return getValue() == ref.getValue();
+    }
+
+    constexpr bool operator==(int val) const {
+      return getValue() == val;
+    }
+
+    constexpr bool operator>(int val) const {
+      return getValue() > val;
+    }
+
+    constexpr bool operator>(const NodeValueProxy &ref) const {
+      return getValue() > ref.getValue();
+    }
+
+    constexpr bool operator<(const NodeValueProxy &ref) const {
+      return getValue() < ref.getValue();
     }
 
     // prefix increment
     EdgeValueProxy &operator++() {
-      _prop->setEdgeValue(_e, getValue() + 1);
+      getProperty()->setEdgeValue(_e, getValue() + 1);
       return *this;
     }
 
     // postfix increment
     auto operator++(int) {
       auto val = getValue();
-      _prop->setEdgeValue(_e, val + 1);
+      getProperty()->setEdgeValue(_e, val + 1);
       return val;
     }
 
     // increase value
     EdgeValueProxy &operator+=(double val) {
-      _prop->setEdgeValue(_e, getValue() + val);
+      getProperty()->setEdgeValue(_e, getValue() + val);
       return *this;
     }
 
     // prefix decrement
     EdgeValueProxy &operator--() {
-      _prop->setEdgeValue(_e, getValue() - 1);
+      getProperty()->setEdgeValue(_e, getValue() - 1);
       return *this;
     }
 
     // postfix decrement
     auto operator--(int) {
       auto val = getValue();
-      _prop->setEdgeValue(_e, val - 1);
+      getProperty()->setEdgeValue(_e, val - 1);
       return val;
     }
 
     // decrease value
 
     EdgeValueProxy &operator-=(double val) {
-      _prop->setEdgeValue(_e, getValue() - val);
+      getProperty()->setEdgeValue(_e, getValue() - val);
       return *this;
     }
   };
@@ -249,5 +277,10 @@ public:
     return propertyTypename;
   }
 };
+
+inline bool operator==(REAL_TYPE(DoubleType) d, const DoubleProperty::NodeValueProxy &val) {
+  return d == val.getValue();
+}
+
 }
 #endif // TALIPOT_DOUBLE_PROPERTY_H

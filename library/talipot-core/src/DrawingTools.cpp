@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -43,10 +43,10 @@ static std::vector<Coord> computeGraphPoints(const Graph *graph, const std::vect
   std::set<node> processedNodes;
   std::vector<Coord> gPoints;
   for (auto n : nodes) {
-    if (!selection || selection->getNodeValue(n)) {
-      const Size &nSize = size->getNodeValue(n);
-      const Coord &point = layout->getNodeValue(n);
-      double rot = rotation->getNodeValue(n);
+    if (!selection || (*selection)[n]) {
+      const Size &nSize = (*size)[n];
+      const Coord &point = (*layout)[n];
+      double rot = (*rotation)[n];
       vector<Coord> points = {{nSize[0] / 2, nSize[1] / 2, nSize[2] / 2},
                               {-nSize[0] / 2, -nSize[1] / 2, -nSize[2] / 2},
                               {nSize[0] / 2, -nSize[1] / 2, -nSize[2] / 2},
@@ -67,14 +67,14 @@ static std::vector<Coord> computeGraphPoints(const Graph *graph, const std::vect
     if (!selection || selection->getEdgeValue(e)) {
       const auto &[src, tgt] = graph->ends(e);
       if (!processedNodes.contains(src)) {
-        gPoints.push_back(layout->getNodeValue(src));
+        gPoints.push_back((*layout)[src]);
         processedNodes.insert(src);
       }
       for (const Coord &coord : layout->getEdgeValue(e)) {
         gPoints.push_back(coord);
       }
       if (!processedNodes.contains(tgt)) {
-        gPoints.push_back(layout->getNodeValue(tgt));
+        gPoints.push_back((*layout)[tgt]);
         processedNodes.insert(tgt);
       }
     }
@@ -119,10 +119,10 @@ pair<Coord, Coord> tlp::computeBoundingRadius(const Graph *graph, const LayoutPr
 
   double maxRad = 0;
   for (auto n : graph->nodes()) {
-    const Coord &curCoord = layout->getNodeValue(n);
-    Size curSize = size->getNodeValue(n) / 2.0f;
+    const Coord &curCoord = (*layout)[n];
+    Size curSize = (*size)[n] / 2.0f;
 
-    if (selection == nullptr || selection->getNodeValue(n)) {
+    if (selection == nullptr || (*selection)[n]) {
       double nodeRad = sqrt(curSize.getW() * curSize.getW() + curSize.getH() * curSize.getH());
       Coord radDir = curCoord - center;
       double curRad = nodeRad + radDir.norm();

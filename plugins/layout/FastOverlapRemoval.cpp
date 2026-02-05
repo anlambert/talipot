@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -129,9 +129,9 @@ bool FastOverlapRemoval::run() {
   for (float passIndex = 1; passIndex <= nbPasses; ++passIndex) {
     // initialization
     TLP_PARALLEL_MAP_NODES(graph, [&](node curNode) {
-      Size sz = viewSize->getNodeValue(curNode) * passIndex / float(nbPasses);
-      const Coord &pos = viewLayout->getNodeValue(curNode);
-      double curRot = viewRot->getNodeValue(curNode);
+      Size sz = (*viewSize)[curNode] * passIndex / float(nbPasses);
+      const Coord &pos = (*viewLayout)[curNode];
+      double curRot = (*viewRot)[curNode];
       Size rotSize = Size(sz.getW() * fabs(cos(curRot * M_PI / 180.0)) +
                               sz.getH() * fabs(sin(curRot * M_PI / 180.0)),
                           sz.getW() * fabs(sin(curRot * M_PI / 180.0)) +

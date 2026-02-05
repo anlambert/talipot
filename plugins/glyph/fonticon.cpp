@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -306,11 +306,11 @@ public:
   ~FontIconDataGlyph() override = default;
 
   void draw(node n, float) override {
-    const tlp::Color &nodeColor = glGraphInputData->colors()->getNodeValue(n);
-    const tlp::Color &nodeBorderColor = glGraphInputData->borderColors()->getNodeValue(n);
-    float nodeBorderWidth = glGraphInputData->borderWidths()->getNodeValue(n);
+    const tlp::Color &nodeColor = (*glGraphInputData->colors())[n];
+    const tlp::Color &nodeBorderColor = (*glGraphInputData->borderColors())[n];
+    float nodeBorderWidth = (*glGraphInputData->borderWidths())[n];
     const string &nodeTexture = glGraphInputData->renderingParameters()->getTexturePath() +
-                                glGraphInputData->textures()->getNodeValue(n);
+                                (*glGraphInputData->textures())[n];
 
     drawIcon(getNodeFontIconData(n), nodeColor, nodeBorderColor, nodeBorderWidth, nodeTexture);
   }
@@ -322,7 +322,7 @@ public:
 private:
   FontIconData &getNodeFontIconData(node n) {
     StringProperty *viewIcon = glGraphInputData->icons();
-    const string &iconName = viewIcon->getNodeValue(n);
+    const string &iconName = (*viewIcon)[n];
     return getFontIconData(iconName, ElementType::NODE, n.id);
   }
 };

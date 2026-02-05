@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -123,7 +123,7 @@ int ImprovedWalker::initializeNode(tlp::node n, uint depth) {
     maxYbyLevel.push_back(0);
   }
 
-  float nodeHeight = oriSize->getNodeValue(n).getH();
+  float nodeHeight = (*oriSize)[n].getH();
   maxYbyLevel[depth] = max(maxYbyLevel[depth], nodeHeight);
 
   prelimX[n] = 0;
@@ -174,8 +174,8 @@ void ImprovedWalker::firstWalk(tlp::node v) {
     node vleftSibling = leftSibling(v);
 
     if (vleftSibling.isValid()) {
-      prelimX[v] += prelimX[vleftSibling] + nodeSpacing + oriSize->getNodeValue(v).getW() / 2.f +
-                    oriSize->getNodeValue(vleftSibling).getW() / 2.f;
+      prelimX[v] += prelimX[vleftSibling] + nodeSpacing + (*oriSize)[v][0] / 2.f +
+                    (*oriSize)[vleftSibling][0] / 2.f;
     }
   } else {
     node defaultAncestor = leftmostChild(v);
@@ -192,8 +192,8 @@ void ImprovedWalker::firstWalk(tlp::node v) {
     node leftBrother = leftSibling(v);
 
     if (leftBrother.isValid()) {
-      prelimX[v] = prelimX[leftBrother] + nodeSpacing + oriSize->getNodeValue(v).getW() / 2.f +
-                   oriSize->getNodeValue(leftBrother).getW() / 2.f;
+      prelimX[v] = prelimX[leftBrother] + nodeSpacing + (*oriSize)[v][0] / 2.f +
+                   (*oriSize)[leftBrother][0] / 2.f;
       modChildX[v] = prelimX[v] - midPoint;
     } else {
       prelimX[v] = midPoint;
@@ -252,8 +252,7 @@ void ImprovedWalker::combineSubtree(tlp::node v, tlp::node *defaultAncestor) {
 
       float shift = (prelimX[nodeInsideLeft] + shiftInsideLeft) -
                     (prelimX[nodeInsideRight] + shiftInsideRight) + nodeSpacing +
-                    oriSize->getNodeValue(nodeInsideLeft).getW() / 2.f +
-                    oriSize->getNodeValue(nodeInsideRight).getW() / 2.f;
+                    (*oriSize)[nodeInsideLeft][0] / 2.f + (*oriSize)[nodeInsideRight][0] / 2.f;
 
       if (shift > 0) {
         node ancest = findCommonAncestor(nodeInsideLeft, v, *defaultAncestor);

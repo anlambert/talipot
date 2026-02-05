@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -46,9 +46,9 @@ BoundingBox Triangle::getIncludeBoundingBox(node) {
 void Triangle::draw(node n, float lod) {
   GlTriangle triangle(Coord(0, 0, 0), Size(0.5, 0.5, 0));
 
-  triangle.setFillColor(glGraphInputData->colors()->getNodeValue(n));
+  triangle.setFillColor((*glGraphInputData->colors())[n]);
 
-  string texFile = glGraphInputData->textures()->getNodeValue(n);
+  string texFile = (*glGraphInputData->textures())[n];
 
   if (!texFile.empty()) {
     string texturePath = glGraphInputData->renderingParameters()->getTexturePath();
@@ -57,11 +57,11 @@ void Triangle::draw(node n, float lod) {
     triangle.setTextureName("");
   }
 
-  double lineWidth = glGraphInputData->borderWidths()->getNodeValue(n);
+  double lineWidth = (*glGraphInputData->borderWidths())[n];
 
   if (lineWidth > 0) {
     triangle.setOutlineMode(true);
-    triangle.setOutlineColor(glGraphInputData->borderColors()->getNodeValue(n));
+    triangle.setOutlineColor((*glGraphInputData->borderColors())[n]);
     triangle.setOutlineSize(lineWidth);
   } else {
     triangle.setOutlineMode(false);

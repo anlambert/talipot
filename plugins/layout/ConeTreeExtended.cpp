@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,7 +36,7 @@ void ConeTreeExtended::computeLayerSize(tlp::node n, uint level) {
     levelSize.push_back(0);
   }
 
-  levelSize[level] = std::max(levelSize[level], nodeSize->getNodeValue(n)[1]);
+  levelSize[level] = std::max(levelSize[level], (*nodeSize)[n][1]);
   for (auto on : tree->getOutNodes(n)) {
     computeLayerSize(on, level + 1);
   }
@@ -62,7 +62,7 @@ double ConeTreeExtended::treePlace3D(tlp::node n, flat_hash_map<tlp::node, doubl
 
   auto outdeg = tree->outdeg(n);
   if (outdeg == 0) {
-    const Coord &tmp = Coord(nodeSize->getNodeValue(n));
+    const Coord &tmp = (*nodeSize)[n];
     return sqrt(tmp[0] * tmp[0] + tmp[2] * tmp[2]) / 2.0;
   }
 
@@ -193,7 +193,7 @@ bool ConeTreeExtended::run() {
   // will be undone at then end
   if (orientation == "horizontal") {
     for (auto n : graph->nodes()) {
-      const Size &tmp = nodeSize->getNodeValue(n);
+      const Size &tmp = (*nodeSize)[n];
       (*nodeSize)[n] = Size(tmp[1], tmp[0], tmp[2]);
     }
   }
@@ -227,11 +227,11 @@ bool ConeTreeExtended::run() {
       LayoutProperty *elementLayout;
 
       if (!graph->getAttribute("viewLayout", elementLayout)) {
-        const Size &tmp = nodeSize->getNodeValue(n);
+        const Size &tmp = (*nodeSize)[n];
         (*nodeSize)[n] = Size(tmp[1], tmp[0], tmp[2]);
       }
 
-      const Coord &tmpC = result->getNodeValue(n);
+      const Coord &tmpC = (*result)[n];
 
       (*result)[n] = Coord(-tmpC[1], tmpC[0], tmpC[2]);
     }

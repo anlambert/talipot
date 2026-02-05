@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -493,7 +493,7 @@ public:
           node mn = sg->createMetaNode(msg);
           // set its label as the name
           // of the pointed subgraph
-          string label = viewLabel->getNodeValue(n);
+          string label = (*viewLabel)[n];
 
           if (!label.empty()) {
             msg->setName(label);
@@ -541,8 +541,8 @@ public:
   void curveGraphEdges() {
     for (auto e : graph->edges()) {
       const auto &[src, tgt] = graph->ends(e);
-      const Coord &srcCoord = viewLayout->getNodeValue(src);
-      const Coord &tgtCoord = viewLayout->getNodeValue(tgt);
+      const Coord &srcCoord = (*viewLayout)[src];
+      const Coord &tgtCoord = (*viewLayout)[tgt];
       Coord dir = tgtCoord - srcCoord;
       dir /= dir.norm();
       float length = srcCoord.dist(tgtCoord);

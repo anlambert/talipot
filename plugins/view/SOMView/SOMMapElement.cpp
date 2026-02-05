@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -128,11 +128,11 @@ void SOMMapElement::updateColors(ColorProperty *newColor) {
   for (auto n : som->nodes()) {
     if (connect == SOMMap::six) {
       auto *hex = static_cast<GlCircle *>(nodesMap[n]);
-      hex->setFillColor(newColor->getNodeValue(n));
+      hex->setFillColor((*newColor)[n]);
     } else {
       auto *rect = static_cast<GlRect *>(nodesMap[n]);
-      rect->setBottomRightColor(newColor->getNodeValue(n));
-      rect->setTopLeftColor(newColor->getNodeValue(n));
+      rect->setBottomRightColor((*newColor)[n]);
+      rect->setTopLeftColor((*newColor)[n]);
     }
   }
 }

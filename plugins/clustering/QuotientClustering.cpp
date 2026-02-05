@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -69,7 +69,7 @@ public:
 
   void computeMetaValue(AbstractStringProperty *label, node mN, Graph *sg, Graph *) override {
     if (sgLabel) {
-      (*label)[mN] = sgLabel->getNodeValue(sg->getOneNode());
+      (*label)[mN] = (*sgLabel)[sg->getOneNode()];
     } else if (useSubGraphName) {
       string name;
       sg->getAttribute("name", name);

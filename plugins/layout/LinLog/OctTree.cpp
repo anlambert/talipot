@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -45,7 +45,7 @@ OctTree::OctTree(tlp::node _node, Coord _position, Coord _minPos, Coord _maxPos,
   this->weight = 0.0;
 
   if (!firstNode) {
-    this->weight = linLogWeight->getNodeValue(_node);
+    this->weight = (*linLogWeight)[_node];
   }
 }
 
@@ -91,7 +91,7 @@ void OctTree::addNode(tlp::node newNode, Coord newPos, uint depth) {
     return;
   }
 
-  double nnWeight = linLogWeight->getNodeValue(newNode);
+  double nnWeight = (*linLogWeight)[newNode];
 
   if (nnWeight == 0.0) {
     return;
@@ -253,7 +253,7 @@ void OctTree::removeNode(tlp::node oldNode, Coord oldPos, uint depth) {
     return;
   }
 
-  double onWeight = linLogWeight->getNodeValue(oldNode);
+  double onWeight = (*linLogWeight)[oldNode];
 
   if (onWeight == 0.0) {
     return;

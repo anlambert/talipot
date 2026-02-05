@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -206,7 +206,7 @@ RoundedBox::RoundedBox(const tlp::PluginContext *context) : Glyph(context) {
 }
 
 BoundingBox RoundedBox::getIncludeBoundingBox(node n) {
-  const Size &size = glGraphInputData->sizes()->getNodeValue(n);
+  const Size &size = (*glGraphInputData->sizes())[n];
 
   BoundingBox boundingBox;
 
@@ -321,11 +321,11 @@ void RoundedBox::draw(node n, float lod) {
 
 #endif
 
-  const Size &size = glGraphInputData->sizes()->getNodeValue(n);
+  const Size &size = (*glGraphInputData->sizes())[n];
 
-  float outlineWidth = glGraphInputData->borderWidths()->getNodeValue(n);
+  float outlineWidth = (*glGraphInputData->borderWidths())[n];
 
-  const string &texture = glGraphInputData->textures()->getNodeValue(n);
+  const string &texture = (*glGraphInputData->textures())[n];
 
   if (roundedBoxShader == nullptr || !roundedBoxShader->isLinked() ||
       !roundedBoxOutlineShader->isLinked() || GlShaderProgram::getCurrentActiveShader()) {
@@ -339,8 +339,8 @@ void RoundedBox::draw(node n, float lod) {
       polygon = createRoundedRect(size);
     }
 
-    polygon->setFillColor(glGraphInputData->colors()->getNodeValue(n));
-    polygon->setOutlineColor(glGraphInputData->borderColors()->getNodeValue(n));
+    polygon->setFillColor((*glGraphInputData->colors())[n]);
+    polygon->setOutlineColor((*glGraphInputData->borderColors())[n]);
     polygon->setOutlineSize(outlineWidth);
     polygon->setTextureName(texture);
     polygon->draw(lod, nullptr);
@@ -359,7 +359,7 @@ void RoundedBox::draw(node n, float lod) {
     glTexCoordPointer(2, GL_FLOAT, 7 * sizeof(float), &squareVerticesData[2]);
     glNormalPointer(GL_FLOAT, 7 * sizeof(float), &squareVerticesData[4]);
 
-    setMaterial(glGraphInputData->colors()->getNodeValue(n));
+    setMaterial((*glGraphInputData->colors())[n]);
 
     bool textureOK = false;
 
@@ -384,10 +384,10 @@ void RoundedBox::draw(node n, float lod) {
 
     if (outlineWidth == 0) {
       glLineWidth(1.0);
-      setMaterial(glGraphInputData->colors()->getNodeValue(n));
+      setMaterial((*glGraphInputData->colors())[n]);
     } else {
       glLineWidth(outlineWidth);
-      setMaterial(glGraphInputData->borderColors()->getNodeValue(n));
+      setMaterial((*glGraphInputData->borderColors())[n]);
     }
 
     glVertexPointer(2, GL_FLOAT, 2 * sizeof(float), outlineVeticesData);

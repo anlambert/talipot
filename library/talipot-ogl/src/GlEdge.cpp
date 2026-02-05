@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,11 +33,11 @@ Singleton<GlLabel> GlEdge::label;
 
 BoundingBox GlEdge::getBoundingBox(const GlGraphInputData *data) {
   const auto &[src, tgt] = data->graph()->ends(e);
-  const Coord &srcCoord = data->layout()->getNodeValue(src);
-  const Coord &tgtCoord = data->layout()->getNodeValue(tgt);
+  const Coord &srcCoord = (*data->layout())[src];
+  const Coord &tgtCoord = (*data->layout())[tgt];
 
-  const Size &srcSize = data->sizes()->getNodeValue(src);
-  const Size &tgtSize = data->sizes()->getNodeValue(tgt);
+  const Size &srcSize = (*data->sizes())[src];
+  const Size &tgtSize = (*data->sizes())[tgt];
   const LineType::RealType &bends = data->layout()->getEdgeValue(e);
 
   return getBoundingBox(data, e, src, tgt, srcCoord, tgtCoord, srcSize, tgtSize, bends);
@@ -48,13 +48,13 @@ BoundingBox GlEdge::getBoundingBox(const GlGraphInputData *data, const edge e, c
                                    const Size &srcSize, const Size &tgtSize,
                                    const LineType::RealType &bends) {
 
-  double srcRot = data->rotations()->getNodeValue(src);
-  double tgtRot = data->rotations()->getNodeValue(tgt);
+  double srcRot = (*data->rotations())[src];
+  double tgtRot = (*data->rotations())[tgt];
 
   // set srcAnchor, tgtAnchor. tmpAnchor will be on the point just before tgtAnchor
   Coord srcAnchor, tgtAnchor, tmpAnchor;
   bool hasBends(!bends.empty());
-  int srcGlyphId = data->shapes()->getNodeValue(src);
+  int srcGlyphId = (*data->shapes())[src];
   Glyph *srcGlyph = data->glyphManager()->getGlyph(srcGlyphId);
   tmpAnchor = hasBends ? bends.front() : tgtCoord;
   srcAnchor = srcGlyph->getAnchor(srcCoord, tmpAnchor, srcSize, srcRot);
@@ -62,7 +62,7 @@ BoundingBox GlEdge::getBoundingBox(const GlGraphInputData *data, const edge e, c
   int tgtGlyphId = 1; // cube outlined
 
   if (!data->graph()->isMetaNode(tgt)) {
-    tgtGlyphId = data->shapes()->getNodeValue(tgt);
+    tgtGlyphId = (*data->shapes())[tgt];
   }
 
   Glyph *tgtGlyph = data->glyphManager()->getGlyph(tgtGlyphId);
@@ -115,8 +115,8 @@ void GlEdge::draw(float lod, const GlGraphInputData *data, Camera *camera) {
     return;
   }
 
-  const Size &srcSize = data->sizes()->getNodeValue(src);
-  const Size &tgtSize = data->sizes()->getNodeValue(tgt);
+  const Size &srcSize = (*data->sizes())[src];
+  const Size &tgtSize = (*data->sizes())[tgt];
 
   Size edgeSize;
   float maxSrcSize, maxTgtSize;
@@ -126,7 +126,7 @@ void GlEdge::draw(float lod, const GlGraphInputData *data, Camera *camera) {
 
   getEdgeSize(data, e, srcSize, tgtSize, maxSrcSize, maxTgtSize, edgeSize);
 
-  const Coord &srcCoord = data->layout()->getNodeValue(src);
+  const Coord &srcCoord = (*data->layout())[src];
 
   float lodSize = getEdgeWidthLod(srcCoord, edgeSize, camera);
 
@@ -159,7 +159,7 @@ void GlEdge::draw(float lod, const GlGraphInputData *data, Camera *camera) {
     }
   }
 
-  const Coord &tgtCoord = data->layout()->getNodeValue(tgt);
+  const Coord &tgtCoord = (*data->layout())[tgt];
 
   if (selected) {
     glStencilFunc(GL_LEQUAL, data->renderingParameters()->getSelectedEdgesStencil(), 0xFFFF);
@@ -421,8 +421,8 @@ void GlEdge::drawLabel(OcclusionTest *test, const GlGraphInputData *data, float 
 
   const auto &[src, tgt] = data->graph()->ends(e);
 
-  const Size &srcSize = data->sizes()->getNodeValue(src);
-  const Size &tgtSize = data->sizes()->getNodeValue(tgt);
+  const Size &srcSize = (*data->sizes())[src];
+  const Size &tgtSize = (*data->sizes())[tgt];
   Size edgeSize;
   float maxSrcSize, maxTgtSize;
 
@@ -433,8 +433,8 @@ void GlEdge::drawLabel(OcclusionTest *test, const GlGraphInputData *data, float 
 
   label.instance().setTranslationAfterRotation(Coord());
 
-  const Coord &srcCoord = data->layout()->getNodeValue(src);
-  const Coord &tgtCoord = data->layout()->getNodeValue(tgt);
+  const Coord &srcCoord = (*data->layout())[src];
+  const Coord &tgtCoord = (*data->layout())[tgt];
   const LineType::RealType &bends = data->layout()->getEdgeValue(e);
   Coord position;
   float angle;
@@ -525,14 +525,14 @@ size_t GlEdge::getVertices(const GlGraphInputData *data, const edge e, const nod
     return 0;
   }
 
-  srcCoord = data->layout()->getNodeValue(src);
-  tgtCoord = data->layout()->getNodeValue(tgt);
+  srcCoord = (*data->layout())[src];
+  tgtCoord = (*data->layout())[tgt];
   if (!hasBends && (srcCoord - tgtCoord).norm() < 1E-4) {
     return 0;
   }
 
-  srcSize = data->sizes()->getNodeValue(src);
-  tgtSize = data->sizes()->getNodeValue(tgt);
+  srcSize = (*data->sizes())[src];
+  tgtSize = (*data->sizes())[tgt];
 
   float maxSrcSize, maxTgtSize;
 
@@ -603,8 +603,8 @@ void GlEdge::getColors(const GlGraphInputData *data, const node src, const node 
                        const Color &eColor, Color &srcCol, Color &tgtCol, const Coord *vertices,
                        uint numberOfVertices, std::vector<Color> &colors) {
   if (data->renderingParameters()->isEdgeColorInterpolate()) {
-    srcCol = data->colors()->getNodeValue(src);
-    tgtCol = data->colors()->getNodeValue(tgt);
+    srcCol = (*data->colors())[src];
+    tgtCol = (*data->colors())[tgt];
   } else {
     srcCol = tgtCol = eColor;
   }
@@ -619,8 +619,8 @@ void GlEdge::getEdgeColor(const GlGraphInputData *data, const edge e, const node
     srcCol = tgtCol = data->renderingParameters()->getSelectionColor();
   } else {
     if (data->renderingParameters()->isEdgeColorInterpolate()) {
-      srcCol = data->colors()->getNodeValue(src);
-      tgtCol = data->colors()->getNodeValue(tgt);
+      srcCol = (*data->colors())[src];
+      tgtCol = (*data->colors())[tgt];
     } else {
       srcCol = tgtCol = data->colors()->getEdgeValue(e);
     }
@@ -652,17 +652,17 @@ void GlEdge::getEdgeAnchor(const GlGraphInputData *data, const node src, const n
                            const LineType::RealType &bends, const Coord &srcCoord,
                            const Coord &tgtCoord, const Size &srcSize, const Size &tgtSize,
                            Coord &srcAnchor, Coord &tgtAnchor) {
-  double srcRot = data->rotations()->getNodeValue(src);
-  double tgtRot = data->rotations()->getNodeValue(tgt);
+  double srcRot = (*data->rotations())[src];
+  double tgtRot = (*data->rotations())[tgt];
 
   // compute anchor, (clip line with the glyph)
-  int srcGlyphId = data->shapes()->getNodeValue(src);
+  int srcGlyphId = (*data->shapes())[src];
   Glyph *srcGlyph = data->glyphManager()->getGlyph(srcGlyphId);
   srcAnchor = (bends.size() > 0) ? bends.front() : tgtCoord;
   srcAnchor = srcGlyph->getAnchor(srcCoord, srcAnchor, srcSize, srcRot);
 
   // compute anchor, (clip line with the glyph)
-  int tgtGlyphId = data->shapes()->getNodeValue(tgt);
+  int tgtGlyphId = (*data->shapes())[tgt];
   Glyph *tgtGlyph = data->glyphManager()->getGlyph(tgtGlyphId);
   tgtAnchor = (bends.size() > 0) ? bends.back() : srcAnchor;
   tgtAnchor = tgtGlyph->getAnchor(tgtCoord, tgtAnchor, tgtSize, tgtRot);

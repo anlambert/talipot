@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -33,13 +33,17 @@ public:
   void setEdgeValue(const tlp::edge e, const LineType &v) override;
   void setNodeValue(tlp::node n, const PointType &v) override;
 
-  PointType getNodeValue(const tlp::node n) override;
+  PointType getNodeValue(const tlp::node n) const override;
   LineType getEdgeValue(const tlp::edge e) override;
 
   PointType getNodeDefaultValue() override;
   LineType getEdgeDefaultValue() override;
 
   void setOrthogonalEdge(const tlp::Graph *tree, float interNodeDistance);
+
+  PointType operator[](const tlp::node n) const {
+    return getNodeValue(n);
+  }
 
 private:
   typedef std::vector<tlp::Coord> CoordLineType;

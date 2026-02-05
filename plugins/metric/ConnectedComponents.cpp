@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,7 +36,7 @@ bool ConnectedComponents::run() {
 
   // propagate nodes computed value to edges
   for (auto e : graph->edges()) {
-    (*result)[e] = result->getNodeValue(graph->source(e));
+    (*result)[e] = (*result)[graph->source(e)];
   }
 
   if (dataSet != nullptr) {

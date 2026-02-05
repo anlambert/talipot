@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -100,7 +100,7 @@ public:
   void copyFromProperty(PROP_PTR prop) {
     assert(graph);
     this->resize(graph->numberOfNodes());
-    TLP_PARALLEL_MAP_NODES(graph, [&](const node n) { (*this)[n] = prop->getNodeValue(n); });
+    TLP_PARALLEL_MAP_NODES(graph, [&](const node n) { (*this)[n] = (*prop)[n]; });
   }
 
   // get values from a NumericProperty
@@ -211,7 +211,7 @@ public:
   void copyFromProperty(PROP_PTR prop) {
     assert(graph);
     this->resize(graph->numberOfNodes());
-    TLP_PARALLEL_MAP_NODES(graph, [&](const node n) { (*this)[n] = prop->getNodeValue(n); });
+    TLP_PARALLEL_MAP_NODES(graph, [&](const node n) { (*this)[n] = (*prop)[n]; });
   }
 
   // copy values into a typed instance of PropertyInterface

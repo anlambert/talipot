@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -619,7 +619,7 @@ void GeographicViewGraphicsView::mapToPolygon() {
 
   for (auto n : graph->nodes()) {
 
-    Coord nodePos = geoLayout->getNodeValue(n);
+    Coord nodePos = (*geoLayout)[n];
 
     for (const auto &entity : entities) {
       if (entity.second->getBoundingBox().contains(nodePos)) {
@@ -652,8 +652,8 @@ void GeographicViewGraphicsView::mapToPolygon() {
             }
 
             (*geoLayout)[n] = bb.center();
-            polygon->setFillColor(graph->getColorProperty("viewColor")->getNodeValue(n));
-            polygon->setOutlineColor(graph->getColorProperty("viewBorderColor")->getNodeValue(n));
+            polygon->setFillColor((*graph)["viewColor"][n]);
+            polygon->setOutlineColor((*graph)["viewBorderColor"][n]);
             break;
           }
         }
@@ -714,7 +714,7 @@ void GeographicViewGraphicsView::createLayoutWithAddresses(const string &address
       n = nodesIt->next();
       progressWidget->setProgress(++nbNodesProcessed, nbNodes);
 
-      string addr = removeQuotesIfAny(addressProperty->getNodeValue(n));
+      string addr = removeQuotesIfAny((*addressProperty)[n]);
 
       if (addr.empty()) {
         continue;
@@ -735,8 +735,8 @@ void GeographicViewGraphicsView::createLayoutWithAddresses(const string &address
         } else {
           if (!resetLatAndLngValues) {
             // check if latitude/longitude are already set
-            latLng.first = latitudeProperty->getNodeValue(n);
-            latLng.second = longitudeProperty->getNodeValue(n);
+            latLng.first = (*latitudeProperty)[n];
+            latLng.second = (*longitudeProperty)[n];
             if (latLng.first != 0 || latLng.second != 0) {
               nodeLatLng[n] = addressesLatLngMap[addr] = latLng;
               continue;
@@ -822,8 +822,8 @@ void GeographicViewGraphicsView::createLayoutWithLatLngs(const std::string &lati
     latitudeProperty = graph->getDoubleProperty(latitudePropertyName);
     longitudeProperty = graph->getDoubleProperty(longitudePropertyName);
     for (auto n : graph->nodes()) {
-      latLng.first = latitudeProperty->getNodeValue(n);
-      latLng.second = longitudeProperty->getNodeValue(n);
+      latLng.first = (*latitudeProperty)[n];
+      latLng.second = (*longitudeProperty)[n];
       nodeLatLng[n] = latLng;
     }
   }
@@ -950,7 +950,7 @@ void GeographicViewGraphicsView::treatEvent(const Event &ev) {
       propEvt->getProperty() == geoLayout) {
     // compute new node latitude / longitude from updated coordinates
     node n = propEvt->getNode();
-    const Coord &p = geoLayout->getNodeValue(n);
+    const Coord &p = (*geoLayout)[n];
     pair<double, double> latLng = {mercatorToLatitude(p.y()), p.x() / 2};
     nodeLatLng[n] = latLng;
     if (latitudeProperty && longitudeProperty) {
@@ -1041,7 +1041,7 @@ void GeographicViewGraphicsView::switchViewType() {
 
     for (auto n : graph->nodes()) {
       if (viewSize != geoViewSize) {
-        const Size &nodeSize = viewSize->getNodeValue(n);
+        const Size &nodeSize = (*viewSize)[n];
         (*geoViewSize)[n] = nodeSize;
       }
 
@@ -1097,7 +1097,7 @@ void GeographicViewGraphicsView::switchViewType() {
 
       for (auto n : graph->nodes()) {
         if (viewSize != geoViewSize) {
-          const Size &nodeSize = viewSize->getNodeValue(n);
+          const Size &nodeSize = (*viewSize)[n];
           (*geoViewSize)[n] = nodeSize;
         }
 

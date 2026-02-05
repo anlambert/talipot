@@ -28,7 +28,7 @@ static bool voronoiDiagram(tlp::Graph *graph, bool voronoiCellsSubGraphs,
   uint nbNodes = nodes.size();
 
   for (uint i = 0; i < nbNodes; ++i) {
-    sites.push_back(layout->getNodeValue(nodes[i]));
+    sites.push_back((*layout)[nodes[i]]);
   }
 
   bool ret = tlp::voronoiDiagram(sites, voronoiDiag);

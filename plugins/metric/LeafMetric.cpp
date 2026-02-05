@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,9 +31,8 @@ bool LeafMetric::run() {
   for (auto n : reversed(dfs(graph, true))) {
     double val = 1.0;
     if (graph->outdeg(n) > 0) {
-      val = iteratorReduce(graph->getOutNodes(n), 0.0, [this](double curVal, const node m) {
-        return curVal + result->getNodeValue(m);
-      });
+      val = iteratorReduce(graph->getOutNodes(n), 0.0,
+                           [this](double curVal, const node m) { return curVal + (*result)[m]; });
     }
     (*result)[n] = val;
   }

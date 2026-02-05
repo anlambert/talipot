@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -83,8 +83,8 @@ bool StrongComponents::run() {
   for (auto e : graph->edges()) {
     const auto &[src, tgt] = graph->ends(e);
 
-    if (result->getNodeValue(src) == result->getNodeValue(tgt)) {
-      (*result)[e] = result->getNodeValue(src);
+    if ((*result)[src] == (*result)[tgt]) {
+      (*result)[e] = (*result)[src];
     } else {
       (*result)[e] = curComponent;
     }

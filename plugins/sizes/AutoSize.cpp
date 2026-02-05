@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,12 +49,12 @@ private:
     SizeProperty *entrySize = graph->getSizeProperty("viewSize");
 
     // Compute the minimal distance to one neighbour.
-    const Coord &tmp1 = entryLayout->getNodeValue(n);
+    const Coord &tmp1 = (*entryLayout)[n];
     double dist = DBL_MAX;
 
     for (auto neigh : graph->nodes()) {
       if (neigh != n) {
-        const Coord &tmp2 = entryLayout->getNodeValue(neigh);
+        const Coord &tmp2 = (*entryLayout)[neigh];
         double tmpDist = sqrt((tmp1.getX() - tmp2.getX()) * (tmp1.getX() - tmp2.getX()) +
                               (tmp1.getY() - tmp2.getY()) * (tmp1.getY() - tmp2.getY()) +
                               (tmp1.getZ() - tmp2.getZ()) * (tmp1.getZ() - tmp2.getZ()));
@@ -66,14 +66,14 @@ private:
     if (dist != DBL_MAX) {
       return Size(dist / 2, dist / 2, dist / 2);
     } else {
-      return entrySize->getNodeValue(n);
+      return (*entrySize)[n];
     }
   }
 
   Size getEdgeValue(const edge e) {
     const auto &[src, tgt] = graph->ends(e);
-    const Size &s = result->getNodeValue(src);
-    const Size &t = result->getNodeValue(tgt);
+    const Size &s = (*result)[src];
+    const Size &t = (*result)[tgt];
     Coord tmp = {s.getW(), s.getH(), s.getD()};
     Coord tmp2 = {t.getW(), t.getH(), t.getD()};
     float sizes = tmp.norm();

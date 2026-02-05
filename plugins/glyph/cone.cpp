@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -133,8 +133,8 @@ BoundingBox Cone::getIncludeBoundingBox(node) {
 }
 void Cone::draw(node n, float) {
 
-  setMaterial(glGraphInputData->colors()->getNodeValue(n));
-  string texFile = glGraphInputData->textures()->getNodeValue(n);
+  setMaterial((*glGraphInputData->colors())[n]);
+  string texFile = (*glGraphInputData->textures())[n];
 
   if (!texFile.empty()) {
     string texturePath = glGraphInputData->renderingParameters()->getTexturePath();

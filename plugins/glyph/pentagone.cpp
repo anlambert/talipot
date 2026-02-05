@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -67,15 +67,14 @@ BoundingBox Pentagon::getIncludeBoundingBox(node) {
   return {{-0.3f, -0.35f, 0}, {0.3f, 0.35f, 0}};
 }
 void Pentagon::draw(node n, float lod) {
-  string textureName = glGraphInputData->textures()->getNodeValue(n);
+  string textureName = (*glGraphInputData->textures())[n];
 
   if (!textureName.empty()) {
     textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
   }
 
-  drawPentagon(glGraphInputData->colors()->getNodeValue(n),
-               glGraphInputData->borderColors()->getNodeValue(n),
-               glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod, true);
+  drawPentagon((*glGraphInputData->colors())[n], (*glGraphInputData->borderColors())[n],
+               (*glGraphInputData->borderWidths())[n], textureName, lod, true);
 }
 
 class EEPentagon : public EdgeExtremityGlyph {

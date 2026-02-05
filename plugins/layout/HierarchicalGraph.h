@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,7 +23,7 @@ class LessThanNode2 {
 public:
   tlp::DoubleProperty *metric;
   bool operator()(tlp::node n1, tlp::node n2) const {
-    return (metric->getNodeValue(n1) < metric->getNodeValue(n2));
+    return ((*metric)[n1] < (*metric)[n2]);
   }
 };
 

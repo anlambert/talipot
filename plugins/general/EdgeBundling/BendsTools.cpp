@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -21,13 +21,13 @@ BendsTools::BendsTools() = default;
 //============================================
 double BendsTools::cosAlpha(LayoutProperty *layout, const node a, const node b, const node c) {
   Vec2d point[3];
-  Coord aC = layout->getNodeValue(a);
+  Coord aC = (*layout)[a];
   point[0][0] = aC[0];
   point[0][1] = aC[1];
-  Coord bC = layout->getNodeValue(b);
+  Coord bC = (*layout)[b];
   point[1][0] = bC[0];
   point[1][1] = bC[1];
-  Coord cC = layout->getNodeValue(c);
+  Coord cC = (*layout)[c];
   point[2][0] = cC[0];
   point[2][1] = cC[1];
 
@@ -41,13 +41,13 @@ double BendsTools::cosAlpha(LayoutProperty *layout, const node a, const node b, 
 //============================================
 bool BendsTools::straightLine(LayoutProperty *layout, const node a, const node b, const node c) {
   Vec2d point[3];
-  Coord aC = layout->getNodeValue(a);
+  Coord aC = (*layout)[a];
   point[0][0] = aC[0];
   point[0][1] = aC[1];
-  Coord bC = layout->getNodeValue(b);
+  Coord bC = (*layout)[b];
   point[1][0] = bC[0];
   point[1][1] = bC[1];
-  Coord cC = layout->getNodeValue(c);
+  Coord cC = (*layout)[c];
   point[2][0] = cC[0];
   point[2][1] = cC[1];
 

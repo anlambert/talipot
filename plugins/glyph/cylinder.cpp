@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -178,8 +178,8 @@ BoundingBox Cylinder::getIncludeBoundingBox(node) {
 
 void Cylinder::draw(node n, float) {
 
-  setMaterial(glGraphInputData->colors()->getNodeValue(n));
-  string texFile = glGraphInputData->textures()->getNodeValue(n);
+  setMaterial((*glGraphInputData->colors())[n]);
+  string texFile = (*glGraphInputData->textures())[n];
 
   if (!texFile.empty()) {
     string texturePath = glGraphInputData->renderingParameters()->getTexturePath();
@@ -249,8 +249,8 @@ BoundingBox HalfCylinder::getIncludeBoundingBox(node) {
 //=================================================================================================
 void HalfCylinder::draw(node n, float) {
 
-  setMaterial(glGraphInputData->colors()->getNodeValue(n));
-  string texFile = glGraphInputData->textures()->getNodeValue(n);
+  setMaterial((*glGraphInputData->colors())[n]);
+  string texFile = (*glGraphInputData->textures())[n];
 
   if (!texFile.empty()) {
     string texturePath = glGraphInputData->renderingParameters()->getTexturePath();
@@ -284,7 +284,7 @@ public:
     glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
 
     setMaterial(glyphColor);
-    string texFile = edgeExtGlGraphInputData->textures()->getNodeValue(n);
+    string texFile = (*edgeExtGlGraphInputData->textures())[n];
 
     if (!texFile.empty()) {
       string texturePath = edgeExtGlGraphInputData->renderingParameters()->getTexturePath();

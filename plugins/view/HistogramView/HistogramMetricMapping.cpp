@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -491,7 +491,7 @@ void GlGlyphScale::setGlyphsList(const vector<int> &glyphsList) {
       (*glyphGraphLayout)[n] = Coord(xCenter, baseCoord.getY() + i * size + size / 2);
       int oldI = i++;
       glyphScaleMap[make_pair(baseCoord.getY() + oldI * size, baseCoord.getY() + i * size)] =
-          glyphGraphShape->getNodeValue(n);
+          (*glyphGraphShape)[n];
     }
 
     boundingBox[0] = Coord(baseCoord.getX() - size, baseCoord.getY());
@@ -503,7 +503,7 @@ void GlGlyphScale::setGlyphsList(const vector<int> &glyphsList) {
       (*glyphGraphLayout)[n] = Coord(baseCoord.getX() + i++ * size + size / 2, yCenter);
       int oldI = i++;
       glyphScaleMap[make_pair(baseCoord.getX() + oldI * size, baseCoord.getX() + i * size)] =
-          glyphGraphShape->getNodeValue(n);
+          (*glyphGraphShape)[n];
     }
 
     boundingBox[0] = Coord(baseCoord.getX(), baseCoord.getY() - size);
@@ -554,7 +554,7 @@ void GlGlyphScale::draw(float, Camera *camera) {
 
 void GlGlyphScale::translate(const Coord &move) {
   for (auto n : glyphGraph->nodes()) {
-    Coord currentNodeCoord = glyphGraphLayout->getNodeValue(n);
+    Coord currentNodeCoord = (*glyphGraphLayout)[n];
     (*glyphGraphLayout)[n] = currentNodeCoord + move;
   }
 }
@@ -1066,7 +1066,7 @@ void HistogramMetricMapping::updateGraphWithMapping(Graph *graph, LayoutProperty
   if (histoView->getDataLocation() == ElementType::NODE) {
 
     for (auto n : graph->nodes()) {
-      const Coord &nodeHistoCoord = histogramLayout->getNodeValue(n);
+      const Coord &nodeHistoCoord = (*histogramLayout)[n];
       float yCurve = curve->getYCoordForX(nodeHistoCoord.getX());
 
       if (mappingType == VIEWCOLOR_MAPPING || mappingType == VIEWBORDERCOLOR_MAPPING) {
@@ -1077,7 +1077,7 @@ void HistogramMetricMapping::updateGraphWithMapping(Graph *graph, LayoutProperty
 
         if (sizeScaleConfigDialog->doMappingOnViewSize()) {
           Size newSize = {newNodeSize};
-          const Size &currentSize = graphSizes->getNodeValue(n);
+          const Size &currentSize = (*graphSizes)[n];
 
           if (!sizeScaleConfigDialog->applySizeMappingOnX()) {
             newSize[0] = currentSize[0];

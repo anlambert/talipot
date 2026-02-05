@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -160,7 +160,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
           case SelectedEntity::NODE_SELECTED:
 
             if (_mode == EdgesAndNodes || _mode == NodesOnly) {
-              result = selection->getNodeValue(node(selectedEntity.getGraphElementId()));
+              result = (*selection)[node(selectedEntity.getGraphElementId())];
 
               if (revertSelection || boolVal != result) {
                 if (needPush) {
@@ -218,8 +218,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
         if (_mode == EdgesAndNodes || _mode == NodesOnly) {
           for (const auto &entity : tmpSetNode) {
             (*selection)[node(entity.getGraphElementId())] =
-                revertSelection ? !selection->getNodeValue(node(entity.getGraphElementId()))
-                                : boolVal;
+                revertSelection ? !(*selection)[node(entity.getGraphElementId())] : boolVal;
           }
         }
 

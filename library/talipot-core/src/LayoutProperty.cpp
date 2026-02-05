@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -752,7 +752,7 @@ std::pair<tlp::Coord, tlp::Coord> LayoutProperty::computeMinMaxNode(const Graph 
   tlp::Coord minT = {FLT_MAX, FLT_MAX, FLT_MAX};
 
   for (auto itn : sg->nodes()) {
-    const Coord &tmpCoord = this->getNodeValue(itn);
+    const Coord &tmpCoord = (*this)[itn];
     maxV(maxT, tmpCoord);
     minV(minT, tmpCoord);
   }

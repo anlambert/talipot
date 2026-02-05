@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -50,9 +50,9 @@ Billboard::~Billboard() = default;
 void Billboard::draw(node n, float lod) {
   static GlRect rect(Coord(0, 0, 0), 1., 1., Color(0, 0, 0, 255), Color(0, 0, 0, 255));
 
-  rect.setFillColor(glGraphInputData->colors()->getNodeValue(n));
+  rect.setFillColor((*glGraphInputData->colors())[n]);
 
-  string texFile = glGraphInputData->textures()->getNodeValue(n);
+  string texFile = (*glGraphInputData->textures())[n];
 
   if (!texFile.empty()) {
     string texturePath = glGraphInputData->renderingParameters()->getTexturePath();
@@ -61,11 +61,11 @@ void Billboard::draw(node n, float lod) {
     rect.setTextureName("");
   }
 
-  double borderWidth = glGraphInputData->borderWidths()->getNodeValue(n);
+  double borderWidth = (*glGraphInputData->borderWidths())[n];
 
   if (borderWidth > 0) {
     rect.setOutlineMode(true);
-    rect.setOutlineColor(glGraphInputData->borderColors()->getNodeValue(n));
+    rect.setOutlineColor((*glGraphInputData->borderColors())[n]);
     rect.setOutlineSize(borderWidth);
   } else {
     rect.setOutlineMode(false);
@@ -74,7 +74,7 @@ void Billboard::draw(node n, float lod) {
   Size sz = {1};
 
   if (glGraphInputData->sizes()) {
-    sz = glGraphInputData->sizes()->getNodeValue(n);
+    sz = (*glGraphInputData->sizes())[n];
   }
 
   // draw rect in the screen plane

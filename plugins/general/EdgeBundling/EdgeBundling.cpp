@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -85,7 +85,7 @@ public:
   bool operator()(const node a, const node b) const { // sort in deceresing order;
     double da, db;
 
-    if ((da = dist->getNodeValue(a)) == (db = dist->getNodeValue(b))) {
+    if ((da = (*dist)[a]) == (db = (*dist)[b])) {
       return a.id > b.id;
     }
 
@@ -102,7 +102,9 @@ void updateLayout(node src, edge e, Graph *graph, LayoutProperty *layout,
 
   // if source and target nodes are at the same position, don't set bends to avoid visual artifacts
   // when rendering the graph
-  if (layout->getNodeValue(nBends.front()).dist(layout->getNodeValue(nBends.back())) < 1e-5) {
+  Coord firstBend = (*layout)[nBends.front()];
+  Coord lastBend = (*layout)[nBends.back()];
+  if (firstBend.dist(lastBend) < 1e-5) {
     return;
   }
 
@@ -116,7 +118,7 @@ void updateLayout(node src, edge e, Graph *graph, LayoutProperty *layout,
   }
 
   for (auto &bend : bends) {
-    const Coord &coord = layout->getNodeValue(nBends[i]);
+    const Coord &coord = (*layout)[nBends[i]];
 
     if (!layout3D) {
       (bend = coord)[2] = 0;
@@ -174,9 +176,9 @@ void EdgeBundling::computeDistances() {
 //==========================================================================
 void EdgeBundling::computeDistance(node n) {
   double maxDist = 0;
-  Coord nPos = layout->getNodeValue(n);
+  Coord nPos = (*layout)[n];
   for (auto n2 : vertexCoverGraph->getInOutNodes(n)) {
-    double dist = (nPos - layout->getNodeValue(n2)).norm();
+    double dist = (nPos - (*layout)[n2]).norm();
     maxDist += dist;
   }
   (*SortNodes::dist)[n] = maxDist;
@@ -281,7 +283,7 @@ bool EdgeBundling::run() {
       // iterate on graph nodes
       for (auto n : graph->nodes()) {
         // get position
-        const Coord &coord = layout->getNodeValue(n);
+        const Coord &coord = (*layout)[n];
         // compute a key for coord (convert point to string representation)
         // Warning: because of float precision issues, we use a string key
         // instead of relying on the x, y exact values
@@ -347,7 +349,7 @@ bool EdgeBundling::run() {
         continue;
       }
 
-      const Coord &c = layout->getNodeValue(n);
+      const Coord &c = (*layout)[n];
 
       if (c.norm() < 0.9 * dist) {
         graph->delNode(n, true);
@@ -421,8 +423,8 @@ bool EdgeBundling::run() {
   EdgeVectorProperty<double> mWeightsInit(graph);
   TLP_PARALLEL_MAP_EDGES(graph, [&](edge e) {
     const auto &[src, tgt] = graph->ends(e);
-    const Coord &a = layout->getNodeValue(src);
-    const Coord &b = layout->getNodeValue(tgt);
+    const Coord &a = (*layout)[src];
+    const Coord &b = (*layout)[tgt];
     double abNorm = (a - b).norm();
     double initialWeight = pow(abNorm, longEdges);
 

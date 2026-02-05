@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -111,7 +111,7 @@ static bool treatEdges(Graph *graph, tlp::PluginProgress *pp, ExportInterface &e
 
     if (edge_size_interpolation) {
       // svg only handles a width for each edge
-      width = std::min(sizes->getNodeValue(src)[0] / 8, sizes->getNodeValue(tgt)[0] / 8);
+      width = std::min((*sizes)[src][0] / 8, (*sizes)[tgt][0] / 8);
     } else {
       width = std::min(sizes->getEdgeValue(e)[0], sizes->getEdgeValue(e)[1]) + 1;
     }
@@ -124,9 +124,9 @@ static bool treatEdges(Graph *graph, tlp::PluginProgress *pp, ExportInterface &e
                                  id_tgt_shape, edgeVertices);
     } else {
       ret = exportint.exportEdge(e.id, static_cast<EdgeShape::EdgeShapes>(shape->getEdgeValue(e)),
-                                 layout->getEdgeValue(e), colors->getNodeValue(src),
-                                 colors->getNodeValue(tgt), width, src_anchor_shape_type,
-                                 id_src_shape, tgt_anchor_shape_type, id_tgt_shape, edgeVertices);
+                                 layout->getEdgeValue(e), (*colors)[src], (*colors)[tgt], width,
+                                 src_anchor_shape_type, id_src_shape, tgt_anchor_shape_type,
+                                 id_tgt_shape, edgeVertices);
     }
 
     if (!ret) {
@@ -210,7 +210,7 @@ struct sortNodes {
   LayoutProperty *layout;
   sortNodes(LayoutProperty *ly) : layout(ly) {}
   bool operator()(const node i, const node j) const {
-    return layout->getNodeValue(i)[2] < layout->getNodeValue(j)[2];
+    return (*layout)[i][2] < (*layout)[j][2];
   }
 };
 
@@ -254,8 +254,8 @@ static bool treatNodes(Graph *graph, tlp::PluginProgress *pp, ExportInterface &e
       metanodeVertices.push_back(n);
     }
 
-    Coord c = layout->getNodeValue(n);
-    Size s = sizes->getNodeValue(n);
+    Coord c = (*layout)[n];
+    Size s = (*sizes)[n];
 
     if ((++i % 100) == 0) {
       pp->progress(i, nb_elements);
@@ -274,8 +274,8 @@ static bool treatNodes(Graph *graph, tlp::PluginProgress *pp, ExportInterface &e
       return false;
     }
 
-    if (rotation->getNodeValue(n) != 0) {
-      ret = exportint.addRotation(rotation->getNodeValue(n), c);
+    if ((*rotation)[n] != 0) {
+      ret = exportint.addRotation((*rotation)[n], c);
 
       if (!ret) {
         if (pp->getError().empty()) {
@@ -288,9 +288,9 @@ static bool treatNodes(Graph *graph, tlp::PluginProgress *pp, ExportInterface &e
       }
     }
 
-    ret = exportint.addShape(static_cast<NodeShape::NodeShapes>(shape->getNodeValue(n)), c, s,
-                             bordercolor->getNodeValue(n), borderwidth->getNodeValue(n),
-                             colors->getNodeValue(n), iconName->getNodeValue(n));
+    int shape_ = (*shape)[n];
+    ret = exportint.addShape(static_cast<NodeShape::NodeShapes>(shape_), c, s, (*bordercolor)[n],
+                             (*borderwidth)[n], (*colors)[n], (*iconName)[n]);
 
     if (!ret) {
       if (pp->getError().empty()) {
@@ -303,8 +303,7 @@ static bool treatNodes(Graph *graph, tlp::PluginProgress *pp, ExportInterface &e
     }
 
     if (node_labels) {
-      ret = exportint.addLabel("node", label->getNodeValue(n), labelcolor->getNodeValue(n), c,
-                               fontsize->getNodeValue(n), s);
+      ret = exportint.addLabel("node", (*label)[n], (*labelcolor)[n], c, (*fontsize)[n], s);
 
       if (!ret) {
         if (pp->getError().empty()) {
@@ -452,8 +451,8 @@ bool ReadGraph::readGraph(Graph *graph, tlp::DataSet *ds, tlp::PluginProgress *p
     for (auto metanode : metanodeVertices) {
       Graph *metagraph = graph->getNodeMetaInfo(metanode);
       BoundingBox metagraphbb = tlp::computeBoundingBox(metagraph, layout, sizes, rotation);
-      Coord coord_meta_node = layout->getNodeValue(metanode);
-      Size size_meta_node = sizes->getNodeValue(metanode);
+      Coord coord_meta_node = (*layout)[metanode];
+      Size size_meta_node = (*sizes)[metanode];
 
       // We compute the scale
       float scale = min(size_meta_node.width() / (metagraphbb.width() * 1.4),

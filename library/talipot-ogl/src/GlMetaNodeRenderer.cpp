@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -84,9 +84,8 @@ void GlMetaNodeRenderer::render(node n, float, Camera *camera) {
 
   GlNode glNode(n, metaGraph);
 
-  BoundingBox includeBB = _inputData->glyphManager()
-                              ->getGlyph(_inputData->shapes()->getNodeValue(n))
-                              ->getIncludeBoundingBox(n);
+  BoundingBox includeBB =
+      _inputData->glyphManager()->getGlyph((*(_inputData->shapes()))[n])->getIncludeBoundingBox(n);
   BoundingBox bbTmp = glNode.getBoundingBox(_inputData);
   BoundingBox bb(bbTmp.center() - Coord((bbTmp.width() / 2.f) * (includeBB[0][0] * -2.f),
                                         (bbTmp.height() / 2.f) * (includeBB[0][1] * -2.f),

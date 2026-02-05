@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -177,7 +177,7 @@ void Histogram::computeHistogram() {
     } else {
       if (dataLocation == ElementType::NODE) {
         for (auto n : graph->nodes()) {
-          propertyCopy.setNodeValue(n, graph->getIntegerProperty(propertyName)->getNodeValue(n));
+          propertyCopy[n] = (*graph)[propertyName][n];
         }
       } else {
         for (auto e : graph->edges()) {
@@ -196,7 +196,7 @@ void Histogram::computeHistogram() {
     if (dataLocation == ElementType::NODE) {
 
       for (auto n : graph->nodes()) {
-        auto binId = uint(propertyCopy.getNodeValue(n));
+        auto binId = uint(propertyCopy[n]);
         histogramBins[binId].push_back(n.id);
 
         if (histogramBins[binId].size() > maxBinSize) {
@@ -205,11 +205,7 @@ void Histogram::computeHistogram() {
 
         double val;
 
-        if (graph->getProperty(propertyName)->getTypename() == "double") {
-          val = graph->getDoubleProperty(propertyName)->getNodeValue(n);
-        } else {
-          val = graph->getIntegerProperty(propertyName)->getNodeValue(n);
-        }
+        val = (*graph)[propertyName][n];
 
         if (val < binMinMaxMap[binId].first) {
           binMinMaxMap[binId].first = val;
@@ -272,12 +268,12 @@ void Histogram::computeHistogram() {
         double value;
 
         if (graph->getProperty(propertyName)->getTypename() == "double") {
-          value = graph->getDoubleProperty(propertyName)->getNodeValue(n);
+          value = (*graph)[propertyName][n];
           double intpart, fracpart;
           fracpart = modf(value, &intpart);
           integerScale = integerScale && (fracpart == 0);
         } else {
-          value = graph->getIntegerProperty(propertyName)->getNodeValue(n);
+          value = (*graph)[propertyName][n];
         }
 
         if (value != max) {
@@ -551,7 +547,7 @@ void Histogram::updateSizes() {
 
     for (uint j = 0; j < binSize; ++j) {
       if (dataLocation == ElementType::NODE) {
-        const Size &currentNodeSize = viewSize->getNodeValue(node(histogramBins[i][j]));
+        const Size &currentNodeSize = (*viewSize)[node(histogramBins[i][j])];
         Size newNodeSize;
 
         if (resize) {
@@ -610,7 +606,7 @@ void Histogram::update() {
     for (uint j = 0; j < binSize; ++j) {
       if (dataLocation == ElementType::NODE) {
         for (uint k = 0; k < 4; ++k) {
-          quadColorCumul[k] += uint(viewColor->getNodeValue(node(histogramBins[i][j]))[k]);
+          quadColorCumul[k] += uint((*viewColor)[node(histogramBins[i][j])][k]);
         }
       }
     }

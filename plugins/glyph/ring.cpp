@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -174,11 +174,9 @@ BoundingBox Ring::getIncludeBoundingBox(node) {
   return {{-0.35f, -0.35f, 0}, {0.35f, 0.35f, 0}};
 }
 void Ring::draw(node n, float lod) {
-  drawGlyph(glGraphInputData->colors()->getNodeValue(n),
-            glGraphInputData->textures()->getNodeValue(n),
+  drawGlyph((*glGraphInputData->colors())[n], (*glGraphInputData->textures())[n],
             glGraphInputData->renderingParameters()->getTexturePath(),
-            glGraphInputData->borderWidths()->getNodeValue(n),
-            glGraphInputData->borderColors()->getNodeValue(n), lod);
+            (*glGraphInputData->borderWidths())[n], (*glGraphInputData->borderColors())[n], lod);
 }
 
 class EERing : public EdgeExtremityGlyph {

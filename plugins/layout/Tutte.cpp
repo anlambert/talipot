@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -131,11 +131,11 @@ bool Tutte::run() {
 
     for (auto n : toMove) {
       tmpCoord.set(0, 0, 0);
-      Coord baseCoord = result->getNodeValue(n);
+      Coord baseCoord = (*result)[n];
       int i = 0;
 
       for (auto nn : graph->getInOutNodes(n)) {
-        const Coord &tmpCoord2 = result->getNodeValue(nn);
+        const Coord &tmpCoord2 = (*result)[nn];
         tmpCoord.set(tmpCoord.getX() + tmpCoord2.getX(), tmpCoord.getY() + tmpCoord2.getY(), 0);
         ++i;
       }

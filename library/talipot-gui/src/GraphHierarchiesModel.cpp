@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -108,7 +108,7 @@ static void writeTextureFilesInProject(const QList<tlp::Graph *> &graphs, tlp::P
 
     // Process the non default valuated nodes in the viewTexture property
     for (auto n : viewTexture->getNonDefaultValuatedNodes()) {
-      copyTextureFileInProject(tlpStringToQString(viewTexture->getNodeValue(n)), project,
+      copyTextureFileInProject(tlpStringToQString((*viewTexture)[n]), project,
                                projectTexturesFolders, projectTexturesFiles);
     }
 
@@ -161,7 +161,7 @@ static void restoreTextureFilesFromProject(tlp::Graph *g, tlp::Project *project,
   QMap<node, QString> nonDefaultValuatedNodes;
 
   for (auto n : viewTexture->getNonDefaultValuatedNodes()) {
-    nonDefaultValuatedNodes[n] = tlpStringToQString(viewTexture->getNodeValue(n));
+    nonDefaultValuatedNodes[n] = tlpStringToQString((*viewTexture)[n]);
   }
 
   // Generate a MD5 sum from the absolute texture file path
@@ -305,7 +305,7 @@ static void writeFontFilesInProject(const QList<tlp::Graph *> &graphs, tlp::Proj
 
     // Process the non default valuated nodes in the viewFont property
     for (auto n : viewFont->getNonDefaultValuatedNodes()) {
-      copyFontFileInProject(viewFont->getNodeValue(n), project, projectFontFiles);
+      copyFontFileInProject((*viewFont)[n], project, projectFontFiles);
     }
 
     // Process the viewFont default edge value
@@ -803,7 +803,7 @@ void GraphHierarchiesModel::treatEvent(const Event &e) {
     string texture;
     auto *viewTexture = static_cast<StringProperty *>(pe->getProperty());
     if (pe->getType() == PropertyEventType::TLP_AFTER_SET_NODE_VALUE) {
-      texture = viewTexture->getNodeValue(pe->getNode());
+      texture = (*viewTexture)[pe->getNode()];
     } else if (pe->getType() == PropertyEventType::TLP_AFTER_SET_EDGE_VALUE) {
       texture = viewTexture->getEdgeValue(pe->getEdge());
     } else if (pe->getType() == PropertyEventType::TLP_AFTER_SET_ALL_NODE_VALUE) {

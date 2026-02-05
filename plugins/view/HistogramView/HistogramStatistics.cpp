@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -231,11 +231,7 @@ void HistogramStatistics::computeInteractor() {
     for (auto n : graph->nodes()) {
       double nodeVal;
 
-      if (propertyType == "double") {
-        nodeVal = graph->getDoubleProperty(selectedProperty)->getNodeValue(n);
-      } else {
-        nodeVal = graph->getIntegerProperty(selectedProperty)->getNodeValue(n);
-      }
+      nodeVal = (*graph)[selectedProperty][n];
 
       graphPropertyValueSet[n.id] = nodeVal;
       propertyMean += nodeVal;

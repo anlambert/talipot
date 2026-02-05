@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -79,8 +79,8 @@ void makeProperDag(Graph *graph, list<node> &addedNodes, flat_hash_map<edge, edg
   for (uint i = 0; i < nbEdges; ++i) {
     edge e = edges[i];
     auto [src, tgt] = graph->ends(e);
-    uint fLevel = dLevel.getNodeValue(src);
-    uint sLevel = dLevel.getNodeValue(tgt);
+    uint fLevel = dLevel[src];
+    uint sLevel = dLevel[tgt];
     int delta = sLevel - fLevel;
 
     if (delta > 1) {
@@ -269,7 +269,7 @@ void selectSpanningForest(Graph *graph, BooleanProperty *selectionProperty,
     for (uint i = 0; i < nbNodes; ++i) {
       node n = nodes[i];
 
-      if (selectionProperty->getNodeValue(n)) {
+      if ((*selectionProperty)[n]) {
         fifo.push_back(n);
         nodeFlag[i] = true;
       }
@@ -386,7 +386,7 @@ void selectSpanningTree(Graph *graph, BooleanProperty *selection, PluginProgress
       if (!selection->getEdgeValue(e)) {
         node neighbour = graph->opposite(e, root);
 
-        if (!selection->getNodeValue(neighbour)) {
+        if (!(*selection)[neighbour]) {
           (*selection)[neighbour] = true;
           roots.push_back(neighbour);
           nbNodes++;
@@ -735,7 +735,7 @@ unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selection, bool
   for (auto e : selection->getEdgesEqualTo(true, graph)) {
     const auto &[src, tgt] = graph->ends(e);
 
-    if (!selection->getNodeValue(src)) {
+    if (!(*selection)[src]) {
       tlp::debug() << "[Make selection a graph] node #" << src.id << " source of edge #" << e.id
                    << " automatically added to selection." << std::endl;
       (*selection)[src] = true;
@@ -747,7 +747,7 @@ unsigned makeSelectionGraph(const Graph *graph, BooleanProperty *selection, bool
       }
     }
 
-    if (!selection->getNodeValue(tgt)) {
+    if (!(*selection)[tgt]) {
       tlp::debug() << "[Make selection a graph] node #" << tgt << " target of edge #" << e.id
                    << " automatically added to selection." << std::endl;
       (*selection)[tgt] = true;

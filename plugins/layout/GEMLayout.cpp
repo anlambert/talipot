@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -228,7 +228,7 @@ void GEMLayout::insert() {
     node vNode = _particules[v].n;
 
     // nothing to do if vNode is a fixed node
-    if (fixedNodes && fixedNodes->getNodeValue(vNode)) {
+    if (fixedNodes && (*fixedNodes)[vNode]) {
       continue;
     }
 
@@ -312,7 +312,7 @@ void GEMLayout::a_round() {
     node vNode = _particules[v].n;
 
     // nothing to do if vNode is a fixed node
-    if (fixedNodes && fixedNodes->getNodeValue(vNode)) {
+    if (fixedNodes && (*fixedNodes)[vNode]) {
       continue;
     }
 
@@ -436,7 +436,7 @@ bool GEMLayout::run() {
     _particules[i].id = i;
 
     if (!initLayout && layout != nullptr) {
-      _particules[i].pos = layout->getNodeValue(n);
+      _particules[i].pos = (*layout)[n];
     } else {
       _particules[i].pos.fill(0);
     }

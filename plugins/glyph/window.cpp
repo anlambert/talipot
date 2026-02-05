@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -124,16 +124,16 @@ BoundingBox Window::getTextBoundingBox(node) {
 void Window::draw(node n, float lod) {
   ColorProperty *color = glGraphInputData->colors();
   ColorProperty *colorBorder = glGraphInputData->borderColors();
-  string textureName = glGraphInputData->textures()->getNodeValue(n);
+  string textureName = (*glGraphInputData->textures())[n];
 
   if (!textureName.empty()) {
     textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
   }
 
-  _border.setColor(colorBorder->getNodeValue(n));
-  _titleRec.setColor(colorBorder->getNodeValue(n));
+  _border.setColor((*colorBorder)[n]);
+  _titleRec.setColor((*colorBorder)[n]);
 
-  _center.setFillColor(color->getNodeValue(n));
+  _center.setFillColor((*color)[n]);
   _center.setTextureName(textureName);
   _center.draw(lod, nullptr);
   _titleRec.draw(lod, nullptr);

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,7 +35,7 @@ void Dendrogram::computeLevelHeights(tlp::Graph *tree, tlp::node n, uint depth,
     levelHeights.push_back(0);
   }
 
-  float nodeHeight = oriSize->getNodeValue(n).getH();
+  float nodeHeight = (*oriSize)[n].getH();
 
   if (nodeHeight > levelHeights[depth]) {
     levelHeights[depth] = nodeHeight;
@@ -101,7 +101,7 @@ float Dendrogram::setAllNodesCoordX(tlp::node n, float rightMargin, OrientableLa
     leftMargin = setAllNodesCoordX(currentNode, leftMargin, oriLayout, oriSize);
   }
 
-  const float nodeWidth = oriSize->getNodeValue(n).getW() + nodeSpacing;
+  const float nodeWidth = (*oriSize)[n].getW() + nodeSpacing;
 
   if (isLeaf(tree, n)) {
     leftMargin = rightMargin + nodeWidth;
@@ -132,7 +132,7 @@ void Dendrogram::setAllNodesCoordY(OrientableLayout *oriLayout, OrientableSizePr
 
   for (auto currentNode : tree->nodes()) {
     if (isLeaf(tree, currentNode)) {
-      OrientableCoord coord = oriLayout->getNodeValue(currentNode);
+      OrientableCoord coord = (*oriLayout)[currentNode];
       float newY = maxYLeaf;
       float coordX = coord.getX();
       float coordZ = coord.getZ();
@@ -147,7 +147,7 @@ float Dendrogram::computeFatherXPosition(tlp::node father, OrientableLayout *ori
   float maxX = -FLT_MAX;
 
   for (auto currentNode : tree->getOutNodes(father)) {
-    const float x = oriLayout->getNodeValue(currentNode).getX() + leftshift[currentNode];
+    const float x = (*oriLayout)[currentNode][0] + leftshift[currentNode];
     minX = min(minX, x);
     maxX = max(maxX, x);
   }
@@ -157,7 +157,7 @@ float Dendrogram::computeFatherXPosition(tlp::node father, OrientableLayout *ori
 
 //====================================================================
 void Dendrogram::shiftAllNodes(tlp::node n, float shift, OrientableLayout *oriLayout) {
-  OrientableCoord coord = oriLayout->getNodeValue(n);
+  OrientableCoord coord = (*oriLayout)[n];
   shift += leftshift[n];
   float coordX = coord.getX();
 
@@ -181,8 +181,8 @@ void Dendrogram::setCoordY(tlp::node n, float &maxYLeaf, OrientableLayout *oriLa
                            OrientableSizeProxy *oriSize) {
   if (tree->indeg(n) != 0) {
     node fatherNode = tree->getInNode(n, 1);
-    OrientableCoord coord = oriLayout->getNodeValue(n);
-    OrientableCoord coordFather = oriLayout->getNodeValue(fatherNode);
+    OrientableCoord coord = (*oriLayout)[n];
+    OrientableCoord coordFather = (*oriLayout)[fatherNode];
     float nodeY = coordFather.getY() + spacing;
 
     coord.setY(nodeY);

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -60,8 +60,7 @@ BoundingBox Sphere::getIncludeBoundingBox(node) {
 }
 
 void Sphere::draw(node n, float) {
-  drawGlyph(glGraphInputData->colors()->getNodeValue(n),
-            glGraphInputData->textures()->getNodeValue(n),
+  drawGlyph((*glGraphInputData->colors())[n], (*glGraphInputData->textures())[n],
             glGraphInputData->renderingParameters()->getTexturePath());
 }
 

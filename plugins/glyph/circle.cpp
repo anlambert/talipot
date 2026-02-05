@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -68,15 +68,14 @@ BoundingBox Circle::getIncludeBoundingBox(node) {
   return {{-0.35f, -0.35f, 0}, {0.35f, 0.35f, 0}};
 }
 void Circle::draw(node n, float lod) {
-  string textureName = glGraphInputData->textures()->getNodeValue(n);
+  string textureName = (*glGraphInputData->textures())[n];
 
   if (!textureName.empty()) {
     textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
   }
 
-  drawCircle(Glyph::glGraphInputData->colors()->getNodeValue(n),
-             Glyph::glGraphInputData->borderColors()->getNodeValue(n),
-             Glyph::glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod, true);
+  drawCircle((*Glyph::glGraphInputData->colors())[n], (*Glyph::glGraphInputData->borderColors())[n],
+             (*Glyph::glGraphInputData->borderWidths())[n], textureName, lod, true);
 }
 
 class EECircle : public EdgeExtremityGlyph {

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -91,22 +91,15 @@ public:
     for (auto n : graph->nodes()) {
       os << "node [" << endl;
       os << "id " << n.id << endl;
-      os << "label \"" << convert(label->getNodeValue(n)) << "\"" << endl;
+      os << "label \"" << convert((*label)[n]) << "\"" << endl;
       os << "graphics [" << endl;
-      printCoord(os, layout->getNodeValue(n));
-      printSize(os, sizes->getNodeValue(n));
+      printCoord(os, (*layout)[n]);
+      printSize(os, (*sizes)[n]);
       os << "type \"rectangle\"" << endl;
       os << "width 0.12" << endl;
-      os << "fill \"#" << hex << setfill('0') << setw(2) << int(colors->getNodeValue(n).getR())
-         << hex << setfill('0') << setw(2) << int(colors->getNodeValue(n).getG()) << hex
-         << setfill('0') << setw(2) << int(colors->getNodeValue(n).getB()) << "\"" << endl;
-
-      //      os << "outline \"#"<< hex << setfill('0') << setw(2)
-      //      <<(int)colors->getNodeValue(n).getR()
-      //         << hex << setfill('0') << setw(2) <<(int)colors->getNodeValue(n).getG()
-      //         << hex << setfill('0') << setw(2) <<(int)colors->getNodeValue(n).getB() <<
-      //         "\""<< endl;
-
+      os << "fill \"#" << hex << setfill('0') << setw(2) << int((*colors)[n][0]) << hex
+         << setfill('0') << setw(2) << int((*colors)[n][1]) << hex << setfill('0') << setw(2)
+         << int((*colors)[n][2]) << "\"" << endl;
       os << "outline \"#000000\"" << endl;
       os << dec << setfill(' ') << setw(6) << "]" << endl;
       os << ']' << endl;
@@ -129,7 +122,7 @@ public:
       vector<Coord> lcoord = layout->getEdgeValue(e);
 
       if (!lcoord.empty()) {
-        printPoint(os, layout->getNodeValue(src));
+        printPoint(os, (*layout)[src]);
       }
 
       for (const auto &c : lcoord) {
@@ -137,7 +130,7 @@ public:
       }
 
       if (!lcoord.empty()) {
-        printPoint(os, layout->getNodeValue(tgt));
+        printPoint(os, (*layout)[tgt]);
       }
 
       os << "]" << endl;

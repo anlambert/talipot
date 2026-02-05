@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -61,20 +61,18 @@ uint GraphDimension::numberOfValues() const {
 template <typename PROPERTY>
 double GraphDimension::getNodeValue(const node n) const {
   auto *dimValues = graph->getProperty<PROPERTY>(dimName);
-  double d = dimValues->getNodeValue(n);
+  double d = (*dimValues)[n];
   double delta = maxValue() - minValue();
   return (d - minValue()) / delta;
 }
 
 std::string GraphDimension::getItemLabelAtRank(const uint rank) const {
   node n = nodeSorter->getNodeAtRankForProperty(rank, dimName);
-  string label = graph->getStringProperty("viewLabel")->getNodeValue(n);
-  return label;
+  return (*graph)["viewLabel"][n];
 }
 
 std::string GraphDimension::getItemLabel(const uint itemId) const {
-  string label = graph->getStringProperty("viewLabel")->getNodeValue(node(itemId));
-  return label;
+  return (*graph)["viewLabel"][node(itemId)];
 }
 
 double GraphDimension::getItemValue(const uint itemId) const {

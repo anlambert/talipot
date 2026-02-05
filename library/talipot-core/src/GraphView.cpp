@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,8 +31,7 @@ GraphView::GraphView(Graph *superGraph, BooleanProperty *filter, uint sgId)
     return;
   }
 
-  for (auto n :
-       filterIterator(superGraph->nodes(), [filter](node n) { return filter->getNodeValue(n); })) {
+  for (auto n : filterIterator(superGraph->nodes(), [filter](node n) { return (*filter)[n]; })) {
     addNode(n);
   }
 

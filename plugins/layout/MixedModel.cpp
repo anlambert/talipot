@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -89,7 +89,7 @@ bool MixedModel::run() {
   // rotate size if necessary
   if (orientation == "horizontal") {
     for (auto n : graph->nodes()) {
-      const Size tmp = sizeResult->getNodeValue(n);
+      const Size tmp = (*sizeResult)[n];
       (*sizeResult)[n] = Size(tmp[1], tmp[0], tmp[2]);
     }
   }
@@ -118,10 +118,10 @@ bool MixedModel::run() {
       continue;
     } else if (component.size() < 4) {
       node n = component[0];
-      const Coord &c = sizeResult->getNodeValue(n);
+      const Coord &c = (*sizeResult)[n];
       (*result)[n] = Coord(0, 0, 0);
       node n2 = component[1];
-      const Coord &c2 = sizeResult->getNodeValue(n2);
+      const Coord &c2 = (*sizeResult)[n2];
       (*result)[n2] = Coord(spacing + c.getX() / 2 + c2.getX() / 2, 0, 0);
 
       for (auto e : graph->getEdges(n, n2, false)) {
@@ -130,7 +130,7 @@ bool MixedModel::run() {
 
       if (component.size() == 3) {
         node n3 = component[2];
-        const Coord &c3 = sizeResult->getNodeValue(n2);
+        const Coord &c3 = (*sizeResult)[n2];
         result->setNodeValue(
             n3, Coord(2.f * spacing + c.getX() / 2.f + c2.getX() + c3.getX() / 2.f, 0, 0));
         edge e = graph->existEdge(n, n3, false);
@@ -292,9 +292,9 @@ bool MixedModel::run() {
   // rotate layout and size
   if (orientation == "horizontal") {
     for (auto n : graph->nodes()) {
-      const Size &size = sizeResult->getNodeValue(n);
+      const Size &size = (*sizeResult)[n];
       (*sizeResult)[n] = Size(size[1], size[0], size[2]);
-      const Coord &coord = result->getNodeValue(n);
+      const Coord &coord = (*result)[n];
       (*result)[n] = Coord(-coord[1], coord[0], coord[2]);
     }
     for (auto e : graph->edges()) {
@@ -848,7 +848,7 @@ void MixedModel::computeCoords() {
   nodeSize.setAll(Coord()); // permet de conserver une taille relative pout les sommets
 
   for (auto n : carte->nodes()) {
-    Coord c = sizeResult->getNodeValue(n);
+    Coord c = (*sizeResult)[n];
     c[0] += edgeNodeSpacing;
     nodeSize.set(n.id, c);
   }

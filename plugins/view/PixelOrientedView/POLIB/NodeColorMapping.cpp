@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,13 +26,13 @@ NodeColorMapping::NodeColorMapping(Graph *graph) : graph(graph) {}
 Color NodeColorMapping::getColor(double, uint itemId) const {
   Color ret;
 
-  if (graph->getBooleanProperty("viewSelection")->getNodeValue(node(itemId))) {
+  if ((*graph)["viewSelection"][node(itemId)]) {
     ret[0] = COLOR_SELECT.getR();
     ret[1] = COLOR_SELECT.getG();
     ret[2] = COLOR_SELECT.getB();
     ret[3] = COLOR_SELECT.getA();
   } else {
-    Color nodeColor = graph->getColorProperty("viewColor")->getNodeValue(node(itemId));
+    Color nodeColor = (*graph)["viewColor"][node(itemId)];
     ret[0] = nodeColor.getR();
     ret[1] = nodeColor.getG();
     ret[2] = nodeColor.getB();

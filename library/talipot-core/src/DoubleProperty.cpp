@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -50,7 +50,7 @@ static void computeNodeAvgValue(
   uint nbNodes = 0;
   for (auto n : sg->nodes()) {
     ++nbNodes;
-    value += metric->getNodeValue(n);
+    value += (*metric)[n];
   }
 
   if (nbNodes) {
@@ -91,7 +91,7 @@ static void computeNodeSumValue(
 
   double value = 0;
   for (auto n : sg->nodes()) {
-    value += metric->getNodeValue(n);
+    value += (*metric)[n];
   }
   (*metric)[mN] = value;
 }
@@ -125,7 +125,7 @@ static void computeNodeMaxValue(
 
   double value = -DBL_MAX;
   for (auto n : sg->nodes()) {
-    double nVal = metric->getNodeValue(n);
+    double nVal = (*metric)[n];
 
     if (nVal > value) {
       value = nVal;
@@ -167,7 +167,7 @@ static void computeNodeMinValue(
 
   double value = DBL_MAX;
   for (auto n : sg->nodes()) {
-    double nVal = metric->getNodeValue(n);
+    double nVal = (*metric)[n];
 
     if (nVal < value) {
       value = nVal;

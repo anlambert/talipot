@@ -118,14 +118,18 @@ public:
    **/
   class NodeValueProxy {
   protected:
-    AbstractProperty *_prop;
+    const AbstractProperty *_prop;
     node _n;
 
   public:
-    constexpr NodeValueProxy(AbstractProperty *prop, node n) : _prop(prop), _n(n) {}
+    constexpr NodeValueProxy(const AbstractProperty *prop, node n) : _prop(prop), _n(n) {}
 
     constexpr TYPE_CONST_REFERENCE(NodeType) getValue() const {
       return _prop->getNodeValue(_n);
+    }
+
+    constexpr AbstractProperty *getProperty() {
+      return const_cast<AbstractProperty *>(_prop);
     }
 
     /**
@@ -133,7 +137,7 @@ public:
      * which allow to write: prop[n] = val
      **/
     NodeValueProxy &operator=(TYPE_CONST_REFERENCE(NodeType) val) {
-      _prop->setNodeValue(_n, val);
+      getProperty()->setNodeValue(_n, val);
       return *this;
     }
 
@@ -142,12 +146,32 @@ public:
      * which allow to write: prop1[n] = prop2[m]
      **/
     NodeValueProxy &operator=(const NodeValueProxy &ref) {
-      _prop->setNodeValue(_n, ref.getValue());
+      getProperty()->setNodeValue(_n, ref.getValue());
       return *this;
+    }
+
+    constexpr bool operator==(TYPE_CONST_REFERENCE(NodeType) val) const {
+      return getValue() == val;
     }
 
     constexpr bool operator==(const NodeValueProxy &ref) const {
       return getValue() == ref.getValue();
+    }
+
+    constexpr bool operator>(TYPE_CONST_REFERENCE(NodeType) val) const {
+      return getValue() > val;
+    }
+
+    constexpr bool operator>(const NodeValueProxy &ref) const {
+      return getValue() > ref.getValue();
+    }
+
+    constexpr bool operator<(TYPE_CONST_REFERENCE(NodeType) val) const {
+      return getValue() < val;
+    }
+
+    constexpr bool operator<(const NodeValueProxy &ref) const {
+      return getValue() < ref.getValue();
     }
 
     /**
@@ -169,7 +193,7 @@ public:
   /**
    * @brief overloading of operator[] to set a node value
    **/
-  constexpr NodeValueProxy operator[](node n) {
+  constexpr NodeValueProxy operator[](node n) const {
     return NodeValueProxy(this, n);
   }
 
@@ -187,14 +211,18 @@ public:
   class EdgeValueProxy {
 
   protected:
-    AbstractProperty *_prop;
+    const AbstractProperty *_prop;
     edge _e;
 
   public:
-    constexpr EdgeValueProxy(AbstractProperty *prop, edge e) : _prop(prop), _e(e) {}
+    constexpr EdgeValueProxy(const AbstractProperty *prop, edge e) : _prop(prop), _e(e) {}
 
     constexpr TYPE_CONST_REFERENCE(EdgeType) getValue() const {
       return _prop->getEdgeValue(_e);
+    }
+
+    constexpr AbstractProperty *getProperty() {
+      return const_cast<AbstractProperty *>(_prop);
     }
 
     /**
@@ -202,7 +230,7 @@ public:
      * which allow to write: prop[n] = val
      **/
     EdgeValueProxy &operator=(TYPE_CONST_REFERENCE(EdgeType) val) {
-      _prop->setEdgeValue(_e, val);
+      getProperty()->setEdgeValue(_e, val);
       return *this;
     }
 
@@ -211,12 +239,32 @@ public:
      * which allow to write: prop1[e1] = prop2[e2]
      **/
     EdgeValueProxy &operator=(const EdgeValueProxy &ref) {
-      _prop->setEdgeValue(_e, ref.getValue());
+      getProperty()->setEdgeValue(_e, ref.getValue());
       return *this;
+    }
+
+    constexpr bool operator==(TYPE_CONST_REFERENCE(EdgeType) val) const {
+      return getValue() == val;
     }
 
     constexpr bool operator==(const EdgeValueProxy &ref) const {
       return getValue() == ref.getValue();
+    }
+
+    constexpr bool operator>(TYPE_CONST_REFERENCE(EdgeType) val) const {
+      return getValue() > val;
+    }
+
+    constexpr bool operator>(const EdgeValueProxy &ref) const {
+      return getValue() > ref.getValue();
+    }
+
+    constexpr bool operator<(TYPE_CONST_REFERENCE(EdgeType) val) const {
+      return getValue() < val;
+    }
+
+    constexpr bool operator<(const EdgeValueProxy &ref) const {
+      return getValue() < ref.getValue();
     }
 
     /**
@@ -238,7 +286,7 @@ public:
   /**
    * @brief overloading of operator[] to set an edge value
    **/
-  constexpr EdgeValueProxy operator[](edge e) {
+  constexpr EdgeValueProxy operator[](edge e) const {
     return EdgeValueProxy(this, e);
   }
 
@@ -423,6 +471,74 @@ protected:
 template <typename VecType, typename EltType, typename PropType = VectorPropertyInterface>
 class AbstractVectorProperty : public AbstractProperty<VecType, VecType, PropType> {
 public:
+  class NodeValueProxy : AbstractProperty<VecType, VecType, PropType>::NodeValueProxy {
+  public:
+    constexpr NodeValueProxy(const AbstractProperty<VecType, VecType, PropType> *prop, node n)
+        : AbstractProperty<VecType, VecType, PropType>::NodeValueProxy(prop, n) {}
+
+    NodeValueProxy &operator=(TYPE_CONST_REFERENCE(VecType) val) {
+      this->getProperty()->setNodeValue(this->_n, val);
+      return *this;
+    }
+
+    /**
+     * @brief overloading of value type conversion operator
+     * which allow to write: if (prop[n])
+     **/
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ >= 13
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdangling-reference"
+#endif
+    constexpr operator TYPE_CONST_REFERENCE(VecType)() const {
+      return this->getValue();
+    }
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ >= 13
+#pragma GCC diagnostic pop
+#endif
+
+    REAL_TYPE(EltType) operator[](int i) const {
+      return this->getValue()[i];
+    }
+  };
+
+  // overload operator[] to set an edge value
+  constexpr NodeValueProxy operator[](node n) const {
+    return NodeValueProxy(this, n);
+  }
+
+  // inner class used to extend the overloading of the operator[]
+  // to set an edge value
+  class EdgeValueProxy : public AbstractProperty<VecType, VecType, PropType>::EdgeValueProxy {
+  public:
+    constexpr EdgeValueProxy(const AbstractProperty<VecType, VecType, PropType> *prop, edge e)
+        : AbstractProperty<VecType, VecType, PropType>::EdgeValueProxy(prop, e) {}
+
+    EdgeValueProxy &operator=(TYPE_CONST_REFERENCE(VecType) val) {
+      this->getProperty()->setEdgeValue(this->_e, val);
+      return *this;
+    }
+
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ >= 13
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdangling-reference"
+#endif
+    constexpr operator TYPE_CONST_REFERENCE(VecType)() const {
+      return this->getValue();
+    }
+#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ >= 13
+#pragma GCC diagnostic pop
+#endif
+
+    REAL_TYPE(EltType) operator[](int i) const {
+      return this->getValue()[i];
+    }
+  };
+
+  // overload operator[] to set an edge value
+  constexpr EdgeValueProxy operator[](edge e) const {
+    return EdgeValueProxy(this, e);
+  }
+
   AbstractVectorProperty(Graph *, const std::string &name = "");
 
   // 5 methods inherited from VectorPropertyInterface

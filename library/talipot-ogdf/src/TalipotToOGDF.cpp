@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -46,11 +46,11 @@ TalipotToOGDF::TalipotToOGDF(Graph *g, bool importEdgeBends) : talipotGraph(g) {
   for (auto nTlp : talipotGraph->nodes()) {
     ogdf::node nOGDF = ogdfGraph.newNode();
     ogdfNodes[nTlp] = nOGDF;
-    const Coord &c = layoutProp->getNodeValue(nTlp);
+    const Coord &c = (*layoutProp)[nTlp];
     ogdfGraphAttributes.x(nOGDF) = c.getX();
     ogdfGraphAttributes.y(nOGDF) = c.getY();
     ogdfGraphAttributes.z(nOGDF) = c.getZ();
-    const Size &s = sizeProp->getNodeValue(nTlp);
+    const Size &s = (*sizeProp)[nTlp];
     ogdfGraphAttributes.width(nOGDF) = s.getW();
     ogdfGraphAttributes.height(nOGDF) = s.getH();
   }
@@ -115,7 +115,7 @@ void TalipotToOGDF::copyTlpNodeSizeToOGDF(SizeProperty *size) {
   }
 
   for (auto nTlp : talipotGraph->nodes()) {
-    const Size &s = size->getNodeValue(nTlp);
+    const Size &s = (*size)[nTlp];
     ogdf::node nOGDF = ogdfNodes[nTlp];
     ogdfGraphAttributes.width(nOGDF) = s.getW();
     ogdfGraphAttributes.height(nOGDF) = s.getH();
@@ -124,9 +124,9 @@ void TalipotToOGDF::copyTlpNodeSizeToOGDF(SizeProperty *size) {
   for (auto eTlp : talipotGraph->edges()) {
     const auto &[srcTlp, tgtTlp] = talipotGraph->ends(eTlp);
     ogdf::node srcOGDF = ogdfNodes[srcTlp];
-    const Size &sSrc = size->getNodeValue(srcTlp);
+    const Size &sSrc = (*size)[srcTlp];
     ogdf::node tgtOGDF = ogdfNodes[tgtTlp];
-    const Size &sTgt = size->getNodeValue(tgtTlp);
+    const Size &sTgt = (*size)[tgtTlp];
 
     ogdf::edge eOGDF = ogdfEdges[eTlp];
     ogdfGraphAttributes.doubleWeight(eOGDF) =

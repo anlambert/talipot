@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -130,7 +130,7 @@ void StrengthClustering::computeNodePartition(double threshold,
   flat_hash_map<double, int> resultIndex;
 
   for (auto n : tmpGraph->nodes()) {
-    double val = connected.getNodeValue(n);
+    double val = connected[n];
 
     if (resultIndex.contains(val)) {
       result[resultIndex[val]].insert(n);

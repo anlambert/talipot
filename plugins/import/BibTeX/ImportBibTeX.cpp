@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -256,7 +256,7 @@ public:
 
               if (itAuth != authorsMap.end()) {
                 authorNodes.push_back(author = itAuth->second);
-                (*countProp)[author] = countProp->getNodeValue(author) + 1;
+                (*countProp)[author] = (*countProp)[author] + 1;
               } else {
                 authorNodes.push_back(author = graph->addNode());
                 authorsMap[aKey] = author;

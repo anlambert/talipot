@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -556,7 +556,7 @@ void NodeLinkDiagramView::addRemoveItemToSelection(bool pushGraph, bool toggleSe
   // selection add/remove graph item
   if (isNode) {
     (*elementSelected)[node(itemId)] =
-        toggleSelection ? !elementSelected->getNodeValue(node(itemId)) : selectValue;
+        toggleSelection ? !(*elementSelected)[node(itemId)] : selectValue;
   } else {
     (*elementSelected)[edge(itemId)] =
         toggleSelection ? !elementSelected->getEdgeValue(edge(itemId)) : selectValue;
@@ -579,8 +579,7 @@ void NodeLinkDiagramView::addRemoveInNodesToSelection(bool pushGraph, bool toggl
   MutableContainer<bool> inNodes;
   for (auto neigh : graph()->getInNodes(node(itemId))) {
     if (!inNodes.get(neigh.id)) {
-      (*elementSelected)[neigh] =
-          toggleSelection ? !elementSelected->getNodeValue(neigh) : selectValue;
+      (*elementSelected)[neigh] = toggleSelection ? !(*elementSelected)[neigh] : selectValue;
       inNodes.set(neigh.id, true);
     }
   }
@@ -602,8 +601,7 @@ void NodeLinkDiagramView::addRemoveOutNodesToSelection(bool pushGraph, bool togg
   MutableContainer<bool> outNodes;
   for (auto neigh : graph()->getOutNodes(node(itemId))) {
     if (!outNodes.get(neigh.id)) {
-      (*elementSelected)[neigh] =
-          toggleSelection ? !elementSelected->getNodeValue(neigh) : selectValue;
+      (*elementSelected)[neigh] = toggleSelection ? !(*elementSelected)[neigh] : selectValue;
       outNodes.set(neigh.id, true);
     }
   }
@@ -671,10 +669,10 @@ void NodeLinkDiagramView::addRemoveExtremitiesToSelection(bool pushGraph, bool t
 
   node src = graph()->source(edge(itemId));
   node tgt = graph()->target(edge(itemId));
-  (*elementSelected)[src] = toggleSelection ? !elementSelected->getNodeValue(src) : selectValue;
+  (*elementSelected)[src] = toggleSelection ? !(*elementSelected)[src] : selectValue;
 
   if (src != tgt) {
-    (*elementSelected)[tgt] = toggleSelection ? !elementSelected->getNodeValue(tgt) : selectValue;
+    (*elementSelected)[tgt] = toggleSelection ? !(*elementSelected)[tgt] : selectValue;
   }
 }
 
@@ -831,8 +829,8 @@ void NodeLinkDiagramView::editSize() {
 
 const Camera &NodeLinkDiagramView::goInsideItem(node meta) {
   Graph *metaGraph = graph()->getNodeMetaInfo(meta);
-  Size size = glWidget()->inputData()->sizes()->getNodeValue(meta);
-  Coord coord = glWidget()->inputData()->layout()->getNodeValue(meta);
+  Size size = (*glWidget()->inputData()->sizes())[meta];
+  Coord coord = (*glWidget()->inputData()->layout())[meta];
   BoundingBox bb;
   bb.expand(coord - size / 2.f);
   bb.expand(coord + size / 2.f);

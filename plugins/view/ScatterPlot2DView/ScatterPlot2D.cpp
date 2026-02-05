@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -345,7 +345,7 @@ void ScatterPlot2D::computeScatterPlotLayout(GlWidget *glWidget, LayoutProperty 
       Coord yValueAxisCoord = yAxis->getAxisPointCoordForValue(yValue);
       nodeCoord = Coord(xValueAxisCoord.getX(), yValueAxisCoord.getY(), 0.0f);
     } else {
-      Coord nodeCoordReverse = reverseLayout->getNodeValue(n);
+      Coord nodeCoordReverse = (*reverseLayout)[n];
       nodeCoord = Coord(nodeCoordReverse.getY(), nodeCoordReverse.getX(), 0.0f);
     }
 

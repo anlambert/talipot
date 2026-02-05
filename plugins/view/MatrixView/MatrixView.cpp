@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -194,11 +194,11 @@ void MatrixView::fillContextMenu(QMenu *menu, const QPointF &point) {
     QString sId = QString::number(itemId);
 
     if (isNode) {
-      if (!_displayedNodesAreNodes->getNodeValue(node(itemId))) {
+      if (!(*_displayedNodesAreNodes)[node(itemId)]) {
         isNode = false;
       }
 
-      itemId = _displayedNodesToGraphEntities->getNodeValue(node(itemId));
+      itemId = (*_displayedNodesToGraphEntities)[node(itemId)];
     } else {
       itemId = _displayedEdgesToGraphEdges->getEdgeValue(edge(itemId));
     }
@@ -337,19 +337,18 @@ void MatrixView::normalizeSizes(double maxVal) {
   SizeProperty *matrixSizes = glWidget()->inputData()->sizes();
 
   for (auto n : graph()->nodes()) {
-    const Size &s = originalSizes->getNodeValue(n);
+    const Size &s = (*originalSizes)[n];
     maxWidth = max<float>(maxWidth, s[0]);
     maxHeight = max<float>(maxHeight, s[1]);
   }
 
   Observable::holdObservers();
   for (auto n : _matrixGraph->nodes()) {
-    if (!_displayedNodesAreNodes->getNodeValue(n)) {
+    if (!(*_displayedNodesAreNodes)[n]) {
       continue;
     }
 
-    const Size &s =
-        originalSizes->getNodeValue(node(_displayedNodesToGraphEntities->getNodeValue(n)));
+    const Size &s = (*originalSizes)[node((*_displayedNodesToGraphEntities)[n])];
     (*matrixSizes)[n] = Size(s[0] * maxVal / maxWidth, s[1] * maxVal / maxHeight, 1);
   }
   Observable::unholdObservers();
@@ -390,9 +389,9 @@ void MatrixView::addEdge(tlp::Graph *g, const tlp::edge e) {
 
   const auto &[src, tgt] = g->ends(e);
 
-  node dispSrc = node(_graphEntitiesToDisplayedNodes->getNodeValue(src)[0]);
+  node dispSrc = node((*_graphEntitiesToDisplayedNodes)[src][0]);
 
-  node dispTgt = node(_graphEntitiesToDisplayedNodes->getNodeValue(tgt)[0]);
+  node dispTgt = node((*_graphEntitiesToDisplayedNodes)[tgt][0]);
 
   edge dispEdge = _matrixGraph->addEdge(dispSrc, dispTgt);
 
@@ -428,7 +427,7 @@ void MatrixView::delNode(tlp::Graph *, const tlp::node n) {
   _mustUpdateLayout = true;
   _mustUpdateSizes = true;
 
-  const vector<int> &vect = _graphEntitiesToDisplayedNodes->getNodeValue(n);
+  const vector<int> &vect = (*_graphEntitiesToDisplayedNodes)[n];
 
   for (auto id : vect) {
     _matrixGraph->delNode(node(id));
@@ -454,7 +453,7 @@ struct AscendingPropertySorter {
   PROPTYPE *prop;
   AscendingPropertySorter(PropertyInterface *_prop) : prop(static_cast<PROPTYPE *>(_prop)) {}
   bool operator()(node a, node b) {
-    return prop->getNodeValue(a) < prop->getNodeValue(b);
+    return (*prop)[a] < (*prop)[b];
   }
 };
 
@@ -463,7 +462,7 @@ struct DescendingPropertySorter {
   PROPTYPE *prop;
   DescendingPropertySorter(PropertyInterface *_prop) : prop(static_cast<PROPTYPE *>(_prop)) {}
   bool operator()(node a, node b) {
-    return prop->getNodeValue(a) > prop->getNodeValue(b);
+    return (*prop)[a] > (*prop)[b];
   }
 };
 
@@ -528,7 +527,7 @@ void MatrixView::updateLayout() {
   IntegerProperty *position = glWidget()->inputData()->labelPositions();
 
   for (auto on : _orderedNodes) {
-    const vector<int> &dispNodes = _graphEntitiesToDisplayedNodes->getNodeValue(node(on));
+    const vector<int> &dispNodes = (*_graphEntitiesToDisplayedNodes)[node(on)];
     layout->setNodeValue(node(dispNodes[0]), horiz);
     position->setNodeValue(node(dispNodes[0]), LabelPosition::Top);
     layout->setNodeValue(node(dispNodes[1]), vert);
@@ -541,15 +540,13 @@ void MatrixView::updateLayout() {
   int shape = GlyphManager::glyphId("2D - Square");
   for (auto e : graph()->edges()) {
     const auto &[src, tgt] = graph()->ends(e);
-    const vector<int> &srcNodes = _graphEntitiesToDisplayedNodes->getNodeValue(src),
-                      &tgtNodes = _graphEntitiesToDisplayedNodes->getNodeValue(tgt),
+    const vector<int> &srcNodes = (*_graphEntitiesToDisplayedNodes)[src],
+                      &tgtNodes = (*_graphEntitiesToDisplayedNodes)[tgt],
                       &edgeNodes = _graphEntitiesToDisplayedNodes->getEdgeValue(e);
 
     // 0 => horizontal line, 1 => vertical line
-    Coord src0 = layout->getNodeValue(node(srcNodes[0])),
-          tgt0 = layout->getNodeValue(node(tgtNodes[0])),
-          src1 = layout->getNodeValue(node(srcNodes[1])),
-          tgt1 = layout->getNodeValue(node(tgtNodes[1]));
+    Coord src0 = (*layout)[node(srcNodes[0])], tgt0 = (*layout)[node(tgtNodes[0])],
+          src1 = (*layout)[node(srcNodes[1])], tgt1 = (*layout)[node(tgtNodes[1])];
 
     layout->setNodeValue(node(edgeNodes[0]), Coord(tgt0[0], src1[1], 0));
     shapes->setNodeValue(node(edgeNodes[0]), shape);
@@ -563,8 +560,8 @@ void MatrixView::updateLayout() {
   for (auto e : _matrixGraph->edges()) {
     const auto &[src, tgt] = _matrixGraph->ends(e);
 
-    auto srcPos = layout->getNodeValue(src);
-    auto tgtPos = layout->getNodeValue(tgt);
+    auto srcPos = (*layout)[src];
+    auto tgtPos = (*layout)[tgt];
     float xMax = max(srcPos[0], tgtPos[0]);
     float xMin = min(srcPos[0], tgtPos[0]);
     float dist = (xMax - xMin);

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -69,15 +69,14 @@ BoundingBox Diamond::getIncludeBoundingBox(node) {
 }
 
 void Diamond::draw(node n, float lod) {
-  string textureName = glGraphInputData->textures()->getNodeValue(n);
+  string textureName = (*glGraphInputData->textures())[n];
 
   if (!textureName.empty()) {
     textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
   }
 
-  drawDiamond(glGraphInputData->colors()->getNodeValue(n),
-              glGraphInputData->borderColors()->getNodeValue(n),
-              glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod, true);
+  drawDiamond((*glGraphInputData->colors())[n], (*glGraphInputData->borderColors())[n],
+              (*glGraphInputData->borderWidths())[n], textureName, lod, true);
 }
 Coord Diamond::getAnchor(const Coord &v) const {
   float x = v.x(), y = v.y();

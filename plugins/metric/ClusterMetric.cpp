@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,8 +31,8 @@ ClusterMetric::ClusterMetric(const tlp::PluginContext *context) : DoubleAlgorith
 static double clusterGetEdgeValue(Graph *graph, tlp::NodeVectorProperty<double> &clusters,
                                   const edge e) {
   const auto &[src, tgt] = graph->ends(e);
-  const double v1 = clusters.getNodeValue(src);
-  const double v2 = clusters.getNodeValue(tgt);
+  const double v1 = clusters[src];
+  const double v2 = clusters[tgt];
 
   double sum = v1 * v1 + v2 * v2;
 

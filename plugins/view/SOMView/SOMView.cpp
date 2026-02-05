@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -399,8 +399,8 @@ void SOMView::setColorToMap(tlp::ColorProperty *newColor) {
     cp = new ColorProperty(som);
     deleteAfter = true;
     for (auto n : som->nodes()) {
-      if (mask->getNodeValue(n)) {
-        (*cp)[n] = newColor->getNodeValue(n);
+      if ((*mask)[n]) {
+        (*cp)[n] = (*newColor)[n];
       } else {
         (*cp)[n] = Color(200, 200, 200);
       }
@@ -699,7 +699,7 @@ void SOMView::computeMapping() {
         nodeSize.set((1 - spacingCoef) * maxElementWidth, (1 - spacingCoef) * maxElementHeight, 0);
       } else if (mt == SOMPropertiesWidget::RealNodeSizeMapping) {
         // Compute size mapping coef
-        Size realSize = realGraphSizeProperty->getNodeValue(n);
+        Size realSize = (*realGraphSizeProperty)[n];
         nodeSize.set(
             minElementWidth + ((realSize.getW() - graphMinSize.getW()) / (graphDiffSize.getW())) *
                                   (maxElementWidth - minElementWidth),
@@ -876,8 +876,8 @@ void SOMView::updateNodeColorMapping(tlp::ColorProperty *cp) {
         somColorProperty = new ColorProperty(som);
         deleteAfter = true;
         for (auto n : som->nodes()) {
-          if (mask->getNodeValue(n)) {
-            (*somColorProperty)[n] = origColor->getNodeValue(n);
+          if ((*mask)[n]) {
+            (*somColorProperty)[n] = (*origColor)[n];
           } else {
             (*somColorProperty)[n] = Color(200, 200, 200);
           }
@@ -895,7 +895,7 @@ void SOMView::updateNodeColorMapping(tlp::ColorProperty *cp) {
     graph()->push();
 
     for (const auto &it : mappingTab) {
-      Color currentNodeColor = somColorProperty->getNodeValue(it.first);
+      Color currentNodeColor = (*somColorProperty)[it.first];
 
       for (auto n : it.second) {
         // Update real color
@@ -935,8 +935,8 @@ void SOMView::refreshPreviews() {
 
     if (mask) {
       for (auto n : som->nodes()) {
-        if (mask->getNodeValue(n)) {
-          (*maskedColor)[n] = color->getNodeValue(n);
+        if ((*mask)[n]) {
+          (*maskedColor)[n] = (*color)[n];
         } else {
           (*maskedColor)[n] = Color(200, 200, 200);
         }
@@ -1004,7 +1004,7 @@ void SOMView::invertMask() {
   if (mask) {
     set<node> somNodes;
     for (auto n : som->nodes()) {
-      if (!mask->getNodeValue(n)) {
+      if (!(*mask)[n]) {
         somNodes.insert(n);
       }
     }

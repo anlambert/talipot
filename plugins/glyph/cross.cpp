@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -98,15 +98,14 @@ BoundingBox Cross::getIncludeBoundingBox(node) {
   return {{-0.5, -0.5, 0}, {0.5, 0.5, 0}};
 }
 void Cross::draw(node n, float lod) {
-  string textureName = glGraphInputData->textures()->getNodeValue(n);
+  string textureName = (*glGraphInputData->textures())[n];
 
   if (!textureName.empty()) {
     textureName = glGraphInputData->renderingParameters()->getTexturePath() + textureName;
   }
 
-  drawCross(glGraphInputData->colors()->getNodeValue(n),
-            glGraphInputData->borderColors()->getNodeValue(n),
-            glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod);
+  drawCross((*glGraphInputData->colors())[n], (*glGraphInputData->borderColors())[n],
+            (*glGraphInputData->borderWidths())[n], textureName, lod);
 }
 Coord Cross::getAnchor(const Coord &v) const {
   float x = v.x(), y = v.y();

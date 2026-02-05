@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -418,7 +418,7 @@ void ScatterPlot2DView::computeNodeSizes() {
   }
 
   for (auto n : scatterPlotGraph->nodes()) {
-    const Size &nodeSize = viewSize->getNodeValue(n);
+    const Size &nodeSize = (*viewSize)[n];
     Size adjustedNodeSize = pointMinSize + resizeFactor * (nodeSize - Size(1.0f));
     (*scatterPlotSize)[n] = adjustedNodeSize;
   }
@@ -1071,7 +1071,7 @@ void ScatterPlot2DView::afterSetNodeValue(PropertyInterface *p, const node n) {
     auto *edgeAsNodeGraphSelection = static_cast<BooleanProperty *>(p);
     BooleanProperty *viewSelection = scatterPlotGraph->getBooleanProperty("viewSelection");
     viewSelection->removeListener(this);
-    (*viewSelection)[nodeToEdge[n]] = edgeAsNodeGraphSelection->getNodeValue(n);
+    (*viewSelection)[nodeToEdge[n]] = (*edgeAsNodeGraphSelection)[n];
     viewSelection->addListener(this);
     return;
   }
@@ -1096,7 +1096,7 @@ void ScatterPlot2DView::afterSetEdgeValue(PropertyInterface *p, const edge e) {
     auto *viewSelection = static_cast<BooleanProperty *>(p);
     edgeAsNodeGraphSelection->removeListener(this);
 
-    if (edgeAsNodeGraphSelection->getNodeValue(edgeToNode[e]) != viewSelection->getEdgeValue(e)) {
+    if ((*edgeAsNodeGraphSelection)[edgeToNode[e]] != viewSelection->getEdgeValue(e)) {
       (*edgeAsNodeGraphSelection)[edgeToNode[e]] = viewSelection->getEdgeValue(e);
     }
 
@@ -1109,8 +1109,7 @@ void ScatterPlot2DView::afterSetAllNodeValue(PropertyInterface *p) {
     if (p->getGraph() == edgeAsNodeGraph) {
       auto *edgeAsNodeGraphSelection = static_cast<BooleanProperty *>(p);
       BooleanProperty *viewSelection = scatterPlotGraph->getBooleanProperty("viewSelection");
-      viewSelection->setAllEdgeValue(
-          edgeAsNodeGraphSelection->getNodeValue(edgeAsNodeGraph->getOneNode()));
+      viewSelection->setAllEdgeValue((*edgeAsNodeGraphSelection)[edgeAsNodeGraph->getOneNode()]);
     }
   }
 }
@@ -1130,7 +1129,7 @@ void ScatterPlot2DView::afterSetAllEdgeValue(PropertyInterface *p) {
         edgeAsNodeGraph->getBooleanProperty("viewSelection");
     auto *viewSelection = static_cast<BooleanProperty *>(p);
     for (auto e : scatterPlotGraph->edges()) {
-      if (edgeAsNodeGraphSelection->getNodeValue(edgeToNode[e]) != viewSelection->getEdgeValue(e)) {
+      if ((*edgeAsNodeGraphSelection)[edgeToNode[e]] != viewSelection->getEdgeValue(e)) {
         (*edgeAsNodeGraphSelection)[edgeToNode[e]] = viewSelection->getEdgeValue(e);
       }
     }
