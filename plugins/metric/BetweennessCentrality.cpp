@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -151,7 +151,7 @@ public:
         }
 
         if (w != s) {
-          (*result)[w] = result->getNodeValue(w) + wD;
+          (*result)[w] = (*result)[w] + wD;
         }
       }
     }
@@ -169,11 +169,11 @@ public:
 
         // In the undirected case, the metric must be divided by two, then
         if (norm) {
-          (*result)[s] = result->getNodeValue(s) * nNormFactor;
+          (*result)[s] = (*result)[s] * nNormFactor;
         }
 
         if (!directed) {
-          (*result)[s] = result->getNodeValue(s) * 0.5;
+          (*result)[s] = (*result)[s] * 0.5;
         }
       }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -374,7 +374,7 @@ void SearchWidget::search() {
   } else if (_ui->selectionModeCombo->currentIndex() == 2) { // remove from current selection
     if (onNodes) {
       for (auto n : output->getNodesEqualTo(true)) {
-        if (result->getNodeValue(n)) {
+        if ((*result)[n]) {
           (*output)[n] = false;
           resultsCountNodes++;
         }

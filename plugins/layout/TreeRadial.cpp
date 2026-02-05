@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -39,7 +39,7 @@ public:
   /* the original code using dfs recursive calls
      is easier to understand but may result in stack overflow
   void dfsComputeNodeRadii(node n, unsigned depth, SizeProperty *sizes) {
-    float radius = sizes->getNodeValue(n).getW()/2;
+    float radius = (*sizes)[n][0]/2;
     if (bfs.size() == depth) {
       bfs.push_back(vector<node>());
       nRadii.push_back(radius);
@@ -68,7 +68,7 @@ public:
     MutableContainer<bool> visited;
     visited.setAll(false);
     stack<dfsNodeRadiiStruct> dfsLevels;
-    dfsNodeRadiiStruct dfsParams(n, sizes->getNodeValue(n).getW() / 2, 0, tree->getOutNodes(n));
+    dfsNodeRadiiStruct dfsParams(n, (*sizes)[n][0] / 2, 0, tree->getOutNodes(n));
     dfsLevels.push(dfsParams);
 
     while (!dfsLevels.empty()) {
@@ -94,7 +94,7 @@ public:
         // go deeper in the dfs loop
         n = it->next();
         dfsParams.current = n;
-        dfsParams.radius = sizes->getNodeValue(n).getW() / 2;
+        dfsParams.radius = (*sizes)[n][0] / 2;
         dfsParams.depth = depth + 1;
         dfsParams.neighbours = tree->getOutNodes(n);
         dfsLevels.push(dfsParams);
@@ -151,7 +151,7 @@ public:
     }
     if (depth > 0) {
       // compute the node angular spread
-      double nAngle = 2 * atan(sizes->getNodeValue(n).getW()/(2. * lRadii[depth]));
+      double nAngle = 2 * atan((*sizes)[n][0]/(2. * lRadii[depth]));
       // check if it is not greater than the sum
       if (nAngle > cAngle)
         cAngle = nAngle;
@@ -202,7 +202,7 @@ public:
 
         if (depth > 0) {
           // compute the node angular spread
-          double nAngle = 2 * atan(sizes->getNodeValue(n).getW() / (2. * lRadii[depth]));
+          double nAngle = 2 * atan((*sizes)[n][0] / (2. * lRadii[depth]));
 
           // check if it is not greater than the sum
           if (nAngle > cAngle) {
@@ -240,10 +240,10 @@ public:
             0));
     } else
       (*result)[n] = Coord(0, 0, 0);
-    const double& nSpread = angles->getNodeValue(n);
+    const double& nSpread = (*angles)[n];
     checkAngle = false;
     for(const node &on : tree->getOutNodes(n)) {
-      endAngle = startAngle + (sAngle * (angles->getNodeValue(on)/nSpread));
+      endAngle = startAngle + (sAngle * ((*angles)[on]/nSpread));
       doLayout(on, depth + 1, startAngle, endAngle, angles, checkAngle);
       checkAngle = true;
       startAngle = endAngle;
@@ -358,9 +358,9 @@ public:
 
     auto *circleSizes = new SizeProperty(graph);
     for (auto n : tree->nodes()) {
-      const Size &boundingBox = sizes->getNodeValue(n);
-      double diam = 2. * sqrt(boundingBox.getW() * boundingBox.getW() / 4.0 +
-                              boundingBox.getH() * boundingBox.getH() / 4.0);
+      const Size &boundingBox = (*sizes)[n];
+      double diam =
+          2. * sqrt(boundingBox[0] * boundingBox[0] / 4.0 + boundingBox[1] * boundingBox[1] / 4.0);
       (*circleSizes)[n] = Size(float(diam), float(diam), 1.0f);
     }
     sizes = circleSizes;

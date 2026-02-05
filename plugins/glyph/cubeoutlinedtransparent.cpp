@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -45,8 +45,8 @@ CubeOutLinedTransparent::CubeOutLinedTransparent(const tlp::PluginContext *conte
 CubeOutLinedTransparent::~CubeOutLinedTransparent() = default;
 
 void CubeOutLinedTransparent::draw(node n, float lod) {
-  GlBox::draw(Color(0, 0, 0, 0), glGraphInputData->borderColors()->getNodeValue(n),
-              glGraphInputData->borderWidths()->getNodeValue(n), "", lod);
+  GlBox::draw(Color(0, 0, 0, 0), (*glGraphInputData->borderColors())[n],
+              (*glGraphInputData->borderWidths())[n], "", lod);
 }
 
 Coord CubeOutLinedTransparent::getAnchor(const Coord &vector) const {

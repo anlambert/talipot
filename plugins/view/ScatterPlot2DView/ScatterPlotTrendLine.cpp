@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -34,7 +34,7 @@ void computeLinearRegressionFunction(Graph *graph, DoubleProperty *xk, DoublePro
   // We compute the sum of xk, yk, xk² and xkyk for the whole set of nodes
 
   for (auto n : graph->nodes()) {
-    float nodeValx = xk->getNodeValue(n), nodeValy = yk->getNodeValue(n);
+    float nodeValx = (*xk)[n], nodeValy = (*yk)[n];
     sxk += nodeValx;
     sxkxk += (nodeValx * nodeValx);
     syk += nodeValy;
@@ -129,7 +129,7 @@ bool ScatterPlotTrendLine::compute(GlWidget *) {
     IntegerProperty *xDimInt = graph->getIntegerProperty(xDimName);
     xDim = new DoubleProperty(graph);
     for (auto n : graph->nodes()) {
-      (*xDim)[n] = double(xDimInt->getNodeValue(n));
+      (*xDim)[n] = double((*xDimInt)[n]);
     }
   }
 
@@ -139,7 +139,7 @@ bool ScatterPlotTrendLine::compute(GlWidget *) {
     IntegerProperty *yDimInt = graph->getIntegerProperty(yDimName);
     yDim = new DoubleProperty(graph);
     for (auto n : graph->nodes()) {
-      (*yDim)[n] = double(yDimInt->getNodeValue(n));
+      (*yDim)[n] = double((*yDimInt)[n]);
     }
   }
 

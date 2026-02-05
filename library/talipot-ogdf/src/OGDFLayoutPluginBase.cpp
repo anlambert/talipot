@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -123,7 +123,7 @@ void OGDFLayoutPluginBase::transposeLayoutVertically() {
   float midY = (graphBB[0][1] + graphBB[1][1]) / 2.f;
 
   for (auto n : graph->nodes()) {
-    Coord nodeCoord = result->getNodeValue(n);
+    Coord nodeCoord = (*result)[n];
     nodeCoord[1] = midY - (nodeCoord[1] - midY);
     (*result)[n] = nodeCoord;
   }

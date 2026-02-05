@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -35,7 +35,7 @@ public:
     DoubleProperty *metric = sg->getDoubleProperty("viewMetric");
 
     for (auto itn : sg->nodes()) {
-      double value = metric->getNodeValue(itn);
+      double value = (*metric)[itn];
 
       if (value > vMax) {
         vMax = value;
@@ -44,7 +44,7 @@ public:
     }
 
     if (viewMetricMaxNode.isValid()) {
-      (*label)[mN] = label->getNodeValue(viewMetricMaxNode);
+      (*label)[mN] = (*label)[viewMetricMaxNode];
     }
   }
 };

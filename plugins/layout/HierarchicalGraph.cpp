@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -47,7 +47,7 @@ public:
   DoubleProperty *metric;
   Graph *sg;
   bool operator()(edge e1, edge e2) const {
-    return (metric->getNodeValue(sg->source(e1)) < metric->getNodeValue(sg->source(e2)));
+    return (*metric)[sg->source(e1)] < (*metric)[sg->source(e2)];
   }
 };
 //================================================================================
@@ -73,10 +73,10 @@ inline uint HierarchicalGraph::degree(tlp::Graph *sg, tlp::node n, bool directed
 //================================================================================
 void HierarchicalGraph::twoLayerCrossReduction(tlp::Graph *sg, uint freeLayer) {
   for (auto n : grid[freeLayer]) {
-    double sum = embedding->getNodeValue(n);
+    double sum = (*embedding)[n];
     uint deg = 1;
     for (auto itn : sg->getInOutNodes(n)) {
-      sum += embedding->getNodeValue(itn);
+      sum += (*embedding)[itn];
       ++deg;
     }
     (*embedding)[n] = sum / deg;
@@ -210,11 +210,11 @@ void HierarchicalGraph::computeEdgeBends(const tlp::Graph *mySGraph, tlp::Layout
     Coord p1, p2;
 
     if (isReversed.get(toUpdate.id)) {
-      p1 = tmpLayout.getNodeValue(endN);
-      p2 = tmpLayout.getNodeValue(firstN);
+      p1 = tmpLayout[endN];
+      p2 = tmpLayout[firstN];
     } else {
-      p1 = tmpLayout.getNodeValue(firstN);
-      p2 = tmpLayout.getNodeValue(endN);
+      p1 = tmpLayout[firstN];
+      p2 = tmpLayout[endN];
     }
 
     LineType::RealType edgeLine;
@@ -245,13 +245,13 @@ void HierarchicalGraph::computeSelfLoops(tlp::Graph *mySGraph, tlp::LayoutProper
       tmpLCoord.push_back(c);
     }
 
-    tmpLCoord.push_back(tmpLayout.getNodeValue(tmp.n1));
+    tmpLCoord.push_back(tmpLayout[tmp.n1]);
 
     for (const auto &c : edge2) {
       tmpLCoord.push_back(c);
     }
 
-    tmpLCoord.push_back(tmpLayout.getNodeValue(tmp.n2));
+    tmpLCoord.push_back(tmpLayout[tmp.n2]);
 
     for (const auto &c : edge3) {
       tmpLCoord.push_back(c);
@@ -290,7 +290,7 @@ bool HierarchicalGraph::run() {
 
     tmpSize->copy(nodeSize);
     for (auto n : graph->nodes()) {
-      const Size &tmp = tmpSize->getNodeValue(n);
+      const Size &tmp = (*tmpSize)[n];
       (*tmpSize)[n] = Size(tmp[1], tmp[0], tmp[2]);
     }
     nodeSize = tmpSize;
@@ -371,7 +371,7 @@ bool HierarchicalGraph::run() {
   assert(resultBool);
 
   for (auto n : graph->nodes()) {
-    (*result)[n] = tmpLayout.getNodeValue(n);
+    (*result)[n] = tmpLayout[n];
   }
 
   computeEdgeBends(graph, tmpLayout, replacedEdges, reversedEdges);
@@ -396,7 +396,7 @@ bool HierarchicalGraph::run() {
 
       if (graph->isElement(n)) {
         nodeLevel.set(n.id, i);
-        const Size &tmp = nodeSize->getNodeValue(n);
+        const Size &tmp = (*nodeSize)[n];
         levelMax = levelMaxSize[i] = std::max(levelMax, tmp[1]);
       }
     }
@@ -412,8 +412,8 @@ bool HierarchicalGraph::run() {
 
     uint srcLevel = nodeLevel.get(src.id);
     uint tgtLevel = nodeLevel.get(tgt.id);
-    Coord srcPos = result->getNodeValue(src);
-    Coord tgtPos = result->getNodeValue(tgt);
+    Coord srcPos = (*result)[src];
+    Coord tgtPos = (*result)[tgt];
     float curSpacing;
 
     if (srcLevel > tgtLevel) {
@@ -449,8 +449,8 @@ bool HierarchicalGraph::run() {
 
   // post processing align nodes
   for (auto n : graph->nodes()) {
-    Coord tmp = result->getNodeValue(n);
-    const Size &tmpS = nodeSize->getNodeValue(n);
+    Coord tmp = (*result)[n];
+    const Size &tmpS = (*nodeSize)[n];
     tmp[1] -= (levelMaxSize[nodeLevel.get(n.id)] - tmpS[1]) / 2.f;
     (*result)[n] = tmp;
   }
@@ -460,7 +460,7 @@ bool HierarchicalGraph::run() {
     // delete the temporary allocated SizeProperty (see above)
     delete nodeSize;
     for (auto n : graph->nodes()) {
-      const Coord &tmpC = result->getNodeValue(n);
+      const Coord &tmpC = (*result)[n];
       (*result)[n] = Coord(-tmpC[1], tmpC[0], tmpC[2]);
     }
     for (auto e : graph->edges()) {

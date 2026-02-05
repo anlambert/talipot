@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -31,7 +31,7 @@ struct greaterRadius {
 double BubbleTree::computeRelativePosition(tlp::node n,
                                            NodeVectorProperty<Vec5d> &relativePosition) {
 
-  Size tmpSizeFather = nodeSize->getNodeValue(n);
+  Size tmpSizeFather = (*nodeSize)[n];
   tmpSizeFather[2] = 0.; // remove z-coordinates because the drawing is 2D
   double sizeFather = tmpSizeFather.norm() / 2.;
 
@@ -58,7 +58,7 @@ double BubbleTree::computeRelativePosition(tlp::node n,
   if (tree->outdeg(n) == 0) {
     rPos[2] = 0.;
     rPos[3] = 0.;
-    Size tmpSizeNode = nodeSize->getNodeValue(n);
+    Size tmpSizeNode = (*nodeSize)[n];
     tmpSizeNode[2] = 0.;
     return (rPos[4] = tmpSizeNode.norm() / 2.);
   }

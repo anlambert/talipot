@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -437,7 +437,7 @@ void TableView::toggleHighlightedRows() {
   for (const auto &idx : rows) {
     if (NODES_DISPLAYED) {
       node n(idx.data(Model::ElementIdRole).toUInt());
-      (*selection)[n] = !selection->getNodeValue(n);
+      (*selection)[n] = !(*selection)[n];
     } else {
       edge e(idx.data(Model::ElementIdRole).toUInt());
       (*selection)[e] = !selection->getEdgeValue(e);

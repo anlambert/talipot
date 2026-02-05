@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,8 +30,8 @@ public:
   }
 
   bool operator()(tlp::node n1, tlp::node n2) const {
-    REAL_TYPE(PROPERTYTYPE) v1 = nodeProperty->getNodeValue(n1);
-    REAL_TYPE(PROPERTYTYPE) v2 = nodeProperty->getNodeValue(n2);
+    REAL_TYPE(PROPERTYTYPE) v1 = (*nodeProperty)[n1];
+    REAL_TYPE(PROPERTYTYPE) v2 = (*nodeProperty)[n2];
     return v1 < v2;
   }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -66,19 +66,19 @@ void PropertyValuesDispatcher::afterSetNodeValue(tlp::PropertyInterface *sourceP
   if (sourceProp->getGraph()->getRoot() == _source->getRoot()) {
     PropertyInterface *targetProp = _target->getProperty(sourceProp->getName());
     std::string strVal = sourceProp->getNodeStringValue(n);
-    const vector<int> &vect = _graphEntitiesToDisplayedNodes->getNodeValue(n);
+    const vector<int> &vect = (*_graphEntitiesToDisplayedNodes)[n];
 
     for (auto id : vect) {
       targetProp->setNodeStringValue(node(id), strVal);
     }
   } else if (sourceProp->getGraph()->getRoot() == _target->getRoot()) {
     PropertyInterface *targetProp = _source->getProperty(sourceProp->getName());
-    uint id = _displayedNodesToGraphEntities->getNodeValue(n);
+    uint id = (*_displayedNodesToGraphEntities)[n];
 
-    if (_displayedNodesAreNodes->getNodeValue(n)) {
+    if ((*_displayedNodesAreNodes)[n]) {
       targetProp->setNodeStringValue(node(id), sourceProp->getNodeStringValue(n));
       // update the other node
-      const vector<int> &vect = _graphEntitiesToDisplayedNodes->getNodeValue(node(id));
+      const vector<int> &vect = (*_graphEntitiesToDisplayedNodes)[node(id)];
 
       for (auto oid : vect) {
         node n1(oid);

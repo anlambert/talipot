@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -132,7 +132,7 @@ bool Circular::run() {
   double maxRad = 0;
   node maxRadNode;
   for (auto n : graph->nodes()) {
-    double rad = computeRadius(nodeSize->getNodeValue(n));
+    double rad = computeRadius((*nodeSize)[n]);
     sumOfRad += rad;
 
     if (maxRad < rad) {
@@ -185,7 +185,7 @@ bool Circular::run() {
     for (auto n : cycleOrdering) {
       // compute the radius to ensure non overlap.  If adjustment to
       // ensure no angle greater than pi done, detect it.
-      double nodeRad = computeRadius(nodeSize->getNodeValue(n));
+      double nodeRad = computeRadius((*nodeSize)[n]);
       double halfAngle = (nodeRad / sumOfRad) * ((angleAdjust) ? M_PI / 2.0 : M_PI);
       double rayon = nodeRad / sin(halfAngle);
 

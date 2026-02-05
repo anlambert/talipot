@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -63,11 +63,9 @@ Square::Square(const tlp::PluginContext *context) : Glyph(context) {}
 Square::~Square() = default;
 
 void Square::draw(node n, float lod) {
-  drawGlyph(glGraphInputData->colors()->getNodeValue(n),
-            glGraphInputData->textures()->getNodeValue(n),
+  drawGlyph((*glGraphInputData->colors())[n], (*glGraphInputData->textures())[n],
             glGraphInputData->renderingParameters()->getTexturePath(),
-            glGraphInputData->borderWidths()->getNodeValue(n),
-            glGraphInputData->borderColors()->getNodeValue(n), lod);
+            (*glGraphInputData->borderWidths())[n], (*glGraphInputData->borderColors())[n], lod);
 }
 
 Coord Square::getAnchor(const Coord &v) const {

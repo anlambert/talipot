@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -26,8 +26,8 @@ void QuadTreeBundle::compute(Graph *g, double splitRatio, tlp::LayoutProperty *l
 }
 //=====================================
 node QuadTreeBundle::splitEdge(node a, node b) {
-  const Coord &cA = layout->getNodeValue(a);
-  const Coord &cB = layout->getNodeValue(b);
+  const Coord &cA = (*layout)[a];
+  const Coord &cB = (*layout)[b];
   Coord center = (cA + cB) / 2.0f;
   center[2] = 0;
   Vec2D tmp;
@@ -78,7 +78,7 @@ void QuadTreeBundle::elmentSplitting(const Coord &a, const Coord &b, const vecto
   out.clear();
 
   for (auto n : input) {
-    const Coord &tmp = layout->getNodeValue(n);
+    const Coord &tmp = (*layout)[n];
 
     if (isIn(tmp, a, b)) {
       in.push_back(n);
@@ -94,8 +94,8 @@ static int iii = 0;
 void QuadTreeBundle::recQuad(const node a, const node b, const node c, const node d,
                              const vector<node> &input) {
 
-  const Coord &cA = layout->getNodeValue(a);
-  const Coord &cC = layout->getNodeValue(c);
+  const Coord &cA = (*layout)[a];
+  const Coord &cC = (*layout)[c];
 
   //  if (input.empty()) { // && (cA - cC).norm() < (minSize/splitRatio)) {
   //    //node n = graph->addNode();
@@ -127,9 +127,9 @@ void QuadTreeBundle::recQuad(const node a, const node b, const node c, const nod
   node h = splitEdge(d, c);
   node i = splitEdge(a, d);
 
-  const Coord &cF = layout->getNodeValue(f);
-  const Coord &cG = layout->getNodeValue(g);
-  const Coord &cI = layout->getNodeValue(i);
+  const Coord &cF = (*layout)[f];
+  const Coord &cG = (*layout)[g];
+  const Coord &cI = (*layout)[i];
 
   // create nodes
   /**

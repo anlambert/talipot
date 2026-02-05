@@ -286,8 +286,8 @@ void replaceAll(std::string &s, const std::string &replaceWhat,
 bool isValidGraphSelection(const tlp::Graph *graph, tlp::BooleanProperty *selection) {
   for (const tlp::edge &e : graph->edges()) {
     if (selection->getEdgeValue(e)) {
-      if (!selection->getNodeValue(graph->source(e)) ||
-          !selection->getNodeValue(graph->target(e))) {
+      if (!(*selection)[graph->source(e)] ||
+          !(*selection)[graph->target(e)]) {
         return false;
       }
     }

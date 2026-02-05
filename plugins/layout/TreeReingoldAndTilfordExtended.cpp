@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -184,8 +184,8 @@ list<LR> *TreeReingoldAndTilfordExtended::TreePlace(tlp::node n,
   if (tree->outdeg(n) == 0) {
     auto *result = new list<LR>();
     LR tmpLR;
-    tmpLR.L = -sizes->getNodeValue(n).getW() / 2.;
-    tmpLR.R = +sizes->getNodeValue(n).getW() / 2.;
+    tmpLR.L = -(*sizes)[n][0] / 2.;
+    tmpLR.R = +(*sizes)[n][0] / 2.;
     tmpLR.size = 1;
     (*p)[n] = 0;
     result->push_front(tmpLR);
@@ -253,8 +253,8 @@ list<LR> *TreeReingoldAndTilfordExtended::TreePlace(tlp::node n,
     delete it;
     double posFather = ((((*(leftTree->begin())).L + (*(leftTree->begin())).R) / 2.));
     LR tmpLR;
-    tmpLR.L = posFather - sizes->getNodeValue(n).getW() / 2.;
-    tmpLR.R = posFather + sizes->getNodeValue(n).getW() / 2.;
+    tmpLR.L = posFather - (*sizes)[n][0] / 2.;
+    tmpLR.R = posFather + (*sizes)[n][0] / 2.;
     tmpLR.size = 1;
     leftTree->push_front(tmpLR);
 
@@ -276,11 +276,11 @@ void TreeReingoldAndTilfordExtended::TreeLevelSizing(tlp::node n,
   levels[n] = level;
 
   if (maxSize.contains(level)) {
-    if (maxSize[level] < sizes->getNodeValue(n).getH()) {
-      maxSize[level] = sizes->getNodeValue(n).getH();
+    if (maxSize[level] < (*sizes)[n][1]) {
+      maxSize[level] = (*sizes)[n][1];
     }
   } else {
-    maxSize[level] = sizes->getNodeValue(n).getH();
+    maxSize[level] = (*sizes)[n][1];
   }
 
   if (useLength) {
@@ -384,9 +384,9 @@ bool TreeReingoldAndTilfordExtended::run() {
   if (boundingCircles) {
     auto *circleSizes = new SizeProperty(graph);
     for (auto n : graph->nodes()) {
-      const Size &boundCircle = sizes->getNodeValue(n);
-      double diam = 2 * sqrt(boundCircle.getW() * boundCircle.getW() / 4.0 +
-                             boundCircle.getH() * boundCircle.getH() / 4.0);
+      const Size &boundCircle = (*sizes)[n];
+      double diam =
+          2 * sqrt(boundCircle[0] * boundCircle[0] / 4.0 + boundCircle[1] * boundCircle[1] / 4.0);
       (*circleSizes)[n] = Size(float(diam), float(diam), 1.0f);
     }
     sizes = circleSizes;
@@ -439,8 +439,8 @@ bool TreeReingoldAndTilfordExtended::run() {
     for (auto e : tree->edges()) {
       node src = tree->source(e);
       node tgt = tree->target(e);
-      const Coord &srcPos = result->getNodeValue(src);
-      const Coord &tgtPos = result->getNodeValue(tgt);
+      const Coord &srcPos = (*result)[src];
+      const Coord &tgtPos = (*result)[tgt];
 
       LineType::RealType tmp;
       Coord coord;
@@ -461,7 +461,7 @@ bool TreeReingoldAndTilfordExtended::run() {
   // rotate layout and size
   if (orientation == "horizontal") {
     for (auto n : tree->nodes()) {
-      const Coord &tmpC = result->getNodeValue(n);
+      const Coord &tmpC = (*result)[n];
       (*result)[n] = Coord(-tmpC[1], tmpC[0], tmpC[2]);
     }
   }

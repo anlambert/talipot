@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -47,14 +47,13 @@ Cube::Cube(const tlp::PluginContext *context) : NoShaderGlyph(context) {}
 Cube::~Cube() = default;
 
 void Cube::draw(node n, float lod) {
-  string textureName = glGraphInputData->textures()->getNodeValue(n);
+  string textureName = (*glGraphInputData->textures())[n];
   if (!textureName.empty()) {
     textureName = textureName + glGraphInputData->renderingParameters()->getTexturePath();
   }
 
-  GlBox::draw(glGraphInputData->colors()->getNodeValue(n),
-              glGraphInputData->colors()->getNodeValue(n),
-              glGraphInputData->borderWidths()->getNodeValue(n), textureName, lod);
+  GlBox::draw((*glGraphInputData->colors())[n], (*glGraphInputData->colors())[n],
+              (*glGraphInputData->borderWidths())[n], textureName, lod);
 }
 Coord Cube::getAnchor(const Coord &vector) const {
   return GlBox::getAnchor(vector);

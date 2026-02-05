@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -81,8 +81,7 @@ public:
       uint i = randomNumber(faces.size() - 1);
       Triangle f = faces[i];
       node n = graph->addNode();
-      Coord tmp = newLayout->getNodeValue(f.a) + newLayout->getNodeValue(f.b) +
-                  newLayout->getNodeValue(f.c);
+      Coord tmp = (*newLayout)[f.a] + (*newLayout)[f.b] + (*newLayout)[f.c];
       tmp /= 3.0;
       (*newLayout)[n] = tmp;
 

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -193,7 +193,7 @@ public:
 
     auto setNodeSizePropertyFunc = [&](int i) {
       auto setNodeSizeFunc = [i, viewSize](node n, const string &nodeVal) {
-        Size size = viewSize->getNodeValue(n);
+        Size size = (*viewSize)[n];
         size[i] = atof(nodeVal.c_str()) * 72;
         (*viewSize)[n] = size;
       };

@@ -74,8 +74,8 @@ void setTreeVisualProperties(Graph *tree) {
   IntegerProperty *viewShape = tree->getIntegerProperty("viewShape");
   ColorProperty *viewColor = tree->getColorProperty("viewColor");
   for (auto n : tree->nodes()) {
-    (*viewShape)[n] = glyphsMap[int(dagLevel.getNodeValue(n))];
-    (*viewColor)[n] = colorsMap[int(dagLevel.getNodeValue(n))];
+    (*viewShape)[n] = glyphsMap[int(dagLevel[n])];
+    (*viewColor)[n] = colorsMap[int(dagLevel[n])];
   }
 }
 

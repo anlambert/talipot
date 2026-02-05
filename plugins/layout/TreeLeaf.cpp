@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,7 +30,7 @@ void TreeLeaf::computeLevelHeights(tlp::Graph *tree, tlp::node n, uint depth,
     levelHeights.push_back(0);
   }
 
-  float nodeHeight = oriSize->getNodeValue(n).getH();
+  float nodeHeight = (*oriSize)[n][1];
 
   if (nodeHeight > levelHeights[depth]) {
     levelHeights[depth] = nodeHeight;
@@ -45,7 +45,7 @@ float TreeLeaf::dfsPlacement(tlp::Graph *tree, tlp::node n, float x, float y, ui
                              OrientableLayout *oriLayout, OrientableSizeProxy *oriSize) {
   float minX = 0;
   float maxX = 0;
-  float nodeWidth = oriSize->getNodeValue(n).getW();
+  float nodeWidth = (*oriSize)[n][0];
 
   if (tree->outdeg(n) == 0) {
     oriLayout->setNodeValue(n, OrientableCoord(oriLayout, x + nodeWidth / 2, y, 0));

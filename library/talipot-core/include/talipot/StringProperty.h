@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,6 +17,8 @@
 #include <talipot/PropertyTypes.h>
 #include <talipot/AbstractProperty.h>
 #include <talipot/TlpTools.h>
+
+#include <string>
 
 namespace tlp {
 
@@ -81,4 +83,10 @@ public:
   }
 };
 }
+
+inline constexpr std::string operator+(const std::string &s,
+                                       const tlp::StringProperty::NodeValueProxy &ref) {
+  return s + ref.getValue();
+}
+
 #endif // TALIPOT_STRING_PROPERTY_H

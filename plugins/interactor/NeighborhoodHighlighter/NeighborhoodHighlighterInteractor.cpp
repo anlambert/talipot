@@ -38,8 +38,8 @@ public:
 
   void animationStep(int animationStep) override {
     for (auto n : graph->nodes()) {
-      const Coord &startPos = srcLayout->getNodeValue(n);
-      const Coord &endPos = destLayout->getNodeValue(n);
+      const Coord &startPos = (*srcLayout)[n];
+      const Coord &endPos = (*destLayout)[n];
       viewLayout->setNodeValue(
           n, startPos + (animationStep / float(nbAnimationSteps) * (endPos - startPos)));
     }
@@ -70,9 +70,9 @@ public:
       : centralNode(centralNode), layout(layout) {}
 
   bool operator()(tlp::node n1, tlp::node n2) const {
-    Coord centralNodeCoord = layout->getNodeValue(centralNode);
-    Coord n1Coord = layout->getNodeValue(n1);
-    Coord n2Coord = layout->getNodeValue(n2);
+    Coord centralNodeCoord = (*layout)[centralNode];
+    Coord n1Coord = (*layout)[n1];
+    Coord n2Coord = (*layout)[n2];
     float centralToN1Dist = centralNodeCoord.dist(n1Coord);
     float centralToN2Dist = centralNodeCoord.dist(n2Coord);
     return centralToN1Dist < centralToN2Dist;
@@ -418,7 +418,7 @@ void NeighborhoodHighlighter::buildNeighborhoodGraph(node n, Graph *g) {
     updateNeighborhoodGraphLayoutAndColors();
     updateGlNeighborhoodGraph();
 
-    circleCenter = neighborhoodGraphLayout->getNodeValue(n);
+    circleCenter = (*neighborhoodGraphLayout)[n];
   }
 }
 
@@ -429,8 +429,8 @@ void NeighborhoodHighlighter::updateNeighborhoodGraphLayoutAndColors() {
     ColorProperty *origGraphColors = originalInputData->colors();
 
     for (auto n2 : neighborhoodGraph->nodes()) {
-      (*neighborhoodGraphOriginalLayout)[n2] = origGraphLayout->getNodeValue(n2);
-      (*neighborhoodGraphBackupColors)[n2] = origGraphColors->getNodeValue(n2);
+      (*neighborhoodGraphOriginalLayout)[n2] = (*origGraphLayout)[n2];
+      (*neighborhoodGraphBackupColors)[n2] = (*origGraphColors)[n2];
     }
 
     for (auto e : neighborhoodGraph->edges()) {
@@ -476,8 +476,7 @@ void NeighborhoodHighlighter::updateNeighborhoodGraph() {
 }
 
 void NeighborhoodHighlighter::computeNeighborhoodGraphBoundingBoxes() {
-  Coord centralNodeCoord =
-      neighborhoodGraphOriginalLayout->getNodeValue(neighborhoodGraphCentralNode);
+  Coord centralNodeCoord = (*neighborhoodGraphOriginalLayout)[neighborhoodGraphCentralNode];
   float originalLayoutRadius = computeNeighborhoodGraphRadius(neighborhoodGraphOriginalLayout);
   float circleLayoutRadius = computeNeighborhoodGraphRadius(neighborhoodGraphCircleLayout);
   neighborhoodGraphOriginalLayoutBB[0] =
@@ -492,9 +491,8 @@ void NeighborhoodHighlighter::computeNeighborhoodGraphBoundingBoxes() {
 
 void NeighborhoodHighlighter::computeNeighborhoodGraphCircleLayout() {
 
-  Size centralNodeSize =
-      originalGlGraph->inputData()->sizes()->getNodeValue(neighborhoodGraphCentralNode);
-  Coord centralNodeCoord = neighborhoodGraphLayout->getNodeValue(neighborhoodGraphCentralNode);
+  Size centralNodeSize = (*originalGlGraph->inputData()->sizes())[neighborhoodGraphCentralNode];
+  Coord centralNodeCoord = (*neighborhoodGraphLayout)[neighborhoodGraphCentralNode];
   (*neighborhoodGraphCircleLayout)[neighborhoodGraphCentralNode] = centralNodeCoord;
 
   vector<node> neighborsNodes;
@@ -516,8 +514,8 @@ void NeighborhoodHighlighter::computeNeighborhoodGraphCircleLayout() {
 
   for (size_t i = 0; i < neighborsNodes.size(); ++i) {
 
-    Size neighborNodeSize = originalGlGraph->inputData()->sizes()->getNodeValue(neighborsNodes[i]);
-    Coord neighborNodeCoord = neighborhoodGraphLayout->getNodeValue(neighborsNodes[i]);
+    Size neighborNodeSize = (*originalGlGraph->inputData()->sizes())[neighborsNodes[i]];
+    Coord neighborNodeCoord = (*neighborhoodGraphLayout)[neighborsNodes[i]];
     float edgeLength = centralNodeCoord.dist(neighborNodeCoord);
 
     bool nodePosOk = false;
@@ -552,10 +550,10 @@ void NeighborhoodHighlighter::computeNeighborhoodGraphCircleLayout() {
 
     Coord finalBendsCoord;
     if (src != neighborhoodGraphCentralNode) {
-      Coord srcNodeCoord = neighborhoodGraphCircleLayout->getNodeValue(src);
+      Coord srcNodeCoord = (*neighborhoodGraphCircleLayout)[src];
       finalBendsCoord = circleCenter + (srcNodeCoord - circleCenter) / 2.f;
     } else {
-      Coord tgtNodeCoord = neighborhoodGraphCircleLayout->getNodeValue(tgt);
+      Coord tgtNodeCoord = (*neighborhoodGraphCircleLayout)[tgt];
       finalBendsCoord = circleCenter + (tgtNodeCoord - circleCenter) / 2.f;
     }
 
@@ -593,10 +591,11 @@ void NeighborhoodHighlighter::morphCircleAlphaAnimStep(int animStep) {
 float NeighborhoodHighlighter::computeNeighborhoodGraphRadius(
     LayoutProperty *neighborhoodGraphLayoutProp) {
   float radius = 0;
-  Coord centralNodeCoord = neighborhoodGraphLayoutProp->getNodeValue(neighborhoodGraphCentralNode);
+  node n;
+  Coord centralNodeCoord = (*neighborhoodGraphLayoutProp)[neighborhoodGraphCentralNode];
   for (auto n : neighborhoodGraph->nodes()) {
-    Coord nodeCoord = neighborhoodGraphLayoutProp->getNodeValue(n);
-    Size nodeSize = originalGlGraph->inputData()->sizes()->getNodeValue(n);
+    Coord nodeCoord = (*neighborhoodGraphLayoutProp)[n];
+    Size nodeSize = (*originalGlGraph->inputData()->sizes())[n];
     float dist = centralNodeCoord.dist(nodeCoord) + nodeSize.getW();
 
     if (dist > radius) {

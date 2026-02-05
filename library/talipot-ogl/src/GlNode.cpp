@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -30,12 +30,12 @@ namespace tlp {
 Singleton<GlLabel> GlNode::label;
 
 void GlNode::init(const GlGraphInputData *data) {
-  coord = data->layout()->getNodeValue(n);
-  glyph = data->shapes()->getNodeValue(n);
-  size = data->sizes()->getNodeValue(n);
-  rot = data->rotations()->getNodeValue(n);
-  selected = data->selection()->getNodeValue(n);
-  labelRot = data->labelRotations()->getNodeValue(n);
+  coord = (*data->layout())[n];
+  glyph = (*data->shapes())[n];
+  size = (*data->sizes())[n];
+  rot = (*data->rotations())[n];
+  selected = (*data->selection())[n];
+  labelRot = (*data->labelRotations())[n];
 }
 
 BoundingBox GlNode::getBoundingBox(const GlGraphInputData *data) {
@@ -90,9 +90,8 @@ void GlNode::draw(float lod, const GlGraphInputData *data, Camera *camera) {
     } else {
       glDisable(GL_LIGHTING);
       setColor(selected ? colorSelect2
-                        : ((data->borderWidths()->getNodeValue(n) > 0)
-                               ? data->borderColors()->getNodeValue(n)
-                               : data->colors()->getNodeValue(n)));
+                        : ((*data->borderWidths())[n] > 0.0 ? (*data->borderColors())[n]
+                                                            : (*data->colors())[n]));
       glPointSize(4);
       glBegin(GL_POINTS);
       glVertex3f(coord[0], coord[1], coord[2] + size[2] / 2.);
@@ -172,11 +171,11 @@ void GlNode::drawLabel(OcclusionTest *test, const GlGraphInputData *data, float 
   }
 
   // Color of the label : selected or not
-  const Color &fontColor = selected ? data->renderingParameters()->getSelectionColor()
-                                    : data->labelColors()->getNodeValue(n);
-  const Color &fontBorderColor = selected ? data->renderingParameters()->getSelectionColor()
-                                          : data->labelBorderColors()->getNodeValue(n);
-  float fontBorderWidth = data->labelBorderWidths()->getNodeValue(n);
+  const Color &fontColor =
+      selected ? data->renderingParameters()->getSelectionColor() : (*data->labelColors())[n];
+  const Color &fontBorderColor =
+      selected ? data->renderingParameters()->getSelectionColor() : (*data->labelBorderColors())[n];
+  float fontBorderWidth = (*data->labelBorderWidths())[n];
 
   // If we have transparent label : return
   if (fontColor.getA() == 0 && (fontBorderColor.getA() == 0 || fontBorderWidth == 0)) {
@@ -184,7 +183,7 @@ void GlNode::drawLabel(OcclusionTest *test, const GlGraphInputData *data, float 
   }
 
   // Node text
-  const string &tmp = data->labels()->getNodeValue(n);
+  const string &tmp = (*data->labels())[n];
 
   if (tmp.length() < 1) {
     return;
@@ -196,7 +195,7 @@ void GlNode::drawLabel(OcclusionTest *test, const GlGraphInputData *data, float 
     label.instance().setStencil(data->renderingParameters()->getNodesLabelStencil());
   }
 
-  int fontSize = data->fontSizes()->getNodeValue(n);
+  int fontSize = (*data->fontSizes())[n];
 
   if (fontSize <= 0) {
     return;
@@ -206,13 +205,13 @@ void GlNode::drawLabel(OcclusionTest *test, const GlGraphInputData *data, float 
     fontSize += 2;
   }
 
-  int labelPos = data->labelPositions()->getNodeValue(n);
+  int labelPos = (*data->labelPositions())[n];
 
   BoundingBox includeBB = data->glyphManager()->getGlyph(glyph)->getTextBoundingBox(n);
   Coord centerBB = includeBB.center();
   Vec3f sizeBB = includeBB[1] - includeBB[0];
 
-  label.instance().setFontNameSizeAndColor(data->fonts()->getNodeValue(n), fontSize, fontColor);
+  label.instance().setFontNameSizeAndColor((*data->fonts())[n], fontSize, fontColor);
   label.instance().setOutlineColor(fontBorderColor);
   label.instance().setOutlineSize(fontBorderWidth);
   label.instance().setText(tmp);

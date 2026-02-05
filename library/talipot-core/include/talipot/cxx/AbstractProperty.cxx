@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -64,7 +64,7 @@ tlp::Iterator<tlp::node> *tlp::AbstractProperty<NodeType, EdgeType, PropType>::g
     TYPE_CONST_REFERENCE(NodeType) val, const Graph *sg) const {
   if (val == nodeDefaultValue) {
     return filterIterator(sg == nullptr ? PropType::graph->nodes() : sg->nodes(),
-                          [&, val](node n) { return this->getNodeValue(n) == val; });
+                          [&, val](node n) { return (*this)[n] == val; });
   } else {
     return filterIterator(nodeProperties.findAll(val), [&, sg](node n) {
       if (PropType::name.empty()) {

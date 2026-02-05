@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,17 +49,18 @@ struct graphEntityWithDistanceCompare {
     if (e1.isComplexEntity && e2.isComplexEntity) {
       Color e1Color, e2Color;
 
+      ColorProperty &colors = *(inputData->colors());
+
       if (e1.isNode) {
-        e1Color = inputData->colors()->getNodeValue(
-            node(static_cast<GraphElementLODUnit *>(e1.entity)->id));
+        e1Color = colors[node(static_cast<GraphElementLODUnit *>(e1.entity)->id)];
       } else {
         e1Color = inputData->colors()->getEdgeValue(
             edge(static_cast<GraphElementLODUnit *>(e1.entity)->id));
       }
 
       if (e2.isNode) {
-        e2Color = inputData->colors()->getNodeValue(
-            node(static_cast<GraphElementLODUnit *>(e2.entity)->id));
+        e2Color = colors[node(static_cast<GraphElementLODUnit *>(e2.entity)->id)];
+
       } else {
         e2Color = inputData->colors()->getEdgeValue(
             edge(static_cast<GraphElementLODUnit *>(e2.entity)->id));
@@ -249,7 +250,7 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
     // draw nodes and metanodes
     for (auto &it : layersLODVector[0].nodesLODVector) {
 
-      if ((it.lod <= 0) || (filteringProperty && filteringProperty->getNodeValue(node(it.id)))) {
+      if ((it.lod <= 0) || (filteringProperty && (*filteringProperty)[node(it.id)])) {
         continue;
       }
 
@@ -372,7 +373,7 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
       // Collect complex entities
       for (auto &it : layersLODVector[0].nodesLODVector) {
 
-        if ((it.lod < 0) || (filteringProperty && filteringProperty->getNodeValue(node(it.id)))) {
+        if ((it.lod < 0) || (filteringProperty && (*filteringProperty)[node(it.id)])) {
           continue;
         }
 
@@ -414,7 +415,7 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
 
           // All opaque elements have been drawn, turn the depth buffer read-only
           // in order for a transparent object to not occlude another transparent object
-          if (inputData->colors()->getNodeValue(node(entity->id)).getA() < 255) {
+          if ((*(inputData->colors()))[node(entity->id)][3] < 255) {
             glDepthMask(GL_FALSE);
           }
 
@@ -587,11 +588,11 @@ void GlGraphHighDetailsRenderer::drawLabelsForComplexEntities(bool drawSelected,
 
       node n(it.id);
 
-      if (filteringProperty && filteringProperty->getNodeValue(n)) {
+      if (filteringProperty && (*filteringProperty)[n]) {
         continue;
       }
 
-      if (selectionProperty->getNodeValue(n) == drawSelected) {
+      if ((*selectionProperty)[n] == drawSelected) {
         if (!metric) {
           GlNode glNode(n, graph);
           glNode.drawLabel(occlusionTest, inputData, lod, layerLODUnit.camera);

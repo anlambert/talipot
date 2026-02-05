@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -130,7 +130,7 @@ bool Grip::run() {
     graph->applyPropertyAlgorithm("Connected Components Packing", &layout, err, &tmp);
 
     for (auto n : graph->nodes()) {
-      (*result)[n] = layout.getNodeValue(n);
+      (*result)[n] = layout[n];
     }
 
   } else {
@@ -174,9 +174,9 @@ void Grip::firstNodesPlacement() {
     result->rotateX(3.14159 / 2. - (3.14159 * randomNumber(1)), g->getNodes(), g->getEdges());
     currentGraph->delSubGraph(g);
 
-    const Coord &c1 = result->getNodeValue(n1);
-    const Coord &c2 = result->getNodeValue(n2);
-    const Coord &c3 = result->getNodeValue(n3);
+    const Coord &c1 = (*result)[n1];
+    const Coord &c2 = (*result)[n2];
+    const Coord &c3 = (*result)[n3];
     oldDisp[n1] = c1;
     oldDisp[n2] = c2;
     oldDisp[n3] = c3;
@@ -224,7 +224,7 @@ void Grip::seeLayout(uint end) {
 
     for (uint j = 0; j < neighbors[n].size(); ++j) {
       cerr << "distance euclidienne "
-           << (result->getNodeValue(n) - result->getNodeValue(neighbors[n][j])).norm() / edgeLength
+           << ((*result)[n] - (*result)[neighbors[n][j]]).norm() / edgeLength
            << " et distance dans le graphe " << neighbors_dist[n][j] << endl;
     }
   }
@@ -243,7 +243,7 @@ void Grip::initialPlacement(uint start, uint end) {
     float nbConsidered = 0.;
 
     for (uint j = 0; j < neighbors[currNode].size(); ++j) {
-      c_tmp += result->getNodeValue(neighbors[currNode][j]);
+      c_tmp += (*result)[neighbors[currNode][j]];
       oldDisp[currNode] += oldDisp[neighbors[currNode][j]];
       nbConsidered += 1.;
     }
@@ -274,11 +274,11 @@ void Grip::kk_local_reffinement(node currNode) {
 
   while (cpt > 1) {
     disp[currNode] = Coord(0, 0, 0);
-    const Coord &c = result->getNodeValue(currNode);
+    const Coord &c = (*result)[currNode];
 
     for (uint j = 0; j < neighbors[currNode].size() /*&& j < 3*/; ++j) {
       node n = neighbors[currNode][j];
-      const Coord &c_n = result->getNodeValue(n);
+      const Coord &c_n = (*result)[n];
       Coord c_tmp = c_n - c;
       float euclidian_dist_sqr = c_tmp[0] * c_tmp[0] + c_tmp[1] * c_tmp[1];
 
@@ -304,7 +304,7 @@ void Grip::displace(node n) {
     disp[n] /= disp_norm;
     oldDisp[n] = disp[n];
     disp[n] *= float(heat[n]);
-    (*result)[n] = result->getNodeValue(n) + disp[n];
+    (*result)[n] = (*result)[n] + disp[n];
   }
 }
 //======================================================
@@ -316,11 +316,11 @@ void Grip::kk_reffinement(uint start, uint end) {
     for (uint i = start; i <= end; ++i) {
       node currNode = misf->ordering[i];
       disp[currNode] = Coord(0, 0, 0);
-      const Coord &c = result->getNodeValue(currNode);
+      const Coord &c = (*result)[currNode];
 
       for (uint j = 0; j < neighbors[currNode].size(); ++j) {
         node n = neighbors[currNode][j];
-        const Coord &c_n = result->getNodeValue(n);
+        const Coord &c_n = (*result)[n];
         Coord c_tmp = c_n - c;
         float euclidian_dist_sqr = c_tmp[0] * c_tmp[0] + c_tmp[1] * c_tmp[1];
 
@@ -351,12 +351,12 @@ void Grip::fr_reffinement(uint start, uint end) {
   while (cpt >= 1) {
     for (uint i = start; i <= end; ++i) {
       node currNode = misf->ordering[i];
-      const Coord &curCoord = result->getNodeValue(currNode);
+      const Coord &curCoord = (*result)[currNode];
       disp[currNode] = Coord(0, 0, 0);
 
       // attractive force calculation
       for (auto n : currentGraph->getInOutNodes(currNode)) {
-        const Coord &c_n = result->getNodeValue(n);
+        const Coord &c_n = (*result)[n];
         Coord c_tmp = c_n - curCoord;
         float euclidian_dist_sqr = c_tmp[0] * c_tmp[0] + c_tmp[1] * c_tmp[1];
 
@@ -371,7 +371,7 @@ void Grip::fr_reffinement(uint start, uint end) {
       // repulsive force calculation
       for (uint j = 0; j < neighbors[currNode].size(); ++j) {
         node n = neighbors[currNode][j];
-        const Coord &c_n = result->getNodeValue(n);
+        const Coord &c_n = (*result)[n];
         Coord c_tmp = curCoord - c_n;
         double euclidian_dist_sqr =
             double(c_tmp[0]) * double(c_tmp[0]) + double(c_tmp[1]) * double(c_tmp[1]);

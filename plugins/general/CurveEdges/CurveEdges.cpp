@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -100,8 +100,8 @@ public:
 
   std::vector<tlp::Coord> computeCubicBezierControlPoints(tlp::edge e) {
     const auto &[src, tgt] = graph->ends(e);
-    const tlp::Coord &srcCoord = layout->getNodeValue(src);
-    const tlp::Coord &tgtCoord = layout->getNodeValue(tgt);
+    const tlp::Coord &srcCoord = (*layout)[src];
+    const tlp::Coord &tgtCoord = (*layout)[tgt];
     tlp::Coord dir = tgtCoord - srcCoord;
     dir /= dir.norm();
     float length = srcCoord.dist(tgtCoord);
@@ -149,8 +149,8 @@ public:
     float x = FLT_MAX, y = FLT_MAX;
     float factor = curveRoundness;
     const auto &[src, tgt] = graph->ends(e);
-    const tlp::Coord &srcCoord = layout->getNodeValue(src);
-    const tlp::Coord &tgtCoord = layout->getNodeValue(tgt);
+    const tlp::Coord &srcCoord = (*layout)[src];
+    const tlp::Coord &tgtCoord = (*layout)[tgt];
     float dx = std::abs(srcCoord[0] - tgtCoord[0]);
     float dy = std::abs(srcCoord[1] - tgtCoord[1]);
 

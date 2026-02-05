@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,12 +36,12 @@ struct dfsStruct {
 // original recursive algorithm
 /*double PathLengthMetric::getNodeValue(const tlp::node n) {
     if (graph->outdeg(n)==0) return 0.0;
-    if (result->getNodeValue(n) > 0.1)
-      return result->getNodeValue(n);
+    if ((*result)[n] > 0.1)
+      return (*result)[n];
     for (auto child : graph->getOutNodes(n)) {
       res += getNodeValue(child);
     }
-    res += leafMetric->getNodeValue(n);
+    res += (*leafMetric)[n];
     (*result)[n] = res;
     return res;
   }*/
@@ -51,7 +51,7 @@ double PathLengthMetric::getNodeValue(tlp::node current, tlp::DoubleProperty *le
     return 0.0;
   }
 
-  double value = result->getNodeValue(current);
+  double value = (*result)[current];
 
   if (value > 0.1) {
     return value;
@@ -67,7 +67,7 @@ double PathLengthMetric::getNodeValue(tlp::node current, tlp::DoubleProperty *le
   while (!dfsLevels.empty()) {
     while (outNodes->hasNext()) {
       node neighbour = outNodes->next();
-      value = result->getNodeValue(neighbour);
+      value = (*result)[neighbour];
 
       // compute result
       if (value > 0.1) {
@@ -97,7 +97,7 @@ double PathLengthMetric::getNodeValue(tlp::node current, tlp::DoubleProperty *le
       continue;
     }
 
-    res += leafMetric->getNodeValue(current);
+    res += (*leafMetric)[current];
     // save current result
     (*result)[current] = res;
     // unstack current dfsParams

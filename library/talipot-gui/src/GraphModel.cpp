@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -319,9 +319,9 @@ void GraphModel::treatEvent(const Event &ev) {
   MACRO(LayoutProperty, std::vector<tlp::Coord>) \
   MACRO(GraphProperty, std::set<tlp::edge>)
 
-#define GET_NODE_VALUE(PROP, TYPE)                                                \
-  else if (dynamic_cast<PROP *>(prop) != nullptr) {                               \
-    return QVariant::fromValue<TYPE>(static_cast<PROP *>(prop)->getNodeValue(n)); \
+#define GET_NODE_VALUE(PROP, TYPE)                                     \
+  else if (dynamic_cast<PROP *>(prop) != nullptr) {                    \
+    return QVariant::fromValue<TYPE>((*static_cast<PROP *>(prop))[n]); \
   }
 
 QVariant GraphModel::nodeValue(uint id, PropertyInterface *prop) {
@@ -339,27 +339,26 @@ QVariant GraphModel::nodeValue(uint id, PropertyInterface *prop) {
               static_cast<IntegerProperty *>(prop)->getNodeValue(n)));
     }
 
-    return QVariant::fromValue<int>(static_cast<IntegerProperty *>(prop)->getNodeValue(n));
+    return QVariant::fromValue<int>((*static_cast<IntegerProperty *>(prop))[n]);
   } else if (dynamic_cast<StringProperty *>(prop) != nullptr) {
     if (prop->getName() == "viewFont") {
-      return QVariant::fromValue<Font>(
-          Font::fromName(static_cast<StringProperty *>(prop)->getNodeValue(n)));
+      return QVariant::fromValue<Font>(Font::fromName((*static_cast<StringProperty *>(prop))[n]));
     }
 
     if (prop->getName() == "viewIcon") {
       return QVariant::fromValue<FontIconName>(
-          FontIconName(tlpStringToQString(static_cast<StringProperty *>(prop)->getNodeValue(n))));
+          FontIconName(tlpStringToQString((*static_cast<StringProperty *>(prop))[n])));
     }
 
     if (prop->getName() == "viewTexture") {
       return QVariant::fromValue<TextureFile>(
-          TextureFile(tlpStringToQString(static_cast<StringProperty *>(prop)->getNodeValue(n))));
+          TextureFile(tlpStringToQString((*static_cast<StringProperty *>(prop))[n])));
     }
 
     return QVariant::fromValue<QString>(
-        tlpStringToQString(static_cast<StringProperty *>(prop)->getNodeValue(n)));
+        tlpStringToQString((*static_cast<StringProperty *>(prop))[n]));
   } else if (dynamic_cast<BooleanVectorProperty *>(prop) != nullptr) {
-    const std::vector<bool> &vb = static_cast<BooleanVectorProperty *>(prop)->getNodeValue(n);
+    const std::vector<bool> &vb = (*static_cast<BooleanVectorProperty *>(prop))[n];
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     return QVariant::fromValue<QVector<bool>>(QVector<bool>(vb.begin(), vb.end()));
 #else
@@ -932,7 +931,7 @@ bool GraphSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelInde
 
   if (_filterProperty != nullptr) {
     if (graphModel->isNode()) {
-      selected = _filterProperty->getNodeValue(node(id));
+      selected = (*_filterProperty)[node(id)];
     } else {
       selected = _filterProperty->getEdgeValue(edge(id));
     }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -101,8 +101,7 @@ public:
 
       for (uint j = i + 1; j < nbNodes; ++j) {
         if (i != j) {
-          double distance =
-              newLayout->getNodeValue(nodes[i]).dist(newLayout->getNodeValue(nodes[j]));
+          double distance = (*newLayout)[nodes[i]].dist((*newLayout)[nodes[j]]);
           // minSize = std::min(distance, minSize);
 
           // newSize->setAllNodeValue(Size(minSize/2.0, minSize/2.0, 1));

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -72,7 +72,7 @@ uint NodeMetricSorter::getNbValuesForProperty(const string &propertyName) {
       set<double> sd;
 
       for (auto n : graph->nodes()) {
-        sd.insert(graph->getDoubleProperty(propertyName)->getNodeValue(n));
+        sd.insert((*graph)[propertyName][n]);
       }
 
       count = sd.size();
@@ -80,7 +80,7 @@ uint NodeMetricSorter::getNbValuesForProperty(const string &propertyName) {
       set<int> si;
 
       for (auto n : graph->nodes()) {
-        si.insert(graph->getIntegerProperty(propertyName)->getNodeValue(n));
+        si.insert((*graph)[propertyName][n]);
       }
 
       count = si.size();

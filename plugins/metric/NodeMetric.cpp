@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,8 +32,8 @@ struct dfsStruct {
 //=======================================================================
 // original recursive algorithm
 /*double NodeMetric::getNodeValue(const tlp::node n) {
-  if (result->getNodeValue(n)!=0)
-      return result->getNodeValue(n);
+  if ((*result)[n]!=0)
+      return (*result)[n];
     double res = 1;
     for(const node &m : graph->getOutNodes(n))
       res += getNodeValue(m);
@@ -42,7 +42,7 @@ struct dfsStruct {
   }*/
 //=======================================================================
 double NodeMetric::getNodeValue(tlp::node current) {
-  double value = result->getNodeValue(current);
+  double value = (*result)[current];
 
   if (value != 0.0) {
     return value;
@@ -58,7 +58,7 @@ double NodeMetric::getNodeValue(tlp::node current) {
   while (!dfsLevels.empty()) {
     while (outNodes->hasNext()) {
       node neighbour = outNodes->next();
-      value = result->getNodeValue(neighbour);
+      value = (*result)[neighbour];
 
       // compute res
       if (value != 0.0) {

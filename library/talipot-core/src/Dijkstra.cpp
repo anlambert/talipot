@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -163,7 +163,7 @@ void Dijkstra::internalSearchPaths(node n, BooleanProperty *result) {
     }
 
     (*result)[e] = true;
-    if (!result->getNodeValue(tgt)) {
+    if (!(*result)[tgt]) {
       internalSearchPaths(tgt, result);
     }
   }
@@ -171,7 +171,7 @@ void Dijkstra::internalSearchPaths(node n, BooleanProperty *result) {
 //========================================
 bool Dijkstra::searchPaths(node n, BooleanProperty *result) {
   internalSearchPaths(n, result);
-  if (!result->getNodeValue(src)) {
+  if (!(*result)[src]) {
     result->setAllNodeValue(false);
     result->setAllEdgeValue(false);
     return false;

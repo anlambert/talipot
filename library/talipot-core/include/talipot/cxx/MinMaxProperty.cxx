@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -100,7 +100,7 @@ tlp::MinMaxProperty<NodeType, EdgeType, PropType>::computeMinMaxNode(const Graph
 
   if (AbstractProperty<NodeType, EdgeType, PropType>::hasNonDefaultValuatedNodes(graph)) {
     for (auto n : graph->nodes()) {
-      TYPE_CONST_REFERENCE(NodeType) tmp = this->getNodeValue(n);
+      TYPE_CONST_REFERENCE(NodeType) tmp = (*this)[n];
       minN = std::min(minN, tmp);
       maxN = std::max(maxN, tmp);
     }
@@ -216,7 +216,7 @@ void tlp::MinMaxProperty<NodeType, EdgeType, PropType>::updateNodeValue(
     tlp::node n, TYPE_CONST_REFERENCE(NodeType) newValue) {
 
   if (!_minMaxNode.empty()) {
-    TYPE_CONST_REFERENCE(NodeType) oldV = this->getNodeValue(n);
+    TYPE_CONST_REFERENCE(NodeType) oldV = (*this)[n];
 
     if (newValue != oldV) {
       // loop on subgraph min/max
@@ -293,7 +293,7 @@ void tlp::MinMaxProperty<NodeType, EdgeType, PropType>::treatEvent(const tlp::Ev
       uint sgi = graph->getId();
 
       if (const auto it = _minMaxNode.find(sgi); it != _minMaxNode.end()) {
-        TYPE_CONST_REFERENCE(NodeType) oldV = this->getNodeValue(graphEvent->getNode());
+        TYPE_CONST_REFERENCE(NodeType) oldV = (*this)[graphEvent->getNode()];
 
         // check if min or max has to be updated
         if ((oldV == it->second.first) || (oldV == it->second.second)) {

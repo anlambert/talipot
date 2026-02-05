@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -55,7 +55,7 @@ OrthoTree::OrthoTree(const tlp::PluginContext *context)
 
 void OrthoTree::computeVerticalSize(const node n, NodeVectorProperty<double> &verticalSize) {
   if (tree->outdeg(n) == 0) {
-    verticalSize[n] = size->getNodeValue(n)[1];
+    verticalSize[n] = (*size)[n][1];
   } else {
     double s = 0.;
     for (auto u : tree->getOutNodes(n)) {
@@ -72,7 +72,7 @@ void OrthoTree::computeVerticalSize(const node n, NodeVectorProperty<double> &ve
 }
 
 void OrthoTree::computeLayout(const node n, NodeVectorProperty<double> &verticalSize) {
-  Coord cn = result->getNodeValue(n);
+  Coord cn = (*result)[n];
   double prev = 0.;
   for (auto e : tree->getOutEdges(n)) {
     node u = tree->opposite(e, n);

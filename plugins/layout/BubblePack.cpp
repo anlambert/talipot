@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -56,7 +56,7 @@ struct lessRadius {
 double BubblePack::computeRelativePosition(tlp::node n,
                                            NodeVectorProperty<Vec4f> &relativePosition) {
 
-  Size centralNodeSize = nodeSize->getNodeValue(n);
+  Size centralNodeSize = (*nodeSize)[n];
   centralNodeSize[2] = 0.; // remove z-coordinates because the drawing is 2D
   double sizeFather = std::max(centralNodeSize[0], centralNodeSize[1]) / 2.;
 

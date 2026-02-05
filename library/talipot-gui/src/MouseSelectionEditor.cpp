@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -568,7 +568,7 @@ void MouseSelectionEditor::mMouseRotate(double newX, double newY, GlWidget *glWi
 
     if (mode == COORD_AND_SIZE || mode == SIZE) {
       for (auto n : _selection->getNodesEqualTo(true, _graph)) {
-        double rotation = _rotation->getNodeValue(n);
+        double rotation = (*_rotation)[n];
         (*_rotation)[n] = rotation - degAngle;
       }
     }
@@ -638,29 +638,29 @@ void MouseSelectionEditor::mAlign(EditOperation operation, GlWidget *) {
 
     switch (operation) {
     case ALIGN_TOP:
-      valueMax = _layout->getNodeValue(n)[1] + _sizes->getNodeValue(n)[1] / 2.;
+      valueMax = (*_layout)[n][1] + (*_sizes)[n][1] / 2.;
       break;
 
     case ALIGN_BOTTOM:
-      valueMin = _layout->getNodeValue(n)[1] - _sizes->getNodeValue(n)[1] / 2.;
+      valueMin = (*_layout)[n][1] - (*_sizes)[n][1] / 2.;
       break;
 
     case ALIGN_HORIZONTALLY:
-      valueMax = _layout->getNodeValue(n)[1] + _sizes->getNodeValue(n)[1] / 2.;
-      valueMin = _layout->getNodeValue(n)[1] - _sizes->getNodeValue(n)[1] / 2.;
+      valueMax = (*_layout)[n][1] + (*_sizes)[n][1] / 2.;
+      valueMin = (*_layout)[n][1] - (*_sizes)[n][1] / 2.;
       break;
 
     case ALIGN_LEFT:
-      valueMin = _layout->getNodeValue(n)[0] - _sizes->getNodeValue(n)[0] / 2.;
+      valueMin = (*_layout)[n][0] - (*_sizes)[n][0] / 2.;
       break;
 
     case ALIGN_RIGHT:
-      valueMax = _layout->getNodeValue(n)[0] + _sizes->getNodeValue(n)[0] / 2.;
+      valueMax = (*_layout)[n][0] + (*_sizes)[n][0] / 2.;
       break;
 
     case ALIGN_VERTICALLY:
-      valueMax = _layout->getNodeValue(n)[0] - _sizes->getNodeValue(n)[0] / 2.;
-      valueMin = _layout->getNodeValue(n)[0] + _sizes->getNodeValue(n)[0] / 2.;
+      valueMax = (*_layout)[n][0] - (*_sizes)[n][0] / 2.;
+      valueMin = (*_layout)[n][0] + (*_sizes)[n][0] / 2.;
       break;
 
     case STRETCH_X:
@@ -725,15 +725,15 @@ void MouseSelectionEditor::mAlign(EditOperation operation, GlWidget *) {
   }
 
   for (auto n : _selection->getNodesEqualTo(true, _graph)) {
-    Coord old = _layout->getNodeValue(n);
+    Coord old = (*_layout)[n];
 
     switch (operation) {
     case ALIGN_TOP:
-      old[1] = max - _sizes->getNodeValue(n)[1] / 2.;
+      old[1] = max - (*_sizes)[n][1] / 2.;
       break;
 
     case ALIGN_BOTTOM:
-      old[1] = min + _sizes->getNodeValue(n)[1] / 2.;
+      old[1] = min + (*_sizes)[n][1] / 2.;
       break;
 
     case ALIGN_HORIZONTALLY:
@@ -741,11 +741,11 @@ void MouseSelectionEditor::mAlign(EditOperation operation, GlWidget *) {
       break;
 
     case ALIGN_LEFT:
-      old[0] = min + _sizes->getNodeValue(n)[0] / 2.;
+      old[0] = min + (*_sizes)[n][0] / 2.;
       break;
 
     case ALIGN_RIGHT:
-      old[0] = max - _sizes->getNodeValue(n)[0] / 2.;
+      old[0] = max - (*_sizes)[n][0] / 2.;
       break;
 
     case ALIGN_VERTICALLY:

@@ -80,7 +80,7 @@ int main(int, char **) {
   }
 
   // output the degree of node a;
-  std::cout << metric->getNodeValue(a) << std::endl;
+  std::cout << (*metric)[a] << std::endl;
 
   // saveGraph is a shortcut ofr exportGraph that uses the TLP export.
   tlp::saveGraph(myGraph, "mygraph.tlp");

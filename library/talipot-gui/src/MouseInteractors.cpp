@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -312,14 +312,14 @@ public:
   NodeColorAnimation(tlp::Graph *graph, tlp::node n, const float &color)
       : graph(graph), n(n), alphaEnd(color) {
     tlp::ColorProperty *colorProp = graph->getColorProperty("viewColor");
-    alphaBegin = colorProp->getNodeValue(n)[3];
+    alphaBegin = (*colorProp)[n][3];
   }
 
 protected:
   void animationStep(int animationStep) override {
     float t = animationStep / float(nbAnimationSteps);
     ColorProperty *colorProp = graph->getColorProperty("viewColor");
-    Color color = colorProp->getNodeValue(n);
+    Color color = (*colorProp)[n];
     color[3] = alphaBegin + t * (alphaEnd - alphaBegin);
     (*colorProp)[n] = color;
   }
@@ -390,8 +390,8 @@ bool MouseNKeysNavigator::eventFilter(QObject *widget, QEvent *e) {
         Observable::holdObservers();
 
         ColorProperty *colorProp = oldGraph->getColorProperty("viewColor");
-        float alphaOrigin = colorProp->getNodeValue(n)[3];
-        Color color = colorProp->getNodeValue(n);
+        float alphaOrigin = (*colorProp)[n][3];
+        Color color = (*colorProp)[n];
         color[3] = 0;
         (*colorProp)[n] = color;
 

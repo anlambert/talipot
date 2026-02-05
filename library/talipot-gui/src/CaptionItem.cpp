@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -157,7 +157,7 @@ void CaptionItem::generateColorCaption(CaptionType captionType) {
       maxProp = _metricProperty->getNodeMax();
 
       for (auto n : view->graph()->nodes()) {
-        metricToColorMap[_metricProperty->getNodeValue(n)] = _colorProperty->getNodeValue(n);
+        metricToColorMap[(*_metricProperty)[n]] = (*_colorProperty)[n];
       }
 
     } else {
@@ -214,10 +214,10 @@ void CaptionItem::generateSizeCaption(CaptionType captionType) {
   if (captionType == NodesSizeCaption) {
 
     for (auto n : view->graph()->nodes()) {
-      metricToSizeMap[_metricProperty->getNodeValue(n)] = _sizeProperty->getNodeValue(n)[0];
+      metricToSizeMap[(*_metricProperty)[n]] = (*_sizeProperty)[n][0];
 
-      if (maxSize < _sizeProperty->getNodeValue(n)[0]) {
-        maxSize = _sizeProperty->getNodeValue(n)[0];
+      if (maxSize < (*_sizeProperty)[n][0]) {
+        maxSize = (*_sizeProperty)[n][0];
       }
     }
 
@@ -346,11 +346,10 @@ void CaptionItem::applyNewFilter(float begin, float end) {
     double endMetric = minProp + (end * (maxProp - minProp));
 
     for (auto nit : view->graph()->nodes()) {
-      tmp = Color(_backupColorProperty->getNodeValue(nit));
-      borderTmp = Color(_backupBorderColorProperty->getNodeValue(nit));
+      tmp = Color((*_backupColorProperty)[nit]);
+      borderTmp = Color((*_backupBorderColorProperty)[nit]);
 
-      if (_metricProperty->getNodeValue(nit) < beginMetric ||
-          _metricProperty->getNodeValue(nit) > endMetric) {
+      if ((*_metricProperty)[nit] < beginMetric || (*_metricProperty)[nit] > endMetric) {
         tmp[3] = 25;
         borderTmp[3] = 25;
         (*_colorProperty)[nit] = tmp;

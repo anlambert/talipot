@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -150,7 +150,6 @@ double StrengthMetric::getEdgeValue(const tlp::edge ee) {
 }
 //=============================================================
 double StrengthMetric::getNodeValue(const tlp::node n) {
-  //  tlp::warning() << __PRETTY_FUNCTION__ << endl;
   if (graph->deg(n) == 0) {
     return 0;
   }

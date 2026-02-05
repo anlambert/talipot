@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -90,9 +90,8 @@ public:
    * This function is used by the engine to get color of the node
    */
   Color getColor(GlGraphInputData *inputData) const {
-    return (inputData->borderWidths()->getNodeValue(n) > 0)
-               ? inputData->borderColors()->getNodeValue(n)
-               : inputData->colors()->getNodeValue(n);
+    return (*inputData->borderWidths())[n] > 0.0 ? (*inputData->borderColors())[n]
+                                                 : (*inputData->colors())[n];
   }
 
   node n;

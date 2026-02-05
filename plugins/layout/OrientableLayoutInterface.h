@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -37,7 +37,7 @@ public:
   virtual void setEdgeValue(const tlp::edge e, const LineType &v) = 0;
   virtual void setNodeValue(tlp::node n, const PointType &v) = 0;
 
-  virtual PointType getNodeValue(const tlp::node n) = 0;
+  virtual PointType getNodeValue(const tlp::node n) const = 0;
   virtual LineType getEdgeValue(const tlp::edge e) = 0;
 
   virtual PointType getNodeDefaultValue() = 0;

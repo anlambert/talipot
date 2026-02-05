@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -48,8 +48,7 @@ void ViewToolTipAndUrlManager::fillContextMenu(QMenu *menu, node n) {
 
   Graph *graph = _view->graph();
 
-  _contextMenuUrl =
-      dynamic_cast<StringProperty *>(graph->getProperty(_urlPropName))->getNodeValue(n);
+  _contextMenuUrl = (*dynamic_cast<StringProperty *>(graph->getProperty(_urlPropName)))[n];
 
   if (_contextMenuUrl.empty()) {
     return;
@@ -195,7 +194,7 @@ bool ViewToolTipAndUrlManager::eventFilter(QObject *, QEvent *event) {
 
       if (tmpNode.isValid()) {
         if (urlProp) {
-          _url = urlProp->getNodeValue(tmpNode);
+          _url = (*urlProp)[tmpNode];
         }
         if (_tooltips) {
           ttip = NodesGraphModel::getNodeTooltip(graph, tmpNode);

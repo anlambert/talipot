@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,6 +40,139 @@ DECLARE_DLL_TEMPLATE_INSTANCE(SINGLE_ARG(tlp::MinMaxProperty<tlp::PointType, tlp
  */
 class TLP_SCOPE LayoutProperty : public LayoutMinMaxProperty {
 public:
+  // inner class used to extend the overloading of the operator[]
+  // to set a node value
+  class NodeValueProxy : public AbstractProperty<PointType, LineType>::NodeValueProxy {
+  public:
+    constexpr NodeValueProxy(const LayoutProperty *prop, node n)
+        : AbstractProperty<PointType, LineType>::NodeValueProxy(prop, n) {}
+
+    NodeValueProxy &operator=(TYPE_CONST_REFERENCE(PointType) val) {
+      getProperty()->setNodeValue(_n, val);
+      return *this;
+    }
+
+    REAL_TYPE(PointType) operator+(TYPE_CONST_REFERENCE(PointType) val) const {
+      return getValue() + val;
+    }
+
+    REAL_TYPE(PointType) operator+(float val) const {
+      return getValue() + val;
+    }
+
+    REAL_TYPE(PointType) operator+(const NodeValueProxy & val) const {
+      return getValue() + val.getValue();
+    }
+
+    NodeValueProxy &operator+=(TYPE_CONST_REFERENCE(PointType) val) {
+      getProperty()->setNodeValue(_n, getValue() + val);
+      return *this;
+    }
+
+    NodeValueProxy &operator+=(float val) {
+      getProperty()->setNodeValue(_n, getValue() + val);
+      return *this;
+    }
+
+    REAL_TYPE(PointType) operator*(TYPE_CONST_REFERENCE(PointType) val) const {
+      return getValue() * val;
+    }
+
+    REAL_TYPE(PointType) operator*(float val) const {
+      return getValue() * val;
+    }
+
+    NodeValueProxy &operator*=(TYPE_CONST_REFERENCE(PointType) val) {
+      getProperty()->setNodeValue(_n, getValue() * val);
+      return *this;
+    }
+
+    NodeValueProxy &operator*=(float val) {
+      getProperty()->setNodeValue(_n, getValue() * val);
+      return *this;
+    }
+
+    REAL_TYPE(PointType) operator/(TYPE_CONST_REFERENCE(PointType) val) const {
+      return getValue() / val;
+    }
+
+    REAL_TYPE(PointType) operator/(float val) const {
+      return getValue() / val;
+    }
+
+    NodeValueProxy &operator/=(TYPE_CONST_REFERENCE(PointType) val) {
+      getProperty()->setNodeValue(_n, getValue() / val);
+      return *this;
+    }
+
+    NodeValueProxy &operator/=(float val) {
+      getProperty()->setNodeValue(_n, getValue() / val);
+      return *this;
+    }
+
+    REAL_TYPE(PointType) operator-(const NodeValueProxy & val) const {
+      return getValue() - val.getValue();
+    }
+
+    REAL_TYPE(PointType) operator-(TYPE_CONST_REFERENCE(PointType) val) const {
+      return getValue() - val;
+    }
+
+    REAL_TYPE(PointType) operator-(float val) const {
+      return getValue() - val;
+    }
+
+    NodeValueProxy &operator-=(const NodeValueProxy &val) {
+      getProperty()->setNodeValue(_n, getValue() - val.getValue());
+      return *this;
+    }
+
+    NodeValueProxy &operator-=(TYPE_CONST_REFERENCE(PointType) val) {
+      getProperty()->setNodeValue(_n, getValue() - val);
+      return *this;
+    }
+
+    NodeValueProxy &operator-=(float val) {
+      getProperty()->setNodeValue(_n, getValue() - val);
+      return *this;
+    }
+
+    float operator[](int i) const {
+      return getValue()[i];
+    }
+
+    float dist(TYPE_CONST_REFERENCE(PointType) val) {
+      return getValue().dist(val);
+    }
+  };
+
+  // overload operator[] to set a node value
+  constexpr NodeValueProxy operator[](node n) const {
+    return NodeValueProxy(this, n);
+  }
+
+  // inner class used to extend the overloading of the operator[]
+  // to set an edge value
+  class EdgeValueProxy : public AbstractProperty<PointType, LineType>::EdgeValueProxy {
+  public:
+    constexpr EdgeValueProxy(const LayoutProperty *prop, edge e)
+        : AbstractProperty<PointType, LineType>::EdgeValueProxy(prop, e) {}
+
+    EdgeValueProxy &operator=(TYPE_CONST_REFERENCE(LineType) val) {
+      getProperty()->setEdgeValue(_e, val);
+      return *this;
+    }
+
+    REAL_TYPE(PointType) operator[](int i) const {
+      return getValue()[i];
+    }
+  };
+
+  // overload operator[] to set an edge value
+  constexpr EdgeValueProxy operator[](edge e) const {
+    return EdgeValueProxy(this, e);
+  }
+
   LayoutProperty(Graph *graph, const std::string &name = "" /*, bool updateOnEdgeReversal=true*/);
 
   // override some PropertyInterface methods
@@ -329,6 +462,16 @@ public:
 };
 
 typedef CoordVectorProperty LayoutVectorProperty;
+
+inline REAL_TYPE(PointType) operator-(TYPE_CONST_REFERENCE(PointType) p,
+                                      const LayoutProperty::NodeValueProxy &val) {
+  return p - val.getValue();
+}
+
+inline REAL_TYPE(PointType) operator+(TYPE_CONST_REFERENCE(PointType) p,
+                                      const LayoutProperty::NodeValueProxy &val) {
+  return p + val.getValue();
+}
 }
 
 #endif // TALIPOT_LAYOUT_PROPERTY_H

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -28,8 +28,8 @@ void OctreeBundle::compute(Graph *g, double splitRatio, tlp::LayoutProperty *lay
 }
 //=====================================
 node OctreeBundle::splitEdge(node a, node b) {
-  const Coord &cA = layout->getNodeValue(a);
-  const Coord &cB = layout->getNodeValue(b);
+  const Coord &cA = (*layout)[a];
+  const Coord &cB = (*layout)[b];
   Coord center = (cA + cB) / 2.0f;
 
   auto itn = mapN.find(center);
@@ -85,7 +85,7 @@ void OctreeBundle::elmentSplitting(const Coord &a, const Coord &b, const Coord &
   out.clear();
 
   for (auto n : input) {
-    const Coord &tmp = layout->getNodeValue(n);
+    const Coord &tmp = (*layout)[n];
 
     if (isIn(tmp, a, b, c, d)) {
       in.push_back(n);
