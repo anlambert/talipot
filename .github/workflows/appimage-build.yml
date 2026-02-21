@@ -57,37 +57,34 @@ jobs:
         working-directory: ./build
         run: xvfb-run bash -c "./$(ls Talipot*.AppImage) --check-application-starts --debug-plugins-load"
       - name: Check Talipot AppImage can be executed on Fedora
-        uses: addnab/docker-run-action@v3
+        uses: vjik/docker-run@v1
         with:
           image: fedora
-          shell: bash
+          volumes: ${{ github.workspace }}:/talipot:rw
           options: --device /dev/fuse --privileged
-            -v ${{ github.workspace }}:/talipot:rw
-          run: |
+          command: |
             dnf group install -y gnome-desktop
             yum install -y xorg-x11-server-Xvfb libglvnd-opengl
             xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts --debug-plugins-load
       - name: Check Talipot AppImage can be executed on ArchLinux
-        uses: addnab/docker-run-action@v3
+        uses: vjik/docker-run@v1
         with:
           image: archlinux
-          shell: bash
+          volumes: ${{ github.workspace }}:/talipot:rw
           options: --device /dev/fuse --privileged
-            -v ${{ github.workspace }}:/talipot:rw
-          run: |
+          command: |
             until pacman -Syu --noconfirm fuse gnome qt5-base xorg-server-xvfb
             do
               echo "Some packages could not be downloaded, retrying"
             done
             xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts --debug-plugins-load
       - name: Check Talipot AppImage can be executed on openSUSE
-        uses: addnab/docker-run-action@v3
+        uses: vjik/docker-run@v1
         with:
           image: opensuse/tumbleweed
-          shell: bash
+          volumes: ${{ github.workspace }}:/talipot:rw
           options: --device /dev/fuse --privileged
-            -v ${{ github.workspace }}:/talipot:rw
-          run: |
+          command: |
             zypper install -y -t pattern kde kde_plasma
             zypper install -y fuse-devel xvfb-run
             xvfb-run $(ls /talipot/build/Talipot*.AppImage) --check-application-starts --debug-plugins-load

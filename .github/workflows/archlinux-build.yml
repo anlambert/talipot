@@ -30,14 +30,13 @@ jobs:
           --name ccache
           archlinux
       - name: Build Talipot on ArchLinux
-        uses: addnab/docker-run-action@v3
+        uses: vjik/docker-run@v1
         with:
           image: archlinux
-          shell: bash
+          volumes: ${{ github.workspace }}:/talipot:rw
           options: -e CCACHE_DIR=/ccache
             --volumes-from ccache
-            -v ${{ github.workspace }}:/talipot:rw
-          run: |
+          command: |
             pacman --noconfirm -Syuu
 
             pacman --noconfirm -S \
@@ -68,7 +67,7 @@ jobs:
             mkdir /talipot_build
             cd /talipot_build
 
-            sudo pip install --break-system-packages 'sip != 6.13.0'
+            sudo pip install --break-system-packages
 
             cmake -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PWD/install \
