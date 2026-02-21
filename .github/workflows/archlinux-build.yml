@@ -67,7 +67,7 @@ jobs:
             mkdir /talipot_build
             cd /talipot_build
 
-            sudo pip install --break-system-packages
+            sudo pip install --break-system-packages sip
 
             cmake -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PWD/install \
