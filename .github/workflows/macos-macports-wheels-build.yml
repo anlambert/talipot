@@ -13,22 +13,14 @@ jobs:
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
         config:
-          - os: macos-14
-            macosx_deployment_target: "14.0"
-            arch: arm64
           - os: macos-15-intel
-            macosx_deployment_target: "15.0"
             arch: x86_64
           - os: macos-15
-            macosx_deployment_target: "15.0"
             arch: arm64
-          # - os: macos-26
-          #   macosx_deployment_target: "26.0"
-          #   arch: arm64
 
     env:
       CLANG_VERSION: 20
-      MACOSX_DEPLOYMENT_TARGET: ${{ matrix.config.macosx_deployment_target }}
+      MACOSX_DEPLOYMENT_TARGET: "11.0"
       TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
@@ -50,18 +42,25 @@ jobs:
         run: |
           curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
           source ./macports-ci install --sync=rsync
+      - name: Set macOS deployment target and install MacOSX sdk 11.3
+        run: |
+          echo 'macosx_deployment_target 11.0' | sudo tee -a /opt/local/etc/macports/macports.conf
+          echo 'macosx_sdk_version 11.3' | sudo tee -a /opt/local/etc/macports/macports.conf
+          curl -LO https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz
+          tar -xzf MacOSX11.3.sdk.tar.xz
+          sudo mv MacOSX11.3.sdk /Library/Developer/CommandLineTools/SDKs/
       - name: Install Talipot build dependencies
-        run: sudo port -N install
-          cmake
-          ccache
-          bison
-          zlib
-          zstd
-          libomp
-          qhull
-          yajl
-          libgit2
-          graphviz
+        run: |
+          # install zlib and zstd from source first
+          sudo port -N -s install zlib zstd
+          # install binary packages and dependencies to avoid building them from source
+          sudo port -N install ccache cmake bison python313 gettext texinfo gawk graphviz
+          # uninstall packages that need to be built from source to get correct deployment target
+          sudo port -f uninstall openssl3 expat libtool libssh2 pcre2 libiconv \
+            libomp qhull yajl libgit2 graphviz
+          # install libraries that need to be bundled in wheel from source
+          sudo port -N -s install openssl3 expat libtool libssh2 pcre2 libiconv \
+            libomp qhull yajl libgit2 graphviz
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
@@ -82,12 +81,13 @@ jobs:
           key: macos-wheels-ccache-${{ matrix.python-version }}-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             ${{ matrix.config.os }}-ccache-${{ matrix.python-version }}-
-      - name: Sets CIBW_BUILD environment variable
+      - name: Sets CIBW_BUILD and SDKROOT environment variable
         env:
           pyVer: "${{matrix.python-version}}"
           arch: "${{matrix.config.arch}}"
         run: |
           echo "CIBW_BUILD=cp${pyVer/./}-macosx_$arch" >> $GITHUB_ENV
+          echo "SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk" >> $GITHUB_ENV
       - name: Build Talipot wheel with cibuildwheel
         run: |
           pip install cibuildwheel --user
@@ -102,8 +102,7 @@ jobs:
           python -c "from talipot import tlp; print(tlp.getImportPluginsList())"
       - uses: actions/upload-artifact@v4
         with:
-          name: talipot-wheel-${{ matrix.python-version }}
-            -${{ matrix.config.macosx_deployment_target }}-${{ matrix.config.arch }}
+          name: talipot-wheel-${{ matrix.python-version }}-${{ matrix.config.arch }}
           path: ./wheelhouse/*.whl
       - name: Publish Talipot wheel to TestPyPI
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
