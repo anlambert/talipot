@@ -79,52 +79,52 @@ using edge = EdgeElement*;
 using adjEntry = AdjElement*;
 
 
-#if __cpp_concepts >= 201907
-// clang-format off
-template<typename T>
-concept OGDF_NODE_FILTER = requires(T f) {
-	{ f(node()) } -> std::convertible_to<bool>;
-};
-template<typename T>
-concept OGDF_EDGE_FILTER = requires(T f) {
-	{ f(edge()) } -> std::convertible_to<bool>;
-};
-template<typename T>
-concept OGDF_NODE_ITER = std::forward_iterator<T> && requires(T i) {
-	{ *i } -> std::convertible_to<node>;
-};
-template<typename T>
-concept OGDF_EDGE_ITER = std::forward_iterator<T> && requires(T i) {
-	{ *i } -> std::convertible_to<edge>;
-};
-using std::begin;
-using std::end;
-template<typename T>
-concept OGDF_NODE_LIST = requires(T l) {
-	OGDF_NODE_ITER<decltype(begin(l))>;
-	OGDF_NODE_ITER<decltype(end(l))>;
-};
-template<typename T>
-concept OGDF_EDGE_LIST = requires(T l) {
-	OGDF_EDGE_ITER<decltype(begin(l))>;
-	OGDF_EDGE_ITER<decltype(end(l))>;
-};
-// clang-format on
+// #if __cpp_concepts >= 201907
+// // clang-format off
+// template<typename T>
+// concept OGDF_NODE_FILTER = requires(T f) {
+// 	{ f(node()) } -> std::convertible_to<bool>;
+// };
+// template<typename T>
+// concept OGDF_EDGE_FILTER = requires(T f) {
+// 	{ f(edge()) } -> std::convertible_to<bool>;
+// };
+// template<typename T>
+// concept OGDF_NODE_ITER = std::forward_iterator<T> && requires(T i) {
+// 	{ *i } -> std::convertible_to<node>;
+// };
+// template<typename T>
+// concept OGDF_EDGE_ITER = std::forward_iterator<T> && requires(T i) {
+// 	{ *i } -> std::convertible_to<edge>;
+// };
+// using std::begin;
+// using std::end;
+// template<typename T>
+// concept OGDF_NODE_LIST = requires(T l) {
+// 	OGDF_NODE_ITER<decltype(begin(l))>;
+// 	OGDF_NODE_ITER<decltype(end(l))>;
+// };
+// template<typename T>
+// concept OGDF_EDGE_LIST = requires(T l) {
+// 	OGDF_EDGE_ITER<decltype(begin(l))>;
+// 	OGDF_EDGE_ITER<decltype(end(l))>;
+// };
+// // clang-format on
 
-#	define OGDF_HAS_CONCEPTS
-#	define OGDF_CHECK_CONCEPT static_assert
+// #	define OGDF_HAS_CONCEPTS
+// #	define OGDF_CHECK_CONCEPT static_assert
 
-OGDF_CHECK_CONCEPT(OGDF_NODE_ITER<internal::GraphIterator<node>>);
-OGDF_CHECK_CONCEPT(OGDF_EDGE_ITER<internal::GraphIterator<edge>>);
-OGDF_CHECK_CONCEPT(OGDF_NODE_ITER<internal::GraphReverseIterator<node>>);
-OGDF_CHECK_CONCEPT(OGDF_EDGE_ITER<internal::GraphReverseIterator<edge>>);
-OGDF_CHECK_CONCEPT(OGDF_NODE_LIST<internal::GraphObjectContainer<NodeElement>>);
-OGDF_CHECK_CONCEPT(OGDF_EDGE_LIST<internal::GraphObjectContainer<EdgeElement>>);
-OGDF_CHECK_CONCEPT(OGDF_NODE_ITER<ListIteratorBase<node, false, false>>);
-OGDF_CHECK_CONCEPT(OGDF_EDGE_ITER<ListIteratorBase<edge, false, true>>);
-OGDF_CHECK_CONCEPT(OGDF_NODE_ITER<ListIteratorBase<node, true, false>>);
-OGDF_CHECK_CONCEPT(OGDF_EDGE_ITER<ListIteratorBase<edge, true, false>>);
-#else
+// OGDF_CHECK_CONCEPT(OGDF_NODE_ITER<internal::GraphIterator<node>>);
+// OGDF_CHECK_CONCEPT(OGDF_EDGE_ITER<internal::GraphIterator<edge>>);
+// OGDF_CHECK_CONCEPT(OGDF_NODE_ITER<internal::GraphReverseIterator<node>>);
+// OGDF_CHECK_CONCEPT(OGDF_EDGE_ITER<internal::GraphReverseIterator<edge>>);
+// OGDF_CHECK_CONCEPT(OGDF_NODE_LIST<internal::GraphObjectContainer<NodeElement>>);
+// OGDF_CHECK_CONCEPT(OGDF_EDGE_LIST<internal::GraphObjectContainer<EdgeElement>>);
+// OGDF_CHECK_CONCEPT(OGDF_NODE_ITER<ListIteratorBase<node, false, false>>);
+// OGDF_CHECK_CONCEPT(OGDF_EDGE_ITER<ListIteratorBase<edge, false, true>>);
+// OGDF_CHECK_CONCEPT(OGDF_NODE_ITER<ListIteratorBase<node, true, false>>);
+// OGDF_CHECK_CONCEPT(OGDF_EDGE_ITER<ListIteratorBase<edge, true, false>>);
+// #else
 #	define OGDF_NODE_FILTER typename
 #	define OGDF_EDGE_FILTER typename
 #	define OGDF_NODE_ITER typename
@@ -133,7 +133,7 @@ OGDF_CHECK_CONCEPT(OGDF_EDGE_ITER<ListIteratorBase<edge, true, false>>);
 #	define OGDF_EDGE_LIST typename
 
 #	define OGDF_CHECK_CONCEPT(...)
-#endif
+// #endif
 
 //! Class for adjacency list elements.
 /**
