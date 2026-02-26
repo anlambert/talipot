@@ -90,3 +90,4 @@ jobs:
             utils/*
           coveralls-send: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
