@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -11,7 +11,7 @@
  *
  */
 
-%Module(name=talipot, keyword_arguments="Optional")
+%Module(name=talipot, keyword_arguments="Optional", use_limited_api=True)
 
 // we define the NO_LIMIT_DOC feature
 // to deal with the limit for string constants length of Visual Studio
@@ -24,12 +24,6 @@
     tlp::initTalipotLib();
     tlp::PluginLibraryLoader::loadPlugins();
   }
-%End
-
-%PostInitialisationCode
-  // ensure that 'talipot' is in globals() to avoid exception when calling methods defined
-  // in the talipot module (talipot/__init__.py) from a startup script(executed the first time the module is imported)
-  PyRun_SimpleString("import sys;globals()['talipot'] = sys.modules['talipot']");
 %End
 
 %VirtualErrorHandler pass_through
@@ -184,8 +178,6 @@ extern void replaceAll(std::string &s, const std::string &replaceWhat,
 
 extern bool isValidGraphSelection(const tlp::Graph *graph, tlp::BooleanProperty *selection);
 
-extern PyObject *evalPythonStatement(const std::string &pythonStatement);
-
 extern bool isTupleAndCanConvertToVec3fType(PyObject *pyObj);
 
 template <typename VEC_TYPE>
@@ -196,22 +188,22 @@ VEC_TYPE *convertToVec3fType(PyObject *pyObj, float zVal = 0) {
 
   bool isList = PyList_Check(pyObj);
 
-  PyObject *f = isList ? PyList_GET_ITEM(pyObj, 0) : PyTuple_GET_ITEM(pyObj, 0);
+  PyObject *f = isList ? PyList_GetItem(pyObj, 0) : PyTuple_GetItem(pyObj, 0);
   if (convertPyObjectToLong(f, xl)) {
     x = float(xl);
   } else if (convertPyObjectToDouble(f, xd)) {
     x = float(xd);
   }
 
-  f = isList ? PyList_GET_ITEM(pyObj, 1) : PyTuple_GET_ITEM(pyObj, 1);
+  f = isList ? PyList_GetItem(pyObj, 1) : PyTuple_GetItem(pyObj, 1);
   if (convertPyObjectToLong(f, yl)) {
     y = float(yl);
   } else if (convertPyObjectToDouble(f, yd)) {
     y = float(yd);
   }
 
-  if ((isList && PyList_GET_SIZE(pyObj) > 2) || PyTuple_GET_SIZE(pyObj) > 2) {
-    f = isList ? PyList_GET_ITEM(pyObj, 2) : PyTuple_GET_ITEM(pyObj, 2);
+  if ((isList && PyList_Size(pyObj) > 2) || PyTuple_Size(pyObj) > 2) {
+    f = isList ? PyList_GetItem(pyObj, 2) : PyTuple_GetItem(pyObj, 2);
     if (convertPyObjectToLong(f, zl)) {
       z = float(zl);
     } else if (convertPyObjectToDouble(f, zd)) {
@@ -268,11 +260,7 @@ void enableErrorMessages(bool enable) {
 
 void printErrorMessage(const std::string &errMsg) {
   if (errorMessagesEnabled) {
-    std::string pythonCode = "import sys\n"
-                             "sys.stderr.write(\"";
-    pythonCode += errMsg;
-    pythonCode += "\\n\")";
-    PyRun_SimpleString(pythonCode.c_str());
+    PySys_WriteStderr(errMsg.c_str());
   }
 }
 
@@ -307,30 +295,13 @@ bool isValidGraphSelection(const tlp::Graph *graph, tlp::BooleanProperty *select
   return true;
 }
 
-PyObject *evalPythonStatement(const std::string &pythonStatement) {
-  PyObject *pName = PyUnicode_FromString("__main__");
-
-  PyObject *pMainModule = PyImport_Import(pName);
-  Py_XDECREF(pName);
-  PyObject *pMainDict = PyModule_GetDict(pMainModule);
-
-  PyObject *ret = PyRun_String(pythonStatement.c_str(), Py_eval_input, pMainDict, pMainDict);
-
-  if (PyErr_Occurred()) {
-    PyErr_Print();
-    PyErr_Clear();
-  }
-
-  return ret;
-}
-
 bool isTupleAndCanConvertToVec3fType(PyObject *pyObj) {
-  if (!PyTuple_Check(pyObj) || PyTuple_GET_SIZE(pyObj) < 2 || PyTuple_GET_SIZE(pyObj) > 3) {
+  if (!PyTuple_Check(pyObj) || PyTuple_Size(pyObj) < 2 || PyTuple_Size(pyObj) > 3) {
     return false;
   }
 
-  for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(pyObj); ++i) {
-    PyObject *item = PyTuple_GET_ITEM(pyObj, i);
+  for (Py_ssize_t i = 0; i < PyTuple_Size(pyObj); ++i) {
+    PyObject *item = PyTuple_GetItem(pyObj, i);
     bool canConvert = false;
     if (!PyBool_Check(item) && PyLong_Check(item)) {
       canConvert = canConvert || true;

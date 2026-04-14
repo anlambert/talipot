@@ -106,7 +106,7 @@ public:
 static SleepSimulator ss;
 
 void tlp::decrefPyObject(PyObject *obj) {
-  Py_XDECREF(obj);
+  Py_DecRef(obj);
 }
 
 int tracefunc(PyObject *, PyFrameObject *, int what, PyObject *) {

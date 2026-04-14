@@ -16,18 +16,18 @@ import tabulate
 from talipot import tlp
 
 talipot_build_dir = os.environ["TALIPOT_BUILD_DIR"]
-tlp.loadTalipotPluginsFromDir(f"{talipot_build_dir}/plugins/clustering")
-tlp.loadTalipotPluginsFromDir(f"{talipot_build_dir}/plugins/colors")
-tlp.loadTalipotPluginsFromDir(f"{talipot_build_dir}/plugins/export")
-tlp.loadTalipotPluginsFromDir(f"{talipot_build_dir}/plugins/general")
-tlp.loadTalipotPluginsFromDir(f"{talipot_build_dir}/plugins/import")
-tlp.loadTalipotPluginsFromDir(f"{talipot_build_dir}/plugins/layout")
-tlp.loadTalipotPluginsFromDir(f"{talipot_build_dir}/plugins/metric")
-tlp.loadTalipotPluginsFromDir(f"{talipot_build_dir}/plugins/selection")
-tlp.loadTalipotPluginsFromDir(f"{talipot_build_dir}/plugins/sizes")
-tlp.loadTalipotPluginsFromDir(f"{talipot_build_dir}/plugins/string")
-tlp.loadTalipotPluginsFromDir(f"{talipot_build_dir}/plugins/test")
-tlp.loadTalipotPluginsFromDir(os.environ["TALIPOT_PYTHON_PLUGINS_DIR"])
+tlp.loadPluginsFromDir(f"{talipot_build_dir}/plugins/clustering")
+tlp.loadPluginsFromDir(f"{talipot_build_dir}/plugins/colors")
+tlp.loadPluginsFromDir(f"{talipot_build_dir}/plugins/export")
+tlp.loadPluginsFromDir(f"{talipot_build_dir}/plugins/general")
+tlp.loadPluginsFromDir(f"{talipot_build_dir}/plugins/import")
+tlp.loadPluginsFromDir(f"{talipot_build_dir}/plugins/layout")
+tlp.loadPluginsFromDir(f"{talipot_build_dir}/plugins/metric")
+tlp.loadPluginsFromDir(f"{talipot_build_dir}/plugins/selection")
+tlp.loadPluginsFromDir(f"{talipot_build_dir}/plugins/sizes")
+tlp.loadPluginsFromDir(f"{talipot_build_dir}/plugins/string")
+tlp.loadPluginsFromDir(f"{talipot_build_dir}/plugins/test")
+tlp.loadPluginsFromDir(os.environ["TALIPOT_PYTHON_PLUGINS_DIR"])
 
 f = open("talipotpluginsdocumentation.rst", "w", encoding="utf-8")
 

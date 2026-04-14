@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -251,19 +251,19 @@ bool setPropertiesValuesFromDataSet(tlp::Graph *graph, const tlp::DataSet *dataS
       ok = false;
     }
 
-    Py_XDECREF(pPropName);
-    Py_XDECREF(pElement);
-    Py_XDECREF(propProxy);
-    Py_XDECREF(pValue);
-    Py_XDECREF(ret);
+    Py_DecRef(pPropName);
+    Py_DecRef(pElement);
+    Py_DecRef(propProxy);
+    Py_DecRef(pValue);
+    Py_DecRef(ret);
 
     if (!ok) {
       break;
     }
   }
   tlp::Observable::unholdObservers();
-  Py_XDECREF(pGetItem);
-  Py_XDECREF(pSetItem);
+  Py_DecRef(pGetItem);
+  Py_DecRef(pSetItem);
   return ok;
 }
 %End
@@ -4827,7 +4827,7 @@ ValueSetter valSetter(sipCpp, *a0);
 if (!setCppValueFromPyObject(a1, valSetter, dataType)) {
   sipIsErr = -1;
   std::string msg = "Object of type ";
-  msg += std::string(a1->ob_type->tp_name);
+  msg += convertPyObjectTypeToStdString(a1);
   msg += " can not be store as graph attribute.";
   PyErr_SetString(PyExc_ValueError, msg.c_str());
 }
