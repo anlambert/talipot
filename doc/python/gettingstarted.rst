@@ -234,29 +234,3 @@ You should now be able to import the Talipot-Python modules through the classica
 at the shell prompt to perform that task::
 
     >>> from talipot import tlp
-
-Customizing the Python environment
-----------------------------------
-
-It is possible to customize the Python environment the first time the :mod:`talipot` module
-is imported through the use of a startup scripts hook mechanism.
-
-For instance, that feature could be used to :
-
-        * modify the list of Python import paths, in order to load modules not located in standard directories from then
-
-        * load Talipot plugins not located in default plugins folders
-
-        * add new Python functions and classes to the environment that will be available each time the talipot module is imported
-
-When the talipot module is imported from the first time in the current Python session, the content of the following directories
-will be scan for Python files (.py extension) :
-
-        * <talipot_install_dir>/lib/talipot/python/startup
-
-        * <home_dir>/.Talipot-X.Y/python/startup
-
-Then, for each Python file found, its content will be read and executed in the context of the Python main module
-(the file will not be imported as a Python module).
-
-

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -40,12 +40,12 @@ for (TYPE *cpp : *sipCpp) {
   // one if necessary, and handle any ownership transfer.
   if ((pobj = sipConvertFromType(cpp, kpTypeDef, sipTransferObj)) == NULL) {
     // There was an error so garbage collect the Python list.
-    Py_XDECREF(l);
+    Py_DecRef(l);
     return NULL;
   }
 
   // Add the wrapper to the list.
-  PyList_SET_ITEM(l, i++, pobj);
+  PyList_SetItem(l, i++, pobj);
 }
 
 // Return the Python list.
@@ -65,8 +65,8 @@ if (sipIsErr == NULL) {
   if (!PyList_Check(sipPy)) {
     return 0;
   }
-  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-    PyObject *item = PyList_GET_ITEM(sipPy, i);
+  for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+    PyObject *item = PyList_GetItem(sipPy, i);
     if (!sipCanConvertToType(item, kpTypeDef, SIP_NOT_NONE)) {
       return 0;
     }
@@ -77,9 +77,9 @@ if (sipIsErr == NULL) {
 // Convert Python list of TYPE to  std::list<TYPE*>
 std::list<TYPE *> *l = new std::list<TYPE *>();
 
-for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
   int state;
-  PyObject *item = PyList_GET_ITEM(sipPy, i);
+  PyObject *item = PyList_GetItem(sipPy, i);
   TYPE *p =
       static_cast<TYPE *>(sipConvertToType(item, kpTypeDef, NULL, SIP_NOT_NONE, &state, sipIsErr));
 
@@ -129,12 +129,12 @@ for (const TYPE &v : *sipCpp) {
   // one if necessary, and handle any ownership transfer.
   if ((pobj = sipConvertFromNewType(cpp, kpTypeDef, sipTransferObj)) == NULL) {
     // There was an error so garbage collect the Python list.
-    Py_XDECREF(l);
+    Py_DecRef(l);
     return NULL;
   }
 
   // Add the wrapper to the list.
-  PyList_SET_ITEM(l, i++, pobj);
+  PyList_SetItem(l, i++, pobj);
 }
 
 // Return the Python list.
@@ -154,8 +154,8 @@ if (sipIsErr == NULL) {
   if (!PyList_Check(sipPy)) {
     return 0;
   }
-  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-    PyObject *item = PyList_GET_ITEM(sipPy, i);
+  for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+    PyObject *item = PyList_GetItem(sipPy, i);
     if (!sipCanConvertToType(item, kpTypeDef, SIP_NOT_NONE)) {
       return 0;
     }
@@ -165,9 +165,9 @@ if (sipIsErr == NULL) {
 
 // Convert Python list of TYPE to  std::list<TYPE>
 std::list<TYPE> *l = new std::list<TYPE>();
-for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
   int state;
-  TYPE *p = static_cast<TYPE *>(sipConvertToType(PyList_GET_ITEM(sipPy, i), kpTypeDef,
+  TYPE *p = static_cast<TYPE *>(sipConvertToType(PyList_GetItem(sipPy, i), kpTypeDef,
                                                  sipTransferObj, SIP_NOT_NONE, &state, sipIsErr));
 
   if (*sipIsErr) {
@@ -208,7 +208,7 @@ if ((l = PyList_New(sipCpp->size())) == NULL) {
 int i = 0;
 for (double d : *sipCpp) {
   // Add the wrapper to the list.
-  PyList_SET_ITEM(l, i++, PyFloat_FromDouble(d));
+  PyList_SetItem(l, i++, PyFloat_FromDouble(d));
 }
 
 // Return the Python list.
@@ -221,8 +221,8 @@ if (sipIsErr == NULL) {
   if (!PyList_Check(sipPy)) {
     return 0;
   }
-  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-    PyObject *item = PyList_GET_ITEM(sipPy, i);
+  for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+    PyObject *item = PyList_GetItem(sipPy, i);
     if (!PyNumber_Check(item)) {
       return 0;
     }
@@ -232,10 +232,10 @@ if (sipIsErr == NULL) {
 
 // Convert Python list of numbers to a std::vector<double>
 std::list<double> *v = new std::list<double>();
-for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-  PyObject *f = PyNumber_Float(PyList_GET_ITEM(sipPy, i));
+for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+  PyObject *f = PyNumber_Float(PyList_GetItem(sipPy, i));
   v->push_back(PyFloat_AsDouble(f));
-  Py_XDECREF(f);
+  Py_DecRef(f);
 }
 
 *sipCppPtr = v;
@@ -265,7 +265,7 @@ if ((l = PyList_New(sipCpp->size())) == NULL) {
 int i = 0;
 for (float f : *sipCpp) {
   // Add the wrapper to the list.
-  PyList_SET_ITEM(l, i++, PyFloat_FromDouble(f));
+  PyList_SetItem(l, i++, PyFloat_FromDouble(f));
 }
 
 // Return the Python list.
@@ -278,8 +278,8 @@ if (sipIsErr == NULL) {
   if (!PyList_Check(sipPy)) {
     return 0;
   }
-  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-    PyObject *item = PyList_GET_ITEM(sipPy, i);
+  for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+    PyObject *item = PyList_GetItem(sipPy, i);
     if (!PyNumber_Check(item)) {
       return 0;
     }
@@ -289,10 +289,10 @@ if (sipIsErr == NULL) {
 
 // Convert Python list of numbers to a std::vector<double>
 std::list<float> *v = new std::list<float>();
-for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-  PyObject *f = PyNumber_Float(PyList_GET_ITEM(sipPy, i));
+for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+  PyObject *f = PyNumber_Float(PyList_GetItem(sipPy, i));
   v->push_back(float(PyFloat_AsDouble(f)));
-  Py_XDECREF(f);
+  Py_DecRef(f);
 }
 
 *sipCppPtr = v;
@@ -323,7 +323,7 @@ if ((l = PyList_New(sipCpp->size())) == NULL) {
 int i = 0;
 for (int n : *sipCpp) {
   // Add the wrapper to the list.
-  PyList_SET_ITEM(l, i++, PyLong_FromLong(n));
+  PyList_SetItem(l, i++, PyLong_FromLong(n));
 }
 
 // Return the Python list.
@@ -336,8 +336,8 @@ if (sipIsErr == NULL) {
   if (!PyList_Check(sipPy)) {
     return 0;
   }
-  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-    PyObject *item = PyList_GET_ITEM(sipPy, i);
+  for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+    PyObject *item = PyList_GetItem(sipPy, i);
     if (!PyLong_Check(item)) {
       return 0;
     }
@@ -347,8 +347,8 @@ if (sipIsErr == NULL) {
 
 // Convert Python list of integers to a std::vector<int>
 std::list<int> *v = new std::list<int>();
-for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-  v->push_back(int(PyLong_AsLong(PyList_GET_ITEM(sipPy, i))));
+for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+  v->push_back(int(PyLong_AsLong(PyList_GetItem(sipPy, i))));
 }
 
 *sipCppPtr = v;
@@ -379,7 +379,7 @@ if ((l = PyList_New(sipCpp->size())) == NULL) {
 int i = 0;
 for (uint n : *sipCpp) {
   // Add the wrapper to the list.
-  PyList_SET_ITEM(l, i++, PyLong_FromUnsignedLong(n));
+  PyList_SetItem(l, i++, PyLong_FromUnsignedLong(n));
 }
 
 // Return the Python list.
@@ -392,8 +392,8 @@ if (sipIsErr == NULL) {
   if (!PyList_Check(sipPy)) {
     return 0;
   }
-  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-    PyObject *item = PyList_GET_ITEM(sipPy, i);
+  for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+    PyObject *item = PyList_GetItem(sipPy, i);
     if (!PyLong_Check(item)) {
       return 0;
     }
@@ -403,8 +403,8 @@ if (sipIsErr == NULL) {
 
 // Convert Python list of integers to a std::vector<int>
 std::list<uint> *v = new std::list<uint>();
-for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-  v->push_back(uint(PyLong_AsUnsignedLong(PyList_GET_ITEM(sipPy, i))));
+for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+  v->push_back(uint(PyLong_AsUnsignedLong(PyList_GetItem(sipPy, i))));
 }
 
 *sipCppPtr = v;
@@ -433,9 +433,9 @@ if ((l = PyList_New(sipCpp->size())) == NULL) {
 // Go through each element in the C++ instance and convert it to a
 // wrapped object.
 int i = 0;
-for (long l : *sipCpp) {
+for (long lv : *sipCpp) {
   // Add the wrapper to the list.
-  PyList_SET_ITEM(l, i++, PyLong_FromLong(l));
+  PyList_SetItem(l, i++, PyLong_FromLong(lv));
 }
 
 // Return the Python list.
@@ -448,8 +448,8 @@ if (sipIsErr == NULL) {
   if (!PyList_Check(sipPy)) {
     return 0;
   }
-  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-    PyObject *item = PyList_GET_ITEM(sipPy, i);
+  for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+    PyObject *item = PyList_GetItem(sipPy, i);
     if (!PyLong_Check(item)) {
       return 0;
     }
@@ -459,8 +459,8 @@ if (sipIsErr == NULL) {
 
 // Convert Python list of integers to a std::vector<int>
 std::list<long> *v = new std::list<long>();
-for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-  v->push_back(PyLong_AsLong(PyList_GET_ITEM(sipPy, i)));
+for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+  v->push_back(PyLong_AsLong(PyList_GetItem(sipPy, i)));
 }
 
 *sipCppPtr = v;
@@ -491,7 +491,7 @@ if ((l = PyList_New(sipCpp->size())) == NULL) {
 int i = 0;
 for (uint n : *sipCpp) {
   // Add the wrapper to the list.
-  PyList_SET_ITEM(l, i++, PyLong_FromUnsignedLong(n));
+  PyList_SetItem(l, i++, PyLong_FromUnsignedLong(n));
 }
 
 // Return the Python list.
@@ -504,8 +504,8 @@ if (sipIsErr == NULL) {
   if (!PyList_Check(sipPy)) {
     return 0;
   }
-  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-    PyObject *item = PyList_GET_ITEM(sipPy, i);
+  for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+    PyObject *item = PyList_GetItem(sipPy, i);
     if (!PyLong_Check(item)) {
       return 0;
     }
@@ -515,8 +515,8 @@ if (sipIsErr == NULL) {
 
 // Convert Python list of integers to a std::vector<int>
 std::list<ulong> *v = new std::list<ulong>();
-for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-  v->push_back(PyLong_AsUnsignedLong(PyList_GET_ITEM(sipPy, i)));
+for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+  v->push_back(PyLong_AsUnsignedLong(PyList_GetItem(sipPy, i)));
 }
 
 *sipCppPtr = v;
@@ -547,7 +547,7 @@ if ((l = PyList_New(sipCpp->size())) == NULL) {
 int i = 0;
 for (bool b : *sipCpp) {
   // Add the wrapper to the list.
-  PyList_SET_ITEM(l, i, PyBool_FromLong(b));
+  PyList_SetItem(l, i, PyBool_FromLong(b));
 }
 
 // Return the Python list.
@@ -560,8 +560,8 @@ if (sipIsErr == NULL) {
   if (!PyList_Check(sipPy)) {
     return 0;
   }
-  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-    PyObject *item = PyList_GET_ITEM(sipPy, i);
+  for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+    PyObject *item = PyList_GetItem(sipPy, i);
     if (!PyBool_Check(item)) {
       return 0;
     }
@@ -571,8 +571,8 @@ if (sipIsErr == NULL) {
 
 // Convert Python list of booleans to a std::vector<bool>
 std::list<bool> *v = new std::list<bool>();
-for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-  v->push_back(PyList_GET_ITEM(sipPy, i) == Py_True);
+for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+  v->push_back(PyList_GetItem(sipPy, i) == Py_True);
 }
 
 *sipCppPtr = v;

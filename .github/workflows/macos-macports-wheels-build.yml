@@ -4,40 +4,56 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  macos:
+  talipot-abi3:
     name: Talipot wheel build for Python ${{ matrix.python-version }}
       on ${{ matrix.config.os }}
     runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
         config:
-          - os: macos-15-intel
+          - os: macos-26-intel
             arch: x86_64
           - os: macos-15
             arch: arm64
 
     env:
-      CLANG_VERSION: 20
       MACOSX_DEPLOYMENT_TARGET: "11.0"
       TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
-      
+      python-version: "3.11"
+
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v5
-      - name: Install Python ${{ matrix.python-version }}
+      - name: Install Python ${{ env.python-version }}
         uses: actions/setup-python@v5
         id: python-install
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ env.python-version }}
       - name: Install build and twine Python packages
         run: |
           which python
           python --version
           sudo pip install twine build
+      # sudo is required to restore macports cache, apply same workaround from
+      # https://github.com/actions/cache/issues/629#issuecomment-1189184648
+      - name: Install gtar wrapper
+        run: |
+          gtar_path=$(which gtar)
+          echo "#!/bin/sh" > gtar
+          echo "exec sudo $gtar_path.orig \"\$@\"" >> gtar
+          sudo mv $gtar_path $gtar_path.orig
+          sudo mv gtar $gtar_path
+          sudo chmod +x $gtar_path
+      - name: Restore macports cache
+        id: restore-macports-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: /opt/local/
+          key: macports-cache-${{ matrix.config.arch }}-${{ matrix.config.os }}
+          restore-keys: macports-cache-${{ matrix.config.arch }}-${{ matrix.config.os }}
       - name: Install MacPorts
         run: |
           curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
@@ -51,60 +67,127 @@ jobs:
           sudo mv MacOSX11.3.sdk /Library/Developer/CommandLineTools/SDKs/
       - name: Install Talipot build dependencies
         run: |
-          # install zlib and zstd from source first
-          sudo port -N -s install zlib zstd
-          # install binary packages and dependencies to avoid building them from source
-          sudo port -N install ccache cmake bison python313 gettext texinfo gawk graphviz
-          # uninstall packages that need to be built from source to get correct deployment target
-          sudo port -f uninstall openssl3 expat libtool libssh2 pcre2 libiconv \
-            libomp qhull yajl libgit2 graphviz
           # install libraries that need to be bundled in wheel from source
           sudo port -N -s install openssl3 expat libtool libssh2 pcre2 libiconv \
-            libomp qhull yajl libgit2 graphviz
-      - name: Prepare ccache timestamp
-        id: get-current-date
+            libomp qhull yajl libgit2 graphviz zlib zstd
+      - name: Compute macports cache key
+        id: cache-key
         run: |
-          echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
+          echo "value=$(find /opt/local/var/macports/software | sha1sum | cut -c1-40)" >> $GITHUB_OUTPUT
         shell: bash
-      - name: Get ccache directory
-        id: get-cccache-dir
-        run: |
-          ccache_dir=$(ccache -sv | grep "Cache directory" | awk '{print $3}')
-          echo "ccache-dir=$ccache_dir" >> $GITHUB_OUTPUT
-        shell: bash
-      - name: Cache files
-        uses: actions/cache@v4
+      - name: Save macports cache
+        uses: actions/cache/save@v5
         with:
-          path: |
-            ${{ steps.get-cccache-dir.outputs.ccache-dir }}
-            /Users/runner/.macports-ci-ccache
-          key: macos-wheels-ccache-${{ matrix.python-version }}-${{ steps.get-current-date.outputs.date }}
-          restore-keys: |
-            ${{ matrix.config.os }}-ccache-${{ matrix.python-version }}-
+          path: /opt/local/
+          key: macports-cache-${{ matrix.config.arch }}-${{ matrix.config.os }}-${{ steps.cache-key.outputs.value }}
       - name: Sets CIBW_BUILD and SDKROOT environment variable
         env:
-          pyVer: "${{matrix.python-version}}"
+          pyVer: "${{env.python-version}}"
           arch: "${{matrix.config.arch}}"
         run: |
           echo "CIBW_BUILD=cp${pyVer/./}-macosx_$arch" >> $GITHUB_ENV
           echo "SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk" >> $GITHUB_ENV
-      - name: Build Talipot wheel with cibuildwheel
+      - name: Build talipot wheel abi3 with cibuildwheel
+        env:
+          CIBW_BUILD_VERBOSITY: 1
+          CIBW_REPAIR_WHEEL_COMMAND: >
+            pip install abi3audit &&
+            abi3audit --strict --verbose {wheel} &&
+            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
         run: |
           pip install cibuildwheel --user
           python -m cibuildwheel --output-dir wheelhouse
-        env:
-          CIBW_BUILD_VERBOSITY: 1
+
       - name: Test built wheel can be installed and imported
         working-directory: wheelhouse
         run: |
+          pip install sip
+          python -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
+          pip install talipot_sip* && rm -f talipot_sip*
+
           pip install $(ls -t | head -1)
           python -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
           python -c "from talipot import tlp; print(tlp.getImportPluginsList())"
       - uses: actions/upload-artifact@v4
         with:
+          name: talipot-wheel-abi3-${{ matrix.config.arch }}
+          path: ./wheelhouse/*.whl
+      - name: Publish talipot wheel to TestPyPI
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+        run: |
+          twine check wheelhouse/*
+          twine upload --skip-existing wheelhouse/*
+
+  talipot-sip:
+    name: Talipot wheel build for Python ${{ matrix.python-version }}
+      on ${{ matrix.config.os }}
+    runs-on: ${{ matrix.config.os }}
+    needs: [talipot-abi3]
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+        config:
+          - os: macos-15-intel
+            arch: x86_64
+          - os: macos-15
+            arch: arm64
+
+    env:
+      CLANG_VERSION: 20
+      MACOSX_DEPLOYMENT_TARGET: "11.0"
+      TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
+      TWINE_USERNAME: __token__
+      TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+
+    steps:
+      - name: Install Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        id: python-install
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install build and twine Python packages
+        run: |
+          which python
+          python --version
+          sudo pip install twine build
+      - name: Sets CIBW_BUILD environment variable
+        env:
+          pyVer: "${{matrix.python-version}}"
+          arch: "${{matrix.config.arch}}"
+        run: |
+          echo "CIBW_BUILD=cp${pyVer/./}-macosx_$arch" >> $GITHUB_ENV
+      - name: Build talipot-sip wheel with cibuildwheel
+        env:
+          CIBW_BUILD_VERBOSITY: 1
+        run: |
+          pip install cibuildwheel sip --user
+
+          python -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
+          tar -xvzf talipot_sip*.tar.gz && rm -f talipot_sip*.tar.gz
+          cd talipot_sip*
+
+          python -m cibuildwheel --output-dir ../wheelhouse
+      - name: Download talipot abi3 wheel
+        uses: actions/download-artifact@v8
+        with:
+          name: talipot-wheel-abi3-${{ matrix.config.arch }}
+      - name: Test built wheel can be installed and imported
+        working-directory: wheelhouse
+        run: |
+          pip install $(ls -t | head -1)
+          cd .. && pip install talipot*.whl
+
+          python -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+          python -c "from talipot import tlp; print(tlp.getImportPluginsList())"
+
+          cd wheelhouse
+          python -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
+      - uses: actions/upload-artifact@v4
+        with:
           name: talipot-wheel-${{ matrix.python-version }}-${{ matrix.config.arch }}
           path: ./wheelhouse/*.whl
-      - name: Publish Talipot wheel to TestPyPI
+      - name: Publish talipot-sip wheel to TestPyPI
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
         run: |
           twine check wheelhouse/*

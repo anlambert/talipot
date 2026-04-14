@@ -4,13 +4,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  manylinux:
-    name: Talipot manylinux ${{ matrix.python-version }} wheel build
+  talipot-abi3:
+    name: talipot manylinux ${{ matrix.python-version }} abi3 wheel build
     runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    env:
+      python-version: "3.11"
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v5
@@ -23,24 +21,20 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /ccache
-          key: manylinux2014-ccache-${{ matrix.python-version }}-${{ steps.get-current-date.outputs.date }}
+          key: manylinux2014-ccache-${{ env.python-version }}-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
-            manylinux2014-ccache-${{ matrix.python-version }}-
-      - name: Install Python ${{ matrix.python-version }}
+            manylinux2014-ccache-${{ env.python-version }}-
+      - name: Install Python ${{ env.python-version }}
         uses: actions/setup-python@v5
         id: python-install
         with:
           python-version: ${{ matrix.python-version }}
       - name: Sets CIBW_BUILD environment variable
         env:
-          pyVer: "${{matrix.python-version}}"
+          pyVer: "${{env.python-version}}"
         run: |
           echo "CIBW_BUILD=cp${pyVer/./}-manylinux_x86_64" >> $GITHUB_ENV
       - name: Build Talipot wheel with cibuildwheel
-        run: |
-          sudo apt install python3-pip
-          pip3 install cibuildwheel --user
-          python3 -m cibuildwheel --output-dir wheelhouse
         env:
           CCACHE_DIR: /host/ccache
           CIBW_BUILD_VERBOSITY: 1
@@ -49,19 +43,33 @@ jobs:
             mkdir /host/ccache &&
             yum -y install epel-release ccache &&
             yum -y install zlib-devel libzstd-devel yajl-devel qhull-devel graphviz-devel libgit2-devel
+          CIBW_REPAIR_WHEEL_COMMAND: >
+            pip install abi3audit &&
+            abi3audit --strict --verbose {wheel} &&
+            auditwheel repair -w {dest_dir} {wheel}
+        run: |
+          sudo apt install python3-pip
+          pip3 install cibuildwheel --user
+          python3 -m cibuildwheel --output-dir wheelhouse
       - name: Test wheel can be installed and talipot module imported
         run: |
+          $Python3_ROOT_DIR/bin/pip install sip
+          $Python3_ROOT_DIR/bin/python -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
+          $Python3_ROOT_DIR/bin/pip install talipot_sip* && rm -f talipot_sip*
+
           $Python3_ROOT_DIR/bin/pip install $(ls -t | head -1)
           $Python3_ROOT_DIR/bin/python -c "
           from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
           $Python3_ROOT_DIR/bin/python -c "
           from talipot import tlp; print(tlp.getImportPluginsList())"
+
+          $Python3_ROOT_DIR/bin/python -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
         working-directory: wheelhouse
       - uses: actions/upload-artifact@v4
         with:
-          name: talipot-wheel-${{ matrix.python-version }}
+          name: talipot-wheel-abi3
           path: ./wheelhouse/*.whl
-      - name: Publish Talipot wheel to TestPyPI
+      - name: Publish talipot wheel to TestPyPI
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
@@ -69,3 +77,67 @@ jobs:
           repository-url: https://test.pypi.org/legacy/
           packages-dir: wheelhouse/
           skip-existing: true
+
+  talipot-sip:
+      name: talipot-sip manylinux ${{ matrix.python-version }} wheel build
+      runs-on: ubuntu-24.04
+      needs: [talipot-abi3]
+      strategy:
+        fail-fast: false
+        matrix:
+          python-version: ["3.11", "3.12", "3.13", "3.14"]
+      steps:
+        - name: Install Python ${{ matrix.python-version }}
+          uses: actions/setup-python@v5
+          id: python-install
+          with:
+            python-version: ${{ matrix.python-version }}
+        - name: Sets CIBW_BUILD environment variable
+          env:
+            pyVer: "${{matrix.python-version}}"
+          run: |
+            echo "CIBW_BUILD=cp${pyVer/./}-manylinux_x86_64" >> $GITHUB_ENV
+        - name: Build talipot-sip wheel with cibuildwheel
+          run: |
+            sudo apt install python3-pip
+            pip3 install --user cibuildwheel sip
+
+            python3 -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
+            tar -xvzf talipot_sip*.tar.gz && rm -f talipot_sip*.tar.gz
+            cd talipot_sip*
+
+            python3 -m cibuildwheel --output-dir ../wheelhouse
+          env:
+            CIBW_BUILD_VERBOSITY: 1
+            CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+        - name: Download talipot abi3 wheel
+          uses: actions/download-artifact@v8
+          with:
+            name: talipot-wheel-abi3
+        - name: Test wheel can be installed and talipot module imported
+          run: |
+            cd wheelhouse
+            $Python3_ROOT_DIR/bin/pip install $(ls -t | head -1)
+            cd ..
+
+            $Python3_ROOT_DIR/bin/pip install talipot*.whl
+
+            $Python3_ROOT_DIR/bin/python -c "
+            from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+            $Python3_ROOT_DIR/bin/python -c "
+            from talipot import tlp; print(tlp.getImportPluginsList())"
+
+            cd wheelhouse
+            python3 -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
+        - uses: actions/upload-artifact@v7
+          with:
+            name: talipot-sip-wheel-${{ matrix.python-version }}
+            path: ./wheelhouse/*.whl
+        - name: Publish talipot-sip wheel to TestPyPI
+          if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+          uses: pypa/gh-action-pypi-publish@release/v1
+          with:
+            password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+            repository-url: https://test.pypi.org/legacy/
+            packages-dir: ./wheelhouse/
+            skip-existing: true

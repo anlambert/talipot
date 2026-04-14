@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -665,7 +665,7 @@ if (sipCpp->getGraph()->isElement(*a0)) {
 
   void __setitem__(const tlp::node n, SIP_PYOBJECT val);
 %MethodCode
-std::string pythonType(a1->ob_type->tp_name);
+std::string pythonType = convertPyObjectTypeToStdString(a1);
 std::string errMsg =
     "Error : unable to create a graph property for Python type '" + pythonType + "'.";
 PyErr_SetString(PyExc_TypeError, errMsg.c_str());
@@ -795,7 +795,7 @@ if (sipCpp->getGraph()->isElement(*a0)) {
 
   void __setitem__(const tlp::edge e, SIP_PYOBJECT val);
 %MethodCode
-std::string pythonType(a1->ob_type->tp_name);
+std::string pythonType = convertPyObjectTypeToStdString(a1);
 std::string errMsg =
     "Error : unable to create a graph property for Python type '" + pythonType + "'.";
 PyErr_SetString(PyExc_TypeError, errMsg.c_str());
@@ -899,7 +899,7 @@ sipCpp->setAllNodeValue(*a0);
 
 void setAllNodeValue(SIP_PYOBJECT val);
 %MethodCode
-std::string pythonType(a0->ob_type->tp_name);
+std::string pythonType = convertPyObjectTypeToStdString(a0);
 std::string errMsg =
     "Error : unable to create a graph property for Python type '" + pythonType + "'.";
 PyErr_SetString(PyExc_TypeError, errMsg.c_str());
@@ -977,7 +977,7 @@ sipCpp->setAllEdgeValue(*a0);
 
   void setAllEdgeValue(SIP_PYOBJECT val);
 %MethodCode
-std::string pythonType(a0->ob_type->tp_name);
+std::string pythonType = convertPyObjectTypeToStdString(a0);
 std::string errMsg =
     "Error : unable to create a graph property for Python type '" + pythonType + "'.";
 PyErr_SetString(PyExc_TypeError, errMsg.c_str());
@@ -991,8 +991,8 @@ if (sipCpp->getProperty()) {
       sipConvertFromType(sipCpp->getProperty(), sipFindType("tlp::PropertyInterface"), NULL);
   PyObject *pName = PyUnicode_FromString("__getitem__");
   sipRes = PyObject_CallMethodObjArgs(pyProp, pName, a0Wrapper, NULL);
-  Py_XDECREF(pName);
-  Py_XDECREF(pyProp);
+  Py_DecRef(pName);
+  Py_DecRef(pyProp);
 } else {
   PyErr_SetString(
       PyExc_RuntimeError,
@@ -1008,8 +1008,8 @@ if (sipCpp->getProperty()) {
       sipConvertFromType(sipCpp->getProperty(), sipFindType("tlp::PropertyInterface"), NULL);
   PyObject *pName = PyUnicode_FromString("__getitem__");
   sipRes = PyObject_CallMethodObjArgs(pyProp, pName, a0Wrapper, NULL);
-  Py_XDECREF(pName);
-  Py_XDECREF(pyProp);
+  Py_DecRef(pName);
+  Py_DecRef(pyProp);
 } else {
   PyErr_SetString(
       PyExc_RuntimeError,

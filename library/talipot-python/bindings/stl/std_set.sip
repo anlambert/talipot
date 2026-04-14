@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -41,7 +41,7 @@ for (const TYPE &v : *sipCpp) {
   // one if necessary, and handle any ownership transfer.
   if ((pobj = sipConvertFromNewType(cpp, kpTypeDef, sipTransferObj)) == NULL) {
     // There was an error so garbage collect the Python set.
-    Py_XDECREF(l);
+    Py_DecRef(l);
     return NULL;
   }
 
@@ -71,13 +71,13 @@ if (sipIsErr == NULL) {
 
   while (item = PyIter_Next(iterator)) {
     if (!sipCanConvertToType(item, kpTypeDef, SIP_NOT_NONE)) {
-      Py_DECREF(item);
-      Py_DECREF(iterator);
+      Py_DecRef(item);
+      Py_DecRef(iterator);
       return 0;
     }
-    Py_DECREF(item);
+    Py_DecRef(item);
   }
-  Py_DECREF(iterator);
+  Py_DecRef(iterator);
   return 1;
 }
 
@@ -92,18 +92,18 @@ while (item = PyIter_Next(iterator)) {
       sipConvertToType(item, kpTypeDef, sipTransferObj, SIP_NOT_NONE, &state, sipIsErr));
 
   if (*sipIsErr) {
-    Py_DECREF(item);
-    Py_DECREF(iterator);
+    Py_DecRef(item);
+    Py_DecRef(iterator);
     sipReleaseType(p, kpTypeDef, state);
     delete s;
     return 0;
   }
 
   s->insert(*p);
-  Py_DECREF(item);
+  Py_DecRef(item);
   sipReleaseType(p, kpTypeDef, state);
 }
-Py_DECREF(iterator);
+Py_DecRef(iterator);
 *sipCppPtr = s;
 return sipGetState(sipTransferObj);
 %End
@@ -139,7 +139,7 @@ for (TYPE *cpp : *sipCpp) {
   // one if necessary, and handle any ownership transfer.
   if ((pobj = sipConvertFromType(cpp, kpTypeDef, sipTransferObj)) == NULL) {
     // There was an error so garbage collect the Python set.
-    Py_XDECREF(l);
+    Py_DecRef(l);
     return NULL;
   }
 
@@ -168,13 +168,13 @@ if (sipIsErr == NULL) {
   PyObject *item = NULL;
   while (item = PyIter_Next(iterator)) {
     if (!sipCanConvertToType(item, kpTypeDef, SIP_NOT_NONE)) {
-      Py_DECREF(item);
-      Py_DECREF(iterator);
+      Py_DecRef(item);
+      Py_DecRef(iterator);
       return 0;
     }
-    Py_DECREF(item);
+    Py_DecRef(item);
   }
-  Py_DECREF(iterator);
+  Py_DecRef(iterator);
   return 1;
 }
 
@@ -189,8 +189,8 @@ while (item = PyIter_Next(iterator)) {
       static_cast<TYPE *>(sipConvertToType(item, kpTypeDef, NULL, SIP_NOT_NONE, &state, sipIsErr));
 
   if (*sipIsErr) {
-    Py_DECREF(item);
-    Py_DECREF(iterator);
+    Py_DecRef(item);
+    Py_DecRef(iterator);
     sipReleaseType(p, kpTypeDef, state);
     delete s;
     return 0;
@@ -199,10 +199,10 @@ while (item = PyIter_Next(iterator)) {
   sipTransferTo(item, item);
 
   s->insert(p);
-  Py_DECREF(item);
+  Py_DecRef(item);
   sipReleaseType(p, kpTypeDef, state);
 }
-Py_DECREF(iterator);
+Py_DecRef(iterator);
 *sipCppPtr = s;
 return sipGetState(sipTransferObj);
 %End
@@ -243,13 +243,13 @@ if (sipIsErr == NULL) {
   PyObject *item = NULL;
   while (item = PyIter_Next(iterator)) {
     if (!PyNumber_Check(item)) {
-      Py_DECREF(item);
-      Py_DECREF(iterator);
+      Py_DecRef(item);
+      Py_DecRef(iterator);
       return 0;
     }
-    Py_DECREF(item);
+    Py_DecRef(item);
   }
-  Py_DECREF(iterator);
+  Py_DecRef(iterator);
   return 1;
 }
 
@@ -261,10 +261,10 @@ PyObject *item = NULL;
 while (item = PyIter_Next(iterator)) {
   PyObject *f = PyNumber_Float(item);
   s->insert(PyFloat_AsDouble(f));
-  Py_XDECREF(f);
-  Py_DECREF(item);
+  Py_DecRef(f);
+  Py_DecRef(item);
 }
-Py_DECREF(iterator);
+Py_DecRef(iterator);
 
 *sipCppPtr = s;
 return sipGetState(sipTransferObj);
@@ -306,13 +306,13 @@ if (sipIsErr == NULL) {
   PyObject *item = NULL;
   while (item = PyIter_Next(iterator)) {
     if (!PyNumber_Check(item)) {
-      Py_DECREF(item);
-      Py_DECREF(iterator);
+      Py_DecRef(item);
+      Py_DecRef(iterator);
       return 0;
     }
-    Py_DECREF(item);
+    Py_DecRef(item);
   }
-  Py_DECREF(iterator);
+  Py_DecRef(iterator);
   return 1;
 }
 
@@ -324,10 +324,10 @@ PyObject *item = NULL;
 while (item = PyIter_Next(iterator)) {
   PyObject *f = PyNumber_Float(item);
   s->insert(float(PyFloat_AsDouble(f)));
-  Py_XDECREF(f);
-  Py_DECREF(item);
+  Py_DecRef(f);
+  Py_DecRef(item);
 }
-Py_DECREF(iterator);
+Py_DecRef(iterator);
 
 *sipCppPtr = s;
 return sipGetState(sipTransferObj);
@@ -369,13 +369,13 @@ if (sipIsErr == NULL) {
   PyObject *item = NULL;
   while (item = PyIter_Next(iterator)) {
     if (!PyLong_Check(item)) {
-      Py_DECREF(item);
-      Py_DECREF(iterator);
+      Py_DecRef(item);
+      Py_DecRef(iterator);
       return 0;
     }
-    Py_DECREF(item);
+    Py_DecRef(item);
   }
-  Py_DECREF(iterator);
+  Py_DecRef(iterator);
   return 1;
 }
 
@@ -386,10 +386,10 @@ PyObject *iterator = PyObject_GetIter(sipPy);
 PyObject *item = NULL;
 while (item = PyIter_Next(iterator)) {
   s->insert(int(PyLong_AsLong(item)));
-  Py_DECREF(item);
+  Py_DecRef(item);
 }
 
-Py_DECREF(iterator);
+Py_DecRef(iterator);
 *sipCppPtr = s;
 return sipGetState(sipTransferObj);
 %End
@@ -430,13 +430,13 @@ if (sipIsErr == NULL) {
   PyObject *item = NULL;
   while (item = PyIter_Next(iterator)) {
     if (!PyLong_Check(item)) {
-      Py_DECREF(item);
-      Py_DECREF(iterator);
+      Py_DecRef(item);
+      Py_DecRef(iterator);
       return 0;
     }
-    Py_DECREF(item);
+    Py_DecRef(item);
   }
-  Py_DECREF(iterator);
+  Py_DecRef(iterator);
   return 1;
 }
 
@@ -447,10 +447,10 @@ PyObject *iterator = PyObject_GetIter(sipPy);
 PyObject *item = NULL;
 while (item = PyIter_Next(iterator)) {
   s->insert(PyLong_AsLong(item));
-  Py_DECREF(item);
+  Py_DecRef(item);
 }
 
-Py_DECREF(iterator);
+Py_DecRef(iterator);
 *sipCppPtr = s;
 return sipGetState(sipTransferObj);
 %End
@@ -491,13 +491,13 @@ if (sipIsErr == NULL) {
   PyObject *item = NULL;
   while (item = PyIter_Next(iterator)) {
     if (!PyLong_Check(item)) {
-      Py_DECREF(item);
-      Py_DECREF(iterator);
+      Py_DecRef(item);
+      Py_DecRef(iterator);
       return 0;
     }
-    Py_DECREF(item);
+    Py_DecRef(item);
   }
-  Py_DECREF(iterator);
+  Py_DecRef(iterator);
   return 1;
 }
 
@@ -508,9 +508,9 @@ PyObject *iterator = PyObject_GetIter(sipPy);
 PyObject *item = NULL;
 while (item = PyIter_Next(iterator)) {
   s->insert(uint(PyLong_AsUnsignedLong(item)));
-  Py_DECREF(item);
+  Py_DecRef(item);
 }
-Py_DECREF(iterator);
+Py_DecRef(iterator);
 *sipCppPtr = s;
 return sipGetState(sipTransferObj);
 %End
@@ -551,13 +551,13 @@ if (sipIsErr == NULL) {
   PyObject *item = NULL;
   while (item = PyIter_Next(iterator)) {
     if (!PyLong_Check(item)) {
-      Py_DECREF(item);
-      Py_DECREF(iterator);
+      Py_DecRef(item);
+      Py_DecRef(iterator);
       return 0;
     }
-    Py_DECREF(item);
+    Py_DecRef(item);
   }
-  Py_DECREF(iterator);
+  Py_DecRef(iterator);
   return 1;
 }
 
@@ -568,9 +568,9 @@ PyObject *iterator = PyObject_GetIter(sipPy);
 PyObject *item = NULL;
 while (item = PyIter_Next(iterator)) {
   s->insert(PyLong_AsUnsignedLong(item));
-  Py_DECREF(item);
+  Py_DecRef(item);
 }
-Py_DECREF(iterator);
+Py_DecRef(iterator);
 *sipCppPtr = s;
 return sipGetState(sipTransferObj);
 %End

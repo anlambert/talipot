@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -107,21 +107,21 @@ pySecond = sipConvertFromNewType(second, kpTypeDef2, sipTransferObj);
 
 if (pyFirst == NULL || pySecond == NULL || PyTuple_SetItem(pyTuple, 0, pyFirst)) {
   if (pyFirst)
-    Py_XDECREF(pyFirst);
+    Py_DecRef(pyFirst);
   else
     delete first;
   if (pySecond)
-    Py_XDECREF(pySecond);
+    Py_DecRef(pySecond);
   else
     delete second;
-  Py_XDECREF(pyTuple);
+  Py_DecRef(pyTuple);
 
   return NULL;
 }
 
 if (PyTuple_SetItem(pyTuple, 1, pySecond)) {
-  Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+  Py_DecRef(pySecond);
+  Py_DecRef(pyTuple);
 
   return NULL;
 }
@@ -228,17 +228,17 @@ pySecond = sipConvertFromType(second, kpTypeDef2, sipTransferObj);
 
 if (pyFirst == NULL || pySecond == NULL || PyTuple_SetItem(pyTuple, 0, pyFirst)) {
   if (pyFirst)
-    Py_XDECREF(pyFirst);
+    Py_DecRef(pyFirst);
   if (pySecond)
-    Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+    Py_DecRef(pySecond);
+  Py_DecRef(pyTuple);
 
   return NULL;
 }
 
 if (PyTuple_SetItem(pyTuple, 1, pySecond)) {
-  Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+  Py_DecRef(pySecond);
+  Py_DecRef(pyTuple);
 
   return NULL;
 }
@@ -344,19 +344,19 @@ pySecond = sipConvertFromNewType(second, kpTypeDef2, sipTransferObj);
 
 if (pyFirst == NULL || pySecond == NULL || PyTuple_SetItem(pyTuple, 0, pyFirst)) {
   if (pyFirst)
-    Py_XDECREF(pyFirst);
+    Py_DecRef(pyFirst);
   if (pySecond)
-    Py_XDECREF(pySecond);
+    Py_DecRef(pySecond);
   else
     delete second;
-  Py_XDECREF(pyTuple);
+  Py_DecRef(pyTuple);
 
   return NULL;
 }
 
 if (PyTuple_SetItem(pyTuple, 1, pySecond)) {
-  Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+  Py_DecRef(pySecond);
+  Py_DecRef(pyTuple);
   return NULL;
 }
 
@@ -461,19 +461,19 @@ pySecond = sipConvertFromType(second, kpTypeDef2, sipTransferObj);
 
 if (pyFirst == NULL || pySecond == NULL || PyTuple_SetItem(pyTuple, 0, pyFirst)) {
   if (pyFirst)
-    Py_XDECREF(pyFirst);
+    Py_DecRef(pyFirst);
   else
     delete first;
   if (pySecond)
-    Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+    Py_DecRef(pySecond);
+  Py_DecRef(pyTuple);
 
   return NULL;
 }
 
 if (PyTuple_SetItem(pyTuple, 1, pySecond)) {
-  Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+  Py_DecRef(pySecond);
+  Py_DecRef(pyTuple);
 
   return NULL;
 }
@@ -541,19 +541,19 @@ pySecond = PyLong_FromUnsignedLong(sipCpp->second);
 
 if (pyFirst == NULL || pySecond == NULL || PyTuple_SetItem(pyTuple, 0, pyFirst)) {
   if (pyFirst)
-    Py_XDECREF(pyFirst);
+    Py_DecRef(pyFirst);
 
   if (pySecond)
-    Py_XDECREF(pySecond);
+    Py_DecRef(pySecond);
 
-  Py_XDECREF(pyTuple);
+  Py_DecRef(pyTuple);
 
   return 0;
 }
 
 if (PyTuple_SetItem(pyTuple, 1, pySecond)) {
-  Py_XDECREF(pySecond);
-  Py_XDECREF(pyTuple);
+  Py_DecRef(pySecond);
+  Py_DecRef(pyTuple);
 
   return 0;
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -159,7 +159,7 @@ tlp::PluginLibraryLoader::loadPlugins(a0);
 
 //=====================================================================
 
-void loadPluginsFromDir(const std::string &pluginsDir, tlp::PluginLoader *plug=0, bool loadPythonPlugins=true);
+void loadPluginsFromDir(const std::string &pluginsDir, tlp::PluginLoader *plug=0);
 %Docstring
 tlp.loadPluginsFromDir(pluginsDir)
 
@@ -179,13 +179,6 @@ to load.
 
 %MethodCode
 tlp::PluginLibraryLoader::loadPluginsFromDir(*a0, a1);
-if (a2) {
-  // TODO : wrap the plugin loader C++ instance and pass it over to Python
-  std::string importPythonPlugins = "talipot.tlp.loadTalipotPluginsFromDir(\"";
-  importPythonPlugins += (*a0 + "\", False)");
-  PyObject *pyRet = evalPythonStatement(importPythonPlugins);
-  Py_XDECREF(pyRet);
-}
 %End
 
 //=====================================================================
@@ -209,17 +202,7 @@ Returns :const:`True` if the plugin was correctly loaded.
 %End
 
 %MethodCode
-std::string ext = a0->substr(a0->length() - 3);
-if (ext != ".py") {
   sipRes = tlp::PluginLibraryLoader::loadPluginLibrary(*a0, a1);
-} else {
-  // TODO : wrap the plugin loader C++ instance and pass it over to Python
-  std::string importPythonPlugin = "talipot.tlp.loadTalipotPythonPlugin(\"";
-  importPythonPlugin += (*a0 + "\")");
-  PyObject *pyRet = evalPythonStatement(importPythonPlugin);
-  sipRes = (pyRet == Py_True);
-  Py_XDECREF(pyRet);
-}
 %End
 
 //=====================================================================

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -36,7 +36,7 @@ PyObject *convertTlpDataSetToPyDict(const tlp::DataSet &dataSet, PyObject *dict)
       val = getPyObjectFromDataType(entry.second);
     }
     PyDict_SetItem(dict, key, val);
-    Py_XDECREF(val);
+    Py_DecRef(val);
   }
   return dict;
 }
@@ -108,14 +108,15 @@ bool setDataSetEntryFromPyObject(tlp::DataSet *dataSet, const std::string &key, 
     ValueSetter valSetter(dataSet, key);
     if (!setCppValueFromPyObject(value, valSetter, dataType)) {
       std::string msg;
+      std::string pyType = convertPyObjectTypeToStdString(value);
       if (!dataType) {
         msg = "Object of type ";
-        msg += std::string(value->ob_type->tp_name);
+        msg += pyType;
         msg += " can not be stored in a Talipot dataset.";
       } else {
         msg = "Invalid type for the value provided to parameter '" + key + "' ";
         msg += "for algorithm '" + algoName + "'\n";
-        msg += "Provided Python type is '" + std::string(value->ob_type->tp_name) + "'\n";
+        msg += "Provided Python type is '" + pyType + "'\n";
         msg += "Expected C++ type is '" + tlp::demangleClassName(dataType->getTypeName()) + "'";
       }
       PyErr_SetString(PyExc_TypeError, msg.c_str());
@@ -326,7 +327,7 @@ sipRes = convertTlpDataSetToPyDict(*sipCpp);
 %MethodCode
 PyObject *pyDict = convertTlpDataSetToPyDict(*sipCpp);
 sipRes = PyObject_Repr(pyDict);
-Py_XDECREF(pyDict);
+Py_DecRef(pyDict);
 %End
 
 };

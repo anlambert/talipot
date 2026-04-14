@@ -4,31 +4,28 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  windows:
-    name: Talipot Python ${{ matrix.python-version }} wheel build on windows
+  talipot-abi3:
+    name: talipot-python ${{ matrix.python-version }} abi3 wheel build on windows
     runs-on: windows-latest
     env:
       VCPKG_INSTALL_DIR: ${{ github.workspace }}\vcpkg\installed\x64-windows-release
       TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+      python-version: "3.11"
     defaults:
       run:
         shell: cmd
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v5
       - name: Install MSYS2 shell
         uses: msys2/setup-msys2@v2
-      - name: Install Python ${{ matrix.python-version }}
+      - name: Install Python ${{ env.python-version }}
         uses: actions/setup-python@v5
         id: python-install
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ env.python-version }}
       - name: Install build and twine Python packages
         run: |
           set PATH=%Python3_ROOT_DIR%\Scripts;%PATH%
@@ -49,11 +46,11 @@ jobs:
           token: ${{ github.token }}
       - name: Sets CIBW_BUILD environment variable
         env:
-          pyVer: "${{matrix.python-version}}"
+          pyVer: "${{env.python-version}}"
         run: |
           echo "CIBW_BUILD=cp${pyVer/./}-win_amd64" >> $GITHUB_ENV
         shell: msys2 {0}
-      - name: Build Talipot wheel with cibuildwheel
+      - name: Build talipot-python wheel with cibuildwheel
         run: |
           set PATH=%Python3_ROOT_DIR%\Scripts;%PATH%
           set CMAKE_INCLUDE_PATH=%VCPKG_INSTALL_DIR%/include;^
@@ -64,8 +61,9 @@ jobs:
           python -m cibuildwheel --output-dir wheelhouse
         env:
           CIBW_BUILD_VERBOSITY: 1
-          CIBW_BEFORE_BUILD_WINDOWS: pip install delvewheel
+          CIBW_BEFORE_BUILD_WINDOWS: pip install abi3audit delvewheel
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: >
+            abi3audit --strict --verbose {wheel} &&
             delvewheel repair -v -w {dest_dir} --analyze-existing
             --add-path ${{ env.VCPKG_INSTALL_DIR }}\bin
             --exclude gzstream-talipot-1_0.dll;OGDF-talipot-1_0.dll;talipot-core-1_0.dll;talipot-ogdf-1_0.dll
@@ -75,16 +73,104 @@ jobs:
         run: |
           set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%
           set PYTHONIOENCODING=utf-8
+
+          pip install sip
+          python -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
+          for /f "tokens=*" %%g in ('dir /b *.tar.gz') do (set sdist=%%g)
+          pip install %sdist% && del %sdist%
+
           for /f "tokens=*" %%g in ('dir /b *.whl') do (set wheel=%%g)
           pip install %wheel%
           python -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
           python -c "from talipot import tlp; print(tlp.getImportPluginsList())"
       - uses: actions/upload-artifact@v4
         with:
-          name: talipot-wheel-${{ matrix.python-version }}
+          name: talipot-wheel-abi3
+          path: ./wheelhouse/*.whl
+      - name: Publish talipot-python wheel to TestPyPI
+        working-directory: wheelhouse
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+        run: |
+          set PATH=%Python3_ROOT_DIR%\Scripts;%PATH%
+          for /f "tokens=*" %%g in ('dir /b *.whl') do (set wheel=%%g)
+          twine check %wheel%
+          twine upload --skip-existing %wheel%
+
+  talipot-sip:
+    name: talipot-sip ${{ matrix.python-version }} wheel build on windows
+    runs-on: windows-latest
+    needs: [talipot-abi3]
+    env:
+      TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
+      TWINE_USERNAME: __token__
+      TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+    defaults:
+      run:
+        shell: cmd
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - name: Install MSYS2 shell
+        uses: msys2/setup-msys2@v2
+      - name: Install Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        id: python-install
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install build and twine Python packages
+        run: |
+          set PATH=%Python3_ROOT_DIR%\Scripts;%PATH%
+          pip install twine build
+      - name: Sets CIBW_BUILD environment variable
+        env:
+          pyVer: "${{matrix.python-version}}"
+        run: |
+          echo "CIBW_BUILD=cp${pyVer/./}-win_amd64" >> $GITHUB_ENV
+        shell: msys2 {0}
+      - name: Build talipot-sip wheel with cibuildwheel
+        env:
+          CIBW_BUILD_VERBOSITY: 1
+        run: |
+          set PATH=%Python3_ROOT_DIR%\Scripts;%PATH%
+
+          pip install sip cibuildwheel
+
+          python -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
+          for /f "tokens=*" %%g in ('dir /b *.tar.gz') do (set sdist=%%g)
+          tar -xvzf %sdist% && del %sdist%
+          for /f "tokens=*" %%g in ('dir /b talipot_sip*') do (set sip_dir=%%g)
+          cd %sip_dir%
+
+          python -m cibuildwheel --output-dir ../wheelhouse
+      - name: Download talipot abi3 wheel
+        uses: actions/download-artifact@v8
+        with:
+          name: talipot-wheel-abi3
+      - name: Test built wheel can be installed and imported
+        run: |
+          set PATH=%Python3_ROOT_DIR%\Scripts:%PATH%
+          set PYTHONIOENCODING=utf-8
+
+          cd wheelhouse
+          for /f "tokens=*" %%g in ('dir /b *.whl') do (set wheel=%%g)
+          pip install %wheel%
+          cd ..
+
+          for /f "tokens=*" %%g in ('dir /b *.whl') do (set wheel=%%g)
+          pip install %wheel%
+          python -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
+          python -c "from talipot import tlp; print(tlp.getImportPluginsList())"
+
+          cd wheelhouse
+          python -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: talipot-sip-wheel-${{ matrix.python-version }}
           path: ./wheelhouse/*.whl
       - name: Publish Talipot wheel to TestPyPI
-        working-directory: wheelhouse
+        working-directory: ./wheelhouse
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
         run: |
           set PATH=%Python3_ROOT_DIR%\Scripts;%PATH%

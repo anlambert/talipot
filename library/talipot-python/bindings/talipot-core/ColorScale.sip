@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -93,8 +93,8 @@ if (sipIsErr == NULL) {
     }
     return 1;
   } else if (PyList_Check(sipPy)) {
-    for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
-      PyObject *item = PyList_GET_ITEM(sipPy, i);
+    for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
+      PyObject *item = PyList_GetItem(sipPy, i);
       if (!sipCanConvertToType(item, sipFindType("tlp::Color"), SIP_NOT_NONE)) {
         printErrorMessage("Error : when defining a Talipot color scale through a list, it must "
                           "only contain instances of the tlp.Color type.");
@@ -122,9 +122,9 @@ if (PyDict_Check(sipPy)) {
   (*sipCppPtr)->setColorMap(colorMap);
 } else if (PyList_Check(sipPy)) {
   std::vector<tlp::Color> colors;
-  for (Py_ssize_t i = 0; i < PyList_GET_SIZE(sipPy); ++i) {
+  for (Py_ssize_t i = 0; i < PyList_Size(sipPy); ++i) {
     const sipTypeDef *sipType = sipFindType("tlp::Color");
-    PyObject *item = PyList_GET_ITEM(sipPy, i);
+    PyObject *item = PyList_GetItem(sipPy, i);
     tlp::Color *color = static_cast<tlp::Color *>(
         sipConvertToType(item, sipType, NULL, SIP_NOT_NONE, &state, &err));
     colors.push_back(*color);
