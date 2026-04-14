@@ -3,9 +3,9 @@
 # thirdparty.
 
 IF(LINUX AND TALIPOT_BUILD_PYTHON_WHEEL)
-  SET(PYTHON_COMPONENTS Interpreter Development.Module)
+  SET(PYTHON_COMPONENTS Interpreter Development.Module Development.SABIModule)
 ELSE(LINUX AND TALIPOT_BUILD_PYTHON_WHEEL)
-  SET(PYTHON_COMPONENTS Interpreter Development)
+  SET(PYTHON_COMPONENTS Interpreter Development Development.SABIModule)
 ENDIF(LINUX AND TALIPOT_BUILD_PYTHON_WHEEL)
 
 FIND_PACKAGE(

@@ -46,7 +46,9 @@ jobs:
           restore-keys: |
             sdist-ccache-
       - name: Talipot sdist generation
-        run: python3 -m build --sdist
+        run: |
+          sed -i '/^dependencies/d' pyproject.toml
+          python3 -m build --sdist
       - name: Check Talipot package can be installed from sdist
         run: pip3 -v install dist/*
       - name: Publish Talipot sdist to TestPyPI

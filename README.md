@@ -111,7 +111,7 @@ The following dependencies are required to build Talipot:
   * [Graphviz](https://graphviz.org/)
   * [QuaZIP](https://github.com/stachenov/quazip)
   * [yajl](https://lloyd.github.io/yajl) >= 2.0
-  * [Python](https://www.python.org) >= 3.0
+  * [Python](https://www.python.org) >= 3.11
   * [SIP](https://github.com/Python-SIP/sip) >= 6.8.5
 
 In order to generate the documentation, the following tools must be installed:

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -107,16 +107,16 @@ for (const auto &it : *sipCpp) {
   val = sipConvertFromNewType(cppVal, kpTypeDef2, sipTransferObj);
 
   if (key == NULL || val == NULL || PyDict_SetItem(pyDict, key, val) < 0) {
-    Py_DECREF(pyDict);
+    Py_DecRef(pyDict);
 
     if (key) {
-      Py_DECREF(key);
+      Py_DecRef(key);
     } else {
       delete cppKey;
     }
 
     if (val != NULL) {
-      Py_DECREF(val);
+      Py_DecRef(val);
     } else {
       delete cppVal;
     }
@@ -124,8 +124,8 @@ for (const auto &it : *sipCpp) {
     return NULL;
   }
 
-  Py_DECREF(key);
-  Py_DECREF(val);
+  Py_DecRef(key);
+  Py_DecRef(val);
 }
 
 return pyDict;
@@ -229,23 +229,23 @@ for (const auto &it : *sipCpp) {
   val = sipConvertFromType(cppVal, kpTypeDef2, sipTransferObj);
 
   if (key == NULL || val == NULL || PyDict_SetItem(pyDict, key, val) < 0) {
-    Py_DECREF(pyDict);
+    Py_DecRef(pyDict);
 
     if (key) {
-      Py_DECREF(key);
+      Py_DecRef(key);
     } else {
       delete cppKey;
     }
 
     if (val != NULL) {
-      Py_DECREF(val);
+      Py_DecRef(val);
     }
 
     return NULL;
   }
 
-  Py_DECREF(key);
-  Py_DECREF(val);
+  Py_DecRef(key);
+  Py_DecRef(val);
 }
 
 return pyDict;
@@ -332,14 +332,14 @@ for (const auto &it : *sipCpp) {
   val = sipConvertFromNewType(cppVal, kpTypeDef2, sipTransferObj);
 
   if (key == NULL || val == NULL || PyDict_SetItem(pyDict, key, val) < 0) {
-    Py_DECREF(pyDict);
+    Py_DecRef(pyDict);
 
     if (key) {
-      Py_DECREF(key);
+      Py_DecRef(key);
     }
 
     if (val != NULL) {
-      Py_DECREF(val);
+      Py_DecRef(val);
     } else {
       delete cppVal;
     }
@@ -347,8 +347,8 @@ for (const auto &it : *sipCpp) {
     return NULL;
   }
 
-  Py_DECREF(key);
-  Py_DECREF(val);
+  Py_DecRef(key);
+  Py_DecRef(val);
 }
 
 return pyDict;

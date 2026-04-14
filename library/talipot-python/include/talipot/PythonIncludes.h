@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2022  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -62,7 +62,7 @@
 #include <talipot/config.h>
 
 static const sipAPIDef *getSipAPI() {
-  return static_cast<const sipAPIDef *>(PyCapsule_Import("talipot.native.sip._C_API", 0));
+  return static_cast<const sipAPIDef *>(PyCapsule_Import("talipot.sip._C_API", 0));
 }
 
 static const sipAPIDef *sipAPIPtr = nullptr;
