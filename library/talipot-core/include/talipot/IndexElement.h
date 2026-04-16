@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021  The Talipot developers
+ * Copyright (C) 2021-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -66,6 +66,12 @@
       return this->id == id;                                                          \
     }                                                                                 \
                                                                                       \
+    bool operator<(const tlp::element n) const {                                      \
+      return id < n.id;                                                               \
+    }                                                                                 \
+    bool operator<(const uint n) const {                                              \
+      return id < n;                                                                  \
+    }                                                                                 \
     bool isValid() const {                                                            \
       return id != UINT_MAX;                                                          \
     }                                                                                 \
@@ -83,26 +89,20 @@
     return os;                                                                        \
   }
 
-#define TLP_INDEX_ELEMENT_HASH(element)                                    \
-  namespace std {                                                          \
-  template <>                                                              \
-  struct hash<tlp::element> {                                              \
-    size_t operator()(const tlp::element n) const {                        \
-      return n.id;                                                         \
-    }                                                                      \
-  };                                                                       \
-  template <>                                                              \
-  struct equal_to<tlp::element> {                                          \
-    size_t operator()(const tlp::element n, const tlp::element n2) const { \
-      return n.id == n2.id;                                                \
-    }                                                                      \
-  };                                                                       \
-  template <>                                                              \
-  struct less<tlp::element> {                                              \
-    size_t operator()(const tlp::element n, const tlp::element n2) const { \
-      return n.id < n2.id;                                                 \
-    }                                                                      \
-  };                                                                       \
+#define TLP_INDEX_ELEMENT_HASH(element)                                  \
+  namespace std {                                                        \
+  template <>                                                            \
+  struct hash<tlp::element> {                                            \
+    size_t operator()(const tlp::element n) const {                      \
+      return n.id;                                                       \
+    }                                                                    \
+  };                                                                     \
+  template <>                                                            \
+  struct equal_to<tlp::element> {                                        \
+    bool operator()(const tlp::element n, const tlp::element n2) const { \
+      return n.id == n2.id;                                              \
+    }                                                                    \
+  };                                                                     \
   }
 
 #endif // TALIPOT_INDEX_ELEMENT_H
