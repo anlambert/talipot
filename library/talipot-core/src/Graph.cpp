@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -1586,21 +1586,16 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
 struct MetaEdge {
   uint source, target;
   edge mE;
-};
 
-namespace std {
-template <>
-struct less<MetaEdge> {
-  bool operator()(const MetaEdge &c, const MetaEdge &d) const {
+  bool operator<(const MetaEdge &me) const {
     /*if (c.source<d.source) return true;
     if (c.source>d.source) return false;
     if (c.target<d.target) return true;
     if (c.target>d.target) return false;
     return false;*/
-    return (c.source < d.source) || ((c.source == d.source) && (c.target < d.target));
+    return (source < me.source) || ((source == me.source) && (target < me.target));
   }
 };
-} // namespace std
 
 void Graph::createMetaNodes(Iterator<Graph *> *itS, Graph *quotientGraph, vector<node> &metaNodes) {
   GraphProperty *metaInfo = static_cast<GraphAbstract *>(getRoot())->getMetaGraphProperty();
