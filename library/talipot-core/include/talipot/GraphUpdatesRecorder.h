@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -23,22 +23,19 @@
 #include <talipot/Graph.h>
 #include <talipot/MutableContainer.h>
 
-namespace std {
-template <>
-struct less<tlp::Graph *> {
-  size_t operator()(const tlp::Graph *g1, const tlp::Graph *g2) const {
+namespace tlp {
+
+class GraphImpl;
+struct GraphStorageIdsMemento;
+
+struct cmpGraphById {
+  size_t operator()(const Graph *g1, const Graph *g2) const {
     // the id order corresponds to the creation order
     // so when dealing with a set<Graph*> this will ensure that
     // we encounter a supergraph before its subgraphs
     return g1->getId() < g2->getId();
   }
 };
-} // namespace std
-
-namespace tlp {
-class GraphImpl;
-struct GraphStorageIdsMemento;
-
 class GraphUpdatesRecorder : public Observable {
   friend class GraphImpl;
 //
@@ -57,11 +54,11 @@ class GraphUpdatesRecorder : public Observable {
   // one 'set' of deleted nodes per graph
   flat_hash_map<Graph *, std::unordered_set<node>> graphDeletedNodes;
   // one 'set' of added edges per graph
-  std::map<Graph *, std::unordered_set<edge>> graphAddedEdges;
+  std::map<Graph *, std::unordered_set<edge>, cmpGraphById> graphAddedEdges;
   // ends of all added edges
   flat_hash_map<edge, std::pair<node, node>> addedEdgesEnds;
   // one 'set' of deleted edges per graph
-  std::map<Graph *, std::unordered_set<edge>> graphDeletedEdges;
+  std::map<Graph *, std::unordered_set<edge>, cmpGraphById> graphDeletedEdges;
   // ends of all deleted edges
   flat_hash_map<edge, std::pair<node, node>> deletedEdgesEnds;
   // one set of reverted edges
