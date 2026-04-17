@@ -13,7 +13,7 @@ jobs:
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
         config:
-          - os: macos-15-intel
+          - os: macos-26-intel
             arch: x86_64
           - os: macos-15
             arch: arm64
@@ -51,16 +51,17 @@ jobs:
           sudo mv MacOSX11.3.sdk /Library/Developer/CommandLineTools/SDKs/
       - name: Install Talipot build dependencies
         run: |
-          # install zlib and zstd from source first
+          # install libiconv, zlib and zstd from source first
+          sudo port -N -s install libiconv
+          # these dependencies are not required to be built from source
+          sudo port -N install ncurses xz gettext lz4
           sudo port -N -s install zlib zstd
           # install binary packages and dependencies to avoid building them from source
-          sudo port -N install ccache cmake bison python313 gettext texinfo gawk graphviz
+          sudo port -N install ccache cmake bison python313 texinfo gawk graphviz
           # uninstall packages that need to be built from source to get correct deployment target
-          sudo port -f uninstall openssl3 expat libtool libssh2 pcre2 libiconv \
-            libomp qhull yajl libgit2 graphviz
+          sudo port -f uninstall openssl3 expat libtool libssh2 pcre2 libomp qhull yajl libgit2 graphviz
           # install libraries that need to be bundled in wheel from source
-          sudo port -N -s install openssl3 expat libtool libssh2 pcre2 libiconv \
-            libomp qhull yajl libgit2 graphviz
+          sudo port -N -s install openssl3 expat libtool libssh2 pcre2 libomp qhull yajl libgit2 graphviz
       - name: Prepare ccache timestamp
         id: get-current-date
         run: |
