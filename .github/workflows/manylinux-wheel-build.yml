@@ -49,7 +49,9 @@ jobs:
             auditwheel repair -w {dest_dir} {wheel}
         run: |
           sudo apt install python3-pip
-          pip3 install cibuildwheel --user
+          pip3 install cibuildwheel sip --user
+          SIP_ABI_VERSION=$(PYTHONPATH=$PWD/cmake python3 -c "import FindSIP; print(FindSIP.get_sip_abi_versions()[1])")
+          sed -i s/talipot-sip/talipot-sip\ \>=\ $SIP_ABI_VERSION/ pyproject.toml
           python3 -m cibuildwheel --output-dir wheelhouse
       - name: Test wheel can be installed and talipot module imported
         run: |
