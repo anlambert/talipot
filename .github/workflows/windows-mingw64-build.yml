@@ -31,6 +31,7 @@ jobs:
         with:
           msystem: ${{ matrix.config.msystem }}
           update: true
+          cache: false
           install: git
             base-devel
             mingw-w64-${{ matrix.config.arch }}-toolchain
