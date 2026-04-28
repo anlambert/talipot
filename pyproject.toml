@@ -140,7 +140,6 @@ wheel.exclude = [
 
 [tool.scikit-build.cmake.define]
 TALIPOT_BUILD_PYTHON_WHEEL = true
-TALIPOT_USE_CCACHE = true
 TALIPOT_BUILD_CORE_ONLY = true
 TALIPOT_BUILD_DOC = false
 TALIPOT_BUILD_FROM_SDIST = false

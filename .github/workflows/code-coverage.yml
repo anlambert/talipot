@@ -15,7 +15,6 @@ jobs:
       - name: Install Talipot build dependencies
         run: sudo apt install
           cmake
-          ccache
           ninja-build
           libqhull-dev
           libyajl-dev
@@ -39,24 +38,6 @@ jobs:
           xvfb
       - name: Install sip
         run: pip3 install 'sip != 6.13.0' --user
-      - name: Prepare ccache timestamp
-        id: get-current-date
-        run: |
-          echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
-        shell: bash
-      - name: Get ccache directory
-        id: get-cccache-dir
-        run: |
-          ccache_dir=$(ccache -sv | grep "Cache directory" | awk '{print $3}')
-          echo "ccache-dir=$ccache_dir" >> $GITHUB_OUTPUT
-        shell: bash
-      - name: Cache files
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.get-cccache-dir.outputs.ccache-dir }}
-          key: ${{ matrix.config.os }}-ccache-${{ steps.get-current-date.outputs.date }}
-          restore-keys: |
-            ${{ matrix.config.os }}-ccache-
       - name: Create build directory
         run: mkdir build
       - name: Configure Talipot build with CMake
@@ -64,8 +45,8 @@ jobs:
         run: cmake .. -G Ninja
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_INSTALL_PREFIX=$PWD/install
+          -DTALIPOT_BUILD_CORE_ONLY=ON
           -DTALIPOT_BUILD_TESTS=ON
-          -DTALIPOT_USE_CCACHE=ON
           -DTALIPOT_BUILD_DOC=OFF
           -DTALIPOT_CODE_COVERAGE=ON
       - name: Talipot build

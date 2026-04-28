@@ -12,18 +12,6 @@ jobs:
     steps:
       - name: Checkout Talipot code
         uses: actions/checkout@v5
-      - name: Get current date
-        id: get-current-date
-        run: |
-          echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
-        shell: bash
-      - name: Cache files
-        uses: actions/cache@v4
-        with:
-          path: /ccache
-          key: manylinux2014-ccache-${{ env.python-version }}-${{ steps.get-current-date.outputs.date }}
-          restore-keys: |
-            manylinux2014-ccache-${{ env.python-version }}-
       - name: Install Python ${{ env.python-version }}
         uses: actions/setup-python@v5
         id: python-install
@@ -36,12 +24,10 @@ jobs:
           echo "CIBW_BUILD=cp${pyVer/./}-manylinux_x86_64" >> $GITHUB_ENV
       - name: Build Talipot wheel with cibuildwheel
         env:
-          CCACHE_DIR: /host/ccache
           CIBW_BUILD_VERBOSITY: 1
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
           CIBW_BEFORE_ALL: >
-            mkdir /host/ccache &&
-            yum -y install epel-release ccache &&
+            yum -y install epel-release &&
             yum -y install zlib-devel libzstd-devel yajl-devel qhull-devel graphviz-devel libgit2-devel
           CIBW_REPAIR_WHEEL_COMMAND: >
             pip install abi3audit &&
