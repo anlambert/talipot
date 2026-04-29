@@ -57,7 +57,7 @@ jobs:
         id: restore-macports-cache
         uses: actions/cache/restore@v5
         with:
-          path: /opt/local/
+          path: /opt/local/var/macports/software
           key: macports-cache-${{ matrix.config.arch }}-${{ matrix.config.os }}
           restore-keys: macports-cache-${{ matrix.config.arch }}-${{ matrix.config.os }}
       - name: Install MacPorts
@@ -84,7 +84,7 @@ jobs:
       - name: Save macports cache
         uses: actions/cache/save@v5
         with:
-          path: /opt/local/
+          path: /opt/local/var/macports/software
           key: macports-cache-${{ matrix.config.arch }}-${{ matrix.config.os }}-${{ steps.cache-key.outputs.value }}
       - name: Sets CIBW_BUILD and SDKROOT environment variable
         env:
