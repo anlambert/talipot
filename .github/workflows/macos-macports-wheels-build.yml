@@ -57,7 +57,7 @@ jobs:
         id: restore-macports-cache
         uses: actions/cache/restore@v5
         with:
-          path: /opt/local/
+          path: macports_software
           key: macports-cache-${{ matrix.config.arch }}-${{ matrix.config.os }}
           restore-keys: macports-cache-${{ matrix.config.arch }}-${{ matrix.config.os }}
       - name: Install MacPorts
@@ -73,9 +73,56 @@ jobs:
           sudo mv MacOSX11.3.sdk /Library/Developer/CommandLineTools/SDKs/
       - name: Install Talipot build dependencies
         run: |
-          # install libraries that need to be bundled in wheel from source
-          sudo port -N -s install openssl3 expat libtool libssh2 pcre2 libiconv \
-            libomp qhull yajl libgit2 graphviz zlib zstd
+          if [ -d macports_software ]; then
+            sudo cp macports_software/local-pubkey.pem /opt/local/share/macports/
+            sudo mkdir -p /opt/local/var/macports/software/
+            sudo cp -r macports_software/* /opt/local/var/macports/software/
+            sudo rm -f /opt/local/var/macports/software/local-pubkey.pem
+            echo /opt/local/share/macports/local-pubkey.pem | sudo tee -a /opt/local/etc/macports/pubkeys.conf
+            echo "name macports_archive" | sudo tee -a /opt/local/etc/macports/archive_sites.conf
+            echo "name local" | sudo tee -a /opt/local/etc/macports/archive_sites.conf
+            echo "urls http://localhost:8000/" | sudo tee -a /opt/local/etc/macports/archive_sites.conf
+            # fetch archives from localhost first
+            echo "preferred_hosts localhost" | sudo tee -a /opt/local/etc/macports/macports.conf
+            # start package archives HTTP server
+            cd macports_software
+            echo "Starting local macports archives HTTP server ..."
+            python3 -m http.server&
+            # give HTTP server some time to start
+            sleep 60
+            cd
+            # install package archives precompiled in a previous job run and put in cache
+            sudo port -N install zlib \
+              expat libtool libssh2 pcre2 libiconv \
+              libomp qhull yajl libgit2 graphviz openssl3 zstd
+          else
+            # install libraries that need to be bundled in wheel from source
+            sudo port -N -s install zlib \
+              expat libtool libssh2 pcre2 libiconv \
+              libomp qhull yajl libgit2 graphviz openssl3 zstd
+          fi
+
+          # create archives to cache
+          for package in $(ls /opt/local/var/macports/software/); do
+            sudo port archive $package
+          done
+
+          # copy binary archives
+          rm -rf macports_software
+          mkdir macports_software
+          dest=$PWD/macports_software
+          cd /opt/local/var/macports/software/
+          sudo rsync -R **/*.tbz2 $dest
+          cd -
+
+          # sign binary archives
+          openssl genrsa -out local-privkey.pem 2048
+          openssl rsa -in local-privkey.pem -pubout -out local-pubkey.pem
+          cp local-pubkey.pem macports_software
+          for archive in $(find macports_software -name "*.tbz2"); do
+            sudo openssl dgst -ripemd160 -sign local-privkey.pem -out $archive.rmd160 $archive
+          done
+
       - name: Compute macports cache key
         id: cache-key
         run: |
@@ -84,7 +131,7 @@ jobs:
       - name: Save macports cache
         uses: actions/cache/save@v5
         with:
-          path: /opt/local/
+          path: macports_software
           key: macports-cache-${{ matrix.config.arch }}-${{ matrix.config.os }}-${{ steps.cache-key.outputs.value }}
       - name: Sets CIBW_BUILD and SDKROOT environment variable
         env:
@@ -104,6 +151,7 @@ jobs:
           SIP_ABI_VERSION=$(PYTHONPATH=$PWD/cmake python -c "import FindSIP; print(FindSIP.get_sip_abi_versions()[1])")
           sed -i '' -e "s/talipot-sip/talipot-sip\ \>=\ $SIP_ABI_VERSION/" pyproject.toml
           pip install cibuildwheel --user
+          brew uninstall --ignore-dependencies zstd
           python -m cibuildwheel --output-dir wheelhouse
 
       - name: Test built wheel can be installed and imported
