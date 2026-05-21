@@ -11,8 +11,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: Talipot build on Ubuntu 22.04
-            os: ubuntu-22.04
           - name: Talipot build on Ubuntu 24.04
             os: ubuntu-24.04
     permissions:
