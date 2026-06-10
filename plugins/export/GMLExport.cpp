@@ -119,7 +119,7 @@ public:
       os << "width 0.1" << endl;
       os << "Line [" << endl;
 
-      vector<Coord> lcoord = layout->getEdgeValue(e);
+      vector<Coord> lcoord = (*layout)[e];
 
       if (!lcoord.empty()) {
         printPoint(os, (*layout)[src]);

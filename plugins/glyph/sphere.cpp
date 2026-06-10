@@ -72,7 +72,7 @@ public:
   ~EESphere() override = default;
   void draw(edge e, node, const Color &glyphColor, const Color &, float) override {
     glEnable(GL_LIGHTING);
-    drawGlyph(glyphColor, edgeExtGlGraphInputData->textures()->getEdgeValue(e),
+    drawGlyph(glyphColor, (*edgeExtGlGraphInputData->textures())[e],
               edgeExtGlGraphInputData->renderingParameters()->getTexturePath());
   }
 };

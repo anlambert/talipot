@@ -18,5 +18,5 @@ bool tlp::LessByMetric::operator()(tlp::node n1, tlp::node n2) {
   return ((*metric)[n1] < (*metric)[n2]);
 }
 bool tlp::LessByMetric::operator()(tlp::edge e1, tlp::edge e2) {
-  return (metric->getEdgeValue(e1) < metric->getEdgeValue(e2));
+  return ((*metric)[e1] < (*metric)[e2]);
 }

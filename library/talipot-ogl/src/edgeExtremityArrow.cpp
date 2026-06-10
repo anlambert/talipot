@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -49,7 +49,7 @@ GlArrow2DEdgeExtremity::~GlArrow2DEdgeExtremity() = default;
 void GlArrow2DEdgeExtremity::draw(edge e, node, const Color &glyphColor, const Color &borderColor,
                                   float lod) {
 
-  double width = edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e);
+  double width = (*edgeExtGlGraphInputData->borderWidths())[e];
 
   triangle->setFillColor(glyphColor);
   triangle->setOutlineSize(width);

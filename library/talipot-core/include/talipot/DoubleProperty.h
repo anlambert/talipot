@@ -123,7 +123,7 @@ public:
                                                  tlp::NumericProperty>::EdgeValueProxy {
 
   public:
-    constexpr EdgeValueProxy(DoubleProperty *prop, edge e)
+    constexpr EdgeValueProxy(const DoubleProperty *prop, edge e)
         : AbstractProperty<tlp::DoubleType, tlp::DoubleType, tlp::NumericProperty>::EdgeValueProxy(
               prop, e) {}
 
@@ -142,6 +142,18 @@ public:
 
     constexpr bool operator>(int val) const {
       return getValue() > val;
+    }
+
+    constexpr bool operator<(int val) const {
+      return getValue() < val;
+    }
+
+    constexpr bool operator>(double val) const {
+      return getValue() > val;
+    }
+
+    constexpr bool operator<(double val) const {
+      return getValue() < val;
     }
 
     constexpr bool operator>(const NodeValueProxy &ref) const {
@@ -193,7 +205,7 @@ public:
   };
 
   // overload operator[] to set an edge value
-  constexpr EdgeValueProxy operator[](edge e) {
+  constexpr EdgeValueProxy operator[](edge e) const {
     return EdgeValueProxy(this, e);
   }
 

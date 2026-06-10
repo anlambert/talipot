@@ -87,14 +87,14 @@ public:
   EEHexagon(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
 
   void draw(edge e, node, const Color &glyphColor, const Color &borderColor, float lod) override {
-    string textureName = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
+    string textureName = (*edgeExtGlGraphInputData->textures())[e];
 
     if (!textureName.empty()) {
       textureName = edgeExtGlGraphInputData->renderingParameters()->getTexturePath() + textureName;
     }
 
-    drawHexagon(glyphColor, borderColor, edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e),
-                textureName, lod, false);
+    drawHexagon(glyphColor, borderColor, (*edgeExtGlGraphInputData->borderWidths())[e], textureName,
+                lod, false);
   }
 };
 

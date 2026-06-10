@@ -1103,7 +1103,7 @@ void HistogramMetricMapping::updateGraphWithMapping(Graph *graph, LayoutProperty
 
   } else {
     for (auto e : graph->edges()) {
-      const Coord &edgeHistoCoord = histogramLayout->getEdgeValue(e)[0];
+      const Coord &edgeHistoCoord = (*histogramLayout)[e][0];
       float yCurve = curve->getYCoordForX(edgeHistoCoord.getX());
 
       if (mappingType == VIEWCOLOR_MAPPING) {

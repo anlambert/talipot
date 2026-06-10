@@ -129,7 +129,7 @@ void OGDFLayoutPluginBase::transposeLayoutVertically() {
   }
 
   for (auto e : graph->edges()) {
-    std::vector<Coord> bends = result->getEdgeValue(e);
+    std::vector<Coord> bends = (*result)[e];
 
     if (bends.size()) {
       for (auto &bend : bends) {

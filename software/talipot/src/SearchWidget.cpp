@@ -383,7 +383,7 @@ void SearchWidget::search() {
 
     if (onEdges) {
       for (auto e : output->getEdgesEqualTo(true)) {
-        if (result->getEdgeValue(e)) {
+        if ((*result)[e]) {
           (*output)[e] = false;
           resultsCountEdges++;
         }

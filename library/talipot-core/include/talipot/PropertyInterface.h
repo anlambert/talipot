@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -186,14 +186,18 @@ public:
    **/
   class NodeValueProxy {
   protected:
-    PropertyInterface *_prop;
+    const PropertyInterface *_prop;
     node _n;
 
   public:
-    constexpr NodeValueProxy(PropertyInterface *prop, node n) : _prop(prop), _n(n) {}
+    constexpr NodeValueProxy(const PropertyInterface *prop, node n) : _prop(prop), _n(n) {}
+
+    constexpr PropertyInterface *getProperty() const {
+      return const_cast<PropertyInterface *>(_prop);
+    }
 
     std::string getStringValue() const {
-      return _prop->getNodeStringValue(_n);
+      return getProperty()->getNodeStringValue(_n);
     }
 
     /**
@@ -201,7 +205,7 @@ public:
      * which allows to write: prop[n] = strval
      **/
     NodeValueProxy &operator=(const std::string &val) {
-      _prop->setNodeStringValue(_n, val);
+      getProperty()->setNodeStringValue(_n, val);
       return *this;
     }
 
@@ -210,7 +214,7 @@ public:
      * which allows to write: prop1[n] = prop2[m]
      **/
     NodeValueProxy &operator=(const NodeValueProxy &ref) {
-      _prop->setNodeStringValue(_n, ref.getStringValue());
+      getProperty()->setNodeStringValue(_n, ref.getStringValue());
       return *this;
     }
 
@@ -219,7 +223,7 @@ public:
      * which allows to write: prop1[n] == prop2[m]
      **/
     bool operator==(const std::string &str) const {
-      return _prop->getNodeStringValue(_n) == str;
+      return getProperty()->getNodeStringValue(_n) == str;
     }
 
     /**
@@ -261,14 +265,18 @@ public:
   class EdgeValueProxy {
 
   protected:
-    PropertyInterface *_prop;
+    const PropertyInterface *_prop;
     edge _e;
 
   public:
-    constexpr EdgeValueProxy(PropertyInterface *prop, edge e) : _prop(prop), _e(e) {}
+    constexpr EdgeValueProxy(const PropertyInterface *prop, edge e) : _prop(prop), _e(e) {}
+
+    constexpr PropertyInterface *getProperty() const {
+      return const_cast<PropertyInterface *>(_prop);
+    }
 
     std::string getStringValue() const {
-      return _prop->getEdgeStringValue(_e);
+      return getProperty()->getEdgeStringValue(_e);
     }
 
     /**
@@ -276,7 +284,7 @@ public:
      * which allows to write: prop[e] = strval
      **/
     EdgeValueProxy &operator=(const std::string &val) {
-      _prop->setEdgeStringValue(_e, val);
+      getProperty()->setEdgeStringValue(_e, val);
       return *this;
     }
 
@@ -285,7 +293,7 @@ public:
      * which allows to write: prop1[e1] = prop2[e2]
      **/
     EdgeValueProxy &operator=(const EdgeValueProxy &ref) {
-      _prop->setEdgeStringValue(_e, ref.getStringValue());
+      getProperty()->setEdgeStringValue(_e, ref.getStringValue());
       return *this;
     }
 
@@ -294,7 +302,7 @@ public:
      * which allows to write: prop1[e1] == prop2[e2]
      **/
     bool operator==(const std::string &str) const {
-      return _prop->getEdgeStringValue(_e) == str;
+      return getProperty()->getEdgeStringValue(_e) == str;
     }
 
     /**

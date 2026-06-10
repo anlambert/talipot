@@ -298,7 +298,7 @@ bool MixedModel::run() {
       (*result)[n] = Coord(-coord[1], coord[0], coord[2]);
     }
     for (auto e : graph->edges()) {
-      const auto &tmp = result->getEdgeValue(e);
+      const vector<Coord> &tmp = (*result)[e];
       LineType::RealType tmp2;
 
       for (auto coord : tmp) {

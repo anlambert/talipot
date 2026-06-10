@@ -45,8 +45,8 @@ public:
     }
 
     for (auto e : graph->edges()) {
-      const vector<Coord> &srcBends = srcLayout->getEdgeValue(e);
-      const vector<Coord> &destBends = destLayout->getEdgeValue(e);
+      const vector<Coord> &srcBends = (*srcLayout)[e];
+      const vector<Coord> &destBends = (*destLayout)[e];
       vector<Coord> newBends;
 
       for (size_t i = 0; i < destBends.size(); ++i) {
@@ -434,8 +434,8 @@ void NeighborhoodHighlighter::updateNeighborhoodGraphLayoutAndColors() {
     }
 
     for (auto e : neighborhoodGraph->edges()) {
-      (*neighborhoodGraphOriginalLayout)[e] = origGraphLayout->getEdgeValue(e);
-      (*neighborhoodGraphBackupColors)[e] = origGraphColors->getEdgeValue(e);
+      (*neighborhoodGraphOriginalLayout)[e] = (*origGraphLayout)[e];
+      (*neighborhoodGraphBackupColors)[e] = (*origGraphColors)[e];
     }
 
     *neighborhoodGraphLayout = *neighborhoodGraphOriginalLayout;
@@ -557,7 +557,7 @@ void NeighborhoodHighlighter::computeNeighborhoodGraphCircleLayout() {
       finalBendsCoord = circleCenter + (tgtNodeCoord - circleCenter) / 2.f;
     }
 
-    vector<Coord> edgesBends = neighborhoodGraphLayout->getEdgeValue(e);
+    vector<Coord> edgesBends = (*neighborhoodGraphLayout)[e];
 
     for (auto &edgesBend : edgesBends) {
       edgesBend = finalBendsCoord;

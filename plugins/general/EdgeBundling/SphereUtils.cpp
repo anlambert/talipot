@@ -36,7 +36,7 @@ float centerOnOriginAndScale(Graph *graph, LayoutProperty *layout, float dist) {
 void moveBendsToSphere(Graph *graph, float ray, LayoutProperty *layout) {
   for (auto e : graph->edges()) {
     vector<Coord> bends;
-    bends = layout->getEdgeValue(e);
+    bends = (*layout)[e];
 
     for (auto &bend : bends) {
       Coord c = bend;

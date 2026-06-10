@@ -339,11 +339,11 @@ public:
 
   void draw(edge e, node n, const Color &glyphColor, const Color &borderColor, float) override {
     StringProperty *viewIcon = edgeExtGlGraphInputData->icons();
-    const string &iconName = viewIcon->getEdgeValue(e);
+    const string &iconName = (*viewIcon)[e];
 
     string edgeTexture = edgeExtGlGraphInputData->renderingParameters()->getTexturePath() +
-                         edgeExtGlGraphInputData->textures()->getEdgeValue(e);
-    float borderWidth = edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e);
+                         (*edgeExtGlGraphInputData->textures())[e];
+    float borderWidth = (*edgeExtGlGraphInputData->borderWidths())[e];
 
     // apply some rotation before rendering the icon in order
     // to visually encode the edge direction

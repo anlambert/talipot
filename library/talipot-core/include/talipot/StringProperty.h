@@ -51,6 +51,70 @@ public:
   }
   int compare(const node n1, const node n2) const override;
   int compare(const edge e1, const edge e2) const override;
+
+  // inner class used to extend the overloading of the operator[]
+  // to set an edge value
+  class NodeValueProxy : public AbstractProperty<tlp::StringType, tlp::StringType>::NodeValueProxy {
+
+  public:
+    constexpr NodeValueProxy(const StringProperty *prop, node n)
+        : AbstractProperty<tlp::StringType, tlp::StringType>::NodeValueProxy(prop, n) {}
+
+    NodeValueProxy &operator=(TYPE_CONST_REFERENCE(StringType) val) {
+      getProperty()->setNodeValue(_n, val);
+      return *this;
+    }
+
+    NodeValueProxy &operator+=(TYPE_CONST_REFERENCE(StringType) val) {
+      getProperty()->setNodeValue(_n, getValue() + val);
+      return *this;
+    }
+
+    REAL_TYPE(StringType) operator+(TYPE_CONST_REFERENCE(StringType) val) {
+      return getValue() + val;
+    }
+
+    REAL_TYPE(StringType) operator+(const NodeValueProxy & ref) {
+      return getValue() + ref.getValue();
+    }
+  };
+
+  // overload operator[] to set an edge value
+  constexpr NodeValueProxy operator[](node n) const {
+    return NodeValueProxy(this, n);
+  }
+
+  // inner class used to extend the overloading of the operator[]
+  // to set an edge value
+  class EdgeValueProxy : public AbstractProperty<tlp::StringType, tlp::StringType>::EdgeValueProxy {
+
+  public:
+    constexpr EdgeValueProxy(const StringProperty *prop, edge e)
+        : AbstractProperty<tlp::StringType, tlp::StringType>::EdgeValueProxy(prop, e) {}
+
+    EdgeValueProxy &operator=(TYPE_CONST_REFERENCE(StringType) val) {
+      getProperty()->setEdgeValue(_e, val);
+      return *this;
+    }
+
+    EdgeValueProxy &operator+=(TYPE_CONST_REFERENCE(StringType) val) {
+      getProperty()->setEdgeValue(_e, getValue() + val);
+      return *this;
+    }
+
+    REAL_TYPE(StringType) operator+(TYPE_CONST_REFERENCE(StringType) val) {
+      return getValue() + val;
+    }
+
+    REAL_TYPE(StringType) operator+(const EdgeValueProxy & ref) {
+      return getValue() + ref.getValue();
+    }
+  };
+
+  // overload operator[] to set an edge value
+  constexpr EdgeValueProxy operator[](edge e) const {
+    return EdgeValueProxy(this, e);
+  }
 };
 
 DECLARE_DLL_TEMPLATE_INSTANCE(
@@ -84,8 +148,11 @@ public:
 };
 }
 
-inline constexpr std::string operator+(const std::string &s,
-                                       const tlp::StringProperty::NodeValueProxy &ref) {
+inline std::string operator+(const std::string &s, const tlp::StringProperty::NodeValueProxy &ref) {
+  return s + ref.getValue();
+}
+
+inline std::string operator+(const std::string &s, const tlp::StringProperty::EdgeValueProxy &ref) {
   return s + ref.getValue();
 }
 

@@ -186,14 +186,11 @@ void HistogramView::setState(const DataSet &dataSet) {
       for (auto e : _histoGraph->edges()) {
         nodeToEdge[edgeToNode[e] = edgeAsNodeGraph->addNode()] = e;
         edgeAsNodeGraph->getColorProperty("viewColor")
-            ->setNodeValue(edgeToNode[e],
-                           _histoGraph->getColorProperty("viewColor")->getEdgeValue(e));
+            ->setNodeValue(edgeToNode[e], (*_histoGraph->getColorProperty("viewColor"))[e]);
         edgeAsNodeGraph->getBooleanProperty("viewSelection")
-            ->setNodeValue(edgeToNode[e],
-                           _histoGraph->getBooleanProperty("viewSelection")->getEdgeValue(e));
+            ->setNodeValue(edgeToNode[e], (*_histoGraph->getBooleanProperty("viewSelection"))[e]);
         edgeAsNodeGraph->getStringProperty("viewLabel")
-            ->setNodeValue(edgeToNode[e],
-                           _histoGraph->getStringProperty("viewLabel")->getEdgeValue(e));
+            ->setNodeValue(edgeToNode[e], (*_histoGraph->getStringProperty("viewLabel"))[e]);
       }
       edgeAsNodeGraph->getIntegerProperty("viewShape")->setAllNodeValue(NodeShape::Circle);
       edgeAsNodeGraph->getBooleanProperty("viewSelection")->addListener(this);
@@ -1010,20 +1007,20 @@ void HistogramView::afterSetEdgeValue(PropertyInterface *p, const edge e) {
   if (p->getName() == "viewColor") {
     ColorProperty *edgeAsNodeGraphColors = edgeAsNodeGraph->getColorProperty("viewColor");
     auto *viewColor = static_cast<ColorProperty *>(p);
-    edgeAsNodeGraphColors->setNodeValue(edgeToNode[e], viewColor->getEdgeValue(e));
+    edgeAsNodeGraphColors->setNodeValue(edgeToNode[e], (*viewColor)[e]);
     setUpdateNeeded();
   } else if (p->getName() == "viewLabel") {
     StringProperty *edgeAsNodeGraphLabels = edgeAsNodeGraph->getStringProperty("viewLabel");
     auto *viewLabel = static_cast<StringProperty *>(p);
-    edgeAsNodeGraphLabels->setNodeValue(edgeToNode[e], viewLabel->getEdgeValue(e));
+    edgeAsNodeGraphLabels->setNodeValue(edgeToNode[e], (*viewLabel)[e]);
   } else if (p->getName() == "viewSelection") {
     BooleanProperty *edgeAsNodeGraphSelection =
         edgeAsNodeGraph->getBooleanProperty("viewSelection");
     auto *viewSelection = static_cast<BooleanProperty *>(p);
     edgeAsNodeGraphSelection->removeListener(this);
 
-    if ((*edgeAsNodeGraphSelection)[edgeToNode[e]] != viewSelection->getEdgeValue(e)) {
-      edgeAsNodeGraphSelection->setNodeValue(edgeToNode[e], viewSelection->getEdgeValue(e));
+    if ((*edgeAsNodeGraphSelection)[edgeToNode[e]] != (*viewSelection)[e]) {
+      edgeAsNodeGraphSelection->setNodeValue(edgeToNode[e], (*viewSelection)[e]);
     }
 
     edgeAsNodeGraphSelection->addListener(this);
@@ -1070,8 +1067,8 @@ void HistogramView::afterSetAllEdgeValue(PropertyInterface *p) {
         edgeAsNodeGraph->getBooleanProperty("viewSelection");
     auto *viewSelection = static_cast<BooleanProperty *>(p);
     for (auto e : _histoGraph->edges()) {
-      if ((*edgeAsNodeGraphSelection)[edgeToNode[e]] != viewSelection->getEdgeValue(e)) {
-        edgeAsNodeGraphSelection->setNodeValue(edgeToNode[e], viewSelection->getEdgeValue(e));
+      if ((*edgeAsNodeGraphSelection)[edgeToNode[e]] != (*viewSelection)[e]) {
+        edgeAsNodeGraphSelection->setNodeValue(edgeToNode[e], (*viewSelection)[e]);
       }
     }
 

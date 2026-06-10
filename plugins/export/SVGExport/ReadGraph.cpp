@@ -93,8 +93,8 @@ static bool treatEdges(Graph *graph, tlp::PluginProgress *pp, ExportInterface &e
     if (src_anchor_shape_type != EdgeExtremityShape::None ||
         tgt_anchor_shape_type != EdgeExtremityShape::None) {
       ret = exportint.exportEdgeExtremity(id_src_shape, id_tgt_shape, src_anchor_shape_type,
-                                          tgt_anchor_shape_type, colors->getEdgeValue(e),
-                                          id_src_grad, id_tgt_grad, iconName->getEdgeValue(e));
+                                          tgt_anchor_shape_type, (*colors)[e], id_src_grad,
+                                          id_tgt_grad, (*iconName)[e]);
 
       if (!ret) {
         if (pp->getError().empty()) {
@@ -113,18 +113,17 @@ static bool treatEdges(Graph *graph, tlp::PluginProgress *pp, ExportInterface &e
       // svg only handles a width for each edge
       width = std::min((*sizes)[src][0] / 8, (*sizes)[tgt][0] / 8);
     } else {
-      width = std::min(sizes->getEdgeValue(e)[0], sizes->getEdgeValue(e)[1]) + 1;
+      width = std::min((*sizes)[e][0], (*sizes)[e][1]) + 1;
     }
 
     // Get edge type
     if (!edge_color_interpolation) {
       ret = exportint.exportEdge(static_cast<EdgeShape::EdgeShapes>(shape->getEdgeValue(e)),
-                                 layout->getEdgeValue(e), colors->getEdgeValue(e), width,
-                                 src_anchor_shape_type, id_src_shape, tgt_anchor_shape_type,
-                                 id_tgt_shape, edgeVertices);
+                                 (*layout)[e], (*colors)[e], width, src_anchor_shape_type,
+                                 id_src_shape, tgt_anchor_shape_type, id_tgt_shape, edgeVertices);
     } else {
       ret = exportint.exportEdge(e.id, static_cast<EdgeShape::EdgeShapes>(shape->getEdgeValue(e)),
-                                 layout->getEdgeValue(e), (*colors)[src], (*colors)[tgt], width,
+                                 (*layout)[e], (*colors)[src], (*colors)[tgt], width,
                                  src_anchor_shape_type, id_src_shape, tgt_anchor_shape_type,
                                  id_tgt_shape, edgeVertices);
     }
@@ -141,8 +140,8 @@ static bool treatEdges(Graph *graph, tlp::PluginProgress *pp, ExportInterface &e
 
     if (edge_labels) {
       Coord c = edgeVertices[edgeVertices.size() / 2] + edgeVertices[edgeVertices.size() / 2 - 1];
-      ret = exportint.addLabel("edge", label->getEdgeValue(e), labelcolor->getEdgeValue(e), c /= 2,
-                               fontsize->getEdgeValue(e), sizes->getEdgeValue(e));
+      ret = exportint.addLabel("edge", (*label)[e], (*labelcolor)[e], c /= 2, (*fontsize)[e],
+                               (*sizes)[e]);
 
       if (!ret) {
         if (pp->getError().empty()) {

@@ -66,7 +66,7 @@ static void computeEdgeAvgValue(
 
   for (auto e : itE) {
     ++nbEdges;
-    value += metric->getEdgeValue(e);
+    value += (*metric)[e];
   }
 
   if (nbEdges) {
@@ -102,7 +102,7 @@ static void computeEdgeSumValue(
   double value = 0;
 
   for (auto e : itE) {
-    value += metric->getEdgeValue(e);
+    value += (*metric)[e];
   }
 
   (*metric)[mE] = value;
@@ -140,7 +140,7 @@ static void computeEdgeMaxValue(
   double value = -DBL_MAX;
 
   for (auto e : itE) {
-    double eVal = metric->getEdgeValue(e);
+    double eVal = (*metric)[e];
 
     if (eVal > value) {
       value = eVal;
@@ -182,7 +182,7 @@ static void computeEdgeMinValue(
   double value = DBL_MAX;
 
   for (auto e : itE) {
-    double eVal = metric->getEdgeValue(e);
+    double eVal = (*metric)[e];
 
     if (eVal < value) {
       value = eVal;

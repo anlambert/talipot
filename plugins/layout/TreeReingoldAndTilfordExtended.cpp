@@ -205,7 +205,7 @@ list<LR> *TreeReingoldAndTilfordExtended::TreePlace(tlp::node n,
     if (useLength) {
       int tmpLength;
 
-      if ((tmpLength = lengthMetric->getEdgeValue(ite)) > 1) {
+      if ((tmpLength = (*lengthMetric)[ite]) > 1) {
         LR tmpLR;
         tmpLR.L = leftTree->front().L;
         tmpLR.R = leftTree->front().R;
@@ -222,7 +222,7 @@ list<LR> *TreeReingoldAndTilfordExtended::TreePlace(tlp::node n,
       if (useLength) {
         int tmpLength;
 
-        if ((tmpLength = lengthMetric->getEdgeValue(ite)) > 1) {
+        if ((tmpLength = (*lengthMetric)[ite]) > 1) {
           LR tmpLR;
           tmpLR.L = rightTree->front().L;
           tmpLR.R = rightTree->front().R;
@@ -286,7 +286,7 @@ void TreeReingoldAndTilfordExtended::TreeLevelSizing(tlp::node n,
   if (useLength) {
     for (edge ite : tree->getOutEdges(n)) {
       node itn = tree->target(ite);
-      TreeLevelSizing(itn, maxSize, level + (lengthMetric->getEdgeValue(ite)), levels);
+      TreeLevelSizing(itn, maxSize, level + ((*lengthMetric)[ite]), levels);
     }
   } else {
     for (auto itn : tree->getOutNodes(n)) {
@@ -313,7 +313,7 @@ void TreeReingoldAndTilfordExtended::calcLayout(tlp::node n, flat_hash_map<tlp::
       node itn = tree->target(ite);
       double decalY = y;
       int decalLevel = level;
-      int tmp = lengthMetric->getEdgeValue(ite);
+      int tmp = (*lengthMetric)[ite];
 
       while (tmp > 0) {
         if (!compactLayout) {

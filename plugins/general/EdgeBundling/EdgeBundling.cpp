@@ -656,12 +656,12 @@ bool EdgeBundling::run() {
 
       if (origEdge.isValid()) {
         oriGraph->addEdge(removedEdge);
-        (*layout)[removedEdge] = layout->getEdgeValue(origEdge);
+        (*layout)[removedEdge] = (*layout)[origEdge];
       } else {
         origEdge = oriGraph->existEdge(tgt, src);
         assert(origEdge.isValid());
         oriGraph->addEdge(removedEdge);
-        std::vector<tlp::Coord> bends = layout->getEdgeValue(origEdge);
+        std::vector<tlp::Coord> bends = (*layout)[origEdge];
         std::reverse(bends.begin(), bends.end());
         (*layout)[removedEdge] = bends;
       }

@@ -130,7 +130,7 @@ void MatrixView::setOriented(bool flag) {
     if (_isOriented) {
       for (auto e : graph()->edges()) {
         // delete the second node mapping the current edge
-        vector<int> edgeNodes = _graphEntitiesToDisplayedNodes->getEdgeValue(e);
+        vector<int> edgeNodes = (*_graphEntitiesToDisplayedNodes)[e];
         _matrixGraph->delNode(node(edgeNodes[1]));
         edgeNodes.resize(1);
         (*_graphEntitiesToDisplayedNodes)[e] = edgeNodes;
@@ -138,7 +138,7 @@ void MatrixView::setOriented(bool flag) {
     } else {
       for (auto e : graph()->edges()) {
         // must add the symmetric node
-        vector<int> edgeNodes = _graphEntitiesToDisplayedNodes->getEdgeValue(e);
+        vector<int> edgeNodes = (*_graphEntitiesToDisplayedNodes)[e];
         edgeNodes.push_back(_matrixGraph->addNode().id);
         (*_graphEntitiesToDisplayedNodes)[e] = edgeNodes;
 
@@ -200,7 +200,7 @@ void MatrixView::fillContextMenu(QMenu *menu, const QPointF &point) {
 
       itemId = (*_displayedNodesToGraphEntities)[node(itemId)];
     } else {
-      itemId = _displayedEdgesToGraphEdges->getEdgeValue(edge(itemId));
+      itemId = (*_displayedEdgesToGraphEdges)[edge(itemId)];
     }
 
     menu->addAction((isNode ? "Node #" : "Edge #") + sId)->setEnabled(false);
@@ -402,7 +402,7 @@ void MatrixView::addEdge(tlp::Graph *g, const tlp::edge e) {
   ColorProperty *originalColors = graph()->getColorProperty("viewColor");
   ColorProperty *colors = glWidget()->inputData()->colors();
 
-  (*colors)[dispEdge] = originalColors->getEdgeValue(e);
+  (*colors)[dispEdge] = (*originalColors)[e];
 }
 
 void MatrixView::treatEvent(const Event &message) {
@@ -438,7 +438,7 @@ void MatrixView::delEdge(tlp::Graph *, const tlp::edge e) {
   _mustUpdateLayout = true;
   _mustUpdateSizes = true;
 
-  const vector<int> &vect = _graphEntitiesToDisplayedNodes->getEdgeValue(e);
+  const vector<int> &vect = (*_graphEntitiesToDisplayedNodes)[e];
 
   for (auto id : vect) {
     _matrixGraph->delNode(node(id));
@@ -542,7 +542,7 @@ void MatrixView::updateLayout() {
     const auto &[src, tgt] = graph()->ends(e);
     const vector<int> &srcNodes = (*_graphEntitiesToDisplayedNodes)[src],
                       &tgtNodes = (*_graphEntitiesToDisplayedNodes)[tgt],
-                      &edgeNodes = _graphEntitiesToDisplayedNodes->getEdgeValue(e);
+                      &edgeNodes = (*_graphEntitiesToDisplayedNodes)[e];
 
     // 0 => horizontal line, 1 => vertical line
     Coord src0 = (*layout)[node(srcNodes[0])], tgt0 = (*layout)[node(tgtNodes[0])],

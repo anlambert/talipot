@@ -440,7 +440,7 @@ void TableView::toggleHighlightedRows() {
       (*selection)[n] = !(*selection)[n];
     } else {
       edge e(idx.data(Model::ElementIdRole).toUInt());
-      (*selection)[e] = !selection->getEdgeValue(e);
+      (*selection)[e] = !(*selection)[e];
     }
   }
 

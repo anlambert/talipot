@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -103,7 +103,7 @@ void IsMetaEdgeTest::testIsMetaEdge() {
   CPPUNIT_ASSERT_EQUAL(2u, nbMetaNodes);
 
   set<edge> underlyingEdgesInMetaEdge =
-      quotientGraph->getGraphProperty("viewMetaGraph")->getEdgeValue(quotientGraph->getOneEdge());
+      (*quotientGraph->getGraphProperty("viewMetaGraph"))[quotientGraph->getOneEdge()];
 
   // check the number of underlying edges in meta edge
   CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(nbNodesPerCluster * nbNodesPerCluster),

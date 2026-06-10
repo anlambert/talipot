@@ -289,7 +289,7 @@ public:
                 edge e = graph->existEdge(a1, a2);
                 uint cnt = 0;
                 if (e.isValid()) {
-                  cnt = countProp->getEdgeValue(e);
+                  cnt = (*countProp)[e];
                 } else {
                   e = graph->addEdge(a1, a2);
                 }

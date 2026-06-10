@@ -85,13 +85,13 @@ public:
   EEPentagon(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
 
   void draw(edge e, node, const Color &glyphColor, const Color &borderColor, float lod) override {
-    string textureName = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
+    string textureName = (*edgeExtGlGraphInputData->textures())[e];
 
     if (!textureName.empty()) {
       textureName = edgeExtGlGraphInputData->renderingParameters()->getTexturePath() + textureName;
     }
 
-    drawPentagon(glyphColor, borderColor, edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e),
+    drawPentagon(glyphColor, borderColor, (*edgeExtGlGraphInputData->borderWidths())[e],
                  textureName, lod, false);
   }
 };

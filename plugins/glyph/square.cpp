@@ -85,9 +85,9 @@ public:
 
   void draw(edge e, node, const Color &glyphColor, const Color &borderColor, float lod) override {
     glDisable(GL_LIGHTING);
-    drawGlyph(glyphColor, edgeExtGlGraphInputData->textures()->getEdgeValue(e),
+    drawGlyph(glyphColor, (*edgeExtGlGraphInputData->textures())[e],
               edgeExtGlGraphInputData->renderingParameters()->getTexturePath(),
-              edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e), borderColor, lod);
+              (*edgeExtGlGraphInputData->borderWidths())[e], borderColor, lod);
   }
 };
 

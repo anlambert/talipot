@@ -116,7 +116,7 @@ bool Dijkstra::searchPath(node n, BooleanProperty *result) {
         continue; // edge does not belong to the shortest path
       }
 
-      if (result->getEdgeValue(e)) {
+      if ((*result)[e]) {
         continue; // edge already treated
       }
 
@@ -152,7 +152,7 @@ void Dijkstra::internalSearchPaths(node n, BooleanProperty *result) {
       continue;
     }
 
-    if (result->getEdgeValue(e)) {
+    if ((*result)[e]) {
       continue;
     }
 

@@ -243,9 +243,9 @@ void HistogramStatistics::computeInteractor() {
       double edgeVal;
 
       if (propertyType == "double") {
-        edgeVal = graph->getDoubleProperty(selectedProperty)->getEdgeValue(e);
+        edgeVal = (*graph->getDoubleProperty(selectedProperty))[e];
       } else {
-        edgeVal = graph->getIntegerProperty(selectedProperty)->getEdgeValue(e);
+        edgeVal = (*graph->getIntegerProperty(selectedProperty))[e];
       }
 
       graphPropertyValueSet[e.id] = edgeVal;

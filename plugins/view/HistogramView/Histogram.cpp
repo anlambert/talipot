@@ -181,7 +181,7 @@ void Histogram::computeHistogram() {
         }
       } else {
         for (auto e : graph->edges()) {
-          propertyCopy.setEdgeValue(e, graph->getIntegerProperty(propertyName)->getEdgeValue(e));
+          propertyCopy.setEdgeValue(e, (*graph->getIntegerProperty(propertyName))[e]);
         }
       }
     }
@@ -229,9 +229,9 @@ void Histogram::computeHistogram() {
         double val;
 
         if (graph->getProperty(propertyName)->getTypename() == "double") {
-          val = graph->getDoubleProperty(propertyName)->getEdgeValue(e);
+          val = (*graph->getDoubleProperty(propertyName))[e];
         } else {
-          val = graph->getIntegerProperty(propertyName)->getEdgeValue(e);
+          val = (*graph->getIntegerProperty(propertyName))[e];
         }
 
         if (val < binMinMaxMap[binId].first) {
@@ -298,12 +298,12 @@ void Histogram::computeHistogram() {
         double value;
 
         if (graph->getProperty(propertyName)->getTypename() == "double") {
-          value = graph->getDoubleProperty(propertyName)->getEdgeValue(e);
+          value = (*graph->getDoubleProperty(propertyName))[e];
           double intpart, fracpart;
           fracpart = modf(value, &intpart);
           integerScale = integerScale && (fracpart == 0);
         } else {
-          value = graph->getIntegerProperty(propertyName)->getEdgeValue(e);
+          value = (*graph->getIntegerProperty(propertyName))[e];
         }
 
         if (value != max) {

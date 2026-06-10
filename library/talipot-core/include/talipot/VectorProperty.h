@@ -313,7 +313,7 @@ public:
   void copyFromProperty(PROP_PTR prop) {
     assert(graph);
     this->resize(graph->numberOfEdges());
-    TLP_PARALLEL_MAP_EDGES(graph, [&](const edge e) { (*this)[e] = prop->getEdgeValue(e); });
+    TLP_PARALLEL_MAP_EDGES(graph, [&](const edge e) { (*this)[e] = (*prop)[e]; });
   }
 
   // get values from a NumericProperty
@@ -420,7 +420,7 @@ public:
   void copyFromProperty(PROP_PTR prop) {
     assert(graph);
     this->resize(graph->numberOfEdges());
-    TLP_PARALLEL_MAP_EDGES(graph, [&](const edge e) { (*this)[e] = prop->getEdgeValue(e); });
+    TLP_PARALLEL_MAP_EDGES(graph, [&](const edge e) { (*this)[e] = (*prop)[e]; });
   }
 
   // copy values into a typed instance of PropertyInterface

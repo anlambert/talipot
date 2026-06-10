@@ -147,7 +147,7 @@ bool PolyominoPacking::run() {
       (*result)[n] = (*layout)[n];
     }
     for (auto e : graph->edges()) {
-      (*result)[e] = layout->getEdgeValue(e);
+      (*result)[e] = (*layout)[e];
     }
     return true;
   }
@@ -226,7 +226,7 @@ bool PolyominoPacking::run() {
       node n = ccNodes[j];
       (*result)[n] = (*layout)[n] + move;
       for (auto e : graph->getOutEdges(n)) {
-        const vector<Coord> &bends = layout->getEdgeValue(e);
+        const vector<Coord> &bends = (*layout)[e];
 
         if (!bends.empty()) {
           vector<Coord> newBends(bends);
@@ -346,7 +346,7 @@ void PolyominoPacking::fillEdge(edge e, const Vec2i &p, std::vector<Vec2i> &cell
   const auto &[src, tgt] = graph->ends(e);
   const Coord &srcCoord = (*layout)[src];
   Coord tgtCoord = (*layout)[tgt];
-  const std::vector<Coord> &bends = layout->getEdgeValue(e);
+  const std::vector<Coord> &bends = (*layout)[e];
 
   if (bends.empty()) {
     tgtCoord += Coord(dx, dy);
@@ -356,7 +356,7 @@ void PolyominoPacking::fillEdge(edge e, const Vec2i &p, std::vector<Vec2i> &cell
   }
 
   std::vector<Coord> newBends;
-  auto eShape = shape->getEdgeValue(e);
+  auto eShape = (*shape)[e];
 
   if (eShape == EdgeShape::Polyline) {
     newBends = bends;
