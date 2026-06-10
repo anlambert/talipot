@@ -145,14 +145,14 @@ public:
   }
 
   void draw(edge e, node, const Color &glyphColor, const Color &borderColor, float lod) override {
-    string textureName = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
+    string textureName = (*edgeExtGlGraphInputData->textures())[e];
 
     if (!textureName.empty()) {
       textureName = edgeExtGlGraphInputData->renderingParameters()->getTexturePath() + textureName;
     }
 
-    drawCross(glyphColor, borderColor, edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e),
-              textureName, lod);
+    drawCross(glyphColor, borderColor, (*edgeExtGlGraphInputData->borderWidths())[e], textureName,
+              lod);
   }
 };
 PLUGIN(EECross)

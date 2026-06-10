@@ -117,7 +117,7 @@ public:
                                                  tlp::NumericProperty>::EdgeValueProxy {
 
   public:
-    constexpr EdgeValueProxy(IntegerProperty *prop, edge e)
+    constexpr EdgeValueProxy(const IntegerProperty *prop, edge e)
         : AbstractProperty<tlp::IntegerType, tlp::IntegerType,
                            tlp::NumericProperty>::EdgeValueProxy(prop, e) {}
 
@@ -166,7 +166,7 @@ public:
   };
 
   // overload operator[] to set an edge value
-  constexpr EdgeValueProxy operator[](edge e) {
+  constexpr EdgeValueProxy operator[](edge e) const {
     return EdgeValueProxy(this, e);
   }
 

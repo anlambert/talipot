@@ -84,14 +84,14 @@ public:
                    "Textured Circle for edge extremities", "1.1", EdgeExtremityShape::Circle)
   EECircle(const tlp::PluginContext *context) : EdgeExtremityGlyph(context) {}
   void draw(edge e, node, const Color &glyphColor, const Color &borderColor, float lod) override {
-    string textureName = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
+    string textureName = (*edgeExtGlGraphInputData->textures())[e];
 
     if (!textureName.empty()) {
       textureName = edgeExtGlGraphInputData->renderingParameters()->getTexturePath() + textureName;
     }
 
-    drawCircle(glyphColor, borderColor, edgeExtGlGraphInputData->borderWidths()->getEdgeValue(e),
-               textureName, lod, false);
+    drawCircle(glyphColor, borderColor, (*edgeExtGlGraphInputData->borderWidths())[e], textureName,
+               lod, false);
   }
 };
 

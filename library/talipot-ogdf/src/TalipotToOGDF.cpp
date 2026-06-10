@@ -62,7 +62,7 @@ TalipotToOGDF::TalipotToOGDF(Graph *g, bool importEdgeBends) : talipotGraph(g) {
 
     if (importEdgeBends) {
 
-      const vector<Coord> &v = layoutProp->getEdgeValue(eTlp);
+      const vector<Coord> &v = (*layoutProp)[eTlp];
       ogdf::DPolyline bends;
 
       for (const auto &coord : v) {

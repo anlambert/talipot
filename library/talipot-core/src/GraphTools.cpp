@@ -383,7 +383,7 @@ void selectSpanningTree(Graph *graph, BooleanProperty *selection, PluginProgress
 
     for (auto e : graph->incidence(root)) {
 
-      if (!selection->getEdgeValue(e)) {
+      if (!(*selection)[e]) {
         node neighbour = graph->opposite(e, root);
 
         if (!(*selection)[neighbour]) {
@@ -794,7 +794,7 @@ bool selectShortestPaths(const Graph *const graph, node src, node tgt, ShortestP
     eWeights.setAll(SMALLEST_WEIGHT);
   } else {
     auto fn = [&](edge e) {
-      double val(weights->getEdgeValue(e));
+      double val = (*weights)[e];
 
       eWeights[e] = val ? val : SMALLEST_WEIGHT;
     };

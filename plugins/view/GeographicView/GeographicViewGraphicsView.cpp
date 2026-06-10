@@ -832,7 +832,7 @@ void GeographicViewGraphicsView::createLayoutWithLatLngs(const std::string &lati
     DoubleVectorProperty *edgesPathsProperty =
         graph->getDoubleVectorProperty(edgesPathsPropertyName);
     for (auto e : graph->edges()) {
-      const std::vector<double> &edgePath = edgesPathsProperty->getEdgeValue(e);
+      const std::vector<double> &edgePath = (*edgesPathsProperty)[e];
       std::vector<std::pair<double, double>> latLngs;
 
       for (size_t i = 0; i < edgePath.size(); i += 2) {

@@ -471,7 +471,7 @@ bool MouseEdgeBendEditor::haveSelection(GlWidget *glWidget) {
   bool multipleSelection = false;
 
   for (auto e : _graph->edges()) {
-    if (_selection->getEdgeValue(e)) {
+    if ((*_selection)[e]) {
       if (hasSelection) {
         hasSelection = false;
         multipleSelection = true;
@@ -558,7 +558,7 @@ bool MouseEdgeBendEditor::computeBendsCircles(GlWidget *glWidget) {
   }
 
   if (edgeSelected) {
-    coordinates = _layout->getEdgeValue(mEdge);
+    coordinates = (*_layout)[mEdge];
     start = (*_layout)[_graph->source(mEdge)];
     end = (*_layout)[_graph->target(mEdge)];
 

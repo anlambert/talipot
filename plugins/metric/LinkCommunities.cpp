@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -144,7 +144,7 @@ bool LinkCommunities::run() {
   for (auto n : graph->nodes()) {
     std::set<double> around;
     for (auto e : graph->incidence(n)) {
-      double val = result->getEdgeValue(e);
+      double val = (*result)[e];
 
       if (val) {
         around.insert(val);

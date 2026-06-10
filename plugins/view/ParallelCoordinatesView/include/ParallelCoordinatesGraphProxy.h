@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -103,9 +103,9 @@ public:
   TYPE_CONST_REFERENCE(PROPERTYTYPE)
   getPropertyValueForData(const std::string &propertyName, const uint dataId) {
     if (getDataLocation() == ElementType::NODE) {
-      return getProperty<PROPERTY>(propertyName)->getNodeValue(node(dataId));
+      return (*getProperty<PROPERTY>(propertyName))[node(dataId)];
     } else {
-      return getProperty<PROPERTY>(propertyName)->getEdgeValue(edge(dataId));
+      return (*getProperty<PROPERTY>(propertyName))[edge(dataId)];
     }
   }
 

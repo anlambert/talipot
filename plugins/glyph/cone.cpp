@@ -190,7 +190,7 @@ public:
     glEnable(GL_LIGHTING);
     glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
     setMaterial(glyphColor);
-    string texFile = edgeExtGlGraphInputData->textures()->getEdgeValue(e);
+    string texFile = (*edgeExtGlGraphInputData->textures())[e];
 
     if (!texFile.empty()) {
       string texturePath = edgeExtGlGraphInputData->renderingParameters()->getTexturePath();

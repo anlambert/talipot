@@ -933,7 +933,7 @@ bool GraphSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelInde
     if (graphModel->isNode()) {
       selected = (*_filterProperty)[node(id)];
     } else {
-      selected = _filterProperty->getEdgeValue(edge(id));
+      selected = (*_filterProperty)[edge(id)];
     }
   }
 

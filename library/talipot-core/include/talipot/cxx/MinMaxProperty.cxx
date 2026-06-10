@@ -130,7 +130,7 @@ tlp::MinMaxProperty<NodeType, EdgeType, PropType>::computeMinMaxEdge(const Graph
 
   if (AbstractProperty<NodeType, EdgeType, PropType>::hasNonDefaultValuatedEdges(graph)) {
     for (auto ite : graph->edges()) {
-      TYPE_CONST_REFERENCE(EdgeType) tmp = this->getEdgeValue(ite);
+      TYPE_CONST_REFERENCE(EdgeType) tmp = (*this)[ite];
       minE = std::min(minE, tmp);
       maxE = std::max(maxE, tmp);
     }
@@ -240,7 +240,7 @@ void tlp::MinMaxProperty<NodeType, EdgeType, PropType>::updateEdgeValue(
     tlp::edge e, TYPE_CONST_REFERENCE(EdgeType) newValue) {
 
   if (!_minMaxEdge.empty()) {
-    TYPE_CONST_REFERENCE(EdgeType) oldV = this->getEdgeValue(e);
+    TYPE_CONST_REFERENCE(EdgeType) oldV = (*this)[e];
 
     if (newValue != oldV) {
       // loop on subgraph min/max

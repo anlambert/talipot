@@ -559,7 +559,7 @@ void NodeLinkDiagramView::addRemoveItemToSelection(bool pushGraph, bool toggleSe
         toggleSelection ? !(*elementSelected)[node(itemId)] : selectValue;
   } else {
     (*elementSelected)[edge(itemId)] =
-        toggleSelection ? !elementSelected->getEdgeValue(edge(itemId)) : selectValue;
+        toggleSelection ? !(*elementSelected)[edge(itemId)] : selectValue;
   }
 }
 
@@ -621,7 +621,7 @@ void NodeLinkDiagramView::addRemoveInEdgesToSelection(bool pushGraph, bool toggl
   }
 
   for (auto e : graph()->getInEdges(node(itemId))) {
-    (*elementSelected)[e] = toggleSelection ? !elementSelected->getEdgeValue(e) : selectValue;
+    (*elementSelected)[e] = toggleSelection ? !(*elementSelected)[e] : selectValue;
   }
 }
 
@@ -639,7 +639,7 @@ void NodeLinkDiagramView::addRemoveOutEdgesToSelection(bool pushGraph, bool togg
   }
 
   for (auto e : graph()->getOutEdges(node(itemId))) {
-    (*elementSelected)[e] = toggleSelection ? !elementSelected->getEdgeValue(e) : selectValue;
+    (*elementSelected)[e] = toggleSelection ? !(*elementSelected)[e] : selectValue;
   }
 }
 

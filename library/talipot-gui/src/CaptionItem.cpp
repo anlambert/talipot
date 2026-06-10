@@ -165,7 +165,7 @@ void CaptionItem::generateColorCaption(CaptionType captionType) {
       maxProp = _metricProperty->getEdgeMax();
 
       for (auto e : view->graph()->edges()) {
-        metricToColorMap[_metricProperty->getEdgeValue(e)] = _colorProperty->getEdgeValue(e);
+        metricToColorMap[(*_metricProperty)[e]] = (*_colorProperty)[e];
       }
     }
 
@@ -224,10 +224,10 @@ void CaptionItem::generateSizeCaption(CaptionType captionType) {
   } else {
 
     for (auto e : view->graph()->edges()) {
-      metricToSizeMap[_metricProperty->getEdgeValue(e)] = _sizeProperty->getEdgeValue(e)[0];
+      metricToSizeMap[(*_metricProperty)[e]] = (*_sizeProperty)[e][0];
 
-      if (maxSize < _sizeProperty->getEdgeValue(e)[0]) {
-        maxSize = _sizeProperty->getEdgeValue(e)[0];
+      if (maxSize < (*_sizeProperty)[e][0]) {
+        maxSize = (*_sizeProperty)[e][0];
       }
     }
   }
@@ -346,8 +346,8 @@ void CaptionItem::applyNewFilter(float begin, float end) {
     double endMetric = minProp + (end * (maxProp - minProp));
 
     for (auto nit : view->graph()->nodes()) {
-      tmp = Color((*_backupColorProperty)[nit]);
-      borderTmp = Color((*_backupBorderColorProperty)[nit]);
+      tmp = (*_backupColorProperty)[nit];
+      borderTmp = (*_backupBorderColorProperty)[nit];
 
       if ((*_metricProperty)[nit] < beginMetric || (*_metricProperty)[nit] > endMetric) {
         tmp[3] = 25;
@@ -371,11 +371,10 @@ void CaptionItem::applyNewFilter(float begin, float end) {
 
     for (auto e : view->graph()->edges()) {
 
-      tmp = Color(_backupColorProperty->getEdgeValue(e));
-      borderTmp = Color(_backupBorderColorProperty->getEdgeValue(e));
+      tmp = (*_backupColorProperty)[e];
+      borderTmp = (*_backupBorderColorProperty)[e];
 
-      if (_metricProperty->getEdgeValue(e) < beginMetric ||
-          _metricProperty->getEdgeValue(e) > endMetric) {
+      if ((*_metricProperty)[e] < beginMetric || (*_metricProperty)[e] > endMetric) {
         tmp[3] = 25;
         borderTmp[3] = 25;
         (*_colorProperty)[e] = tmp;

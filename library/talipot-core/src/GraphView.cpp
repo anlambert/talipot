@@ -35,8 +35,7 @@ GraphView::GraphView(Graph *superGraph, BooleanProperty *filter, uint sgId)
     addNode(n);
   }
 
-  for (auto e :
-       filterIterator(superGraph->edges(), [filter](edge e) { return filter->getEdgeValue(e); })) {
+  for (auto e : filterIterator(superGraph->edges(), [filter](edge e) { return (*filter)[e]; })) {
     addEdge(e);
   }
 }

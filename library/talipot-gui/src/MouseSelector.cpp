@@ -177,7 +177,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
           case SelectedEntity::EDGE_SELECTED:
 
             if (_mode == EdgesAndNodes || _mode == EdgesOnly) {
-              result = selection->getEdgeValue(edge(selectedEntity.getGraphElementId()));
+              result = (*selection)[edge(selectedEntity.getGraphElementId())];
 
               if (revertSelection || boolVal != result) {
                 if (needPush) {
@@ -225,8 +225,7 @@ bool MouseSelector::eventFilter(QObject *widget, QEvent *e) {
         if (_mode == EdgesAndNodes || _mode == EdgesOnly) {
           for (const auto &entity : tmpSetEdge) {
             (*selection)[edge(entity.getGraphElementId())] =
-                revertSelection ? !selection->getEdgeValue(edge(entity.getGraphElementId()))
-                                : boolVal;
+                revertSelection ? !(*selection)[edge(entity.getGraphElementId())] : boolVal;
           }
         }
       }

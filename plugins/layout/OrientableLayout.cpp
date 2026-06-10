@@ -109,7 +109,7 @@ void OrientableLayout::setEdgeValue(const tlp::edge e, const LineType &v) {
 
 //====================================================================
 OrientableLayout::LineType OrientableLayout::getEdgeValue(const tlp::edge e) {
-  return convertEdgeLinetype(layout->getEdgeValue(e));
+  return convertEdgeLinetype((*layout)[e]);
 }
 
 //====================================================================

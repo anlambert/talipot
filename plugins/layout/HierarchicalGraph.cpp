@@ -426,7 +426,7 @@ bool HierarchicalGraph::run() {
       curSpacing = -spacing / 2.f;
     }
 
-    const vector<Coord> &old = result->getEdgeValue(e);
+    const vector<Coord> &old = (*result)[e];
 
     if (old.empty()) {
       vector<Coord> pos(2);
@@ -464,7 +464,7 @@ bool HierarchicalGraph::run() {
       (*result)[n] = Coord(-tmpC[1], tmpC[0], tmpC[2]);
     }
     for (auto e : graph->edges()) {
-      const LineType::RealType &tmp = result->getEdgeValue(e);
+      const LineType::RealType &tmp = (*result)[e];
       LineType::RealType tmp2;
 
       for (const auto &p : tmp) {

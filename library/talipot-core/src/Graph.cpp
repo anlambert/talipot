@@ -478,7 +478,7 @@ void tlp::removeFromGraph(Graph *ioG, BooleanProperty *inSel) {
 
   // get edges
   for (auto e : ioG->edges()) {
-    if (inSel->getEdgeValue(e)) {
+    if ((*inSel)[e]) {
       // selected edge -> remove it !
       edgeA.push_back(e);
     } else {
@@ -582,7 +582,7 @@ void tlp::copyToGraph(Graph *outG, const Graph *inG, BooleanProperty *inSel,
 
   // loop on edges
   for (auto eIn : inG->edges()) {
-    if (inSel && !inSel->getEdgeValue(eIn)) {
+    if (inSel && !(*inSel)[eIn]) {
       continue;
     }
     const auto &[src, tgt] = inG->ends(eIn);
@@ -1110,8 +1110,8 @@ void updatePropertiesUngroup(Graph *graph, node metanode, GraphProperty *cluster
   }
 
   for (auto e : cluster->edges()) {
-    (*graphLayout)[e] = clusterLayout->getEdgeValue(e);
-    (*graphSize)[e] = clusterSize->getEdgeValue(e);
+    (*graphLayout)[e] = (*clusterLayout)[e];
+    (*graphSize)[e] = (*clusterSize)[e];
   }
 
   // propagate all cluster local properties
@@ -1456,7 +1456,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
 
     for (auto metaEdge : super->incidence(metaNode)) {
 
-      Color metaColor = graphColors->getEdgeValue(metaEdge);
+      Color metaColor = (*graphColors)[metaEdge];
       flat_hash_map<node, flat_hash_map<node, set<edge>>> newMetaEdges;
 
       for (auto e : getEdgeMetaInfo(metaEdge)) {
@@ -1524,7 +1524,7 @@ void Graph::openMetaNode(node metaNode, bool updateProperties) {
     flat_hash_map<node, Color> metaEdgeToColor;
 
     for (auto metaEdge : super->incidence(metaNode)) {
-      metaEdgeToColor[opposite(metaEdge, metaNode)] = graphColors->getEdgeValue(metaEdge);
+      metaEdgeToColor[opposite(metaEdge, metaNode)] = (*graphColors)[metaEdge];
     }
 
     // Remove the metagraph from the hierarchy and remove the metanode

@@ -264,12 +264,12 @@ public:
       DoubleProperty *viewMetric = quotientGraph->getDoubleProperty("viewMetric");
 
       for (auto mE : quotientGraph->edges()) {
-        edge op(opProp->getEdgeValue(mE));
+        edge op((*opProp)[mE]);
 
         if (op.isValid() && !edgesToDel.contains(mE) && !edgesToDel.contains(op)) {
           // if the opposite edge viewMetric associated value is greater
           // than the mE associated value than we will keep it instead of mE
-          bool opOK = viewMetric->getEdgeValue(mE) < viewMetric->getEdgeValue(op);
+          bool opOK = (*viewMetric)[mE] < (*viewMetric)[op];
 
           if (edgeFn != DoubleProperty::NO_CALC) {
             for (const string &pName : graph->getProperties()) {
@@ -279,29 +279,29 @@ public:
                   // try to avoid view... properties
                   (pName.substr(0, 4) != "view" || pName == "viewMetric")) {
                 DoubleProperty *metric = graph->getDoubleProperty(pName);
-                double value = metric->getEdgeValue(mE);
+                double value = (*metric)[mE];
 
                 switch (edgeFn) {
                 case DoubleProperty::AVG_CALC:
-                  value = (value + metric->getEdgeValue(op)) / 2;
+                  value = (value + (*metric)[op]) / 2;
                   break;
 
                 case DoubleProperty::SUM_CALC:
-                  value += metric->getEdgeValue(op);
+                  value += (*metric)[op];
                   break;
 
                 case DoubleProperty::MAX_CALC:
 
-                  if (value < metric->getEdgeValue(op)) {
-                    value = metric->getEdgeValue(op);
+                  if (value < (*metric)[op]) {
+                    value = (*metric)[op];
                   }
 
                   break;
 
                 case DoubleProperty::MIN_CALC:
 
-                  if (value > metric->getEdgeValue(op)) {
-                    value = metric->getEdgeValue(op);
+                  if (value > (*metric)[op]) {
+                    value = (*metric)[op];
                   }
 
                   break;
@@ -321,7 +321,7 @@ public:
 
           // compute cardinaly if needed
           if (cardProp) {
-            uint card = cardProp->getEdgeValue(mE) + cardProp->getEdgeValue(op);
+            uint card = (*cardProp)[mE] + (*cardProp)[op];
 
             if (opOK) {
               (*cardProp)[op] = card;
@@ -339,7 +339,7 @@ public:
           }
 
           edgesToDel.insert(meToDel);
-          set<edge> se = metaInfo->getEdgeValue(meToKeep);
+          set<edge> se = (*metaInfo)[meToKeep];
 
           for (auto e : metaInfo->getEdgeValue(meToDel)) {
             se.insert(e);

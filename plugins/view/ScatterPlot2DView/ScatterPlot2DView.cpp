@@ -177,9 +177,9 @@ void ScatterPlot2DView::setState(const DataSet &dataSet) {
       for (auto e : scatterPlotGraph->edges()) {
         node n = edgeToNode[e] = edgeAsNodeGraph->addNode();
         nodeToEdge[n] = e;
-        (*edgeAsNodeGraphColor)[n] = graphColor->getEdgeValue(e);
-        (*edgeAsNodeGraphSelection)[n] = graphSelection->getEdgeValue(e);
-        (*edgeAsNodeGraphLabel)[n] = graphLabel->getEdgeValue(e);
+        (*edgeAsNodeGraphColor)[n] = (*graphColor)[e];
+        (*edgeAsNodeGraphSelection)[n] = (*graphSelection)[e];
+        (*edgeAsNodeGraphLabel)[n] = (*graphLabel)[e];
       }
       // This is quite ugly but before listening to the graph we must
       // ensure that its viewMetaGraph property already exist to avoid
@@ -1085,19 +1085,19 @@ void ScatterPlot2DView::afterSetEdgeValue(PropertyInterface *p, const edge e) {
   if (p->getName() == "viewColor") {
     ColorProperty *edgeAsNodeGraphColors = edgeAsNodeGraph->getColorProperty("viewColor");
     auto *viewColor = static_cast<ColorProperty *>(p);
-    (*edgeAsNodeGraphColors)[edgeToNode[e]] = viewColor->getEdgeValue(e);
+    (*edgeAsNodeGraphColors)[edgeToNode[e]] = (*viewColor)[e];
   } else if (p->getName() == "viewLabel") {
     StringProperty *edgeAsNodeGraphLabels = edgeAsNodeGraph->getStringProperty("viewLabel");
     auto *viewLabel = static_cast<StringProperty *>(p);
-    (*edgeAsNodeGraphLabels)[edgeToNode[e]] = viewLabel->getEdgeValue(e);
+    (*edgeAsNodeGraphLabels)[edgeToNode[e]] = (*viewLabel)[e];
   } else if (p->getName() == "viewSelection") {
     BooleanProperty *edgeAsNodeGraphSelection =
         edgeAsNodeGraph->getBooleanProperty("viewSelection");
     auto *viewSelection = static_cast<BooleanProperty *>(p);
     edgeAsNodeGraphSelection->removeListener(this);
 
-    if ((*edgeAsNodeGraphSelection)[edgeToNode[e]] != viewSelection->getEdgeValue(e)) {
-      (*edgeAsNodeGraphSelection)[edgeToNode[e]] = viewSelection->getEdgeValue(e);
+    if ((*edgeAsNodeGraphSelection)[edgeToNode[e]] != (*viewSelection)[e]) {
+      (*edgeAsNodeGraphSelection)[edgeToNode[e]] = (*viewSelection)[e];
     }
 
     edgeAsNodeGraphSelection->addListener(this);
@@ -1129,8 +1129,8 @@ void ScatterPlot2DView::afterSetAllEdgeValue(PropertyInterface *p) {
         edgeAsNodeGraph->getBooleanProperty("viewSelection");
     auto *viewSelection = static_cast<BooleanProperty *>(p);
     for (auto e : scatterPlotGraph->edges()) {
-      if ((*edgeAsNodeGraphSelection)[edgeToNode[e]] != viewSelection->getEdgeValue(e)) {
-        (*edgeAsNodeGraphSelection)[edgeToNode[e]] = viewSelection->getEdgeValue(e);
+      if ((*edgeAsNodeGraphSelection)[edgeToNode[e]] != (*viewSelection)[e]) {
+        (*edgeAsNodeGraphSelection)[edgeToNode[e]] = (*viewSelection)[e];
       }
     }
   }

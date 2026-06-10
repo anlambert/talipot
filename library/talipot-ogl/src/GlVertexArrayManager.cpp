@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -672,7 +672,7 @@ void GlVertexArrayManager::visit(GlEdge *glEdge) {
       vector<Coord> &quadVertices = eInfos.quadVertices;
       buildCurvePoints(vertices, edgeSizes, srcCoord, tgtCoord, quadVertices);
 
-      const vector<Coord> &bends = layoutProperty->getEdgeValue(e);
+      const vector<Coord> &bends = (*layoutProperty)[e];
       glEdge->getEdgeAnchor(inputData, src, tgt, bends, srcCoord, tgtCoord, srcSize, tgtSize,
                             vertices[0], vertices[nbLines - 1]);
     }
@@ -682,9 +682,9 @@ void GlVertexArrayManager::visit(GlEdge *glEdge) {
     const uint nbLines = eInfos.lineVertices.size();
 
     if (nbLines != 0) {
-      const Color &edgeColor = colorProperty->getEdgeValue(e);
+      const Color &edgeColor = (*colorProperty)[e];
       eInfos.edgeColor = edgeColor;
-      eInfos.borderColor = borderColorProperty->getEdgeValue(e);
+      eInfos.borderColor = (*borderColorProperty)[e];
       Color srcColor, tgtColor;
 
       vector<Color> &lColors = eInfos.lineColors;
@@ -807,7 +807,7 @@ void GlVertexArrayManager::activateQuadEdgeDisplay(GlEdge *glEdge, bool selected
     renderingIndicesArray.push_back(i + 3);
   }
 
-  auto borderWidth = float(inputData->borderWidths()->getEdgeValue(e));
+  auto borderWidth = float((*inputData->borderWidths())[e]);
 
   if (borderWidth > 0) {
     auto &outlineRenderingIndicesArray =

@@ -224,7 +224,7 @@ void ParallelCoordinatesGraphProxy::colorDataAccordingToHighlightedElts() {
       if (getDataLocation() == ElementType::NODE) {
         originalColor = (*originalDataColors)[node(dataId)];
       } else {
-        originalColor = originalDataColors->getEdgeValue(edge(dataId));
+        originalColor = (*originalDataColors)[edge(dataId)];
       }
 
       if (!isDataHighlighted(dataId) && currentColor.getA() != unhighlightedEltsColorAlphaValue) {
@@ -268,7 +268,7 @@ Color ParallelCoordinatesGraphProxy::getOriginalDataColor(const uint dataId) {
   if (getDataLocation() == ElementType::NODE) {
     return (*originalDataColors)[node(dataId)];
   } else {
-    return originalDataColors->getEdgeValue(edge(dataId));
+    return (*originalDataColors)[edge(dataId)];
   }
 }
 

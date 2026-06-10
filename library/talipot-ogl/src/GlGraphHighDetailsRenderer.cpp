@@ -54,16 +54,14 @@ struct graphEntityWithDistanceCompare {
       if (e1.isNode) {
         e1Color = colors[node(static_cast<GraphElementLODUnit *>(e1.entity)->id)];
       } else {
-        e1Color = inputData->colors()->getEdgeValue(
-            edge(static_cast<GraphElementLODUnit *>(e1.entity)->id));
+        e1Color = colors[edge(static_cast<GraphElementLODUnit *>(e1.entity)->id)];
       }
 
       if (e2.isNode) {
         e2Color = colors[node(static_cast<GraphElementLODUnit *>(e2.entity)->id)];
 
       } else {
-        e2Color = inputData->colors()->getEdgeValue(
-            edge(static_cast<GraphElementLODUnit *>(e2.entity)->id));
+        e2Color = colors[edge(static_cast<GraphElementLODUnit *>(e2.entity)->id)];
       }
 
       if (e1Color[3] == 255 && e2Color[3] == 255) {
@@ -312,7 +310,7 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
       // draw edges
       for (auto &it : layersLODVector[0].edgesLODVector) {
 
-        if ((it.lod <= 0) || (filteringProperty && filteringProperty->getEdgeValue(edge(it.id))) ||
+        if ((it.lod <= 0) || (filteringProperty && (*filteringProperty)[edge(it.id)]) ||
             !displayEdges) {
           continue;
         }
@@ -389,7 +387,7 @@ void GlGraphHighDetailsRenderer::draw(float, Camera *camera) {
 
     if (!selectionDrawActivate || ((selectionType & RenderingEdges) != 0)) {
       for (auto &it : layersLODVector[0].edgesLODVector) {
-        if ((it.lod < 0) || (filteringProperty && filteringProperty->getEdgeValue(edge(it.id)))) {
+        if ((it.lod < 0) || (filteringProperty && (*filteringProperty)[edge(it.id)])) {
           continue;
         }
 
@@ -631,11 +629,11 @@ void GlGraphHighDetailsRenderer::drawLabelsForComplexEntities(bool drawSelected,
 
       edge e(it.id);
 
-      if (filteringProperty && filteringProperty->getEdgeValue(e)) {
+      if (filteringProperty && (*filteringProperty)[e]) {
         continue;
       }
 
-      if (selectionProperty->getEdgeValue(e) == drawSelected) {
+      if ((*selectionProperty)[e] == drawSelected) {
         if (!metric) {
           // Not metric ordered
           GlEdge glEdge(e, graph);
