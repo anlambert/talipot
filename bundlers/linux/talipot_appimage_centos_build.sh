@@ -29,9 +29,9 @@ then
   talipot_use_qt6=OFF
   qmake=qmake-qt5
 else
-  # add extra CentOS 10 repository to get yajl-devel dependency
-  yum -y install https://repo.almalinux.org/almalinux/10/BaseOS/x86_64/os/Packages/almalinux-gpg-keys-10.1-16.el10.x86_64.rpm
-  yum -y install https://repo.almalinux.org/almalinux/10/devel/x86_64/os/Packages/almalinux-release-devel-10-1.el10.x86_64.rpm
+  # install yajl-devel dependency from almalinux repositories
+  yum -y install https://repo.almalinux.org/almalinux/10/BaseOS/x86_64/os/Packages/almalinux-gpg-keys-10.2-21.el10.x86_64.rpm
+  yum -y install https://repo.almalinux.org/almalinux/10/extras/x86_64/os/Packages/almalinux-release-devel-10-1.el10.x86_64.rpm
   talipot_use_qt6=ON
   qmake=qmake
 fi
