@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2021  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -32,9 +32,11 @@ typedef size_t OMP_ITER_TYPE;
 #ifndef _MSC_VER
 #define OMP(x) _Pragma(STRINGIFY(omp x))
 #define OMP_CRITICAL_SECTION(x) _Pragma(STRINGIFY(omp critical(x)))
+#define OMP_MASTER _Pragma(STRINGIFY(omp masked))
 #else
 #define OMP(x) __pragma(omp x)
 #define OMP_CRITICAL_SECTION(x) __pragma(omp critical(x))
+#define OMP_MASTER __pragma(omp master)
 #endif
 
 #ifdef __APPLE__
@@ -341,7 +343,7 @@ void inline TLP_PARALLEL_SECTIONS(const F1 &f1, const F2 &f2) {
         f1();
       }
     }
-    OMP(master) {
+    OMP_MASTER {
       f2();
     }
   }
@@ -370,7 +372,7 @@ void inline TLP_PARALLEL_SECTIONS(const F1 &f1, const F2 &f2, const F3 &f3) {
         f2();
       }
     }
-    OMP(master) {
+    OMP_MASTER {
       f3();
     }
   }
@@ -406,7 +408,7 @@ void inline TLP_PARALLEL_SECTIONS(const F1 &f1, const F2 &f2, const F3 &f3, cons
         f3();
       }
     }
-    OMP(master) {
+    OMP_MASTER {
       f4();
     }
   }
