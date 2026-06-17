@@ -6,7 +6,7 @@ concurrency:
 jobs:
   msvc:
     name: Talipot build on Windows (MSVC)
-    runs-on: windows-latest
+    runs-on: windows-2022
     defaults:
       run:
         shell: cmd
