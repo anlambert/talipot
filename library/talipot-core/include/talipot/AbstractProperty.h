@@ -15,6 +15,7 @@
 #define TALIPOT_ABSTRACT_PROPERTY_H
 
 #include <typeinfo>
+#include <type_traits>
 #include <string>
 #include <cstdlib>
 #include <talipot/config.h>
@@ -150,6 +151,7 @@ public:
       return *this;
     }
 
+    template <typename = typename std::enable_if<!std::is_scalar<REAL_TYPE(NodeType)>::value>>
     constexpr bool operator==(TYPE_CONST_REFERENCE(NodeType) val) const {
       return getValue() == val;
     }
@@ -172,6 +174,98 @@ public:
 
     constexpr bool operator<(const NodeValueProxy &ref) const {
       return getValue() < ref.getValue();
+    }
+
+    // prefix increment
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    NodeValueProxy &operator++() {
+      getProperty()->setNodeValue(_n, getValue() + 1);
+      return *this;
+    }
+
+    // postfix increment
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    REAL_TYPE(NodeType)
+    operator++(int) {
+      REAL_TYPE(NodeType) val = getValue();
+      getProperty()->setNodeValue(_n, val + 1);
+      return val;
+    }
+
+    // add and assign
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    NodeValueProxy &operator+=(REAL_TYPE(NodeType) val) {
+      getProperty()->setNodeValue(_n, getValue() + val);
+      return *this;
+    }
+
+    // prefix decrement
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    NodeValueProxy &operator--() {
+      getProperty()->setNodeValue(_n, getValue() - 1);
+      return *this;
+    }
+
+    // postfix decrement
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    REAL_TYPE(NodeType)
+    operator--(int) {
+      REAL_TYPE(NodeType) val = getValue();
+      getProperty()->setNodeValue(_n, val - 1);
+      return val;
+    }
+
+    // decrement and assign
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    NodeValueProxy &operator-=(REAL_TYPE(NodeType) val) {
+      getProperty()->setNodeValue(_n, getValue() - val);
+      return *this;
+    }
+
+    // add
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    REAL_TYPE(NodeType)
+    operator+(const NodeValueProxy & ref) {
+      return getValue() + ref.getValue();
+    }
+
+    // subtract
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    REAL_TYPE(NodeType)
+    operator-(const NodeValueProxy & ref) {
+      return getValue() - ref.getValue();
+    }
+
+    // multiply
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    REAL_TYPE(NodeType)
+    operator*(REAL_TYPE(NodeType) val) {
+      return getValue() * val;
+    }
+
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    REAL_TYPE(NodeType)
+    operator*(const NodeValueProxy & ref) {
+      return getValue() * ref.getValue();
+    }
+
+    // divide
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    REAL_TYPE(NodeType)
+    operator/(REAL_TYPE(NodeType) val) {
+      return getValue() / val;
+    }
+
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(NodeType)>::value>>
+    REAL_TYPE(NodeType)
+    operator/(const NodeValueProxy & ref) {
+      return getValue() / ref.getValue();
+    }
+
+    template <typename = typename std::enable_if<is_vector<NodeType>::value ||
+                                                 std::is_array<NodeType>::value>>
+    auto operator[](size_t i) {
+      return getValue()[i];
     }
 
     /**
@@ -243,6 +337,7 @@ public:
       return *this;
     }
 
+    template <typename = typename std::enable_if<!std::is_scalar<REAL_TYPE(EdgeType)>::value>>
     constexpr bool operator==(TYPE_CONST_REFERENCE(EdgeType) val) const {
       return getValue() == val;
     }
@@ -265,6 +360,98 @@ public:
 
     constexpr bool operator<(const EdgeValueProxy &ref) const {
       return getValue() < ref.getValue();
+    }
+
+    // prefix increment
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    EdgeValueProxy &operator++() {
+      getProperty()->setEdgeValue(_e, getValue() + 1);
+      return *this;
+    }
+
+    // postfix increment
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    REAL_TYPE(EdgeType)
+    operator++(int) {
+      REAL_TYPE(EdgeType) val = getValue();
+      getProperty()->setEdgeValue(_e, val + 1);
+      return val;
+    }
+
+    // increase value
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    EdgeValueProxy &operator+=(REAL_TYPE(EdgeType) val) {
+      getProperty()->setEdgeValue(_e, getValue() + val);
+      return *this;
+    }
+
+    // prefix decrement
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    EdgeValueProxy &operator--() {
+      getProperty()->setEdgeValue(_e, getValue() - 1);
+      return *this;
+    }
+
+    // postfix decrement
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    REAL_TYPE(EdgeType)
+    operator--(int) {
+      REAL_TYPE(EdgeType) val = getValue();
+      getProperty()->setEdgeValue(_e, val - 1);
+      return val;
+    }
+
+    // decrease value
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    EdgeValueProxy &operator-=(REAL_TYPE(EdgeType) val) {
+      getProperty()->setEdgeValue(_e, getValue() - val);
+      return *this;
+    }
+
+    // add
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    REAL_TYPE(EdgeType)
+    operator+(const EdgeValueProxy & ref) {
+      return getValue() + ref.getValue();
+    }
+
+    // subtract
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    REAL_TYPE(EdgeType)
+    operator-(REAL_TYPE(EdgeType) val) {
+      return getValue() - val;
+    }
+
+    // multiply
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    REAL_TYPE(EdgeType)
+    operator*(REAL_TYPE(EdgeType) val) {
+      return getValue() * val;
+    }
+
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    REAL_TYPE(EdgeType)
+    operator*(const EdgeValueProxy & ref) {
+      return getValue() * ref.getValue();
+    }
+
+    // divide
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    REAL_TYPE(EdgeType)
+    operator/(REAL_TYPE(EdgeType) val) {
+      return getValue() / val;
+    }
+
+    template <typename = typename std::enable_if<std::is_arithmetic<REAL_TYPE(EdgeType)>::value>>
+    REAL_TYPE(EdgeType)
+    operator/(const EdgeValueProxy & ref) {
+      return getValue() / ref.getValue();
+    }
+
+    template <typename = typename std::enable_if<is_vector<EdgeType>::value ||
+                                                 std::is_array<EdgeType>::value>>
+    auto operator[](size_t i) {
+      return getValue()[i];
     }
 
     /**
@@ -644,6 +831,21 @@ public:
    **/
   void resizeEdgeValue(const edge e, size_t size, REAL_TYPE(EltType) elt = EltType::defaultValue());
 };
+
+template <typename NodeType, typename EdgeType, typename PropType>
+typename std::enable_if<std::is_same<NodeType, EdgeType>::value, bool>::type
+operator==(const typename AbstractProperty<NodeType, EdgeType, PropType>::NodeValueProxy &nvp,
+           const typename AbstractProperty<NodeType, EdgeType, PropType>::EdgeValueProxy &evp) {
+  return nvp.getValue() == evp.getValue();
+}
+
+template <typename NodeType, typename EdgeType, typename PropType>
+typename std::enable_if<std::is_same<NodeType, EdgeType>::value, bool>::type
+operator==(const typename AbstractProperty<NodeType, EdgeType, PropType>::EdgeValueProxy &evp,
+           const typename AbstractProperty<NodeType, EdgeType, PropType>::NodeValueProxy &nvp) {
+  return nvp.getValue() == evp.getValue();
+}
+
 }
 
 #ifdef DLL_TALIPOT

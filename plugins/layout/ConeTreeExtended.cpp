@@ -62,7 +62,7 @@ double ConeTreeExtended::treePlace3D(tlp::node n, flat_hash_map<tlp::node, doubl
 
   auto outdeg = tree->outdeg(n);
   if (outdeg == 0) {
-    const Coord &tmp = (*nodeSize)[n];
+    const Size &tmp = (*nodeSize)[n];
     return sqrt(tmp[0] * tmp[0] + tmp[2] * tmp[2]) / 2.0;
   }
 
