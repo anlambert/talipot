@@ -118,11 +118,11 @@ bool MixedModel::run() {
       continue;
     } else if (component.size() < 4) {
       node n = component[0];
-      const Coord &c = (*sizeResult)[n];
+      const Size &c = (*sizeResult)[n];
       (*result)[n] = Coord(0, 0, 0);
       node n2 = component[1];
-      const Coord &c2 = (*sizeResult)[n2];
-      (*result)[n2] = Coord(spacing + c.getX() / 2 + c2.getX() / 2, 0, 0);
+      const Size &c2 = (*sizeResult)[n2];
+      (*result)[n2] = Coord(spacing + c.getW() / 2 + c2.getW() / 2, 0, 0);
 
       for (auto e : graph->getEdges(n, n2, false)) {
         edge_planar.push_back(e);
@@ -130,9 +130,9 @@ bool MixedModel::run() {
 
       if (component.size() == 3) {
         node n3 = component[2];
-        const Coord &c3 = (*sizeResult)[n2];
+        const Size &c3 = (*sizeResult)[n2];
         result->setNodeValue(
-            n3, Coord(2.f * spacing + c.getX() / 2.f + c2.getX() + c3.getX() / 2.f, 0, 0));
+            n3, Coord(2.f * spacing + c.getW() / 2.f + c2.getW() + c3.getW() / 2.f, 0, 0));
         edge e = graph->existEdge(n, n3, false);
 
         if (e.isValid()) {
@@ -144,10 +144,10 @@ bool MixedModel::run() {
           if (graph->source(e) == n) {
             bends.push_back(Coord(0, float(max), 0));
             bends.push_back(
-                Coord(2.f * spacing + c.getX() / 2.f + c2.getX() + c3.getX() / 2.f, float(max), 0));
+                Coord(2.f * spacing + c.getW() / 2.f + c2.getW() + c3.getW() / 2.f, float(max), 0));
           } else {
             bends.push_back(
-                Coord(2.f * spacing + c.getX() / 2.f + c2.getX() + c3.getX() / 2.f, float(max), 0));
+                Coord(2.f * spacing + c.getW() / 2.f + c2.getW() + c3.getW() / 2.f, float(max), 0));
             bends.push_back(Coord(0, float(max), 0));
           }
 
@@ -848,7 +848,7 @@ void MixedModel::computeCoords() {
   nodeSize.setAll(Coord()); // permet de conserver une taille relative pout les sommets
 
   for (auto n : carte->nodes()) {
-    Coord c = (*sizeResult)[n];
+    Size c = (*sizeResult)[n];
     c[0] += edgeNodeSpacing;
     nodeSize.set(n.id, c);
   }

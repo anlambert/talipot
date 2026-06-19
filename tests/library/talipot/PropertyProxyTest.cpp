@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2021  The Talipot developers
+ * Copyright (C) 2021-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -10,8 +10,6 @@
  * See top-level LICENSE file for more information
  *
  */
-
-#include <type_traits>
 
 #include <talipot/Graph.h>
 #include <talipot/Iterator.h>
@@ -28,16 +26,6 @@
 
 using namespace std;
 using namespace tlp;
-
-template <typename T>
-struct is_vector {
-  static const bool value = false;
-};
-
-template <typename T, typename Alloc>
-struct is_vector<std::vector<T, Alloc>> {
-  static const bool value = true;
-};
 
 class PropertyProxyTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE(PropertyProxyTest);

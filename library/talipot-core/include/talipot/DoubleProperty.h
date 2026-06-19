@@ -48,166 +48,7 @@ public:
 
   void setNodeValue(const node n, StoredType<double>::ConstReference v) override;
 
-  // inner class used to extend the overloading of the operator[]
-  // to set a node value
-  class NodeValueProxy : public AbstractProperty<tlp::DoubleType, tlp::DoubleType,
-                                                 tlp::NumericProperty>::NodeValueProxy {
-
-  public:
-    constexpr NodeValueProxy(const DoubleProperty *prop, node n)
-        : AbstractProperty<tlp::DoubleType, tlp::DoubleType, tlp::NumericProperty>::NodeValueProxy(
-              prop, n) {}
-
-    NodeValueProxy &operator=(StoredType<double>::ConstReference val) {
-      getProperty()->setNodeValue(_n, val);
-      return *this;
-    }
-
-    constexpr bool operator==(const NodeValueProxy &ref) const {
-      return getValue() == ref.getValue();
-    }
-
-    constexpr bool operator==(int val) const {
-      return getValue() == val;
-    }
-
-    // prefix increment
-    NodeValueProxy &operator++() {
-      getProperty()->setNodeValue(_n, getValue() + 1);
-      return *this;
-    }
-
-    // postfix increment
-    auto operator++(int) {
-      auto val = getValue();
-      getProperty()->setNodeValue(_n, val + 1);
-      return val;
-    }
-
-    // increment and assign
-    NodeValueProxy &operator+=(double val) {
-      getProperty()->setNodeValue(_n, getValue() + val);
-      return *this;
-    }
-
-    // prefix decrement
-    NodeValueProxy &operator--() {
-      getProperty()->setNodeValue(_n, getValue() - 1);
-      return *this;
-    }
-
-    // postfix decrement
-    auto operator--(int) {
-      auto val = getValue();
-      getProperty()->setNodeValue(_n, val - 1);
-      return val;
-    }
-
-    // decrement and assign
-    NodeValueProxy &operator-=(double val) {
-      getProperty()->setNodeValue(_n, getValue() - val);
-      return *this;
-    }
-  };
-
-  // overload operator[] to set a node value
-  constexpr NodeValueProxy operator[](node n) const {
-    return NodeValueProxy(this, n);
-  }
-
   void setEdgeValue(const edge e, StoredType<double>::ConstReference v) override;
-
-  // inner class used to extend the overloading of the operator[]
-  // to set an edge value
-  class EdgeValueProxy : public AbstractProperty<tlp::DoubleType, tlp::DoubleType,
-                                                 tlp::NumericProperty>::EdgeValueProxy {
-
-  public:
-    constexpr EdgeValueProxy(const DoubleProperty *prop, edge e)
-        : AbstractProperty<tlp::DoubleType, tlp::DoubleType, tlp::NumericProperty>::EdgeValueProxy(
-              prop, e) {}
-
-    EdgeValueProxy &operator=(StoredType<double>::ConstReference val) {
-      getProperty()->setEdgeValue(_e, val);
-      return *this;
-    }
-
-    constexpr bool operator==(const EdgeValueProxy &ref) const {
-      return getValue() == ref.getValue();
-    }
-
-    constexpr bool operator==(int val) const {
-      return getValue() == val;
-    }
-
-    constexpr bool operator>(int val) const {
-      return getValue() > val;
-    }
-
-    constexpr bool operator<(int val) const {
-      return getValue() < val;
-    }
-
-    constexpr bool operator>(double val) const {
-      return getValue() > val;
-    }
-
-    constexpr bool operator<(double val) const {
-      return getValue() < val;
-    }
-
-    constexpr bool operator>(const NodeValueProxy &ref) const {
-      return getValue() > ref.getValue();
-    }
-
-    constexpr bool operator<(const NodeValueProxy &ref) const {
-      return getValue() < ref.getValue();
-    }
-
-    // prefix increment
-    EdgeValueProxy &operator++() {
-      getProperty()->setEdgeValue(_e, getValue() + 1);
-      return *this;
-    }
-
-    // postfix increment
-    auto operator++(int) {
-      auto val = getValue();
-      getProperty()->setEdgeValue(_e, val + 1);
-      return val;
-    }
-
-    // increase value
-    EdgeValueProxy &operator+=(double val) {
-      getProperty()->setEdgeValue(_e, getValue() + val);
-      return *this;
-    }
-
-    // prefix decrement
-    EdgeValueProxy &operator--() {
-      getProperty()->setEdgeValue(_e, getValue() - 1);
-      return *this;
-    }
-
-    // postfix decrement
-    auto operator--(int) {
-      auto val = getValue();
-      getProperty()->setEdgeValue(_e, val - 1);
-      return val;
-    }
-
-    // decrease value
-
-    EdgeValueProxy &operator-=(double val) {
-      getProperty()->setEdgeValue(_e, getValue() - val);
-      return *this;
-    }
-  };
-
-  // overload operator[] to set an edge value
-  constexpr EdgeValueProxy operator[](edge e) const {
-    return EdgeValueProxy(this, e);
-  }
 
   void setAllNodeValue(StoredType<double>::ConstReference v, const Graph *graph = nullptr) override;
   void setAllEdgeValue(StoredType<double>::ConstReference v, const Graph *graph = nullptr) override;
@@ -290,8 +131,52 @@ public:
   }
 };
 
-inline bool operator==(REAL_TYPE(DoubleType) d, const DoubleProperty::NodeValueProxy &val) {
+inline bool operator==(const DoubleProperty::NodeValueProxy &ref, int val) {
+  return ref.getValue() == val;
+}
+
+inline bool operator==(const DoubleProperty::EdgeValueProxy &ref, int val) {
+  return ref.getValue() == val;
+}
+
+inline double operator+(const DoubleProperty::NodeValueProxy &ref, int val) {
+  return ref.getValue() + val;
+}
+
+inline double operator+(const DoubleProperty::EdgeValueProxy &ref, int val) {
+  return ref.getValue() + val;
+}
+
+inline double operator-(const DoubleProperty::NodeValueProxy &ref, int val) {
+  return ref.getValue() - val;
+}
+
+inline double operator-(const DoubleProperty::EdgeValueProxy &ref, int val) {
+  return ref.getValue() - val;
+}
+
+inline bool operator==(double d, const DoubleProperty::NodeValueProxy &val) {
   return d == val.getValue();
+}
+
+inline bool operator==(double d, const DoubleProperty::EdgeValueProxy &val) {
+  return d == val.getValue();
+}
+
+inline double operator+(const DoubleProperty::NodeValueProxy &ref, double val) {
+  return ref.getValue() + val;
+}
+
+inline double operator+(const DoubleProperty::EdgeValueProxy &ref, double val) {
+  return ref.getValue() + val;
+}
+
+inline double operator-(const DoubleProperty::NodeValueProxy &ref, double val) {
+  return ref.getValue() - val;
+}
+
+inline double operator-(const DoubleProperty::EdgeValueProxy &ref, double val) {
+  return ref.getValue() - val;
 }
 
 }

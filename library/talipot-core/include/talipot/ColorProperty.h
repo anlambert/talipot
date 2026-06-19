@@ -32,50 +32,6 @@ DECLARE_DLL_TEMPLATE_INSTANCE(SINGLE_ARG(tlp::AbstractProperty<tlp::ColorType, t
  */
 class TLP_SCOPE ColorProperty : public AbstractColorProperty {
 public:
-  // inner class used to extend the overloading of the operator[]
-  // to set an edge value
-  class NodeValueProxy : public AbstractProperty<ColorType, ColorType>::NodeValueProxy {
-  public:
-    constexpr NodeValueProxy(const ColorProperty *prop, node n)
-        : AbstractProperty<ColorType, ColorType>::NodeValueProxy(prop, n) {}
-
-    NodeValueProxy &operator=(TYPE_CONST_REFERENCE(ColorType) val) {
-      getProperty()->setNodeValue(_n, val);
-      return *this;
-    }
-
-    unsigned char operator[](int i) const {
-      return getValue()[i];
-    }
-  };
-
-  // overload operator[] to set an edge value
-  constexpr NodeValueProxy operator[](node n) const {
-    return NodeValueProxy(this, n);
-  }
-
-  // inner class used to extend the overloading of the operator[]
-  // to set an edge value
-  class EdgeValueProxy : public AbstractProperty<ColorType, ColorType>::EdgeValueProxy {
-  public:
-    constexpr EdgeValueProxy(const ColorProperty *prop, edge e)
-        : AbstractProperty<ColorType, ColorType>::EdgeValueProxy(prop, e) {}
-
-    EdgeValueProxy &operator=(TYPE_CONST_REFERENCE(ColorType) val) {
-      getProperty()->setEdgeValue(_e, val);
-      return *this;
-    }
-
-    unsigned char operator[](int i) const {
-      return getValue()[i];
-    }
-  };
-
-  // overload operator[] to set an edge value
-  constexpr EdgeValueProxy operator[](edge e) const {
-    return EdgeValueProxy(this, e);
-  }
-
   ColorProperty(Graph *g, const std::string &n = "");
   // PropertyInterface inherited methods
   PropertyInterface *clonePrototype(Graph *, const std::string &) const override;

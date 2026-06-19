@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,6 +16,8 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <vector>
+#include <type_traits>
 
 /**
  * @brief This file contains various helper macros and functions for
@@ -318,5 +320,16 @@ extern TLP_SCOPE void setInfoOutput(std::ostream &os);
  */
 extern TLP_SCOPE std::string getTalipotVersion();
 }
+
+template <typename T, typename _ = void>
+struct is_vector {
+  static const bool value = false;
+};
+template <typename T>
+struct is_vector<
+    T, typename std::enable_if<std::is_same<
+           T, std::vector<typename T::value_type, typename T::allocator_type>>::value>::type> {
+  static const bool value = true;
+};
 
 #endif // TALIPOT_CONF_H

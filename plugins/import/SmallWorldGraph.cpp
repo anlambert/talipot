@@ -101,7 +101,8 @@ public:
 
       for (uint j = i + 1; j < nbNodes; ++j) {
         if (i != j) {
-          double distance = (*newLayout)[nodes[i]].dist((*newLayout)[nodes[j]]);
+          const Coord &niPos = (*newLayout)[nodes[i]];
+          double distance = niPos.dist((*newLayout)[nodes[j]]);
           // minSize = std::min(distance, minSize);
 
           // newSize->setAllNodeValue(Size(minSize/2.0, minSize/2.0, 1));
