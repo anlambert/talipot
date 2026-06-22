@@ -12,12 +12,9 @@ libdir=@libdir@
 sharedir=${prefix}/share
 libversion=@libversion@
 libextension=$(echo @CMAKE_SHARED_LIBRARY_SUFFIX@ | cut -d'.' -f 2)
-plugincxxflags="-std=c++17 -fPIC -DPIC"
+plugincxxflags="-std=c++20 -fPIC -DPIC"
 pluginldflags=-shared
 pluginpath=@libdir@/talipot
-if [ "@CMAKE_DEBUG_MODE@" = "FALSE" ]; then
-  ndebugflag=-DNDEBUG
-fi
 
 WINDOWS=$(test ${libextension} = dll; echo $?)
 MACOSX=$(test ${libextension} = dylib; echo $?)
@@ -35,7 +32,7 @@ if [ $MACOSX -eq 0 ] ; then
 fi
 if [ $WINDOWS -eq 0 ] ; then
   libversion=@WIN_VERSION@
-  plugincxxflags="-std=c++17 -DPIC"
+  plugincxxflags="-std=c++20 -DPIC"
   if [ -f "${upthisdir}/Uninstall.exe" ] ; then
     # Windows installation
     drive=`echo ${thisdir} | awk -F / '{print $2}'`
@@ -86,7 +83,7 @@ while test $# -gt 0; do
       OUTPUT=`echo ${OUTPUT} @VERSION@`
       ;;
     --cxxflags)
-      OUTPUT=`echo ${OUTPUT} @CMAKE_CXX_FLAGS@ @OPENMP_CXX_FLAGS@ ${ndebugflag} -I${includedir} -I${includedir}/talipot`
+      OUTPUT=`echo ${OUTPUT} @TALIPOT_CXX_FLAGS@ @OPENMP_CXX_FLAGS@ ${ndebugflag} -I${includedir} -I${includedir}/talipot`
       ;;
     --libs)
       OUTPUT=`echo ${OUTPUT} ${libdir}/libtalipot-core-${libversion}.${libextension} @CMAKE_SHARED_LINKER_FLAGS@ @OPENMP_CXX_FLAGS@`
