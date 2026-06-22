@@ -562,6 +562,14 @@ Please provide a valid one in order to determine the dll the application depends
   ENDMACRO(TALIPOT_GET_DLL_NAME_FROM_IMPORT_LIBRARY)
 ENDIF(WIN32)
 
+IF(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
+  SET(TALIPOT_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG}")
+ELSEIF(CMAKE_BUILD_TYPE MATCHES "[Rr][Ee][Ll][Ee][Aa][Ss][Ee]")
+  SET(TALIPOT_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE}")
+ELSE()
+  SET(TALIPOT_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+ENDIF()
+
 # internal cache variable to hold the names of the Talipot plugin targets
 SET(TALIPOT_PLUGIN_TARGETS
     ""
