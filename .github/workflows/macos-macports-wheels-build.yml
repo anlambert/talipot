@@ -25,6 +25,7 @@ jobs:
 
     env:
       MACOSX_DEPLOYMENT_TARGET: "11.0"
+      SDKROOT: /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk
       TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
@@ -92,15 +93,24 @@ jobs:
             sleep 60
             cd
             # install package archives precompiled in a previous job run and put in cache
-            sudo port -N install zlib \
+            sudo port -N install cmake zlib \
               expat libtool libssh2 pcre2 libiconv \
-              libomp qhull yajl libgit2 graphviz openssl3 zstd
+              libomp qhull yajl libgit2 openssl3 zstd
           else
             # install libraries that need to be bundled in wheel from source
-            sudo port -N -s install zlib \
+            sudo port -N -s install cmake zlib \
               expat libtool libssh2 pcre2 libiconv \
-              libomp qhull yajl libgit2 graphviz openssl3 zstd
+              libomp qhull yajl libgit2 openssl3 zstd
           fi
+
+          sudo port -N install flex bison pkgconfig
+          git clone https://gitlab.com/graphviz/graphviz.git
+          cd graphviz
+          git checkout $(git describe --tags "$(git rev-list --tags --max-count=1)")
+          mkdir build && cd build
+          cmake -DCMAKE_PREFIX_PATH=/opt/local -DCMAKE_INSTALL_PREFIX=/opt/local ..
+          make && sudo make install
+          cd ../..
 
           # create archives to cache
           for package in $(ls /opt/local/var/macports/software/); do
@@ -146,7 +156,7 @@ jobs:
           CIBW_REPAIR_WHEEL_COMMAND: >
             pip install abi3audit &&
             abi3audit --strict --verbose {wheel} &&
-            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
+            DYLD_LIBRARY_PATH=/opt/local/lib delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
         run: |
           SIP_ABI_VERSION=$(PYTHONPATH=$PWD/cmake python -c "import FindSIP; print(FindSIP.get_sip_abi_versions()[1])")
           sed -i '' -e "s/talipot-sip/talipot-sip\ \>=\ $SIP_ABI_VERSION/" pyproject.toml
