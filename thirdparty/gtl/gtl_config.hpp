@@ -95,6 +95,61 @@
 #endif
 
 // -----------------------------------------------------------------------------
+// C++ architecture constants
+// -----------------------------------------------------------------------------
+namespace gtl {
+
+#if defined(__arm__)
+constexpr bool kIsArchArm = true;
+#else
+constexpr bool kIsArchArm = false;
+#endif
+
+#if defined(__i386__) || defined(__i686__) || defined(__x86__) || defined(_M_IX86)
+constexpr bool kIsArchX86 = true;
+#else
+constexpr bool kIsArchX86 = false;
+#endif
+
+#if defined(__x86_64__) || defined(_M_X64)
+constexpr bool kIsArchAmd64 = true;
+#else
+constexpr bool kIsArchAmd64 = false;
+#endif
+
+#if defined(__aarch64__)
+constexpr bool kIsArchAArch64 = true;
+#else
+constexpr bool kIsArchAArch64 = false;
+#endif
+
+#if defined(__powerpc64__)
+constexpr bool kIsArchPPC64 = true;
+#else
+constexpr bool kIsArchPPC64 = false;
+#endif
+
+#if defined(__s390x__)
+constexpr bool kIsArchS390X = true;
+#else
+constexpr bool kIsArchS390X = false;
+#endif
+
+#if defined(__riscv)
+constexpr bool kIsArchRISCV64 = true;
+#else
+constexpr bool kIsArchRISCV64 = false;
+#endif
+
+#if defined(__wasm__)
+constexpr bool kIsArchWasm = true;
+#else
+constexpr bool kIsArchWasm = false;
+#endif
+
+} // namespace gtl
+
+// -----------------------------------------------------------------------------
 // Compiler Feature Checks
 // -----------------------------------------------------------------------------
 
@@ -116,10 +171,14 @@
 // Checks whether the __int128 compiler extension for a 128-bit
 // integral type is supported.
 // ------------------------------------------------------------
+#if defined(__arm__) && !defined(__aarch64__)
+    #define GTL_ARM_32
+#endif
+
 #ifdef GTL_HAVE_INTRINSIC_INT128
     #error GTL_HAVE_INTRINSIC_INT128 cannot be directly set
 #elif defined(__SIZEOF_INT128__)
-    #if (defined(__clang__) && !defined(_WIN32) && !defined(__aarch64__)) ||                                           \
+    #if (defined(__clang__) && !defined(_WIN32) && !defined(GTL_ARM_32)) ||                                           \
         (defined(__CUDACC__) && __CUDACC_VER_MAJOR__ >= 9) ||                                                          \
         (defined(__GNUC__) && !defined(__clang__) && !defined(__CUDACC__))
         #define GTL_HAVE_INTRINSIC_INT128 1
@@ -287,12 +346,15 @@
 #endif
 
 // ----------------------------------------------------------------------
-// define gtl_hardware_destructive_interference_size
+// define gtl::hardware_destructive_interference_size
+// gtl defines hard coded values which are stable and do not depend on the compiler used.
+//
+// rationale for these values from folly, see
+// https://github.com/facebook/folly/blob/561b4f49e95717614bc8c9d9b23c78c077c7566e/folly/lang/Align.h#L172-L185
 // ----------------------------------------------------------------------
-#ifdef __cpp_lib_hardware_interference_size
-    #define gtl_hardware_destructive_interference_size std::hardware_destructive_interference_size
-#else
-    #define gtl_hardware_destructive_interference_size 64
-#endif
+namespace gtl {
+constexpr std::size_t hardware_destructive_interference_size  = (kIsArchArm || kIsArchS390X) ? 64 : 128;
+constexpr std::size_t hardware_constructive_interference_size = 64;
+} // namespace gtl
 
 #endif // gtl_config_hpp_guard_
