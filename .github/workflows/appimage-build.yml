@@ -19,7 +19,7 @@ jobs:
             centos-version: centos10
     steps:
       - name: Checkout Talipot code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
       - name: Get current date
         id: get-current-date
         run: |
