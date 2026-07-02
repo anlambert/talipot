@@ -29,7 +29,7 @@ jobs:
         run: |
           echo "date=$(date -u "+%Y-%m-%d-%H-%m-%S")" >> $GITHUB_OUTPUT
       - name: Cache files
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ${{ env.CLCACHE_DIR }}
           key: windows-msvc-build-clcache-${{ steps.get-current-date.outputs.date }}
