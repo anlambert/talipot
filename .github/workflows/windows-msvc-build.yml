@@ -104,7 +104,7 @@ jobs:
             -DTALIPOT_BUILD_DOC=OFF^
             -DTALIPOT_BUILD_TESTS=ON ..
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
       - name: Talipot build and install
         working-directory: ./build
         run: |
