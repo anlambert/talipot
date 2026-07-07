@@ -86,16 +86,24 @@ jobs:
             # fetch archives from localhost first
             echo "preferred_hosts localhost" | sudo tee -a /opt/local/etc/macports/macports.conf
             # start package archives HTTP server
-            cd macports_software
+            pushd macports_software
             echo "Starting local macports archives HTTP server ..."
             python3 -m http.server&
             # give HTTP server some time to start
             sleep 60
-            cd
+            popd
             # install package archives precompiled in a previous job run and put in cache
-            sudo port -N install cmake zlib \
-              expat libtool libssh2 pcre2 libiconv \
-              libomp qhull yajl libgit2 openssl3 zstd
+            for package in zlib expat libtool libssh2 pcre2 libiconv \
+              libomp qhull yajl libgit2 openssl3 zstd cmake 
+            do
+              package_version=$(port info $package | head -1 | cut -f2 -d' ' | cut -c2-)
+              if ls macports_software/$package/$package-$package_version*
+              then
+                sudo port -N install $package
+              else
+                sudo port -N -s install $package
+              fi
+            done
           else
             # install libraries that need to be bundled in wheel from source
             sudo port -N -s install cmake zlib \
@@ -118,7 +126,7 @@ jobs:
           done
 
           # copy binary archives
-          rm -rf macports_software
+          sudo rm -rf macports_software
           mkdir macports_software
           dest=$PWD/macports_software
           cd /opt/local/var/macports/software/
