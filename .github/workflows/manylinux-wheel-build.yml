@@ -25,7 +25,7 @@ jobs:
       - name: Build Talipot wheel with cibuildwheel
         env:
           CIBW_BUILD_VERBOSITY: 1
-          CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_BEFORE_ALL: >
             yum -y install epel-release &&
             yum -y install zlib-devel libzstd-devel yajl-devel qhull-devel graphviz-devel libgit2-devel
@@ -97,7 +97,7 @@ jobs:
             python3 -m cibuildwheel --output-dir ../wheelhouse
           env:
             CIBW_BUILD_VERBOSITY: 1
-            CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+            CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
         - name: Download talipot abi3 wheel
           uses: actions/download-artifact@v8
           with:
