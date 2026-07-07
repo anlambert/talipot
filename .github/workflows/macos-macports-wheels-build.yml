@@ -144,7 +144,7 @@ jobs:
       - name: Compute macports cache key
         id: cache-key
         run: |
-          echo "value=$(find /opt/local/var/macports/software | sha1sum | cut -c1-40)" >> $GITHUB_OUTPUT
+          echo "value=$(sudo find macports_software | sha1sum | cut -c1-40)" >> $GITHUB_OUTPUT
         shell: bash
       - name: Save macports cache
         uses: actions/cache/save@v6
