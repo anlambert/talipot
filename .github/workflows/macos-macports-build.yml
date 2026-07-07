@@ -32,7 +32,7 @@ jobs:
       - name: Install MacPorts
         run: |
           curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
-          source ./macports-ci install --sync=rsync
+          until source ./macports-ci install --sync=rsync; do sleep 1; done
           source ./macports-ci ccache
       - name: Install Talipot build dependencies
         run: sudo port -N install
