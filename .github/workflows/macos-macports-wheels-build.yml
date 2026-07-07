@@ -64,7 +64,7 @@ jobs:
       - name: Install MacPorts
         run: |
           curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
-          source ./macports-ci install --sync=rsync
+          until source ./macports-ci install --sync=rsync; do sleep 1; done
       - name: Set macOS deployment target and install MacOSX sdk 11.3
         run: |
           echo 'macosx_deployment_target 11.0' | sudo tee -a /opt/local/etc/macports/macports.conf
