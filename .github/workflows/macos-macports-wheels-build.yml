@@ -182,7 +182,7 @@ jobs:
           pip install $(ls -t | head -1)
           python -c "from talipot import tlp; print(tlp.getLayoutAlgorithmPluginsList())"
           python -c "from talipot import tlp; print(tlp.getImportPluginsList())"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: talipot-wheel-abi3-${{ matrix.config.arch }}
           path: ./wheelhouse/*.whl
@@ -257,7 +257,7 @@ jobs:
 
           cd wheelhouse
           python -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: talipot-wheel-${{ matrix.python-version }}-${{ matrix.config.arch }}
           path: ./wheelhouse/*.whl
