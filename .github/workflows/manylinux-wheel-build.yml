@@ -53,7 +53,7 @@ jobs:
 
           $Python3_ROOT_DIR/bin/python -m sipbuild.tools.module --project talipot-sip --sdist talipot.sip
         working-directory: wheelhouse
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: talipot-wheel-abi3
           path: ./wheelhouse/*.whl

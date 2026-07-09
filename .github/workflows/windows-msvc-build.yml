@@ -129,7 +129,7 @@ jobs:
             /p:CLToolPath=%Python3_ROOT_DIR%\Scripts
           msbuild bundlers/win/bundle.vcxproj /m /p:Configuration=Release %CLCACHE_MSBUILD_CONF%
       - name: Upload Talipot installer to GitHub Actions artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Talipot-NSIS-installer-msvc
           path: ./build/Talipot*.exe
