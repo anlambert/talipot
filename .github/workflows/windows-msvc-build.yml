@@ -36,7 +36,7 @@ jobs:
           restore-keys: |
             windows-msvc-build-clcache
       - name: Install build dependencies with vcpkg
-        uses: johnwason/vcpkg-action@v7
+        uses: johnwason/vcpkg-action@v8
         id: vcpkg
         continue-on-error: true
         with:
