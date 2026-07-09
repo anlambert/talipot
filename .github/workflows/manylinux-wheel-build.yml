@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Talipot code
         uses: actions/checkout@v7
       - name: Install Python ${{ env.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         id: python-install
         with:
           python-version: ${{ matrix.python-version }}
@@ -76,7 +76,7 @@ jobs:
           python-version: ["3.11", "3.12", "3.13", "3.14"]
       steps:
         - name: Install Python ${{ matrix.python-version }}
-          uses: actions/setup-python@v5
+          uses: actions/setup-python@v6
           id: python-install
           with:
             python-version: ${{ matrix.python-version }}

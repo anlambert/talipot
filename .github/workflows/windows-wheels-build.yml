@@ -24,7 +24,7 @@ jobs:
         with:
           cache: false
       - name: Install Python ${{ env.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         id: python-install
         with:
           python-version: ${{ env.python-version }}
@@ -122,7 +122,7 @@ jobs:
         with:
           cache: false
       - name: Install Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         id: python-install
         with:
           python-version: ${{ matrix.python-version }}
