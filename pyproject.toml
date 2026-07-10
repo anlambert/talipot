@@ -136,6 +136,9 @@ wheel.exclude = [
   "lib64/",
 ]
 
+[[tool.dynamic-metadata]]
+provider = "scikit_build_core.metadata.setuptools_scm"
+
 [tool.scikit-build.cmake.define]
 TALIPOT_BUILD_PYTHON_WHEEL = true
 TALIPOT_BUILD_CORE_ONLY = true
@@ -147,8 +150,8 @@ if.from-sdist = true
 inherit.cmake.define = "append"
 cmake.define.TALIPOT_BUILD_FROM_SDIST = true
 
-[tool.scikit-build.metadata]
-version.provider = "scikit_build_core.metadata.setuptools_scm"
-
 [tool.setuptools_scm] # Section required
 fallback_version = "0.0.1"
+
+[tool.setuptools_scm.scm.git]
+describe_command = "git describe --tags"
