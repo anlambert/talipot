@@ -35,7 +35,7 @@ jobs:
       - name: Checkout Talipot code
         uses: actions/checkout@v7
       - name: Install Python ${{ env.python-version }}
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         id: python-install
         with:
           python-version: ${{ env.python-version }}
@@ -216,7 +216,7 @@ jobs:
 
     steps:
       - name: Install Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         id: python-install
         with:
           python-version: ${{ matrix.python-version }}

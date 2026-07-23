@@ -68,7 +68,7 @@ jobs:
             qt5compat
           cache: true
       - name: Install Python ${{ env.PYTHON_VERSION }}
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         id: python-install
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
