@@ -627,17 +627,14 @@ bool LinLogLayout::minimizeEnergy(int nrIterations) {
   double finalAttrExponent = attrExponent;
   double finalRepuExponent = repuExponent;
 
-  // compute initial energy
-  computeBaryCenter();
-  OctTree *octTree = buildOctTree();
-
   // minimize energy
   double oldPos[3] = {0, 0, 0};
   double bestDir[3] = {0, 0, 0};
 
   for (int step = 1; step <= nrIterations; ++step) {
+    // compute initial energy
     computeBaryCenter();
-    octTree = buildOctTree();
+    OctTree &octTree = *buildOctTree();
 
     if (nrIterations >= 50 && finalRepuExponent < 1.0) {
       attrExponent = finalAttrExponent;
@@ -658,10 +655,10 @@ bool LinLogLayout::minimizeEnergy(int nrIterations) {
 
     // move each node
     for (auto u : graph->nodes()) {
-      double oldEnergy = getEnergy(u, octTree);
+      double oldEnergy = getEnergy(u, &octTree);
 
       // compute direction of the move of the node
-      getDirection(u, bestDir, octTree);
+      getDirection(u, bestDir, &octTree);
 
       // line search: compute length of the move
       Coord pos = (*layoutResult)[u];
@@ -679,13 +676,13 @@ bool LinLogLayout::minimizeEnergy(int nrIterations) {
 
       for (int multiple = 32; multiple >= 1 && (bestMultiple == 0 || bestMultiple / 2 == multiple);
            multiple /= 2) {
-        octTree->removeNode(u, pos, 0);
+        octTree.removeNode(u, pos, 0);
 
         for (uint d = 0; d < _dim; ++d) {
           pos[d] = oldPos[d] + bestDir[d] * multiple;
         }
 
-        octTree->addNode(u, pos, 0);
+        octTree.addNode(u, pos, 0);
 
         if (!skipNodes || !(*skipNodes)[u]) {
           (*layoutResult)[u] = pos;
@@ -700,13 +697,13 @@ bool LinLogLayout::minimizeEnergy(int nrIterations) {
       }
 
       for (int multiple = 64; multiple <= 128 && bestMultiple == multiple / 2; multiple *= 2) {
-        octTree->removeNode(u, pos, 0);
+        octTree.removeNode(u, pos, 0);
 
         for (uint d = 0; d < _dim; ++d) {
           pos[d] = oldPos[d] + bestDir[d] * multiple;
         }
 
-        octTree->addNode(u, pos, 0);
+        octTree.addNode(u, pos, 0);
 
         if (!skipNodes || !(*skipNodes)[u]) {
           (*layoutResult)[u] = pos;
