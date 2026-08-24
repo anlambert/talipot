@@ -1,7 +1,7 @@
 repos:
 
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: "v18.1.8"
+    rev: "v22.1.8"
     hooks:
       - id: clang-format
         files: '\.(cpp|c|cxx|h)$'
@@ -16,7 +16,7 @@ repos:
       additional_dependencies: [pyyaml]
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.3.0
+    rev: v2.4.3
     hooks:
       - id: codespell
         name: Check source code spelling
