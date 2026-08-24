@@ -7,7 +7,6 @@ name = "talipot"
 requires-python = ">=3.11"
 
 [tool.sip.project]
-abi-version="@SIP_ABI_VERSION@"
 sip-include-dirs = ["../stl"]
 sip-module = "talipot.sip"
 
