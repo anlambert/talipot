@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -16,6 +16,8 @@
 // this is not critical in our case as we only store a pointer
 #pragma warning(disable : 4355)
 #endif
+
+#include <exception>
 
 #include <talipot/Observable.h>
 #include <talipot/ConversionIterator.h>
