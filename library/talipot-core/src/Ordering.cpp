@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -609,8 +609,8 @@ void Ordering::augment(Face f, node pred, node n, node pred_last, node last, int
   vector<Face> newFaces;
   Face newFace;
   node no_selectable;
-  node tmp, tmp2, l_tmp, l_tmp2;
-  edge e_tmp, e_ltmp;
+  node tmp, tmp2;
+  edge e_tmp;
   bool was_last_face = (f == Gp->getFaceContaining(v1[0], v1[1]));
 
   n_pred = pred;
