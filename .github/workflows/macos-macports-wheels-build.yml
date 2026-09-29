@@ -76,9 +76,12 @@ jobs:
         run: |
           if [ -d macports_software ]; then
             sudo cp macports_software/local-pubkey.pem /opt/local/share/macports/
+            sudo cp macports_software/signify-key.pub /opt/local/share/macports/keys/archives/
+            echo /opt/local/share/macports/keys/archives/signify-key.pub | sudo tee -a /opt/local/etc/macports/pubkeys.conf
             sudo mkdir -p /opt/local/var/macports/software/
             sudo cp -r macports_software/* /opt/local/var/macports/software/
             sudo rm -f /opt/local/var/macports/software/local-pubkey.pem
+            sudo rm -f /opt/local/var/macports/software/signify-key.pub
             echo /opt/local/share/macports/local-pubkey.pem | sudo tee -a /opt/local/etc/macports/pubkeys.conf
             echo "name macports_archive" | sudo tee -a /opt/local/etc/macports/archive_sites.conf
             echo "name local" | sudo tee -a /opt/local/etc/macports/archive_sites.conf
@@ -94,21 +97,21 @@ jobs:
             popd
             # install package archives precompiled in a previous job run and put in cache
             for package in zlib expat libtool libssh2 pcre2 libiconv \
-              libomp qhull yajl libgit2 openssl3 zstd cmake 
+              libomp qhull yajl libgit2 openssl3 zstd cmake signify
             do
               package_version=$(port info $package | head -1 | cut -f2 -d' ' | cut -c2-)
               if ls macports_software/$package/$package-$package_version*
               then
-                sudo port -N install $package
+                sudo port -d -N install $package
               else
-                sudo port -N -s install $package
+                sudo port -d -N -s install $package
               fi
             done
           else
             # install libraries that need to be bundled in wheel from source
             sudo port -N -s install cmake zlib \
               expat libtool libssh2 pcre2 libiconv \
-              libomp qhull yajl libgit2 openssl3 zstd
+              libomp qhull yajl libgit2 openssl3 zstd signify
           fi
 
           sudo port -N install flex bison pkgconfig
@@ -136,9 +139,12 @@ jobs:
           # sign binary archives
           openssl genrsa -out local-privkey.pem 2048
           openssl rsa -in local-privkey.pem -pubout -out local-pubkey.pem
+          signify -G -n -p signify-key.pub -s signify-key.sec
           cp local-pubkey.pem macports_software
+          cp signify-key.pub macports_software
           for archive in $(find macports_software -name "*.tbz2"); do
             sudo openssl dgst -ripemd160 -sign local-privkey.pem -out $archive.rmd160 $archive
+            sudo signify -S -s signify-key.sec -m $archive -x $archive.sig
           done
 
       - name: Compute macports cache key
