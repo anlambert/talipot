@@ -344,9 +344,6 @@ void SearchWidget::search() {
                               .value<PropertyInterface *>();
   auto *output = static_cast<BooleanProperty *>(outputInterface);
 
-  node n;
-  edge e;
-
   QString searchOpDescription;
   uint resultsCountNodes = 0, resultsCountEdges = 0;
 
