@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -452,7 +452,6 @@ void PlanarityTestImpl::addOldCNodeToEmbedding(bool embBackEdgesOutW, Graph *sG,
 
   // embeds all back-edges in oldCNode;
   listNodesR.reverse();
-  node t;
 
   for (auto t : listNodesR) {
     embedBackEdges(embBackEdgesOutW, sG, t, traversedNodes, bEdgesRepres[t], embList);
