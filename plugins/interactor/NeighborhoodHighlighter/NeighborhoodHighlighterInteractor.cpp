@@ -591,7 +591,6 @@ void NeighborhoodHighlighter::morphCircleAlphaAnimStep(int animStep) {
 float NeighborhoodHighlighter::computeNeighborhoodGraphRadius(
     LayoutProperty *neighborhoodGraphLayoutProp) {
   float radius = 0;
-  node n;
   Coord centralNodeCoord = (*neighborhoodGraphLayoutProp)[neighborhoodGraphCentralNode];
   for (auto n : neighborhoodGraph->nodes()) {
     Coord nodeCoord = (*neighborhoodGraphLayoutProp)[n];
