@@ -60,9 +60,18 @@ rm -rf include
 rm -rf lib/cmake
 find lib/talipot/python/ | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 
-echo 'Copying Graphviz plugins'
-GV_DIR=$(dirname @Graphviz_GVPLUGIN_CORE_LIBRARY@)
-cp -r $GV_DIR Frameworks/graphviz
+echo 'Copying Graphviz and plugins'
+GV_LIB_DIR=$(dirname @Graphviz_CDT_LIBRARY@)
+cp $GV_LIB_DIR/libcdt* Frameworks/
+cp $GV_LIB_DIR/libcgraph* Frameworks/
+cp $GV_LIB_DIR/libgvc* Frameworks/
+cp $GV_LIB_DIR/libpathplan* Frameworks/
+cp $GV_LIB_DIR/libxdot* Frameworks/
+GV_PLUGINS_DIR=$(dirname @Graphviz_GVPLUGIN_CORE_LIBRARY@)
+mkdir Frameworks/graphviz
+cp $GV_PLUGINS_DIR/libgvplugin_core* Frameworks/graphviz/
+cp $GV_PLUGINS_DIR/libgvplugin_dot_layout* Frameworks/graphviz/
+cp $GV_PLUGINS_DIR/libgvplugin_neato_layout* Frameworks/graphviz/
 
 echo 'Copying Python Framework'
 mkdir -p Frameworks/Python.framework/Versions/@PYTHON_VERSION@

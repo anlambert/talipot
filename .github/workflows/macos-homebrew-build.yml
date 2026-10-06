@@ -39,7 +39,6 @@ jobs:
           qhull
           yajl
           zstd
-          graphviz
           libgit2
           python@${{ matrix.config.pyver }}
           cppunit
@@ -49,6 +48,9 @@ jobs:
           fontconfig
           qt6
           quazip
+          flex
+          bison
+          pkgconf
       - name: Install SIP
         run:
           ${{ matrix.config.homebrew_path }}/bin/pip${{ matrix.config.pyver }}
@@ -71,6 +73,30 @@ jobs:
           key: ${{ matrix.config.os }}-ccache-${{ steps.get-current-date.outputs.date }}
           restore-keys: |
             ${{ matrix.config.os }}-ccache-
+      - name: Install graphviz
+        run: |
+          git clone https://gitlab.com/graphviz/graphviz.git
+          cd graphviz
+          git checkout $(git describe --tags "$(git rev-list --tags --max-count=1)")
+          mkdir build && cd build
+          export PATH="${{ matrix.config.homebrew_path }}/opt/flex/bin:$PATH"
+          export PATH="${{ matrix.config.homebrew_path }}/opt/bison/bin:$PATH"
+          cmake -DCMAKE_PREFIX_PATH=${{ matrix.config.homebrew_path }} \
+            -DCMAKE_INSTALL_PREFIX=${{ matrix.config.homebrew_path }} \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+            -DWITH_EXPAT=OFF -DWITH_GDK=OFF \
+            -DWITH_GHOSTSCRIPT=OFF \
+            -DWITH_GTK=OFF \
+            -DWITH_GVEDIT=OFF \
+            -DWITH_POPPLER=OFF \
+            -DWITH_QUARTZ=OFF \
+            -DWITH_RSVG=OFF \
+            -DWITH_SMYRNA=OFF \
+            -DWITH_WEBP=OFF \
+            -DWITH_X=OFF \
+            -DWITH_ZLIB=OFF ..
+          make -j4 && sudo make -j4 install
+          cd ../..
       - name: Create build directory
         run: mkdir build
       - name: Configure Talipot core build with CMake
@@ -117,7 +143,9 @@ jobs:
         run: make tests
       - name: Check Talipot application can be executed
         working-directory: ./build/install/bin
-        run: ./talipot --check-application-starts --debug-plugins-load
+        run: |
+          DYLD_LIBRARY_PATH=${{ matrix.config.homebrew_path }}/lib \
+          ./talipot --check-application-starts --debug-plugins-load
       - name: Generate Talipot dmg bundle
         working-directory: ./build
         run: make bundle
