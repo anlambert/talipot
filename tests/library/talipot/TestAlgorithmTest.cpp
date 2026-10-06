@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -38,7 +38,7 @@ void TestAlgorithmTest::tearDown() {
 void TestAlgorithmTest::testSimple() {
 
   // build a simple graph
-  node n1, n2, n3, n4;
+  node n1, n2, n3;
   edge e1, e2, e3;
   n1 = graph->addNode();
   n2 = graph->addNode();
