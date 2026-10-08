@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -457,6 +457,7 @@ PythonCodeEditor::PythonCodeEditor(QWidget *parent)
 
   format.setFont(_currentFont);
   setCurrentCharFormat(format);
+  document()->setDefaultFont(_currentFont);
 
   _lineNumberArea = new LineNumberArea(this);
 
@@ -609,6 +610,7 @@ void PythonCodeEditor::zoomIn() {
   selectAll();
   QTextCharFormat format = currentCharFormat();
   _currentFont.setPointSize(clamp(_currentFont.pointSize() + 1, 6, 30));
+  document()->setDefaultFont(_currentFont);
   format.setFont(_currentFont);
   setCurrentCharFormat(format);
   setTextCursor(cursor);
@@ -620,6 +622,7 @@ void PythonCodeEditor::zoomOut() {
   selectAll();
   QTextCharFormat format = currentCharFormat();
   _currentFont.setPointSize(clamp(_currentFont.pointSize() - 1, 6, 30));
+  document()->setDefaultFont(_currentFont);
   format.setFont(_currentFont);
   setCurrentCharFormat(format);
   setTextCursor(cursor);
@@ -1060,13 +1063,6 @@ void PythonCodeEditor::keyPressEvent(QKeyEvent *e) {
     }
   } else {
     QPlainTextEdit::keyPressEvent(e);
-
-    // fix char format when inserting a new first line
-    if (textCursor().block().blockNumber() == 0 && textCursor().position() == 0) {
-      QTextCharFormat format = currentCharFormat();
-      format.setFont(_currentFont);
-      setCurrentCharFormat(format);
-    }
 
     // Auto indentation
     if (autoIndentation() && e->key() == Qt::Key_Return) {
