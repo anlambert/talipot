@@ -446,13 +446,13 @@ PythonCodeEditor::PythonCodeEditor(QWidget *parent)
   QTextCharFormat format = currentCharFormat();
 #if defined(WIN32)
   _currentFont.setFamily("Courier New");
-  _currentFont.setPointSize(8);
+  _currentFont.setPointSize(9);
 #elif defined(__APPLE__)
   _currentFont.setFamily("Menlo");
   _currentFont.setPointSize(12);
 #else
   _currentFont.setFamily("Monospace");
-  _currentFont.setPointSize(8);
+  _currentFont.setPointSize(9);
 #endif
 
   format.setFont(_currentFont);
