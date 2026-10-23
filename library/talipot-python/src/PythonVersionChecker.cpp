@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2025  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -17,9 +17,9 @@
 #include <QRegularExpression>
 
 // Current Python versions
-static const char *pythonVersion[] = {"3.14", "3.13", "3.12", "3.11", "3.10", "3.9",
-                                      "3.8",  "3.7",  "3.6",  "3.5",  "3.4",  "3.3",
-                                      "3.2",  "3.1",  "3.0",  nullptr};
+static const char *pythonVersion[] = {"3.15", "3.14", "3.13", "3.12", "3.11", "3.10",
+                                      "3.9",  "3.8",  "3.7",  "3.6",  "3.5",  "3.4",
+                                      "3.3",  "3.2",  "3.1",  "3.0",  nullptr};
 
 // Windows specific functions
 #ifdef WIN32
@@ -164,8 +164,7 @@ static QString getDefaultPythonVersionIfAny() {
       pythonProcess.start(
           pythonCommand,
           QStringList()
-              << "-c"
-              << "import struct;import sys;sys.stdout.write(str(struct.calcsize('P')*8))");
+              << "-c" << "import struct;import sys;sys.stdout.write(str(struct.calcsize('P')*8))");
       pythonProcess.waitForFinished(-1);
       QString arch = pythonProcess.readAll();
 
