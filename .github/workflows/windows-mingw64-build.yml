@@ -37,7 +37,6 @@ jobs:
             mingw-w64-${{ matrix.config.arch }}-toolchain
             mingw-w64-${{ matrix.config.arch }}-cmake
             mingw-w64-${{ matrix.config.arch }}-ccache
-            mingw-w64-${{ matrix.config.arch }}-yajl
             mingw-w64-${{ matrix.config.arch }}-zstd
             mingw-w64-${{ matrix.config.arch }}-qhull
             mingw-w64-${{ matrix.config.arch }}-graphviz
@@ -48,10 +47,19 @@ jobs:
             mingw-w64-${{ matrix.config.arch }}-fribidi
             mingw-w64-${{ matrix.config.arch }}-glew
             mingw-w64-${{ matrix.config.arch }}-qt6
-            mingw-w64-${{ matrix.config.arch }}-quazip
       - if: matrix.config.msystem == 'clang64'
         name: Install LLVM OpenMP
-        run: pacman --noconfirm -S mingw-w64-${{ matrix.config.arch }}-llvm-openmp
+        run: pacman --noconfirm -S
+          mingw-w64-${{ matrix.config.arch }}-llvm-openmp
+          mingw-w64-${{ matrix.config.arch }}-quazip
+          mingw-w64-${{ matrix.config.arch }}-yajl
+      - if: matrix.config.msystem == 'mingw64'
+        name: Install yajl from sources
+        run: |
+          git clone --depth 1 https://github.com/msys2/MINGW-packages
+          cd MINGW-packages/mingw-w64-yajl
+          makepkg-mingw -sCLf
+          pacman --noconfirm -U mingw-w64-*-yajl-*-any.pkg.tar.zst
       - name: Install Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v7
         id: python-install
