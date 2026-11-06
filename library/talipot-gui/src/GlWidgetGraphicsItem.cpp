@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2023  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -183,8 +183,13 @@ void GlWidgetGraphicsItem::keyPressEvent(QKeyEvent *event) {
 
 void GlWidgetGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
   if (_glWidget->isEnabled() && _glWidget->acceptDrops()) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 12, 0))
+    QDragEnterEvent proxyDragEnter(event->pos(), event->dropAction(), event->mimeData(),
+                                   event->buttons(), event->modifiers());
+#else
     QDragEnterEvent proxyDragEnter(event->pos().toPoint(), event->dropAction(), event->mimeData(),
                                    event->buttons(), event->modifiers());
+#endif
     proxyDragEnter.setAccepted(event->isAccepted());
     QApplication::sendEvent(_glWidget, &proxyDragEnter);
     event->setAccepted(proxyDragEnter.isAccepted());
@@ -201,8 +206,13 @@ void GlWidgetGraphicsItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event) {
 
 void GlWidgetGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
   if (_glWidget->isEnabled() && _glWidget->acceptDrops()) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 12, 0))
+    QDragMoveEvent dragMove(event->pos(), event->possibleActions(), event->mimeData(),
+                            event->buttons(), event->modifiers());
+#else
     QDragMoveEvent dragMove(event->pos().toPoint(), event->possibleActions(), event->mimeData(),
                             event->buttons(), event->modifiers());
+#endif
     QApplication::sendEvent(_glWidget, &dragMove);
     event->setAccepted(dragMove.isAccepted());
     event->setDropAction(dragMove.dropAction());
