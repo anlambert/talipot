@@ -16,10 +16,8 @@ jobs:
         config:
           - name: Talipot build on macOS 15 x86_64
             os: macos-15-intel
-          - name: Talipot build on macOS 14 arm64
-            os: macos-14
-          # - name: Talipot build on macOS 15 arm64
-          #   os: macos-15
+          - name: Talipot build on macOS 15 arm64
+            os: macos-15
           # - name: Talipot build on macOS 26 arm64
           #   os: macos-26
     steps:
