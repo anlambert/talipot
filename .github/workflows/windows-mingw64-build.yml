@@ -8,7 +8,7 @@ jobs:
     name: ${{ matrix.config.name }}
     runs-on: windows-latest
     env:
-      PYTHON_VERSION: "3.13"
+      PYTHON_VERSION: "3.15"
     defaults:
       run:
         shell: msys2 {0}
