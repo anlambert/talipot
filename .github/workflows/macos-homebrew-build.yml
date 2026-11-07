@@ -13,11 +13,11 @@ jobs:
         config:
           - name: Talipot build on macOS 26 (arm64)
             os: macos-26
-            pyver: "3.13"
+            pyver: "3.15"
             homebrew_path: /opt/homebrew
           - name: Talipot build on macOS 15 (x86_64)
             os: macos-15-intel
-            pyver: "3.13"
+            pyver: "3.14"
             homebrew_path: /usr/local
           # - name: Talipot build on macOS 26 (arm64)
           #   os: macos-26

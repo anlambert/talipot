@@ -8,16 +8,17 @@ jobs:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     env:
-      CLANG_VERSION: 20
-      PYTHON_VERSION: "3.13"
+      PYTHON_VERSION: "3.15"
     strategy:
       fail-fast: false
       matrix:
         config:
           - name: Talipot build on macOS 15 x86_64
             os: macos-15-intel
+            clang_version: 20
           - name: Talipot build on macOS 15 arm64
             os: macos-15
+            clang_version: 23
           # - name: Talipot build on macOS 26 arm64
           #   os: macos-26
     steps:
@@ -35,7 +36,7 @@ jobs:
       - name: Install Talipot build dependencies
         run: sudo port -N install
           cmake
-          clang-${{ env.CLANG_VERSION }}
+          clang-${{ matrix.config.clang_version }}
           ccache
           coreutils
           zlib
@@ -87,12 +88,12 @@ jobs:
         working-directory: ./build
         run: cmake .. -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_INSTALL_PREFIX=$PWD/install
-          -DCMAKE_C_COMPILER=/opt/local/bin/clang-mp-${{ env.CLANG_VERSION }}
-          -DCMAKE_CXX_COMPILER=/opt/local/bin/clang++-mp-${{ env.CLANG_VERSION }}
-          -DCMAKE_SHARED_LINKER_FLAGS="-L/opt/local/libexec/llvm-${{ env.CLANG_VERSION }}/lib
-          -Wl,-rpath,/opt/local/libexec/llvm-${{ env.CLANG_VERSION }}/lib"
-          -DCMAKE_EXE_LINKER_FLAGS="-L/opt/local/libexec/llvm-${{ env.CLANG_VERSION }}/lib
-          -Wl,-rpath,/opt/local/libexec/llvm-${{ env.CLANG_VERSION }}/lib"
+          -DCMAKE_C_COMPILER=/opt/local/bin/clang-mp-${{ matrix.config.clang_version }}
+          -DCMAKE_CXX_COMPILER=/opt/local/bin/clang++-mp-${{ matrix.config.clang_version }}
+          -DCMAKE_SHARED_LINKER_FLAGS="-L/opt/local/libexec/llvm-${{ matrix.config.clang_version }}/lib
+          -Wl,-rpath,/opt/local/libexec/llvm-${{ matrix.config.clang_version }}/lib"
+          -DCMAKE_EXE_LINKER_FLAGS="-L/opt/local/libexec/llvm-${{ matrix.config.clang_version }}/lib
+          -Wl,-rpath,/opt/local/libexec/llvm-${{ matrix.config.clang_version }}/lib"
           -DPython3_EXECUTABLE=/opt/local/bin/python${{ env.PYTHON_VERSION }}
           -DTALIPOT_BUILD_TESTS=ON
           -DTALIPOT_USE_CCACHE=ON

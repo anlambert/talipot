@@ -214,7 +214,7 @@ jobs:
             arch: arm64
 
     env:
-      CLANG_VERSION: 20
+      CLANG_VERSION: 23
       MACOSX_DEPLOYMENT_TARGET: "11.0"
       TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
       TWINE_USERNAME: __token__
