@@ -89,8 +89,6 @@ void QuadTreeBundle::elmentSplitting(const Coord &a, const Coord &b, const vecto
 }
 //=====================================
 
-static int iii = 0;
-
 void QuadTreeBundle::recQuad(const node a, const node b, const node c, const node d,
                              const vector<node> &input) {
 
@@ -180,7 +178,6 @@ void QuadTreeBundle::recQuad(const node a, const node b, const node c, const nod
 
   elmentSplitting(cA, cE, input, in, out);
 
-  ++iii;
   recQuad(a, f, e, i, in);
   //-----------
   elmentSplitting(cF, cG, out, in, out2);
