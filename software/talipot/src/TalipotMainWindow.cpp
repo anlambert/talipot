@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -321,6 +321,7 @@ TalipotMainWindow::TalipotMainWindow()
   _ui->workspace->setFocusedPanelHighlighting(true);
 
   _logger = new TalipotLogger(this);
+  _logger->setAnchored(Settings::loggerAnchored());
   _ui->loggerFrame->installEventFilter(this);
   installEventFilter(this);
   setAcceptDrops(true);
