@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (C) 2019-2024  The Talipot developers
+ * Copyright (C) 2019-2026  The Talipot developers
  *
  * Talipot is a fork of Tulip, created by David Auber
  * and the Tulip development Team from LaBRI, University of Bordeaux
@@ -22,10 +22,71 @@
 #include <talipot/PropertyCreationDialog.h>
 #include <talipot/RenamePropertyDialog.h>
 #include <talipot/ItemDelegate.h>
+#include <talipot/TlpQtTools.h>
 
 Q_DECLARE_METATYPE(Qt::CheckState)
 
 using namespace tlp;
+
+#include <QApplication>
+#include <QPainter>
+#include <QStyledItemDelegate>
+#include <QTableView>
+
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+
+#include <QIcon>
+#include <QPainter>
+#include <QProxyStyle>
+#include <QStyledItemDelegate>
+
+class AlternateCheckDelegate : public QStyledItemDelegate {
+public:
+  explicit AlternateCheckDelegate(QObject *parent = nullptr)
+      : QStyledItemDelegate(parent),
+        m_checked(QStringLiteral(":/talipot/gui/icons/svg/eye-outline.svg")),
+        m_unchecked(QStringLiteral(":/talipot/gui/icons/svg/eye-off-outline.svg")),
+        m_checkedDarkTheme(QStringLiteral(":/talipot/gui/icons/svg/eye-outline-white.svg")),
+        m_uncheckedDarkTheme(QStringLiteral(":/talipot/gui/icons/svg/eye-off-outline-white.svg")) {}
+
+  void paint(QPainter *painter, const QStyleOptionViewItem &option,
+             const QModelIndex &index) const override {
+    QStyleOptionViewItem opt = option;
+    initStyleOption(&opt, index);
+
+    if (opt.features & QStyleOptionViewItem::HasCheckIndicator &&
+        opt.features & QStyleOptionViewItem::Alternate) {
+      const QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+      const QRect checkRect =
+          style->subElementRect(QStyle::SE_ItemViewItemCheckIndicator, &opt, opt.widget);
+
+      const Qt::CheckState state = opt.checkState;
+      const bool isDarkTheme = applicationHasDarkGuiTheme();
+      const bool isChecked = (state == Qt::Checked);
+
+      QStyledItemDelegate::paint(painter, opt, index);
+
+      const QIcon &icon = isDarkTheme ? (isChecked ? m_checkedDarkTheme : m_uncheckedDarkTheme)
+                                      : (isChecked ? m_checked : m_unchecked);
+
+      const QIcon::Mode mode =
+          (opt.state & QStyle::State_Enabled) ? QIcon::Normal : QIcon::Disabled;
+
+      icon.paint(painter, checkRect, Qt::AlignCenter, mode);
+      return;
+    }
+
+    QStyledItemDelegate::paint(painter, opt, index);
+  }
+
+private:
+  QIcon m_checked;
+  QIcon m_unchecked;
+  QIcon m_checkedDarkTheme;
+  QIcon m_uncheckedDarkTheme;
+};
+
+#endif
 
 PropertiesEditor::PropertiesEditor(QWidget *parent)
     : QWidget(parent), _ui(new Ui::PropertiesEditor), _contextProperty(nullptr), _graph(nullptr),
@@ -33,6 +94,9 @@ PropertiesEditor::PropertiesEditor(QWidget *parent)
       editorParent(parent), _caseSensitiveSearch(Qt::CaseSensitive) {
   _ui->setupUi(this);
   _ui->newButton->setIcon(FontIcon::icon(MaterialDesignIcons::PlusBox));
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+  _ui->tableView->setItemDelegate(new AlternateCheckDelegate(_ui->tableView));
+#endif
   connect(_ui->newButton, &QAbstractButton::clicked, this, &PropertiesEditor::newProperty);
   connect(_ui->tableView, &QTableView::customContextMenuRequested, this,
           &PropertiesEditor::showCustomContextMenu);
