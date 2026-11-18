@@ -30,7 +30,7 @@ then
   qmake=qmake-qt5
 else
   # install yajl-devel dependency from almalinux repositories
-  yum -y install https://repo.almalinux.org/almalinux/10/BaseOS/x86_64/os/Packages/almalinux-gpg-keys-10.2-21.el10.x86_64.rpm
+  yum -y install https://repo.almalinux.org/almalinux/10/BaseOS/x86_64/os/Packages/almalinux-gpg-keys-10.3-15.el10.x86_64.rpm
   yum -y install https://repo.almalinux.org/almalinux/10/extras/x86_64/os/Packages/almalinux-release-devel-10-1.el10.x86_64.rpm
   talipot_use_qt6=ON
   qmake=qmake
