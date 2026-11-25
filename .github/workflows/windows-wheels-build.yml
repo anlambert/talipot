@@ -23,6 +23,7 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           cache: false
+          msystem: UCRT64
       - name: Install Python ${{ env.python-version }}
         uses: actions/setup-python@v7
         id: python-install
@@ -51,8 +52,8 @@ jobs:
           pyVer: "${{env.python-version}}"
         run: |
           echo "CIBW_BUILD=cp${pyVer/./}-win_amd64" >> $GITHUB_ENV
-          pacman --noconfirm -S mingw-w64-x86_64-sip
-          SIP_ABI_VERSION=$(PYTHONPATH=$PWD/cmake python -c "import FindSIP; print(FindSIP.get_sip_abi_versions()[1])")
+          pacman --noconfirm -S mingw-w64-ucrt-x86_64-sip
+          SIP_ABI_VERSION=$(PYTHONPATH=$PWD/cmake python3 -c "import FindSIP; print(FindSIP.get_sip_abi_versions()[1])")
           sed -i s/talipot-sip/talipot-sip\ \>=\ $SIP_ABI_VERSION/ pyproject.toml
         shell: msys2 {0}
       - name: Build talipot-python wheel with cibuildwheel
